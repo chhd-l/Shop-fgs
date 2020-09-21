@@ -134,7 +134,7 @@ class SearchSelection extends React.Component {
             this.props.customStyle
               ? 'rc-input rc-input--label rc-margin--none rc-input--full-width'
               : 'rc-input rc-input--full-width rc-margin-y--xs'
-          }`}
+          } searchSelection`}
           onBlur={() => {
             setTimeout(() => {
               this.setState({ optionList: [], optionPanelVisible: false });

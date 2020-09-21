@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { getDict } from '@/api/dict';
 import moment from 'moment';
 import SearchSelection from '@/components/SearchSelection';
+import './NewPetModal.css'
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -225,7 +226,7 @@ export default class NewPetModal extends Component {
                   </label>
                   <span
                     className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                    style={{ marginTop: '10px' }}
+                    style={{ marginTop: '0' }}
                     data-loc="addressTypeSelect"
                   >
                     <select

@@ -1,0 +1,9 @@
+
+.pet-modal .react-datepicker-wrapper {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.pet-modal .searchSelection {
+  margin: 0;
+  padding: .95rem 0;
+}
