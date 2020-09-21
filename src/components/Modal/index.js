@@ -51,7 +51,7 @@ export default class Modal extends React.Component {
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
-              <div className="modal-body delete-confirmation-body" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+              <div className="modal-body delete-confirmation-body" style={{ maxHeight: '50vh', overflowY: this.props.overflowVisible?'visible': 'auto' }}>
                 {this.props.modalText}
                 {this.props.children}
               </div>

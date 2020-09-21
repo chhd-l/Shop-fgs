@@ -127,6 +127,7 @@ export default class SelectPetModal extends Component { // 新建Pet
         return (
             <div className="pet-modal">
                 <Modal visible={this.props.visible}
+                        overflowVisible={true}
                        modalTitle={<FormattedMessage id="petInfo"/>}
                        confirmBtnText={<FormattedMessage id="continue"/>}
                        cancelBtnVisible={false}

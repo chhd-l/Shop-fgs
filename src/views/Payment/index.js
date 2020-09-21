@@ -1545,7 +1545,7 @@ class Payment extends React.Component {
   }
   petComfirm(data) {
     let loginCartData = this.loginCartData
-    // console.log(data, this.props, toJS(loginCartData) )
+    console.log(data, this.props, toJS(loginCartData) )
     loginCartData = loginCartData.map((el, i) => {
       if(i === this.state.currentProIndex) {
         el.petsId = data.value
