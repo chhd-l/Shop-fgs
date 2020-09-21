@@ -6,7 +6,7 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
-import { validData } from '@/utils/utils';
+import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
@@ -65,6 +65,55 @@ class PayOs extends React.Component {
         });
       });
     } else {
+      loadJS(
+        'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
+        function () {
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_VISITOR);
+          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          const style = {
+            base: {
+              secureFields: {
+                width: 'calc(100% - 45px)'
+              },
+              pan: {
+                display: 'inline-block',
+                width: '50%'
+              },
+              expirationDate: {
+                display: 'inline-block',
+                width: '30%'
+              },
+              cvv: {
+                display: 'inline-block',
+                width: '20%'
+              }
+            }
+          };
+          window.POS.setStyle(style);
+          window.POS.initSecureFields('card-secure-fields');
+          try {
+            document
+              .getElementById('zoozIframe')
+              .setAttribute('scrolling', 'no');
+          } catch (e) {}
+          if (document.getElementById('payment-form')) {
+            document
+              .getElementById('payment-form')
+              .addEventListener('submit', function (event) {
+                console.log(document.getElementById('cardholder-name'));
+                event.preventDefault();
+                const additionalData = {
+                  holder_name: document.getElementById('cardholder-name').value // This field is mandatory
+                };
+                window.POS.createToken(additionalData, function (result) {
+                  console.log(result, 'result');
+                  // Grab the token here
+                  sessionItemRoyal.set('payosdata', result);
+                });
+              });
+          }
+        }
+      );
       this.setState({
         inited: true
       });
@@ -233,7 +282,7 @@ class PayOs extends React.Component {
           throw new Error(this.props.intl.messages.clickConfirmCardButton);
         }
       }
-      this.props.clickPay();
+      this.props.clickPay({ type: 'payu_credit_card' });
     } catch (err) {
       if (err.message !== 'agreement failed') {
         this.props.showErrorMsg(
@@ -652,32 +701,3 @@ class PayOs extends React.Component {
 }
 
 export default PayOs;
-
-function loadJS(url, callback, dataSets) {
-  var script = document.createElement('script'),
-    fn = callback || function () {};
-  script.type = 'text/javascript';
-  script.charset = 'UTF-8';
-
-  if (dataSets) {
-    for (let key in dataSets) {
-      script.dataset[key] = dataSets[key];
-    }
-  }
-  //IE
-  if (script.readyState) {
-    script.onreadystatechange = function () {
-      if (script.readyState == 'loaded' || script.readyState == 'complete') {
-        script.onreadystatechange = null;
-        fn();
-      }
-    };
-  } else {
-    //其他浏览器
-    script.onload = function () {
-      fn();
-    };
-  }
-  script.src = url;
-  document.getElementsByTagName('head')[0].appendChild(script);
-}

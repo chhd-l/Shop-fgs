@@ -46,7 +46,6 @@ import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import Exception from '@/views/Exception';
 import Help from '@/views/Help';
-import Consent from '@/views/Account/Consent';
 import FAQ from '@/views/FAQ';
 import TermUse from '@/views/TermUse';
 import TermsAndConditions from '@/views/TermUse/TermsAndConditions';
@@ -77,7 +76,6 @@ import ForgetPassword from '@/views/ForgetPassword';
 
 import RequestInvoices from '@/views/RequestInvoices';
 
-import Widerrufsbelehrung from '@/components/Footer/link/Widerrufsbelehrung';
 import Recommendation from '@/views/Recommendation';
 
 
@@ -85,22 +83,18 @@ const localItemRoyal = window.__.localItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
 const LoginCallback = (props) => {
-  console.log(111);
   const { authService, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
   useEffect(async () => {
-    console.log(props);
-    console.log(authService);
     if (authStateReady) {
     } else {
       await authService.handleAuthentication();
     }
     window.location.href = process.env.REACT_APP_ACCESS_PATH;
-    // props.history.push('/')
   }, [authService, authStateReady]);
 
-  return <div></div>;
+  return <div>2</div>;
 };
 
 const App = () => (
@@ -109,20 +103,15 @@ const App = () => (
       locale={process.env.REACT_APP_LANG}
       messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
     >
-      <Router
-        // basename="/aa/"
-        basename={process.env.REACT_APP_HOMEPAGE}
-        path={'/'}
-      >
+      <Router basename={process.env.REACT_APP_HOMEPAGE} path={'/'}>
         <RouteFilter />
         <ScrollToTop>
-          <Switch>
-            <Security {...config.oidc}>
-              {/* <Route path="/mx" exact component={Home} />
-              <Route path="/mx/implicit/callback" component={LoginCallback} /> */}
-              <Route path={'/'} exact component={Home} />
+          <Security {...config.oidc}>
+            <Switch>
+              <Route exact path={'/'} component={Home} />
               <Route
-                path={'/implicit/callback'}
+                exact
+                path="/implicit/callback"
                 render={(props) => <LoginCallback {...props} />}
               />
               {/* <Route exact path="/login" component={Login} /> */}
@@ -181,7 +170,6 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
-              <Route exact path="/consent" component={Consent} />
               <Route
                 exact
                 path="/FAQ/:catogery"
@@ -304,9 +292,9 @@ const App = () => (
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
 
-              {/* <Route exact component={Exception} /> */}
-            </Security>
-          </Switch>
+              <Route path="*" component={Exception} />
+            </Switch>
+          </Security>
         </ScrollToTop>
       </Router>
     </IntlProvider>

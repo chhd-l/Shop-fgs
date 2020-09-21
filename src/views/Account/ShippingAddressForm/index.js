@@ -16,7 +16,7 @@ import {
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -79,20 +79,6 @@ class ShippingAddressFrom extends React.Component {
       this.getAddressById(this.props.match.params.addressId);
     }
   }
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(targetRule.errMsg);
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(targetRule.errMsg);
-        }
-      }
-    }
-  }
   getAddressById = async (id) => {
     this.setState({
       loading: true
@@ -148,7 +134,7 @@ class ShippingAddressFrom extends React.Component {
   saveAddress = async () => {
     try {
       let data = this.state.addressForm;
-      await this.validInputsData(data);
+      await validData(ADDRESS_RULE, data);
       this.setState({
         loading: true
       });

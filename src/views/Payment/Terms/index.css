@@ -3,20 +3,3 @@
     font-size: 12px;
     font-weight: normal;
 }
-
-.required-wrap .footerCheckbox .description p a{
-    color:#c0392b;
-    text-decoration: underline;
-  }
-
-.required-wrap .footerCheckbox .description p>span{
-    cursor: pointer;
-}
-
-.required-wrap.common  .required-checkbox{
-    max-width:700px;
-    margin: 0 auto;
-}
-.required-wrap .description>p{
-    margin-bottom: 5px;
-}

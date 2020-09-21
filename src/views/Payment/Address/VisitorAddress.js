@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { find } from 'lodash';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import SameAsCheckbox from './SameAsCheckbox';
 
 /**
@@ -45,7 +45,7 @@ class VisitorAddress extends React.Component {
   handleEditFormChange = async (data) => {
     if (this.isOnepageCheckout) {
       try {
-        await this.validInputsData(data);
+        await validData(ADDRESS_RULE, data);
         this.setState({ isValid: true, form: data });
       } catch (err) {
         this.setState({ isValid: false });
@@ -91,26 +91,6 @@ class VisitorAddress extends React.Component {
       isCompleted: false
     });
   };
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(
-            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
-          );
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(
-            targetRule.errMsg || key === 'email'
-              ? this.props.intl.messages.EnterCorrectEmail
-              : this.props.intl.messages.EnterCorrectPostCode
-          );
-        }
-      }
-    }
-  }
   matchNamefromDict = (dictList, id) => {
     return find(dictList, (ele) => ele.id == id)
       ? find(dictList, (ele) => ele.id == id).name

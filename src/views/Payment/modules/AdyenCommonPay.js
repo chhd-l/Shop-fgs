@@ -3,16 +3,21 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
-import Terms from '../Terms/index';
+import TermsCommon from '../Terms/common';
 
-class KlarnaPayLater extends Component {
+class AdyenCommonPay extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      isReadPrivacyPolicy: false,
-      isShipTracking: false,
-      IsNewsLetter: false
+      requiredList:[],
+      type:'',
+      btnName: '',
+      btnNameObj:{
+          'adyen_klarna_pay_lat': 'Weiter mit KlarnaPayLater',
+          'adyen_klarna_pay_now': 'Weiter mit KlarnaPayNow',
+          'sofort': 'Weiter mit KlarnaSofort',
+      }
     };
   }
   //是否填写邮箱正确
@@ -22,33 +27,29 @@ class KlarnaPayLater extends Component {
       throw new Error(this.props.intl.messages.emailFormatFalse);
     }
   }
-  //是否勾选私人政策
-  isTestPolicy() {
-    if (!this.state.isReadPrivacyPolicy) {
-      throw new Error(this.props.intl.messages.policyFalse);
-    }
+
+  //是否consent必填项勾选
+  isConsentRequiredChecked(){
+    let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
+      if(!isAllChecked){
+        throw new Error(this.props.intl.messages.CompleteRequiredItems);
+      }
   }
 
-  //是否同意运货追踪
-  isShipTrackingFun() {
-    if (!this.state.isShipTracking) {
-      throw new Error(this.props.intl.messages.shipmentTrackingFalse);
-    }
-  }
-  //是否同意通讯
-  isNewsLetterFun() {
-    if (!this.state.IsNewsLetter) {
-      throw new Error(this.props.intl.messages.newsletterFalse);
-    }
+  checkRequiredItem = (list) => {
+    let requiredList =  list.filter(item=>item.isRequired)
+    this.setState({
+      requiredList
+    },()=>{
+      console.log({requiredList: this.state.requiredList})
+    })
   }
 
   clickPay = () => {
     try {
-      this.isTestPolicy();
-      this.isShipTrackingFun();
-      //this.isNewsLetterFun();
       this.isTestMail();
-      this.props.clickPay(this.state.text);
+      this.isConsentRequiredChecked()
+      this.props.clickPay({email:this.state.text,type:this.state.type});
     } catch (err) {
       this.props.showErrorMsg(err.message);
     }
@@ -58,21 +59,15 @@ class KlarnaPayLater extends Component {
       text: e.target.value
     });
   };
-  sendIsReadPrivacyPolicy = (e) => {
+  componentWillReceiveProps (nextProps) {
     this.setState({
-      isReadPrivacyPolicy: e
-    });
-  };
-  sendIsShipTracking = (e) => {
-    this.setState({
-      isShipTracking: e
-    });
-  };
-  sendIsNewsLetter = (e) => {
-    this.setState({
-      IsNewsLetter: e
-    });
-  };
+        type:nextProps.type
+    },()=>{
+        const btnName = this.state.btnNameObj[this.state.type]
+        this.setState({btnName})
+    })
+    this.checkRequiredItem(nextProps.listData)
+  }
   render() {
     return (
       <div className="checkout--padding">
@@ -98,7 +93,11 @@ class KlarnaPayLater extends Component {
                 </div>
               </div>
             </form>
-            <div class="payment-container" style={{ 'max-width': 'auto' }}>
+            <TermsCommon 
+              id={this.props.type}
+              listData = {this.props.listData}
+              checkRequiredItem = {this.checkRequiredItem}/>
+            <div class="payment-container" style={{ 'max-width': 'auto',marginTop:'10px' }}>
               <div id="klarna" class="payment">
                 <button
                   className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay"
@@ -107,7 +106,7 @@ class KlarnaPayLater extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                    Weiter mit KlarnaPayLater
+                    {this.state.btnName}
                     </span>
                   </span>
                 </button>
@@ -116,15 +115,10 @@ class KlarnaPayLater extends Component {
           </div>
         </div>
         <div>
-          <Terms
-            sendIsReadPrivacyPolicy={this.sendIsReadPrivacyPolicy}
-            sendIsShipTracking={this.sendIsShipTracking}
-            sendIsNewsLetter={this.sendIsNewsLetter}
-          />
         </div>
       </div>
     );
   }
 }
 
-export default injectIntl(KlarnaPayLater);
+export default injectIntl(AdyenCommonPay);

@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { find } from 'lodash';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
@@ -62,26 +62,6 @@ class AddressList extends React.Component {
       });
     });
     this.queryAddressList();
-  }
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(
-            targetRule.errMsg || this.props.intl.messages.CompleteRequiredItems
-          );
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(
-            targetRule.errMsg || key === 'email'
-              ? this.props.intl.messages.EnterCorrectEmail
-              : this.props.intl.messages.EnterCorrectPostCode
-          );
-        }
-      }
-    }
   }
   async queryAddressList() {
     const { selectedId } = this.state;
@@ -248,7 +228,7 @@ class AddressList extends React.Component {
   }
   async updateDeliveryAddress(data) {
     try {
-      await this.validInputsData(data);
+      await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, saveErrorMsg: '' });
     } catch (err) {
       this.setState({ isValid: false });

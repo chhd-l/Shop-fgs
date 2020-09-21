@@ -12,15 +12,13 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { getToken } from '@/api/login'
-import { getCustomerInfo } from "@/api/user"
-import { FormattedMessage } from 'react-intl'
-import { inject, observer } from 'mobx-react';
+import { doLogout } from '@/api/login';
+import { FormattedMessage } from 'react-intl';
 import stores from '@/store';
 
 const localItemRoyal = window.__.localItemRoyal;
-const loginStore = stores.loginStore
-const checkoutStore = stores.checkoutStore
+const loginStore = stores.loginStore;
+const checkoutStore = stores.checkoutStore;
 
 const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -30,27 +28,35 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
-      await authService.logout(process.env.REACT_APP_HOMEPAGE)
+      await authService.logout(process.env.REACT_APP_HOMEPAGE);
       setTimeout(() => {
-        loginStore.changeLoginModal(false)
-      }, 1000)
-      
-    }catch(e) {
-      loginStore.changeLoginModal(false)
-      window.location.reload()
+        loginStore.changeLoginModal(false);
+      }, 1000);
+    } catch (e) {
+      loginStore.changeLoginModal(false);
+      window.location.reload();
     }
-    
-  }
-  const clickLogoff = () => {
-    loginStore.changeLoginModal(true)
-    localItemRoyal.remove("rc-token");
-    loginStore.removeUserInfo()
-    checkoutStore.removeLoginCartData()
-    logout(process.env.REACT_APP_HOMEPAGE)
-  }
+  };
+  const clickLogoff = async () => {
+    try {
+      loginStore.changeLoginModal(true);
+      await doLogout();
+      localItemRoyal.remove('rc-token');
+      loginStore.removeUserInfo();
+      checkoutStore.removeLoginCartData();
+      logout(process.env.REACT_APP_HOMEPAGE);
+    } catch (err) {
+      console.log(err);
+      // logout(process.env.REACT_APP_HOMEPAGE);
+    }
+  };
   return (
     <div className="logoff-style">
-      <a className="rc-styled-link--external" id="J-btn-logoff" onClick={clickLogoff}>
+      <a
+        className="rc-styled-link--external"
+        id="J-btn-logoff"
+        onClick={clickLogoff}
+      >
         <FormattedMessage id="logOff" />
       </a>
     </div>

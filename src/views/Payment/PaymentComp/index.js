@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { findIndex, find } from 'lodash';
+import { findIndex } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import {
@@ -362,20 +362,6 @@ class PaymentComp extends React.Component {
     })[0];
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
-    }
-  }
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(this.props.intl.messages.CompleteRequiredItems);
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(this.props.intl.messages.EnterCorrectEmail);
-        }
-      }
     }
   }
   async handleSave(e) {

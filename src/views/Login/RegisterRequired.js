@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { inject, observer } from 'mobx-react';
 import logoAnimatedPng from "@/assets/images/logo--animated2.png";
-import Skeleton from "react-skeleton-loader";
 import "./index.css"
-import { findUserConsentList,userBindConsent,getStoreOpenConsentList} from "@/api/consent"
+import { findUserConsentList, userBindConsent, getStoreOpenConsentList } from "@/api/consent"
+import Consent from "@/components/Consent"
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -17,94 +17,98 @@ const localItemRoyal = window.__.localItemRoyal;
 class RegisterRequired extends Component {
     get isLogin() {
         return this.props.loginStore.isLogin;
-      }
+    }
     constructor(props) {
         super(props);
         this.state = {
             list: [],
-            isShowRequired:false,
-            isLoading:true,
-            innerHtml:''
+            isShowRequired: false,
+            isLoading: true,
+            innerHtml: ''
         };
     }
     //属性变为true，time定时后变为false
-    showAlert(attr,time){
+    showAlert(attr, time) {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
         this.setState({
             [attr]: true
-        },()=>{
-            setTimeout(()=>{
+        }, () => {
+            setTimeout(() => {
                 this.setState({
                     [attr]: false
                 })
-            },time)
+            }, time)
         })
     }
-    bindSubmitParam = (list)=>{
-        let obj = {optionalList:[],requiredList:[]}
-        list.filter(item=>!item.isRequired).forEach((item=>{
-            obj.optionalList.push({id:item.id,selectedFlag:item.isChecked})
+    bindSubmitParam = (list) => {
+        let obj = { optionalList: [], requiredList: [] }
+        list.filter(item => !item.isRequired).forEach((item => {
+            obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked })
         }))
-        list.filter(item=>item.isRequired).forEach((item=>{
-            obj.requiredList.push({id:item.id,selectedFlag:true})
+        list.filter(item => item.isRequired).forEach((item => {
+            obj.requiredList.push({ id: item.id, selectedFlag: true })
         }))
 
         return obj
     }
     //会员提交
     submitLogin = async () => {
-        try{
+        try {
             let lastPath = this.props.location.state.path
             if (lastPath === 'pay') {
                 lastPath = '/payment/payment'
             }
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
-            if(isRequiredChecked){
+            if (isRequiredChecked) {
                 //组装submit参数
-               let submitParam = this.bindSubmitParam(this.state.list)
+                let submitParam = this.bindSubmitParam(this.state.list)
 
-               const result = await userBindConsent(submitParam)
-               if (result.code === 'K-000000'){
-                 this.props.history.push(lastPath)
-               }
-            }else{
-                this.showAlert('isShowRequired',2000)
-            } 
-        }catch(err){
+                const result = await userBindConsent(submitParam)
+                if (result.code === 'K-000000') {
+                    this.props.history.push(lastPath)
+                }
+            } else {
+                this.showAlert('isShowRequired', 2000)
+            }
+        } catch (err) {
             console.log(err.message)
-        }    
+        }
     }
     //游客提交
     submitUnLogin = () => {
-        try{
+        try {
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
-            if(isRequiredChecked){
-                sessionItemRoyal.set('isRequiredChecked',true)
+            if (isRequiredChecked) {
+                sessionItemRoyal.set('isRequiredChecked', true)
                 this.props.history.push('/')
-            }else{
-                this.showAlert('isShowRequired',2000)
-            } 
-        }catch(err){
+            } else {
+                this.showAlert('isShowRequired', 2000)
+            }
+        } catch (err) {
             console.log(err.message)
-        }    
+        }
     }
-    async componentDidMount () {
+    //从子组件传回
+    sendList = (list)=>{
+        this.setState({list})
+    }
+    async componentDidMount() {
 
-        document.getElementById('wrap').addEventListener('click',(e)=>{     
-            if(e.target.localName === 'span'){
+        document.getElementById('wrap').addEventListener('click', (e) => {
+            if (e.target.localName === 'span') {
                 let keyWords = e.target.innerText
-                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id)
-                let arr = this.state.list[index].detailList.filter(item=>{
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                let arr = this.state.list[index].detailList.filter(item => {
                     return item.contentTitle == keyWords
                 })
 
                 let tempArr = [...this.state.list]
-                tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
-               
-                this.setState({list: tempArr})
+                tempArr[index].innerHtml = tempArr[index].innerHtml ? '' : arr[0] ? arr[0].contentBody : ''
+
+                this.setState({ list: tempArr })
 
             }
         })
@@ -112,29 +116,28 @@ class RegisterRequired extends Component {
             localItemRoyal.remove('isRefresh');
             window.location.reload();
             return false;
-          }
+        }
 
 
         this.setState({
-            isLoading:true
+            isLoading: true
         })
-        // let lastPath = this.props.location.state.path
 
         try {
             let result
 
             this.isLogin
-            ?
-            result = await findUserConsentList({})
-            : 
-            result = await getStoreOpenConsentList({})
-            
+                ?
+                result = await findUserConsentList({})
+                :
+                result = await getStoreOpenConsentList({})
+
 
             // lastPath 
             // 1:pay(专指从在payment点击支付时的跳转) 
             // 2:其他页面
-           
-            
+
+
             const optioalList = result.context.optionalList.map(item => {
                 return {
                     id: item.id,
@@ -157,26 +160,25 @@ class RegisterRequired extends Component {
 
             //把非必填和必填的项目组装成一个数组list，用于渲染
             let list = this.state.list
-            list = [...requiredList,...optioalList, ]
+            list = [...requiredList, ...optioalList,]
             this.setState({
                 list
             })
 
             console.log(this.state.list)
-            
+
         } catch (err) {
             console.log(err.message)
-        } finally{
+        } finally {
             this.setState({
-                isLoading:false
+                isLoading: false
             })
         }
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         localItemRoyal.set('isRefresh', true);
     }
     render() {
-        const createMarkup = (text) => ({ __html: text });
         return (
             <div className="required-wrap" id="wrap">
                 {/* Logo */}
@@ -200,70 +202,22 @@ class RegisterRequired extends Component {
                         </aside>
                         : null
                 }
-                {/* checkbox组 */}
-                <div className="required-checkbox" style={{ marginTop: '80px' }}>
-                    {
-                        this.state.isLoading
-                        ?
-                        <div className="pt-2 pb-2">
-                            <Skeleton color="#f5f5f5" width="100%" count={4} />
-                        </div>
-                        :
-                        this.state.list.map((item, index) => {
-                            return (
-                                <div id={index}> 
-                                    <div className="footerCheckbox" key={index}>
-                                    <input
-                                        className="form-check-input ui-cursor-pointer-pure"
-                                        id="id-checkbox-cat-2"
-                                        value=""
-                                        type="checkbox"
-                                        name="checkbox-2"
-                                        onChange={() => {
-                                            //替换属性start
-                                            let itemObj = Object.assign(item, {
-                                                isChecked: !item.isChecked
-                                            })
-                                            let list = [...this.state.list]
-                                            list.splice(index, 1, itemObj)
-                                            this.setState({
-                                                list
-                                            });
-                                            //替换属性end
-                                        }}
-                                        checked={item.isChecked}
-                                    />
-                                        <div className="d-flex">
-                                            <div
-                                                className="description"
-                                                dangerouslySetInnerHTML={createMarkup(
-                                                    item.consentTitle
-                                                )}
-                                            ></div>
-                                            {item.isRequired ? <em className="pl-2 rc-text-colour--brand1">*</em> : null}
-                                        </div>
-                                    </div>
-                                                <div style={{paddingLeft: '89px',fontSize: '12px',color: '#C0392B',marginBottom:'10px',marginTop:'-5px'}} dangerouslySetInnerHTML={createMarkup(
-                                                    item.innerHtml
-                                                )}></div>
-                                </div>
-                                
-                            )
-                        })
-                    }
-
+                <div style={{ marginTop: '80px' }}>
+                    {/* checkbox组 */}
+                    <Consent list={this.state.list} sendList={this.sendList} width="500"/>
                 </div>
+
                 {/* Required fields */}
                 <p className='pizhu'><span className="pl-2 pr-2 rc-text-colour--brand1">*</span>Required fields</p>
                 {/* Continu按钮 */}
-                <div style={{ textAlign: 'center', marginTop: '60px',marginBottom: '30px' }}>
+                <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '30px' }}>
                     {
-                        this.isLogin ? 
-                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
-                        : 
-                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
+                        this.isLogin ?
+                            <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
+                            :
+                            <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
                     }
-                   
+
                 </div>
             </div>
         );

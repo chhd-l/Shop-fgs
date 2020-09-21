@@ -452,6 +452,7 @@ const en_US = {
   paymentMethod: "Payment method",
   'payStatus.NOT_PAID': 'Unpaid',
   'payStatus.PAID': 'Paid',
+  'payStatus.PAID_IN': 'Paid in',
   'payStatus.REFUND': 'Refund',
   personal: "Personal",
   petInfo: "Pet information",
@@ -629,7 +630,8 @@ const en_US = {
   //account.paymethods
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
   'paymethods.btn':'Add Payment',
-  'consent':'Consent'
+  'consent':'Consent',
+  changeAnotherCard: 'Please change to another card and try again'
 }
 
 export default en_US;

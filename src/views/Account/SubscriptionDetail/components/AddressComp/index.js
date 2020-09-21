@@ -9,7 +9,7 @@ import {
   deleteAddress
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import AddressForm from './form';
 import Loading from '@/components/Loading';
@@ -86,24 +86,6 @@ class AddressList extends React.Component {
     //     this.queryAddressList();
     //   })
     // }
-  }
-  async validInputsData(data) {
-    for (let key in data) {
-      const val = data[key];
-      const targetRule = find(ADDRESS_RULE, (ele) => ele.key === key);
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          throw new Error(targetRule.errMsg);
-        }
-        if (targetRule.regExp && !targetRule.regExp.test(val)) {
-          throw new Error(
-            targetRule.errMsg || key === 'email'
-              ? this.props.intl.messages.EnterCorrectEmail
-              : this.props.intl.messages.EnterCorrectPostCode
-          );
-        }
-      }
-    }
   }
   async queryAddressList() {
     const { selectedId } = this.state;
@@ -271,7 +253,7 @@ class AddressList extends React.Component {
     try {
       const { deliveryAddress, addressList } = this.state;
       const originData = addressList[this.currentOperateIdx];
-      await this.validInputsData(deliveryAddress);
+      await validData(ADDRESS_RULE, deliveryAddress);
       let params = {
         address1: deliveryAddress.address1,
         address2: deliveryAddress.address2,
