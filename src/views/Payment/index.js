@@ -511,7 +511,7 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: true,
+          enableStoreDetails: false,
           styles: {},
           placeholders: {},
           showPayButton: false,
