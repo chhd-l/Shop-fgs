@@ -23,8 +23,6 @@ class AccountHome extends React.Component {
     super(props);
     this.state = {};
   }
-  componentWillUnmount() {}
-  componentDidMount() {}
   get userInfo() {
     return this.props.loginStore.userInfo;
   }

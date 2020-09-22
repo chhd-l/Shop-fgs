@@ -4,6 +4,8 @@ import { find } from 'lodash';
 import { formatMoney, getDictionary } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false
@@ -194,7 +196,7 @@ class PayProductInfo extends React.Component {
             </div>
           </div>
           <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
-            <div className="col-6 start-lines order-receipt-label">
+            <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
               </span>

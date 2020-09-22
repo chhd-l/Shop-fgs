@@ -256,36 +256,36 @@ class PersonalDataEditForm extends React.Component {
               editFormVisible ? 'hidden' : ''
             }`}
           >
-            <div className="col-lg-6">
+            <div className="col-6 col-md-5">
               <FormattedMessage id="payment.firstName" />
             </div>
-            <div className="col-lg-6">{data.firstName}</div>
-            <div className="col-lg-6">
+            <div className="col-6 col-md-7">{data.firstName}</div>
+            <div className="col-6 col-md-5">
               <FormattedMessage id="payment.lastName" />
             </div>
-            <div className="col-lg-6">{data.lastName}</div>
-            <div className="col-lg-6">
+            <div className="col-6 col-md-7">{data.lastName}</div>
+            <div className="col-6 col-md-5">
               <FormattedMessage id="account.birthDate" />
             </div>
-            <div className="col-lg-6">{data.birthdate}</div>
-            <div className="col-lg-6">
+            <div className="col-6 col-md-7">{data.birthdate}</div>
+            <div className="col-6 col-md-5">
               <FormattedMessage id="account.Email" />
             </div>
-            <div className="col-lg-6">{data.email}</div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-7">{data.email}</div>
+            <div className="col-6 col-md-5">
               <FormattedMessage id="payment.country" />
             </div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-7">
               {this.getDictValue(this.state.countryList, data.country)}
             </div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-5">
               <FormattedMessage id="payment.phoneNumber" />
             </div>
-            <div className="col-md-6">{data.phoneNumber}</div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-7">{data.phoneNumber}</div>
+            <div className="col-6 col-md-5">
               <FormattedMessage id="payment.rfc" />
             </div>
-            <div className="col-md-6">{data.rfc}</div>
+            <div className="col-6 col-md-7">{data.rfc}</div>
           </div>
           <div
             className={[

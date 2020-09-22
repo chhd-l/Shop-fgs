@@ -10,7 +10,7 @@ const checkoutStore = stores.checkoutStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
   2: { mark: 'Mex$', break: ' ', atEnd: false },
-  3: { mark: '€', break: ',', atEnd: true }
+  3: { mark: '€', break: ',', atEnd: true, twoDecimals: true }
 };
 
 /**
@@ -25,16 +25,13 @@ export function formatMoney(
   if (isNaN(val)) {
     val = 0;
   }
-  val = parseFloat(Number(val).toFixed(2)) + '';
+  val = Number(val).toFixed(2);
+  const tmp = mapEnum[currency];
+  if (!tmp.twoDecimals) { // 保留两位小数时，不填充0
+    val = parseFloat(val);
+  }
+  val += '';
   return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, { style: 'currency', currency: process.env.REACT_APP_CURRENCY }).format(val)
-  // const tmp = mapEnum[currency];
-  // let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
-  // if(process.env.REACT_APP_HOMEPAGE === '/fr') {
-  //   ret = ret.replace(/\./, '#')
-  //   ret = ret.replace(/\,/, ' ')
-  //   ret = ret.replace(/\#/, ',')
-  // }
-  // return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
 }
 
 export async function queryStoreCateIds() {

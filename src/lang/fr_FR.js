@@ -350,9 +350,9 @@ const en_US = {
   "account.gender": "De quel sexe est votre animal de compagnie?",
   "account.male": "Masculin",
   "account.female": "Femme",
-  "account.breed": "Quelle race",
+  "account.breed": "Quelle race {val}?",
   "account.unknownBreed": "Race inconnue",
-  "account.weight": "Quel est le poids d'un chien adulte de votre race",
+  "account.weight": "Quel est le poids d'un chien adulte de votre race {val}?",
   "account.sterilized": "Est-ce que votre animal a-t-il été stérilisé?",
   "account.enterBirthDare": "Veuillez saisir la date de naissance de votre animal.",
   "account.features": "Quels sont les besoins particuliers de votre animal?",
@@ -673,6 +673,8 @@ const en_US = {
 
   'healthAndWellbeing': 'Santé et bien-être',
   dataProtection: 'Politique de confidentialité',
-  contactUsViaPhone: 'Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0 800 005 360 (appel gratuit depuis un poste fixe)'
+  contactUsViaPhone: 'Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0 800 005 360 (appel gratuit depuis un poste fixe)',
+  requiredConsentCheckedTip: 'Veuillez confirmer les champs obligatoires en cochant la case.',
+  searchNoBreed: 'pas un pedigree'
 }
 export default en_US;

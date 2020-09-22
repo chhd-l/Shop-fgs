@@ -4,7 +4,7 @@ const en_US = {
   'account.addPet': 'Añadir mascota',
   "account.basicInfomation": 'Información básica',
   'account.birthDate': 'Fecha de nacimiento',
-  'account.breed': 'Qué raza',
+  'account.breed': 'Qué raza {val}?',
   'account.cat': 'Gato ',
   'account.catOrDog': ' ¿Tienes un gato o un perro?',
   'account.dateTip': 'Por favor seleccione una fecha pasada.',
@@ -49,7 +49,7 @@ const en_US = {
   'account.toComeIn': 'Entrar',
   'account.unknownBreed': 'Raza desconocida',
   'account.warmNotice': 'Aquí puede administrar su perfil, editar la información de la mascota y la dirección de envío, y hacer un seguimiento del estado de su pedido.',
-  'account.weight': '¿Cuál es el peso de un perro adulto de tu raza',
+  'account.weight': '¿Cuál es el peso de un perro adulto de tu raza {val}?',
   'account.welcome': '¡Multa!',
   'active': 'Activo',
   'addNewCreditCard': 'Agregar tarjeta de crédito',
@@ -637,6 +637,8 @@ const en_US = {
   //account.paymethods
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
   'paymethods.btn':'Add Payment',
-  changeAnotherCard: 'Cambie a otra tarjeta y vuelva a intentarlo'
+  changeAnotherCard: 'Cambie a otra tarjeta y vuelva a intentarlo',
+  requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',
+  searchNoBreed: 'no es un pedigrí'
 }
 export default en_US;

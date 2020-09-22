@@ -868,7 +868,7 @@ class SubscriptionDetail extends React.Component {
                               > */}
 
                                 <DatePicker
-                                  className="receiveDate"
+                                  className="receiveDate subs-receiveDate"
                                   placeholder="Select Date"
                                   dateFormat="yyyy-MM-dd"
                                   minDate={this.state.minDate}

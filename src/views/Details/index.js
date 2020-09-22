@@ -967,13 +967,14 @@ class Details extends React.Component {
                                               ).toFixed(2)
                                             )}
                                             /
-                                            {selectedSpecItem.baseSpecLabel && selectedSpecItem.baseSpecLabel.slice(
-                                              String(
-                                                parseFloat(
-                                                  selectedSpecItem.baseSpecLabel
-                                                )
-                                              ).length
-                                            )}
+                                            {selectedSpecItem.baseSpecLabel &&
+                                              selectedSpecItem.baseSpecLabel.slice(
+                                                String(
+                                                  parseFloat(
+                                                    selectedSpecItem.baseSpecLabel
+                                                  )
+                                                ).length
+                                              )}
                                             )
                                           </b>
                                         ) : null}
@@ -1048,13 +1049,14 @@ class Details extends React.Component {
                                                 ).toFixed(2)
                                               )}
                                               /
-                                              {selectedSpecItem.baseSpecLabel && selectedSpecItem.baseSpecLabel.slice(
-                                                String(
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).length
-                                              )}
+                                              {selectedSpecItem.baseSpecLabel &&
+                                                selectedSpecItem.baseSpecLabel.slice(
+                                                  String(
+                                                    parseFloat(
+                                                      selectedSpecItem.baseSpecLabel
+                                                    )
+                                                  ).length
+                                                )}
                                               )
                                             </b>
                                           ) : null}
@@ -1073,11 +1075,7 @@ class Details extends React.Component {
                                         id="taxLogo"
                                         values={{
                                           val: (
-                                            <a
-                                              href="https://shopstg.royalcanin.com/FAQ-Shipping
-
-"
-                                            >
+                                            <a href="https://shopstg.royalcanin.com/FAQ-Shipping">
                                               Versandkosten
                                             </a>
                                           )
