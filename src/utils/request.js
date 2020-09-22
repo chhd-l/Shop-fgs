@@ -60,10 +60,7 @@ service.interceptors.response.use(
         window.location.href = process.env.REACT_APP_HOMEPAGE;
       }
       console.log(response);
-      let ret =
-        response.data && response.data.message
-          ? response.data.message
-          : 'Error';
+      let ret = response.data || 'Error';
 
       // 支付失败获取订单号处理
       if (
