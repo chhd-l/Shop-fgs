@@ -857,13 +857,7 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(
-        typeof err === 'string'
-          ? err
-          : typeof err === 'object'
-          ? err.message
-          : 'Error'
-      );
+      throw new Error(err);
     } finally {
       this.endLoading();
     }
