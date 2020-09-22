@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { createBrowserHistory } from 'history'
+const history = createBrowserHistory()
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -88,7 +89,13 @@ service.interceptors.response.use(
       return Promise.reject(ret);
     }
   },
-  (err) => Promise.reject(err)
+  (err) => {
+    if(err.response.status >= 500 && window.location.pathname !== '/500' ) {
+      history.push('/500')
+      window.location.reload()
+    }
+    return Promise.reject(err)
+  }
 );
 
 export default service;
