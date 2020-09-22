@@ -443,7 +443,7 @@ class PetForm extends React.Component {
     });
 
     getDict({
-      type: this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
+      type: this.state.isCat ? 'catBreed' : 'dogBreed',
       name: e.target.value
     })
       .then((res) => {
@@ -863,7 +863,7 @@ class PetForm extends React.Component {
                   {this.state.currentStep === 'step1' ? (
                     <div id="step-1" className="section col-lg-9 col-12">
                       <h2>
-                        <FormattedMessage id="account.catOrDog"></FormattedMessage>
+                        <FormattedMessage id="account.catOrDog" />
                       </h2>
                       <div className="form-group  custom-checkbox col-lg-6 ui-cursor-pointer">
                         <img
@@ -877,7 +877,7 @@ class PetForm extends React.Component {
                           }
                         />
                         <div className="label-option">
-                          <FormattedMessage id="account.cat"></FormattedMessage>
+                          <FormattedMessage id="account.cat" />
                         </div>
                       </div>
 
@@ -1028,11 +1028,11 @@ class PetForm extends React.Component {
                                 {item.name}
                               </option>
                             ))}
-                            {this.state.showBreedListNoneTip && (
+                            {/* {this.state.showBreedListNoneTip && (
                               <span className="pl-2">
                                 <FormattedMessage id="searchNoBreed" />
                               </span>
-                            )}
+                            )} */}
                           </div>
                         </div>
 
