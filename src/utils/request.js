@@ -41,7 +41,6 @@ service.interceptors.response.use(
     if (response.data instanceof Blob) {
       return response;
     }
-    // response.data.code = 'K-000002' // to delete...
     if (
       response.status === 200 &&
       response.data &&
