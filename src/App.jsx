@@ -45,6 +45,9 @@ import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import Exception from '@/views/Exception';
+import Publishing from '@/views/Publishing';
+import Page403 from '@/views/403';
+import Page500 from '@/views/500';
 import Help from '@/views/Help';
 import FAQ from '@/views/FAQ';
 import TermUse from '@/views/TermUse';
@@ -93,7 +96,7 @@ const LoginCallback = (props) => {
     window.location.href = process.env.REACT_APP_ACCESS_PATH;
   }, [authService, authStateReady]);
 
-  return <div>2</div>;
+  return <div></div>;
 };
 
 const App = () => (
@@ -290,7 +293,9 @@ const App = () => (
                 component={Tailorednutrition}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
-
+              <Route path="/403" component={Page403} />
+              <Route path="/500" component={Page500} />
+              <Route path="/Publishing" component={Publishing} />
               <Route path="*" component={Exception} />
             </Switch>
           </Security>
