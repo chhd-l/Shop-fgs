@@ -96,7 +96,6 @@ class RegisterRequired extends Component {
         this.setState({list})
     }
     async componentDidMount() {
-
         document.getElementById('wrap').addEventListener('click', (e) => {
             if (e.target.localName === 'span') {
                 let keyWords = e.target.innerText
@@ -109,7 +108,6 @@ class RegisterRequired extends Component {
                 tempArr[index].innerHtml = tempArr[index].innerHtml ? '' : arr[0] ? arr[0].contentBody : ''
 
                 this.setState({ list: tempArr })
-
             }
         })
         if (localItemRoyal.get('isRefresh')) {
@@ -179,20 +177,21 @@ class RegisterRequired extends Component {
         localItemRoyal.set('isRefresh', true);
     }
     render() {
+        const url = this.props.match.url
         return (
-            <div className="required-wrap" id="wrap">
+            <div className="required-wrap" id="wrap" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
                     <img
                         alt="Royal Canin"
                         src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                        style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '140px', height: '60px', backgroundSize: 'cover' }}
+                        style={{ background: "url(" + logoAnimatedPng + ") no-repeat center center", width: '180px', height: '80px', backgroundSize: 'cover' }}
                     />
                 </Link>
                 {/* Header title */}
-                <h2 className="rc-text-colour--brand1" style={{ marginTop: '190px', textAlign: 'center' }}>Welcome to ROYALCANIN® online store</h2>
-                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '20px' }}>Complete log-in process</p>
+                <h2 className="rc-text-colour--brand1" style={{fontSize:'2.3rem', marginTop: '190px', textAlign: 'center' }}>Welcome to ROYALCANIN® online store</h2>
+                <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '1.3rem' }}>Complete log-in process</p>
                 {/* 没有勾选完必填项的alert提示 */}
                 {
                     this.state.isShowRequired
@@ -203,8 +202,13 @@ class RegisterRequired extends Component {
                         : null
                 }
                 <div style={{ marginTop: '80px' }}>
-                    {/* checkbox组 */}
-                    <Consent list={this.state.list} sendList={this.sendList} width="500"/>
+                    <div class="rc-layout-container rc-one-column">
+                        <div class="rc-column">
+                            {/* checkbox组 */}
+                            <Consent url={url} list={this.state.list} sendList={this.sendList} width="500" zoom="150%" fontZoom="120%"/>
+                        </div>
+                    </div>
+                   
                 </div>
 
                 {/* Required fields */}

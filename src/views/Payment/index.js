@@ -513,7 +513,7 @@ class Payment extends React.Component {
       const checkout = new AdyenCheckout({
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
-        //  originKey:
+        // originKey:
         //    'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
@@ -523,12 +523,12 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: false,
+          enableStoreDetails: true,
           styles: {},
           placeholders: {},
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
-          onSubmit: (state, component) => {
+          onSubmit: (state, component) => {     
             console.log(JSON.stringify(state));
             if (state.isValid) {
               //勾选条款验证
