@@ -10,13 +10,13 @@ class AdyenCommonPay extends Component {
     super(props);
     this.state = {
       text: '',
-      requiredList:[],
-      type:'',
+      requiredList: [],
+      type: '',
       btnName: '',
-      btnNameObj:{
-          'adyen_klarna_pay_lat': 'Weiter mit KlarnaPayLater',
-          'adyen_klarna_pay_now': 'Weiter mit KlarnaPayNow',
-          'sofort': 'Weiter mit KlarnaSofort',
+      btnNameObj: {
+        adyen_klarna_pay_lat: 'Weiter mit KlarnaPayLater',
+        adyen_klarna_pay_now: 'Weiter mit KlarnaPayNow',
+        sofort: 'Weiter mit KlarnaSofort'
       }
     };
   }
@@ -29,27 +29,30 @@ class AdyenCommonPay extends Component {
   }
 
   //是否consent必填项勾选
-  isConsentRequiredChecked(){
-    let isAllChecked = this.state.requiredList.every(item=>item.isChecked)
-      if(!isAllChecked){
-        throw new Error(this.props.intl.messages.CompleteRequiredItems);
-      }
+  isConsentRequiredChecked() {
+    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    if (!isAllChecked) {
+      throw new Error(this.props.intl.messages.CompleteRequiredItems);
+    }
   }
 
   checkRequiredItem = (list) => {
-    let requiredList =  list.filter(item=>item.isRequired)
-    this.setState({
-      requiredList
-    },()=>{
-      console.log({requiredList: this.state.requiredList})
-    })
-  }
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState(
+      {
+        requiredList
+      },
+      () => {
+        console.log({ requiredList: this.state.requiredList });
+      }
+    );
+  };
 
   clickPay = () => {
     try {
       this.isTestMail();
-      this.isConsentRequiredChecked()
-      this.props.clickPay({email:this.state.text,type:this.state.type});
+      this.isConsentRequiredChecked();
+      this.props.clickPay({ email: this.state.text, type: this.state.type });
     } catch (err) {
       this.props.showErrorMsg(err.message);
     }
@@ -59,14 +62,17 @@ class AdyenCommonPay extends Component {
       text: e.target.value
     });
   };
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-        type:nextProps.type
-    },()=>{
-        const btnName = this.state.btnNameObj[this.state.type]
-        this.setState({btnName})
-    })
-    this.checkRequiredItem(nextProps.listData)
+  componentWillReceiveProps(nextProps) {
+    this.setState(
+      {
+        type: nextProps.type
+      },
+      () => {
+        const btnName = this.state.btnNameObj[this.state.type];
+        this.setState({ btnName });
+      }
+    );
+    this.checkRequiredItem(nextProps.listData);
   }
   render() {
     return (
@@ -93,11 +99,15 @@ class AdyenCommonPay extends Component {
                 </div>
               </div>
             </form>
-            <TermsCommon 
+            <TermsCommon
               id={this.props.type}
-              listData = {this.props.listData}
-              checkRequiredItem = {this.checkRequiredItem}/>
-            <div class="payment-container" style={{ 'max-width': 'auto',marginTop:'10px' }}>
+              listData={this.props.listData}
+              checkRequiredItem={this.checkRequiredItem}
+            />
+            <div
+              class="payment-container"
+              style={{ 'max-width': 'auto', marginTop: '10px' }}
+            >
               <div id="klarna" class="payment">
                 <button
                   className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay"
@@ -106,7 +116,7 @@ class AdyenCommonPay extends Component {
                 >
                   <span className="adyen-checkout__button__content">
                     <span className="adyen-checkout__button__text">
-                    {this.state.btnName}
+                      {this.state.btnName}
                     </span>
                   </span>
                 </button>
@@ -114,8 +124,7 @@ class AdyenCommonPay extends Component {
             </div>
           </div>
         </div>
-        <div>
-        </div>
+        <div></div>
       </div>
     );
   }
