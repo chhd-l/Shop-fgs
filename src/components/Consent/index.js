@@ -14,40 +14,33 @@ class Consent extends Component {
     };
   }
   componentDidMount(){
-    //定义变量获取屏幕视口宽度
-    var windowWidth = document.body.clientWidth
-    if(windowWidth < 640){
-        this.setState({
-          isMobile: true
-        })
-    }
-    if(windowWidth >= 640){
-      this.setState({
-        isMobile: false
-      })
-    }
+    
   }
   render() {
     //组件传参start
     const list = this.props.list;
-    const width = this.props.width; //默认consent的宽度为500
+    const width = this.props.width;
     const disabled = this.props.disabled || false;
     const zoom = this.props.zoom || '120%';
     const fontZoom = this.props.fontZoom || '100%';
     const checkboxPadding = this.props.checkboxPadding || '20px'
     const url = this.props.url
-    let styleObj
-    if(url == '/required'&&this.state.isMobile){
-      styleObj = {  width: '360px' }
-    }else{
-      styleObj = { width: `${width}px`, margin: '0 auto' }
-    }
+    const auto = this.props.auto || false
+    let autoClass = ''
+    auto ? autoClass = 'm-auto' : autoClass = ''
+
+    // let styleObj
+    // if(url == '/required'&&this.state.isMobile){
+    //   styleObj = {  width: '360px' }
+    // }else{
+    //   styleObj = { width: `${width}px`, margin: '0 auto' }
+    // }
     //组件传参end
     const createMarkup = (text) => ({ __html: text });
     return (
       <div
-        className="required-component"
-        style={styleObj}
+        className={`required-component ${autoClass}`}
+        style={{width:`${width}px`}}
       >
         {this.state.isLoading ? (
           <div className="pt-2 pb-2">
@@ -91,7 +84,7 @@ class Consent extends Component {
                               ? 'footer-checkbox-title mt'
                               : 'footer-checkbox-title'
                           }
-                          style={styleObj}
+                          style={{width:`${width}px`}}
                           dangerouslySetInnerHTML={createMarkup(
                             item.consentTitle
                           )}

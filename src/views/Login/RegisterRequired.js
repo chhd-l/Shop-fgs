@@ -24,7 +24,10 @@ class RegisterRequired extends Component {
             list: [],
             isShowRequired: false,
             isLoading: true,
-            innerHtml: ''
+            innerHtml: '',
+            width: '',
+            zoom: '',
+            fontZoom: ''
         };
     }
     //属性变为true，time定时后变为false
@@ -96,6 +99,22 @@ class RegisterRequired extends Component {
         this.setState({list})
     }
     async componentDidMount() {
+        //定义变量获取屏幕视口宽度
+        var windowWidth = document.body.clientWidth
+        if(windowWidth < 640){
+            this.setState({
+                width: 300,
+                zoom: '120%',
+                fontZoom: '100%'
+            })
+        }
+        if(windowWidth >= 640){
+            this.setState({
+                width: 500,
+                zoom: '150%',
+                fontZoom: '120%'
+            })
+        }
         document.getElementById('wrap').addEventListener('click', (e) => {
             if (e.target.localName === 'span') {
                 let keyWords = e.target.innerText
@@ -205,7 +224,7 @@ class RegisterRequired extends Component {
                     <div class="rc-layout-container rc-one-column">
                         <div class="rc-column">
                             {/* checkbox组 */}
-                            <Consent url={url} list={this.state.list} sendList={this.sendList} width="500" zoom="150%" fontZoom="120%"/>
+                            <Consent url={url} list={this.state.list} sendList={this.sendList} width={this.state.width} zoom={this.state.zoom} fontZoom={this.state.fontZoom} auto={true}/>
                         </div>
                     </div>
                    
