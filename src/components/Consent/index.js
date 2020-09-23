@@ -9,20 +9,38 @@ import './index.css';
 class Consent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isMobile: true
+    };
+  }
+  componentDidMount(){
+    
   }
   render() {
     //组件传参start
     const list = this.props.list;
-    const width = this.props.width; //默认consent的宽度为500
+    const width = this.props.width;
     const disabled = this.props.disabled || false;
     const zoom = this.props.zoom || '120%';
+    const fontZoom = this.props.fontZoom || '100%';
+    const checkboxPadding = this.props.checkboxPadding || '20px'
+    const url = this.props.url
+    const auto = this.props.auto || false
+    let autoClass = ''
+    auto ? autoClass = 'm-auto' : autoClass = ''
+
+    // let styleObj
+    // if(url == '/required'&&this.state.isMobile){
+    //   styleObj = {  width: '360px' }
+    // }else{
+    //   styleObj = { width: `${width}px`, margin: '0 auto' }
+    // }
     //组件传参end
     const createMarkup = (text) => ({ __html: text });
     return (
       <div
-        className="required-component"
-        style={{ width: `${width}px`, margin: '0 auto' }}
+        className={`required-component ${autoClass}`}
+        style={{width:`${width}px`}}
       >
         {this.state.isLoading ? (
           <div className="pt-2 pb-2">
@@ -35,7 +53,7 @@ class Consent extends Component {
                 <input
                   style={{ zoom: zoom }}
                   className="form-check-input ui-cursor-pointer-pure"
-                  id="id-checkbox-cat-2"
+                  id={`id-checkbox-cat-${index}`}
                   value=""
                   type="checkbox"
                   name="checkbox-2"
@@ -51,41 +69,45 @@ class Consent extends Component {
                   }}
                   checked={item.isChecked}
                 />
-                <div className="d-flex flex-column">
-                  <div className="footer-checkbox" key={index}>
-                    <div className="d-flex">
-                      {item.isRequired && (
+                <label htmlFor={`id-checkbox-cat-${index}`}>
+                <div className="d-flex flex-column"  style={{ zoom: fontZoom }}>
+                    <div className="footer-checkbox" key={index}>
+                      <div className="d-flex">
                         <div
                           className="rc-text-colour--brand1"
-                          style={{ width: '20px' }}
-                        >
-                          *
-                        </div>
-                      )}
-                      <div
-                        className={
-                          zoom == '150%'
-                            ? 'footer-checkbox-title mt'
-                            : 'footer-checkbox-title'
-                        }
-                        style={{ width: `${width}px` }}
-                        dangerouslySetInnerHTML={createMarkup(
-                          item.consentTitle
-                        )}
-                      ></div>
+                          style={{ width: `${checkboxPadding}` }}
+                      >
+                          {item.isRequired?'*':''}
+                      </div>
+                        <div
+                          className={
+                            zoom == '150%'
+                              ? 'footer-checkbox-title mt'
+                              : 'footer-checkbox-title'
+                          }
+                          style={{width:`${width}px`}}
+                          dangerouslySetInnerHTML={createMarkup(
+                            item.consentTitle
+                          )}
+                        ></div>
+                      </div>
                     </div>
+                    <div
+                      className="Checkbox-detail"
+                      style={{ marginLeft: `${checkboxPadding}` }}
+                      dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
+                    />
+                    {item.isRequired && !item.isChecked && (
+                      <div style={{display:'flex'}}>
+                        <span style={{width:'20px'}}></span>
+                        <em className="red" style={{ fontSize: '.9em',fontStyle:'normal' }}>
+                          <FormattedMessage id="requiredConsentCheckedTip" />
+                        </em>
+                      </div>
+                      
+                    )}
                   </div>
-                  <div
-                    className="Checkbox-detail"
-                    style={{ marginLeft: '20px' }}
-                    dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
-                  />
-                  {item.isRequired && !item.isChecked && (
-                    <span className="red" style={{ fontSize: '.9em' }}>
-                      <FormattedMessage id="requiredConsentCheckedTip" />
-                    </span>
-                  )}
-                </div>
+                </label>
               </div>
             );
           })

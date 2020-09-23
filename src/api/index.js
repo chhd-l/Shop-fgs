@@ -57,9 +57,6 @@ export function setBuryPoint(parameter) {
   return axios({
     url: api.buryPoint,
     method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
     data: parameter
   });
 }
