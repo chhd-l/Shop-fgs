@@ -511,13 +511,13 @@ class Payment extends React.Component {
         .create('card', {
           hasHolderName: true,
           holderNameRequired: true,
-          enableStoreDetails: true,
+          enableStoreDetails: false,
           styles: {},
           placeholders: {},
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
           onSubmit: (state, component) => {
-            //console.log(JSON.stringify(state))
+            console.log(JSON.stringify(state));
             if (state.isValid) {
               //勾选条款验证
               try {
@@ -881,13 +881,7 @@ class Payment extends React.Component {
           () => this.queryOrderDetails()
         );
       }
-      throw new Error(
-        typeof err === 'string'
-          ? err
-          : typeof err === 'object'
-          ? err.message
-          : 'Error'
-      );
+      throw new Error(err.message);
     } finally {
       this.endLoading();
     }
@@ -1613,17 +1607,17 @@ todo
     });
   }
   petComfirm(data) {
-    let loginCartData = this.loginCartData
-    console.log(data, this.props, toJS(loginCartData) )
+    let loginCartData = this.loginCartData;
+    console.log(data, this.props, toJS(loginCartData));
     loginCartData = loginCartData.map((el, i) => {
-      if(i === this.state.currentProIndex) {
-        el.petsId = data.value
-        el.petName = data.name
+      if (i === this.state.currentProIndex) {
+        el.petsId = data.value;
+        el.petName = data.name;
       }
-      return el 
-    })
-    this.props.checkoutStore.setLoginCartData(loginCartData)
-    this.closePetModal()
+      return el;
+    });
+    this.props.checkoutStore.setLoginCartData(loginCartData);
+    this.closePetModal();
     // this.props.history.push('/prescription');
   }
   openNew() {
@@ -1698,39 +1692,71 @@ todo
                   </>
                 )}
                 <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                  <h5 className="ml-custom mr-custom" style={{overflow: 'hidden'}}>
+                  <h5
+                    className="ml-custom mr-custom"
+                    style={{ overflow: 'hidden' }}
+                  >
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
                     ></i>{' '}
                     <FormattedMessage id="Pet information" />
-                    <p>We need your pet information to authorize these items.</p>
-                    {
-                      this.loginCartData.map((el, i) => {
-                        return (<div className="petProduct">
-                          <img src={el.goodsInfoImg} style={{float: 'left'}}/>
-                          <div style={{float: 'left', marginTop: '20px', marginLeft: '20px'}}>
+                    <p>
+                      We need your pet information to authorize these items.
+                    </p>
+                    {this.loginCartData.map((el, i) => {
+                      console.log(el, 'hahah');
+                      return (
+                        <div className="petProduct">
+                          <img
+                            src={el.goodsInfoImg}
+                            style={{ float: 'left' }}
+                          />
+                          <div
+                            style={{
+                              float: 'left',
+                              marginTop: '20px',
+                              marginLeft: '20px'
+                            }}
+                          >
                             <p>
-                              <span>Pet:</span><span>{el.petName? el.petName:'required'}</span>
+                              <span>Pet:</span>
+                              <span>
+                                {el.petName ? el.petName : 'required'}
+                              </span>
                             </p>
                             <p>
-                              <span>Qty:</span><span>{el.buyCount}</span>
+                              <span>Qty:</span>
+                              <span>{el.buyCount}</span>
                             </p>
                           </div>
-                          <div style={{float: 'right', marginTop: '30px', marginLeft: '20px'}}>
-                            <button class="rc-btn rc-btn--sm rc-btn--one" onClick={() =>  {
-                              this.setState({petModalVisible: true, currentProIndex: i})
-                            }}>Select a pet</button>
+                          <div
+                            style={{
+                              float: 'right',
+                              marginTop: '30px',
+                              marginLeft: '20px'
+                            }}
+                          >
+                            <button
+                              class="rc-btn rc-btn--sm rc-btn--one"
+                              onClick={() => {
+                                this.setState({
+                                  petModalVisible: true,
+                                  currentProIndex: i
+                                });
+                              }}
+                            >
+                              Select a pet
+                            </button>
                             {/* &nbsp;&nbsp;
                             or
                             &nbsp;&nbsp;
                             <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
                           </div>
-                        </div>)
-                      })
-                    }
+                        </div>
+                      );
+                    })}
                   </h5>
-                  
 
                   {/* {this._renderPayTab()} */}
                 </div>
@@ -1768,14 +1794,18 @@ todo
               </div>
               <div className="rc-column pl-md-0">
                 {this.state.tid ? (
-                  <RePayProductInfo
-                    fixToHeader={true}
-                    details={this.state.orderDetails}
-                  />
+                  <>
+                    <RePayProductInfo
+                      fixToHeader={true}
+                      details={this.state.orderDetails}
+                      navigateToProDetails={true}
+                    />
+                  </>
                 ) : (
                   <PayProductInfo
                     data={this.state.recommend_data}
                     ref="payProductInfo"
+                    location={this.props.location}
                     history={this.props.history}
                     frequencyName={this.state.subForm.frequencyName}
                     buyWay={this.state.subForm.buyWay}
@@ -1789,12 +1819,14 @@ todo
           </div>
         </main>
         <Footer />
-        <PetModal visible={this.state.petModalVisible}
+        <PetModal
+          visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={(data) => this.petComfirm(data)}
-          close={() => this.closePetModal()} />
+          close={() => this.closePetModal()}
+        />
       </div>
     );
   }

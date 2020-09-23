@@ -395,7 +395,6 @@ class PaymentComp extends React.Component {
         fieldList.splice(2, 1);
       }
     }
-
     this.setState({
       loading: true
     });

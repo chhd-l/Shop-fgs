@@ -1,68 +1,84 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import '@/assets/css/heroCarousel.css'
-import Banner_Horizontal_Hot_Sale from "@/assets/images/Banner_Horizontal_Hot_Sale.jpg";
-import Pomotion25offImg from "@/assets/images/pomotion_25off.png";
-import Banner_recommend_item from "@/assets/images/Banner_recommend_item.jpg";
-import Banner_recommend_item_m from "@/assets/images/Banner_recommend_item_m.jpg";
-import Banner_urinary from "@/assets/images/banner/banner_urinary.jpg";
-import Banner_urinary_m from "@/assets/images/banner/banner_urinary_m.jpg";
-import Banner_subscritipon from "@/assets/images/banner/banner_subscritipon.jpg";
-import Banner_subscritipon_m from "@/assets/images/banner/banner_subscritipon_m.jpg";
-import './index.less'
-import { SUBSCRIPTION_DISCOUNT_RATE } from "@/utils/constant"
-import { getBanner } from '@/api/home.js'
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import '@/assets/css/heroCarousel.css';
+import Banner_Horizontal_Hot_Sale from '@/assets/images/Banner_Horizontal_Hot_Sale.jpg';
+import Pomotion25offImg from '@/assets/images/pomotion_25off.png';
+import Banner_recommend_item from '@/assets/images/Banner_recommend_item.jpg';
+import Banner_recommend_item_m from '@/assets/images/Banner_recommend_item_m.jpg';
+import Banner_urinary from '@/assets/images/banner/banner_urinary.jpg';
+import Banner_urinary_m from '@/assets/images/banner/banner_urinary_m.jpg';
+import Banner_subscritipon from '@/assets/images/banner/banner_subscritipon.jpg';
+import Banner_subscritipon_m from '@/assets/images/banner/banner_subscritipon_m.jpg';
+import './index.less';
+import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
+import { getBanner } from '@/api/home.js';
 
-function SampleNextArrow (props) {
+function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
       className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography`}
-      style={{ ...style, right: '3%', zIndex: 1, top: '50%', position: 'absolute', transform: 'translateY(-50%)' }}
-      onClick={onClick} />
+      style={{
+        ...style,
+        right: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    />
   );
 }
 
-function SamplePrevArrow (props) {
+function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
       className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev rc-btn rc-btn--icon rc-icon rc-interactive rc-left rc-iconography`}
-      style={{ ...style, left: '3%', zIndex: 1, top: '50%', position: 'absolute', transform: 'translateY(-50%)' }}
-      onClick={onClick} />
+      style={{
+        ...style,
+        left: '3%',
+        zIndex: 1,
+        top: '50%',
+        position: 'absolute',
+        transform: 'translateY(-50%)'
+      }}
+      onClick={onClick}
+    />
   );
 }
 
 class HeroCarousel extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       noticeVisible: true,
       banner: []
-    }
-    this.hanldeClick = this.hanldeClick.bind(this)
-    this.hideNotice = this.hideNotice.bind(this)
+    };
+    this.hanldeClick = this.hanldeClick.bind(this);
+    this.hideNotice = this.hideNotice.bind(this);
   }
-  async componentWillMount () {
-    getBanner().then(res => {
-      console.log(res, 'ressssss')
-      this.setState({ banner: res.context })
-    })
+  async componentWillMount() {
+    getBanner().then((res) => {
+      console.log(res, 'ressssss');
+      this.setState({ banner: res.context });
+    });
   }
-  hideNotice () {
+  hideNotice() {
     this.setState({
       noticeVisible: false
-    })
+    });
   }
-  hanldeClick () {
+  hanldeClick() {
     const { history } = this.props;
-    history.push("/list/keywords");
+    history.push('/list/keywords');
   }
-  render () {
+  render() {
     const settings = {
       dots: true,
       infinite: true,
@@ -75,43 +91,52 @@ class HeroCarousel extends React.Component {
       adaptiveHeight: true,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
-      dotsClass: "dots-custom"
+      dotsClass: 'dots-custom'
     };
-    const videoJSX = el => {
-      return (<>
-        <div className="hero-carousel__slide__video">
-          <video autoPlay={true} muted={true} loop={true} id="myVideo">
-            <source src={el.webUrl} type="video/mp4" />
-          </video>
-          {el.mobiSkipUrl
-            ? <a className="h-100 mobileBanner" href={el.mobiSkipUrl}>
+    const videoJSX = (el) => {
+      return (
+        <>
+          <div className="hero-carousel__slide__video">
+            <video autoPlay={true} muted={true} loop={true} id="myVideo">
+              <source src={el.webUrl} type="video/mp4" />
+            </video>
+            {el.mobiSkipUrl ? (
+              <a className="h-100 mobileBanner" href={el.mobiSkipUrl}>
+                <img
+                  className="w-100"
+                  src={el.mobiUrl}
+                  style={{ maxHeight: '100%' }}
+                />
+              </a>
+            ) : (
               <img
                 className="w-100"
                 src={el.mobiUrl}
-                style={{ maxHeight: '100%' }} />
-            </a>
-            : <img
-              className="w-100"
-              src={el.mobiUrl}
-              style={{ maxHeight: '100%' }} />}
-        </div>
-        <div className="hero-carousel__slide__content">
-          <div className="rc-gamma inherit-fontsize">
-            <h1><FormattedMessage id="header.carouselInfo1" /></h1>
+                style={{ maxHeight: '100%' }}
+              />
+            )}
           </div>
-          <div className="rc-body inherit-fontsize">
-            <FormattedMessage id="header.carouselInfo2" />
+          <div className="hero-carousel__slide__content">
+            <div className="rc-gamma inherit-fontsize">
+              <h1>
+                <FormattedMessage id="header.carouselInfo1" />
+              </h1>
+            </div>
+            <div className="rc-body inherit-fontsize">
+              <FormattedMessage id="header.carouselInfo2" />
+            </div>
+            <div className="hero-carousel__slide__content__btn text-center">
+              <Link
+                className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
+                to={`/list/keywords`}
+              >
+                <FormattedMessage id="header.toBegin" />
+              </Link>
+            </div>
           </div>
-          <div className="hero-carousel__slide__content__btn text-center">
-            <Link
-              className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
-              to={`/list/keywords`}>
-              <FormattedMessage id="header.toBegin" />
-            </Link>
-          </div>
-        </div>
-      </>)
-    }
+        </>
+      );
+    };
 
     return (
       <div className="hero-carousel with-shadow">
@@ -156,42 +181,51 @@ class HeroCarousel extends React.Component {
                   onClick={this.hanldeClick} />
               </div>
             </div> */}
-            {
-              this.state.banner.map(el => (
-                <div className="hero-carousel__slide">
-                  <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                    {el.isVideo && el.isVideo === '1'
-                      ? videoJSX(el)
-                      : <>
-                        {el.webSkipUrl
-                          ? <a className="h-100" href={el.webSkipUrl}>
-                            <img
-                              className="rc-md-up"
-                              src={el.webUrl}
-                              style={{ maxHeight: '100%' }} />
-                          </a>
-                          : <img
+            {this.state.banner.map((el, i) => (
+              <div className="hero-carousel__slide" key={i}>
+                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                  {el.isVideo && el.isVideo === '1' ? (
+                    videoJSX(el)
+                  ) : (
+                    <>
+                      {el.webSkipUrl ? (
+                        <a className="h-100" href={el.webSkipUrl}>
+                          <img
                             className="rc-md-up"
                             src={el.webUrl}
-                            style={{ maxHeight: '100%' }} />}
+                            style={{ maxHeight: '100%' }}
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          className="rc-md-up"
+                          src={el.webUrl}
+                          style={{ maxHeight: '100%' }}
+                        />
+                      )}
 
-                        {el.mobiSkipUrl
-                          ? <a className="h-100" href={el.mobiSkipUrl}>
-                            <img
-                              className="rc-md-down w-100"
-                              src={el.mobiUrl}
-                              style={{ maxHeight: '100%' }} />
-                          </a>
-                          : <img
+                      {el.mobiSkipUrl ? (
+                        <a className="h-100" href={el.mobiSkipUrl}>
+                          <img
                             className="rc-md-down w-100"
                             src={el.mobiUrl}
-                            style={{ maxHeight: '100%' }} />}
-                      </>}
+                            style={{ maxHeight: '100%' }}
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          className="rc-md-down w-100"
+                          src={el.mobiUrl}
+                          style={{ maxHeight: '100%' }}
+                        />
+                      )}
+                    </>
+                  )}
 
-                    {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
+                  {/* <span className="font-weight-normal red font-16 mb-1 ml-3 mr-3 text-center inlineblock">
                   Monitorea en casa la salud urinaria de tu gato con Hematuria Detection(Detecta sangre en la orina)
                 </span> */}
-                    {/* <span className="rc-md-up btn-cheat">
+                  {/* <span className="rc-md-up btn-cheat">
                   <Link
                     to="/details/8a80808671d968b10171e6d2ba8c0016"
                     className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16">
@@ -206,7 +240,7 @@ class HeroCarousel extends React.Component {
                     <FormattedMessage id="header.toOrder" />
                   </Link>
                 </span> */}
-                    {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
+                  {/* <div className="hero-carousel__slide__text text-center d-md-flex align-items-center rc-md-up">
                   <div className="hero-carousel__slide__text__inner rc-padding-x--lg--mobile">
                     <div className="rc-delta inherit-fontsize children-nomargin">
                     </div>
@@ -219,10 +253,9 @@ class HeroCarousel extends React.Component {
                     </Link>
                   </div>
                 </div> */}
-                  </div>
                 </div>
-              ))
-            }
+              </div>
+            ))}
 
             {/* <div className="hero-carousel__slide center-img">
               <img className="mh-100 rc-md-up" src={Banner_urinary} />
@@ -328,8 +361,8 @@ class HeroCarousel extends React.Component {
         <input id="hero-carousel-scrollspeed" type="hidden" value="1500" />
         <input id="hero-carousel-autoplay" type="hidden" value="false" /> */}
       </div>
-    )
+    );
   }
 }
 
-export default HeroCarousel
+export default HeroCarousel;
