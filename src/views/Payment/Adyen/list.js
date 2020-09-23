@@ -222,54 +222,52 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     const cardListJSX = cardList.map((el, idx) => {
       return (
-        <>
-          {cardListJSX}
-          <div
-            className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-              el.selected ? 'active border-blue' : ''
-            } ${idx !== cardList.length - 1 ? 'border-bottom-0' : ''}`}
-            key={idx}
-            onClick={() => this.hanldeClickCardItem(el)}
-          >
-            <div className={`pt-3 pb-3`}>
-              <div
-                className="position-absolute"
-                style={{ right: '1%', top: '2%' }}
+        <div
+          className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
+            el.selected ? 'active border-blue' : ''
+          } ${idx !== cardList.length - 1 ? 'border-bottom-0' : ''}`}
+          key={idx}
+          onClick={() => this.hanldeClickCardItem(el)}
+        >
+          <div className={`pt-3 pb-3`}>
+            <div
+              className="position-absolute"
+              style={{ right: '1%', top: '2%' }}
+            >
+              <span
+                className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
               >
                 <span
-                  className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.updateConfirmTooltipVisible(el, true);
+                  }}
                 >
-                  <span
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      this.updateConfirmTooltipVisible(el, true);
-                    }}
-                  >
-                    <FormattedMessage id="delete" />
-                  </span>
-                  <ConfirmTooltip
-                    containerStyle={{
-                      transform: 'translate(-89%, 105%)'
-                    }}
-                    arrowStyle={{ left: '89%' }}
-                    display={el.confirmTooltipVisible}
-                    confirm={() => this.deleteCard(el)}
-                    updateChildDisplay={(status) =>
-                      this.updateConfirmTooltipVisible(el, status)
-                    }
-                  />
+                  <FormattedMessage id="delete" />
                 </span>
-              </div>
-              {this._renderOneCard(el)}
+                <ConfirmTooltip
+                  containerStyle={{
+                    transform: 'translate(-89%, 105%)'
+                  }}
+                  arrowStyle={{ left: '89%' }}
+                  display={el.confirmTooltipVisible}
+                  confirm={() => this.deleteCard(el)}
+                  updateChildDisplay={(status) =>
+                    this.updateConfirmTooltipVisible(el, status)
+                  }
+                />
+              </span>
             </div>
+            {this._renderOneCard(el)}
           </div>
-        </>
+        </div>
       );
     });
 
     return (
       <>
+        {cardListJSX}
         <div
           className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
           ref={(node) => {
@@ -327,6 +325,12 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     return (
       <>
+        <div
+          className={`dedede ${
+            !this.state.formVisible &&
+            (!this.isLogin || (cardList.length && this.isLogin))
+          }`}
+        ></div>
         {this.state.listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
         ) : !this.state.formVisible &&

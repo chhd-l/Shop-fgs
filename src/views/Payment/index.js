@@ -1565,7 +1565,11 @@ class Payment extends React.Component {
                   {this._renderPayTab()}
                 </div>
                 {this.isOnepageCheckout && (
-                  <Confirmation clickPay={this.initCommonPay} />
+                  <Confirmation
+                    clickPay={this.initCommonPay}
+                    listData={this.state.listData}
+                    checkRequiredItem={this.checkRequiredItem}
+                  />
                 )}
               </div>
               <div className="rc-column pl-md-0">

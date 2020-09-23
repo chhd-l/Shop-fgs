@@ -9,7 +9,7 @@ import EditForm from '@/components/Adyen/form';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
 
-@inject('loginStore')
+@inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class AdyenCreditCard extends React.Component {
@@ -54,8 +54,14 @@ class AdyenCreditCard extends React.Component {
   };
   updateSelectedCardInfo = (data) => {
     this.setState({ adyenPayParam: data, isValid: !!data });
+    if (this.isOnepageCheckout) {
+      this.props.paymentStore.updatePanelStatus('confirmation', {
+        isPrepare: false,
+        isEdit: true
+      });
+    }
   };
-  clickPay = () => {
+  clickPay = async () => {
     if (!this.state.isValid) {
       return false;
     }
@@ -70,7 +76,7 @@ class AdyenCreditCard extends React.Component {
     // 2 验证同意条框勾选情况
     // 3 验证通过，进行支付
     try {
-      this.isConsentRequiredChecked();
+      await this.isConsentRequiredChecked();
       this.props.updateAdyenPayParam(this.state.adyenPayParam);
       this.props.clickPay({ type: 'adyen_credit_card' });
     } catch (err) {
@@ -111,29 +117,34 @@ class AdyenCreditCard extends React.Component {
 
           <CardList updateSelectedCardInfo={this.updateSelectedCardInfo} />
         </div>
-        <div className="ml-custom mr-custom">
-          <TermsCommon
-            id={'adyenCreditCard'}
-            listData={this.props.listData}
-            checkRequiredItem={this.checkRequiredItem}
-          />
-        </div>
-        <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
-          <div className="next-step-button">
-            <div className="rc-text--right">
-              <button
-                className={`rc-btn rc-btn--one submit-payment`}
-                type="submit"
-                name="submit"
-                value="submit-shipping"
-                disabled={!this.state.isValid}
-                onClick={this.clickPay}
-              >
-                <FormattedMessage id="payment.further" />
-              </button>
+
+        {!this.isOnepageCheckout && (
+          <>
+            <div className="ml-custom mr-custom">
+              <TermsCommon
+                id={'adyenCreditCard'}
+                listData={this.props.listData}
+                checkRequiredItem={this.checkRequiredItem}
+              />
             </div>
-          </div>
-        </div>
+            <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+              <div className="next-step-button">
+                <div className="rc-text--right">
+                  <button
+                    className={`rc-btn rc-btn--one submit-payment`}
+                    type="submit"
+                    name="submit"
+                    value="submit-shipping"
+                    disabled={!this.state.isValid}
+                    onClick={this.clickPay}
+                  >
+                    <FormattedMessage id="payment.further" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </>
     );
   }
