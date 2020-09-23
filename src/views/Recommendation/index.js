@@ -93,6 +93,9 @@ class Help extends React.Component {
       console.log(res, 'aaa');
       let productList = res.context.recommendationGoodsInfoRels;
       productList.map((el) => {
+        if(!el.goodsInfo.goodsInfoImg) {
+          el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg
+        }
         el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
           g = Object.assign({}, g, { selected: false });
           console.log(g.goodsInfoId, el, 'hhhh')

@@ -9,13 +9,11 @@ function Exception() {
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}
-      <Money locale={window.navigator.language} currency="CNY">35.6</Money>
       <div
         className="page rc-content--fixed-header"
         data-action="RedirectURL-Start"
         data-querystring=""
       >
-        <FormattedNumber value={1000}/>
         <div className="container full-vh">
           <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
             <svg
