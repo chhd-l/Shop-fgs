@@ -1707,7 +1707,6 @@ todo
                     <p>We need your pet information to authorize these items.</p>
                     {
                       this.loginCartData.map((el, i) => {
-                        console.log(el, 'hahah')
                         return (<div className="petProduct">
                           <img src={el.goodsInfoImg} style={{float: 'left'}}/>
                           <div style={{float: 'left', marginTop: '20px', marginLeft: '20px'}}>
@@ -1792,7 +1791,6 @@ todo
         <Footer />
         <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
-          productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={(data) => this.petComfirm(data)}
