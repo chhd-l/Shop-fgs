@@ -22,7 +22,7 @@ class TermsCommon extends Component {
         if (e.target.localName === 'span') {
           let keyWords = e.target.innerText;
           let index = Number(
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
               .parentNode.id
           );
           let arr = this.state.list[index].detailList.filter((item) => {

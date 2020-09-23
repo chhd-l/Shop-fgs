@@ -6,6 +6,7 @@ import logoAnimatedPng from "@/assets/images/logo--animated2.png";
 import "./index.css"
 import { findUserConsentList, userBindConsent, getStoreOpenConsentList } from "@/api/consent"
 import Consent from "@/components/Consent"
+import { withOktaAuth } from '@okta/okta-react';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -27,7 +28,7 @@ class RegisterRequired extends Component {
             innerHtml: '',
             width: '',
             zoom: '',
-            fontZoom: ''
+            fontZoom: '',
         };
     }
     //属性变为true，time定时后变为false
@@ -59,6 +60,7 @@ class RegisterRequired extends Component {
     }
     //会员提交
     submitLogin = async () => {
+        let oktaToken = 'Bearer '+ this.props.authState.accessToken
         try {
             let lastPath = this.props.location.state.path
             if (lastPath === 'pay') {
@@ -69,7 +71,9 @@ class RegisterRequired extends Component {
                 //组装submit参数
                 let submitParam = this.bindSubmitParam(this.state.list)
 
-                const result = await userBindConsent(submitParam)
+                const result = await userBindConsent({...submitParam,...{oktaToken}})
+                console.log(result)
+                debugger
                 if (result.code === 'K-000000') {
                     this.props.history.push(lastPath)
                 }
@@ -99,6 +103,7 @@ class RegisterRequired extends Component {
         this.setState({list})
     }
     async componentDidMount() {
+
         //定义变量获取屏幕视口宽度
         var windowWidth = document.body.clientWidth
         if(windowWidth < 640){
@@ -118,7 +123,7 @@ class RegisterRequired extends Component {
         document.getElementById('wrap').addEventListener('click', (e) => {
             if (e.target.localName === 'span') {
                 let keyWords = e.target.innerText
-                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id)
+                let index = Number(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id)
                 let arr = this.state.list[index].detailList.filter(item => {
                     return item.contentTitle == keyWords
                 })
@@ -246,5 +251,4 @@ class RegisterRequired extends Component {
         );
     }
 }
-
-export default injectIntl(RegisterRequired);
+export default withOktaAuth(RegisterRequired);

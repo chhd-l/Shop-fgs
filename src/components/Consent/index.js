@@ -69,6 +69,7 @@ class Consent extends Component {
                   }}
                   checked={item.isChecked}
                 />
+                <label htmlFor={`id-checkbox-cat-${index}`}>
                 <div className="d-flex flex-column"  style={{ zoom: fontZoom }}>
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
@@ -106,6 +107,7 @@ class Consent extends Component {
                       
                     )}
                   </div>
+                </label>
               </div>
             );
           })
