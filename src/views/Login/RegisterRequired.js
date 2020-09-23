@@ -72,8 +72,6 @@ class RegisterRequired extends Component {
                 let submitParam = this.bindSubmitParam(this.state.list)
 
                 const result = await userBindConsent({...submitParam,...{oktaToken}})
-                console.log(result)
-                debugger
                 if (result.code === 'K-000000') {
                     this.props.history.push(lastPath)
                 }
