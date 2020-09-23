@@ -18,6 +18,7 @@ class Consent extends Component {
   }
   render() {
     //组件传参start
+    const id = this.props.id || 9999
     const list = this.props.list;
     const width = this.props.width;
     const disabled = this.props.disabled || false;
@@ -46,7 +47,7 @@ class Consent extends Component {
                 <input
                   style={{ zoom: zoom }}
                   className="form-check-input ui-cursor-pointer-pure"
-                  id={`id-checkbox-cat-${item.id}`}
+                  id={`id-checkbox-cat-${id}-${item.id}`}
                   value=""
                   type="checkbox"
                   name="checkbox-2"
@@ -62,7 +63,7 @@ class Consent extends Component {
                   }}
                   checked={item.isChecked}
                 />
-                <label htmlFor={`id-checkbox-cat-${item.id}`}>
+                <label htmlFor={`id-checkbox-cat-${id}-${item.id}`}>
                 <div className="d-flex flex-column"  style={{ zoom: fontZoom }}>
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
