@@ -28,13 +28,6 @@ class Consent extends Component {
     const auto = this.props.auto || false
     let autoClass = ''
     auto ? autoClass = 'm-auto' : autoClass = ''
-
-    // let styleObj
-    // if(url == '/required'&&this.state.isMobile){
-    //   styleObj = {  width: '360px' }
-    // }else{
-    //   styleObj = { width: `${width}px`, margin: '0 auto' }
-    // }
     //组件传参end
     const createMarkup = (text) => ({ __html: text });
     return (
@@ -53,7 +46,7 @@ class Consent extends Component {
                 <input
                   style={{ zoom: zoom }}
                   className="form-check-input ui-cursor-pointer-pure"
-                  id={`id-checkbox-cat-${index}`}
+                  id={`id-checkbox-cat-${item.id}`}
                   value=""
                   type="checkbox"
                   name="checkbox-2"
@@ -69,7 +62,7 @@ class Consent extends Component {
                   }}
                   checked={item.isChecked}
                 />
-                <label htmlFor={`id-checkbox-cat-${index}`}>
+                <label htmlFor={`id-checkbox-cat-${item.id}`}>
                 <div className="d-flex flex-column"  style={{ zoom: fontZoom }}>
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
