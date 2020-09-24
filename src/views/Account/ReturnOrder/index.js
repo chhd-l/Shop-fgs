@@ -109,7 +109,7 @@ export default class ReturnOrder extends React.Component {
       .catch((err) => {
         this.setState({
           loading: false,
-          errMsg: err.toString()
+          errMsg: err.message.toString()
         });
       });
   }

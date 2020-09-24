@@ -41,7 +41,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       })
       .catch((err) => {
         this.setState({
-          errMsg: err.toString(),
+          errMsg: err.message.toString(),
           loading: false
         });
       });

@@ -119,9 +119,10 @@
   }
   .recommendation p {
     margin-bottom: 10px;
+    text-align: center;
   }
-  p > .rc-btn, p > .btn {
-      display: inline;
+  .recommendation p > .rc-btn, p > .btn {
+      display: inline-block !important;
   }
   .picList li > img {
     width: 107px;

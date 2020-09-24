@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import TermsCommon from '../Terms/common';
 
 @inject('paymentStore')
 @observer
@@ -9,53 +10,37 @@ class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      terms: [
-        {
-          label: (
-            <FormattedMessage
-              id="payment.confirmInfo3"
-              values={{
-                val1: (
-                  <Link className="red" target="_blank" to="/privacypolicy">
-                    Política de privacidad
-                  </Link>
-                ),
-                val2: (
-                  <Link className="red" target="_blank" to="/termuse">
-                    la transferencia transfronteriza
-                  </Link>
-                )
-              }}
-            />
-          ),
-          warningLabel: <FormattedMessage id="payment.confirmInfo4" />,
-          isRead: false
-        },
-        {
-          label: <FormattedMessage id="payment.confirmInfo1" />,
-          warningLabel: <FormattedMessage id="login.secondCheck" />,
-          isRead: false
-        }
-      ],
+      requiredList: [],
       isValid: false
     };
   }
   componentDidMount() {
     this.validData();
   }
+  componentWillReceiveProps(nextProps) {
+    this.checkRequiredItem(nextProps.listData);
+  }
   get panelStatus() {
     return this.props.paymentStore.panelStatus.confirmation;
   }
-  handleChange = (item) => {
-    item.isRead = !item.isRead;
-    this.setState(
-      {
-        terms: this.state.terms
-      },
-      () => {
-        this.validData();
-      }
-    );
+  //是否consent必填项勾选
+  isConsentRequiredChecked() {
+    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    if (!isAllChecked) {
+      throw new Error(this.props.intl.messages.CompleteRequiredItems);
+    }
+  }
+  checkRequiredItem = async (list) => {
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState({
+      requiredList
+    });
+    try {
+      await this.isConsentRequiredChecked();
+      this.setState({ isValid: true });
+    } catch (err) {
+      this.setState({ isValid: false });
+    }
   };
   validData = () => {
     this.setState({
@@ -85,30 +70,12 @@ class Confirmation extends React.Component {
           {!this.panelStatus.isPrepare && (
             <div className="pt-3">
               {/* 条款 */}
-              {this.state.terms.map((item, i) => (
-                <div className="footerCheckbox ml-custom mr-custom" key={i}>
-                  <input
-                    className="form-check-input ui-cursor-pointer-pure"
-                    id={`id-checkbox-term-${i}`}
-                    value=""
-                    type="checkbox"
-                    name="checkbox-2"
-                    onChange={() => this.handleChange(item)}
-                    checked={item.isRead}
-                  />
-                  <label
-                    htmlFor={`id-checkbox-term-${i}`}
-                    className="rc-input__label--inline ui-cursor-pointer-pure"
-                  >
-                    {item.label}
-                    {item.warningLabel && (
-                      <div className={`warning hidden`}>
-                        {item.warningLabel}
-                      </div>
-                    )}
-                  </label>
-                </div>
-              ))}
+              <TermsCommon
+                id={'confirmation'}
+                listData={this.props.listData}
+                checkRequiredItem={this.checkRequiredItem}
+              />
+
               <div className="next-step-button">
                 <div className="rc-text--right">
                   <button

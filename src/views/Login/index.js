@@ -83,7 +83,7 @@ class Login extends React.Component {
         this.showErrorMsg(res.message || this.props.intl.messages.getDataFailed)
       }
     }).catch(err=>{
-      this.showErrorMsg(err.toString() || this.props.intl.messages.getDataFailed)
+      this.showErrorMsg(err.message.toString() || this.props.intl.messages.getDataFailed)
     })
   }
   // getQuestions=()=>{
@@ -141,12 +141,12 @@ class Login extends React.Component {
             (this.props.location.state && this.props.location.state.redirectUrl) ||
               "/account"
           );
-          this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+          this.showErrorMsg(err.message.toString()|| this.props.intl.messages.loginFailed)
         })
 
 
     }).catch(err=>{
-      this.showErrorMsg(err.toString()|| this.props.intl.messages.loginFailed)
+      this.showErrorMsg(err.message.toString()|| this.props.intl.messages.loginFailed)
     })
 
 
@@ -220,7 +220,7 @@ class Login extends React.Component {
       }
       console.log(res)
     }).catch(err=>{
-      this.showErrorMsg(err.toString() || this.props.intl.messages.registerFailed)
+      this.showErrorMsg(err.message.toString() || this.props.intl.messages.registerFailed)
     })
 
 

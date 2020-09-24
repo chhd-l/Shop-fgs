@@ -364,7 +364,7 @@ const en_US = {
   "addShippingAddress": "Neue Adresse hinzufügen",
   "editShippingAddress": "Lieferadresse bearbeiten",
   "addressTip": "Sie haben {number} Versandadressen erstellt, bis zu 20",
-  "creditCardTip": "Sie haben eine {Nummer} Kreditkarte erstellt, bis zu 10",
+  "creditCardTip": "Sie haben eine {number} Kreditkarte erstellt, bis zu 10",
   "creditCardTipMany": "Sie haben {number} Kreditkarten erstellt, bis zu 10",
   "consignee": "Empfänger",
   "defaultAddress": "Standardadresse",

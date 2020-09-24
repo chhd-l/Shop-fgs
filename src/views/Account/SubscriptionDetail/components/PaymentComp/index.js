@@ -109,7 +109,8 @@ class PaymentComp extends React.Component {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : ''
+        customerId: this.userInfo ? this.userInfo.customerId : '',
+        storeId: process.env.REACT_APP_STOREID
       });
       this.setState({ creditCardList: res.context });
     } catch (err) {
@@ -438,7 +439,8 @@ class PaymentComp extends React.Component {
         paymentToken: res ? res.data.token : creditCardInfoForm.paymentToken,
         paymentCustomerId: creditCardInfoForm.paymentCustomerId,
         paymentTransactionId: creditCardInfoForm.paymentTransactionId,
-        paymentCvv: res ? res.data.encrypted_cvv : ''
+        paymentCvv: res ? res.data.encrypted_cvv : '',
+        paymentType: 'PAYU'
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);

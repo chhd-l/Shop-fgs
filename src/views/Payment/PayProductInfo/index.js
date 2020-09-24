@@ -66,7 +66,6 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-    console.log(productList, 'productList111');
     this.setState(
       Object.assign({
         productList: productList || []
@@ -159,7 +158,9 @@ class PayProductInfo extends React.Component {
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     sessionItemRoyal.set('rc-goods-name', item.goodsName);
     this.props.history.push(
-      `/details/${this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId}`
+      `/details/${
+        this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
+      }`
     );
   };
   getProductsForLogin(plist) {
@@ -276,7 +277,6 @@ class PayProductInfo extends React.Component {
       this.isLogin || this.props.data.length
         ? this.getProductsForLogin(productList)
         : this.getProducts(productList);
-    console.log(productList, 'productList111');
     return (
       <div
         className={`product-summary__inner ${className}`}

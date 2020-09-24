@@ -1,6 +1,7 @@
 /* 组件 */
 .required-component .footer-checkbox-title p{
     margin-bottom: 5px;
+    cursor: pointer;
   }
   .required-component .footer-checkbox-title p span{
     color:#000!important;
@@ -20,4 +21,7 @@
   }
   .required-component .mt{
     margin-top: 3px;
+  }
+  .m-auto{
+    margin: 0 auto;
   }

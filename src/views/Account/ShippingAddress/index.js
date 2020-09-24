@@ -70,7 +70,7 @@ class ShippingAddress extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
   }
@@ -204,7 +204,7 @@ class ShippingAddress extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.deleteAddressFailed
+          err.message.toString() || this.props.intl.messages.deleteAddressFailed
         );
         this.setState({ loading: false });
       });

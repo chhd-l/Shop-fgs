@@ -31,13 +31,7 @@ export function formatMoney(
     val = parseFloat(val);
   }
   val += '';
-  let ret = val.replace(/\B(?=(\d{3})+(?!\d))/g, tmp.break);
-  if (process.env.REACT_APP_HOMEPAGE === '/fr') {
-    ret = ret.replace(/\./, '#');
-    ret = ret.replace(/\,/, ' ');
-    ret = ret.replace(/\#/, ',');
-  }
-  return tmp.atEnd ? `${ret} ${tmp.mark}` : `${tmp.mark} ${ret}`;
+  return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, { style: 'currency', currency: process.env.REACT_APP_CURRENCY }).format(val)
 }
 
 export async function queryStoreCateIds() {

@@ -1,5 +1,4 @@
 import axios from '@/utils/request'
-import { register } from '../serviceWorker'
 
 const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',

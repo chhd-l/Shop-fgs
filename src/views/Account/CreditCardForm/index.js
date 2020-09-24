@@ -173,7 +173,8 @@ class ShippingAddressFrom extends React.Component {
         phoneNumber: creditCardInfo.phoneNumber,
         vendor: res.data.vendor,
         id: creditCardInfo.id ? creditCardInfo.id : '',
-        isDefault: creditCardInfo.isDefault ? '1' : '0'
+        isDefault: creditCardInfo.isDefault ? '1' : '0',
+        paymentType: 'PAYU'
       };
       console.log(1);
       let addRes = await addOrUpdatePaymentMethod(params);

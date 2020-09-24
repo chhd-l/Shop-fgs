@@ -22,7 +22,7 @@ class TermsCommon extends Component {
         if (e.target.localName === 'span') {
           let keyWords = e.target.innerText;
           let index = Number(
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+            e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
               .parentNode.id
           );
           let arr = this.state.list[index].detailList.filter((item) => {
@@ -57,7 +57,7 @@ class TermsCommon extends Component {
         style={{ marginTop: '10px', marginLeft: '25px' }}
       >
         {/* checkbox组 */}
-        <Consent list={this.state.list} sendList={this.sendList} />
+        <Consent list={this.state.list} sendList={this.sendList} key='payment' id={this.props.id} />
       </div>
     );
   }

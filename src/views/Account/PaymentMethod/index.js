@@ -20,6 +20,7 @@ class PaymentMethod extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      inited: false,
       loading: false,
       showModal: false,
       isAdd: true,
@@ -106,6 +107,9 @@ class PaymentMethod extends React.Component {
                       }
                       show={paymentCompShow}
                       isAddNewCard={isAddNewCard}
+                      updateInitStatus={(val) => {
+                        this.setState({ inited: val });
+                      }}
                     />
                     <div
                       class="rc-layout-container rc-two-column"
@@ -129,7 +133,9 @@ class PaymentMethod extends React.Component {
                             <FormattedMessage id="paymethods.info" />
                           </p>
                           <button
-                            class="rc-btn rc-btn--one"
+                            className={`${
+                              !this.state.inited ? 'ui-btn-loading' : ''
+                            } rc-btn rc-btn--one`}
                             onClick={() =>
                               this.setState({
                                 isAddNewCard: true,
