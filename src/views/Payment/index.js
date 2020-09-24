@@ -514,7 +514,7 @@ class Payment extends React.Component {
         environment: 'test',
         originKey: process.env.REACT_APP_AdyenOriginKEY,
         // originKey:
-        //    'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+        //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
         locale: process.env.REACT_APP_Adyen_locale
       });
 
@@ -528,7 +528,7 @@ class Payment extends React.Component {
           placeholders: {},
           showPayButton: false,
           brands: ['mc', 'visa', 'amex', 'cartebancaire'],
-          onSubmit: (state, component) => {     
+          onSubmit: (state, component) => {
             console.log(JSON.stringify(state));
             if (state.isValid) {
               //勾选条款验证
@@ -831,12 +831,14 @@ class Payment extends React.Component {
       }
 
       // update clinic
-      clinicStore.removeLinkClinicId();
-      clinicStore.removeLinkClinicName();
-      clinicStore.setSelectClinicId(this.props.clinicStore.clinicId);
-      clinicStore.setSelectClinicName(this.props.clinicStore.clinicName);
-      clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
-      clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
+      if (this.checkoutWithClinic) {
+        clinicStore.removeLinkClinicId();
+        clinicStore.removeLinkClinicName();
+        clinicStore.setSelectClinicId(clinicStore.clinicId);
+        clinicStore.setSelectClinicName(clinicStore.clinicName);
+        clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      }
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
