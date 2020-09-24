@@ -64,7 +64,10 @@ const LoginButton = (props) => {
              //1.会员调用consense接口
              findUserConsentList({}).then((result)=>{
               if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
-                props.history.push({ pathname: "/required", state:{path:'/'} });
+                // props.history.push({ pathname: "/required", state:{path:'/'} });
+              } else {
+                // 同意完成
+                
               }
             })
         

@@ -7,6 +7,7 @@ import "./index.css"
 import { findUserConsentList, userBindConsent, getStoreOpenConsentList } from "@/api/consent"
 import Consent from "@/components/Consent"
 import { withOktaAuth } from '@okta/okta-react';
+import LoginButton from '@/components/LoginButton'
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -83,19 +84,19 @@ class RegisterRequired extends Component {
         }
     }
     //游客提交
-    submitUnLogin = () => {
-        try {
-            const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
-            if (isRequiredChecked) {
-                sessionItemRoyal.set('isRequiredChecked', true)
-                this.props.history.push('/')
-            } else {
-                this.showAlert('isShowRequired', 2000)
-            }
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
+    // submitUnLogin = () => {
+    //     try {
+    //         const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
+    //         if (isRequiredChecked) {
+    //             sessionItemRoyal.set('isRequiredChecked', true)
+    //             this.props.history.push('/')
+    //         } else {
+    //             this.showAlert('isShowRequired', 2000)
+    //         }
+    //     } catch (err) {
+    //         console.log(err.message)
+    //     }
+    // }
     //从子组件传回
     sendList = (list)=>{
         this.setState({list})
@@ -146,11 +147,13 @@ class RegisterRequired extends Component {
         try {
             let result
 
-            this.isLogin
-                ?
-                result = await findUserConsentList({})
-                :
-                result = await getStoreOpenConsentList({})
+            // this.isLogin
+            //     ?
+            //     result = await findUserConsentList({})
+            //     :
+            //     result = await getStoreOpenConsentList({})
+
+            result = await findUserConsentList({})
 
 
             // lastPath 
@@ -201,7 +204,11 @@ class RegisterRequired extends Component {
     render() {
         const url = this.props.match.url
         return (
+            
             <div className="required-wrap" id="wrap" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                <div style={{visibility:'hidden'}}>
+                    <LoginButton history={this.props.history}/>
+                </div>           
                 {/* Logo */}
                 <Link to="/" className="header__nav__brand logo-home pt-5">
                     <span className="rc-screen-reader-text"></span>
@@ -238,10 +245,12 @@ class RegisterRequired extends Component {
                 {/* Continu按钮 */}
                 <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '30px' }}>
                     {
-                        this.isLogin ?
-                            <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
-                            :
-                            <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
+                        // this.isLogin ?
+                        //     <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
+                        //     :
+                        //     <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitUnLogin}>Continue</button>
+
+                        <button className="rc-btn rc-btn--lg rc-btn--one px-5" onClick={this.submitLogin}>Continue</button>
                     }
 
                 </div>
