@@ -13,18 +13,18 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import { Button, Header } from 'semantic-ui-react';
-import { getToken } from '@/api/login'
-import { getCustomerInfo } from "@/api/user"
-import { findUserConsentList } from "@/api/consent"
+import { getToken } from '@/api/login';
+import { getCustomerInfo } from '@/api/user';
+import { findUserConsentList } from '@/api/consent';
 import { inject, observer } from 'mobx-react';
 import stores from '@/store';
-import { FormattedMessage } from 'react-intl'
-import { mergeUnloginCartData } from '@/utils/utils'
+import { FormattedMessage } from 'react-intl';
+import { mergeUnloginCartData } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const loginStore = stores.loginStore
-const checkoutStore = stores.checkoutStore
+const loginStore = stores.loginStore;
+const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
   // console.log(useOktaAuth)
@@ -40,83 +40,71 @@ const LoginButton = (props) => {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
     } else {
-      loginStore.changeLoginModal(true)
+      loginStore.changeLoginModal(true);
       authService.getUser().then((info) => {
         setUserInfo(info);
         if (!loginStore.isLogin) {
-          getToken({ oktaToken: `Bearer ${accessToken}` }).then(async res => {
-            let userinfo = res.context.customerDetail
-            loginStore.changeLoginModal(false)
-            loginStore.changeIsLogin(true)
-            localItemRoyal.set("rc-token", res.context.token);
-            let customerInfoRes = await getCustomerInfo()
-            userinfo.defaultClinics = customerInfoRes.context.defaultClinics
-            loginStore.setUserInfo(customerInfoRes.context)
+          getToken({ oktaToken: `Bearer ${accessToken}` })
+            .then(async (res) => {
+              let userinfo = res.context.customerDetail;
+              loginStore.changeLoginModal(false);
+              loginStore.changeIsLogin(true);
+              localItemRoyal.set('rc-token', res.context.token);
+              let customerInfoRes = await getCustomerInfo();
+              userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+              loginStore.setUserInfo(customerInfoRes.context);
 
-            const tmpUrl = sessionItemRoyal.get('okta-redirectUrl')
-            if (tmpUrl !== '/cart') {
-              if (checkoutStore.cartData.length) {
-                await mergeUnloginCartData()
-                await loginStore.updateLoginCart()
+              const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+              if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                await mergeUnloginCartData();
+                await loginStore.updateLoginCart();
               }
-            }
 
-             //1.会员调用consense接口
-             findUserConsentList({}).then((result)=>{
-              if (result.code === 'K-000000' && result.context.requiredList.length!==0) {
-                props.history.push({ pathname: "/required", state:{path:'/'} });
+              //1.会员调用consense接口
+              const result = await findUserConsentList({});
+              if (result.context.requiredList.length !== 0) {
+                props.history.push({
+                  pathname: '/required',
+                  state: { path: '/' }
+                });
+              } else {
+                if (tmpUrl && tmpUrl !== '/') {
+                  props.history.push(tmpUrl);
+                }
+                sessionStorage.removeItem('okta-redirectUrl');
               }
             })
-        
-            
-            
-
-            // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
-            //   props.history.push(sessionStorage.getItem('okta-redirectUrl'))
-            // } else {
-            //   if (checkoutStore.cartData.length) {
-            //     await mergeUnloginCartData()
-            //     await loginStore.updateLoginCart()
-            //   }
-            //   if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
-            //     console.log('jajajjajaa')
-            //     props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
-            //   }
-            // }
-            // //props.history.push('required')
-
-
-            // sessionStorage.removeItem('okta-redirectUrl')
-          }).catch(e => {
-            console.log(e)
-            loginStore.changeLoginModal(false)
-          })
+            .catch((e) => {
+              console.log(e);
+              loginStore.changeLoginModal(false);
+            });
         }
       });
     }
   }, [authState, authService]); // Update if authState changes
 
   const login = async () => {
-    sessionItemRoyal.remove('rc-token-lose')
-    sessionItemRoyal.set('okta-redirectUrl', '/')
+    sessionItemRoyal.remove('rc-token-lose');
+    sessionItemRoyal.set('okta-redirectUrl', '/');
     if (props.beforeLoginCallback) {
-      let res = await props.beforeLoginCallback()
+      let res = await props.beforeLoginCallback();
       if (res === false) {
-        return false
+        return false;
       }
-      sessionItemRoyal.set('okta-redirectUrl', '/cart')
+      sessionItemRoyal.set('okta-redirectUrl', '/cart');
     }
     authService.login(process.env.REACT_APP_HOMEPAGE);
   };
 
   return (
     <button
-      className={props.btnClass || "rc-btn rc-btn--one"}
+      className={props.btnClass || 'rc-btn rc-btn--one'}
       style={props.btnStyle || {}}
       onClick={login}
       ref={props.buttonRef}
-      id="J-btn-login">
-      {props.children || <FormattedMessage id='login' />}
+      id="J-btn-login"
+    >
+      {props.children || <FormattedMessage id="login" />}
     </button>
   );
 };

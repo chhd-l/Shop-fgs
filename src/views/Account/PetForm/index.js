@@ -121,7 +121,7 @@ class PetForm extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
     getDictionary({ type: 'specialNeeds' })
@@ -132,7 +132,7 @@ class PetForm extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
   }
@@ -455,7 +455,7 @@ class PetForm extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
         this.setState({ breedListLoading: false, showBreedListNoneTip: true });
       });
@@ -586,7 +586,7 @@ class PetForm extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
         this.setState({ loading: false });
       });

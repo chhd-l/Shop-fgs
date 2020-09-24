@@ -58,7 +58,7 @@ class PaymentComp extends React.Component {
       prevEditCardNumber: '',
       currentEditOriginCardInfo: null
     };
-    this.pathname = ''
+    this.pathname = '';
   }
   componentWillReceiveProps(props) {
     if (props.isAddNewCard) {
@@ -76,7 +76,7 @@ class PaymentComp extends React.Component {
     }
   }
   async componentDidMount() {
-    this.pathname = this.props.history.location.pathname
+    this.pathname = this.props.history.location.pathname;
     if (this.props.loginStore.isLogin) {
       if (localItemRoyal.get('loginDeliveryInfo')) {
         let deliveryInfo = localItemRoyal.get('loginDeliveryInfo');
@@ -639,7 +639,9 @@ class PaymentComp extends React.Component {
         }
       })
       .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
+        this.showErrorMsg(
+          err.message || this.props.intl.messages.deleteAddressFailed
+        );
         this.setState({
           loading: false
         });

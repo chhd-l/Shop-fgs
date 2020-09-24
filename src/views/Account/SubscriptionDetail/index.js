@@ -387,7 +387,7 @@ class SubscriptionDetail extends React.Component {
           this.setState({
             loading: false
           });
-          this.showErrMsg(err);
+          this.showErrMsg(err.message);
         });
     } else if (modalType === 'cancelAll') {
       cancelAllSub({ subscribeId: subDetail.subscribeId })
@@ -398,7 +398,7 @@ class SubscriptionDetail extends React.Component {
           this.setState({
             loading: false
           });
-          this.showErrMsg(err);
+          this.showErrMsg(err.message);
         });
     } else if (modalType === 'orderNow') {
       orderNowSub({ subscribeId: subDetail.subscribeId })
@@ -409,7 +409,7 @@ class SubscriptionDetail extends React.Component {
           this.setState({
             loading: false
           });
-          this.showErrMsg(err);
+          this.showErrMsg(err.message);
         });
     }
   }
