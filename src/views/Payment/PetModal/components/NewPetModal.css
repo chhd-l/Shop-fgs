@@ -2,6 +2,7 @@
 .pet-modal .react-datepicker-wrapper {
   width: 100%;
   border-bottom: 1px solid #ccc;
+  padding: .95rem 0;
 }
 .pet-modal .searchSelection {
   margin: 0;

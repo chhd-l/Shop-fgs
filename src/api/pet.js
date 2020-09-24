@@ -6,7 +6,8 @@ const api = {
   addPet: '/pets/addPets',
   petsById:'/pets/petsById',
   delPets:'/pets/delPets',
-  editPets:'/pets/editPets'
+  editPets:'/pets/editPets',
+  batchAddPets: '/pets/batchAddPets',
 }
 
 export default api
@@ -21,6 +22,13 @@ export function getPetList (parameter) {
 export function addPet (parameter) {
   return axios({
     url: `${api.addPet}`,
+    method: 'post',
+    data: parameter
+  })
+}
+export function batchAddPets (parameter) {
+  return axios({
+    url: `${api.batchAddPets}`,
     method: 'post',
     data: parameter
   })
