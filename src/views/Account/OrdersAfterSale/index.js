@@ -218,7 +218,7 @@ class OrdersAfterSale extends React.Component {
         this.setState({
           confirmLoading: false
         });
-        this.showTopErrMsg(err || this.props.intl.messages.systemError);
+        this.showTopErrMsg(err.message || this.props.intl.messages.systemError);
       });
   }
   render() {

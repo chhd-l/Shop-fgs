@@ -21,7 +21,6 @@ import {
 } from '@/api/cart';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
-import Loading from '@/components/Loading';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -41,7 +40,8 @@ class LoginCart extends React.Component {
       deleteLoading: false,
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      initLoading: true
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -97,7 +97,8 @@ class LoginCart extends React.Component {
   setData() {
     this.setState({
       productList: this.checkoutStore.loginCartData,
-      checkoutLoading: false
+      checkoutLoading: false,
+      initLoading: false
     });
   }
   /**
@@ -628,7 +629,7 @@ class LoginCart extends React.Component {
     this.openPetModal();
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { productList, checkoutLoading } = this.state;
+    const { checkoutLoading } = this.state;
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -752,7 +753,7 @@ class LoginCart extends React.Component {
     this.setState({ changSizeLoading: false });
   }
   render() {
-    const { productList, checkoutLoading } = this.state;
+    const { productList, checkoutLoading, initLoading } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
@@ -771,127 +772,142 @@ class LoginCart extends React.Component {
           history={this.props.history}
         />
         <main
-          className={[
-            'rc-content--fixed-header',
+          className={`rc-content--fixed-header ${
             productList.length ? '' : 'cart-empty'
-          ].join(' ')}
+          }`}
         >
           <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
-            {productList.length > 0 && (
+            {initLoading ? (
+              <div className="mt-4">
+                <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+              </div>
+            ) : (
               <>
-                <div className="rc-layout-container rc-one-column pt-1">
-                  <div className="rc-column">
-                    <FormattedMessage id="continueShopping">
-                      {(txt) => (
-                        <a
-                          tabIndex="1"
-                          className="ui-cursor-pointer-pure"
-                          onClick={(e) => this.goBack(e)}
-                          title={txt}
-                        >
-                          <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography"></span>
-                            {txt}
-                          </span>
-                        </a>
-                      )}
-                    </FormattedMessage>
-                  </div>
-                </div>
-                <div className="rc-layout-container rc-three-column cart cart-page pt-0">
-                  <div className="rc-column rc-double-width pt-0">
-                    <div
-                      className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                      style={{
-                        display: this.state.errorShow ? 'block' : 'none'
-                      }}
-                    >
-                      <aside
-                        className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                        role="alert"
-                      >
-                        <span style={{ paddingLeft: 0 }}>
-                          {this.state.errorMsg}
-                        </span>
-                      </aside>
+                {productList.length > 0 && (
+                  <>
+                    <div className="rc-layout-container rc-one-column pt-1">
+                      <div className="rc-column">
+                        <FormattedMessage id="continueShopping">
+                          {(txt) => (
+                            <a
+                              tabIndex="1"
+                              className="ui-cursor-pointer-pure"
+                              onClick={(e) => this.goBack(e)}
+                              title={txt}
+                            >
+                              <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                                <span className="rc-icon rc-left rc-iconography"></span>
+                                {txt}
+                              </span>
+                            </a>
+                          )}
+                        </FormattedMessage>
+                      </div>
                     </div>
-                    <div className="rc-padding-bottom--xs">
-                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        <FormattedMessage id="cart.yourShoppingCart" />
-                      </h5>
-                    </div>
-                    <div id="product-cards-container">{List}</div>
-                  </div>
-                  <div className="rc-column totals cart__total pt-0">
-                    <div className="rc-padding-bottom--xs">
-                      <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
-                        <FormattedMessage id="orderSummary" />
-                      </h5>
-                    </div>
-                    <div id="J_sidecart_container">
-                      {this.sideCart({
-                        className: 'hidden rc-md-up',
-                        style: {
-                          background: '#fff',
-                          zIndex: 9,
-                          width: 320,
-                          position: 'relative'
-                        },
-                        id: 'J_sidecart_fix'
-                      })}
-                      {this.sideCart()}
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-            {productList.length == 0 && !checkoutLoading && (
-              <>
-                <div className="rc-text-center">
-                  <div className="rc-beta mb-1 mt-3">
-                    <FormattedMessage id="cart.yourShoppingCart" />
-                  </div>
-                  <div className="rc-gamma title-empty mb-0">
-                    <FormattedMessage id="header.basketEmpty" />
-                  </div>
-                </div>
-                <div className="content-asset">
-                  <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
-                    <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-                      <div>
-                        <div className="rc-alpha inherit-fontsize">
-                          <p className="text-center">
-                            <FormattedMessage id="cart.fullPrice" />
-                          </p>
-                        </div>
+                    <div className="rc-layout-container rc-three-column cart cart-page pt-0">
+                      <div className="rc-column rc-double-width pt-0">
                         <div
-                          className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                          style={{ margin: '0 10%' }}
+                          className="rc-padding-bottom--xs cart-error-messaging cart-error"
+                          style={{
+                            display: this.state.errorShow ? 'block' : 'none'
+                          }}
                         >
-                          <div className="ui-item border radius-3">
-                            <Link to="/list/dogs">
-                              <img className="w-100" src={dogsImg} alt="Dog" />
-                              <br />
-                              <h4 className="card__title red">
-                                <FormattedMessage id="cart.dogDiet" />
-                              </h4>
-                            </Link>
-                          </div>
-                          <div className="ui-item border radius-3">
-                            <Link to="/list/cats">
-                              <img className="w-100" src={catsImg} alt="Cat" />
-                              <br />
-                              <h4 className="card__title red">
-                                <FormattedMessage id="cart.catDiet" />
-                              </h4>
-                            </Link>
+                          <aside
+                            className="rc-alert rc-alert--error rc-alert--with-close text-break"
+                            role="alert"
+                          >
+                            <span style={{ paddingLeft: 0 }}>
+                              {this.state.errorMsg}
+                            </span>
+                          </aside>
+                        </div>
+                        <div className="rc-padding-bottom--xs">
+                          <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                            <FormattedMessage id="cart.yourShoppingCart" />
+                          </h5>
+                        </div>
+                        <div id="product-cards-container">{List}</div>
+                      </div>
+                      <div className="rc-column totals cart__total pt-0">
+                        <div className="rc-padding-bottom--xs">
+                          <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
+                            <FormattedMessage id="orderSummary" />
+                          </h5>
+                        </div>
+                        <div id="J_sidecart_container">
+                          {this.sideCart({
+                            className: 'hidden rc-md-up',
+                            style: {
+                              background: '#fff',
+                              zIndex: 9,
+                              width: 320,
+                              position: 'relative'
+                            },
+                            id: 'J_sidecart_fix'
+                          })}
+                          {this.sideCart()}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {productList.length == 0 && !initLoading && (
+                  <>
+                    <div className="rc-text-center">
+                      <div className="rc-beta mb-1 mt-3">
+                        <FormattedMessage id="cart.yourShoppingCart" />
+                      </div>
+                      <div className="rc-gamma title-empty mb-0">
+                        <FormattedMessage id="header.basketEmpty" />
+                      </div>
+                    </div>
+                    <div className="content-asset">
+                      <div className="rc-bg-colour--brand3 rc-padding--sm pt-0 pb-0">
+                        <div className="rc-max-width--lg rc-padding-x--lg--mobile">
+                          <div>
+                            <div className="rc-alpha inherit-fontsize">
+                              <p className="text-center">
+                                <FormattedMessage id="cart.fullPrice" />
+                              </p>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
+                              style={{ margin: '0 10%' }}
+                            >
+                              <div className="ui-item border radius-3">
+                                <Link to="/list/dogs">
+                                  <img
+                                    className="w-100"
+                                    src={dogsImg}
+                                    alt="Dog"
+                                  />
+                                  <br />
+                                  <h4 className="card__title red">
+                                    <FormattedMessage id="cart.dogDiet" />
+                                  </h4>
+                                </Link>
+                              </div>
+                              <div className="ui-item border radius-3">
+                                <Link to="/list/cats">
+                                  <img
+                                    className="w-100"
+                                    src={catsImg}
+                                    alt="Cat"
+                                  />
+                                  <br />
+                                  <h4 className="card__title red">
+                                    <FormattedMessage id="cart.catDiet" />
+                                  </h4>
+                                </Link>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </>
             )}
           </div>

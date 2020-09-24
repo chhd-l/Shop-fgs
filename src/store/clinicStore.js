@@ -47,25 +47,25 @@ class ClinicStore {
 
   @action.bound
   setSelectClinicId (data) {
-    this.linkClinicId = data
+    this.selectClinicId = data
     localItemRoyal.set(`rc-clinic-id-select`, data)
   }
 
   @action.bound
   setSelectClinicName (data) {
-    this.linkClinicName = data
+    this.selectClinicName = data
     localItemRoyal.set(`rc-clinic-name-select`, data)
   }
 
   @action.bound
   setDefaultClinicId (data) {
-    this.linkClinicId = data
+    this.defaultClinicId = data
     localItemRoyal.set(`rc-clinic-id-default`, data)
   }
 
   @action.bound
   setDefaultClinicName (data) {
-    this.linkClinicName = data
+    this.defaultClinicName = data
     localItemRoyal.set(`rc-clinic-name-default`, data)
   }
 

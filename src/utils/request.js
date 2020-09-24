@@ -86,7 +86,7 @@ service.interceptors.response.use(
     }
   },
   (err) => {
-    if(err.response.status >= 500 && window.location.pathname !== '/500' ) {
+    if(err.response && err.response.status >= 500 && window.location.pathname !== '/500' ) {
       history.push('/500')
       window.location.reload()
     }

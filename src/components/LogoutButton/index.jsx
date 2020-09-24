@@ -44,9 +44,10 @@ const LogoutButton = () => {
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      logout(process.env.REACT_APP_HOMEPAGE);
+      await logout(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       console.log(err);
+      loginStore.changeLoginModal(false);
       // logout(process.env.REACT_APP_HOMEPAGE);
     }
   };

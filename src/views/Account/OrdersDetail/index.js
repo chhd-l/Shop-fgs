@@ -164,7 +164,7 @@ class AccountOrders extends React.Component {
       .catch((err) => {
         this.setState({
           loading: false,
-          errMsg: err.toString()
+          errMsg: err.message.toString()
         });
       });
 
@@ -218,7 +218,7 @@ class AccountOrders extends React.Component {
       .catch((err) => {
         this.setState({
           cancelOrderLoading: false,
-          errModalText: err.toString(),
+          errModalText: err.message.toString(),
           cancelOrderModalVisible: false,
           errModalVisible: true
         });

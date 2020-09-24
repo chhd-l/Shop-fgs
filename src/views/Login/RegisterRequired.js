@@ -62,11 +62,12 @@ class RegisterRequired extends Component {
     //会员提交
     submitLogin = async () => {
         let oktaToken = 'Bearer '+ this.props.authState.accessToken
+        debugger
         try {
-            let lastPath = this.props.location.state.path
-            if (lastPath === 'pay') {
-                lastPath = '/payment/payment'
-            }
+            // let lastPath = this.props.location.state.path
+            // if (lastPath === 'pay') {
+            //     lastPath = '/payment/payment'
+            // }
             const isRequiredChecked = this.state.list.filter(item => item.isRequired).every(item => item.isChecked)
             if (isRequiredChecked) {
                 //组装submit参数
@@ -74,7 +75,8 @@ class RegisterRequired extends Component {
 
                 const result = await userBindConsent({...submitParam,...{oktaToken}})
                 if (result.code === 'K-000000') {
-                    this.props.history.push(lastPath)
+                    //this.props.history.push(lastPath)
+                    this.props.history.push('/')
                 }
             } else {
                 this.showAlert('isShowRequired', 2000)
@@ -189,6 +191,7 @@ class RegisterRequired extends Component {
             })
 
             console.log(this.state.list)
+            debugger
 
         } catch (err) {
             console.log(err.message)

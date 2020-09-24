@@ -71,7 +71,7 @@ class ShippingAddressFrom extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.getDataFailed
+          err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
 
@@ -227,7 +227,7 @@ class ShippingAddressFrom extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.setDefaltAddressFailed
+          err.message.toString() || this.props.intl.messages.setDefaltAddressFailed
         );
         this.setState({
           loading: false
@@ -259,7 +259,7 @@ class ShippingAddressFrom extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.setDefaltAddressFailed
+          err.message.toString() || this.props.intl.messages.setDefaltAddressFailed
         );
         this.setState({
           loading: false
