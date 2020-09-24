@@ -136,13 +136,15 @@ class CommunicationDataEditForm extends React.Component {
               editFormVisible ? 'hidden' : ''
             }`}
           ></div>
-          <div id="wrap" style={{ marginLeft: '20px' }}>
+          <div id="wrap" style={{ marginLeft: '30px' }}>
             {/* checkbox组 */}
             <Consent
               list={this.state.list}
               sendList={this.sendList}
               disabled={!this.state.editFormVisible}
+              checkboxPadding={'10px'}
               zoom={'150%'}
+              key={"profile"}
             />
             {/* 取消和保存 按钮 */}
             <div

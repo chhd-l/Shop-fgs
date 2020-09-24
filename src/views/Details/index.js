@@ -363,7 +363,7 @@ class Details extends React.Component {
         console.log(e);
         console.table(e);
         this.setState({
-          errMsg: e ? e.toString() : <FormattedMessage id="details.errMsg2" />
+          errMsg: e.message ? e.message.toString() : <FormattedMessage id="details.errMsg2" />
         });
       })
       .finally(() => {
@@ -1007,7 +1007,7 @@ class Details extends React.Component {
                                             i
                                           </span>
                                           <ConfirmTooltip
-                                            arrowStyle={{ left: '35%' }}
+                                            arrowStyle={{ left: '65%' }}
                                             display={this.state.toolTipVisible}
                                             cancelBtnVisible={false}
                                             confirmBtnVisible={false}

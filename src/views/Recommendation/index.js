@@ -816,7 +816,7 @@ class Help extends React.Component {
                     >
                       Recommendation Package
                     </div>
-                    <p ref="p" style={{ marginTop: '60px' }}>
+                    <p ref="p" style={{ marginTop: '60px', textAlign: 'left' }}>
                         {
                           this.props.loginStore.isLogin?(
                             <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>

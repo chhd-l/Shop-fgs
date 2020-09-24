@@ -41,65 +41,45 @@ const LoginButton = (props) => {
       setUserInfo(null);
     } else {
       loginStore.changeLoginModal(true);
-      authService
-        .getUser()
-        .then((info) => {
-          setUserInfo(info);
-          if (!loginStore.isLogin) {
-            getToken({ oktaToken: `Bearer ${accessToken}` })
-              .then(async (res) => {
-                let userinfo = res.context.customerDetail;
-                loginStore.changeLoginModal(false);
-                loginStore.changeIsLogin(true);
-                localItemRoyal.set('rc-token', res.context.token);
-                let customerInfoRes = await getCustomerInfo();
-                userinfo.defaultClinics =
-                  customerInfoRes.context.defaultClinics;
-                loginStore.setUserInfo(customerInfoRes.context);
+      authService.getUser().then((info) => {
+        setUserInfo(info);
+        if (!loginStore.isLogin) {
+          getToken({ oktaToken: `Bearer ${accessToken}` })
+            .then(async (res) => {
+              let userinfo = res.context.customerDetail;
+              loginStore.changeLoginModal(false);
+              loginStore.changeIsLogin(true);
+              localItemRoyal.set('rc-token', res.context.token);
+              let customerInfoRes = await getCustomerInfo();
+              userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
+              loginStore.setUserInfo(customerInfoRes.context);
 
-                const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-                if (tmpUrl !== '/cart') {
-                  if (checkoutStore.cartData.length) {
-                    await mergeUnloginCartData();
-                    await loginStore.updateLoginCart();
-                  }
-                }
+              const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+              if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                await mergeUnloginCartData();
+                await loginStore.updateLoginCart();
+              }
 
-                //1.会员调用consense接口
-                findUserConsentList({}).then((result) => {
-                  if (result.context.requiredList.length !== 0) {
-                    props.history.push({
-                      pathname: '/required',
-                      state: { path: '/' }
-                    });
-                  }
+              //1.会员调用consense接口
+              const result = await findUserConsentList({});
+              if (result.context.requiredList.length !== 0) {
+                props.history.push({
+                  pathname: '/required',
+                  state: { path: '/' }
                 });
-
-                // if (sessionStorage.getItem('okta-redirectUrl') === '/cart') {
-                //   props.history.push(sessionStorage.getItem('okta-redirectUrl'))
-                // } else {
-                //   if (checkoutStore.cartData.length) {
-                //     await mergeUnloginCartData()
-                //     await loginStore.updateLoginCart()
-                //   }
-                //   if (sessionItemRoyal.get('okta-redirectUrl') === '/prescription') {
-                //     console.log('jajajjajaa')
-                //     props.history.push(sessionItemRoyal.get('okta-redirectUrl'))
-                //   }
-                // }
-                // //props.history.push('required')
-
-                // sessionStorage.removeItem('okta-redirectUrl')
-              })
-              .catch((e) => {
-                console.log(e);
-                loginStore.changeLoginModal(false);
-              });
-          }
-        })
-        .catch((err) => {
-          loginStore.changeLoginModal(false);
-        });
+              } else {
+                if (tmpUrl && tmpUrl !== '/') {
+                  props.history.push(tmpUrl);
+                }
+                sessionStorage.removeItem('okta-redirectUrl');
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+              loginStore.changeLoginModal(false);
+            });
+        }
+      });
     }
   }, [authState, authService]); // Update if authState changes
 

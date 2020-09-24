@@ -641,7 +641,9 @@ class PaymentComp extends React.Component {
         this.getPaymentMethodList();
       })
       .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
+        this.showErrorMsg(
+          err.message || this.props.intl.messages.deleteAddressFailed
+        );
         this.setState({
           listLoading: false
         });

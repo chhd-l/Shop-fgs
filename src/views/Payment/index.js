@@ -450,7 +450,6 @@ class Payment extends React.Component {
       });
     }, 5000);
   };
-
   //payLater,payNow,sofort支付公共初始化方法
   initCommonPay = ({ email, type }) => {
     this.doGetAdyenPayParam(type);
@@ -735,12 +734,14 @@ class Payment extends React.Component {
       }
 
       // update clinic
-      clinicStore.removeLinkClinicId();
-      clinicStore.removeLinkClinicName();
-      clinicStore.setSelectClinicId(this.props.clinicStore.clinicId);
-      clinicStore.setSelectClinicName(this.props.clinicStore.clinicName);
-      clinicStore.setDefaultClinicId(this.props.clinicStore.clinicId);
-      clinicStore.setDefaultClinicName(this.props.clinicStore.clinicName);
+      if (this.checkoutWithClinic) {
+        clinicStore.removeLinkClinicId();
+        clinicStore.removeLinkClinicName();
+        clinicStore.setSelectClinicId(clinicStore.clinicId);
+        clinicStore.setSelectClinicName(clinicStore.clinicName);
+        clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        clinicStore.setDefaultClinicName(clinicStore.clinicName);
+      }
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {

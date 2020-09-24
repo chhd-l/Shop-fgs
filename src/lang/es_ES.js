@@ -311,6 +311,7 @@ const en_US = {
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
   'list.errMsg2': 'No se encontraron productos, cambie las palabras clave y vuelva a intentarlo.',
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',
+  "list.errMsg4": "No se encontraron productos. Cambie el término de búsqueda y vuelva a intentarlo.",
   'list.youSearchedFor': 'Has buscado',
   'listPrice': 'Precio de lista',
   'login': 'Iniciar sesión',

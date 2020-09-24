@@ -28,7 +28,7 @@ class ForgetPassword extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.toString() || this.props.intl.messages.systemError
+          err.message.toString() || this.props.intl.messages.systemError
         );
       });
   };
