@@ -144,6 +144,7 @@ class CommunicationDataEditForm extends React.Component {
               disabled={!this.state.editFormVisible}
               checkboxPadding={'10px'}
               zoom={'150%'}
+              key={"profile"}
             />
             {/* 取消和保存 按钮 */}
             <div

@@ -227,7 +227,7 @@ class RegisterRequired extends Component {
                     <div class="rc-layout-container rc-one-column">
                         <div class="rc-column">
                             {/* checkbox组 */}
-                            <Consent url={url} list={this.state.list} sendList={this.sendList} width={this.state.width} zoom={this.state.zoom} fontZoom={this.state.fontZoom} auto={true}/>
+                            <Consent url={url} list={this.state.list} sendList={this.sendList} width={this.state.width} zoom={this.state.zoom} fontZoom={this.state.fontZoom} auto={true} key={'required'}/>
                         </div>
                     </div>
                    

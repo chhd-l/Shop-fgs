@@ -57,7 +57,7 @@ class TermsCommon extends Component {
         style={{ marginTop: '10px', marginLeft: '25px' }}
       >
         {/* checkbox组 */}
-        <Consent list={this.state.list} sendList={this.sendList} />
+        <Consent list={this.state.list} sendList={this.sendList} key='payment' id={this.props.id} />
       </div>
     );
   }

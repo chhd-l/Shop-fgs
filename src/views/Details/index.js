@@ -1007,7 +1007,7 @@ class Details extends React.Component {
                                             i
                                           </span>
                                           <ConfirmTooltip
-                                            arrowStyle={{ left: '35%' }}
+                                            arrowStyle={{ left: '65%' }}
                                             display={this.state.toolTipVisible}
                                             cancelBtnVisible={false}
                                             confirmBtnVisible={false}
