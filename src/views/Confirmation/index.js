@@ -114,7 +114,7 @@ class Confirmation extends React.Component {
       .catch((err) => {
         this.setState({
           loading: false,
-          errorMsg2: err.toString()
+          errorMsg2: err.message.toString()
         });
       });
   }
