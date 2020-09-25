@@ -152,7 +152,7 @@ class RegisterRequired extends Component {
 
 
         } catch (err) {
-            this.props.history.push(process.env.REACT_APP_HOMEPAGE)
+            window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
 
         } finally {
             this.setState({
