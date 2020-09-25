@@ -214,7 +214,7 @@ class RegisterRequired extends Component {
         return (
             <div>
                 {/*全局loading */}
-                {this.state.circleLoading ? <Loading /> : null}
+                {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
                 {/* 加载token */}
                 <div style={{ visibility: 'hidden' }}>
                     <LoginButton history={this.props.history} init={this.init} />
@@ -231,7 +231,7 @@ class RegisterRequired extends Component {
                             />
                         </Link>
                         {/* Header title */}
-                        <h2 className="rc-text-colour--brand1" style={{ fontSize: '2.3rem', marginTop: '190px', textAlign: 'center' }}><FormattedMessage id="required.logoTitle" /></h2>
+                        <h2 className="rc-text-colour--brand1" style={{ fontSize: '2.3rem', marginTop: '190px', textAlign: 'center',whiteSpace:'nowrap' }}><FormattedMessage id="required.logoTitle" /></h2>
                         <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '1.3rem' }}><FormattedMessage id="required.complete" /></p>
                         {/* 没有勾选完必填项的alert提示 */}
                         {
