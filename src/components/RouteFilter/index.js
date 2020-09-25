@@ -105,6 +105,12 @@ class RouteFilter extends Component {
     ) {
       this.props.history.push('/');
     }
+    if (
+      !localItemRoyal.get('rc-token') &&
+      this.props.location.pathname.indexOf('/required') !== -1 && sessionItemRoyal.get('fromLoginPage')!='true'
+    ) {
+      this.props.history.push('/');
+    }
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
