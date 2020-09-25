@@ -163,10 +163,12 @@ class RegisterRequired extends Component {
         }
     }
     async componentDidMount() {
-        const state = this.props.location.state
-        if (state) {
+        // const state = this.props.location.state
+        const fromLoginPage = sessionItemRoyal.get('fromLoginPage');//判断是不是从登陆跳转过来
+        if (!fromLoginPage) {
             this.init()
         }
+        sessionItemRoyal.remove('fromLoginPage');
         //定义变量获取屏幕视口宽度
         var windowWidth = document.body.clientWidth
         if (windowWidth < 640) {
@@ -229,8 +231,8 @@ class RegisterRequired extends Component {
                             />
                         </Link>
                         {/* Header title */}
-                        <h2 className="rc-text-colour--brand1" style={{ fontSize: '2.3rem', marginTop: '190px', textAlign: 'center' }}>Welcome to ROYALCANIN® online store</h2>
-                        <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '1.3rem' }}>Complete log-in process</p>
+                        <h2 className="rc-text-colour--brand1" style={{ fontSize: '2.3rem', marginTop: '190px', textAlign: 'center' }}><FormattedMessage id="required.logoTitle" /></h2>
+                        <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '1.3rem' }}><FormattedMessage id="required.complete" /></p>
                         {/* 没有勾选完必填项的alert提示 */}
                         {
                             this.state.isShowRequired

@@ -82,6 +82,7 @@ import RequestInvoices from '@/views/RequestInvoices';
 import Recommendation from '@/views/Recommendation';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
 const LoginCallback = (props) => {
@@ -97,6 +98,7 @@ const LoginCallback = (props) => {
     let homePage = ''
     process.env.REACT_APP_HOMEPAGE == '/'?homePage='':homePage=process.env.REACT_APP_HOMEPAGE
     window.location.href = homePage+'/required';
+    sessionItemRoyal.set('fromLoginPage',true);
   }, [authService, authStateReady]);
 
   return <div></div>;
