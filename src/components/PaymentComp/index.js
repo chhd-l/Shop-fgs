@@ -139,11 +139,12 @@ class PaymentComp extends React.Component {
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
       });
-      if (!res.context.length) {
-        this.props.noCardCallback && this.props.noCardCallback(true);
-      } else {
-        this.props.noCardCallback && this.props.noCardCallback(false);
-      }
+
+      let tmpList = (res.context || []).filter(
+        (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
+      );
+
+      this.props.noCardCallback && this.props.noCardCallback(!tmpList.length);
 
       if (
         confirmCardInfo.id &&
@@ -153,7 +154,20 @@ class PaymentComp extends React.Component {
       } else {
         this.props.getSelectedValue && this.props.getSelectedValue({});
       }
-      this.setState({ creditCardList: res.context });
+      tmpList = tmpList.map((el) => {
+        const tmpPaymentMethod = el.payuPaymentMethod || el.adyenPaymentMethod;
+        return Object.assign(el, {
+          paymentMethod: {
+            vendor: tmpPaymentMethod.vendor || tmpPaymentMethod.name,
+            holder_name:
+              tmpPaymentMethod.holder_name || tmpPaymentMethod.holderName,
+            last_4_digits:
+              tmpPaymentMethod.last_4_digits || tmpPaymentMethod.lastFour,
+            card_type: tmpPaymentMethod.card_type || tmpPaymentMethod.brand
+          }
+        });
+      });
+      this.setState({ creditCardList: tmpList });
     } catch (err) {
       console.log(err);
       this.setState({ listErr: err.toString() });
@@ -615,28 +629,11 @@ class PaymentComp extends React.Component {
     el.confirmTooltipVisible = false;
     this.setState({
       loading: true,
-      creditCardList: creditCardList
+      creditCardList
     });
-    if (el.canDelFlag === false) {
-      this.showErrorMsg(this.props.intl.messages.deleteCardTip);
-      this.setState({ loading: false });
-      return;
-    }
-    await deleteCard({ id: el.id })
+    await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          // console.log(1)
-          // this.showSuccessMsg(res.message || "Delete Address Success");
-          this.getPaymentMethodList();
-        } else {
-          console.log(2);
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.deleteAddressFailed
-          );
-          this.setState({
-            loading: false
-          });
-        }
+        this.getPaymentMethodList();
       })
       .catch((err) => {
         this.showErrorMsg(
