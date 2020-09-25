@@ -41,7 +41,8 @@ const LoginButton = (props) => {
       setUserInfo(null);
     } else {
       loginStore.changeLoginModal(true);
-      authService.getUser().then((info) => {
+      authService.getUser().
+      then((info) => {
         setUserInfo(info);
         if (!loginStore.isLogin) {
           getToken({ oktaToken: `Bearer ${accessToken}` })
@@ -49,6 +50,7 @@ const LoginButton = (props) => {
               let userinfo = res.context.customerDetail;
               loginStore.changeLoginModal(false);
               loginStore.changeIsLogin(true);
+              
               localItemRoyal.set('rc-token', res.context.token);
               let customerInfoRes = await getCustomerInfo();
               userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
@@ -57,7 +59,8 @@ const LoginButton = (props) => {
               const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
               if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                 await mergeUnloginCartData();
-                await loginStore.updateLoginCart();
+                console.log(loginStore, 'loginStore')
+                await checkoutStore.updateLoginCart();
               }
 
               //1.会员调用consense接口
@@ -78,8 +81,12 @@ const LoginButton = (props) => {
               console.log(e);
               loginStore.changeLoginModal(false);
             });
+        }else {
+          loginStore.changeLoginModal(false);
         }
-      });
+      }).catch(err => {
+        loginStore.changeLoginModal(false);
+      })
     }
   }, [authState, authService]); // Update if authState changes
 

@@ -28,7 +28,12 @@ const LogoutButton = () => {
 
   const logout = async () => {
     try {
+      const idToken = authState.idToken;
+      const redirectUri = `${window.location.origin}`;
+      window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken}&post_logout_redirect_uri=${redirectUri}`;
       await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      
+      
       setTimeout(() => {
         loginStore.changeLoginModal(false);
       }, 1000);
