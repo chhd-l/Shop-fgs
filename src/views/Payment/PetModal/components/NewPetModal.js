@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from '@/components/Modal';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { findIndex } from 'lodash';
 import Selection from '@/components/Selection';
 import '../index.css';
@@ -11,11 +11,18 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { getDict } from '@/api/dict';
 import moment from 'moment';
 import SearchSelection from '@/components/SearchSelection';
+import { inject, observer } from 'mobx-react';
 import './NewPetModal.css'
 
 const localItemRoyal = window.__.localItemRoyal;
 
-export default class NewPetModal extends Component {
+@inject(
+  'loginStore'
+)
+@observer
+@injectIntl
+
+class NewPetModal extends Component {
   // 新建Pet
 
   constructor() {
@@ -101,6 +108,11 @@ export default class NewPetModal extends Component {
   };
 
   async addPet() {
+    if(!this.props.loginStore.isLogin) {
+      this.props.confirm(this.state.petForm)
+      return
+    }
+    return 
     const pets = {
       birthOfPets: this.state.petForm.birthday,
       petsName: this.state.petForm.petName,
@@ -363,3 +375,5 @@ export default class NewPetModal extends Component {
     );
   }
 }
+
+export default NewPetModal

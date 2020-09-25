@@ -21,6 +21,7 @@ import Confirmation from './modules/Confirmation';
 import { formatMoney, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
+import { batchAddPets } from '@/api/pet';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -676,6 +677,19 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
+        let param = this.cartData.map(el => {
+          return {
+            customerPets: Object.assign(el.petForm, {productId: el.sizeList.filter(e => e.selected)[0].goodsInfoId}),
+            storeId: process.env.REACT_APP_STOREID
+          }
+          
+        })
+        console.log(param, 'param')
+        let res = await batchAddPets({
+          batchAddItemList: param
+        })
+        console.log(res)
+        return 
       }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
@@ -1401,16 +1415,20 @@ class Payment extends React.Component {
     });
   }
   petComfirm(data) {
-    let loginCartData = this.loginCartData;
-    console.log(data, this.props, toJS(loginCartData));
-    loginCartData = loginCartData.map((el, i) => {
-      if (i === this.state.currentProIndex) {
-        el.petsId = data.value;
-        el.petName = data.name;
-      }
-      return el;
-    });
-    this.props.checkoutStore.setLoginCartData(loginCartData);
+    if(!this.isLogin) {
+      this.cartData[this.state.currentProIndex].petForm = data
+    }else {
+      let loginCartData = this.loginCartData;
+      console.log(data, this.props, toJS(loginCartData));
+      loginCartData = loginCartData.map((el, i) => {
+        if (i === this.state.currentProIndex) {
+          el.petsId = data.value;
+          el.petName = data.name;
+        }
+        return el;
+      });
+      this.props.checkoutStore.setLoginCartData(loginCartData);
+    }
     this.closePetModal();
     // this.props.history.push('/prescription');
   }
@@ -1438,7 +1456,7 @@ class Payment extends React.Component {
         theme: ''
       }
     };
-
+    console.log(toJS(this.cartData), 'cartdata')
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1498,7 +1516,9 @@ class Payment extends React.Component {
                     <p>
                       We need your pet information to authorize these items.
                     </p>
-                    {this.loginCartData.map((el, i) => {
+                    {/* {this.loginCartData.map((el, i) => { */}
+                    {
+                    this.loginCartData.length? this.loginCartData.map((el, i) => {
                       console.log(el, 'hahah');
                       return (
                         <div className="petProduct">
@@ -1548,8 +1568,60 @@ class Payment extends React.Component {
                             <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
                           </div>
                         </div>
-                      );
-                    })}
+                      )
+                    }): this.cartData.map((el, i) => {
+                      console.log(el, 'hahah');
+                      return (
+                        <div className="petProduct">
+                          <img
+                            src={el.sizeList.filter(el => el.selected)[0].goodsInfoImg}
+                            style={{ float: 'left' }}
+                          />
+                          <div
+                            style={{
+                              float: 'left',
+                              marginTop: '20px',
+                              marginLeft: '20px'
+                            }}
+                          >
+                            <p>
+                              <span>Pet:</span>
+                              <span>
+                                {el.petName ? el.petName : 'required'}
+                              </span>
+                            </p>
+                            <p>
+                              <span>Qty:</span>
+                              <span>{el.quantity}</span>
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              float: 'right',
+                              marginTop: '30px',
+                              marginLeft: '20px'
+                            }}
+                          >
+                            <button
+                              class="rc-btn rc-btn--sm rc-btn--one"
+                              onClick={() => {
+                                this.setState({
+                                  petModalVisible: true,
+                                  currentProIndex: i
+                                });
+                              }}
+                            >
+                              Select a pet
+                            </button>
+                            {/* &nbsp;&nbsp;
+                            or
+                            &nbsp;&nbsp;
+                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
+                          </div>
+                        </div>
+                      )
+                    })
+                    }
                   </h5>
 
                   {/* {this._renderPayTab()} */}
@@ -1603,7 +1675,6 @@ class Payment extends React.Component {
         <PetModal
           visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
-          productList={this.state.productList}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={(data) => this.petComfirm(data)}

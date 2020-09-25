@@ -127,15 +127,13 @@ class Help extends React.Component {
       this.setState({ productList }, () => {
         this.checkoutStock()
       });
-      // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-      getPrescriptionById({ id: '2304' }).then((res) => {
-        console.log(res, 'bbb');
-        this.props.clinicStore.setLinkClinicId('2304');
+      getPrescriptionById({id: res.context.prescriberId}).then(res => {
+        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
-      // this.props.history.push('/')
+      this.props.history.push('/')
     })
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
