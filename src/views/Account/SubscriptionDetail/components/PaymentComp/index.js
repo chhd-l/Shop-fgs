@@ -391,7 +391,7 @@ class PaymentComp extends React.Component {
         paymentCustomerId: creditCardInfoForm.paymentCustomerId,
         paymentTransactionId: creditCardInfoForm.paymentTransactionId,
         paymentCvv: res ? res.data.encrypted_cvv : '',
-        paymentType: 'PAYU' // todo Adyen
+        paymentType: 'PAYU'
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);

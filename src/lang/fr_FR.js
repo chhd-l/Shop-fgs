@@ -427,7 +427,6 @@ const en_US = {
   "subscription.orderNow": "Commandez maintenant",
   "subscription.noDataTip": "Aucun abonnement",
   "subscription.previousOrders": "Commandes précédentes",
-  // todo
   "login": "Enregistrement",
   "login.register": "Créer un compte personnel",
   "login.loginTip": "Une autorisation est requise pour établir une connexion au service ROYAL CANIN®. Si vous n'avez pas de compte personnel, vous pouvez vous inscrire maintenant.",

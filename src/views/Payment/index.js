@@ -686,20 +686,20 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        let param = this.cartData.map((el) => {
-          return {
-            customerPets: Object.assign(el.petForm, {
-              productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
-            }),
-            storeId: process.env.REACT_APP_STOREID
-          };
-        });
-        console.log(param, 'param');
-        let res = await batchAddPets({
-          batchAddItemList: param
-        });
-        console.log(res);
-        return;
+        // let param = this.cartData.map((el) => {
+        //   return {
+        //     customerPets: Object.assign(el.petForm, {
+        //       productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
+        //     }),
+        //     storeId: process.env.REACT_APP_STOREID
+        //   };
+        // });
+        // console.log(param, 'param');
+        // let res = await batchAddPets({
+        //   batchAddItemList: param
+        // });
+        // console.log(res);
+        // return;
       }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
