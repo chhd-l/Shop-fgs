@@ -32,7 +32,7 @@ class RegisterRequired extends Component {
             width: '',
             zoom: '',
             fontZoom: '',
-            circleLoading: false,
+            circleLoading: true,
             styleObj:{display:'none'}
         };
     }
