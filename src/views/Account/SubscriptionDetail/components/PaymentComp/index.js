@@ -553,20 +553,16 @@ class PaymentComp extends React.Component {
     el.confirmTooltipVisible = false;
     this.setState({
       loading: true,
-      creditCardList: creditCardList
+      creditCardList
     });
-
-    if (el.canDelFlag === false) {
-      this.showErrorMsg(this.props.intl.messages.deleteCardTip);
-      this.setState({ loading: false });
-      return;
-    }
-    await deleteCard({ id: el.id })
+    await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.getPaymentMethodList();
       })
       .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
+        this.showErrorMsg(
+          err.message || this.props.intl.messages.deleteAddressFailed
+        );
         this.setState({
           loading: false
         });
