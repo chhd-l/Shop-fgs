@@ -152,7 +152,7 @@ class RegisterRequired extends Component {
 
 
         } catch (err) {
-            console.log(err.message)
+            this.props.history.push(process.env.REACT_APP_HOMEPAGE)
 
         } finally {
             this.setState({
