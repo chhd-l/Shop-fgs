@@ -895,7 +895,8 @@ class Payment extends React.Component {
           billPostCode: billingAddress.postCode,
           rfc: deliveryAddress.rfc,
           billRfc: billingAddress.rfc,
-          email: creditCardInfo.email
+          email: creditCardInfo.email,
+          consigneeEmail: deliveryAddress.email
         }
       );
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
