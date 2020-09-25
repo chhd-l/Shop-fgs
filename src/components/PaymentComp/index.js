@@ -139,11 +139,12 @@ class PaymentComp extends React.Component {
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
       });
-      if (!res.context.length) {
-        this.props.noCardCallback && this.props.noCardCallback(true);
-      } else {
-        this.props.noCardCallback && this.props.noCardCallback(false);
-      }
+
+      let tmpList = (res.context || []).filter(
+        (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
+      );
+
+      this.props.noCardCallback && this.props.noCardCallback(!tmpList.length);
 
       if (
         confirmCardInfo.id &&
@@ -153,7 +154,20 @@ class PaymentComp extends React.Component {
       } else {
         this.props.getSelectedValue && this.props.getSelectedValue({});
       }
-      this.setState({ creditCardList: res.context });
+      tmpList = tmpList.map((el) => {
+        const tmpPaymentMethod = el.payuPaymentMethod || el.adyenPaymentMethod;
+        return Object.assign(el, {
+          paymentMethod: {
+            vendor: tmpPaymentMethod.vendor || tmpPaymentMethod.name,
+            holder_name:
+              tmpPaymentMethod.holder_name || tmpPaymentMethod.holderName,
+            last_4_digits:
+              tmpPaymentMethod.last_4_digits || tmpPaymentMethod.lastFour,
+            card_type: tmpPaymentMethod.card_type || tmpPaymentMethod.brand
+          }
+        });
+      });
+      this.setState({ creditCardList: tmpList });
     } catch (err) {
       console.log(err);
       this.setState({ listErr: err.toString() });

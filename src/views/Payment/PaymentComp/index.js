@@ -132,7 +132,23 @@ class PaymentComp extends React.Component {
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
       });
-      this.setState({ creditCardList: res.context });
+      let tmpList = (res.context || []).filter(
+        (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
+      );
+      tmpList = tmpList.map((el) => {
+        const tmpPaymentMethod = el.payuPaymentMethod || el.adyenPaymentMethod;
+        return Object.assign(el, {
+          paymentMethod: {
+            vendor: tmpPaymentMethod.vendor || tmpPaymentMethod.name,
+            holder_name:
+              tmpPaymentMethod.holder_name || tmpPaymentMethod.holderName,
+            last_4_digits:
+              tmpPaymentMethod.last_4_digits || tmpPaymentMethod.lastFour,
+            card_type: tmpPaymentMethod.card_type || tmpPaymentMethod.brand
+          }
+        });
+      });
+      this.setState({ creditCardList: tmpList });
     } catch (err) {
       console.log(err);
       this.setState({ listErr: err.toString() });
