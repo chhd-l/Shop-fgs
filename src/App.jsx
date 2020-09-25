@@ -95,6 +95,7 @@ const LoginCallback = (props) => {
     }
     //window.location.href = process.env.REACT_APP_ACCESS_PATH;
     window.location.href = '/required';
+    //props.history.push({ pathname: "/required", state:{path:'/' }});
   }, [authService, authStateReady]);
 
   return <div></div>;
