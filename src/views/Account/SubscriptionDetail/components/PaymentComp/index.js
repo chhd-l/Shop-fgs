@@ -474,7 +474,7 @@ class PaymentComp extends React.Component {
     el.confirmTooltipVisible = false;
     this.setState({
       loading: true,
-      creditCardList: creditCardList
+      creditCardList
     });
 
     await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })

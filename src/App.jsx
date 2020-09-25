@@ -95,11 +95,9 @@ const LoginCallback = (props) => {
       await authService.handleAuthentication();
     }
     //window.location.href = process.env.REACT_APP_ACCESS_PATH;
-    //window.location.href = process.env.REACT_APP_HOMEPAGE+'/required';
     let homePage = ''
     process.env.REACT_APP_HOMEPAGE == '/'?homePage='':homePage=process.env.REACT_APP_HOMEPAGE
     window.location.href = homePage+'/required';
-    //props.history.push({ pathname: "/required", state:{path:'/' }});
   }, [authService, authStateReady]);
 
   return <div></div>;
