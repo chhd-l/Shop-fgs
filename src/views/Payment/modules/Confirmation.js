@@ -1,10 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 
 @inject('paymentStore')
+@injectIntl
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
@@ -25,7 +25,9 @@ class Confirmation extends React.Component {
   }
   //是否consent必填项勾选
   isConsentRequiredChecked() {
-    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    const { requiredList } = this.state;
+    let isAllChecked =
+      !requiredList.length || requiredList.every((item) => item.isChecked);
     if (!isAllChecked) {
       throw new Error(this.props.intl.messages.CompleteRequiredItems);
     }
@@ -39,13 +41,24 @@ class Confirmation extends React.Component {
       await this.isConsentRequiredChecked();
       this.setState({ isValid: true });
     } catch (err) {
+      console.log(err);
+      debugger;
       this.setState({ isValid: false });
     }
   };
-  validData = () => {
-    this.setState({
-      isValid: this.state.terms.filter((n) => !n.isRead).length === 0
-    });
+  validData = async () => {
+    try {
+      await this.isConsentRequiredChecked();
+      this.setState({
+        isValid: true
+      });
+    } catch (err) {
+      console.log(err);
+      debugger;
+      this.setState({
+        isValid: false
+      });
+    }
   };
   clickPay = () => {
     if (!this.state.isValid) {

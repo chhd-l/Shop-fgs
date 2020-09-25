@@ -16,8 +16,8 @@ import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@injectIntl
 @inject('loginStore')
+@injectIntl
 @observer
 class ShippingAddressFrom extends React.Component {
   constructor(props) {

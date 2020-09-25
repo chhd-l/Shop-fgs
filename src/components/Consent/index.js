@@ -10,31 +10,37 @@ class Consent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMobile: true
+      isMobile: true,
+      list: []
     };
   }
-  componentDidMount(){
-    
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(this.state.list) !== JSON.stringify(nextProps.list)) {
+      debugger;
+      this.setState({
+        list: nextProps.list
+      });
+    }
   }
   render() {
     //组件传参start
-    const id = this.props.id || 9999
-    const list = this.props.list;
+    const id = this.props.id || 9999;
+    const list = this.state.list;
     const width = this.props.width;
     const disabled = this.props.disabled || false;
     const zoom = this.props.zoom || '120%';
     const fontZoom = this.props.fontZoom || '100%';
-    const checkboxPadding = this.props.checkboxPadding || '20px'
-    const url = this.props.url
-    const auto = this.props.auto || false
-    let autoClass = ''
-    auto ? autoClass = 'm-auto' : autoClass = ''
+    const checkboxPadding = this.props.checkboxPadding || '20px';
+    const url = this.props.url;
+    const auto = this.props.auto || false;
+    let autoClass = '';
+    auto ? (autoClass = 'm-auto') : (autoClass = '');
     //组件传参end
     const createMarkup = (text) => ({ __html: text });
     return (
       <div
         className={`required-component ${autoClass}`}
-        style={{width:`${width}px`}}
+        style={{ width: `${width}px` }}
       >
         {this.state.isLoading ? (
           <div className="pt-2 pb-2">
@@ -64,22 +70,25 @@ class Consent extends Component {
                   checked={item.isChecked}
                 />
                 <label htmlFor={`id-checkbox-cat-${id}-${item.id}`}>
-                <div className="d-flex flex-column"  style={{ zoom: fontZoom }}>
+                  <div
+                    className="d-flex flex-column"
+                    style={{ zoom: fontZoom }}
+                  >
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
                         <div
                           className="rc-text-colour--brand1"
                           style={{ width: `${checkboxPadding}` }}
-                      >
-                          {item.isRequired?'*':''}
-                      </div>
+                        >
+                          {item.isRequired ? '*' : ''}
+                        </div>
                         <div
                           className={
                             zoom == '150%'
                               ? 'footer-checkbox-title mt'
                               : 'footer-checkbox-title'
                           }
-                          style={{width:`${width}px`}}
+                          style={{ width: `${width}px` }}
                           dangerouslySetInnerHTML={createMarkup(
                             item.consentTitle
                           )}
@@ -92,13 +101,15 @@ class Consent extends Component {
                       dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
                     />
                     {item.isRequired && !item.isChecked && (
-                      <div style={{display:'flex'}}>
-                        <span style={{width:'20px'}}></span>
-                        <em className="red" style={{ fontSize: '.9em',fontStyle:'normal' }}>
+                      <div style={{ display: 'flex' }}>
+                        <span style={{ width: '20px' }}></span>
+                        <em
+                          className="red"
+                          style={{ fontSize: '.9em', fontStyle: 'normal' }}
+                        >
                           <FormattedMessage id="requiredConsentCheckedTip" />
                         </em>
                       </div>
-                      
                     )}
                   </div>
                 </label>

@@ -22,8 +22,8 @@ class TermsCommon extends Component {
         if (e.target.localName === 'span') {
           let keyWords = e.target.innerText;
           let index = Number(
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-              .parentNode.id
+            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+              .parentNode.parentNode.id
           );
           let arr = this.state.list[index].detailList.filter((item) => {
             return item.contentTitle == keyWords;
@@ -41,9 +41,13 @@ class TermsCommon extends Component {
       });
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      list: nextProps.listData
-    });
+    if (
+      JSON.stringify(this.state.list) !== JSON.stringify(nextProps.listData)
+    ) {debugger
+      this.setState({
+        list: nextProps.listData
+      });
+    }
   }
   //从子组件传回
   sendList = (list) => {
@@ -57,7 +61,12 @@ class TermsCommon extends Component {
         style={{ marginTop: '10px', marginLeft: '25px' }}
       >
         {/* checkbox组 */}
-        <Consent list={this.state.list} sendList={this.sendList} key='payment' id={this.props.id} />
+        <Consent
+          list={this.state.list}
+          sendList={this.sendList}
+          key="payment"
+          id={this.props.id}
+        />
       </div>
     );
   }

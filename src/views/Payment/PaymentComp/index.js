@@ -22,8 +22,8 @@ import './index.css';
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'paymentStore')
-@observer
 @injectIntl
+@observer
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,

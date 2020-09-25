@@ -25,8 +25,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
-@observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 @injectIntl
+@observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,

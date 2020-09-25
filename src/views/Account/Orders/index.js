@@ -26,8 +26,8 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@injectIntl
 @inject('checkoutStore')
+@injectIntl
 @observer
 class AccountOrders extends React.Component {
   constructor(props) {

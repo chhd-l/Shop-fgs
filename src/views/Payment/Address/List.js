@@ -16,8 +16,8 @@ import './list.css';
  * address list(delivery/billing) - member
  */
 @inject('paymentStore')
-@observer
 @injectIntl
+@observer
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,

@@ -24,8 +24,8 @@ import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@injectIntl
 @inject('checkoutStore')
+@injectIntl
 @observer
 class LoginCart extends React.Component {
   constructor(props) {

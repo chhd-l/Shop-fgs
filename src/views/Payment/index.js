@@ -36,7 +36,6 @@ import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
-import { getAdyenParam } from '@/components/Adyen/utils';
 import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
@@ -53,8 +52,8 @@ const localItemRoyal = window.__.localItemRoyal;
   'configStore',
   'paymentStore'
 )
-@observer
 @injectIntl
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -1344,6 +1343,7 @@ class Payment extends React.Component {
             updateAdyenPayParam={(data) => {
               this.setState({ adyenPayParam: data });
             }}
+            isOnepageCheckout={this.isOnepageCheckout}
           />
         </div>
         {/* KlarnaPayLater */}
