@@ -633,11 +633,6 @@ class PaymentComp extends React.Component {
       listLoading: true,
       creditCardList
     });
-    if (el.canDelFlag === false) {
-      this.showErrorMsg(this.props.intl.messages.deleteCardTip);
-      this.setState({ listLoading: false });
-      return;
-    }
     await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.getPaymentMethodList();

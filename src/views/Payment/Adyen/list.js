@@ -94,7 +94,7 @@ class AdyenCreditCardList extends React.Component {
         this.queryList();
       })
       .catch((err) => {
-        this.showErrorMsg(err.messages);
+        this.props.showErrorMsg(err.message);
         this.setState({
           listLoading: false
         });

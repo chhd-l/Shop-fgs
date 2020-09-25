@@ -80,9 +80,9 @@ class PaymentComp extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  updateInitStatus(val) {
+  updateInitStatus = (val) => {
     this.setState({ inited: val });
-  }
+  };
   async getPaymentMethodList() {
     this.setState({ listLoading: true });
     try {
@@ -477,17 +477,14 @@ class PaymentComp extends React.Component {
       creditCardList: creditCardList
     });
 
-    // if (el.canDelFlag === false) {
-    //   this.showErrorMsg(this.props.intl.messages.deleteCardTip);
-    //   this.setState({ loading: false });
-    //   return;
-    // }
     await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.getPaymentMethodList();
       })
       .catch((err) => {
-        this.showErrorMsg(this.props.intl.messages.deleteAddressFailed);
+        this.showErrorMsg(
+          err.message || this.props.intl.messages.deleteAddressFailed
+        );
         this.setState({
           loading: false
         });
