@@ -18931,7 +18931,7 @@ button.rc-btn.tooltip-btn {
 
 .veil .underlay {
   opacity: .5;
-  background-color: rgba(0,0,0,.25)
+  /* background-color: rgba(0,0,0,.25) */
 }
 
 .veil.fixed {
@@ -22517,4 +22517,8 @@ height: 0;
 }
 .rc-progress--breadcrumbs-stepped .rc-progress__breadcrumb:hover {
   border-color: red;
+}
+
+.bg-white{
+  background-color: #fff;
 }
