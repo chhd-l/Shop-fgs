@@ -156,9 +156,11 @@ class PaymentComp extends React.Component {
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
       });
+
       let tmpList = (res.context || []).filter(
         (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
       );
+
       this.props.noCardCallback && this.props.noCardCallback(!tmpList.length);
 
       if (

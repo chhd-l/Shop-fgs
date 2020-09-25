@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
-import Skeleton from 'react-skeleton-loader';
 import './index.css';
 
 class Consent extends Component {
@@ -42,11 +41,7 @@ class Consent extends Component {
         className={`required-component ${autoClass}`}
         style={{ width: `${width}px` }}
       >
-        {this.state.isLoading ? (
-          <div className="pt-2 pb-2">
-            <Skeleton color="#f5f5f5" width="100%" count={4} />
-          </div>
-        ) : (
+        {
           list.map((item, index) => {
             return (
               <div id={index} style={{ display: 'flex' }}>
@@ -116,7 +111,7 @@ class Consent extends Component {
               </div>
             );
           })
-        )}
+        }
       </div>
     );
   }
