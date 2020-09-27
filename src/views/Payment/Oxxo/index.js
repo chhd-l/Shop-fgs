@@ -95,7 +95,6 @@ class OxxoConfirm extends Component {
     );
   };
   render() {
-    console.log(9999,this.props.listData)
     return (
       <div>
         <div className="rounded rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3">
