@@ -45,14 +45,9 @@ class AdyenCommonPay extends Component {
 
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
-    this.setState(
-      {
-        requiredList
-      },
-      () => {
-        console.log({ requiredList: this.state.requiredList });
-      }
-    );
+    this.setState({
+      requiredList
+    });
   };
 
   clickPay = () => {

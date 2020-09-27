@@ -523,7 +523,6 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
-            email: this.state.email,
             payChannelItem: this.isLogin
               ? this.state.subForm.buyWay === 'frequency'
                 ? 'adyen_card_customer_subscription'
@@ -871,7 +870,7 @@ class Payment extends React.Component {
       token: payosdata.token,
       creditDardCvv: payosdata.encrypted_cvv,
       phone: creditCardInfo.phoneNumber,
-      email: creditCardInfo.email,
+      email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
       clinicsId: this.props.clinicStore.clinicId,
@@ -1005,6 +1004,7 @@ class Payment extends React.Component {
           cityName: tmpDeliveryAddressData.cityName,
           postCode: tmpDeliveryAddressData.postCode,
           phoneNumber: tmpDeliveryAddressData.consigneeNumber,
+          email: tmpDeliveryAddressData.email,
           addressId: tmpDeliveryAddressData.deliveryAddressId
         };
         if (!billingChecked) {
@@ -1531,7 +1531,6 @@ class Payment extends React.Component {
                     {/* {this.loginCartData.map((el, i) => { */}
                     {this.loginCartData.length
                       ? this.loginCartData.map((el, i) => {
-                          console.log(el, 'hahah');
                           return (
                             <div className="petProduct">
                               <img
@@ -1583,7 +1582,6 @@ class Payment extends React.Component {
                           );
                         })
                       : this.cartData.map((el, i) => {
-                          console.log(el, 'hahah');
                           return (
                             <div className="petProduct">
                               <img

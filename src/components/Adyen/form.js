@@ -13,6 +13,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 @observer
 class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
+    isCheckoutPage: false, // 是否为支付页
     showCancelBtn: false,
     isSaveToBackend: true,
     enableStoreDetails: false,
@@ -28,23 +29,12 @@ class AdyenCreditCardForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      AdyenFormData: null,
-      curAddStatus: false,
+      AdyenFormData: {},
       isValid: false
     };
   }
   componentDidMount() {
     this.initForm();
-  }
-  componentWillReceiveProps(props) {
-    if (
-      props.isAdd &&
-      props.isAdd !== this.state.curAddStatus &&
-      this.state.AdyenFormData
-    ) {
-      this.initForm();
-    }
-    this.setState({ curAddStatus: props.isAdd });
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.panelStatus.paymentMethod;
@@ -66,9 +56,9 @@ class AdyenCreditCardForm extends React.Component {
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
             environment: 'test',
-            originKey: process.env.REACT_APP_AdyenOriginKEY,
-            // originKey:
-            //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+            // originKey: process.env.REACT_APP_AdyenOriginKEY,
+            originKey:
+              'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
             locale: process.env.REACT_APP_Adyen_locale
           });
 
@@ -82,11 +72,24 @@ class AdyenCreditCardForm extends React.Component {
               placeholders: {},
               showPayButton: false,
               brands: ['mc', 'visa', 'amex', 'cartebancaire'],
+              onBrand: (state) => {
+                _this.setState({
+                  AdyenFormData: Object.assign(_this.state.AdyenFormData, {
+                    brand: state.brand,
+                    brandImageUrl: state.brandImageUrl
+                  })
+                });
+              },
               onChange: (state) => {
                 _this.setState({ isValid: state.isValid });
                 _this.props.updateClickPayBtnValidStatus(state.isValid);
                 if (state.isValid) {
-                  _this.setState({ AdyenFormData: getAdyenParam(card.data) });
+                  _this.setState({
+                    AdyenFormData: Object.assign(
+                      _this.state.AdyenFormData,
+                      getAdyenParam(card.data)
+                    )
+                  });
                 }
               }
             })
@@ -143,7 +146,9 @@ class AdyenCreditCardForm extends React.Component {
         <div
           id="adyen-card-container"
           className={`payment-method__container ${
-            !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
+            !this.props.isCheckoutPage ||
+            !this.isOnepageCheckout ||
+            this.paymentMethodPanelStatus.isEdit
               ? ''
               : 'hidden'
           }`}
