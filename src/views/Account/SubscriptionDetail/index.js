@@ -295,10 +295,30 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
+      let tempCardInfo;
+      if (subDetail.paymentInfo) {
+        const adyenPaymentMethod = subDetail.paymentInfo.adyenPaymentMethod;
+        const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
+        if (adyenPaymentMethod) {
+          tempCardInfo = {
+            vendor: adyenPaymentMethod.name,
+            last_4_digits: adyenPaymentMethod.lastFour,
+            holder_name: adyenPaymentMethod.holderName,
+            phoneNumber: adyenPaymentMethod.phoneNumber
+          };
+        } else if (payuPaymentMethod) {
+          tempCardInfo = {
+            vendor: payuPaymentMethod.vendor,
+            last_4_digits: payuPaymentMethod.last_4_digits,
+            holder_name: payuPaymentMethod.holder_name,
+            phoneNumber: payuPaymentMethod.phoneNumber
+          };
+        }
+      }
       this.setState(
         {
           subDetail: subDetail,
-          currentCardInfo: subDetail.paymentInfo,
+          currentCardInfo: tempCardInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
