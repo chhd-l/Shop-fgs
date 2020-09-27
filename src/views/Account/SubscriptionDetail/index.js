@@ -234,7 +234,7 @@ class SubscriptionDetail extends React.Component {
       await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
       //await this.getDetail()
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
     }
   }
   get isLogin() {
@@ -263,7 +263,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       await updateDetail(param);
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err.message);
     } finally {
       this.setState({ loading: false });
     }
@@ -333,7 +333,7 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
       // throw new Error(err);
     } finally {
       this.setState({ loading: false });
@@ -394,7 +394,7 @@ class SubscriptionDetail extends React.Component {
         resolve(res);
       });
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
       // throw new Error(err);
     } finally {
       this.setState({ loading: false });
@@ -1021,7 +1021,7 @@ class SubscriptionDetail extends React.Component {
                                       subDetail
                                     });
                                   } catch (err) {
-                                    this.showErrMsg(err);
+                                    this.showErrMsg(err.message);
                                   } finally {
                                     this.setState({ loading: false });
                                   }
