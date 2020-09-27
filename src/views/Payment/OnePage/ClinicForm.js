@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('clinicStore', 'configStore', 'paymentStore')
-@observer
 @injectIntl
+@observer
 class ClinicForm extends React.Component {
   static propTypes = {
     containerStyle: PropTypes.object,

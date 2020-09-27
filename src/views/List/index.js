@@ -20,8 +20,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore')
-@observer
 @injectIntl
+@observer
 class List extends React.Component {
   constructor(props) {
     super(props);

@@ -156,9 +156,11 @@ class PaymentComp extends React.Component {
         customerId: this.userInfo ? this.userInfo.customerId : '',
         storeId: process.env.REACT_APP_STOREID
       });
+
       let tmpList = (res.context || []).filter(
         (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
       );
+
       this.props.noCardCallback && this.props.noCardCallback(!tmpList.length);
 
       if (
@@ -631,11 +633,6 @@ class PaymentComp extends React.Component {
       listLoading: true,
       creditCardList
     });
-    if (el.canDelFlag === false) {
-      this.showErrorMsg(this.props.intl.messages.deleteCardTip);
-      this.setState({ listLoading: false });
-      return;
-    }
     await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.getPaymentMethodList();

@@ -39,47 +39,8 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.panelStatus.paymentMethod;
-  }
-  get isOnepageCheckout() {
-    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
-  }
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  initForm(param) {
-    const _this = this;
-    loadJS(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      function () {
-        if (!!window.AdyenCheckout) {
-          //要有值
-          const AdyenCheckout = window.AdyenCheckout;
-          // (1) Create an instance of AdyenCheckout
-          const checkout = new AdyenCheckout({
-            environment: 'test',
-            // originKey: process.env.REACT_APP_AdyenOriginKEY,
-            originKey:
-              'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
-            locale: process.env.REACT_APP_Adyen_locale
-          });
-          const card = checkout
-            .create('card', {
-              brand: 'visa',
-              expiryMonth: '03',
-              expiryYear: '2030',
-              holderName: 'canderlox',
-              id: '8316008262110287',
-              lastFour: '1111',
-              name: 'VISA',
-              supportedShopperInteractions: ['ContAuth', 'Ecommerce'],
-              type: 'scheme'
-            })
-            .mount('#stored-card');
-        }
-      }
-    );
   }
   async queryList() {
     this.setState({ listLoading: true });
@@ -96,7 +57,6 @@ class AdyenCreditCardList extends React.Component {
         (cardList.length && cardList[0].id) ||
         '';
       Array.from(cardList, (ele) => (ele.selected = ele.id == tmpId));
-      // this.initForm(cardList[0].adyenPaymentMethod);
 
       this.setState({ cardList, selectedId: tmpId }, () => {
         this.props.updateSelectedCardInfo(
@@ -131,7 +91,7 @@ class AdyenCreditCardList extends React.Component {
         this.queryList();
       })
       .catch((err) => {
-        this.showErrorMsg(err.messages);
+        this.props.showErrorMsg(err.message);
         this.setState({
           listLoading: false
         });
@@ -310,6 +270,7 @@ class AdyenCreditCardList extends React.Component {
               <span
                 onClick={(e) => {
                   // todo
+                  this.setState({ formVisible: true });
                 }}
               >
                 <FormattedMessage id="edit" />
@@ -325,12 +286,6 @@ class AdyenCreditCardList extends React.Component {
     const { cardList } = this.state;
     return (
       <>
-        <div
-          className={`dedede ${
-            !this.state.formVisible &&
-            (!this.isLogin || (cardList.length && this.isLogin))
-          }`}
-        ></div>
         {this.state.listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
         ) : !this.state.formVisible &&

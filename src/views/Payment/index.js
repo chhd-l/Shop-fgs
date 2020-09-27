@@ -37,7 +37,6 @@ import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
-import { getAdyenParam } from '@/components/Adyen/utils';
 import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
@@ -54,8 +53,8 @@ const localItemRoyal = window.__.localItemRoyal;
   'configStore',
   'paymentStore'
 )
-@observer
 @injectIntl
+@observer
 class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -452,7 +451,7 @@ class Payment extends React.Component {
     }, 5000);
   };
   //payLater,payNow,sofort支付公共初始化方法
-  initCommonPay = ({ email, type }) => {
+  initCommonPay = ({ email = '', type }) => {
     this.doGetAdyenPayParam(type);
     this.setState({
       email
@@ -519,17 +518,27 @@ class Payment extends React.Component {
           }
         },
         adyen_credit_card: () => {
+          const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
-            ...this.state.adyenPayParam,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
             email: this.state.email,
-            payChannelItem:
-              this.state.subForm.buyWay === 'frequency'
-                ? 'adyen_card_subscription'
-                : 'adyen_credit_card'
+            payChannelItem: this.isLogin
+              ? this.state.subForm.buyWay === 'frequency'
+                ? 'adyen_card_customer_subscription'
+                : 'adyen_card_customer'
+              : 'adyen_credit_card'
           });
+          if (this.isLogin) {
+            parameters = Object.assign(parameters, {
+              paymentMethodId: adyenPayParam.id
+            });
+          } else {
+            parameters = Object.assign(parameters, {
+              ...adyenPayParam
+            });
+          }
         },
         adyen_klarna_pay_lat: () => {
           parameters = Object.assign(commonParameter, {
@@ -678,19 +687,20 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        let param = this.cartData.map(el => {
-          return {
-            customerPets: Object.assign(el.petForm, {productId: el.sizeList.filter(e => e.selected)[0].goodsInfoId}),
-            storeId: process.env.REACT_APP_STOREID
-          }
-          
-        })
-        console.log(param, 'param')
-        let res = await batchAddPets({
-          batchAddItemList: param
-        })
-        console.log(res)
-        return 
+        // let param = this.cartData.map((el) => {
+        //   return {
+        //     customerPets: Object.assign(el.petForm, {
+        //       productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
+        //     }),
+        //     storeId: process.env.REACT_APP_STOREID
+        //   };
+        // });
+        // console.log(param, 'param');
+        // let res = await batchAddPets({
+        //   batchAddItemList: param
+        // });
+        // console.log(res);
+        // return;
       }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
@@ -812,7 +822,8 @@ class Payment extends React.Component {
           billPostCode: billingAddress.postCode,
           rfc: deliveryAddress.rfc,
           billRfc: billingAddress.rfc,
-          email: creditCardInfo.email
+          email: creditCardInfo.email,
+          consigneeEmail: deliveryAddress.email
         }
       );
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
@@ -1358,6 +1369,7 @@ class Payment extends React.Component {
             updateAdyenPayParam={(data) => {
               this.setState({ adyenPayParam: data });
             }}
+            isOnepageCheckout={this.isOnepageCheckout}
           />
         </div>
         {/* KlarnaPayLater */}
@@ -1415,9 +1427,9 @@ class Payment extends React.Component {
     });
   }
   petComfirm(data) {
-    if(!this.isLogin) {
-      this.cartData[this.state.currentProIndex].petForm = data
-    }else {
+    if (!this.isLogin) {
+      this.cartData[this.state.currentProIndex].petForm = data;
+    } else {
       let loginCartData = this.loginCartData;
       console.log(data, this.props, toJS(loginCartData));
       loginCartData = loginCartData.map((el, i) => {
@@ -1456,7 +1468,7 @@ class Payment extends React.Component {
         theme: ''
       }
     };
-    console.log(toJS(this.cartData), 'cartdata')
+    const { paymentTypeVal } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1517,111 +1529,114 @@ class Payment extends React.Component {
                       We need your pet information to authorize these items.
                     </p>
                     {/* {this.loginCartData.map((el, i) => { */}
-                    {
-                    this.loginCartData.length? this.loginCartData.map((el, i) => {
-                      console.log(el, 'hahah');
-                      return (
-                        <div className="petProduct">
-                          <img
-                            src={el.goodsInfoImg}
-                            style={{ float: 'left' }}
-                          />
-                          <div
-                            style={{
-                              float: 'left',
-                              marginTop: '20px',
-                              marginLeft: '20px'
-                            }}
-                          >
-                            <p>
-                              <span>Pet:</span>
-                              <span>
-                                {el.petName ? el.petName : 'required'}
-                              </span>
-                            </p>
-                            <p>
-                              <span>Qty:</span>
-                              <span>{el.buyCount}</span>
-                            </p>
-                          </div>
-                          <div
-                            style={{
-                              float: 'right',
-                              marginTop: '30px',
-                              marginLeft: '20px'
-                            }}
-                          >
-                            <button
-                              class="rc-btn rc-btn--sm rc-btn--one"
-                              onClick={() => {
-                                this.setState({
-                                  petModalVisible: true,
-                                  currentProIndex: i
-                                });
-                              }}
-                            >
-                              Select a pet
-                            </button>
-                            {/* &nbsp;&nbsp;
+                    {this.loginCartData.length
+                      ? this.loginCartData.map((el, i) => {
+                          console.log(el, 'hahah');
+                          return (
+                            <div className="petProduct">
+                              <img
+                                src={el.goodsInfoImg}
+                                style={{ float: 'left' }}
+                              />
+                              <div
+                                style={{
+                                  float: 'left',
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petName ? el.petName : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.buyCount}</span>
+                                </p>
+                              </div>
+                              <div
+                                style={{
+                                  float: 'right',
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  class="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                </button>
+                                {/* &nbsp;&nbsp;
                             or
                             &nbsp;&nbsp;
                             <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
-                          </div>
-                        </div>
-                      )
-                    }): this.cartData.map((el, i) => {
-                      console.log(el, 'hahah');
-                      return (
-                        <div className="petProduct">
-                          <img
-                            src={el.sizeList.filter(el => el.selected)[0].goodsInfoImg}
-                            style={{ float: 'left' }}
-                          />
-                          <div
-                            style={{
-                              float: 'left',
-                              marginTop: '20px',
-                              marginLeft: '20px'
-                            }}
-                          >
-                            <p>
-                              <span>Pet:</span>
-                              <span>
-                                {el.petName ? el.petName : 'required'}
-                              </span>
-                            </p>
-                            <p>
-                              <span>Qty:</span>
-                              <span>{el.quantity}</span>
-                            </p>
-                          </div>
-                          <div
-                            style={{
-                              float: 'right',
-                              marginTop: '30px',
-                              marginLeft: '20px'
-                            }}
-                          >
-                            <button
-                              class="rc-btn rc-btn--sm rc-btn--one"
-                              onClick={() => {
-                                this.setState({
-                                  petModalVisible: true,
-                                  currentProIndex: i
-                                });
-                              }}
-                            >
-                              Select a pet
-                            </button>
-                            {/* &nbsp;&nbsp;
+                              </div>
+                            </div>
+                          );
+                        })
+                      : this.cartData.map((el, i) => {
+                          console.log(el, 'hahah');
+                          return (
+                            <div className="petProduct">
+                              <img
+                                src={
+                                  el.sizeList.filter((el) => el.selected)[0]
+                                    .goodsInfoImg
+                                }
+                                style={{ float: 'left' }}
+                              />
+                              <div
+                                style={{
+                                  float: 'left',
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petName ? el.petName : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.quantity}</span>
+                                </p>
+                              </div>
+                              <div
+                                style={{
+                                  float: 'right',
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  class="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                </button>
+                                {/* &nbsp;&nbsp;
                             or
                             &nbsp;&nbsp;
                             <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
-                          </div>
-                        </div>
-                      )
-                    })
-                    }
+                              </div>
+                            </div>
+                          );
+                        })}
                   </h5>
 
                   {/* {this._renderPayTab()} */}
@@ -1639,7 +1654,19 @@ class Payment extends React.Component {
                 </div>
                 {this.isOnepageCheckout && (
                   <Confirmation
-                    clickPay={this.initCommonPay}
+                    clickPay={() =>
+                      this.initCommonPay({
+                        type: find(
+                          this.state.payWayObj,
+                          (el) => el.paymentTypeVal === paymentTypeVal
+                        )
+                          ? find(
+                              this.state.payWayObj,
+                              (el) => el.paymentTypeVal === paymentTypeVal
+                            ).name
+                          : ''
+                      })
+                    }
                     listData={this.state.listData}
                     checkRequiredItem={this.checkRequiredItem}
                   />

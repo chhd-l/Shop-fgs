@@ -9,6 +9,9 @@ import './index.css';
 import Consent from '@/components/Consent';
 
 class TermsCommon extends Component {
+  static defaultProps = {
+    updateValidStatus: () => {}
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -22,8 +25,8 @@ class TermsCommon extends Component {
         if (e.target.localName === 'span') {
           let keyWords = e.target.innerText;
           let index = Number(
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-              .parentNode.id
+            e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+              .parentNode.parentNode.id
           );
           let arr = this.state.list[index].detailList.filter((item) => {
             return item.contentTitle == keyWords;
@@ -41,13 +44,27 @@ class TermsCommon extends Component {
       });
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      list: nextProps.listData
-    });
+    this.setState(
+      {
+        list: nextProps.listData
+      },
+      () => {
+        // this.valid();
+      }
+    );
+  }
+  valid() {
+    this.props.updateValidStatus(
+      this.state.list
+        .filter((ele) => ele.isRequired)
+        .every((el) => el.isChecked)
+    );
   }
   //从子组件传回
   sendList = (list) => {
-    this.setState({ list });
+    this.setState({ list }, () => {
+      this.valid();
+    });
   };
   render() {
     return (
@@ -57,7 +74,12 @@ class TermsCommon extends Component {
         style={{ marginTop: '10px', marginLeft: '25px' }}
       >
         {/* checkbox组 */}
-        <Consent list={this.state.list} sendList={this.sendList} key='payment' id={this.props.id} />
+        <Consent
+          list={this.state.list}
+          sendList={this.sendList}
+          key="payment"
+          id={this.props.id}
+        />
       </div>
     );
   }

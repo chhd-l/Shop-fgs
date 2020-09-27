@@ -25,8 +25,8 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
-@observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 @injectIntl
+@observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
@@ -171,13 +171,12 @@ class Header extends React.Component {
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      const res = await authService.logout(process.env.REACT_APP_HOMEPAGE);
       setTimeout(async () => {
         loginStore.changeLoginModal(false);
         await authService.login(process.env.REACT_APP_HOMEPAGE);
-      }, 1000);
+      }, 3000);
     } catch (e) {
-      console.log(e);
       loginStore.changeLoginModal(false);
       // window.location.reload();
     }

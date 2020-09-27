@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import { inject, observer } from 'mobx-react';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
 import TermsCommon from '../Terms/common';
 
+@inject('loginStore', 'paymentStore')
+@injectIntl
+@observer
 class AdyenCommonPay extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +23,9 @@ class AdyenCommonPay extends Component {
         sofort: 'Weiter mit KlarnaSofort'
       }
     };
+  }
+  get paymentMethodPanelStatus() {
+    return this.props.paymentStore.panelStatus.paymentMethod;
   }
   //是否填写邮箱正确
   isTestMail() {
@@ -77,21 +84,21 @@ class AdyenCommonPay extends Component {
   render() {
     return (
       <div className="checkout--padding">
-        <div class="customer-form">
-          <div class="address">
-            <form class="address-form" action="/destination" method="get">
-              <div class="address-line" id="addressLine2">
+        <div className="customer-form">
+          <div className="address">
+            <form className="address-form" action="/destination" method="get">
+              <div className="address-line" id="addressLine2">
                 <div
-                  class="address-input full-width"
+                  className="address-input full-width"
                   id="street"
                   style={{ marginBottom: '18px' }}
                 >
-                  <label class="address-label" for="street">
+                  <label className="address-label" for="street">
                     Email<span style={{ color: '#EC001A' }}>*</span>
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Email"
                     name="street"
                     onChange={this.handleChange}
@@ -99,16 +106,17 @@ class AdyenCommonPay extends Component {
                 </div>
               </div>
             </form>
+
             <TermsCommon
               id={this.props.type}
               listData={this.props.listData}
               checkRequiredItem={this.checkRequiredItem}
             />
             <div
-              class="payment-container"
+              className="payment-container"
               style={{ 'max-width': 'auto', marginTop: '10px' }}
             >
-              <div id="klarna" class="payment">
+              <div id="klarna" className="payment">
                 <button
                   className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay"
                   type="button"
@@ -124,7 +132,6 @@ class AdyenCommonPay extends Component {
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     );
   }

@@ -29,7 +29,6 @@ class AdyenCreditCardForm extends React.Component {
     super(props);
     this.state = {
       AdyenFormData: null,
-      normalFormData: { isDefault: false },
       curAddStatus: false,
       isValid: false
     };
@@ -69,7 +68,7 @@ class AdyenCreditCardForm extends React.Component {
             environment: 'test',
             originKey: process.env.REACT_APP_AdyenOriginKEY,
             // originKey:
-              // 'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+            //   'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
             locale: process.env.REACT_APP_Adyen_locale
           });
 
@@ -87,12 +86,7 @@ class AdyenCreditCardForm extends React.Component {
                 _this.setState({ isValid: state.isValid });
                 _this.props.updateClickPayBtnValidStatus(state.isValid);
                 if (state.isValid) {
-                  _this.setState(
-                    { AdyenFormData: getAdyenParam(card.data) },
-                    () => {
-                      debugger;
-                    }
-                  );
+                  _this.setState({ AdyenFormData: getAdyenParam(card.data) });
                 }
               }
             })
@@ -104,7 +98,7 @@ class AdyenCreditCardForm extends React.Component {
   }
   handleSave = async () => {
     try {
-      const { AdyenFormData, normalFormData } = this.state;
+      const { AdyenFormData } = this.state;
       if (this.props.isSaveToBackend) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
@@ -116,8 +110,7 @@ class AdyenCreditCardForm extends React.Component {
           encryptedSecurityCode: AdyenFormData.encryptedSecurityCode,
           paymentType: 'ADYEN',
           holderName: AdyenFormData.hasHolderName,
-          accountName: this.userInfo ? this.userInfo.customerAccount : '',
-          isDefault: normalFormData.isDefault ? '1' : '0'
+          accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         this.props.queryList();
         this.props.updateSelectedId(res.context.id);
@@ -131,7 +124,7 @@ class AdyenCreditCardForm extends React.Component {
     }
   };
   render() {
-    const { adyenPayParam, normalFormData } = this.state;
+    const { adyenPayParam } = this.state;
     return (
       <>
         {/* 支持卡的类型 Visa和master */}
@@ -155,61 +148,35 @@ class AdyenCreditCardForm extends React.Component {
               : 'hidden'
           }`}
         />
-        <div className="overflow-hidden pb-1">
-          <div className="text-right d-flex flex-wrap justify-content-between">
-            <div
-              className="rc-input rc-input--inline mr-0"
-              style={{
-                marginTop: '10px',
-                textAlign: 'left'
-              }}
-            >
-              <input
-                type="checkbox"
-                className="rc-input__checkbox"
-                value={normalFormData.isDefault}
-                checked={normalFormData.isDefault}
-                onChange={(val) => {
-                  this.setState({ normalFormData: val });
-                }}
-                id="adyen-credit-card-checkbox-isdefault"
-              />
-              <label
-                className="rc-input__label--inline text-break"
-                htmlFor="adyen-credit-card-checkbox-isdefault"
-              >
-                <FormattedMessage id="setDefaultPaymentMethod" />
-              </label>
-            </div>
-            <div>
-              {this.props.showCancelBtn && (
-                <>
-                  <a
-                    className="rc-styled-link editPersonalInfoBtn"
-                    name="contactInformation"
-                    onClick={() => {
-                      this.props.updateFormVisible(false);
-                    }}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </a>{' '}
-                  <FormattedMessage id="or" />{' '}
-                </>
-              )}
+        <div className="overflow-hidden mt-3">
+          <div className="text-right">
+            {this.props.showCancelBtn && (
+              <>
+                <a
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="contactInformation"
+                  onClick={() => {
+                    this.props.updateFormVisible(false);
+                  }}
+                >
+                  <FormattedMessage id="cancel" />
+                </a>{' '}
+                <FormattedMessage id="or" />{' '}
+              </>
+            )}
 
-              <button
-                className={`rc-btn rc-btn--one submitBtn editAddress ${
-                  this.state.saveLoading ? 'ui-btn-loading' : ''
-                }`}
-                data-sav="false"
-                name="contactInformation"
-                type="submit"
-                disabled={!this.state.isValid}
-                onClick={this.handleSave}
-              >
-                <FormattedMessage id="save" />
-              </button>
-            </div>
+            <button
+              className={`rc-btn rc-btn--one submitBtn editAddress ${
+                this.state.saveLoading ? 'ui-btn-loading' : ''
+              }`}
+              data-sav="false"
+              name="contactInformation"
+              type="submit"
+              disabled={!this.state.isValid}
+              onClick={this.handleSave}
+            >
+              <FormattedMessage id="save" />
+            </button>
           </div>
         </div>
         {this.isOnepageCheckout && this.paymentMethodPanelStatus.isCompleted && (

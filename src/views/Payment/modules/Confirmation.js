@@ -1,10 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 
 @inject('paymentStore')
+@injectIntl
 @observer
 class Confirmation extends React.Component {
   constructor(props) {
@@ -25,7 +25,9 @@ class Confirmation extends React.Component {
   }
   //是否consent必填项勾选
   isConsentRequiredChecked() {
-    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    const { requiredList } = this.state;
+    let isAllChecked =
+      !requiredList.length || requiredList.every((item) => item.isChecked);
     if (!isAllChecked) {
       throw new Error(this.props.intl.messages.CompleteRequiredItems);
     }
@@ -39,13 +41,22 @@ class Confirmation extends React.Component {
       await this.isConsentRequiredChecked();
       this.setState({ isValid: true });
     } catch (err) {
+      console.log(err);
       this.setState({ isValid: false });
     }
   };
-  validData = () => {
-    this.setState({
-      isValid: this.state.terms.filter((n) => !n.isRead).length === 0
-    });
+  validData = async () => {
+    try {
+      await this.isConsentRequiredChecked();
+      this.setState({
+        isValid: true
+      });
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        isValid: false
+      });
+    }
   };
   clickPay = () => {
     if (!this.state.isValid) {
@@ -67,31 +78,33 @@ class Confirmation extends React.Component {
               <FormattedMessage id="confirmation" />
             </h5>
           </div>
-          {!this.panelStatus.isPrepare && (
-            <div className="pt-3">
-              {/* 条款 */}
-              <TermsCommon
-                id={'confirmation'}
-                listData={this.props.listData}
-                checkRequiredItem={this.checkRequiredItem}
-              />
+          <div
+            className={`pt-3 ${!this.panelStatus.isPrepare ? '' : 'hidden'}`}
+          >
+            {/* 条款 */}
+            <TermsCommon
+              id={'confirmation'}
+              listData={this.props.listData}
+              updateValidStatus={(val) => {
+                this.setState({ isValid: val });
+              }}
+            />
 
-              <div className="next-step-button">
-                <div className="rc-text--right">
-                  <button
-                    className={`rc-btn rc-btn--one submit-payment`}
-                    type="submit"
-                    name="submit"
-                    value="submit-shipping"
-                    disabled={!this.state.isValid}
-                    onClick={this.clickPay}
-                  >
-                    <FormattedMessage id="payment.further" />
-                  </button>
-                </div>
+            <div className="next-step-button">
+              <div className="rc-text--right">
+                <button
+                  className={`rc-btn rc-btn--one submit-payment`}
+                  type="submit"
+                  name="submit"
+                  value="submit-shipping"
+                  disabled={!this.state.isValid}
+                  onClick={this.clickPay}
+                >
+                  <FormattedMessage id="payment.further" />
+                </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </>
     );

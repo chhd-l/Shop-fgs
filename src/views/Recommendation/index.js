@@ -32,8 +32,8 @@ const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
-@observer
 @injectIntl
+@observer
 class Help extends React.Component {
   
   constructor(props) {

@@ -691,7 +691,6 @@ class Details extends React.Component {
         history.push('/prescription');
       }
     }
-    // todo 改为mobx
     this.props.headerCartStore.show();
     setTimeout(() => {
       this.props.headerCartStore.hide();
