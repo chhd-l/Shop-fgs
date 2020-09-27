@@ -380,7 +380,7 @@ class SubscriptionDetail extends React.Component {
     let { modalType, subDetail } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
-      skipNextSub({ subscribeId: subDetail.subscribeId })
+      skipNextSub({ subscribeId: subDetail.subscribeId, changeField: this.prop.intl.messages['subscription.skip'] })
         .then((res) => {
           window.location.reload();
         })
