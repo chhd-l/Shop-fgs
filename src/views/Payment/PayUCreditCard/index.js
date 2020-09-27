@@ -667,8 +667,9 @@ class PayOs extends React.Component {
           </div>
         </div>
         {/* 条款 */}
-        <div className="ml-custom mr-custom">
+        <div className="ml-custom mr-custom payuCreditCard">
           <TermsCommon
+            id={this.props.type}
             listData={this.props.listData}
             checkRequiredItem={this.checkRequiredItem}
           />

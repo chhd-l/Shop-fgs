@@ -4,6 +4,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { confirmAndCommit } from '@/api/payment';
 import { Link } from 'react-router-dom';
 import store from 'storejs';
+import TermsCommon from '../Terms/common';
 
 class OxxoConfirm extends Component {
   constructor(props) {
@@ -12,16 +13,24 @@ class OxxoConfirm extends Component {
       email: '',
       showReqiredInfo: false,
       errorMsg: '',
-      isReadPrivacyPolicyInit: true,
-      isEighteenInit: true,
-      isReadPrivacyPolicy: false,
-      isEighteen: false
+      // isReadPrivacyPolicyInit: true,
+      // isEighteenInit: true,
+      // isReadPrivacyPolicy: false,
+      // isEighteen: false,
+      listData: [],
+      requiredList: []
     };
   }
   async clickPay() {
-    const { isEighteen, isReadPrivacyPolicy } = this.state;
+    // const { isEighteen, isReadPrivacyPolicy } = this.state;
     try {
       this.props.startLoading();
+      let isAllChecked = this.state.requiredList.every(
+        (item) => item.isChecked
+      );
+      if (!isAllChecked) {
+        throw new Error('agreement failed');
+      }
       if (!this.state.email) {
         this.setState({ showReqiredInfo: true });
         throw new Error(this.props.intl.messages.pleasecompleteTheRequiredItem);
@@ -35,13 +44,13 @@ class OxxoConfirm extends Component {
         throw new Error(this.props.intl.messages.pleaseEnterTheCorrectEmail);
       }
 
-      if (!isEighteen || !isReadPrivacyPolicy) {
-        this.setState({
-          isEighteenInit: false,
-          isReadPrivacyPolicyInit: false
-        });
-        throw new Error('agreement failed');
-      }
+      // if (!isEighteen || !isReadPrivacyPolicy) {
+      //   this.setState({
+      //     isEighteenInit: false,
+      //     isReadPrivacyPolicyInit: false
+      //   });
+      //   throw new Error('agreement failed');
+      // }
 
       this.props.clickPay(this.state.email);
     } catch (e) {
@@ -68,7 +77,25 @@ class OxxoConfirm extends Component {
     }, 3000);
   };
 
+  componentWillReceiveProps(nextProps) {
+    let requiredList = nextProps.listData.filter((item) => item.isRequired);
+    this.setState({
+      requiredList
+    });
+  }
+  checkRequiredItem = (list) => {
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState(
+      {
+        requiredList
+      },
+      () => {
+        console.log({ requiredList: this.state.requiredList });
+      }
+    );
+  };
   render() {
+    console.log(9999,this.props.listData)
     return (
       <div>
         <div className="rounded rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3">
@@ -146,7 +173,14 @@ class OxxoConfirm extends Component {
             />
           </p>
         </div>
-        <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
+        <div className="ml-custom mr-custom oxxo">
+          <TermsCommon
+            id={this.props.type}
+            listData={this.props.listData}
+            checkRequiredItem={this.checkRequiredItem}
+          />
+        </div>
+        {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"
             id="id-checkbox-cat-2"
@@ -193,8 +227,8 @@ class OxxoConfirm extends Component {
               <FormattedMessage id="payment.confirmInfo4" />
             </div>
           </label>
-        </div>
-        <div className="footerCheckbox ml-custom mr-custom">
+        </div> */}
+        {/* <div className="footerCheckbox ml-custom mr-custom">
           <input
             id="id-checkbox-cat-1"
             value="Cat"
@@ -227,7 +261,7 @@ class OxxoConfirm extends Component {
               <FormattedMessage id="payment.confirmInfo2" />
             </div>
           </label>
-        </div>
+        </div> */}
         {/* the end */}
 
         <div className="place_order-btn card rc-bg-colour--brand4 pt-4">

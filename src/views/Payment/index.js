@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
@@ -1467,14 +1467,20 @@ class Payment extends React.Component {
 
         {/* ***********************支付选项卡的内容start******************************* */}
         {/* oxxo */}
-        {this.state.paymentTypeVal === 'oxxo' && (
+        <div
+          className={`${
+            this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'
+          }`}
+        >
           <OxxoConfirm
+            type={'oxxo'}
+            listData={this.state.listData}
             history={this.props.history}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             clickPay={this.initOxxo}
           />
-        )}
+        </div>
         {/* payu creditCard */}
         <div
           className={`${
@@ -1482,6 +1488,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
+            type={'PayUCreditCard'}
             listData={this.state.listData}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
