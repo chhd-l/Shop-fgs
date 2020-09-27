@@ -981,7 +981,7 @@ class SubscriptionDetail extends React.Component {
                                     };
                                     Object.assign(param, {
                                       changeField: this.props.intl.messages[
-                                        'subscription.change'
+                                        'produtctNumber'
                                       ]
                                     });
                                     await this.doUpdateDetail(param);
