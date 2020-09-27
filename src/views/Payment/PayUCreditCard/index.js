@@ -296,17 +296,17 @@ class PayOs extends React.Component {
         }
         if (
           !needReConfirmCVV &&
-          (!selectedCardInfo || !selectedCardInfo.paymentMethod)
+          (!selectedCardInfo || !selectedCardInfo.payuPaymentMethod)
         ) {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
         this.props.startLoading();
-        if (!selectedCardInfo.paymentMethod) {
+        if (!selectedCardInfo.payuPaymentMethod) {
           throw new Error(this.props.intl.messages.changeAnotherCard);
         }
         const result = await this.payUTokenPromise({
           cvv: selectedCardInfo.cardCvv,
-          token: selectedCardInfo.paymentMethod.token
+          token: selectedCardInfo.payuPaymentMethod.token
         });
         try {
           const parsedRes = JSON.parse(result);
