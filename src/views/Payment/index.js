@@ -1531,7 +1531,6 @@ class Payment extends React.Component {
                     {/* {this.loginCartData.map((el, i) => { */}
                     {this.loginCartData.length
                       ? this.loginCartData.map((el, i) => {
-                          console.log(el, 'hahah');
                           return (
                             <div className="petProduct">
                               <img
@@ -1583,7 +1582,6 @@ class Payment extends React.Component {
                           );
                         })
                       : this.cartData.map((el, i) => {
-                          console.log(el, 'hahah');
                           return (
                             <div className="petProduct">
                               <img

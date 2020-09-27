@@ -1,14 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { loadJS } from '@/utils/utils';
 import { find } from 'lodash';
 import Skeleton from 'react-skeleton-loader';
 import EditForm from '@/components/Adyen/form';
-import {
-  ADYEN_CREDIT_CARD_IMGURL_ENUM,
-  CREDIT_CARD_IMG_ENUM
-} from '@/utils/constant';
+import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 
@@ -107,7 +103,7 @@ class AdyenCreditCardList extends React.Component {
     });
     this.props.updateSelectedCardInfo(el);
   };
-  _renderOneCard = (el) => {
+  _renderOneCard = (el, showLastFour = true) => {
     return (
       <div className="row">
         <div
@@ -145,30 +141,42 @@ class AdyenCreditCardList extends React.Component {
                     : ''}
                 </div>
               </div>
+              {!showLastFour && (
+                <div className="row align-items-center">
+                  <div className={`col-4`} style={{ fontSize: '14px' }}>
+                    <FormattedMessage id="payment.cardType" />
+                  </div>
+                  <div className={`col-6 creditCompleteInfo`}>
+                    {el.adyenPaymentMethod ? el.adyenPaymentMethod.brand : ''}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-            <div className="col-6 color-999">
-              <span style={{ fontSize: '14px' }}>
-                <FormattedMessage id="payment.cardNumber2" />
-              </span>
-              <br />
-              <span className="creditCompleteInfo fontFitSCreen">
-                xxxx xxxx xxxx{' '}
-                {(el.adyenPaymentMethod && el.adyenPaymentMethod.lastFour) ||
-                  ''}
-              </span>
+          {showLastFour && (
+            <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
+              <div className="col-6 color-999">
+                <span style={{ fontSize: '14px' }}>
+                  <FormattedMessage id="payment.cardNumber2" />
+                </span>
+                <br />
+                <span className="creditCompleteInfo fontFitSCreen">
+                  xxxx xxxx xxxx{' '}
+                  {(el.adyenPaymentMethod && el.adyenPaymentMethod.lastFour) ||
+                    ''}
+                </span>
+              </div>
+              <div className={`col-6 border-left color-999`}>
+                <span style={{ fontSize: '14px' }}>
+                  <FormattedMessage id="payment.cardType" />
+                </span>
+                <br />
+                <span className="creditCompleteInfo fontFitSCreen">
+                  {el.adyenPaymentMethod ? el.adyenPaymentMethod.brand : ''}
+                </span>
+              </div>
             </div>
-            <div className="col-6 border-left color-999">
-              <span style={{ fontSize: '14px' }}>
-                <FormattedMessage id="payment.cardType" />
-              </span>
-              <br />
-              <span className="creditCompleteInfo fontFitSCreen">
-                {el.adyenPaymentMethod ? el.adyenPaymentMethod.brand : ''}
-              </span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     );
@@ -251,10 +259,10 @@ class AdyenCreditCardList extends React.Component {
     let { visitorAdyenFormData } = this.state;
     if (visitorAdyenFormData) {
       visitorAdyenFormData.adyenPaymentMethod = {
-        name: visitorAdyenFormData.adyenBrands,
+        name: visitorAdyenFormData.brand,
         holderName: visitorAdyenFormData.hasHolderName,
         lastFour: '',
-        brand: visitorAdyenFormData.adyenName
+        brand: visitorAdyenFormData.brand
       };
     }
 
@@ -277,38 +285,52 @@ class AdyenCreditCardList extends React.Component {
               </span>
             </span>
           </div>
-          {this._renderOneCard(visitorAdyenFormData)}
+          {this._renderOneCard(visitorAdyenFormData, false)}
         </div>
       </div>
     ) : null;
   };
-  render() {
+  _renderEditForm = () => {
     const { cardList } = this.state;
     return (
+      <EditForm
+        isCheckoutPage={true}
+        enableStoreDetails={this.isLogin}
+        isSaveToBackend={this.isLogin}
+        showCancelBtn={cardList.length > 0}
+        updateFormVisible={(val) => {
+          this.setState({ formVisible: val });
+        }}
+        queryList={() => this.queryList()}
+        updateSelectedId={(selectedId) => {
+          this.setState({ selectedId });
+        }}
+        updateAdyenPayParam={(data) => {
+          this.setState({ visitorAdyenFormData: data });
+          this.props.updateSelectedCardInfo(data);
+        }}
+      />
+    );
+  };
+  render() {
+    const { cardList, formVisible } = this.state;
+    return (
       <>
-        {this.state.listLoading ? (
-          <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
-        ) : !this.state.formVisible &&
-          (!this.isLogin || (cardList.length && this.isLogin)) ? (
-          this._renderList()
+        {this.isLogin ? (
+          this.state.listLoading ? (
+            <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+          ) : !formVisible && cardList.length ? (
+            this._renderList()
+          ) : (
+            this._renderEditForm()
+          )
         ) : (
-          <EditForm
-            isCheckoutPage={true}
-            enableStoreDetails={this.isLogin}
-            isSaveToBackend={this.isLogin}
-            showCancelBtn={cardList.length > 0}
-            updateFormVisible={(val) => {
-              this.setState({ formVisible: val });
-            }}
-            queryList={() => this.queryList()}
-            updateSelectedId={(selectedId) => {
-              this.setState({ selectedId });
-            }}
-            updateAdyenPayParam={(data) => {
-              this.setState({ visitorAdyenFormData: data });
-              this.props.updateSelectedCardInfo(data);
-            }}
-          />
+          <>
+            {!formVisible && this._renderList()}
+            <div className={`${formVisible ? '' : 'hidden'}`}>
+              {this._renderEditForm()}
+            </div>
+          </>
         )}
       </>
     );
