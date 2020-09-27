@@ -1467,7 +1467,7 @@ class Payment extends React.Component {
         theme: ''
       }
     };
-    console.log(toJS(this.cartData), 'cartdata');
+    const { paymentTypeVal } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1653,7 +1653,19 @@ class Payment extends React.Component {
                 </div>
                 {this.isOnepageCheckout && (
                   <Confirmation
-                    clickPay={this.initCommonPay}
+                    clickPay={() =>
+                      this.initCommonPay({
+                        type: find(
+                          this.state.payWayObj,
+                          (el) => el.paymentTypeVal === paymentTypeVal
+                        )
+                          ? find(
+                              this.state.payWayObj,
+                              (el) => el.paymentTypeVal === paymentTypeVal
+                            ).name
+                          : ''
+                      })
+                    }
                     listData={this.state.listData}
                     checkRequiredItem={this.checkRequiredItem}
                   />

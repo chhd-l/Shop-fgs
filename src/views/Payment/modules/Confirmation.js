@@ -80,31 +80,33 @@ class Confirmation extends React.Component {
               <FormattedMessage id="confirmation" />
             </h5>
           </div>
-          {!this.panelStatus.isPrepare && (
-            <div className="pt-3">
-              {/* 条款 */}
-              <TermsCommon
-                id={'confirmation'}
-                listData={this.props.listData}
-                checkRequiredItem={this.checkRequiredItem}
-              />
+          <div
+            className={`pt-3 ${!this.panelStatus.isPrepare ? '' : 'hidden'}`}
+          >
+            {/* 条款 */}
+            <TermsCommon
+              id={'confirmation'}
+              listData={this.props.listData}
+              updateValidStatus={(val) => {
+                this.setState({ isValid: val });
+              }}
+            />
 
-              <div className="next-step-button">
-                <div className="rc-text--right">
-                  <button
-                    className={`rc-btn rc-btn--one submit-payment`}
-                    type="submit"
-                    name="submit"
-                    value="submit-shipping"
-                    disabled={!this.state.isValid}
-                    onClick={this.clickPay}
-                  >
-                    <FormattedMessage id="payment.further" />
-                  </button>
-                </div>
+            <div className="next-step-button">
+              <div className="rc-text--right">
+                <button
+                  className={`rc-btn rc-btn--one submit-payment`}
+                  type="submit"
+                  name="submit"
+                  value="submit-shipping"
+                  disabled={!this.state.isValid}
+                  onClick={this.clickPay}
+                >
+                  <FormattedMessage id="payment.further" />
+                </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </>
     );

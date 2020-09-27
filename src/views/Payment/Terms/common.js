@@ -9,6 +9,9 @@ import './index.css';
 import Consent from '@/components/Consent';
 
 class TermsCommon extends Component {
+  static defaultProps = {
+    updateValidStatus: () => {}
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -41,17 +44,27 @@ class TermsCommon extends Component {
       });
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(this.state.list) !== JSON.stringify(nextProps.listData)
-    ) {debugger
-      this.setState({
+    this.setState(
+      {
         list: nextProps.listData
-      });
-    }
+      },
+      () => {
+        // this.valid();
+      }
+    );
+  }
+  valid() {
+    this.props.updateValidStatus(
+      this.state.list
+        .filter((ele) => ele.isRequired)
+        .every((el) => el.isChecked)
+    );
   }
   //从子组件传回
   sendList = (list) => {
-    this.setState({ list });
+    this.setState({ list }, () => {
+      this.valid();
+    });
   };
   render() {
     return (
