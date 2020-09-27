@@ -518,6 +518,7 @@ class Payment extends React.Component {
           }
         },
         adyen_credit_card: () => {
+          const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -531,11 +532,11 @@ class Payment extends React.Component {
           });
           if (this.isLogin) {
             parameters = Object.assign(parameters, {
-              paymentMethodId: this.state.adyenPayParam.id
+              paymentMethodId: adyenPayParam.id
             });
           } else {
             parameters = Object.assign(parameters, {
-              ...this.state.adyenPayParam
+              ...adyenPayParam
             });
           }
         },

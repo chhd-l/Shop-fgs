@@ -42,7 +42,6 @@ class Confirmation extends React.Component {
       this.setState({ isValid: true });
     } catch (err) {
       console.log(err);
-      debugger;
       this.setState({ isValid: false });
     }
   };
@@ -54,7 +53,6 @@ class Confirmation extends React.Component {
       });
     } catch (err) {
       console.log(err);
-      debugger;
       this.setState({
         isValid: false
       });

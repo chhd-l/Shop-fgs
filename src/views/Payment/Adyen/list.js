@@ -39,9 +39,6 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.panelStatus.paymentMethod;
-  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
@@ -273,6 +270,7 @@ class AdyenCreditCardList extends React.Component {
               <span
                 onClick={(e) => {
                   // todo
+                  this.setState({ formVisible: true });
                 }}
               >
                 <FormattedMessage id="edit" />

@@ -25,9 +25,6 @@ class AdyenCreditCard extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.panelStatus.paymentMethod;
-  }
   //是否consent必填项勾选
   isConsentRequiredChecked() {
     let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
@@ -51,6 +48,7 @@ class AdyenCreditCard extends React.Component {
         isPrepare: false,
         isEdit: true
       });
+      this.props.updateAdyenPayParam(data);
     }
   };
   clickPay = async () => {
