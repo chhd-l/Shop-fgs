@@ -221,7 +221,7 @@ class PayOs extends React.Component {
         this.props.showErrorMsg(
           sessionItemRoyal.get('payosdata')
             ? sessionItemRoyal.get('payosdata')
-            : err.toString()
+            : err.message.toString()
         );
         clearInterval(timer);
         this.props.endLoading();
@@ -264,7 +264,7 @@ class PayOs extends React.Component {
       );
     } catch (err) {
       this.props.endLoading();
-      throw new Error(err);
+      throw new Error(err.message);
     }
   }
   clickPay = async () => {

@@ -100,7 +100,7 @@ class ClinicEditForm extends React.Component {
       }, 2000);
     } catch (err) {
       this.setState({
-        errorMsg: err.toString()
+        errorMsg: err.message.toString()
       });
       setTimeout(() => {
         this.setState({
