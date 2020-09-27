@@ -301,17 +301,21 @@ class SubscriptionDetail extends React.Component {
         const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
         if (adyenPaymentMethod) {
           tempCardInfo = {
-            vendor: adyenPaymentMethod.name,
-            last_4_digits: adyenPaymentMethod.lastFour,
-            holder_name: adyenPaymentMethod.holderName,
+            paymentMethod: {
+              vendor: adyenPaymentMethod.name,
+              last_4_digits: adyenPaymentMethod.lastFour,
+              holder_name: adyenPaymentMethod.holderName
+            },
             phoneNumber: adyenPaymentMethod.phoneNumber
           };
         } else if (payuPaymentMethod) {
           tempCardInfo = {
-            vendor: payuPaymentMethod.vendor,
-            last_4_digits: payuPaymentMethod.last_4_digits,
-            holder_name: payuPaymentMethod.holder_name,
-            phoneNumber: payuPaymentMethod.phoneNumber
+            paymentMethod: {
+              vendor: payuPaymentMethod.vendor,
+              last_4_digits: payuPaymentMethod.last_4_digits,
+              holder_name: payuPaymentMethod.holder_name
+            },
+            phoneNumber: subDetail.paymentInfo.phoneNumber
           };
         }
       }
@@ -400,7 +404,10 @@ class SubscriptionDetail extends React.Component {
     let { modalType, subDetail } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
-      skipNextSub({ subscribeId: subDetail.subscribeId, changeField: this.prop.intl.messages['subscription.skip'] })
+      skipNextSub({
+        subscribeId: subDetail.subscribeId,
+        changeField: this.prop.intl.messages['subscription.skip']
+      })
         .then((res) => {
           window.location.reload();
         })
@@ -517,50 +524,48 @@ class SubscriptionDetail extends React.Component {
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
-                > 
-                {
-                  currentCardInfo && 
-                  <PaymentComp
-                    history={this.props.history}
-                    paymentId={currentCardInfo.id}
-                    type={type}
-                    save={(el) => {
-                      console.log(el);
-                      let param = {
-                        subscribeId: subDetail.subscribeId,
-                        paymentMethodId: el.id,
-                        goodsItems: subDetail.goodsInfo.map((el) => {
-                          return {
-                            skuId: el.skuId,
-                            subscribeNum: el.subscribeNum,
-                            subscribeGoodsId: el.subscribeGoodsId
-                          };
-                        })
-                      };
-                      console.log(param);
-                      this.setState({ loading: true });
-                      updateDetail(param)
-                        .then((res) => {
-                          // this.setState({ loading: false });
-                          // console.log(res);
-                          // window.location.reload();
-                          this.getDetail(
-                            this.showErrMsg.bind(
-                              this,
-                              this.props.intl.messages.saveSuccessfullly,
-                              'success'
-                            )
-                          );
-                        })
-                        .catch((err) => {
-                          this.setState({ loading: false });
-                        });
-                      this.setState({ type: 'main', currentCardInfo: el });
-                    }}
-                    cancel={() => this.setState({ type: 'main' })}
-                  />
-                }
-                  
+                >
+                  {currentCardInfo && (
+                    <PaymentComp
+                      history={this.props.history}
+                      paymentId={currentCardInfo.id}
+                      type={type}
+                      save={(el) => {
+                        console.log(el);
+                        let param = {
+                          subscribeId: subDetail.subscribeId,
+                          paymentMethodId: el.id,
+                          goodsItems: subDetail.goodsInfo.map((el) => {
+                            return {
+                              skuId: el.skuId,
+                              subscribeNum: el.subscribeNum,
+                              subscribeGoodsId: el.subscribeGoodsId
+                            };
+                          })
+                        };
+                        console.log(param);
+                        this.setState({ loading: true });
+                        updateDetail(param)
+                          .then((res) => {
+                            // this.setState({ loading: false });
+                            // console.log(res);
+                            // window.location.reload();
+                            this.getDetail(
+                              this.showErrMsg.bind(
+                                this,
+                                this.props.intl.messages.saveSuccessfullly,
+                                'success'
+                              )
+                            );
+                          })
+                          .catch((err) => {
+                            this.setState({ loading: false });
+                          });
+                        this.setState({ type: 'main', currentCardInfo: el });
+                      }}
+                      cancel={() => this.setState({ type: 'main' })}
+                    />
+                  )}
                 </div>
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
@@ -1510,61 +1515,61 @@ class SubscriptionDetail extends React.Component {
                             )}
                           </div>
                         </div>
-                        {
-                          currentCardInfo && (
-                        <div className="col-12 col-md-4 mb-2">  
-                          <div className="d-flex align-items-center">
-                            <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
-                            <span>
-                              <FormattedMessage id="payment.payment" />
-                            </span>
-                          </div>
-                          <div className="ml-1">
-                            <img
-                              className="d-inline-block mr-1"
-                              style={{ width: '20%' }}
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  currentCardInfo.paymentMethod
-                                    ? currentCardInfo.paymentMethod.vendor
-                                    : currentCardInfo.vendor
-                                ]
-                              }
-                            />
-                            {currentCardInfo.paymentMethod &&
-                            currentCardInfo.paymentMethod.last_4_digits ? (
-                              <>
-                                <span className="medium">
-                                  ********
-                                  {currentCardInfo.paymentMethod.last_4_digits}
-                                </span>
-                                <br />
-                              </>
-                            ) : null}
+                        {currentCardInfo && (
+                          <div className="col-12 col-md-4 mb-2">
+                            <div className="d-flex align-items-center">
+                              <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
+                              <span>
+                                <FormattedMessage id="payment.payment" />
+                              </span>
+                            </div>
+                            <div className="ml-1">
+                              <img
+                                className="d-inline-block mr-1"
+                                style={{ width: '20%' }}
+                                src={
+                                  CREDIT_CARD_IMG_ENUM[
+                                    currentCardInfo.paymentMethod
+                                      ? currentCardInfo.paymentMethod.vendor
+                                      : currentCardInfo.vendor
+                                  ]
+                                }
+                              />
+                              {currentCardInfo.paymentMethod &&
+                              currentCardInfo.paymentMethod.last_4_digits ? (
+                                <>
+                                  <span className="medium">
+                                    ********
+                                    {
+                                      currentCardInfo.paymentMethod
+                                        .last_4_digits
+                                    }
+                                  </span>
+                                  <br />
+                                </>
+                              ) : null}
 
-                            {currentCardInfo.paymentMethod
-                              ? currentCardInfo.paymentMethod.holder_name
-                              : ''}
-                            <br />
-                            {currentCardInfo.phoneNumber}
-                            <br />
-                            {subDetail.subscribeStatus === '0' && (
-                              <a
-                                className="rc-styled-link red-text"
-                                onClick={() => {
-                                  window.scrollTo(0, 0);
-                                  this.setState({ type: 'PaymentComp' });
-                                }}
-                              >
-                                <FormattedMessage id="edit" />{' '}
-                                <FormattedMessage id="card" />
-                              </a>
-                            )}
+                              {currentCardInfo.paymentMethod
+                                ? currentCardInfo.paymentMethod.holder_name
+                                : ''}
+                              <br />
+                              {currentCardInfo.phoneNumber}
+                              <br />
+                              {subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({ type: 'PaymentComp' });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{' '}
+                                  <FormattedMessage id="card" />
+                                </a>
+                              )}
+                            </div>
                           </div>
-                          
-                        </div>
-                          )
-                        }
+                        )}
                       </div>
                     </div>
                   </div>
