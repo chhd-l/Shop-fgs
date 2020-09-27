@@ -13,6 +13,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 @observer
 class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
+    isCheckoutPage: false, // 是否为支付页
     showCancelBtn: false,
     isSaveToBackend: true,
     enableStoreDetails: false,
@@ -143,7 +144,7 @@ class AdyenCreditCardForm extends React.Component {
         <div
           id="adyen-card-container"
           className={`payment-method__container ${
-            !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
+            !this.props.isCheckoutPage || !this.isOnepageCheckout || this.paymentMethodPanelStatus.isEdit
               ? ''
               : 'hidden'
           }`}
