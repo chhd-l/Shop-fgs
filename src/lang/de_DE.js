@@ -658,6 +658,8 @@ const en_US = {
 
   dataProtection: 'Datenschutzerklärung',
   requiredConsentCheckedTip: 'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
-  searchNoBreed: 'kein Rassetier'
+  searchNoBreed: 'kein Rassetier',
+  'required.logoTitle':'Willkommen im ROYALCANIN® Online-Shop',
+  'required.complete':'Schließen Sie den Anmeldevorgang ab',
 }
 export default en_US;

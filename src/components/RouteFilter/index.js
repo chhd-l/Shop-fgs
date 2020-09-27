@@ -99,20 +99,21 @@ class RouteFilter extends Component {
   //     })
   // }
   async componentDidMount() {
-    let pathname = this.props.location.pathname;
-    // 非首页+非/implicit/callback+非required页+account/information页面 调用consense接口
-    if (
-      pathname !== '/' &&
-      pathname !== '/implicit/callback' &&
-      pathname !== '/required' &&
-      pathname !== '/account/information'
-    ) {
-      this.getConsentList();
+    let pathname = this.props.location.pathname 
+    // 非/implicit/callback+非required页+account/information页面 调用consense接口
+    if ((localItemRoyal.get('rc-token')&&pathname=='/')&&pathname!== '/implicit/callback'&&pathname!== '/required'&&pathname!=='/account/information') {
+      this.getConsentList()
     }
 
     if (
       !localItemRoyal.get('rc-token') &&
       this.props.location.pathname.indexOf('/account') !== -1
+    ) {
+      this.props.history.push('/');
+    }
+    if (
+      !localItemRoyal.get('rc-token') &&
+      this.props.location.pathname.indexOf('/required') !== -1 && sessionItemRoyal.get('fromLoginPage')!='true'
     ) {
       this.props.history.push('/');
     }

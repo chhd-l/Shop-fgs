@@ -83,6 +83,7 @@ import Recommendation from '@/views/Recommendation';
 
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
 const LoginCallback = (props) => {
@@ -96,8 +97,9 @@ const LoginCallback = (props) => {
     }
     //window.location.href = process.env.REACT_APP_ACCESS_PATH;
     let homePage = ''
-    process.env.REACT_APP_HOMEPAGE == '/'?homePage='':homePage=process.env.REACT_APP_HOMEPAGE
-    window.location.href = homePage+'/required';
+    process.env.REACT_APP_HOMEPAGE == '/' ? homePage = '' : homePage = process.env.REACT_APP_HOMEPAGE
+    window.location.href = homePage + '/required';
+    sessionItemRoyal.set('fromLoginPage', true);
   }, [authService, authStateReady]);
 
   return <div></div>;
@@ -284,7 +286,16 @@ const App = () => (
                 exact
                 component={AccountShippingAddressForm}
               />
+              {/* <Route path="/required" exact component={RegisterRequired} /> */}
               <Route path="/required" exact component={RegisterRequired} />
+              {/* <Route
+                exact
+                path="/required"
+                render={(props) =>
+                  token ? <required {...props} /> : <Redirect to="/" />
+                }
+              /> */}
+
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
               <Route
                 path="/subscription-landing"

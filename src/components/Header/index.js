@@ -171,13 +171,12 @@ class Header extends React.Component {
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      const res = await authService.logout(process.env.REACT_APP_HOMEPAGE);
       setTimeout(async () => {
         loginStore.changeLoginModal(false);
         await authService.login(process.env.REACT_APP_HOMEPAGE);
-      }, 1000);
+      }, 3000);
     } catch (e) {
-      console.log(e);
       loginStore.changeLoginModal(false);
       // window.location.reload();
     }
