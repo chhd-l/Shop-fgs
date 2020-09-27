@@ -159,7 +159,9 @@ class PayProductInfo extends React.Component {
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     sessionItemRoyal.set('rc-goods-name', item.goodsName);
     this.props.history.push(
-      `/details/${this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId}`
+      `/details/${
+        this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
+      }`
     );
   };
   getProductsForLogin(plist) {
@@ -245,7 +247,7 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { productList } = this.state;
     let quantityKeyName = 'quantity';
-    if (this.isLogin) {
+    if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
     }
     return (

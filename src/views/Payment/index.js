@@ -225,11 +225,9 @@ class Payment extends React.Component {
     if (this.state.tid) {
       this.queryOrderDetails();
     }
+    let recommend_data;
     if (sessionItemRoyal.get('recommend_product')) {
-      let recommend_data = JSON.parse(
-        sessionItemRoyal.get('recommend_product')
-      );
-      console.log(recommend_data, 'recommend_data', toJS(this.loginCartData));
+      recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
       recommend_data = recommend_data.map((el) => {
         el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
         el.goodsInfo.buyCount = el.recommendationNumber;
@@ -359,18 +357,20 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
-
+    
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      console.log(this.isLogin, this.loginCartData.length, this.state.tid, 111);
-      this.props.history.push('/cart');
+      // todo
+      // this.props.history.push('/cart');
       return false;
     }
     if (
       !this.isLogin &&
       (!this.cartData.length ||
-        !this.cartData.filter((ele) => ele.selected).length)
+        !this.cartData.filter((ele) => ele.selected).length ||
+        !recommend_data.length)
     ) {
-      this.props.history.push('/cart');
+      // todo
+      // this.props.history.push('/cart');
       return false;
     }
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
@@ -1468,9 +1468,7 @@ class Payment extends React.Component {
         {/* ***********************支付选项卡的内容start******************************* */}
         {/* oxxo */}
         <div
-          className={`${
-            this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'
-          }`}
+          className={`${this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}
         >
           <OxxoConfirm
             type={'oxxo'}
