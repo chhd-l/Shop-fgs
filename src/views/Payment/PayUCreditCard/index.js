@@ -667,10 +667,12 @@ class PayOs extends React.Component {
           </div>
         </div>
         {/* 条款 */}
-        <TermsCommon
-          listData={this.props.listData}
-          checkRequiredItem={this.checkRequiredItem}
-        />
+        <div className="ml-custom mr-custom">
+          <TermsCommon
+            listData={this.props.listData}
+            checkRequiredItem={this.checkRequiredItem}
+          />
+        </div>
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"
