@@ -96,6 +96,7 @@ const en_US = {
   cats: "CATS",
   cats2: "Cats",
   chang: "Change",
+  'produtctNumber': 'Product number',
   changePassword: "Change Password",
   checkout: "Checkout",
   'checkoutTip': 'Please enter your detail below.',

@@ -100,6 +100,7 @@ const en_US = {
   'cats': 'GATOS',
   'cats2': 'Gatos',
   'chang': 'Cambio',
+  'produtctNumber': 'Número de productos',
   'changePassword': 'Cambia la contraseña',
   'checkout': 'Comprar',
   'checkoutTip': 'Introduzca sus datos a continuación.',

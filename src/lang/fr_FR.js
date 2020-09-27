@@ -12,6 +12,7 @@ const en_US = {
   "search": "chercher",
   "miniBasket": "Mini panier",
   "chang": "Editer",
+  'produtctNumber': 'Quantité de produits',
   "checkout": "Commencer ici",
   "GuestCheckout": "Continuer en tant qu'invité",
   "itemsInCart": "Vous avez {val} articles dans votre panier",
