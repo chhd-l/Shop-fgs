@@ -64,15 +64,6 @@ const LoginButton = (props) => {
               }
  
               props.init&&props.init()
-
-              //1.会员调用consense接口
-              // const result = await findUserConsentList({});
-              // if (result.context.requiredList.length !== 0) {
-              //   props.history.push({
-              //     pathname: '/required',
-              //     state: { path: '/' }
-              //   });
-              // }
             })
             .catch((e) => {
               console.log(e);

@@ -132,7 +132,7 @@ class AddressList extends React.Component {
       );
     } catch (err) {
       this.setState({
-        errMsg: err.toString()
+        errMsg: err.message.toString()
       });
     } finally {
       this.setState({ loading: false });

@@ -640,6 +640,8 @@ const en_US = {
   'paymethods.btn':'Add Payment',
   changeAnotherCard: 'Cambie a otra tarjeta y vuelva a intentarlo',
   requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',
-  searchNoBreed: 'no es un pedigrí'
+  searchNoBreed: 'no es un pedigrí',
+  'required.logoTitle':'Bienvenido a la tienda en línea ROYALCANIN®',
+  'required.complete':'Proceso de inicio de sesión completo',
 }
 export default en_US;

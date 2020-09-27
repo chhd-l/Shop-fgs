@@ -675,6 +675,8 @@ const en_US = {
   dataProtection: 'Politique de confidentialité',
   contactUsViaPhone: 'Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0 800 005 360 (appel gratuit depuis un poste fixe)',
   requiredConsentCheckedTip: 'Veuillez confirmer les champs obligatoires en cochant la case.',
-  searchNoBreed: 'pas un pedigree'
+  searchNoBreed: 'pas un pedigree',
+  'required.logoTitle':'Bienvenue dans la boutique en ligne ROYALCANIN®',
+  'required.complete':'Processus de connexion complet',
 }
 export default en_US;

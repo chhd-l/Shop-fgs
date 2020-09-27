@@ -632,7 +632,9 @@ const en_US = {
   'consent':'Consent',
   changeAnotherCard: 'Please change to another card and try again',
   requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',
-  searchNoBreed: 'not a pedigree'
+  searchNoBreed: 'not a pedigree',
+  'required.logoTitle':'Welcome to ROYALCANIN® online store',
+  'required.complete':'Complete log-in process',
 }
 
 export default en_US;
