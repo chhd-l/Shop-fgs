@@ -206,7 +206,8 @@ class SubscriptionDetail extends React.Component {
           subscribeNum: el.subscribeNum,
           subscribeGoodsId: el.subscribeGoodsId
         };
-      })
+      }),
+      changeField: this.props.intl.messages['subscription.receiveDate']
     };
     this.setState({ loading: true });
     updateDetail(param)
