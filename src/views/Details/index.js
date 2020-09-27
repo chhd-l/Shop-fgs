@@ -543,8 +543,8 @@ class Details extends React.Component {
           });
           return false;
         }
-        this.openPetModal()
-        // this.props.history.push('/prescription');
+        // this.openPetModal()
+        this.props.history.push('/prescription');
       }
     } catch (err) {
       console.log(err);
