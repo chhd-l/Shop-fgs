@@ -225,9 +225,10 @@ class Payment extends React.Component {
     if (this.state.tid) {
       this.queryOrderDetails();
     }
-    let recommend_data;
     if (sessionItemRoyal.get('recommend_product')) {
-      recommend_data = JSON.parse(sessionItemRoyal.get('recommend_product'));
+      let recommend_data = JSON.parse(
+        sessionItemRoyal.get('recommend_product')
+      );
       recommend_data = recommend_data.map((el) => {
         el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
         el.goodsInfo.buyCount = el.recommendationNumber;
@@ -357,7 +358,7 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
-    
+
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
       // todo
       // this.props.history.push('/cart');
@@ -367,7 +368,7 @@ class Payment extends React.Component {
       !this.isLogin &&
       (!this.cartData.length ||
         !this.cartData.filter((ele) => ele.selected).length ||
-        !recommend_data.length)
+        !this.state.recommend_data.length)
     ) {
       // todo
       // this.props.history.push('/cart');
