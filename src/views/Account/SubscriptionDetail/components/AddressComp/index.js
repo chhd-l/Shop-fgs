@@ -549,7 +549,7 @@ class AddressList extends React.Component {
                               </svg>
                             )}
                           </div>
-                          <div className="col-10 col-md-9">
+                          <div className="col-10 col-md-9 text-break">
                             {[item.consigneeName, item.consigneeNumber].join(
                               ', '
                             )}
