@@ -92,6 +92,7 @@ class Help extends React.Component {
     getRecommendationList(this.props.match.params.id).then((res) => {
       console.log(res, 'aaa');
       let productList = res.context.recommendationGoodsInfoRels;
+                                    // recommendationGoodsInfoRels
       productList.map((el) => {
         if(!el.goodsInfo.goodsInfoImg) {
           el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg
@@ -135,6 +136,8 @@ class Help extends React.Component {
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
+      console.log(err)
+      return
       this.props.history.push('/')
     })
     if (localItemRoyal.get('isRefresh')) {
@@ -536,11 +539,10 @@ class Help extends React.Component {
           </div>
           <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Discover your personally-selected nutrition recommendation below.
+              <FormattedMessage id="recommendation.firstTitle" />
             </h2>
             <p>
-              Click to get started now for your shopping, or continue reading to
-              find out more about the benefits of veterinary health nutrition.
+              <FormattedMessage id="recommendation.firstContent" />
             </p>
             <p>
               <button
@@ -555,7 +557,7 @@ class Help extends React.Component {
                   }
                 }}
               >
-                View in cart
+                <FormattedMessage id="recommendation.viewInCart" />
               </button>
             </p>
           </section>
@@ -574,7 +576,7 @@ class Help extends React.Component {
                         fontWeight: '500'
                       }}
                     >
-                      Recommendation Package
+                      <FormattedMessage id="recommendation.recommendationPackage" />
                     </div>
                     <ul>
                       {productList.map((el, i) => (
@@ -589,16 +591,24 @@ class Help extends React.Component {
                               el.goodsInfo.goods.goodsImg
                             }
                           />
-                          <span className="proName">
-                            {el.goodsInfo.goodsInfoName}
-                          </span>
-                          <span>X {el.recommendationNumber}</span>
+                          <div style={{display: 'inline-block', verticalAlign: 'middle'}}>
+                            <span className="proName">
+                              {el.goodsInfo.goodsInfoName}
+                            </span>
+                            
+                            <span>X {el.recommendationNumber}</span>
+                            <br/>
+                            <span className="proName">{el.goodsInfo.specText}</span>
+                          </div>
+                          
+                          
+                          
                         </li>
                       ))}
                       <p ref="p" style={{ marginTop: '60px' }}>
                         {
                           this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}><FormattedMessage id="recommendation.buyNow" /></button>
                           ): (
                             <LoginButton
                               beforeLoginCallback={async () => this.buyNow(true)}
@@ -674,7 +684,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxLinePrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinLinePrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxLinePrice)}
                                   </span>
                                 )
@@ -700,7 +710,7 @@ class Help extends React.Component {
                                 <span>{formatMoney(MaxMarketPrice)}</span>
                               ) : (
                                 <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  <FormattedMessage id="from" /> {formatMoney(MinMarketPrice)} <FormattedMessage id="to" />{' '}
                                   {formatMoney(MaxMarketPrice)}
                                 </span>
                               )
@@ -726,7 +736,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxSubPrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinSubPrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxSubPrice)}
                                   </span>
                                 )
@@ -749,7 +759,7 @@ class Help extends React.Component {
                               );
                             }}
                           >
-                            View Detail
+                            <FormattedMessage id="recommendation.viewDetail" />
                           </button>
                         </p>
                       </div>
@@ -799,8 +809,7 @@ class Help extends React.Component {
                         letterSpacing: '0'
                       }}
                     >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
+                      <FormattedMessage id="recommendation.productDescription" />
                     </p>
                   </div>
                 </div>
@@ -814,12 +823,12 @@ class Help extends React.Component {
                         float: 'left'
                       }}
                     >
-                      Recommendation Package
+                      <FormattedMessage id="recommendation.recommendationPackage" />
                     </div>
                     <p ref="p" style={{ marginTop: '60px', textAlign: 'left' }}>
                         {
                           this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}><FormattedMessage id="recommendation.buyNow" /></button>
                           ): (
                             <LoginButton
                               beforeLoginCallback={async () => this.buyNow(true)}
@@ -930,7 +939,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxLinePrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinLinePrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxLinePrice)}
                                   </span>
                                 )
@@ -955,7 +964,7 @@ class Help extends React.Component {
                                 <span>{formatMoney(MaxMarketPrice)}</span>
                               ) : (
                                 <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  <FormattedMessage id="from" /> {formatMoney(MinMarketPrice)} <FormattedMessage id="to" />{' '}
                                   {formatMoney(MaxMarketPrice)}
                                 </span>
                               )
@@ -980,7 +989,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxSubPrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinSubPrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxSubPrice)}
                                   </span>
                                 )
@@ -1003,7 +1012,7 @@ class Help extends React.Component {
                               );
                             }}
                           >
-                            View Detail
+                            <FormattedMessage id="recommendation.viewDetail" />
                           </button>
                         </p>
                       </div>
@@ -1060,8 +1069,7 @@ class Help extends React.Component {
                         letterSpacing: '0'
                       }}
                     >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
+                      <FormattedMessage id="recommendation.productDescription" />
                     </p>
                   </div>
                 </div>
@@ -1084,15 +1092,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A' }}>
-                  Veterinary health nutrition
+                  <FormattedMessage id="recommendation.secTitle" />
                 </h2>
                 <p>
-                  At Royal Canin, we believe that nutrition plays a key role in
-                  supporting the health and well-being of cats and dogs. This is
-                  why we have designed ROYAL CANIN® Veterinary diets around
-                  proven nutritional science in order to address specific pet
-                  conditions. Follow your veterinarian's nutritional
-                  recommendation here below.
+                  <FormattedMessage id="recommendation.secContent" />
                 </p>
                 {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
               </div>
@@ -1104,11 +1107,10 @@ class Help extends React.Component {
           <div class="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Our pet experts are here to help you
+                <FormattedMessage id="recommendation.thirdTitle" />
               </h2>
               <p>
-                We're pet lovers and experts in cat and dog nutrition and we're
-                ready to to help you with any questions you might have.
+                <FormattedMessage id="recommendation.thirdContent" />
               </p>
             </section>
             <div class="experience-region experience-main">
@@ -1273,11 +1275,10 @@ class Help extends React.Component {
 
           <section style={{ textAlign: 'center' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Why Royal Canin?
+              <FormattedMessage id="recommendation.fourTitle" />
             </h2>
             <p>
-              Your pet means the world to you, and their health and happiness
-              means the world to us !
+              <FormattedMessage id="recommendation.fourContent" />
             </p>
           </section>
           <section
@@ -1296,17 +1297,7 @@ class Help extends React.Component {
           </section>
           <section style={{ padding: '40px 68px', background: '#f6f6f6' }}>
             <p>
-              Donec nec ornare risus. Nunc id interdum eros, a pellentesque
-              turpis. Nullam tellus metus, rutrum ut tortor at, bibendum
-              molestie nulla. Donec commodo pretium urna. Morbi arcu turpis,
-              feugiat vel luctus in, placerat in leo. Fusce tincidunt dui ac dui
-              ultricies, dictum sagittis est venenatis. Nullam imperdiet
-              fermentum scelerisque. Etiam ante magna, maximus eleifend gravida
-              ut, venenatis nec justo. Donec eu tincidunt erat. Suspendisse
-              vehicula nibh a metus vestibulum, quis maximus turpis scelerisque.
-              Maecenas ac lectus justo. Sed id justo id orci consectetur tempor.
-              Cras ut diam in quam tempor volutpat ut a enim. Vivamus lacinia
-              mauris sed accumsan dapibus.
+              <FormattedMessage id="recommendation.fiveContent" />
             </p>
           </section>
         </main>

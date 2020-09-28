@@ -228,6 +228,7 @@ const en_US = {
   "forgetPassword.forgetPasswordTip": "You will be sent a letter with instructions for changing the password.",
   freeShipping: "Free shipping",
   from: "From",
+  to: 'To',
   getConsumerAccountFailed: "Get Consumer Account Failed",
   getDataFailed: "Get Data Failed",
   getPetFailed: "Get Pet Failed",
@@ -636,6 +637,20 @@ const en_US = {
   searchNoBreed: 'not a pedigree',
   'required.logoTitle':'Welcome to ROYALCANIN® online store',
   'required.complete':'Complete log-in process',
+  'recommendation.firstTitle': 'Discover your personally-selected nutrition recommendation below.',
+  'recommendation.firstContent': 'Click to get started now for your shopping, or continue reading to find out more about the benefits of veterinary health nutrition.',
+  'recommendation.secTitle': 'Veterinary health nutrition',
+  'recommendation.secContent': 'At Royal Canin, we believe that nutrition plays a key role in supporting the health and well-being of cats and dogs. This is why we have designed ROYAL CANIN® Veterinary diets around proven nutritional science in order to address specific pet conditions. Follow your veterinarian‘s nutritional recommendation here below.',
+  'recommendation.thirdTitle': 'Our pet experts are here to help you',
+  'recommendation.thirdContent': 'We‘re pet lovers and experts in cat and dog nutrition and we’re ready to to help you with any questions you might have.',
+  'recommendation.fourTitle': 'Why Royal Canin?',
+  'recommendation.fourContent': 'Your pet means the world to you, and their health and happiness means the world to us !',
+  'recommendation.fiveContent': 'While neither of ornare risus. Now that sometimes the United States, from high school kids. Earth is no fear that the makeup temperature at zero drink employee. Unfortunately, the price of convenience pot. Arc soccer scores, eu or mourning to invest in the refrigerator. Clinical developers dui dui ultricies arrows, it is sterilized. Financing warm thermal relay. Even before the great, as is the biggest eleifend gravida vel, aliquam sed justo. Unfortunately, developers of football. Freight wagons dis fears manufacturing, the biggest one ugly chocolate. Sed tempor lectus justo. However, it is just that the main clinical time. Tomorrow the diameter at which time we make a weekend. Mauris live skirt layer protein.',
+  'recommendation.viewInCart': 'View in cart',
+  'recommendation.viewDetail': 'View Detail',
+  'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
+  'recommendation.recommendationPackage': 'Recommendation Package',
+  'recommendation.buyNow': 'Buy now',
 }
 
 export default en_US;

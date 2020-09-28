@@ -233,6 +233,7 @@ const en_US = {
   'forgetPassword.forgetPasswordTip': 'Se le enviará una carta con instrucciones para cambiar la contraseña.',
   'freeShipping': 'Envío gratis',
   'from': 'De',
+  'to': 'A',
   'getConsumerAccountFailed': 'Obtener la cuenta del consumidor fallida',
   'getDataFailed': 'Obtener datos fallidos',
   getPetFailed: "Obtener mascota fallida",
@@ -644,5 +645,20 @@ const en_US = {
   searchNoBreed: 'no es un pedigrí',
   'required.logoTitle':'Bienvenido a la tienda en línea ROYALCANIN®',
   'required.complete':'Proceso de inicio de sesión completo',
+  'recommendation.firstTitle': 'Esta es una recomendación nutricional de su elección personal.',
+  'recommendation.firstContent': 'Pulse inmediatamente para comenzar a comprar o siga leyendo sobre los beneficios de una nutrición veterinaria sana.',
+  'recommendation.secTitle': 'Nutrición veterinaria',
+  'recommendation.secContent': 'En Royal canin creemos que la nutrición desempeña un papel fundamental en el apoyo a la salud y el bienestar de los gatos y los perros.Por eso diseñamos la dieta veterinaria Royal canin® para abordar las condiciones específicas de las mascotas y demostrar sus ciencias nutricionales.A continuación figuran las recomendaciones sobre nutrición veterinaria.',
+  'recommendation.thirdTitle': 'Nuestro experto en mascotas vendrá a ayudarte.',
+  'recommendation.thirdContent': 'Somos aficionados a las mascotas y nutricionistas de gatos y perros, y estamos dispuestos a responder cualquier pregunta.',
+  'recommendation.fourTitle': '¿Por qué un perro real?',
+  'recommendation.fourContent': '¡Tus mascotas significan para ti todo el mundo, su salud y felicidad para nosotros todo el mundo!',
+  'recommendation.fiveContent': 'Während weder Ornare Risus. Nun, da manchmal die Vereinigten Staaten von Highschool-Kindern. Erde ist keine Angst, dass die Make-up-Temperatur bei Null trinken Mitarbeiter. Leider ist der Preis für Convenience Pot. Arc Soccer Scores, EU oder Trauer, um in den Kühlschrank zu investieren. Klinische Entwickler dui dui ultricies Pfeile, es ist sterilisiert. Finanzierung des warmen thermischen Relais. Schon vor dem großen, wie auch dem größten eleifend gravida vel, sed aliquam sed justo. Leider Entwickler des Fußballs. Güterwagen befürchten die Herstellung, die größte hässliche Schokolade. Sed tempor Lectus justo. Es ist jedoch nur die wichtigste klinische Zeit. Morgen der Durchmesser, zu welcher Zeit wir ein Wochenende machen. Mauris Live Rock Layer Protein.',
+  'recommendation.viewInCart': 'Ver en el carrito',
+  'recommendation.viewDetail': 'Ver Detalle',
+  'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
+  'recommendation.recommendationPackage': 'Paquete de recomendaciones',
+  'recommendation.buyNow': 'Compra ahora',
+  
 }
 export default en_US;

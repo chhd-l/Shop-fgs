@@ -36,7 +36,7 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-.recommendProduct .left li > span {
+.recommendProduct .left li .proName {
   display: inline-block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -44,7 +44,7 @@
   word-break: break-all;
 }
 .recommendProduct .left li .proName {
-  width: 70px;
+  width: 110px;
   margin-left: 5px;
 }
 
