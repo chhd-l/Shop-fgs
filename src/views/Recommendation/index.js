@@ -12,6 +12,12 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
+import mx_recommendation2 from '@/assets/images/mx_recommendation2.png';
+import mx_recommendation3 from '@/assets/images/mx_recommendation3.png';
+import mx_recommendation4 from '@/assets/images/mx_recommendation4.png';
+import de_recommendation2 from '@/assets/images/de_recommendation2.png';
+import de_recommendation3 from '@/assets/images/de_recommendation3.png';
+import de_recommendation4 from '@/assets/images/de_recommendation4.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
@@ -494,7 +500,19 @@ class Help extends React.Component {
       MinSubPrice,
       'aaaaa'
     );
-
+    let cur_recommendation2 = recommendation2
+    let cur_recommendation3 = recommendation3
+    let cur_recommendation4 = recommendation4
+    if(process.env.REACT_APP_LANG === 'de') {
+      cur_recommendation2 = de_recommendation2
+      cur_recommendation3 = de_recommendation3
+      cur_recommendation4 = de_recommendation4
+    }else if(process.env.REACT_APP_LANG === 'es') {
+      cur_recommendation2 = mx_recommendation2
+      cur_recommendation3 = mx_recommendation3
+      cur_recommendation4 = mx_recommendation4
+    }
+    
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
@@ -1282,13 +1300,13 @@ class Help extends React.Component {
             style={{ textAlign: 'center', display: 'flex' }}
           >
             <li>
-              <img src={recommendation2} />
+              <img src={cur_recommendation2} />
             </li>
             <li>
-              <img src={recommendation3} />
+              <img src={cur_recommendation3} />
             </li>
             <li>
-              <img src={recommendation4} />
+              <img src={cur_recommendation4} />
             </li>
           </section>
           <section className="re-p-sm-12 re-p-md-4068" style={{ background: '#f6f6f6' }}>
