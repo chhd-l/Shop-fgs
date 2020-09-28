@@ -461,7 +461,7 @@ class AddressList extends React.Component {
                               )}
                               {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
                             </div>
-                            <div className="col-10 col-md-9">
+                            <div className="col-10 col-md-9 text-break">
                               {[item.consigneeName, item.consigneeNumber].join(
                                 ', '
                               )}

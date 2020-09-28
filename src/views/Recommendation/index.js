@@ -12,6 +12,12 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
+import mx_recommendation2 from '@/assets/images/mx_recommendation2.png';
+import mx_recommendation3 from '@/assets/images/mx_recommendation3.png';
+import mx_recommendation4 from '@/assets/images/mx_recommendation4.png';
+import de_recommendation2 from '@/assets/images/de_recommendation2.png';
+import de_recommendation3 from '@/assets/images/de_recommendation3.png';
+import de_recommendation4 from '@/assets/images/de_recommendation4.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
@@ -92,6 +98,7 @@ class Help extends React.Component {
     getRecommendationList(this.props.match.params.id).then((res) => {
       console.log(res, 'aaa');
       let productList = res.context.recommendationGoodsInfoRels;
+                                    // recommendationGoodsInfoRels
       productList.map((el) => {
         if(!el.goodsInfo.goodsInfoImg) {
           el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg
@@ -128,11 +135,15 @@ class Help extends React.Component {
         this.checkoutStock()
       });
       getPrescriptionById({id: res.context.prescriberId}).then(res => {
-        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+      // getPrescriptionById({ id: '2304' }).then((res) => {
+      //   console.log(res, 'bbb');
+        this.props.clinicStore.setLinkClinicId(res.context.id);
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
+      console.log(err)
+      return
       this.props.history.push('/')
     })
     if (localItemRoyal.get('isRefresh')) {
@@ -489,7 +500,19 @@ class Help extends React.Component {
       MinSubPrice,
       'aaaaa'
     );
-
+    let cur_recommendation2 = recommendation2
+    let cur_recommendation3 = recommendation3
+    let cur_recommendation4 = recommendation4
+    if(process.env.REACT_APP_LANG === 'de') {
+      cur_recommendation2 = de_recommendation2
+      cur_recommendation3 = de_recommendation3
+      cur_recommendation4 = de_recommendation4
+    }else if(process.env.REACT_APP_LANG === 'es') {
+      cur_recommendation2 = mx_recommendation2
+      cur_recommendation3 = mx_recommendation3
+      cur_recommendation4 = mx_recommendation4
+    }
+    
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
@@ -532,13 +555,12 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section className="text-center">
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Discover your personally-selected nutrition recommendation below.
+              <FormattedMessage id="recommendation.firstTitle" />
             </h2>
             <p>
-              Click to get started now for your shopping, or continue reading to
-              find out more about the benefits of veterinary health nutrition.
+              <FormattedMessage id="recommendation.firstContent" />
             </p>
             <p>
               <button
@@ -553,13 +575,13 @@ class Help extends React.Component {
                   }
                 }}
               >
-                View in cart
+                <FormattedMessage id="recommendation.viewInCart" />
               </button>
             </p>
           </section>
-          <section className="recommendProduct">
+          <section className="recommendProduct re-custom">
             {this.state.loading ? (
-              <Skeleton color="#f5f5f5" width="100%" height="100%" />
+              <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
             ) : (
               productList.length && (
                 <div>
@@ -572,7 +594,7 @@ class Help extends React.Component {
                         fontWeight: '500'
                       }}
                     >
-                      Recommendation Package
+                      <FormattedMessage id="recommendation.recommendationPackage" />
                     </div>
                     <ul>
                       {productList.map((el, i) => (
@@ -587,16 +609,24 @@ class Help extends React.Component {
                               el.goodsInfo.goods.goodsImg
                             }
                           />
-                          <span className="proName">
-                            {el.goodsInfo.goodsInfoName}
-                          </span>
-                          <span>X {el.recommendationNumber}</span>
+                          <div style={{display: 'inline-block', verticalAlign: 'middle'}}>
+                            <span className="proName">
+                              {el.goodsInfo.goodsInfoName}
+                            </span>
+                            
+                            <span>X {el.recommendationNumber}</span>
+                            <br/>
+                            <span className="proName">{el.goodsInfo.specText}</span>
+                          </div>
+                          
+                          
+                          
                         </li>
                       ))}
                       <p ref="p" style={{ marginTop: '60px' }}>
                         {
                           this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}><FormattedMessage id="recommendation.buyNow" /></button>
                           ): (
                             <LoginButton
                               beforeLoginCallback={async () => this.buyNow(true)}
@@ -646,7 +676,7 @@ class Help extends React.Component {
                       </div>
 
                       <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                        <h2 title={productList[activeIndex].goodsInfo.goodsInfoName} className="rc-gamma ui-text-overflow-line2 text-break" style={{ color: '#E2001A', marginTop: '40px' }}>
                           {productList[activeIndex].goodsInfo.goodsInfoName}
                         </h2>
 
@@ -672,7 +702,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxLinePrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinLinePrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxLinePrice)}
                                   </span>
                                 )
@@ -698,7 +728,7 @@ class Help extends React.Component {
                                 <span>{formatMoney(MaxMarketPrice)}</span>
                               ) : (
                                 <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  <FormattedMessage id="from" /> {formatMoney(MinMarketPrice)} <FormattedMessage id="to" />{' '}
                                   {formatMoney(MaxMarketPrice)}
                                 </span>
                               )
@@ -724,7 +754,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxSubPrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinSubPrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxSubPrice)}
                                   </span>
                                 )
@@ -733,7 +763,7 @@ class Help extends React.Component {
                           </div>
                         )}
 
-                        <p style={{ width: '350px' }}>
+                        <p className="mr-5">
                           {productList[activeIndex].goodsInfo.goods
                             .goodsDescription || 'none'}
                         </p>
@@ -747,7 +777,7 @@ class Help extends React.Component {
                               );
                             }}
                           >
-                            View Detail
+                            <FormattedMessage id="recommendation.viewDetail" />
                           </button>
                         </p>
                       </div>
@@ -797,8 +827,7 @@ class Help extends React.Component {
                         letterSpacing: '0'
                       }}
                     >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
+                      <FormattedMessage id="recommendation.productDescription" />
                     </p>
                   </div>
                 </div>
@@ -812,12 +841,12 @@ class Help extends React.Component {
                         float: 'left'
                       }}
                     >
-                      Recommendation Package
+                      <FormattedMessage id="recommendation.recommendationPackage" />
                     </div>
                     <p ref="p" style={{ marginTop: '60px', textAlign: 'left' }}>
                         {
                           this.props.loginStore.isLogin?(
-                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}>Buy now</button>
+                            <button ref="loginButton" class={`rc-btn rc-btn--one ${this.state.buttonLoading?'ui-btn-loading': ''}`} onClick={() => this.buyNow()}><FormattedMessage id="recommendation.buyNow" /></button>
                           ): (
                             <LoginButton
                               beforeLoginCallback={async () => this.buyNow(true)}
@@ -903,7 +932,7 @@ class Help extends React.Component {
                       </div>
 
                       <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                        <h2 title={productList[activeIndex].goodsInfo.goodsInfoName} className="rc-gamma ui-text-overflow-line2 text-break" style={{ color: '#E2001A', marginTop: '3rem' }}>
                           {productList[activeIndex].goodsInfo.goodsInfoName}
                         </h2>
 
@@ -911,7 +940,7 @@ class Help extends React.Component {
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
                         {MaxLinePrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                             <div className="rc-input product-pricing__card__head__title">
                               <FormattedMessage id="listPrice" />
                             </div>
@@ -919,7 +948,6 @@ class Help extends React.Component {
                               className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
                               style={{
                                 fontWeight: '200',
-                                fontSize: '24px',
                                 color: 'rgba(102,102,102,.7)'
                               }}
                             >
@@ -928,7 +956,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxLinePrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinLinePrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinLinePrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxLinePrice)}
                                   </span>
                                 )
@@ -936,7 +964,7 @@ class Help extends React.Component {
                             </b>
                           </div>
                         )}
-                        <div className="product-pricing__card__head d-flex align-items-center">
+                        <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                           <div className="rc-input product-pricing__card__head__title">
                             <FormattedMessage id="price" />
                           </div>
@@ -944,7 +972,6 @@ class Help extends React.Component {
                             className="rc-padding-y--none"
                             style={{
                               fontWeight: '200',
-                              fontSize: '24px',
                               // color: 'rgba(102,102,102,.7)'
                             }}
                           >
@@ -953,7 +980,7 @@ class Help extends React.Component {
                                 <span>{formatMoney(MaxMarketPrice)}</span>
                               ) : (
                                 <span>
-                                  From {formatMoney(MinMarketPrice)} to{' '}
+                                  <FormattedMessage id="from" /> {formatMoney(MinMarketPrice)} <FormattedMessage id="to" />{' '}
                                   {formatMoney(MaxMarketPrice)}
                                 </span>
                               )
@@ -961,7 +988,7 @@ class Help extends React.Component {
                           </b>
                         </div>
                         {MaxSubPrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                             <div className="rc-input product-pricing__card__head__title">
                               <FormattedMessage id="autoship" />
                             </div>
@@ -969,7 +996,6 @@ class Help extends React.Component {
                               className="rc-padding-y--none"
                               style={{
                                 fontWeight: '200',
-                                fontSize: '24px',
                                 // color: 'rgba(102,102,102,.7)'
                               }}
                             >
@@ -978,7 +1004,7 @@ class Help extends React.Component {
                                   <span>{formatMoney(MaxSubPrice)}</span>
                                 ) : (
                                   <span>
-                                    From {formatMoney(MinSubPrice)} to{' '}
+                                    <FormattedMessage id="from" /> {formatMoney(MinSubPrice)} <FormattedMessage id="to" />{' '}
                                     {formatMoney(MaxSubPrice)}
                                   </span>
                                 )
@@ -987,13 +1013,13 @@ class Help extends React.Component {
                           </div>
                         )}
 
-                        <p style={{ width: '350px' }}>
+                        <p>
                           {productList[activeIndex].goodsInfo.goods
                             .goodsDescription || 'none'}
                         </p>
                         <p>
                           <button
-                            class="rc-btn rc-btn--two"
+                            className="rc-btn rc-btn--two mb-3 mt-2"
                             onClick={() => {
                               this.props.history.push(
                                 '/details/' +
@@ -1001,7 +1027,7 @@ class Help extends React.Component {
                               );
                             }}
                           >
-                            View Detail
+                            <FormattedMessage id="recommendation.viewDetail" />
                           </button>
                         </p>
                       </div>
@@ -1058,8 +1084,7 @@ class Help extends React.Component {
                         letterSpacing: '0'
                       }}
                     >
-                      Royal Canin’s feeding guidelines can also be found on the
-                      product packaging.
+                      <FormattedMessage id="recommendation.productDescription" />
                     </p>
                   </div>
                 </div>
@@ -1069,8 +1094,7 @@ class Help extends React.Component {
           </section>
 
           <div
-            class="rc-layout-container rc-two-column"
-            style={{ padding: '68px' }}
+            class="rc-layout-container rc-two-column re-p-0 re-p-md-68"
           >
             <div
               class="rc-column"
@@ -1082,15 +1106,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A' }}>
-                  Veterinary health nutrition
+                  <FormattedMessage id="recommendation.secTitle" />
                 </h2>
                 <p>
-                  At Royal Canin, we believe that nutrition plays a key role in
-                  supporting the health and well-being of cats and dogs. This is
-                  why we have designed ROYAL CANIN® Veterinary diets around
-                  proven nutritional science in order to address specific pet
-                  conditions. Follow your veterinarian's nutritional
-                  recommendation here below.
+                  <FormattedMessage id="recommendation.secContent" />
                 </p>
                 {/* <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>View in Cart</button> */}
               </div>
@@ -1102,11 +1121,10 @@ class Help extends React.Component {
           <div class="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Our pet experts are here to help you
+                <FormattedMessage id="recommendation.thirdTitle" />
               </h2>
               <p>
-                We're pet lovers and experts in cat and dog nutrition and we're
-                ready to to help you with any questions you might have.
+                <FormattedMessage id="recommendation.thirdContent" />
               </p>
             </section>
             <div class="experience-region experience-main">
@@ -1271,11 +1289,10 @@ class Help extends React.Component {
 
           <section style={{ textAlign: 'center' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Why Royal Canin?
+              <FormattedMessage id="recommendation.fourTitle" />
             </h2>
             <p>
-              Your pet means the world to you, and their health and happiness
-              means the world to us !
+              <FormattedMessage id="recommendation.fourContent" />
             </p>
           </section>
           <section
@@ -1283,28 +1300,18 @@ class Help extends React.Component {
             style={{ textAlign: 'center', display: 'flex' }}
           >
             <li>
-              <img src={recommendation2} />
+              <img src={cur_recommendation2} />
             </li>
             <li>
-              <img src={recommendation3} />
+              <img src={cur_recommendation3} />
             </li>
             <li>
-              <img src={recommendation4} />
+              <img src={cur_recommendation4} />
             </li>
           </section>
-          <section style={{ padding: '40px 68px', background: '#f6f6f6' }}>
+          <section className="re-p-sm-12 re-p-md-4068" style={{ background: '#f6f6f6' }}>
             <p>
-              Donec nec ornare risus. Nunc id interdum eros, a pellentesque
-              turpis. Nullam tellus metus, rutrum ut tortor at, bibendum
-              molestie nulla. Donec commodo pretium urna. Morbi arcu turpis,
-              feugiat vel luctus in, placerat in leo. Fusce tincidunt dui ac dui
-              ultricies, dictum sagittis est venenatis. Nullam imperdiet
-              fermentum scelerisque. Etiam ante magna, maximus eleifend gravida
-              ut, venenatis nec justo. Donec eu tincidunt erat. Suspendisse
-              vehicula nibh a metus vestibulum, quis maximus turpis scelerisque.
-              Maecenas ac lectus justo. Sed id justo id orci consectetur tempor.
-              Cras ut diam in quam tempor volutpat ut a enim. Vivamus lacinia
-              mauris sed accumsan dapibus.
+              <FormattedMessage id="recommendation.fiveContent" />
             </p>
           </section>
         </main>

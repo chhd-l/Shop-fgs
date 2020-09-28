@@ -120,7 +120,7 @@ class ShippingAddressFrom extends React.Component {
     } catch (err) {
       this.setState({ loading: false });
       this.showErrorMsg(
-        err.toString() || this.props.intl.messages.getDataFailed
+        err.message.toString() || this.props.intl.messages.getDataFailed
       );
     }
   };
@@ -181,7 +181,7 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         loading: false
       });
-      this.showErrorMsg(err.toString() || this.props.intl.messages.saveFailed);
+      this.showErrorMsg(err.message.toString() || this.props.intl.messages.saveFailed);
     }
   };
   setDefaltAddress = async (id) => {

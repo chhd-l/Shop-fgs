@@ -246,7 +246,7 @@ class PayProductInfo extends React.Component {
   getTotalItems() {
     const { productList } = this.state;
     let quantityKeyName = 'quantity';
-    if (this.isLogin) {
+    if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
     }
     return (

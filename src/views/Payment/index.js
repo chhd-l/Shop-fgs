@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
@@ -409,7 +409,90 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
-  };
+
+    if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
+      // todo
+      // this.props.history.push('/cart');
+      return false;
+    }
+    if (
+      !this.isLogin &&
+      (!this.cartData.length ||
+        !this.cartData.filter((ele) => ele.selected).length ||
+        !this.state.recommend_data.length)
+    ) {
+      // todo
+      // this.props.history.push('/cart');
+      return false;
+    }
+    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
+    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
+
+    if (!this.isLogin) {
+      let deliveryInfo = localItemRoyal.get('deliveryInfo');
+      if (deliveryInfo) {
+        creditCardInfo.cardOwner =
+          deliveryInfo.deliveryAddress.firstName +
+          ' ' +
+          deliveryInfo.deliveryAddress.lastName;
+        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
+        this.setState({
+          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
+            country: defaultCountryId
+          }),
+          billingAddress: Object.assign(deliveryInfo.billingAddress, {
+            country: defaultCountryId
+          }),
+          billingChecked: deliveryInfo.billingChecked,
+          creditCardInfo: creditCardInfo
+        });
+      } else {
+        deliveryAddress.country = defaultCountryId;
+        billingAddress.country = defaultCountryId;
+        this.setState({
+          deliveryAddress: deliveryAddress,
+          billingAddress: billingAddress
+        });
+      }
+    }
+
+    // fill default subform data
+    let cacheSubForm = sessionItemRoyal.get('rc-subform');
+    if (cacheSubForm) {
+      cacheSubForm = JSON.parse(cacheSubForm);
+      this.setState({
+        subForm: cacheSubForm
+      });
+    }
+  }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+    sessionItemRoyal.remove('rc-tid');
+    sessionItemRoyal.remove('rc-subform');
+    sessionItemRoyal.remove('recommend_product');
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
+  get cartData() {
+    return this.props.checkoutStore.cartData;
+  }
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
+  }
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
+  }
+  get checkoutWithClinic() {
+    return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
+  }
+  //是否consent必填项勾选
+  isConsentRequiredChecked() {
+    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
+    if (!isAllChecked) {
+      throw new Error(this.props.intl.messages.CompleteRequiredItems);
+    }
+  }
   queryOrderDetails() {
     getOrderDetails(this.state.tid).then(async (res) => {
       let resContext = res.context;
@@ -1325,14 +1408,18 @@ class Payment extends React.Component {
 
         {/* ***********************支付选项卡的内容start******************************* */}
         {/* oxxo */}
-        {this.state.paymentTypeVal === 'oxxo' && (
+        <div
+          className={`${this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}
+        >
           <OxxoConfirm
+            type={'oxxo'}
+            listData={this.state.listData}
             history={this.props.history}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             clickPay={this.initCommonPay}
           />
-        )}
+        </div>
         {/* payu creditCard */}
         <div
           className={`${
@@ -1340,6 +1427,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
+            type={'PayUCreditCard'}
             listData={this.state.listData}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}

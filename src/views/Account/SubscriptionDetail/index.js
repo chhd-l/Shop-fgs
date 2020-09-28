@@ -206,7 +206,8 @@ class SubscriptionDetail extends React.Component {
           subscribeNum: el.subscribeNum,
           subscribeGoodsId: el.subscribeGoodsId
         };
-      })
+      }),
+      changeField: this.props.intl.messages['subscription.receiveDate']
     };
     this.setState({ loading: true });
     updateDetail(param)
@@ -233,7 +234,7 @@ class SubscriptionDetail extends React.Component {
       await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
       //await this.getDetail()
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
     }
   }
   get isLogin() {
@@ -262,7 +263,7 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       await updateDetail(param);
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err.message);
     } finally {
       this.setState({ loading: false });
     }
@@ -300,17 +301,21 @@ class SubscriptionDetail extends React.Component {
         const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
         if (adyenPaymentMethod) {
           tempCardInfo = {
-            vendor: adyenPaymentMethod.name,
-            last_4_digits: adyenPaymentMethod.lastFour,
-            holder_name: adyenPaymentMethod.holderName,
+            paymentMethod: {
+              vendor: adyenPaymentMethod.name,
+              last_4_digits: adyenPaymentMethod.lastFour,
+              holder_name: adyenPaymentMethod.holderName
+            },
             phoneNumber: adyenPaymentMethod.phoneNumber
           };
         } else if (payuPaymentMethod) {
           tempCardInfo = {
-            vendor: payuPaymentMethod.vendor,
-            last_4_digits: payuPaymentMethod.last_4_digits,
-            holder_name: payuPaymentMethod.holder_name,
-            phoneNumber: payuPaymentMethod.phoneNumber
+            paymentMethod: {
+              vendor: payuPaymentMethod.vendor,
+              last_4_digits: payuPaymentMethod.last_4_digits,
+              holder_name: payuPaymentMethod.holder_name
+            },
+            phoneNumber: subDetail.paymentInfo.phoneNumber
           };
         }
       }
@@ -328,7 +333,7 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
       // throw new Error(err);
     } finally {
       this.setState({ loading: false });
@@ -389,7 +394,7 @@ class SubscriptionDetail extends React.Component {
         resolve(res);
       });
     } catch (err) {
-      this.showErrMsg(err);
+      this.showErrMsg(err.message);
       // throw new Error(err);
     } finally {
       this.setState({ loading: false });
@@ -399,7 +404,10 @@ class SubscriptionDetail extends React.Component {
     let { modalType, subDetail } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (modalType === 'skipNext') {
-      skipNextSub({ subscribeId: subDetail.subscribeId })
+      skipNextSub({
+        subscribeId: subDetail.subscribeId,
+        changeField: this.prop.intl.messages['subscription.skip']
+      })
         .then((res) => {
           window.location.reload();
         })
@@ -998,7 +1006,7 @@ class SubscriptionDetail extends React.Component {
                                     };
                                     Object.assign(param, {
                                       changeField: this.props.intl.messages[
-                                        'subscription.change'
+                                        'produtctNumber'
                                       ]
                                     });
                                     await this.doUpdateDetail(param);
@@ -1013,7 +1021,7 @@ class SubscriptionDetail extends React.Component {
                                       subDetail
                                     });
                                   } catch (err) {
-                                    this.showErrMsg(err);
+                                    this.showErrMsg(err.message);
                                   } finally {
                                     this.setState({ loading: false });
                                   }
@@ -1520,27 +1528,33 @@ class SubscriptionDetail extends React.Component {
                                 className="d-inline-block mr-1"
                                 style={{ width: '20%' }}
                                 src={
-                                  CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
+                                  CREDIT_CARD_IMG_ENUM[
+                                    currentCardInfo.paymentMethod
+                                      ? currentCardInfo.paymentMethod.vendor
+                                      : currentCardInfo.vendor
+                                  ]
                                 }
                               />
-                              {currentCardInfo.last_4_digits ? (
+                              {currentCardInfo.paymentMethod &&
+                              currentCardInfo.paymentMethod.last_4_digits ? (
                                 <>
                                   <span className="medium">
                                     ********
-                                    {currentCardInfo.last_4_digits}
+                                    {
+                                      currentCardInfo.paymentMethod
+                                        .last_4_digits
+                                    }
                                   </span>
                                   <br />
                                 </>
                               ) : null}
 
-                              {currentCardInfo.holder_name}
+                              {currentCardInfo.paymentMethod
+                                ? currentCardInfo.paymentMethod.holder_name
+                                : ''}
                               <br />
-                              {currentCardInfo.phoneNumber ? (
-                                <>
-                                  {currentCardInfo.phoneNumber}
-                                  <br />
-                                </>
-                              ) : null}
+                              {currentCardInfo.phoneNumber}
+                              <br />
                               {subDetail.subscribeStatus === '0' && (
                                 <a
                                   className="rc-styled-link red-text"

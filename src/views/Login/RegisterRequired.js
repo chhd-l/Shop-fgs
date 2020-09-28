@@ -231,7 +231,7 @@ class RegisterRequired extends Component {
                             />
                         </Link>
                         {/* Header title */}
-                        <h2 className="rc-text-colour--brand1" style={{ fontSize: '2.3rem', marginTop: '190px', textAlign: 'center',whiteSpace:'nowrap' }}><FormattedMessage id="required.logoTitle" /></h2>
+                        <h2 className="rc-text-colour--brand1" style={{marginTop: '190px', textAlign: 'center' }}><FormattedMessage id="required.logoTitle" /></h2>
                         <p style={{ textAlign: 'center', color: '#5F5F5F', fontSize: '1.3rem' }}><FormattedMessage id="required.complete" /></p>
                         {/* 没有勾选完必填项的alert提示 */}
                         {
@@ -242,7 +242,7 @@ class RegisterRequired extends Component {
                                 </aside>
                                 : null
                         }
-                        <div style={{ marginTop: '80px' }}>
+                        <div style={{ marginTop: '20px' }}>
                             <div class="rc-layout-container rc-one-column">
                                 <div class="rc-column">
                                     {

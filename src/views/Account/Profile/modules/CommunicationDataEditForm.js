@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { inject, observer } from 'mobx-react';
+import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
 @inject('configStore')
 @observer
@@ -79,8 +80,9 @@ class CommunicationDataEditForm extends React.Component {
   //保存
   async handleSave() {
     try {
+      let oktaToken = 'Bearer ' + this.props.authState.accessToken
       let submitParam = this.bindSubmitParam(this.state.list);
-      await userBindConsent(submitParam);
+      await userBindConsent({ ...submitParam, ...{ oktaToken } });
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -177,4 +179,4 @@ class CommunicationDataEditForm extends React.Component {
     );
   }
 }
-export default CommunicationDataEditForm;
+export default withOktaAuth(CommunicationDataEditForm);

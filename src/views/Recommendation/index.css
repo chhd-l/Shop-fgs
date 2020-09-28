@@ -36,7 +36,7 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-.recommendProduct .left li > span {
+.recommendProduct .left li .proName {
   display: inline-block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -44,7 +44,7 @@
   word-break: break-all;
 }
 .recommendProduct .left li .proName {
-  width: 70px;
+  width: 110px;
   margin-left: 5px;
 }
 
@@ -110,10 +110,12 @@
   width: 100%;
   text-align: center;
 }
-
-
+.re-p-md-68 { padding: 68px; }
+.re-p-md-4068 { padding: 40px 68px; }
 
 @media (max-width: 480px) {
+  .re-p-sm-12 { padding: 1rem 2%; }
+  .re-p-0 { padding: 0; }
   .recommendation h2 {
     margin-top: 0;
   }
@@ -133,6 +135,11 @@
   }
   .recommendProduct {
     padding: 0 ;
+  }
+  .recommendProduct.re-custom .recommendProductInnerMobile ul li {
+    width: 33%;
+    padding-left: 5%;
+    padding-right: 5%;
   }
   .recommendProduct .recommendProductInnerMobile ul li {
     float: left;
