@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
@@ -229,7 +229,6 @@ class Payment extends React.Component {
       let recommend_data = JSON.parse(
         sessionItemRoyal.get('recommend_product')
       );
-      console.log(recommend_data, 'recommend_data', toJS(this.loginCartData));
       recommend_data = recommend_data.map((el) => {
         el.goodsInfo.salePrice = el.goodsInfo.marketPrice;
         el.goodsInfo.buyCount = el.recommendationNumber;
@@ -361,16 +360,18 @@ class Payment extends React.Component {
     );
 
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      console.log(this.isLogin, this.loginCartData.length, this.state.tid, 111);
-      this.props.history.push('/cart');
+      // todo
+      // this.props.history.push('/cart');
       return false;
     }
     if (
       !this.isLogin &&
       (!this.cartData.length ||
-        !this.cartData.filter((ele) => ele.selected).length)
+        !this.cartData.filter((ele) => ele.selected).length ||
+        !this.state.recommend_data.length)
     ) {
-      this.props.history.push('/cart');
+      // todo
+      // this.props.history.push('/cart');
       return false;
     }
     const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
@@ -1467,14 +1468,18 @@ class Payment extends React.Component {
 
         {/* ***********************支付选项卡的内容start******************************* */}
         {/* oxxo */}
-        {this.state.paymentTypeVal === 'oxxo' && (
+        <div
+          className={`${this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}
+        >
           <OxxoConfirm
+            type={'oxxo'}
+            listData={this.state.listData}
             history={this.props.history}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}
             clickPay={this.initOxxo}
           />
-        )}
+        </div>
         {/* payu creditCard */}
         <div
           className={`${
@@ -1482,6 +1487,7 @@ class Payment extends React.Component {
           }`}
         >
           <PayUCreditCard
+            type={'PayUCreditCard'}
             listData={this.state.listData}
             startLoading={() => this.startLoading()}
             endLoading={() => this.endLoading()}

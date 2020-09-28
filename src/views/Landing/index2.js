@@ -79,7 +79,7 @@ class Landing extends Component {
         } catch (err) {
             this.setState({
                 showFail:true,
-                errMessage: err.message
+                errMessage: err.message.message
             },()=>{
                 setTimeout(() => {
                     this.setState({

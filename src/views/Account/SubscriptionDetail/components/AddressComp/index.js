@@ -156,7 +156,7 @@ class AddressList extends React.Component {
       });
     } catch (err) {
       this.setState({
-        errMsg: err.toString()
+        errMsg: err.message.toString()
       });
     } finally {
       this.setState({ loading: false });
@@ -322,7 +322,7 @@ class AddressList extends React.Component {
       return res;
     } catch (err) {
       this.setState({
-        saveErrorMsg: err.toString()
+        saveErrorMsg: err.message.toString()
       });
       this.scrollToTitle();
       clearTimeout(this.timer);
@@ -549,7 +549,7 @@ class AddressList extends React.Component {
                               </svg>
                             )}
                           </div>
-                          <div className="col-10 col-md-9">
+                          <div className="col-10 col-md-9 text-break">
                             {[item.consigneeName, item.consigneeNumber].join(
                               ', '
                             )}

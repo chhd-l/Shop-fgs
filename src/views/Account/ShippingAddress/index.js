@@ -96,7 +96,7 @@ class ShippingAddress extends React.Component {
       this.switchAddressType(this.state.currentType);
       this.setState({ listLoading: false });
     } catch (err) {
-      this.showErrorMsg(this.props.intl.messages.queryDataFailed);
+      this.showErrorMsg(err.message || this.props.intl.messages.queryDataFailed);
       this.setState({ listLoading: false });
     }
   };

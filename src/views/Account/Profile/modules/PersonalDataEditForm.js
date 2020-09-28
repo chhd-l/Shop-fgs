@@ -139,7 +139,7 @@ class PersonalDataEditForm extends React.Component {
       }, 2000);
     } catch (err) {
       this.setState({
-        errorMsg: typeof err === 'object' ? err.toString() : err
+        errorMsg: typeof err === 'object' ? err.message.toString() : err
       });
       setTimeout(() => {
         this.setState({

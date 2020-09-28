@@ -221,7 +221,7 @@ class PayOs extends React.Component {
         this.props.showErrorMsg(
           sessionItemRoyal.get('payosdata')
             ? sessionItemRoyal.get('payosdata')
-            : err.toString()
+            : err.message.toString()
         );
         clearInterval(timer);
         this.props.endLoading();
@@ -264,7 +264,7 @@ class PayOs extends React.Component {
       );
     } catch (err) {
       this.props.endLoading();
-      throw new Error(err);
+      throw new Error(err.message);
     }
   }
   clickPay = async () => {
@@ -296,17 +296,17 @@ class PayOs extends React.Component {
         }
         if (
           !needReConfirmCVV &&
-          (!selectedCardInfo || !selectedCardInfo.paymentMethod)
+          (!selectedCardInfo || !selectedCardInfo.payuPaymentMethod)
         ) {
           throw new Error(this.props.intl.messages['payment.errTip']);
         }
         this.props.startLoading();
-        if (!selectedCardInfo.paymentMethod) {
+        if (!selectedCardInfo.payuPaymentMethod) {
           throw new Error(this.props.intl.messages.changeAnotherCard);
         }
         const result = await this.payUTokenPromise({
           cvv: selectedCardInfo.cardCvv,
-          token: selectedCardInfo.paymentMethod.token
+          token: selectedCardInfo.payuPaymentMethod.token
         });
         try {
           const parsedRes = JSON.parse(result);
@@ -667,10 +667,13 @@ class PayOs extends React.Component {
           </div>
         </div>
         {/* 条款 */}
-        <TermsCommon
-          listData={this.props.listData}
-          checkRequiredItem={this.checkRequiredItem}
-        />
+        <div className="ml-custom mr-custom payuCreditCard">
+          <TermsCommon
+            id={this.props.type}
+            listData={this.props.listData}
+            checkRequiredItem={this.checkRequiredItem}
+          />
+        </div>
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"

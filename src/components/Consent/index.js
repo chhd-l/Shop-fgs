@@ -63,10 +63,12 @@ class Consent extends Component {
                     <div className="footer-checkbox" key={index}>
                       <div className="d-flex">
                         <div
-                          className="rc-text-colour--brand1"
-                          style={{ width: `${checkboxPadding}` }}
+                          className="rc-text-colour--brand1"      
                       >
+                        <p style={{ width: `${checkboxPadding}` }}>
                           {item.isRequired?'*':''}
+                        </p>
+                          
                       </div>
                         <div
                           className={
@@ -88,7 +90,9 @@ class Consent extends Component {
                     />
                     {item.isRequired && !item.isChecked && (
                       <div style={{display:'flex'}}>
-                        <span style={{width:'20px'}}></span>
+                        <div>
+                          <p style={{width:'20px'}}></p>
+                        </div>
                         <em className="red" style={{ fontSize: '.9em',fontStyle:'normal' }}>
                           <FormattedMessage id="requiredConsentCheckedTip" />
                         </em>

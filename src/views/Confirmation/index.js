@@ -157,7 +157,7 @@ class Confirmation extends React.Component {
       //   this.setState({ operateSuccessModalVisible: false })
       // }, 5000)
     } catch (err) {
-      this.setState({ errorMsg: err.toString() });
+      this.setState({ errorMsg: err.message.toString() });
     } finally {
       this.setState({ submitLoading: false });
     }

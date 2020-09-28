@@ -151,7 +151,7 @@ class PaymentComp extends React.Component {
       this.setState({ creditCardList: tmpList });
     } catch (err) {
       console.log(err);
-      this.setState({ listErr: err.toString() });
+      this.setState({ listErr: err.message.toString() });
     } finally {
       this.setState({
         loading: false,

@@ -1,4 +1,14 @@
 /* 组件 */
+@media (max-width:769px){
+  .required-component .footer-checkbox-title p{
+    width: 300px;
+  }
+}
+@media (min-width:769px){
+  .required-component .footer-checkbox-title p{
+    width:auto;
+  }
+}
 .required-component .footer-checkbox-title p{
     margin-bottom: 5px;
     cursor: pointer;

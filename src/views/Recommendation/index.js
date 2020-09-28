@@ -131,7 +131,7 @@ class Help extends React.Component {
       getPrescriptionById({id: res.context.prescriberId}).then(res => {
       // getPrescriptionById({ id: '2304' }).then((res) => {
       //   console.log(res, 'bbb');
-        this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+        this.props.clinicStore.setLinkClinicId(res.context.id);
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         this.setState({ prescriberInfo: res.context, loading: false });
       });
@@ -537,7 +537,7 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section className="text-center">
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="recommendation.firstTitle" />
             </h2>
@@ -561,9 +561,9 @@ class Help extends React.Component {
               </button>
             </p>
           </section>
-          <section className="recommendProduct">
+          <section className="recommendProduct re-custom">
             {this.state.loading ? (
-              <Skeleton color="#f5f5f5" width="100%" height="100%" />
+              <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
             ) : (
               productList.length && (
                 <div>
@@ -658,7 +658,7 @@ class Help extends React.Component {
                       </div>
 
                       <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                        <h2 title={productList[activeIndex].goodsInfo.goodsInfoName} className="rc-gamma ui-text-overflow-line2 text-break" style={{ color: '#E2001A', marginTop: '40px' }}>
                           {productList[activeIndex].goodsInfo.goodsInfoName}
                         </h2>
 
@@ -745,7 +745,7 @@ class Help extends React.Component {
                           </div>
                         )}
 
-                        <p style={{ width: '350px' }}>
+                        <p className="mr-5">
                           {productList[activeIndex].goodsInfo.goods
                             .goodsDescription || 'none'}
                         </p>
@@ -914,7 +914,7 @@ class Help extends React.Component {
                       </div>
 
                       <div className="text">
-                        <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                        <h2 title={productList[activeIndex].goodsInfo.goodsInfoName} className="rc-gamma ui-text-overflow-line2 text-break" style={{ color: '#E2001A', marginTop: '3rem' }}>
                           {productList[activeIndex].goodsInfo.goodsInfoName}
                         </h2>
 
@@ -922,7 +922,7 @@ class Help extends React.Component {
                             From {formatMoney(Math.min.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))} to {formatMoney(Math.max.apply(null, productList[activeIndex].goodsInfos.map(g => g.marketPrice || 0)))}
                           </h4> */}
                         {MaxLinePrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                             <div className="rc-input product-pricing__card__head__title">
                               <FormattedMessage id="listPrice" />
                             </div>
@@ -930,7 +930,6 @@ class Help extends React.Component {
                               className="product-pricing__card__head__price  rc-padding-y--none text-line-through"
                               style={{
                                 fontWeight: '200',
-                                fontSize: '24px',
                                 color: 'rgba(102,102,102,.7)'
                               }}
                             >
@@ -947,7 +946,7 @@ class Help extends React.Component {
                             </b>
                           </div>
                         )}
-                        <div className="product-pricing__card__head d-flex align-items-center">
+                        <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                           <div className="rc-input product-pricing__card__head__title">
                             <FormattedMessage id="price" />
                           </div>
@@ -955,7 +954,6 @@ class Help extends React.Component {
                             className="rc-padding-y--none"
                             style={{
                               fontWeight: '200',
-                              fontSize: '24px',
                               // color: 'rgba(102,102,102,.7)'
                             }}
                           >
@@ -972,7 +970,7 @@ class Help extends React.Component {
                           </b>
                         </div>
                         {MaxSubPrice > 0 && (
-                          <div className="product-pricing__card__head d-flex align-items-center">
+                          <div className="product-pricing__card__head d-flex align-items-center" style={{fontSize: '1.2rem'}}>
                             <div className="rc-input product-pricing__card__head__title">
                               <FormattedMessage id="autoship" />
                             </div>
@@ -980,7 +978,6 @@ class Help extends React.Component {
                               className="rc-padding-y--none"
                               style={{
                                 fontWeight: '200',
-                                fontSize: '24px',
                                 // color: 'rgba(102,102,102,.7)'
                               }}
                             >
@@ -998,13 +995,13 @@ class Help extends React.Component {
                           </div>
                         )}
 
-                        <p style={{ width: '350px' }}>
+                        <p>
                           {productList[activeIndex].goodsInfo.goods
                             .goodsDescription || 'none'}
                         </p>
                         <p>
                           <button
-                            class="rc-btn rc-btn--two"
+                            className="rc-btn rc-btn--two mb-3 mt-2"
                             onClick={() => {
                               this.props.history.push(
                                 '/details/' +
@@ -1079,8 +1076,7 @@ class Help extends React.Component {
           </section>
 
           <div
-            class="rc-layout-container rc-two-column"
-            style={{ padding: '68px' }}
+            class="rc-layout-container rc-two-column re-p-0 re-p-md-68"
           >
             <div
               class="rc-column"
@@ -1295,7 +1291,7 @@ class Help extends React.Component {
               <img src={recommendation4} />
             </li>
           </section>
-          <section style={{ padding: '40px 68px', background: '#f6f6f6' }}>
+          <section className="re-p-sm-12 re-p-md-4068" style={{ background: '#f6f6f6' }}>
             <p>
               <FormattedMessage id="recommendation.fiveContent" />
             </p>
