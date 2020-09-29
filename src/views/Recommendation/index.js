@@ -142,8 +142,6 @@ class Help extends React.Component {
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
-      console.log(err)
-      return
       this.props.history.push('/')
     })
     if (localItemRoyal.get('isRefresh')) {
