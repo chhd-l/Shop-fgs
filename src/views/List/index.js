@@ -129,6 +129,7 @@ class List extends React.Component {
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.fidFromSearch = ''; // 链接中所带筛选器参数
+    this.cidFromSearch = ''; // 链接中所带catory参数
   }
   componentDidMount() {
     console.log(localItemRoyal.get('isRefresh'));
@@ -138,6 +139,7 @@ class List extends React.Component {
       return false;
     }
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
+    this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
 
     this.setState(
       {
@@ -190,7 +192,9 @@ class List extends React.Component {
       }
     }
 
-    this.getProductList(this.fidFromSearch ? 'search_fid' : '');
+    this.getProductList(
+      this.fidFromSearch ? 'search_fid' : this.cidFromSearch ? 'search_cid' : ''
+    );
   }
   async getProductList(type) {
     let {
@@ -230,11 +234,14 @@ class List extends React.Component {
       keywords,
       storeCateIds
     };
-
+    let tmpArr;
     switch (type) {
       case 'search_fid':
-        const tmpArr = this.fidFromSearch.split('|');
+        tmpArr = this.fidFromSearch.split('|');
         params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
+        break;
+      case 'search_cid':
+        params.storeCateIds = this.cidFromSearch.split('|');
         break;
       default:
         for (let item of checkedList) {
