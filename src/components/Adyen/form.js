@@ -59,9 +59,7 @@ class AdyenCreditCardForm extends React.Component {
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
             environment: 'test',
-            // originKey: process.env.REACT_APP_AdyenOriginKEY,
-            originKey:
-              'pub.v2.8015632026961356.aHR0cDovL2xvY2FsaG9zdDozMDAw.zvqpQJn9QpSEFqojja-ij4Wkuk7HojZp5rlJOhJ2fY4', // todo
+            originKey: process.env.REACT_APP_AdyenOriginKEY,
             locale: process.env.REACT_APP_Adyen_locale
           });
 
@@ -205,11 +203,14 @@ class AdyenCreditCardForm extends React.Component {
                 <span
                   className="pull-right ui-cursor-pointer-pure mr-2"
                   onClick={() => {
-                    this.props.paymentStore.updatePanelStatus2('paymentMethod', {
-                      isPrepare: false,
-                      isEdit: true,
-                      isCompleted: false
-                    });
+                    this.props.paymentStore.updatePanelStatus2(
+                      'paymentMethod',
+                      {
+                        isPrepare: false,
+                        isEdit: true,
+                        isCompleted: false
+                      }
+                    );
                   }}
                 >
                   <FormattedMessage id="edit" />
