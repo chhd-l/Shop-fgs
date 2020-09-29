@@ -1,7 +1,7 @@
 import axios from '@/utils/request'
 
 const api = {
-  getFaq:'/store/storeFAQList '
+  getFaq:'/store/storeFAQList'
 }
 
 export default api
