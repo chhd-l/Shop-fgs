@@ -109,8 +109,8 @@ class ClinicForm extends React.Component {
     const { isEdit } = this.state;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="card-header bg-transparent pt-0 pb-0">
-          <h5 className="pull-left">
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
             <i className="rc-icon rc-health--xs rc-iconography"></i>{' '}
             {this.isLogin ? (
               <FormattedMessage id="payment.clinicTitle2" />
@@ -121,10 +121,7 @@ class ClinicForm extends React.Component {
               &#xe68c;
             </span>
           </h5>
-          <p
-            onClick={this.gotoPrescriptionPage}
-            className="rc-styled-link rc-margin-top--xs pull-right m-0"
-          >
+          <p onClick={this.gotoPrescriptionPage} className="rc-styled-link">
             <FormattedMessage id="edit" />
           </p>
         </div>
@@ -134,8 +131,8 @@ class ClinicForm extends React.Component {
 
     const searchJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="card-header bg-transparent pt-0 pb-0">
-          <h5 className={`pull-left ${isEdit ? 'red' : ''}`}>
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className={`mb-0 ${isEdit ? 'red' : ''}`}>
             <i
               className={`rc-icon rc-health--xs ${
                 isEdit ? 'rc-brand1' : 'rc-iconography'
@@ -153,10 +150,7 @@ class ClinicForm extends React.Component {
             )}
           </h5>
           {!isEdit && (
-            <p
-              onClick={this.handleClickEdit}
-              className="rc-styled-link rc-margin-top--xs pull-right m-0"
-            >
+            <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
               <FormattedMessage id="edit" />
             </p>
           )}

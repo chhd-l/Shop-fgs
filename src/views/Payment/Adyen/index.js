@@ -103,10 +103,10 @@ class AdyenCreditCard extends React.Component {
             showErrorMsg={this.props.showErrorMsg}
           />
         </div>
-        <div className="pb-3" />
 
         {!this.props.isOnepageCheckout && (
           <>
+            <div className="pb-3" />
             <div className="ml-custom mr-custom">
               <TermsCommon
                 id={'adyenCreditCard'}

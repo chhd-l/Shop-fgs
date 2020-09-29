@@ -186,9 +186,10 @@ class AdyenCommonPay extends Component {
             </div>
           </div>
         </div>
-        <div className="pb-3"></div>
+
         {!this.props.isOnepageCheckout && (
           <>
+            {/* <div className="pb-3" /> */}
             <div className="ml-custom mr-custom">
               <TermsCommon
                 id={this.props.type}

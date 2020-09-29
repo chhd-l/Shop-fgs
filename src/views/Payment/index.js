@@ -580,7 +580,7 @@ class Payment extends React.Component {
             try {
               cvvResult = JSON.parse(cvvResult);
             } catch (err) {
-              console.log(err)
+              console.log(err);
               throw new Error(err.message);
             }
 
@@ -672,7 +672,7 @@ class Payment extends React.Component {
       });
       return finalParam;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw new Error(err.message);
     }
   }
@@ -687,7 +687,7 @@ class Payment extends React.Component {
         resolve({ commonParameter, phone });
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw new Error(err.message);
     }
   }
@@ -698,7 +698,7 @@ class Payment extends React.Component {
       let parameters = await this.getAdyenPayParam(type);
       await this.allAdyenPayment(parameters, type);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (err.message !== 'agreement failed') {
         this.showErrorMsg(
           err.message ? err.message.toString() : err.toString()
@@ -1134,7 +1134,7 @@ class Payment extends React.Component {
         billingChecked: param.billingChecked
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw new Error(err.message);
     }
   }
@@ -1181,7 +1181,7 @@ class Payment extends React.Component {
         }
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       throw new Error(err.message);
     }
   }
@@ -1293,8 +1293,8 @@ class Payment extends React.Component {
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="card-header bg-transparent pt-0 pb-0">
-          <h5>
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
             <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
             <FormattedMessage id="subscription.chooseSubscription" />
           </h5>
@@ -1730,8 +1730,13 @@ class Payment extends React.Component {
 
                   {/* {this._renderPayTab()} */}
                 </div>
-                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
-                  <h5 className="ml-custom mr-custom">
+
+                <div
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
+                    this.isOnepageCheckout ? '' : 'pb-0'
+                  }`}
+                >
+                  <h5 className="ml-custom mr-custom mb-0">
                     <i
                       class="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}

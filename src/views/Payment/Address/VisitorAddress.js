@@ -120,14 +120,14 @@ class VisitorAddress extends React.Component {
   _titleJSXForPrepare = () => {
     return (
       <>
-        <h5 className={`pull-left`}>{this._titleJSX()}</h5>
+        <h5 className={`mb-0`}>{this._titleJSX()}</h5>
       </>
     );
   };
   _titleJSXForEdit = () => {
     return (
       <>
-        <h5 className={`pull-left red`}>
+        <h5 className={`mb-0 red`}>
           {this._titleJSX({ redColor: true })}
         </h5>
       </>
@@ -136,13 +136,13 @@ class VisitorAddress extends React.Component {
   _titleJSXForCompeleted = () => {
     return (
       <>
-        <h5 className={`pull-left`}>
+        <h5 className={`mb-0`}>
           {this._titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
         <p
           onClick={this.handleClickEdit}
-          className="rc-styled-link rc-margin-top--xs pull-right m-0"
+          className="rc-styled-link mb-1"
         >
           <FormattedMessage id="edit" />
         </p>
@@ -159,7 +159,7 @@ class VisitorAddress extends React.Component {
     );
     return (
       <>
-        <div className="card-header bg-transparent">
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
           {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
           {this.panelStatus.isEdit && this._titleJSXForEdit()}
           {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}

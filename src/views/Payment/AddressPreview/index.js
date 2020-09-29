@@ -27,8 +27,8 @@ class InfosPreview extends React.Component {
     const { details } = this.props;
     return (
       <div className="card mb-3 shipping-summary checkout--padding">
-        <div className="card-header bg-transparent pt-0 pb-0">
-          <h5 className="pull-left">
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
             <i className="rc-icon rc-home--xs rc-iconography"></i>{' '}
             <FormattedMessage id="payment.addressTitle" />
           </h5>

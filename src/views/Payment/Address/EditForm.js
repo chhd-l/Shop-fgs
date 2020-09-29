@@ -67,7 +67,10 @@ class EditForm extends React.Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.initData && nextProps.initData !== this.state.address) {
+    if (
+      nextProps.initData &&
+      JSON.stringify(nextProps.initData) !== JSON.stringify(this.state.address)
+    ) {
       this.setState({
         address: Object.assign({}, nextProps.initData)
       });

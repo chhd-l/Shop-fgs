@@ -212,6 +212,7 @@ class AddressList extends React.Component {
     this.setState({
       addOrEdit: true
     });
+    this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
     if (idx > -1) {
       const tmp = addressList[idx];
       tmpDeliveryAddress = {
@@ -229,18 +230,21 @@ class AddressList extends React.Component {
         email: tmp.email
       };
     }
-    this.setState({
-      deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
-    });
+    this.setState(
+      {
+        deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
+      },
+      () => this.updateDeliveryAddress(this.state.deliveryAddress)
+    );
     this.scrollToTitle();
   }
-  isDefalt() {
+  handleDefaultChange = () => {
     let data = this.state.deliveryAddress;
     data.isDefalt = !data.isDefalt;
     this.setState({
       deliveryAddress: data
     });
-  }
+  };
   async updateDeliveryAddress(data) {
     try {
       await validData(ADDRESS_RULE, data);
@@ -450,27 +454,21 @@ class AddressList extends React.Component {
       </div>
     );
     const _defaultCheckBox = (
-      <div
-        className="rc-input rc-input--inline w-100 mw-100"
-        onClick={() => this.isDefalt()}
-      >
-        {deliveryAddress.isDefalt ? (
+      <div className="rc-input rc-input--inline w-100 mw-100">
+        {
           <input
+            id="addr-default-checkbox"
             type="checkbox"
             className="rc-input__checkbox"
+            onChange={this.handleDefaultChange}
             value={deliveryAddress.isDefalt}
-            key={1}
-            checked
+            checked={deliveryAddress.isDefalt}
           />
-        ) : (
-          <input
-            type="checkbox"
-            className="rc-input__checkbox"
-            key={2}
-            value={deliveryAddress.isDefalt}
-          />
-        )}
-        <label className={`rc-input__label--inline text-break`}>
+        }
+        <label
+          className={`rc-input__label--inline text-break`}
+          for="addr-default-checkbox"
+        >
           <FormattedMessage id="setDefaultAddress" />
         </label>
       </div>
@@ -478,18 +476,18 @@ class AddressList extends React.Component {
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
-        className="card-header bg-transparent pt-0 pb-0"
+        className="bg-transparent d-flex justify-content-between align-items-center"
         style={{ marginTop: this.props.type === 'billing' ? -29 : 0 }}
       >
         <h5
-          className="pull-left"
+          className="mb-0"
           style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
         >
           <i className="rc-icon rc-home--xs rc-iconography"></i>{' '}
           <FormattedMessage id="payment.deliveryTitle" />
         </h5>
         <p
-          className={`red rc-margin-top--xs ui-cursor-pointer pull-right inlineblock m-0 align-items-center ${
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center ${
             addOrEdit ? 'hidden' : ''
           }`}
           onClick={() => this.addOrEditAddress()}
@@ -598,7 +596,7 @@ class AddressList extends React.Component {
     return (
       <>
         {this.props.children}
-        <div className={`${this.props.visible ? '' : 'hidden'}`}>
+        <div className={`mt-1 ${this.props.visible ? '' : 'hidden'}`}>
           {_title}
 
           <div
