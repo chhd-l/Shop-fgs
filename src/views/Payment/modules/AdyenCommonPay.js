@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-// import { confirmAndCommit } from "@/api/payment";
-// import {  Link } from 'react-router-dom'
-// import store from "storejs";
 import TermsCommon from '../Terms/common';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
 class AdyenCommonPay extends Component {
+  static defaultProps = {
+    showCancelBtn: false,
+    updateEmail: () => {}
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -18,14 +19,13 @@ class AdyenCommonPay extends Component {
       type: '',
       btnName: '',
       btnNameObj: {
-        adyen_klarna_pay_lat: 'Weiter mit KlarnaPayLater',
-        adyen_klarna_pay_now: 'Weiter mit KlarnaPayNow',
-        sofort: 'Weiter mit KlarnaSofort'
-      }
+        adyenKlarnaPayLater: 'Weiter mit KlarnaPayLater',
+        adyenKlarnaPayNow: 'Weiter mit KlarnaPayNow',
+        directEbanking: 'Weiter mit KlarnaSofort'
+      },
+      isValid: false,
+      isEdit: true
     };
-  }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.panelStatus.paymentMethod;
   }
   //是否填写邮箱正确
   isTestMail() {
@@ -52,7 +52,7 @@ class AdyenCommonPay extends Component {
 
   clickPay = () => {
     try {
-      this.isTestMail();
+      // this.isTestMail();
       this.isConsentRequiredChecked();
       this.props.clickPay({ email: this.state.text, type: this.state.type });
     } catch (err) {
@@ -60,9 +60,20 @@ class AdyenCommonPay extends Component {
     }
   };
   handleChange = (e) => {
-    this.setState({
-      text: e.target.value
-    });
+    const val = e.target.value;
+    this.setState(
+      {
+        text: val
+      },
+      () => {
+        try {
+          this.isTestMail();
+          this.setState({ isValid: true });
+        } catch (err) {
+          this.setState({ isValid: false });
+        }
+      }
+    );
   };
   componentWillReceiveProps(nextProps) {
     this.setState(
@@ -76,58 +87,134 @@ class AdyenCommonPay extends Component {
     );
     this.checkRequiredItem(nextProps.listData);
   }
-  render() {
-    return (
-      <div className="checkout--padding">
-        <div className="customer-form">
-          <div className="address">
-            <form className="address-form" action="/destination" method="get">
-              <div className="address-line" id="addressLine2">
-                <div
-                  className="address-input full-width"
-                  id="street"
-                  style={{ marginBottom: '18px' }}
-                >
-                  <label className="address-label" for="street">
-                    Email<span style={{ color: '#EC001A' }}>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Email"
-                    name="street"
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-            </form>
+  handleClickConfirm = () => {
+    this.setState({ isEdit: false });
 
-            <TermsCommon
-              id={this.props.type}
-              listData={this.props.listData}
-              checkRequiredItem={this.checkRequiredItem}
-            />
-            <div
-              className="payment-container"
-              style={{ 'max-width': 'auto', marginTop: '10px' }}
-            >
-              <div id="klarna" className="payment">
-                <button
-                  className="adyen-checkout__button adyen-checkout__button--standalone adyen-checkout__button--pay"
-                  type="button"
-                  onClick={this.clickPay}
-                >
-                  <span className="adyen-checkout__button__content">
-                    <span className="adyen-checkout__button__text">
-                      {this.state.btnName}
-                    </span>
+    const { paymentStore } = this.props;
+    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    paymentStore.setStsToEdit({ key: 'confirmation' });
+    paymentStore.updateHasConfimedPaymentVal(this.props.type);
+    this.props.updateEmail(this.state.text);
+  };
+  render() {
+    const { isEdit } = this.state;
+    return (
+      <>
+        <div className="checkout--padding ml-custom mr-custom pt-2 pb-2">
+          <div className="customer-form">
+            <div className="address">
+              {isEdit ? (
+                <>
+                  <form
+                    className="address-form"
+                    action="/destination"
+                    method="get"
+                  >
+                    <div className="address-line" id="addressLine2">
+                      <div
+                        className="address-input full-width"
+                        id="street"
+                        style={{ marginBottom: '18px' }}
+                      >
+                        <label className="address-label" for="street">
+                          <FormattedMessage id="email" />
+                          <span className="red">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Email"
+                          name="street"
+                          value={this.state.text}
+                          onChange={this.handleChange}
+                        />
+                      </div>
+                    </div>
+                  </form>
+                  <div className="overflow-hidden mb-1">
+                    <div className="text-right">
+                      {this.props.showCancelBtn && (
+                        <>
+                          <a
+                            className="rc-styled-link editPersonalInfoBtn"
+                            name="contactInformation"
+                            onClick={() => {
+                              this.props.updateFormVisible(false);
+                            }}
+                          >
+                            <FormattedMessage id="cancel" />
+                          </a>{' '}
+                          <FormattedMessage id="or" />{' '}
+                        </>
+                      )}
+
+                      <button
+                        className={`rc-btn rc-btn--one submitBtn editAddress ${
+                          this.state.saveLoading ? 'ui-btn-loading' : ''
+                        }`}
+                        data-sav="false"
+                        name="contactInformation"
+                        type="submit"
+                        disabled={!this.state.isValid}
+                        onClick={this.handleClickConfirm}
+                      >
+                        <FormattedMessage id="save" />
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="d-flex justify-content-between align-items-start">
+                  <div>
+                    <label className="address-label">
+                      <FormattedMessage id="email" />
+                      <span className="red">*</span>
+                    </label>
+                    <br />
+                    {this.state.text}
+                  </div>
+                  <span
+                    className="rc-styled-link"
+                    onClick={(e) => {
+                      this.setState({ isEdit: true });
+                    }}
+                  >
+                    <FormattedMessage id="edit" />
                   </span>
-                </button>
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </div>
+        <div className="pb-3"></div>
+        {!this.props.isOnepageCheckout && (
+          <>
+            <div className="ml-custom mr-custom">
+              <TermsCommon
+                id={this.props.type}
+                listData={this.props.listData}
+                checkRequiredItem={this.checkRequiredItem}
+              />
+            </div>
+            <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+              <div className="next-step-button">
+                <div className="rc-text--right">
+                  <button
+                    className={`rc-btn rc-btn--one submit-payment`}
+                    type="submit"
+                    name="submit"
+                    value="submit-shipping"
+                    disabled={!this.state.isValid}
+                    onClick={this.clickPay}
+                  >
+                    {this.state.btnName}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </>
     );
   }
 }

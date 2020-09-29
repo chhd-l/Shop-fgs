@@ -1,6 +1,8 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
+import { isPrevReady } from '../modules/utils';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
 
@@ -42,13 +44,32 @@ class AdyenCreditCard extends React.Component {
     this.setState({ isAdd: val });
   };
   updateSelectedCardInfo = (data) => {
+    const { paymentStore } = this.props;
     this.setState({ adyenPayParam: data, isValid: !!data });
-    if (this.props.isOnepageCheckout) {
-      this.props.paymentStore.updatePanelStatus('confirmation', {
-        isPrepare: false,
-        isEdit: true
-      });
-      this.props.updateAdyenPayParam(data);
+    this.props.updateAdyenPayParam(data);
+    data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
+
+    // init时，paymentTypeVal还没返回，todo
+    if (
+      !this.props.isOnepageCheckout
+      // &&
+      // this.props.paymentTypeVal !== 'adyenCard'
+    ) {
+      return false;
+    }
+
+    const isReadyPrev = isPrevReady({
+      list: toJS(paymentStore.panelStatus),
+      curKey: 'paymentMethod'
+    });
+
+    if (data) {
+      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+      isReadyPrev && paymentStore.setStsToEdit({ key: 'confirmation' });
+    } else {
+      // 删除卡的时候
+      paymentStore.setStsToEdit({ key: 'paymentMethod' });
+      paymentStore.setStsToPrepare({ key: 'confirmation' });
     }
   };
   clickPay = async () => {

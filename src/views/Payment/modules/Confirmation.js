@@ -20,8 +20,8 @@ class Confirmation extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
   }
-  get panelStatus() {
-    return this.props.paymentStore.panelStatus.confirmation;
+  get confirmationPanelStatus() { 
+    return this.props.paymentStore.confirmationPanelStatus
   }
   //是否consent必填项勾选
   isConsentRequiredChecked() {
@@ -71,7 +71,7 @@ class Confirmation extends React.Component {
           <div className="card-header bg-transparent pt-0 pb-0">
             <h5
               className={`pull-left mb-0 ${
-                this.panelStatus.isEdit ? 'red' : ''
+                this.confirmationPanelStatus.isEdit ? 'red' : ''
               }`}
             >
               <em className="iconfont font-weight-bold">&#xe68c;</em>{' '}
@@ -79,7 +79,7 @@ class Confirmation extends React.Component {
             </h5>
           </div>
           <div
-            className={`pt-3 ${!this.panelStatus.isPrepare ? '' : 'hidden'}`}
+            className={`pt-3 ${!this.confirmationPanelStatus.isPrepare ? '' : 'hidden'}`}
           >
             {/* 条款 */}
             <TermsCommon

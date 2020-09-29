@@ -1,10 +1,11 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { searchNextConfirmPanel } from '../modules/utils';
 import PropTypes from 'prop-types';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -94,11 +95,15 @@ class ClinicForm extends React.Component {
     this.setState({ isEdit: false });
   };
   confirmToNextPanel() {
-    this.props.paymentStore.updatePanelStatus('deliveryAddr', {
-      isPrepare: false,
-      isEdit: true,
-      isCompleted: false
+    const { paymentStore } = this.props;
+    // 下一个最近的未complete的panel
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: 'clinic'
     });
+
+    paymentStore.setStsToCompleted({ key: 'clinic' });
+    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
   }
   render() {
     const { isEdit } = this.state;
@@ -202,7 +207,7 @@ class ClinicForm extends React.Component {
                       <div
                         className="confirm-tool-arrow"
                         style={this.props.arrowStyle}
-                      ></div>
+                      />
                       <div className="pt-1">
                         <FormattedMessage
                           id="noClinicTip"

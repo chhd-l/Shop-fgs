@@ -1,6 +1,7 @@
 import React from 'react';
 import { GTMID } from "@/utils/constant"
 import { inject, observer } from 'mobx-react'
+import { loadJS } from '@/utils/utils';
 
 @inject("loginStore")
 @observer
@@ -46,35 +47,6 @@ class GoogleTagManager extends React.Component {
   render () {
     return (<React.Fragment />)
   }
-}
-
-function loadJS (code, callback, className, type) {
-  var script = document.createElement("script"),
-    fn = callback || function () { };
-  if (className) {
-    script.className = className
-  }
-  if (type) {
-    script.type = type
-  } else {
-    script.type = "text/javascript";
-  }
-  script.innerHTML = code
-  //IE
-  if (script.readyState) {
-    script.onreadystatechange = function () {
-      if (script.readyState == "loaded" || script.readyState == "complete") {
-        script.onreadystatechange = null;
-        fn();
-      }
-    };
-  } else {
-    //其他浏览器
-    script.onload = function () {
-      fn();
-    };
-  }
-  document.getElementsByTagName("head")[0].appendChild(script);
 }
 
 export default GoogleTagManager;

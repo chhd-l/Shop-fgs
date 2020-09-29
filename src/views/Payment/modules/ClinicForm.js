@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import SearchSelection from '@/components/SearchSelection';
 import { getPrescriberByCode } from '@/api/clinic';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import PropTypes from 'prop-types';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -33,8 +32,6 @@ class ClinicForm extends React.Component {
       },
       toolTipVisible: false
     };
-
-    this.menuBtnRef = React.createRef();
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);

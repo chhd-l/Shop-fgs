@@ -1,10 +1,12 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { find } from 'lodash';
 import { getDictionary, validData } from '@/utils/utils';
+import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
 
 /**
@@ -16,6 +18,7 @@ import SameAsCheckbox from './SameAsCheckbox';
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
+    isOnepageCheckout: false,
     updateSameAsCheckBoxVal: () => {}
   };
   constructor(props) {
@@ -36,14 +39,16 @@ class VisitorAddress extends React.Component {
   }
   get panelStatus() {
     const tmpKey =
-      this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
-    return this.props.paymentStore.panelStatus[tmpKey];
+      this.props.type === 'delivery'
+        ? 'deliveryAddrPanelStatus'
+        : 'billingAddrPanelStatus';
+    return this.props.paymentStore[tmpKey];
   }
-  get isOnepageCheckout() {
-    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
+  get curPanelKey() {
+    return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
   handleEditFormChange = async (data) => {
-    if (this.isOnepageCheckout) {
+    if (this.props.isOnepageCheckout) {
       try {
         await validData(ADDRESS_RULE, data);
         this.setState({ isValid: true, form: data });
@@ -59,37 +64,23 @@ class VisitorAddress extends React.Component {
     if (!this.state.isValid) {
       return false;
     }
-    const tmpKey =
-      this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
-    this.props.paymentStore.updatePanelStatus(tmpKey, {
-      isPrepare: false,
-      isEdit: false,
-      isCompleted: true
-    });
-    // 设置下个panel的状态，
-    // 如果当前为delivery， 且选中了same as，下个就是payment method，否则下个就是billing
-    // 如果当前为billing，下个一定是payment
-    let tmpKey2;
-    if (this.props.type === 'billing' || this.state.billingChecked) {
-      tmpKey2 = 'paymentMethod';
-    } else {
-      tmpKey2 = 'billingAddr';
-    }
-    this.props.paymentStore.updatePanelStatus(tmpKey2, {
-      isPrepare: false,
-      isEdit: true,
-      isCompleted: false
-    });
     this.props.updateData(this.state.form);
+
+    const { paymentStore } = this.props;
+    paymentStore.setStsToCompleted({ key: this.curPanelKey });
+    if (this.state.billingChecked) {
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    }
+
+    // 下一个最近的未complete的panel
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: this.curPanelKey
+    });
+    paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
   };
   handleClickEdit = () => {
-    const tmpKey =
-      this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
-    this.props.paymentStore.updatePanelStatus(tmpKey, {
-      isPrepare: false,
-      isEdit: true,
-      isCompleted: false
-    });
+    this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
   };
   matchNamefromDict = (dictList, id) => {
     return find(dictList, (ele) => ele.id == id)
@@ -97,13 +88,10 @@ class VisitorAddress extends React.Component {
       : id;
   };
   updateSameAsCheckBoxVal = (val) => {
+    // todo
     // 切换时，当delivery已完成时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.panelStatus.isCompleted) {
-      this.props.paymentStore.updatePanelStatus('billingAddr', {
-        isPrepare: false,
-        isEdit: true,
-        isCompleted: false
-      });
+      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
     }
     this.setState({ billingChecked: val });
     this.props.updateSameAsCheckBoxVal(val);
@@ -166,6 +154,9 @@ class VisitorAddress extends React.Component {
     const _editForm = (
       <EditForm type="delivery" updateData={this.handleEditFormChange} />
     );
+    const _sameAsCheckbox = this.props.type === 'delivery' && (
+      <SameAsCheckbox updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal} />
+    );
     return (
       <>
         <div className="card-header bg-transparent">
@@ -174,7 +165,7 @@ class VisitorAddress extends React.Component {
           {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
         </div>
 
-        {this.isOnepageCheckout && !this.panelStatus.isPrepare ? (
+        {this.props.isOnepageCheckout && !this.panelStatus.isPrepare ? (
           <>
             {this.panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
@@ -210,13 +201,14 @@ class VisitorAddress extends React.Component {
                 {form.rfc}
               </div>
             )}
+            {_sameAsCheckbox}
           </>
         ) : null}
-        {!this.isOnepageCheckout && _editForm}
-        {this.props.type === 'delivery' && (
-          <SameAsCheckbox
-            updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
-          />
+        {!this.props.isOnepageCheckout && (
+          <>
+            {_editForm}
+            {_sameAsCheckbox}
+          </>
         )}
       </>
     );

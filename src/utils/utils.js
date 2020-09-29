@@ -27,11 +27,15 @@ export function formatMoney(
   }
   val = Number(val).toFixed(2);
   const tmp = mapEnum[currency];
-  if (!tmp.twoDecimals) { // 保留两位小数时，不填充0
+  if (!tmp.twoDecimals) {
+    // 保留两位小数时，不填充0
     val = parseFloat(val);
   }
   val += '';
-  return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, { style: 'currency', currency: process.env.REACT_APP_CURRENCY }).format(val)
+  return new Intl.NumberFormat(process.env.REACT_APP_NAVIGATOR_LANG, {
+    style: 'currency',
+    currency: process.env.REACT_APP_CURRENCY
+  }).format(val);
 }
 
 export async function queryStoreCateIds() {

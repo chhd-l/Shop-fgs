@@ -277,7 +277,6 @@ class AdyenCreditCardList extends React.Component {
             >
               <span
                 onClick={(e) => {
-                  // todo
                   this.setState({ formVisible: true });
                 }}
               >

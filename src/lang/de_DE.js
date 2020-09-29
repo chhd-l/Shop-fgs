@@ -626,7 +626,7 @@ const en_US = {
   'inTheBasket': 'im Warenkorb',
   'promotionalCode': 'Gutscheincode',
   'noClinicTip': 'Sie besitzen keinen gültigen Empfehler-Code? {val} finden Sie unsere Partnerkliniken, bei denen Sie einen Code erhalten können.',
-  'selectNoneClincTip': 'Bitte füllen Sie die Pflichtfelder aus.',
+  'selectNoneClincTip': 'Bitte wählen Sie ein Rezept',
   'promotionCode': 'Gutscheincode',
   'inputSearchText': 'Suchtext eingeben',
   'clinic.navigate': 'Navigieren',

@@ -37,13 +37,16 @@ class AdyenCreditCardForm extends React.Component {
     this.initForm();
   }
   get paymentMethodPanelStatus() {
-    return this.props.paymentStore.panelStatus.paymentMethod;
+    return this.props.paymentStore.paymentMethodPanelStatus;
   }
   get isOnepageCheckout() {
     return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   initForm() {
     const _this = this;
@@ -81,9 +84,18 @@ class AdyenCreditCardForm extends React.Component {
                 });
               },
               onChange: (state) => {
-                _this.setState({ isValid: state.isValid });
+                let tmpValidSts;
+                // 会员必须勾选保存按钮
+                if (_this.props.enableStoreDetails) {
+                  tmpValidSts = card.data.storePaymentMethod && state.isValid;
+                } else {
+                  tmpValidSts = state.isValid;
+                }
+                _this.setState({ isValid: tmpValidSts }, () => {
+                  console.log('adyen form state.isValid:', state.isValid);
+                });
                 _this.props.updateClickPayBtnValidStatus(state.isValid);
-                if (state.isValid) {
+                if (tmpValidSts) {
                   _this.setState({
                     AdyenFormData: Object.assign(
                       _this.state.AdyenFormData,
@@ -148,6 +160,7 @@ class AdyenCreditCardForm extends React.Component {
           className={`payment-method__container ${
             !this.props.isCheckoutPage ||
             !this.isOnepageCheckout ||
+            this.isLogin ||
             this.paymentMethodPanelStatus.isEdit
               ? ''
               : 'hidden'
@@ -184,67 +197,26 @@ class AdyenCreditCardForm extends React.Component {
             </button>
           </div>
         </div>
-        {this.isOnepageCheckout && this.paymentMethodPanelStatus.isCompleted && (
-          <div className="border pb-2">
-            <p>
-              <span
-                className="pull-right ui-cursor-pointer-pure mr-2"
-                onClick={() => {
-                  this.props.paymentStore.updatePanelStatus('paymentMethod', {
-                    isPrepare: false,
-                    isEdit: true,
-                    isCompleted: false
-                  });
-                }}
-              >
-                <FormattedMessage id="edit" />
-              </span>
-            </p>
-            <div className="row">
-              <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
-                <img
-                  className="PayCardImgFitScreen"
-                  src={
-                    CREDIT_CARD_IMG_ENUM[
-                      adyenPayParam.adyenBrands.toUpperCase()
-                    ] ||
-                    'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                  }
-                />
-              </div>
-              <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
-                <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                  <div className="col-12 color-999">
-                    <FormattedMessage id="name2" />
-                    <br />
-                    <span className="creditCompleteInfo">
-                      {adyenPayParam.hasHolderName}
-                    </span>
-                  </div>
-                </div>
-                <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                  <div className="col-6 color-999">
-                    <FormattedMessage id="payment.cardNumber2" />
-                    <br />
-                    <span className="creditCompleteInfo">
-                      xxxx xxxx xxxx {/* todo */}
-                      {/* {this.state.payosdata
-                      ? this.state.payosdata.last_4_digits
-                      : ''} */}
-                    </span>
-                  </div>
-                  <div className="col-6 color-999">
-                    <FormattedMessage id="payment.cardType" />
-                    <br />
-                    <span className="creditCompleteInfo">
-                      {adyenPayParam.adyenName}
-                    </span>
-                  </div>
-                </div>
-              </div>
+        {this.isOnepageCheckout &&
+          !this.isLogin &&
+          this.paymentMethodPanelStatus.isCompleted && (
+            <div className="border pb-2">
+              <p>
+                <span
+                  className="pull-right ui-cursor-pointer-pure mr-2"
+                  onClick={() => {
+                    this.props.paymentStore.updatePanelStatus2('paymentMethod', {
+                      isPrepare: false,
+                      isEdit: true,
+                      isCompleted: false
+                    });
+                  }}
+                >
+                  <FormattedMessage id="edit" />
+                </span>
+              </p>
             </div>
-          </div>
-        )}
+          )}
       </>
     );
   }

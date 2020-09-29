@@ -299,10 +299,8 @@ class PayOs extends React.Component {
     });
   };
   updateConfirmationPanelStatus() {
-    this.props.paymentStore.updatePanelStatus('confirmation', {
-      isPrepare: false,
-      isEdit: true
-    });
+    this.props.paymentTypeVal == 'payUCreditCard' &&
+      this.props.paymentStore.setStsToEdit({ key: 'confirmation' });
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);

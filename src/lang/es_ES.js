@@ -549,7 +549,7 @@ const en_US = {
   'searchPrescriber': 'Buscar un prescriptor',
   'securityQuestion': 'Pregunta de Seguridad',
   'selectDeliveryAddress': 'Por favor seleccione una dirección de entrega',
-  'selectNoneClincTip': 'Por favor seleccione una receta',
+  'selectNoneClincTip': 'Seleccione una receta',
   'selectPet': 'Select a pet',
   'selectProduct': 'Por favor seleccione producto',
   'setDefaltAddressFailed': 'Establecer dirección predeterminada fallida',
