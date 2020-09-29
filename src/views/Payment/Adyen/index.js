@@ -16,9 +16,7 @@ class AdyenCreditCard extends React.Component {
       requiredList: [],
       adyenPayParam: null,
       isValid: false,
-      cardList: [],
-      isAdd: false,
-      isRefreshList: false
+      errorMsg: ''
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -39,9 +37,6 @@ class AdyenCreditCard extends React.Component {
     this.setState({
       requiredList
     });
-  };
-  updateAddOprateStatus = (val) => {
-    this.setState({ isAdd: val });
   };
   updateSelectedCardInfo = (data) => {
     const { paymentStore } = this.props;
@@ -72,6 +67,15 @@ class AdyenCreditCard extends React.Component {
       paymentStore.setStsToPrepare({ key: 'confirmation' });
     }
   };
+  showErrorMsg = (msg) => {
+    this.setState({
+      errorMsg: msg
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({ errorMsg: '' });
+    }, 3000);
+  };
   clickPay = async () => {
     if (!this.state.isValid) {
       return false;
@@ -95,12 +99,40 @@ class AdyenCreditCard extends React.Component {
     }
   };
   render() {
+    const _errJSX = (
+      <div
+        className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+          this.state.errorMsg ? '' : 'hidden'
+        }`}
+      >
+        <aside
+          className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+          role="alert"
+        >
+          <span className="pl-0">{this.state.errorMsg}</span>
+          <button
+            className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+            onClick={(e) => {
+              e.preventDefault();
+              this.setState({ errorMsg: '' });
+            }}
+            aria-label="Close"
+          >
+            <span className="rc-screen-reader-text">
+              <FormattedMessage id="close" />
+            </span>
+          </button>
+        </aside>
+      </div>
+    );
+
     return (
       <>
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+          {_errJSX}
           <CardList
             updateSelectedCardInfo={(data) => this.updateSelectedCardInfo(data)}
-            showErrorMsg={this.props.showErrorMsg}
+            showErrorMsg={this.showErrorMsg}
           />
         </div>
 

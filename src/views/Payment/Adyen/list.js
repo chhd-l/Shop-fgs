@@ -308,6 +308,7 @@ class AdyenCreditCardList extends React.Component {
           this.setState({ visitorAdyenFormData: data });
           this.props.updateSelectedCardInfo(data);
         }}
+        showErrorMsg={this.props.showErrorMsg}
       />
     );
   };

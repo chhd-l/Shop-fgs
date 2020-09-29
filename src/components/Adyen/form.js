@@ -137,7 +137,6 @@ class AdyenCreditCardForm extends React.Component {
     }
   };
   render() {
-    const { adyenPayParam } = this.state;
     return (
       <>
         {/* 支持卡的类型 Visa和master */}
