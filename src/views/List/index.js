@@ -192,9 +192,7 @@ class List extends React.Component {
       }
     }
 
-    this.getProductList(
-      this.fidFromSearch ? 'search_fid' : this.cidFromSearch ? 'search_cid' : ''
-    );
+    this.getProductList(this.fidFromSearch ? 'search_fid' : '');
   }
   async getProductList(type) {
     let {
@@ -234,14 +232,15 @@ class List extends React.Component {
       keywords,
       storeCateIds
     };
+    
+    if (this.cidFromSearch) {
+      params.storeCateIds = this.cidFromSearch.split('|');
+    }
     let tmpArr;
     switch (type) {
       case 'search_fid':
         tmpArr = this.fidFromSearch.split('|');
         params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
-        break;
-      case 'search_cid':
-        params.storeCateIds = this.cidFromSearch.split('|');
         break;
       default:
         for (let item of checkedList) {
