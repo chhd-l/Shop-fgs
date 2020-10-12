@@ -18,7 +18,6 @@ import {
   Switch
 } from 'react-router-dom';
 import { Security, SecureRoute, useOktaAuth } from '@okta/okta-react';
-import { Container } from 'semantic-ui-react';
 import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
@@ -28,7 +27,6 @@ import '@/utils/global';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
 import stores from './store';
-import store from 'storejs';
 
 import RegisterRequired from '@/views/Login/RegisterRequired';
 import Landing from '@/views/Landing/index2';
@@ -81,7 +79,6 @@ import RequestInvoices from '@/views/RequestInvoices';
 
 import Recommendation from '@/views/Recommendation';
 
-
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -96,8 +93,10 @@ const LoginCallback = (props) => {
       await authService.handleAuthentication();
     }
     //window.location.href = process.env.REACT_APP_ACCESS_PATH;
-    let homePage = ''
-    process.env.REACT_APP_HOMEPAGE == '/' ? homePage = '' : homePage = process.env.REACT_APP_HOMEPAGE
+    let homePage = '';
+    process.env.REACT_APP_HOMEPAGE == '/'
+      ? (homePage = '')
+      : (homePage = process.env.REACT_APP_HOMEPAGE);
     window.location.href = homePage + '/required';
     sessionItemRoyal.set('fromLoginPage', true);
   }, [authService, authStateReady]);
@@ -130,7 +129,7 @@ const App = () => (
                   token ? <Redirect to="/account" /> : <Login {...props} />
                 }
               />
-              <Route path="/requestinvoice" component={RequestInvoices}></Route>
+              <Route path="/requestinvoice" component={RequestInvoices} />
               <Route
                 exact
                 path="/list/:category"
