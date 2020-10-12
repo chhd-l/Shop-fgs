@@ -548,6 +548,40 @@ class Header extends React.Component {
             subMenuKey: 'help',
             type: 'help'
           }
+        ],
+        ru: [
+          {
+            linkObj: { pathname: '/club' },
+            langKey: 'club',
+            type: 'club'
+          },
+          {
+            linkObj: { pathname: '/list/dogs' },
+            langKey: 'dogs',
+            subMenuKey: 'dogs',
+            type: 'dogs'
+          },
+          {
+            linkObj: { pathname: '/list/cats' },
+            langKey: 'cats',
+            subMenuKey: 'cats',
+            type: 'cats'
+          },
+          {
+            linkObj: { pathname: '/subscription-landing' },
+            langKey: 'account.subscription',
+            type: 'subscription'
+          },
+          {
+            linkObj: { pathname: '/Tailorednutrition' },
+            langKey: 'healthAndWellbeing',
+            type: 'healthAndWellbeing'
+          },
+          {
+            link: this.props.configStore.contactUsUrl,
+            langKey: 'aboutUs',
+            type: 'aboutUs'
+          }
         ]
       }[lang] || defaultVal
     );

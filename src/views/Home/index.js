@@ -30,7 +30,8 @@ const numENUM = {
   en: 6,
   es: 6,
   de: 6,
-  fr: 4
+  fr: 4,
+  ru: 4
 };
 
 class Home extends React.Component {
@@ -509,6 +510,130 @@ class Home extends React.Component {
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
                   to="/list/chaton"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+        </>
+      ),
+      ru: (
+        <>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery1.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/dogs"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery2.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/cats"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery3.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vcn"
+                  title={txt}
+                >
+                  <picture className="category-cards__card__img">
+                    <source
+                      srcSet={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=jpg'
+                      }
+                    />
+                    <img
+                      src={
+                        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=jpgs'
+                      }
+                      alt={txt}
+                      title={txt}
+                      style={{ width: '144px' }}
+                    />
+                  </picture>
+                  <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+                    <h3 className="rc-margin--none">{txt}</h3>
+                  </div>
+                </Link>
+              )}
+            </FormattedMessage>
+          </div>
+          <div className="col-md-3 col-6">
+            <FormattedMessage id="product.fr.catogery4.name">
+              {(txt) => (
+                <Link
+                  className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+                  to="/list/vd"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">

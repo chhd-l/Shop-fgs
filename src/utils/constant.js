@@ -138,13 +138,19 @@ export const STORE_CATE_ENUM = [
     url: '/list/dogs',
     category: 'dogs',
     cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Chien', 'Chiot'],
-    text: CURRENT_LANGFILE['product.catogery5.name']
+    text: CURRENT_LANGFILE['product.catogery5.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: dogsImg
   },
   {
     url: '/list/cats',
     category: 'cats',
     cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Chat', 'Chaton'],
-    text: CURRENT_LANGFILE['product.catogery6.name']
+    text: CURRENT_LANGFILE['product.catogery6.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: catsImg
   },
   {
     url: '/list/urinary',

@@ -205,20 +205,17 @@ export const menubar = {
         titleId: 'ROYAL CANIN',
         list: [
           {
-            url:
-              'https://shop.royalcanin.fr/About-Us.html',
+            url: 'https://shop.royalcanin.fr/About-Us.html',
             messageId: 'A propos'
           },
           {
-            url:
-              'https://shop.royalcanin.fr/Values.html',
+            url: 'https://shop.royalcanin.fr/Values.html',
             messageId: 'Nos valeurs'
           },
           {
-            url:
-              'https://shop.royalcanin.fr/Quality-safety.html',
+            url: 'https://shop.royalcanin.fr/Quality-safety.html',
             messageId: 'Qualité et sécurité alimentaire'
-          },
+          }
         ]
       }
     ],
@@ -229,7 +226,8 @@ export const menubar = {
           { link: '/list/cats', messageId: 'Chat' },
           { link: '/list/dogs', messageId: 'Chien' },
           {
-            url:'https://shop.royalcanin.fr/Tailorednutrition.html',messageId:'Santé et bien-être'
+            url: 'https://shop.royalcanin.fr/Tailorednutrition.html',
+            messageId: 'Santé et bien-être'
           }
         ]
       }
@@ -243,10 +241,8 @@ export const menubar = {
             link: '/account',
             messageId: 'Mon compte'
           },
-          { link: '/account/orders', 
-          messageId: 'Mes commandes' },
-          { link: '/account/subscription', 
-          messageId: 'Mes abonnements' }
+          { link: '/account/orders', messageId: 'Mes commandes' },
+          { link: '/account/subscription', messageId: 'Mes abonnements' }
         ]
       }
     ],
@@ -258,7 +254,7 @@ export const menubar = {
             link: '/help',
             messageId: 'Aide'
           },
-          { link: '/FAQ/all', messageId: 'FAQ' },
+          { link: '/FAQ/all', messageId: 'FAQ' }
         ]
       }
     ],
@@ -269,7 +265,78 @@ export const menubar = {
           {
             url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
             messageId: 'Conditions Générales de Vente'
+          }
+        ]
+      }
+    ]
+  ],
+  ru: [
+    [
+      {
+        titleId: 'ROYAL CANIN',
+        list: [
+          {
+            url: 'https://shop.royalcanin.fr/About-Us.html',
+            messageId: 'A propos'
           },
+          {
+            url: 'https://shop.royalcanin.fr/Values.html',
+            messageId: 'Nos valeurs'
+          },
+          {
+            url: 'https://shop.royalcanin.fr/Quality-safety.html',
+            messageId: 'Qualité et sécurité alimentaire'
+          }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'ALIMENTS',
+        list: [
+          { link: '/list/cats', messageId: 'Chat' },
+          { link: '/list/dogs', messageId: 'Chien' },
+          {
+            url: 'https://shop.royalcanin.fr/Tailorednutrition.html',
+            messageId: 'Santé et bien-être'
+          }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'COMPTE',
+        list: [
+          // 我的账户，订单，订阅单
+          {
+            link: '/account',
+            messageId: 'Mon compte'
+          },
+          { link: '/account/orders', messageId: 'Mes commandes' },
+          { link: '/account/subscription', messageId: 'Mes abonnements' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'AIDE',
+        list: [
+          {
+            link: '/help',
+            messageId: 'Aide'
+          },
+          { link: '/FAQ/all', messageId: 'FAQ' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'AUTRES',
+        list: [
+          {
+            url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
+            messageId: 'Conditions Générales de Vente'
+          }
         ]
       }
     ]
