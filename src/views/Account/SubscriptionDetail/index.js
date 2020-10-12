@@ -534,7 +534,7 @@ class SubscriptionDetail extends React.Component {
                         console.log(el);
                         let param = {
                           subscribeId: subDetail.subscribeId,
-                          paymentMethodId: el.id,
+                          paymentId: el.id,
                           goodsItems: subDetail.goodsInfo.map((el) => {
                             return {
                               skuId: el.skuId,

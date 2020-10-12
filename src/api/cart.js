@@ -8,7 +8,7 @@ const api = {
   siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
   sitePurchases: '/site/purchases', // 计算价格
   mergePurchase: '/site/mergePurchase', // 合并前后台购物车
-  switchSize: 'site/updatePurchase' // 切换规格
+  switchSize: '/site/updatePurchase' // 切换规格
 }
 
 export default api

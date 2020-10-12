@@ -46,6 +46,7 @@
 .recommendProduct .left li .proName {
   width: 110px;
   margin-left: 5px;
+  text-align: left;
 }
 
 .recommendProduct ul {
@@ -85,6 +86,7 @@
 }
 .recommendProduct .right .description {
   width: 80%;
+  height: 120px;
   margin: 10px auto;
   padding: 30px;
   background-color: #f6f6f6;
@@ -144,7 +146,7 @@
   .recommendProduct .recommendProductInnerMobile ul li {
     float: left;
     width: 50px;
-    height: 125px;
+    height: 165px;
     border-bottom: 2px solid #eee;
     box-sizing: border-box;
   }
@@ -186,6 +188,7 @@
   }
   .recommendProduct .right .description {
     width: 90%;
+    height: 80px;
   }
 }
 

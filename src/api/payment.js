@@ -9,8 +9,8 @@ const api = {
   deleteCard: '/payment-method/delete-by-id',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
-  customerCommitAndPay: 'tradeCustom/customerCommitAndPay',
-  rePay: 'tradeCustom/rePay',
+  customerCommitAndPay: '/tradeCustom/customerCommitAndPay',
+  rePay: '/tradeCustom/rePay',
   customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
   getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays:'/PayGateway/gateways',

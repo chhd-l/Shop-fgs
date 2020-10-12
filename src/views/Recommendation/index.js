@@ -142,8 +142,6 @@ class Help extends React.Component {
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
-      console.log(err)
-      return
       this.props.history.push('/')
     })
     if (localItemRoyal.get('isRefresh')) {
@@ -609,7 +607,7 @@ class Help extends React.Component {
                               el.goodsInfo.goods.goodsImg
                             }
                           />
-                          <div style={{display: 'inline-block', verticalAlign: 'middle'}}>
+                          <div style={{display: 'inline-block', verticalAlign: 'middle', textAlign: 'left'}}>
                             <span className="proName">
                               {el.goodsInfo.goodsInfoName}
                             </span>
@@ -807,7 +805,7 @@ class Help extends React.Component {
                           letterSpacing: '0'
                         }}
                       >
-                        {`${prescriberInfo.phone}, ${prescriberInfo.primaryZip}, ${prescriberInfo.primaryCity}`}
+                        {`${prescriberInfo.phone? prescriberInfo.phone + ',': ''}${prescriberInfo.primaryZip? prescriberInfo.primaryZip + ',': ''}${prescriberInfo.primaryCity}`}
                       </p>
                       <p
                         style={{
@@ -909,6 +907,7 @@ class Help extends React.Component {
                           <span className="proName">
                             {el.goodsInfo.goodsInfoName}
                           </span>
+                          <span className="proName">{el.goodsInfo.specText}</span>
                           <span>X {el.recommendationNumber}</span>
                         </li>
                       ))}
