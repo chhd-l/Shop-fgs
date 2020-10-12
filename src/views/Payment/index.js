@@ -563,39 +563,38 @@ class Payment extends React.Component {
           if (!this.isLogin) {
             parameters = Object.assign({}, commonParameter);
           } else {
-            // 获取token，避免传给接口明文cvv
-            let cvvResult = await new Promise((resolve) => {
-              window.POS.tokenize(
-                {
-                  token_type: 'card_cvv_code',
-                  credit_card_cvv: selectedCardInfo.cardCvv,
-                  payment_method_token: selectedCardInfo.paymentMethod.token
-                },
-                function (result) {
-                  console.log('result obtained' + result);
-                  resolve(result);
-                }
-              );
-            });
             try {
+              // 获取token，避免传给接口明文cvv
+              let cvvResult = await new Promise((resolve) => {
+                window.POS.tokenize(
+                  {
+                    token_type: 'card_cvv_code',
+                    credit_card_cvv: selectedCardInfo.cardCvv,
+                    payment_method_token: selectedCardInfo.paymentToken
+                  },
+                  function (result) {
+                    console.log('result obtained' + result);
+                    resolve(result);
+                  }
+                );
+              });
               cvvResult = JSON.parse(cvvResult);
+              const tempPublicParams = Object.assign({}, commonParameter, {
+                paymentMethodId: selectedCardInfo.id,
+                creditDardCvv: cvvResult && cvvResult.token
+              });
+              if (this.state.subForm.buyWay === 'frequency') {
+                parameters = Object.assign({}, tempPublicParams, {
+                  payChannelItem: 'payu_subscription'
+                });
+              } else {
+                parameters = Object.assign({}, tempPublicParams, {
+                  payChannelItem: 'payu_customer'
+                });
+              }
             } catch (err) {
               console.log(err);
               throw new Error(err.message);
-            }
-
-            const tempPublicParams = Object.assign({}, commonParameter, {
-              paymentMethodId: selectedCardInfo.id,
-              creditDardCvv: cvvResult && cvvResult.token
-            });
-            if (this.state.subForm.buyWay === 'frequency') {
-              parameters = Object.assign({}, tempPublicParams, {
-                payChannelItem: 'payu_subscription'
-              });
-            } else {
-              parameters = Object.assign({}, tempPublicParams, {
-                payChannelItem: 'payu_customer'
-              });
             }
           }
         },
