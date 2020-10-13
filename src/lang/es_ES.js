@@ -378,6 +378,7 @@ const en_US = {
   'order.progress2': 'Pagado',
   'order.progress3': 'Entregado',
   'order.progress4': 'Terminado',
+  'order.progress5': 'Revisado',
   'order.rateModalTitle': 'Tu opinión es importante',
   'order.refundErrorInfo': 'Este pedido está asociado con un reembolso en proceso y no se puede volver a aplicar.',
   'order.return': 'Regreso',

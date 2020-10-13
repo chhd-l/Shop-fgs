@@ -371,6 +371,7 @@ const en_US = {
   "order.progress2": "Paid",
   "order.progress3": "Delivered",
   "order.progress4": "Completed",
+  "order.progress5": "Reviewed  ",
   "order.rateModalTitle": "Your opinion is important",
   "order.refundErrorInfo": "This order is associated with a refund in processing and cannot be reapplied.",
   "order.return": "Return",

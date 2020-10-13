@@ -332,6 +332,7 @@ const en_US = {
   "order.progress2": "Payé",
   "order.progress3": "Livré",
   "order.progress4": "Terminé",
+  "order.progress5": "Révisé",
   "order.expireTime": "Date d'expiration",
   "datePicker.previousMonth": "Le mois dernier",
   "datePicker.nextMonth": "Le mois prochain",

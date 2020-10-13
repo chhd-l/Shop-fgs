@@ -51,7 +51,7 @@ REACT_APP_CURRENCY_TYPE = 3
 REACT_APP_TITLE = Royal Canin - официальный интернет-магазин
 
 #是否开启promotion
-REACT_APP_IS_PROMOTION = true
+REACT_APP_IS_PROMOTION = false
 #是否显示banner上方tip
 REACT_APP_SHOW_BANNERTIP = false
 
@@ -62,4 +62,4 @@ REACT_APP_DEFAULT_COUNTRYID = 2612
 REACT_APP_HOMEPAGE = /ru
 
 #下单流程是否需要clinic
-REACT_APP_CHECKOUT_WITH_CLINIC = false
+REACT_APP_CHECKOUT_WITH_CLINIC = true
