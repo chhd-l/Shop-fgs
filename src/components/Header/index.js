@@ -551,11 +551,6 @@ class Header extends React.Component {
         ],
         ru: [
           {
-            linkObj: { pathname: '/club' },
-            langKey: 'club',
-            type: 'club'
-          },
-          {
             linkObj: { pathname: '/list/cats' },
             langKey: 'cats',
             subMenuKey: 'cats',
