@@ -652,6 +652,8 @@ const en_US = {
   'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Recommendation Package',
   'recommendation.buyNow': 'Buy now',
+  EnterCorrectValue: "Please enter the correct {val}",
+  club: 'club'
 }
 
 export default en_US;

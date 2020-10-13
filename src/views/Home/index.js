@@ -539,11 +539,11 @@ class Home extends React.Component {
       ru: (
         <>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="product.fr.catogery1.name">
+            <FormattedMessage id="dogs">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/dogs"
+                  to="/list/dogs-ru"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -569,11 +569,11 @@ class Home extends React.Component {
             </FormattedMessage>
           </div>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="product.fr.catogery2.name">
+            <FormattedMessage id="cats">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/cats"
+                  to="/list/cats-ru"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -599,11 +599,11 @@ class Home extends React.Component {
             </FormattedMessage>
           </div>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="product.fr.catogery3.name">
+            <FormattedMessage id="product.ru.catogery3.name">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/vcn"
+                  to="/list/puppy-ru"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">
@@ -629,11 +629,11 @@ class Home extends React.Component {
             </FormattedMessage>
           </div>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="product.fr.catogery4.name">
+            <FormattedMessage id="product.ru.catogery4.name">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-                  to="/list/vd"
+                  to="/list/kitten-ru"
                   title={txt}
                 >
                   <picture className="category-cards__card__img">

@@ -633,6 +633,8 @@ const en_US = {
   'searchNoBreed': 'soy ağacı değil',
   'required.logoTitle':'ROYALCANIN® online mağazasına hoş geldiniz',
   'required.complete':'Oturum açma işlemini tamamlayın',
+  EnterCorrectValue: "Lütfen doğru {val} girin",
+  club: 'club'
 }
 
 export default en_US;

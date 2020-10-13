@@ -45,6 +45,34 @@ export const PAY_STATUS_ENUM = {
 
 export const STORE_CATE_ENUM = [
   {
+    url: '/list/dogs',
+    category: 'dogs',
+    cateName: [
+      'Prescription dogs',
+      'VD dogs',
+      'Breed dogs',
+      'Chien',
+      'Chiot',
+      'Puppy',
+      'Dogs'
+    ],
+    text: CURRENT_LANGFILE['product.catogery5.name']
+  },
+  {
+    url: '/list/cats',
+    category: 'cats',
+    cateName: [
+      'Prescription cats',
+      'VD cats',
+      'Breed cats',
+      'Chat',
+      'Chaton',
+      'Kitten',
+      'Cats'
+    ],
+    text: CURRENT_LANGFILE['product.catogery6.name']
+  },
+  {
     url: '/list/prescription-dogs',
     category: 'prescription-dogs', // url的查询参数
     cateName: ['Prescription dogs'], // 匹配接口storelist相同的名字
@@ -135,24 +163,6 @@ export const STORE_CATE_ENUM = [
     img: dogsImg
   },
   {
-    url: '/list/dogs',
-    category: 'dogs',
-    cateName: ['Prescription dogs', 'VD dogs', 'Breed dogs', 'Chien', 'Chiot'],
-    text: CURRENT_LANGFILE['product.catogery5.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: dogsImg
-  },
-  {
-    url: '/list/cats',
-    category: 'cats',
-    cateName: ['Prescription cats', 'VD cats', 'Breed cats', 'Chat', 'Chaton'],
-    text: CURRENT_LANGFILE['product.catogery6.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: catsImg
-  },
-  {
     url: '/list/urinary',
     category: 'urinary',
     cateName: ['Urinary'],
@@ -205,6 +215,43 @@ export const STORE_CATE_ENUM = [
     title: CURRENT_LANGFILE['product.de.catogery6.title'],
     desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
     img: dogsImg // ???
+  },
+  // 俄罗斯
+  {
+    url: '/list/dogs-ru',
+    category: 'dogs-ru',
+    cateName: ['Dogs'],
+    text: CURRENT_LANGFILE['product.catogery5.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: dogsImg
+  },
+  {
+    url: '/list/cats-ru',
+    category: 'cats-ru',
+    cateName: ['Cats'],
+    text: CURRENT_LANGFILE['product.catogery6.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: catsImg
+  },
+  {
+    url: '/list/puppy-ru',
+    category: 'puppy-ru',
+    cateName: ['Puppy'],
+    text: CURRENT_LANGFILE['product.catogery5.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: dogsImg
+  },
+  {
+    url: '/list/kitten-ru',
+    category: 'kitten-ru',
+    cateName: ['Kitten'],
+    text: CURRENT_LANGFILE['product.catogery6.name'],
+    title: CURRENT_LANGFILE['aboutUs'],
+    desc: CURRENT_LANGFILE['aboutUs'],
+    img: catsImg
   }
 ];
 

@@ -1,5 +1,6 @@
 // 注意：其他文件也存在多语言相关，搜en/es/ru
 const en_US = {
+  'aboutUs': "О нас",
   'aboutUs2': "Насчет нас",
   "account.addPet": "Добавить питомца",
   "account.basicInfomation": "Основная информация",
@@ -39,7 +40,7 @@ const en_US = {
   "account.specialNeeds": "Особые потребности",
   "account.step": "Шаг",
   "account.sterilized": "Ваш питомец стерилизован?",
-  "account.subscription": "Подписка",
+  "account.subscription": "Подписка на корм",
   "account.subscriptionTip": "Просмотр и изменение настроек подписки.",
   "account.TheAddressBook": "Адресная книга",
   "account.toComeIn": "Войти",
@@ -280,7 +281,7 @@ const en_US = {
   "home.point4": "Быстрая доставка",
   "home.point5": "ЗАБОТА О ЗДОРОВЬЕ СОБАК И КОШЕК С 1968 ГОДА",
   "home.point6": "ВМЕСТЕ С ТОБОЙ",
-  "home.productsCategory": "Наши товары по категориям",
+  "home.productsCategory": "Наши продукты по категориям",
   'home.promotionTip': "10% скидка на первую покупку + 5% скидка на каждый заказ на автозаказ",
   "home.specialAnimalNutrition": "Специальное питание для животных",
   "home.specialInfo1": "Великолепие каждой породы есть",
@@ -506,6 +507,7 @@ const en_US = {
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
   'product.de.catogery6.name': "Управление здоровьем",
   'product.de.catogery6.title': "Управление здоровьем",
+  'product.ru.catogery3.name': "",
   'productRating': "Рейтинг товара",
   'profile.emailChoose': "Да, я хотел бы получать эксклюзивные скидки, информацию о продуктах, советы по уходу за домашними животными и многое другое от Royal Canin",
   'promotion': "Продвижение",
@@ -633,7 +635,9 @@ const en_US = {
   'searchNoBreed': 'не родословная',
   'required.logoTitle':"Добро пожаловать в интернет-магазин ROYALCANIN®",
   'required.complete':'Завершить процесс входа в систему',
-
+  EnterCorrectValue: "Пожалуйста, введите правильный {val}",
+  club: 'КЛУБ',
+  healthAndWellbeing: 'Здоровье и питание'
 }
 
 export default en_US;
