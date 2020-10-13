@@ -74,6 +74,7 @@ class AdyenCreditCardForm extends React.Component {
               onBrand: (state) => {
                 _this.setState({
                   AdyenFormData: Object.assign(_this.state.AdyenFormData, {
+                    adyenBrands: state.brand,
                     brand: state.brand,
                     brandImageUrl: state.brandImageUrl
                   })
