@@ -66,7 +66,8 @@ class AccountOrders extends React.Component {
         }
       ],
       currentProgerssIndex: -1,
-      defaultLocalDateTime: ''
+      defaultLocalDateTime: '',
+      isAuditOpen: false
     };
   }
   componentDidMount() {
@@ -104,6 +105,14 @@ class AccountOrders extends React.Component {
       .then(async (res) => {
         let resContext = res.context;
         let tmpIndex = -1;
+        // 开启审核时
+        if (resContext.isAuditOpen) {
+          progressList.splice(2, 0, {
+            backendName: 'AUDIT',
+            displayName: this.props.intl.messages['order.progress5']
+          });
+          this.setState({ progressList, isAuditOpen: true });
+        }
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
@@ -154,7 +163,7 @@ class AccountOrders extends React.Component {
           details: resContext,
           loading: false,
           currentProgerssIndex: tmpIndex,
-          progressList: progressList,
+          progressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber:
             resContext.subscriptionResponseVO &&
@@ -313,7 +322,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     };
-    
+
     const { details, payRecord, currentProgerssIndex } = this.state;
     return (
       <div>
@@ -354,6 +363,10 @@ class AccountOrders extends React.Component {
                                           ? 'rc-complete'
                                           : i == currentProgerssIndex
                                           ? 'rc-current'
+                                          : ''
+                                      } ${
+                                        this.state.isAuditOpen
+                                          ? 'step_more'
                                           : ''
                                       }`}
                                     >
