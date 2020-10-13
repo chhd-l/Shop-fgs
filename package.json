@@ -101,6 +101,7 @@
     "start:stg_de": "dotenv -e .env.stage.de node scripts/start.js",
     "start:stg_ru": "dotenv -e .env.stage.ru node scripts/start.js",
     "build:uat": "dotenv -e .env.development node scripts/build.js",
+    "build:uat_mx": "dotenv -e .env.development.mx node scripts/build.js",
     "build:uat_de": "dotenv -e .env.development.de node scripts/build.js",
     "build:stg": "dotenv -e .env.stage node scripts/build.js",
     "build:stg_mx": "dotenv -e .env.stage.mx node scripts/build.js",

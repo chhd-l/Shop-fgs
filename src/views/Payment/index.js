@@ -281,7 +281,7 @@ class Payment extends React.Component {
     return this.props.paymentStore.selectedBillingAddress;
   }
   get isOnepageCheckout() {
-    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
+    return this.props.configStore.isOnePageCheckout;
   }
   get checkoutWithClinic() {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
@@ -1419,6 +1419,7 @@ class Payment extends React.Component {
         >
           <PayUCreditCard
             type={'PayUCreditCard'}
+            isOnePageCheckout={this.isOnepageCheckout}
             paymentTypeVal={paymentTypeVal}
             listData={this.state.listData}
             startLoading={() => this.startLoading()}
