@@ -95,70 +95,52 @@ export const STORE_CATE_ENUM = [
 export const STORE_CATOGERY_ENUM = {
   en: [
     {
-      url: '/list/vd',
-      category: 'vd',
-      cateName: ['VD cats'],
-      textLangKey: 'product.catogery4.name',
-      text: CURRENT_LANGFILE['product.catogery4.name'],
-      title: CURRENT_LANGFILE['product.catogery4.title'],
-      desc: CURRENT_LANGFILE['product.catogery4.desc'],
-      img: catsImg,
-      homeImg: CARECAT
-    },
-    {
-      url: '/list/prescription-cats',
-      category: 'prescription-cats',
-      cateName: ['Prescription cats'],
-      textLangKey: 'product.catogery2.name',
-      text: CURRENT_LANGFILE['product.catogery2.name'],
-      title: CURRENT_LANGFILE['product.catogery2.title'],
-      desc: CURRENT_LANGFILE['product.catogery2.desc'],
-      img: catsImg,
-      homeImg: DIETCAT
-    },
-    {
-      url: '/list/breed-cats',
-      category: 'breed-cats',
-      cateName: ['Breed cats'],
-      textLangKey: 'product.catogery7.name',
-      text: CURRENT_LANGFILE['product.catogery7.name'],
-      title: CURRENT_LANGFILE['product.catogery7.title'],
-      desc: CURRENT_LANGFILE['product.catogery7.desc'],
-      img: breedCatsImg,
-      homeImg: Bundles_Breed_Cat
-    },
-    {
-      url: '/list/vcn',
-      category: 'vcn',
-      cateName: ['VD dogs'],
-      textLangKey: 'product.catogery3.name',
-      text: CURRENT_LANGFILE['product.catogery3.name'],
-      title: CURRENT_LANGFILE['product.catogery3.title'],
-      desc: CURRENT_LANGFILE['product.catogery3.desc'],
+      url: '/list/dogs-en',
+      category: 'dogs-en',
+      cateName: ['Dogs'],
+      textLangKey: 'product.en.catogery1.name',
+      text: CURRENT_LANGFILE['product.en.catogery1.name'],
+      title: CURRENT_LANGFILE['product.en.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.en.catogery1.desc'],
       img: dogsImg,
-      homeImg: CAREDOG
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd4ad0ca3/Homepage/Dog_categorie USA@2x.jpg?sw=144&amp;sfrm=png'
     },
     {
-      url: '/list/prescription-dogs',
-      category: 'prescription-dogs', // url的查询参数
-      cateName: ['Prescription dogs'], // 匹配接口storelist相同的名字
-      textLangKey: 'product.catogery1.name',
-      text: CURRENT_LANGFILE['product.catogery1.name'], // 该分类名字，用于导航显示和GTM插码
-      title: CURRENT_LANGFILE['product.catogery1.title'], // 该分类标题(用于列表页顶部显示)
-      desc: CURRENT_LANGFILE['product.catogery1.desc'], // 该分类描述(用于列表页顶部显示)
-      img: dogsImg,
-      homeImg: DIETDOG
+      url: '/list/cats-en',
+      category: 'cats-en',
+      cateName: ['Cats'],
+      textLangKey: 'product.en.catogery2.name',
+      text: CURRENT_LANGFILE['product.ru.catogery2.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery2.desc'],
+      img: catsRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd29d71bf/Homepage/Cat_categorie-USA@2x.jpg?sw=144&amp;sfrm=png'
     },
     {
-      url: '/list/breed-dogs',
-      category: 'breed-dogs',
-      cateName: ['Breed dogs'],
-      textLangKey: 'product.catogery8.name',
-      text: CURRENT_LANGFILE['product.catogery8.name'],
-      title: CURRENT_LANGFILE['product.catogery8.title'],
-      desc: CURRENT_LANGFILE['product.catogery8.desc'],
-      img: breedDogsImg,
-      homeImg: Bundles_Breed_Dog
+      url: '/list/puppy-en',
+      category: 'puppy-en',
+      cateName: ['Puppy'],
+      textLangKey: 'product.en.catogery3.name',
+      text: CURRENT_LANGFILE['product.ru.catogery3.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery3.desc'],
+      img: puppyRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwbc0eb98a/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=png'
+    },
+    {
+      url: '/list/kitten-en',
+      category: 'kitten-en',
+      cateName: ['Kitten'],
+      textLangKey: 'product.en.catogery4.name',
+      text: CURRENT_LANGFILE['product.ru.catogery4.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
+      img: kittenRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4bc1f713/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=png'
     }
   ],
   es: [
