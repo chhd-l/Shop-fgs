@@ -11,6 +11,10 @@ import oxxo from '@/assets/images/oxxo.png';
 import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
 import breedDogsImg from '@/assets/images/banner-list/Banner_BHN_German_Shepherd.jpg';
 
+import puppyRuImg from '@/assets/images/banner-list/puppy-ru.png';
+import kittenRuImg from '@/assets/images/banner-list/kitten-ru.png';
+import catsRuImg from '@/assets/images/banner-list/cats-ru.png';
+
 const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG];
 
 export const GTMID = 'GTM-NCWZQ3';
@@ -221,37 +225,37 @@ export const STORE_CATE_ENUM = [
     url: '/list/dogs-ru',
     category: 'dogs-ru',
     cateName: ['Dogs'],
-    text: CURRENT_LANGFILE['product.catogery5.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
+    text: CURRENT_LANGFILE['product.ru.catogery1.name'],
+    title: CURRENT_LANGFILE['product.ru.catogery1.title'],
+    desc: CURRENT_LANGFILE['product.ru.catogery1.desc'],
     img: dogsImg
   },
   {
     url: '/list/cats-ru',
     category: 'cats-ru',
     cateName: ['Cats'],
-    text: CURRENT_LANGFILE['product.catogery6.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: catsImg
+    text: CURRENT_LANGFILE['product.ru.catogery2.name'],
+    title: CURRENT_LANGFILE['product.ru.catogery2.title'],
+    desc: CURRENT_LANGFILE['product.ru.catogery2.desc'],
+    img: catsRuImg
   },
   {
     url: '/list/puppy-ru',
     category: 'puppy-ru',
     cateName: ['Puppy'],
-    text: CURRENT_LANGFILE['product.catogery5.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: dogsImg
+    text: CURRENT_LANGFILE['product.ru.catogery3.name'],
+    title: CURRENT_LANGFILE['product.ru.catogery3.title'],
+    desc: CURRENT_LANGFILE['product.ru.catogery3.desc'],
+    img: puppyRuImg
   },
   {
     url: '/list/kitten-ru',
     category: 'kitten-ru',
     cateName: ['Kitten'],
-    text: CURRENT_LANGFILE['product.catogery6.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: catsImg
+    text: CURRENT_LANGFILE['product.ru.catogery4.name'],
+    title: CURRENT_LANGFILE['product.ru.catogery4.title'],
+    desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
+    img: kittenRuImg
   }
 ];
 

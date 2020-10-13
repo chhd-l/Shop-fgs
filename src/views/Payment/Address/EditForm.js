@@ -405,7 +405,7 @@ class EditForm extends React.Component {
 
           <div className="col-12 col-md-6">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
+              <label className="form-control-label" htmlFor="shippingAddress1">
                 <FormattedMessage id="payment.address1" />
               </label>
               <span
@@ -413,8 +413,8 @@ class EditForm extends React.Component {
                 input-setup="true"
               >
                 <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
+                  className="rc-input__control shippingAddress1"
+                  id="shippingAddress1"
                   type="text"
                   value={address.address1}
                   onChange={(e) => this.deliveryInputChange(e)}
@@ -436,7 +436,7 @@ class EditForm extends React.Component {
           </div>
           <div className="col-12 col-md-6">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
+              <label className="form-control-label" htmlFor="shippingAddress2">
                 <FormattedMessage id="payment.address2" />
               </label>
               <span
@@ -444,8 +444,8 @@ class EditForm extends React.Component {
                 input-setup="true"
               >
                 <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
+                  className="rc-input__control shippingAddress2"
+                  id="shippingAddress2"
                   type="text"
                   value={address.address2}
                   onChange={(e) => this.deliveryInputChange(e)}
@@ -462,7 +462,7 @@ class EditForm extends React.Component {
           {this._postCodeJSX()}
           <div className="col-12 col-md-6">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
+              <label className="form-control-label" htmlFor="shippingRfc">
                 <FormattedMessage id="payment.rfc" />
               </label>
               <span
@@ -470,7 +470,7 @@ class EditForm extends React.Component {
                 input-setup="true"
               >
                 <input
-                  className="rc-input__control shippingLastName"
+                  className="rc-input__control shippingRfc"
                   type="text"
                   value={address.rfc}
                   onChange={(e) => this.deliveryInputChange(e)}

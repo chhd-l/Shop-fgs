@@ -30,7 +30,7 @@ REACT_APP_SUCCESSFUL_URL = 'https://shopuat.466920.com/ru'
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test'
-REACT_APP_ONTRUST_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?shop-royalcanin-de-'
+REACT_APP_ONTRUST_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?shop-royal-canin-ru'
 
 #language
 REACT_APP_LANG = 'ru'

@@ -10,17 +10,19 @@ const breadcrumbNameMap = {
   '/list/vcn': [{ name: 'product.catogery3.name' }],
   '/list/vd': [{ name: 'product.catogery4.name' }],
   '/list/prescription-dogs': [{ name: 'product.catogery1.name' }],
-  '/list/prescription-cats': [{ name: 'product.catogery2.name' }], 
+  '/list/prescription-cats': [{ name: 'product.catogery2.name' }],
   '/list/breed-dogs': [{ name: 'product.catogery8.name' }],
-  '/list/breed-cats': [{ name: 'product.catogery7.name' }],   
+  '/list/breed-cats': [{ name: 'product.catogery7.name' }],
   '/list/chien': [{ name: 'home.catogery6' }],
   '/list/chat': [{ name: 'home.catogery5' }],
   '/list/chiot': [{ name: 'product.fr.catogery3.name' }],
-  '/list/chaton': [{ name: 'product.fr.catogery4.name' }],   
+  '/list/chaton': [{ name: 'product.fr.catogery4.name' }],
+  '/list/dogs-ru': [{ name: 'product.ru.catogery1.name' }],
+  '/list/cats-ru': [{ name: 'product.ru.catogery2.name' }],
+  '/list/puppy-ru': [{ name: 'product.ru.catogery3.name' }],
+  '/list/kitten-ru': [{ name: 'product.ru.catogery4.name' }],
   '/list/keywords': [{ name: 'viewResults' }],
-  '/account': [
-    { name: 'account.personalArea' }
-  ],
+  '/account': [{ name: 'account.personalArea' }],
   '/account/information': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.profile' }
@@ -58,7 +60,7 @@ const breadcrumbNameMap = {
   '/account/productReview/:tid': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'orders', href: '/account/orders' },
-    { name: 'Product Review'}
+    { name: 'Product Review' }
   ],
 
   '/account/subscription-detail/:subscriptionNumber': [
@@ -86,4 +88,4 @@ const breadcrumbNameMap = {
   ]
 };
 
-export default breadcrumbNameMap
+export default breadcrumbNameMap;

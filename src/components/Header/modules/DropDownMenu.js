@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
-const subMenuCfg = [
+const defaultSubMenuCfg = [
   {
     key: 'dogs',
     menus: [
@@ -128,6 +129,153 @@ const subMenuCfg = [
   { key: 'help' }
 ];
 
+const subMenuCfgENUM = {
+  fr: defaultSubMenuCfg,
+  ru: [
+    {
+      key: 'dogs',
+      menus: [
+        {
+          name: 'Âge',
+          children: [
+            {
+              name: 'Chiot (0-2 mois)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1818' }
+            },
+            {
+              name: 'Chiot (2 mois-1 an)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1819' }
+            },
+            {
+              name: 'Adulte (1-7 ans)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1821' }
+            },
+            {
+              name: 'Sénior (7 ans et plus)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1824' }
+            }
+          ]
+        },
+        {
+          name: 'Taille',
+          children: [
+            {
+              name: 'X-Small (1-4 Kg)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Mini (1-10 KG)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Medium (11-25kg)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Maxi (26-44kg)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: <span>Géant (&gt; 45kg)</span>,
+              linkObj: { pathname: '/list/dogs' }
+            }
+          ]
+        },
+        {
+          name: 'Gamme',
+          children: [
+            {
+              name: 'Aliments secs',
+              linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
+            },
+            {
+              name: 'Bouchées en sauce',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Aliment pour Chien de Race',
+              linkObj: { pathname: '/list/dogs' }
+            }
+          ]
+        }
+      ],
+      desc: {
+        text:
+          'Каждый питомец уникален, так же как и его потребности в питании.',
+        img:
+          'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw89994f07/CMS/header-dog.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
+      },
+      mainLink: '/list/dogs'
+    },
+    {
+      key: 'cats',
+      menus: [
+        {
+          name: 'Возраст',
+          children: [
+            {
+              name: 'Котенок (0-1 год)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1898' }
+            },
+            {
+              name: 'Взрослая (1-7 лет)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1899' }
+            },
+            {
+              name: 'Стареющая (7-12 лет)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1900' }
+            },
+            {
+              name: 'Пожилая (12 лет +)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1901' }
+            }
+          ]
+        },
+        {
+          name: 'Линейка',
+          children: [
+            {
+              name: 'Feline Health Nutrition',
+              linkObj: { pathname: '/list/cats', search: '?fid=484|1792' }
+            },
+            {
+              name: 'Feline Breed Nutrition',
+              linkObj: { pathname: '/list/cats' }
+            },
+            {
+              name: 'Feline Care Nutrition',
+              linkObj: { pathname: '/list/cats' }
+            }
+          ]
+        },
+        {
+          name: 'Тип корма',
+          children: [
+            {
+              name: 'Сухой корм',
+              linkObj: { pathname: '/list/cats', search: '?fid=484|1792' }
+            },
+            {
+              name: 'Влажный корм',
+              linkObj: { pathname: '/list/cats' }
+            }
+          ]
+        }
+      ],
+      desc: {
+        text:
+          'Каждый питомец уникален, так же как и его потребности в питании.',
+        img:
+          'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw73b132cd/CMS/header-cat.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
+      },
+      mainLink: '/list/cats'
+    },
+    { key: 'help' }
+  ]
+};
+
+const subMenuCfg = subMenuCfgENUM[process.env.REACT_APP_LANG] || [];
+
 export default class DropDownMenu extends React.Component {
   hanldeListItemMouseOver = (type) => {
     this.props.updateVisibleType(type);
@@ -139,7 +287,9 @@ export default class DropDownMenu extends React.Component {
     const { visibleType } = this.props;
     return (
       <div
-        className={`dropdown-nav d-flex ${visibleType === item.key ? 'show' : ''}`}
+        className={`dropdown-nav d-flex ${
+          visibleType === item.key ? 'show' : ''
+        }`}
         aria-hidden={visibleType === item.key}
         onMouseOver={() => this.hanldeListItemMouseOver(item.key)}
         onMouseOut={this.hanldeListItemMouseOut}
@@ -164,7 +314,11 @@ export default class DropDownMenu extends React.Component {
                 </div>
                 <ul className="rc-padding--none" role="menu" aria-hidden="true">
                   {mitem.children.map((citem, cIndex) => (
-                    <li className="dropdown-nav__item" role="menuitem" key={cIndex}>
+                    <li
+                      className="dropdown-nav__item"
+                      role="menuitem"
+                      key={cIndex}
+                    >
                       <Link
                         to={citem.linkObj}
                         role="button"
@@ -178,7 +332,7 @@ export default class DropDownMenu extends React.Component {
                 {mIndx === 0 && (
                   <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
                     <Link className="rc-styled-link" to="/list/dogs">
-                      Voir tous les produits
+                      <FormattedMessage id="viewAll" />
                     </Link>
                   </div>
                 )}
@@ -194,7 +348,7 @@ export default class DropDownMenu extends React.Component {
               </div>
               <Link to={item.mainLink}>
                 <button className="rc-btn rc-btn--one">
-                  Trouver l'alimentation adaptée
+                  <FormattedMessage id="findTheRightDiet" />
                 </button>
               </Link>
             </div>

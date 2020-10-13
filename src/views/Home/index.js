@@ -539,7 +539,7 @@ class Home extends React.Component {
       ru: (
         <>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="dogs">
+            <FormattedMessage id="product.ru.catogery1.name">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
@@ -569,7 +569,7 @@ class Home extends React.Component {
             </FormattedMessage>
           </div>
           <div className="col-md-3 col-6">
-            <FormattedMessage id="cats">
+            <FormattedMessage id="product.ru.catogery2.name">
               {(txt) => (
                 <Link
                   className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"

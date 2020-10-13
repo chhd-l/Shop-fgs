@@ -678,5 +678,7 @@ const en_US = {
   searchNoBreed: 'pas un pedigree',
   'required.logoTitle':'Bienvenue dans la boutique en ligne ROYALCANIN®',
   'required.complete':'Processus de connexion complet',
+  findTheRightDiet: 'Trouver l\'alimentation adaptée',
+  viewAll: 'Voir tous les produits'
 }
 export default en_US;
