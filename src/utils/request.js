@@ -30,6 +30,9 @@ service.interceptors.request.use((config) => {
     en: 'en-US',
     es: 'es-MX',
     de: 'de',
+    fr: 'fr',
+    tr: 'tr',
+    ru: 'ru',
     cn: 'zh-CN'
   }[process.env.REACT_APP_LANG];
   config.headers['storeId'] = process.env.REACT_APP_STOREID;

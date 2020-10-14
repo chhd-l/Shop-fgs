@@ -119,26 +119,20 @@ export const STORE_CATOGERY_ENUM = {
         'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd29d71bf/Homepage/Cat_categorie-USA@2x.jpg?sw=144&amp;sfrm=png'
     },
     {
-      url: '/list/puppy-en',
-      category: 'puppy-en',
-      cateName: ['Puppy'],
+      url: '/list/keywords/puppy',
+      category: '',
+      cateName: [''],
       textLangKey: 'product.en.catogery3.name',
       text: CURRENT_LANGFILE['product.ru.catogery3.name'],
-      title: CURRENT_LANGFILE['product.ru.catogery3.title'],
-      desc: CURRENT_LANGFILE['product.ru.catogery3.desc'],
-      img: puppyRuImg,
       homeImg:
         'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwbc0eb98a/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=png'
     },
     {
-      url: '/list/kitten-en',
-      category: 'kitten-en',
-      cateName: ['Kitten'],
+      url: '/list/keywords/kitten',
+      category: '',
+      cateName: [],
       textLangKey: 'product.en.catogery4.name',
       text: CURRENT_LANGFILE['product.ru.catogery4.name'],
-      title: CURRENT_LANGFILE['product.ru.catogery4.title'],
-      desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
-      img: kittenRuImg,
       homeImg:
         'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4bc1f713/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=png'
     }
@@ -374,6 +368,56 @@ export const STORE_CATOGERY_ENUM = {
       text: CURRENT_LANGFILE['product.ru.catogery4.name'],
       title: CURRENT_LANGFILE['product.ru.catogery4.title'],
       desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
+      img: kittenRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    }
+  ],
+  tr: [
+    {
+      url: '/list/dogs-tr',
+      category: 'dogs-tr',
+      cateName: ['Dogs'],
+      textLangKey: 'product.tr.catogery1.name',
+      text: CURRENT_LANGFILE['product.tr.catogery1.name'],
+      title: CURRENT_LANGFILE['product.tr.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.tr.catogery1.desc'],
+      img: dogsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/cats-tr',
+      category: 'cats-tr',
+      cateName: ['Cats'],
+      textLangKey: 'product.tr.catogery2.name',
+      text: CURRENT_LANGFILE['product.tr.catogery2.name'],
+      title: CURRENT_LANGFILE['product.tr.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.tr.catogery2.desc'],
+      img: catsRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/puppy-tr',
+      category: 'puppy-tr',
+      cateName: ['Puppy'],
+      textLangKey: 'product.tr.catogery3.name',
+      text: CURRENT_LANGFILE['product.tr.catogery3.name'],
+      title: CURRENT_LANGFILE['product.tr.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.tr.catogery3.desc'],
+      img: puppyRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpgs'
+    },
+    {
+      url: '/list/kitten-tr',
+      category: 'kitten-tr',
+      cateName: ['Kitten'],
+      textLangKey: 'product.tr.catogery4.name',
+      text: CURRENT_LANGFILE['product.tr.catogery4.name'],
+      title: CURRENT_LANGFILE['product.tr.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.tr.catogery4.desc'],
       img: kittenRuImg,
       homeImg:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'

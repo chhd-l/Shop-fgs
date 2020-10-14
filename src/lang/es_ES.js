@@ -539,7 +539,7 @@ const en_US = {
   'requestInvoices.title': 'Solicitar facturas',
   'requiredFields': '* Campos requeridos',
   'resetPasswordEmail': 'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
-  'results': 'Resultados',
+  'results': '{val} Resultados',
   'reviews': 'Comentarios',
   'royalCanin': 'Royal Canin',
   'save': 'Salvar',

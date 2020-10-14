@@ -541,7 +541,7 @@ const en_US = {
   'rePurchase': "Выкуп",
   'requiredFields': "* Обязательные поля",
   'resetPasswordEmail': "На ваш почтовый ящик отправлено письмо для сброса пароля, обратите внимание, что проверьте!",
-  'results': "Результатов",
+  'results': "{val} Результатов",
   'reviews': "Отзывы",
   'royalCanin': "Royal Canin",
   'save': "Сохранить",

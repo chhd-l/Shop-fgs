@@ -119,17 +119,17 @@ class MegaMenu extends React.Component {
                     className="rc-list rc-list--blank rc-list--align"
                     role="menubar"
                   >
-                    <li className="rc-list__item rc-list__item--group">
+                    <li className="rc-list__item rc-list__item--group w-100">
                       <Link className="rc-list__header" to="/list/cats">
                         <FormattedMessage id="cats" />
                       </Link>
                     </li>
-                    <li className="rc-list__item rc-list__item--group">
+                    <li className="rc-list__item rc-list__item--group w-100">
                       <Link className="rc-list__header" to="/list/dogs">
                         <FormattedMessage id="dogs" />
                       </Link>
                     </li>
-                    <li className="rc-list__item rc-list__item--group">
+                    <li className="rc-list__item rc-list__item--group w-100">
                       <a
                         className="rc-list__header"
                         href={this.props.configStore.contactUsUrl}
@@ -138,7 +138,7 @@ class MegaMenu extends React.Component {
                         <FormattedMessage id="aboutUs" />
                       </a>
                     </li>
-                    <li className="rc-list__item rc-list__item--group">
+                    <li className="rc-list__item rc-list__item--group w-100">
                       <Link className="rc-list__header" to="/help">
                         <FormattedMessage id="contactUs" />
                       </Link>

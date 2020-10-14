@@ -528,7 +528,7 @@ class List extends React.Component {
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <b>"{this.state.keywords}"</b>(
-                    <FormattedMessage id="results" /> {results})
+                    <FormattedMessage id="results" values={{ val: results }} />)
                   </div>
                 </div>
               ) : null}
@@ -612,7 +612,12 @@ class List extends React.Component {
                         <span style={{ fontWeight: 500 }}>
                           {this.state.currentCatogery}{' '}
                         </span>
-                        ({results} <FormattedMessage id="results" />)
+                        (
+                        <FormattedMessage
+                          id="results"
+                          values={{ val: results }}
+                        />
+                        )
                       </div>
                     )}
                     {!productList.length ? (
