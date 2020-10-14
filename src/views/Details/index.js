@@ -187,7 +187,7 @@ class Details extends React.Component {
   async queryDetails() {
     const { id } = this.state;
     const tmpRequest = this.isLogin ? getLoginDetails : getDetails;
-    Promise.all([tmpRequest(id), queryProps()])
+    Promise.all([tmpRequest(id)])
       .then((resList) => {
         const res = resList[0];
         if (res && res.context) {
@@ -208,7 +208,7 @@ class Details extends React.Component {
             errMsg: <FormattedMessage id="details.errMsg" />
           });
         }
-        if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
+        if (res && res.context && res.context.goodsSpecDetails) {
           // 获取产品所属类别
           let tmpSpecie =
             find(res.context.storeCates, (ele) =>
@@ -233,38 +233,43 @@ class Details extends React.Component {
           }
           // 获取产品Dry/Wet属性
           let tmpFormat = [];
-          for (let item of res.context.goodsPropDetailRels) {
-            const t = find(resList[1], (ele) => ele.propId == item.propId);
-            // 区分cat or dog(de)
-            if (t && t.propName.includes('Spezies')) {
-              const t3 = find(
-                t.goodsPropDetails,
-                (ele) => ele.detailId == item.detailId
+          queryProps().then((propsRes) => {
+            for (let item of res.context.goodsPropDetailRels) {
+              const t = find(
+                propsRes || [],
+                (ele) => ele.propId == item.propId
               );
-              if (t3) {
-                this.specie =
-                  { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-              }
-            }
-            if (
-              t &&
-              (t.propName.includes('Seco') ||
-                t.propName.includes('Technologie'))
-            ) {
-              const t2 = find(
-                t.goodsPropDetails,
-                (ele) => ele.detailId == item.detailId
-              );
-              if (t2) {
-                tmpFormat.push(
-                  { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-                    t2.detailName
-                  ] || ''
+              // 区分cat or dog(de)
+              if (t && t.propName.includes('Spezies')) {
+                const t3 = find(
+                  t.goodsPropDetails,
+                  (ele) => ele.detailId == item.detailId
                 );
+                if (t3) {
+                  this.specie =
+                    { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
+                }
+              }
+              if (
+                t &&
+                (t.propName.includes('Seco') ||
+                  t.propName.includes('Technologie'))
+              ) {
+                const t2 = find(
+                  t.goodsPropDetails,
+                  (ele) => ele.detailId == item.detailId
+                );
+                if (t2) {
+                  tmpFormat.push(
+                    { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
+                      t2.detailName
+                    ] || ''
+                  );
+                }
               }
             }
-          }
-          this.format = tmpFormat;
+            this.format = tmpFormat;
+          });
 
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
@@ -358,17 +363,21 @@ class Details extends React.Component {
           );
         } else {
           // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
+          this.setState({
+            errMsg: <FormattedMessage id="details.errMsg" />
+          });
         }
       })
       .catch((e) => {
         console.log(e);
         console.table(e);
-        // this.setState({
-        //   errMsg: e.message ? e.message.toString() : <FormattedMessage id="details.errMsg2" />
-        // });
+        this.setState({
+          errMsg: e.message ? (
+            e.message.toString()
+          ) : (
+            <FormattedMessage id="details.errMsg2" />
+          )
+        });
       })
       .finally(() => {
         this.setState({
@@ -775,6 +784,7 @@ class Details extends React.Component {
         }
       };
     }
+
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (selectedSpecItem) {
       console.log(
@@ -887,13 +897,17 @@ class Details extends React.Component {
                                 details.goodsDescription
                               )}
                             />
-                            <div
-                              className="description"
-                              dangerouslySetInnerHTML={createMarkup(
-                                selectedSpecItem.description
-                              )}
-                            />
-                            {find(details.sizeList, (s) => s.selected)
+                            {selectedSpecItem && (
+                              <div
+                                className="description"
+                                dangerouslySetInnerHTML={createMarkup(
+                                  selectedSpecItem.description
+                                )}
+                              />
+                            )}
+
+                            {find(details.sizeList, (s) => s.selected) &&
+                            find(details.sizeList, (s) => s.selected)
                               .goodsPromotion ? (
                               <>
                                 <br />
@@ -953,7 +967,8 @@ class Details extends React.Component {
                                           {formatMoney(currentUnitPrice)}
                                         </b>
                                         &nbsp;&nbsp;
-                                        {details.baseSpec ? (
+                                        {details.baseSpec &&
+                                        selectedSpecItem ? (
                                           <b
                                             style={{
                                               fontWeight: '200',
@@ -1035,6 +1050,7 @@ class Details extends React.Component {
                                           </b>
                                           &nbsp;&nbsp;
                                           {details.baseSpec &&
+                                          selectedSpecItem &&
                                           currentSubscriptionPrice ? (
                                             <b
                                               style={{
