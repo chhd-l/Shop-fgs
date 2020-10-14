@@ -203,6 +203,10 @@ class Details extends React.Component {
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice
           });
+        } else {
+          this.setState({
+            errMsg: <FormattedMessage id="details.errMsg" />
+          });
         }
         if (res && res.context && res.context.goodsSpecDetails && resList[1]) {
           // 获取产品所属类别
@@ -354,17 +358,17 @@ class Details extends React.Component {
           );
         } else {
           // 没有规格的情况
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
-          });
+          // this.setState({
+          //   errMsg: <FormattedMessage id="details.errMsg" />
+          // });
         }
       })
       .catch((e) => {
         console.log(e);
         console.table(e);
-        this.setState({
-          errMsg: e.message ? e.message.toString() : <FormattedMessage id="details.errMsg2" />
-        });
+        // this.setState({
+        //   errMsg: e.message ? e.message.toString() : <FormattedMessage id="details.errMsg2" />
+        // });
       })
       .finally(() => {
         this.setState({
