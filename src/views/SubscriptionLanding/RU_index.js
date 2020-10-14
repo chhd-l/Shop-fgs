@@ -12,13 +12,13 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
-import autoship from './images/autoship.png'
-import icon1 from './images/icon1.png'
-import icon2 from './images/icon2.png'
-import icon3 from './images/icon3.png'
-import icon4 from './images/icon4.png'
-import cat from './images/cat.png'
-import dog from './images/dog.png'
+import autoship from './images/autoship.png';
+import icon1 from './images/icon1.png';
+import icon2 from './images/icon2.png';
+import icon3 from './images/icon3.png';
+import icon4 from './images/icon4.png';
+import cat from './images/cat.png';
+import dog from './images/dog.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
@@ -41,7 +41,6 @@ const localItemRoyal = window.__.localItemRoyal;
 @observer
 @injectIntl
 class Help extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -95,51 +94,55 @@ class Help extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id).then((res) => {
-      console.log(res, 'aaa');
-      let productList = res.context.recommendationGoodsInfoRels;
-      productList.map((el) => {
-        el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-          g = Object.assign({}, g, { selected: false });
-          console.log(g.goodsInfoId, el, 'hhhh')
-          if(g.goodsInfoId === el.goodsInfo.goodsInfoId) {
-            g.selected = true
-          }
-          return g;
-        });
-        let specList = el.goodsSpecs;
-        let specDetailList = el.goodsSpecDetails;
-        specList.map((sItem) => {
-          sItem.chidren = specDetailList.filter((sdItem, i) => {
-            return sdItem.specId === sItem.specId;
-          });
-          console.log(sItem, el,'hhhh')
-          
-          sItem.chidren.map(child => {
-            if(el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1) {
-              console.log(child, 'child')
-              child.selected = true
+    getRecommendationList(this.props.match.params.id)
+      .then((res) => {
+        console.log(res, 'aaa');
+        let productList = res.context.recommendationGoodsInfoRels;
+        productList.map((el) => {
+          el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
+            g = Object.assign({}, g, { selected: false });
+            console.log(g.goodsInfoId, el, 'hhhh');
+            if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
+              g.selected = true;
             }
-          })
-        });
-        el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-        el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-        el.goodsInfo.goods.goodsSpecs = specList;
-      });
+            return g;
+          });
+          let specList = el.goodsSpecs;
+          let specDetailList = el.goodsSpecDetails;
+          specList.map((sItem) => {
+            sItem.chidren = specDetailList.filter((sdItem, i) => {
+              return sdItem.specId === sItem.specId;
+            });
+            console.log(sItem, el, 'hhhh');
 
-      this.setState({ productList }, () => {
-        this.checkoutStock()
+            sItem.chidren.map((child) => {
+              if (
+                el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+              ) {
+                console.log(child, 'child');
+                child.selected = true;
+              }
+            });
+          });
+          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
+          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
+          el.goodsInfo.goods.goodsSpecs = specList;
+        });
+
+        this.setState({ productList }, () => {
+          this.checkoutStock();
+        });
+        // getPrescriptionById({id: res.context.prescriberId}).then(res => {
+        getPrescriptionById({ id: '2304' }).then((res) => {
+          console.log(res, 'bbb');
+          this.props.clinicStore.setLinkClinicId('2304');
+          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+          this.setState({ prescriberInfo: res.context, loading: false });
+        });
+      })
+      .catch((err) => {
+        // this.props.history.push('/')
       });
-      // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-      getPrescriptionById({ id: '2304' }).then((res) => {
-        console.log(res, 'bbb');
-        this.props.clinicStore.setLinkClinicId('2304');
-        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        this.setState({ prescriberInfo: res.context, loading: false });
-      });
-    }).catch(err => {
-      // this.props.history.push('/')
-    })
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -147,68 +150,78 @@ class Help extends React.Component {
     }
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
-      if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-        outOfStockProducts.push(productList[i])
-      }else {
-        inStockProducts.push(productList[i])
+      if (
+        productList[i].recommendationNumber > productList[i].goodsInfo.stock
+      ) {
+        outOfStockProducts.push(productList[i]);
+      } else {
+        inStockProducts.push(productList[i]);
       }
     }
-    let outOfStockVal = ''
+    let outOfStockVal = '';
     outOfStockProducts.map((el, i) => {
-      if(i === outOfStockProducts.length - 1) {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName
-      }else {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ','
+      if (i === outOfStockProducts.length - 1) {
+        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
+      } else {
+        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ',';
       }
-    })
+    });
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
-      { val:  outOfStockVal}
-    )
+      { val: outOfStockVal }
+    );
     modalList[1].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_pay' },
-      { val:  outOfStockVal}
-    )
+      { val: outOfStockVal }
+    );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
-    // return 
-    
-    
+    // return
 
-      // for (let i = 0; i < productList.length; i++) {
-      //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-      //     outOfStockProducts.push(productList[i])
-      //     this.setState({ buttonLoading: false });
-      //     continue
-      //   }else {
-      //     inStockProducts.push(productList[i])
-      //   }
-      // }
-      if(outOfStockProducts.length > 0) {
-        this.setState({modalShow: true, currentModalObj: modalList[0]})
-      }else {
-        this.setState({ buttonLoading: true });
-        for (let i = 0; i < inStockProducts.length; i++) {
-          try {
-            await sitePurchase({
-              goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-              goodsNum: inStockProducts[i].recommendationNumber,
-              goodsCategory: ''
-            });
-            await this.props.checkoutStore.updateLoginCart();
-          } catch (e) {
-            this.setState({ buttonLoading: false });
-          }
+    // for (let i = 0; i < productList.length; i++) {
+    //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
+    //     outOfStockProducts.push(productList[i])
+    //     this.setState({ buttonLoading: false });
+    //     continue
+    //   }else {
+    //     inStockProducts.push(productList[i])
+    //   }
+    // }
+    if (outOfStockProducts.length > 0) {
+      this.setState({ modalShow: true, currentModalObj: modalList[0] });
+    } else {
+      this.setState({ buttonLoading: true });
+      for (let i = 0; i < inStockProducts.length; i++) {
+        try {
+          await sitePurchase({
+            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+            goodsNum: inStockProducts[i].recommendationNumber,
+            goodsCategory: ''
+          });
+          await this.props.checkoutStore.updateLoginCart();
+        } catch (e) {
+          this.setState({ buttonLoading: false });
         }
-        this.props.history.push('/cart');
       }
+      this.props.history.push('/cart');
+    }
   }
   async hanldeUnloginAddToCart(products, path) {
-    console.log(products,'products')
+    console.log(products, 'products');
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
       // this.setState({ checkOutErrMsg: "" });
@@ -220,11 +233,11 @@ class Help extends React.Component {
       // const { goodsId, sizeList } = this.state.details;
       // const currentSelectedSize = find(sizeList, (s) => s.selected);
       // let quantityNew = quantity;
-      
+
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      
+
       let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
@@ -243,7 +256,7 @@ class Help extends React.Component {
             product.goodsInfo.goodsInfoId ===
               c.sizeList.filter((s) => s.selected)[0].goodsInfoId
         );
-        console.log(historyItem, 'historyItem')
+        console.log(historyItem, 'historyItem');
         if (historyItem) {
           flag = false;
           quantityNew += historyItem.quantity;
@@ -328,16 +341,21 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    if(needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription')
+    if (needLogin) {
+      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
-    this.setState({needLogin})
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
-    let totalPrice 
-    inStockProducts.map(el => {
-      console.log(el, 'el')
-      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice
-    })
+    this.setState({ needLogin });
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
+    let totalPrice;
+    inStockProducts.map((el) => {
+      console.log(el, 'el');
+      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice;
+    });
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.showErrorMsg(
         <FormattedMessage
@@ -347,17 +365,28 @@ class Help extends React.Component {
       );
       return false;
     }
-    if(outOfStockProducts.length > 0) {
-      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
-      this.setState({modalShow: true, currentModalObj: modalList[1]})
-      return false
-    }else {
-      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
+    if (outOfStockProducts.length > 0) {
+      sessionItemRoyal.set(
+        'recommend_product',
+        JSON.stringify(inStockProducts)
+      );
+      this.setState({ modalShow: true, currentModalObj: modalList[1] });
+      return false;
+    } else {
+      sessionItemRoyal.set(
+        'recommend_product',
+        JSON.stringify(inStockProducts)
+      );
       this.props.history.push('/prescription');
     }
   }
   async hanldeClickSubmit() {
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } = this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -424,12 +453,14 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section
+            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
+          >
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="subscriptionLanding.title1"/>
+              <FormattedMessage id="subscriptionLanding.title1" />
             </h2>
             <p>
-              <FormattedMessage id="subscriptionLanding.content1"/>
+              <FormattedMessage id="subscriptionLanding.content1" />
             </p>
           </section>
 
@@ -447,36 +478,39 @@ class Help extends React.Component {
             >
               <div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description1"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <FormattedMessage id="subscriptionLanding.description1" />
                 </div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description2"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description3"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <FormattedMessage id="subscriptionLanding.description3" />
                 </div>
-                <div>
+                {/* <div>
                   <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                </div> */}
+                <div style={{ marginTop: '20px' }}>
+                  <button
+                    class="rc-btn rc-btn--one"
+                    onClick={() => {
+                      this.props.history.push('/list/cats');
+                    }}
+                  >
+                    <FormattedMessage id="subscriptionLanding.catButton" />
+                  </button>
                 </div>
-                <div style={{marginTop:'20px'}}>
-                <button
-                class="rc-btn rc-btn--one"
-                onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}
-                >
-                  <FormattedMessage id="subscriptionLanding.catButton"/>
-                </button>
-                </div>
-                <div style={{marginTop:'20px'}}>
-                <button
-                class="rc-btn rc-btn--one"
-                onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}
-                >
-                  <FormattedMessage id="subscriptionLanding.dogButton"/>
-                </button>
+                <div style={{ marginTop: '20px' }}>
+                  <button
+                    class="rc-btn rc-btn--one"
+                    onClick={() => {
+                      this.props.history.push('/list/dogs');
+                    }}
+                  >
+                    <FormattedMessage id="subscriptionLanding.dogButton" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -484,33 +518,63 @@ class Help extends React.Component {
               <img src={autoship} style={{ width: '100%' }} />
             </div>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section
+            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
+          >
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Comment cela fonctionne-t-il ?
+              Как работает подписка?
             </h2>
           </section>
           <div
             class="rc-layout-container rc-four-column"
             style={{ padding: '20px' }}
           >
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon1} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Ajoutez les produits nutritionnels répondant aux besoins de votre animal dans votre panier.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon1}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>Выберите подходящий рацион питания для Вашего питомца</p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon2} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Sélectionnez l'expédition automatique et entrez votre mode de paiement.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon2}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>Выберите частоту отправки, адрес доставки и способ оплаты</p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon3} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Recevez votre produit automatiquement en fonction de votre calendrier.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon3}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>Получайте заказ автоматически по Вашему расписанию</p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon4} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Modifiez vos préférences à tout moment.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon4}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>Меняйте график доставки в любое время, когда захотите</p>
             </div>
           </div>
-          <div
+          {/* <div
             class="rc-layout-container rc-three-column"
             style={{ padding: '20px', background: '#eee' }}
           >
@@ -530,14 +594,18 @@ class Help extends React.Component {
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
             </div>
-          </div>
+          </div> */}
           <div class="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Besoin d'aide ?
+                Есть вопросы
               </h2>
-              <p>
-                Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.
+              <p style={{width: '60%', margin: '0 auto'}}>
+                Нужна помощь?
+                <br/>
+                Наша команда готова ответить на все Ваши вопросы и
+                обеспечить наилучшие условия для совершения покупок. Вы можете
+                связаться с нами, используя один из трех способов:
               </p>
             </section>
             <div class="experience-region experience-main">
@@ -547,8 +615,7 @@ class Help extends React.Component {
                     <div class="rc-full-width">
                       <div class="experience-component experience-assets-contactUsBlock">
                         <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                          </div>
+                          <div class="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile"></div>
                           <div class="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
                             <div class="rc-column rc-double-width rc-padding--none">
                               <article class="rc-full-width rc-column rc-margin-top--md--mobile">
@@ -684,7 +751,7 @@ class Help extends React.Component {
                 </div>
               </div>
             </div>
-          </div>         
+          </div>
         </main>
 
         <Footer />

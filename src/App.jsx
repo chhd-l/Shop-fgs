@@ -70,6 +70,9 @@ import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 import SubscriptionLanding from '@/views/SubscriptionLanding';
+import US_SubscriptionLanding from '@/views/SubscriptionLanding/US_index.js';
+import RU_SubscriptionLanding from '@/views/SubscriptionLanding/RU_index.js';
+import generalConditions from '@/views/GeneralConditions'
 import Tailorednutrition from '@/views/Tailorednutrition';
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
@@ -300,6 +303,21 @@ const App = () => (
                 path="/subscription-landing"
                 exact
                 component={SubscriptionLanding}
+              />
+              <Route
+                path="/subscription-landing-us"
+                exact
+                component={US_SubscriptionLanding}
+              />
+              <Route
+                path="/subscription-landing-ru"
+                exact
+                component={RU_SubscriptionLanding}
+              />
+              <Route
+                path="/general-conditions"
+                exact
+                component={generalConditions}
               />
               <Route
                 path="/tailorednutrition"
