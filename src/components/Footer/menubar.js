@@ -8,19 +8,18 @@ export const menubar = {
           { prop: 'contactUsUrl', messageId: 'aboutUs2' },
           {
             prop: 'ourValues',
-            url: 'https://www.royalcanin.com/mx/about-us/our-values',
-            messageId: 'footer.ourValues'
+            url: 'https://shop.royalcanin.com/Values.html',
+            messageId: 'Values'
           },
           {
             prop: 'qualityAndSafety',
-            url:
-              'https://www.royalcanin.com/mx/about-us/quality-and-food-safety',
-            messageId: 'footer.qualityAndSafety'
+            url: 'https://shop.royalcanin.com/Quality-safety.html',
+            messageId: 'Quality Safety'
           },
           {
             prop: 'specificNutrition',
-            url: 'https://www.royalcanin.com/mx/tailored-nutrition',
-            messageId: 'footer.healthAndNutrition'
+            url: 'https://shop.royalcanin.com/Tailorednutrition.html',
+            messageId: 'Tailored Nutrition'
           }
         ]
       }
@@ -29,8 +28,17 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats' },
-          { link: '/list/dogs', messageId: 'dogs' }
+          { link: '/list/cats', messageId: 'cats2' },
+          { link: '/list/dogs', messageId: 'dogs2' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'ACCOUNT',
+        list: [
+          { link: '/account', messageId: 'My Account' },
+          { link: '/account/orders', messageId: 'My Orders' }
         ]
       }
     ],
@@ -38,23 +46,8 @@ export const menubar = {
       {
         titleId: 'footer.help',
         list: [
-          { link: '/help', messageId: 'footer.contacts' },
-          { link: '/FAQ/all', messageId: 'footer.FAQ' },
-          { link: '/requestinvoice', messageId: 'footer.RequestInvoice' }
-        ]
-      }
-    ],
-    [
-      {
-        titleId: 'footer.Additionally',
-        list: [
-          { link: '/privacypolicy', messageId: 'footer.privacyPolicy' },
-          {
-            prop: 'informationForParents',
-            messageId: 'footer.informationForParents'
-          },
-          { link: '/termuse', messageId: 'footer.websiteTermsOfUse' },
-          { prop: 'cookiesUrl', messageId: 'footer.cookieCollectionPolicy' }
+          { link: '/help', messageId: 'Contact Us' },
+          { link: '/FAQ/all', messageId: 'FAQs' }
         ]
       }
     ]
@@ -354,6 +347,80 @@ export const menubar = {
           {
             url: 'https://www.mars.com/global/policies/cookie/cn-russian',
             messageId: 'Политика сбора Cookie'
+          }
+        ]
+      }
+    ]
+  ],
+  tr: [
+    [
+      {
+        titleId: 'footer.aboutRoyalCanin',
+        list: [
+          { prop: 'contactUsUrl', messageId: 'aboutUs2' },
+          {
+            prop: 'ourValues',
+            url: 'https://www.shop.royalcanin.com.tr/tr/Values.html',
+            messageId: 'Değerlerimiz'
+          },
+          {
+            prop: 'qualityAndSafety',
+            url: 'https://www.shop.royalcanin.com.tr/tr/Quality-safety.html',
+            messageId: 'Gıda Kalitesi ve Güvenliği'
+          },
+          {
+            prop: 'specificNutrition',
+            url:
+              'https://www.shop.royalcanin.com.tr/tr/saglik-beslenme/Tailorednutrition.html',
+            messageId: 'Sağlık ve Beslenme'
+          }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'footer.products',
+        list: [
+          { link: '/list/cats', messageId: 'cats2' },
+          { link: '/list/dogs', messageId: 'dogs2' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'HESAP',
+        list: [
+          { link: '/account', messageId: 'Hesabım' },
+          { link: '/account/orders', messageId: 'Sipariş Takibi' },
+          { link: '/subscription-landing', messageId: 'Otomatik Sipariş' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'footer.help',
+        list: [
+          { link: '/help', messageId: 'Yardım' },
+          { link: '/FAQ/all', messageId: 'S.S.S.' }
+        ]
+      }
+    ],
+    [
+      {
+        titleId: 'DİĞER',
+        list: [
+          {
+            url:
+              'https://www.shop.royalcanin.com.tr/tr/general-terms-conditions.html',
+            messageId: 'Şartlar ve Koşullar'
+          },
+          {
+            url: 'https://www.shop.royalcanin.com.tr/tr/privacy-statement.html',
+            messageId: 'Gizlilik Politikası'
+          },
+          {
+            url: 'https://www.shop.royalcanin.com.tr/tr/Cookiepolicy.html',
+            messageId: 'Çerez Bildirimi'
           }
         ]
       }

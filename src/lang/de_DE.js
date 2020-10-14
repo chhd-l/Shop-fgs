@@ -32,7 +32,7 @@ const en_US = {
   "goods": "Waren",
   "viewAllResults": "Alle Ergebnisse anzeigen",
   "viewResults": "Ergebnisse anzeigen",
-  "results": "Ergebnisse",
+  "results": "{val} Ergebnisse",
   "from": "Von",
   'to': 'Zu',
   "of": "von",

@@ -54,6 +54,7 @@ class ConfigStore {
 
   // 显示profile payment method开关
   @computed get profilePaymentMethod() {
+    return true
     return this.info && this.info.profilePaymentMethod === '1';
   }
 

@@ -32,7 +32,7 @@ const en_US = {
   "goods": "Étaient",
   "viewAllResults": "afficher tous les résultats",
   "viewResults": "Voir les résultats",
-  "results": "Résultats",
+  "results": "{val} Résultats",
   "from": "De",
   "of": "sur",
   "freeShipping": "Livraison gratuite",

@@ -78,11 +78,37 @@ class MarsFooterMap extends React.Component {
                   </span>
                 </a>
               </li>
+              <li>
+                <a target="_blank" href="https://www.mars.com/accessibility">
+                  <span class="mars-footer-label">Accessibility</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal/ca-supply-chain-act"
+                >
+                  <span class="mars-footer-label">CA Supply Chain Act</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/modern-slavery-act"
+                >
+                  <span class="mars-footer-label">Modern Slavery Act</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/mars-incorporated-adchoices-united-states"
+                >
+                  <span class="mars-footer-label">AdChoices</span>
+                </a>
+              </li>
             </ul>
-            <div
-              className="mars-footer-legal text-center"
-              style={{ fontSize: '10px' }}
-            >
+            <div className="mars-footer-legal text-center">
               <p>
                 <FormattedMessage id="footer.copyrightInfo" />
               </p>
