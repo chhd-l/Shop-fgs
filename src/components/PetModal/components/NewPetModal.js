@@ -162,7 +162,7 @@ export default class NewPetModal extends Component { // 新建Pet
                         </div>
                         <div className="row">
                             <div className="col-lg-12 ">
-                                <div className="form-group col-lg-12 pull-left no-padding required">
+                                <div className="form-group col-lg-12 pull-left no-padding required" id="petType">
                                     <label className="form-control-label" htmlFor="petType">
                                         <FormattedMessage id="petType" />
                                     </label>

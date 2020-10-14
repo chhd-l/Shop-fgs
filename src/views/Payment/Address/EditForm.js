@@ -387,7 +387,7 @@ class EditForm extends React.Component {
             </div>
           </div>
           <div className="col-12 col-md-6">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_city">
+            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_city" id="addressFieldsCity">
               <label
                 className="form-control-label"
                 htmlFor="shippingAddressCity"
@@ -461,7 +461,7 @@ class EditForm extends React.Component {
           {this._phonePanelJSX()}
           {this._postCodeJSX()}
           <div className="col-12 col-md-6">
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName" id="addressFieldsLastName">
               <label className="form-control-label" htmlFor="shippingRfc">
                 <FormattedMessage id="payment.rfc" />
               </label>

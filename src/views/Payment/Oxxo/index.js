@@ -270,6 +270,7 @@ class OxxoConfirm extends Component {
           <div className="next-step-button">
             <div className="rc-text--right">
               <button
+                id="oxxoBtnConfirm"
                 className="rc-btn rc-btn--one submit-payment"
                 type="submit"
                 name="submit"

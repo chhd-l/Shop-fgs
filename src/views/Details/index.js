@@ -1256,7 +1256,7 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                     <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                      <div className="cart-and-ipay">
+                                      <div className="cart-and-ipay" id="cartAndIpay1">
                                         <button
                                           className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
                                             addToCartLoading
@@ -1279,7 +1279,7 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                     <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                      <div className="cart-and-ipay">
+                                      <div className="cart-and-ipay" id="cartAndIpay2">
                                         {this.isLogin ? (
                                           <button
                                             className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
@@ -1333,7 +1333,7 @@ class Details extends React.Component {
                                     </div>
                                     {!this.isLogin && (
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                        <div className="cart-and-ipay">
+                                        <div className="cart-and-ipay" id="cartAndIpay3">
                                           <button
                                             className={`rc-styled-link color-999 ${
                                               addToCartLoading

@@ -223,6 +223,7 @@ class UnloginCart extends React.Component {
                 </div>
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
                   <a
+                    id="unLoginCarCheckout"
                     onClick={() => this.handleCheckout()}
                     className={`rc-styled-link color-999 ${
                       this.state.checkoutLoading

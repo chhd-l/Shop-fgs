@@ -59,6 +59,7 @@ export default class Modal extends React.Component {
                 {
                   this.props.cancelBtnVisible
                     ? <button
+                      id="modalFooterCancel"
                       type="button"
                       className="btn btn-outline-primary"
                       data-dismiss="modal"
@@ -69,6 +70,7 @@ export default class Modal extends React.Component {
                     : null
                 }
                 <button
+                  id="modalFooterConfirm"
                   type="button"
                   className={`btn btn-primary cart-delete-confirmation-btn ${this.props.confirmLoading ? 'ui-btn-loading' : ''}`}
                   data-dismiss="modal"
