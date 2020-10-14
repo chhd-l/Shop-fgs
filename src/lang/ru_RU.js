@@ -650,6 +650,13 @@ const en_US = {
   EnterCorrectValue: "Пожалуйста, введите правильный {val}",
   club: 'КЛУБ',
   healthAndWellbeing: 'Здоровье и питание',
+  'subscriptionLanding.title1': 'У Вашего питомца никогда не закончится корм!',
+  'subscriptionLanding.content1': 'Наша услуга по подписке на корм разработана специально для того, чтобы упростить вашу жизнь и гарантировать, что Вы всегда будете получать питание для Вашего питомца, доставляемое прямо к порогу.',
+  'subscriptionLanding.description1': 'Вы экономите 10% с каждого заказа.',
+  'subscriptionLanding.description2': 'Заказ доставляется автоматически по Вашему расписанию.',
+  'subscriptionLanding.description3': 'Вы можете изменить или отменить подписку в любое время.',
+  'subscriptionLanding.catButton': 'Корм для Кошки',
+  'subscriptionLanding.dogButton': 'Корм для Собаки',
   'footer.email': 'Свяжитесь с нами',
   findTheRightDiet: 'Подобрать рацион',
   viewAll: 'Посмотреть все'

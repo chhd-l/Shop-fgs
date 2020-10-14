@@ -661,6 +661,14 @@ const en_US = {
   'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Paquete de recomendaciones',
   'recommendation.buyNow': 'Compra ahora',
+  'subscriptionLanding.title1': 'Avec l\'Abonnement, ils auront toujours ce dont ils ont besoin',
+  'subscriptionLanding.content1': 'Certaines choses ne devraient jamais s\'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l\'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.',
+  'subscriptionLanding.description1': 'Les commandes sont livrées aussi souvent que vous le souhaitez',
+  'subscriptionLanding.description2': 'Livraison gratuite',
+  'subscriptionLanding.description3': 'Modifier ou annuler à tout moment',
+  'subscriptionLanding.description4': 'Ligne d\'assistance téléphonique gratuite sur la nutrition',
+  'subscriptionLanding.catButton': 'Voir les formules pour chat',
+  'subscriptionLanding.dogButton': 'Voir les formules pour chien',
   
 }
 export default en_US;

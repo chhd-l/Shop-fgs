@@ -12,11 +12,11 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
-import autoship from './images/autoship.png'
-import icon1 from './images/icon1.png'
-import icon2 from './images/icon2.png'
-import icon3 from './images/icon3.png'
-import icon4 from './images/icon4.png'
+import autoship from './images/us_autoship.png'
+import icon1 from './images/us_icon1.png'
+import icon2 from './images/us_icon2.png'
+import icon3 from './images/us_icon3.png'
+import icon4 from './images/us_icon4.png'
 import cat from './images/cat.png'
 import dog from './images/dog.png'
 import storeLogo from '@/assets/images/storeLogo.png';
@@ -486,7 +486,7 @@ class Help extends React.Component {
           </div>
           <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Comment cela fonctionne-t-il ?
+              How to Join Royal Canin Club
             </h2>
           </section>
           <div
@@ -495,19 +495,19 @@ class Help extends React.Component {
           >
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon1} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Ajoutez les produits nutritionnels répondant aux besoins de votre animal dans votre panier.</p>
+              <p>Find your handpicked nutrition products in your cart.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon2} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Sélectionnez l'expédition automatique et entrez votre mode de paiement.</p>
+              <p>Select automatic shipping and input your payment method.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon3} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Recevez votre produit automatiquement en fonction de votre calendrier.</p>
+              <p>Receive your product automatically based on your schedule. Change or cancel at any time.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon4} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Modifiez vos préférences à tout moment.</p>
+              <p>Get your exclusive Royal Canin Club perks, including your welcome box.</p>
             </div>
           </div>
           <div
@@ -517,15 +517,15 @@ class Help extends React.Component {
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <h2 style={{ color: '#E2001A'}}>Commencez dès maintenant votre Abonnement</h2>
-              <p>Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.
+            <div class="rc-column" style={{textAlign: 'center', paddingTop: '80px'}}>
+              <h2 style={{ color: '#E2001A'}}>Get Started</h2>
+              <p>Find your pet’s precise formula, and be sure to choose automatic shipping at checkout.
               </p>
               <div><button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
                   this.props.history.push('/list/cats')
-                }}>Chat</button> <button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
+                }}>Cat</button> <button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
                   this.props.history.push('/list/dogs')
-                }}>Chien</button></div>
+                }}>Dog</button></div>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
@@ -534,10 +534,10 @@ class Help extends React.Component {
           <div class="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Besoin d'aide ?
+                Need help?
               </h2>
               <p>
-                Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.
+                As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.
               </p>
             </section>
             <div class="experience-region experience-main">

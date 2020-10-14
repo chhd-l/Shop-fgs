@@ -645,7 +645,16 @@ const en_US = {
   'recommendation.recommendationPackage': 'Recommendation Package',
   'recommendation.buyNow': 'Buy now',
   EnterCorrectValue: "Please enter the correct {val}",
-  healthAndNutrition: 'Health & Nutrition'
+  healthAndNutrition: 'Health & Nutrition',
+  club: 'club',
+  'subscriptionLanding.title1': 'Your Pet Needs You. You Need Total Pet Support.',
+  'subscriptionLanding.content1': 'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
+  'subscriptionLanding.description1': 'Specialty Welcome Box - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.',
+  'subscriptionLanding.description2': 'Free Shipping - just set your preferred schedule and you’ll never have to worry.',
+  'subscriptionLanding.description3': 'Personalized Recommendations - your breeder can send you the products they recommend for your pet as they grow.',
+  'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
+  'subscriptionLanding.catButton': 'Shop Cat Formulas',
+  'subscriptionLanding.dogButton': 'Shop Dog Formulas',
 }
 
 export default en_US;
