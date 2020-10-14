@@ -369,6 +369,7 @@ const en_US = {
   "order.progress2": "Ücretli",
   "order.progress3": "Teslim Edildi",
   "order.progress4": "Tamamlandı",
+  "order.progress5": "İncelendi",
   "order.rateModalTitle": "Fikriniz önemlidir",
   "order.refundErrorInfo": "Bu sipariş, işlenmekte olan bir geri ödeme ile ilişkilendirilmiştir ve yeniden uygulanamaz.",
   "order.return": "Dönüş",

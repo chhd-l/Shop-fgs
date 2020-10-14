@@ -667,7 +667,7 @@ class PayOs extends React.Component {
             </div>
           </label>
         </div> */}
-        {process.env.REACT_APP_ONEPAGE_CHECKOUT !== 'true' && (
+        {!this.props.isOnepageCheckout && (
           <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
             <div className="next-step-button">
               <div className="rc-text--right">

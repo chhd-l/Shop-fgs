@@ -332,6 +332,7 @@ const en_US = {
   "order.progress2": "Payé",
   "order.progress3": "Livré",
   "order.progress4": "Terminé",
+  "order.progress5": "Révisé",
   "order.expireTime": "Date d'expiration",
   "datePicker.previousMonth": "Le mois dernier",
   "datePicker.nextMonth": "Le mois prochain",
@@ -678,5 +679,7 @@ const en_US = {
   searchNoBreed: 'pas un pedigree',
   'required.logoTitle':'Bienvenue dans la boutique en ligne ROYALCANIN®',
   'required.complete':'Processus de connexion complet',
+  findTheRightDiet: 'Trouver l\'alimentation adaptée',
+  viewAll: 'Voir tous les produits'
 }
 export default en_US;

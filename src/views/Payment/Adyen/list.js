@@ -294,6 +294,7 @@ class AdyenCreditCardList extends React.Component {
     return (
       <EditForm
         isCheckoutPage={true}
+        isOnepageCheckout={this.props.isOnepageCheckout}
         enableStoreDetails={this.isLogin}
         isSaveToBackend={this.isLogin}
         showCancelBtn={cardList.length > 0}

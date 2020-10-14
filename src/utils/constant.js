@@ -11,6 +11,24 @@ import oxxo from '@/assets/images/oxxo.png';
 import breedCatsImg from '@/assets/images/banner-list/Banner_BHN_Persa.jpg';
 import breedDogsImg from '@/assets/images/banner-list/Banner_BHN_German_Shepherd.jpg';
 
+import CARECAT from '@/assets/images/MX-L-VET-CARE-CAT.jpg';
+import CAREDOG from '@/assets/images/MX-L-VET-CARE-DOG.jpg';
+import DIETCAT from '@/assets/images/MX-L-VET-DIET-CAT.jpg';
+import DIETDOG from '@/assets/images/MX-L-VET-DIET-DOG.jpg';
+import Bundles_Breed_Cat from '@/assets/images/home-catogery-mx/Bundles_Breed_Cat.jpg';
+import Bundles_Breed_Dog from '@/assets/images/home-catogery-mx/Bundles_Breed_Dog.jpg';
+
+import Urinary from '@/assets/images/home-catogery/Urinary.jpg';
+import Dermatology from '@/assets/images/home-catogery/Dermatology.jpg';
+import WeightManagement from '@/assets/images/home-catogery/Weight-Management.jpg';
+import Gastrointestinal from '@/assets/images/home-catogery/Gastrointestinal.jpg';
+import VitalSupport from '@/assets/images/home-catogery/Vital-Support.jpg';
+import HealthManagement from '@/assets/images/home-catogery/Health-Management.jpg';
+
+import puppyRuImg from '@/assets/images/banner-list/puppy-ru.png';
+import kittenRuImg from '@/assets/images/banner-list/kitten-ru.png';
+import catsRuImg from '@/assets/images/banner-list/cats-ru.png';
+
 const CURRENT_LANGFILE = ENUM_LANGFILE[process.env.REACT_APP_LANG];
 
 export const GTMID = 'GTM-NCWZQ3';
@@ -71,189 +89,297 @@ export const STORE_CATE_ENUM = [
       'Cats'
     ],
     text: CURRENT_LANGFILE['product.catogery6.name']
-  },
-  {
-    url: '/list/prescription-dogs',
-    category: 'prescription-dogs', // url的查询参数
-    cateName: ['Prescription dogs'], // 匹配接口storelist相同的名字
-    text: CURRENT_LANGFILE['product.catogery1.name'], // 该分类名字，用于导航显示和GTM插码
-    title: CURRENT_LANGFILE['product.catogery1.title'], // 该分类标题(用于列表页顶部显示)
-    desc: CURRENT_LANGFILE['product.catogery1.desc'], // 该分类描述(用于列表页顶部显示)
-    img: dogsImg
-  },
-  {
-    url: '/list/prescription-cats',
-    category: 'prescription-cats',
-    cateName: ['Prescription cats'],
-    text: CURRENT_LANGFILE['product.catogery2.name'],
-    title: CURRENT_LANGFILE['product.catogery2.title'],
-    desc: CURRENT_LANGFILE['product.catogery2.desc'],
-    img: catsImg
-  },
-  {
-    url: '/list/chaton',
-    category: 'chaton',
-    cateName: ['Chaton'],
-    text: CURRENT_LANGFILE['product.fr.catogery4.name'],
-    title: CURRENT_LANGFILE['product.fr.catogery4.title'],
-    desc: CURRENT_LANGFILE['product.fr.catogery4.desc'],
-    img: catsImg
-  },
-  {
-    url: '/list/chiot',
-    category: 'chiot',
-    cateName: ['Chiot'],
-    text: CURRENT_LANGFILE['product.fr.catogery3.name'],
-    title: CURRENT_LANGFILE['product.fr.catogery3.title'],
-    desc: CURRENT_LANGFILE['product.fr.catogery3.desc'],
-    img: dogsImg
-  },
-  {
-    url: '/list/breed-cats',
-    category: 'breed-cats',
-    cateName: ['Breed cats'],
-    text: CURRENT_LANGFILE['product.catogery7.name'],
-    title: CURRENT_LANGFILE['product.catogery7.title'],
-    desc: CURRENT_LANGFILE['product.catogery7.desc'],
-    img: breedCatsImg
-  },
-  {
-    url: '/list/breed-dogs',
-    category: 'breed-dogs',
-    cateName: ['Breed dogs'],
-    text: CURRENT_LANGFILE['product.catogery8.name'],
-    title: CURRENT_LANGFILE['product.catogery8.title'],
-    desc: CURRENT_LANGFILE['product.catogery8.desc'],
-    img: breedDogsImg
-  },
-  {
-    url: '/list/vcn',
-    category: 'vcn',
-    cateName: ['VD dogs'],
-    text: CURRENT_LANGFILE['product.catogery3.name'],
-    title: CURRENT_LANGFILE['product.catogery3.title'],
-    desc: CURRENT_LANGFILE['product.catogery3.desc'],
-    img: dogsImg
-  },
-  {
-    url: '/list/vd',
-    category: 'vd',
-    cateName: ['VD cats'],
-    text: CURRENT_LANGFILE['product.catogery4.name'],
-    title: CURRENT_LANGFILE['product.catogery4.title'],
-    desc: CURRENT_LANGFILE['product.catogery4.desc'],
-    img: catsImg
-  },
-  {
-    url: '/list/chat',
-    category: 'chat',
-    cateName: ['Chat'],
-    text: CURRENT_LANGFILE['product.fr.catogery2.name'],
-    title: CURRENT_LANGFILE['product.fr.catogery2.title'],
-    desc: CURRENT_LANGFILE['product.fr.catogery2.desc'],
-    img: catsImg
-  },
-  {
-    url: '/list/chien',
-    category: 'chien',
-    cateName: ['Chien'],
-    text: CURRENT_LANGFILE['product.fr.catogery1.name'],
-    title: CURRENT_LANGFILE['product.fr.catogery1.title'],
-    desc: CURRENT_LANGFILE['product.fr.catogery1.desc'],
-    img: dogsImg
-  },
-  {
-    url: '/list/urinary',
-    category: 'urinary',
-    cateName: ['Urinary'],
-    text: CURRENT_LANGFILE['product.de.catogery1.name'],
-    title: CURRENT_LANGFILE['product.de.catogery1.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery1.desc'],
-    img: dogsImg // ???
-  },
-  {
-    url: '/list/dermatology',
-    category: 'dermatology',
-    cateName: ['Dermatology'],
-    text: CURRENT_LANGFILE['product.de.catogery2.name'],
-    title: CURRENT_LANGFILE['product.de.catogery2.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery2.desc'],
-    img: dogsImg // ???
-  },
-  {
-    url: '/list/weight-management',
-    category: 'weight-management',
-    cateName: ['Weight Management'],
-    text: CURRENT_LANGFILE['product.de.catogery3.name'],
-    title: CURRENT_LANGFILE['product.de.catogery3.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery3.desc'],
-    img: dogsImg // ???
-  },
-  {
-    url: '/list/gastrointestinal-tract',
-    category: 'gastrointestinal-tract',
-    cateName: ['Gastrointestinal Tract'],
-    text: CURRENT_LANGFILE['product.de.catogery4.name'],
-    title: CURRENT_LANGFILE['product.de.catogery4.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery4.desc'],
-    img: dogsImg // ???
-  },
-  {
-    url: '/list/vital-support',
-    category: 'vital-support',
-    cateName: ['Vital Support'],
-    text: CURRENT_LANGFILE['product.de.catogery5.name'],
-    title: CURRENT_LANGFILE['product.de.catogery5.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery5.desc'],
-    img: dogsImg // ???
-  },
-  {
-    url: '/list/health-management',
-    category: 'health-management',
-    cateName: ['Health Management'],
-    text: CURRENT_LANGFILE['product.de.catogery6.name'],
-    title: CURRENT_LANGFILE['product.de.catogery6.title'],
-    desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
-    img: dogsImg // ???
-  },
-  // 俄罗斯
-  {
-    url: '/list/dogs-ru',
-    category: 'dogs-ru',
-    cateName: ['Dogs'],
-    text: CURRENT_LANGFILE['product.catogery5.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: dogsImg
-  },
-  {
-    url: '/list/cats-ru',
-    category: 'cats-ru',
-    cateName: ['Cats'],
-    text: CURRENT_LANGFILE['product.catogery6.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: catsImg
-  },
-  {
-    url: '/list/puppy-ru',
-    category: 'puppy-ru',
-    cateName: ['Puppy'],
-    text: CURRENT_LANGFILE['product.catogery5.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: dogsImg
-  },
-  {
-    url: '/list/kitten-ru',
-    category: 'kitten-ru',
-    cateName: ['Kitten'],
-    text: CURRENT_LANGFILE['product.catogery6.name'],
-    title: CURRENT_LANGFILE['aboutUs'],
-    desc: CURRENT_LANGFILE['aboutUs'],
-    img: catsImg
   }
 ];
+
+export const STORE_CATOGERY_ENUM = {
+  en: [
+    {
+      url: '/list/dogs-en',
+      category: 'dogs-en',
+      cateName: ['Dogs'],
+      textLangKey: 'product.en.catogery1.name',
+      text: CURRENT_LANGFILE['product.en.catogery1.name'],
+      title: CURRENT_LANGFILE['product.en.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.en.catogery1.desc'],
+      img: dogsImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd4ad0ca3/Homepage/Dog_categorie USA@2x.jpg?sw=144&amp;sfrm=png'
+    },
+    {
+      url: '/list/cats-en',
+      category: 'cats-en',
+      cateName: ['Cats'],
+      textLangKey: 'product.en.catogery2.name',
+      text: CURRENT_LANGFILE['product.ru.catogery2.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery2.desc'],
+      img: catsRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd29d71bf/Homepage/Cat_categorie-USA@2x.jpg?sw=144&amp;sfrm=png'
+    },
+    {
+      url: '/list/puppy-en',
+      category: 'puppy-en',
+      cateName: ['Puppy'],
+      textLangKey: 'product.en.catogery3.name',
+      text: CURRENT_LANGFILE['product.ru.catogery3.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery3.desc'],
+      img: puppyRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwbc0eb98a/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;sfrm=png'
+    },
+    {
+      url: '/list/kitten-en',
+      category: 'kitten-en',
+      cateName: ['Kitten'],
+      textLangKey: 'product.en.catogery4.name',
+      text: CURRENT_LANGFILE['product.ru.catogery4.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
+      img: kittenRuImg,
+      homeImg:
+        'https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4bc1f713/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;sfrm=png'
+    }
+  ],
+  es: [
+    {
+      url: '/list/vd',
+      category: 'vd',
+      cateName: ['VD cats'],
+      textLangKey: 'product.catogery4.name',
+      text: CURRENT_LANGFILE['product.catogery4.name'],
+      title: CURRENT_LANGFILE['product.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.catogery4.desc'],
+      img: catsImg,
+      homeImg: CARECAT
+    },
+    {
+      url: '/list/prescription-cats',
+      category: 'prescription-cats',
+      cateName: ['Prescription cats'],
+      textLangKey: 'product.catogery2.name',
+      text: CURRENT_LANGFILE['product.catogery2.name'],
+      title: CURRENT_LANGFILE['product.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.catogery2.desc'],
+      img: catsImg,
+      homeImg: DIETCAT
+    },
+    {
+      url: '/list/breed-cats',
+      category: 'breed-cats',
+      cateName: ['Breed cats'],
+      textLangKey: 'product.catogery7.name',
+      text: CURRENT_LANGFILE['product.catogery7.name'],
+      title: CURRENT_LANGFILE['product.catogery7.title'],
+      desc: CURRENT_LANGFILE['product.catogery7.desc'],
+      img: breedCatsImg,
+      homeImg: Bundles_Breed_Cat
+    },
+    {
+      url: '/list/vcn',
+      category: 'vcn',
+      cateName: ['VD dogs'],
+      textLangKey: 'product.catogery3.name',
+      text: CURRENT_LANGFILE['product.catogery3.name'],
+      title: CURRENT_LANGFILE['product.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.catogery3.desc'],
+      img: dogsImg,
+      homeImg: CAREDOG
+    },
+    {
+      url: '/list/prescription-dogs',
+      category: 'prescription-dogs', // url的查询参数
+      cateName: ['Prescription dogs'], // 匹配接口storelist相同的名字
+      textLangKey: 'product.catogery1.name',
+      text: CURRENT_LANGFILE['product.catogery1.name'], // 该分类名字，用于导航显示和GTM插码
+      title: CURRENT_LANGFILE['product.catogery1.title'], // 该分类标题(用于列表页顶部显示)
+      desc: CURRENT_LANGFILE['product.catogery1.desc'], // 该分类描述(用于列表页顶部显示)
+      img: dogsImg,
+      homeImg: DIETDOG
+    },
+    {
+      url: '/list/breed-dogs',
+      category: 'breed-dogs',
+      cateName: ['Breed dogs'],
+      textLangKey: 'product.catogery8.name',
+      text: CURRENT_LANGFILE['product.catogery8.name'],
+      title: CURRENT_LANGFILE['product.catogery8.title'],
+      desc: CURRENT_LANGFILE['product.catogery8.desc'],
+      img: breedDogsImg,
+      homeImg: Bundles_Breed_Dog
+    }
+  ],
+  de: [
+    {
+      url: '/list/urinary',
+      category: 'urinary',
+      cateName: ['Urinary'],
+      textLangKey: 'product.de.catogery1.name',
+      text: CURRENT_LANGFILE['product.de.catogery1.name'],
+      title: CURRENT_LANGFILE['product.de.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery1.desc'],
+      img: dogsImg,
+      homeImg: Urinary
+    },
+    {
+      url: '/list/dermatology',
+      category: 'dermatology',
+      cateName: ['Dermatology'],
+      textLangKey: 'product.de.catogery2.name',
+      text: CURRENT_LANGFILE['product.de.catogery2.name'],
+      title: CURRENT_LANGFILE['product.de.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery2.desc'],
+      img: dogsImg,
+      homeImg: Dermatology
+    },
+    {
+      url: '/list/weight-management',
+      category: 'weight-management',
+      cateName: ['Weight Management'],
+      textLangKey: 'product.de.catogery3.name',
+      text: CURRENT_LANGFILE['product.de.catogery3.name'],
+      title: CURRENT_LANGFILE['product.de.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery3.desc'],
+      img: dogsImg,
+      homeImg: WeightManagement
+    },
+    {
+      url: '/list/gastrointestinal-tract',
+      category: 'gastrointestinal-tract',
+      cateName: ['Gastrointestinal Tract'],
+      textLangKey: 'product.de.catogery4.name',
+      text: CURRENT_LANGFILE['product.de.catogery4.name'],
+      title: CURRENT_LANGFILE['product.de.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery4.desc'],
+      img: dogsImg,
+      homeImg: Gastrointestinal
+    },
+    {
+      url: '/list/vital-support',
+      category: 'vital-support',
+      cateName: ['Vital Support'],
+      textLangKey: 'product.de.catogery5.name',
+      text: CURRENT_LANGFILE['product.de.catogery5.name'],
+      title: CURRENT_LANGFILE['product.de.catogery5.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery5.desc'],
+      img: dogsImg,
+      homeImg: VitalSupport
+    },
+    {
+      url: '/list/health-management',
+      category: 'health-management',
+      cateName: ['Health Management'],
+      textLangKey: 'product.de.catogery6.name',
+      text: CURRENT_LANGFILE['product.de.catogery6.name'],
+      title: CURRENT_LANGFILE['product.de.catogery6.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
+      img: dogsImg,
+      homeImg: HealthManagement
+    }
+  ],
+  fr: [
+    {
+      url: '/list/chien',
+      category: 'chien',
+      cateName: ['Chien'],
+      textLangKey: 'product.fr.catogery1.name',
+      text: CURRENT_LANGFILE['product.fr.catogery1.name'],
+      title: CURRENT_LANGFILE['product.fr.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.fr.catogery1.desc'],
+      img: dogsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/chat',
+      category: 'chat',
+      cateName: ['Chat'],
+      textLangKey: 'product.fr.catogery2.name',
+      text: CURRENT_LANGFILE['product.fr.catogery2.name'],
+      title: CURRENT_LANGFILE['product.fr.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.fr.catogery2.desc'],
+      img: catsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/chiot',
+      category: 'chiot',
+      cateName: ['Chiot'],
+      textLangKey: 'product.fr.catogery3.name',
+      text: CURRENT_LANGFILE['product.fr.catogery3.name'],
+      title: CURRENT_LANGFILE['product.fr.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.fr.catogery3.desc'],
+      img: dogsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpgs'
+    },
+    {
+      url: '/list/chaton',
+      category: 'chaton',
+      cateName: ['Chaton'],
+      textLangKey: 'product.fr.catogery4.name',
+      text: CURRENT_LANGFILE['product.fr.catogery4.name'],
+      title: CURRENT_LANGFILE['product.fr.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.fr.catogery4.desc'],
+      img: catsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    }
+  ],
+  ru: [
+    {
+      url: '/list/dogs-ru',
+      category: 'dogs-ru',
+      cateName: ['Dogs'],
+      textLangKey: 'product.ru.catogery1.name',
+      text: CURRENT_LANGFILE['product.ru.catogery1.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery1.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery1.desc'],
+      img: dogsImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw14af5a08/Homepage/Dog_categorie-RU@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/cats-ru',
+      category: 'cats-ru',
+      cateName: ['Cats'],
+      textLangKey: 'product.ru.catogery2.name',
+      text: CURRENT_LANGFILE['product.ru.catogery2.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery2.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery2.desc'],
+      img: catsRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6be7a2ed/Homepage/Cat_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    },
+    {
+      url: '/list/puppy-ru',
+      category: 'puppy-ru',
+      cateName: ['Puppy'],
+      textLangKey: 'product.ru.catogery3.name',
+      text: CURRENT_LANGFILE['product.ru.catogery3.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery3.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery3.desc'],
+      img: puppyRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw8c207eec/Homepage/Puppy_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpgs'
+    },
+    {
+      url: '/list/kitten-ru',
+      category: 'kitten-ru',
+      cateName: ['Kitten'],
+      textLangKey: 'product.ru.catogery4.name',
+      text: CURRENT_LANGFILE['product.ru.catogery4.name'],
+      title: CURRENT_LANGFILE['product.ru.catogery4.title'],
+      desc: CURRENT_LANGFILE['product.ru.catogery4.desc'],
+      img: kittenRuImg,
+      homeImg:
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+    }
+  ]
+};
 
 export const CREDIT_CARD_IMG_ENUM = {
   VISA: visaImg,

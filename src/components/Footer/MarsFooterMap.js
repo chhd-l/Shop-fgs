@@ -174,11 +174,61 @@ class MarsFooterMap extends React.Component {
               style={{ fontSize: '10px' }}
             >
               <p>
-                <FormattedMessage id="footer.copyrightInfo2"  /><br/>
-                <FormattedMessage id="footer.copyrightInfo2_1"  />
+                <FormattedMessage id="footer.copyrightInfo2" />
+                <br />
+                <FormattedMessage id="footer.copyrightInfo2_1" />
               </p>
             </div>
           </div>
+        </div>
+      ),
+      ru: (
+        <div
+          id="mars-footer-panel"
+          class="mars-footer-mars mars-footer-icon-size-medium"
+          data-cookie-warning-enabled="no"
+          data-lang="ru"
+        >
+          <div class="mars-footer-container">
+            {' '}
+            <ul class="mars-footer-list-right">
+              {' '}
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/privacy-policy-russia"
+                >
+                  <span class="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span class="mars-footer-label">Конфиденциальность</span>
+                </a>
+              </li>{' '}
+              <li>
+                <a target="_blank" href="https://www.mars.com/cookies-russia">
+                  <span class="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span class="mars-footer-label">Файлы Cookies</span>
+                </a>
+              </li>{' '}
+              <li>
+                <a target="_blank" href="https://www.mars.com/legal-russia">
+                  <span class="mars-footer-icon">
+                     <strong></strong>
+                  </span>{' '}
+                  <span class="mars-footer-label">Юридические условия</span>
+                </a>
+              </li>{' '}
+            </ul>{' '}
+            <div class="mars-footer-legal">
+              {' '}
+              <p className="text-center">
+                Copyright © Mars 2020®, Trademark of Mars Incorporated and its
+                affiliates
+              </p>{' '}
+            </div>{' '}
+          </div>{' '}
         </div>
       )
     };

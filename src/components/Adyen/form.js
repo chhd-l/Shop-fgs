@@ -17,6 +17,7 @@ class AdyenCreditCardForm extends React.Component {
     showCancelBtn: false,
     isSaveToBackend: true,
     enableStoreDetails: false,
+    isOnepageCheckout: false,
     updateClickPayBtnValidStatus: () => {},
     updateAdyenPayParam: () => {},
     refreshList: () => {},
@@ -38,9 +39,6 @@ class AdyenCreditCardForm extends React.Component {
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
-  }
-  get isOnepageCheckout() {
-    return process.env.REACT_APP_ONEPAGE_CHECKOUT === 'true';
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
@@ -76,6 +74,7 @@ class AdyenCreditCardForm extends React.Component {
               onBrand: (state) => {
                 _this.setState({
                   AdyenFormData: Object.assign(_this.state.AdyenFormData, {
+                    adyenBrands: state.brand,
                     brand: state.brand,
                     brandImageUrl: state.brandImageUrl
                   })
@@ -156,7 +155,7 @@ class AdyenCreditCardForm extends React.Component {
           id="adyen-card-container"
           className={`payment-method__container ${
             !this.props.isCheckoutPage ||
-            !this.isOnepageCheckout ||
+            !this.props.isOnepageCheckout ||
             this.isLogin ||
             this.paymentMethodPanelStatus.isEdit
               ? ''
@@ -194,7 +193,7 @@ class AdyenCreditCardForm extends React.Component {
             </button>
           </div>
         </div>
-        {this.isOnepageCheckout &&
+        {this.props.isOnepageCheckout &&
           !this.isLogin &&
           this.paymentMethodPanelStatus.isCompleted && (
             <div className="border pb-2">

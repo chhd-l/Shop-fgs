@@ -30,7 +30,7 @@ REACT_APP_SUCCESSFUL_URL = 'https://shopstg.royalcanin.com/fr'
 #onetrust
 REACT_APP_ONTRUST_SRC = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'
 REACT_APP_ONTRUST_DOMAIN_SCRIPT = 'a78ac3fc-256e-4f7a-a2db-f4b6972214bf-test'
-REACT_APP_ONTRUST_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?shop-royalcanin-fr'
+REACT_APP_ONTRUST_MARS_FOOTER = 'https://footer.mars.com/js/footer.js.aspx?shop-royal-canin-ru'
 
 #language
 REACT_APP_LANG = 'ru'
@@ -39,7 +39,7 @@ REACT_APP_CURRENCY = 'RUB'
 
 #storid
 REACT_APP_STOREID = '123457907'
-REACT_APP_CATEID = '1129'
+REACT_APP_CATEID = '1138'
 
 #最低限额
 REACT_APP_MINIMUM_AMOUNT = 0
@@ -51,15 +51,15 @@ REACT_APP_CURRENCY_TYPE = 3
 REACT_APP_TITLE = Royal Canin - официальный интернет-магазин
 
 #是否开启promotion
-REACT_APP_IS_PROMOTION = true
+REACT_APP_IS_PROMOTION = false
 #是否显示banner上方tip
 REACT_APP_SHOW_BANNERTIP = false
 
 #默认country
-REACT_APP_DEFAULT_COUNTRYID = 2612
+REACT_APP_DEFAULT_COUNTRYID = 1969
 
 #设置二级子目录访问页面
 REACT_APP_HOMEPAGE = /ru
 
 #下单流程是否需要clinic
-REACT_APP_CHECKOUT_WITH_CLINIC = false
+REACT_APP_CHECKOUT_WITH_CLINIC = true

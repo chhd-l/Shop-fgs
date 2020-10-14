@@ -273,69 +273,87 @@ export const menubar = {
   ru: [
     [
       {
-        titleId: 'ROYAL CANIN',
+        titleId: 'О КОМПАНИИ ROYAL CANIN®',
         list: [
           {
-            url: 'https://shop.royalcanin.fr/About-Us.html',
-            messageId: 'A propos'
+            url: 'https://www.shop.royal-canin.ru/ru/About-Us.html',
+            messageId: 'О нас'
           },
           {
-            url: 'https://shop.royalcanin.fr/Values.html',
-            messageId: 'Nos valeurs'
+            url: 'https://www.shop.royal-canin.ru/ru/Values.html',
+            messageId: 'Наши ценности'
           },
           {
-            url: 'https://shop.royalcanin.fr/Quality-safety.html',
-            messageId: 'Qualité et sécurité alimentaire'
+            url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
+            messageId: 'Качество и безопасность'
           }
         ]
       }
     ],
     [
       {
-        titleId: 'ALIMENTS',
+        titleId: 'ПРОДУКТЫ',
         list: [
-          { link: '/list/cats', messageId: 'Chat' },
-          { link: '/list/dogs', messageId: 'Chien' },
+          { link: '/list/cats', messageId: 'cats2' },
+          { link: '/list/dogs', messageId: 'dogs2' },
           {
-            url: 'https://shop.royalcanin.fr/Tailorednutrition.html',
-            messageId: 'Santé et bien-être'
+            link: '/subscription-landing',
+            messageId: 'account.subscription'
           }
         ]
       }
     ],
     [
       {
-        titleId: 'COMPTE',
+        titleId: 'ПОМОЩЬ',
         list: [
           // 我的账户，订单，订阅单
           {
             link: '/account',
-            messageId: 'Mon compte'
+            messageId: 'footer.myPersonalAccount'
           },
-          { link: '/account/orders', messageId: 'Mes commandes' },
-          { link: '/account/subscription', messageId: 'Mes abonnements' }
+          { link: '/help', messageId: 'footer.contacts' },
+          {
+            url: 'https://www.royalcanin.com/ru/about-us/shipment-conditions',
+            messageId: 'Условия доставки'
+          },
+          {
+            url:
+              'https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6',
+            messageId: 'Возврат товара'
+          },
+          {
+            url: 'https://www.shop.royal-canin.ru/ru/faq.html',
+            messageId: 'Часто задаваемые вопросы'
+          }
         ]
       }
     ],
     [
       {
-        titleId: 'AIDE',
+        titleId: 'ДОПОЛНИТЕЛЬНО',
         list: [
           {
-            link: '/help',
-            messageId: 'Aide'
+            url:
+              'https://www.shop.royal-canin.ru/ru/general-terms-conditions.html',
+            messageId: 'Пользовательское соглашение'
           },
-          { link: '/FAQ/all', messageId: 'FAQ' }
-        ]
-      }
-    ],
-    [
-      {
-        titleId: 'AUTRES',
-        list: [
           {
-            url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
-            messageId: 'Conditions Générales de Vente'
+            url: 'https://www.mars.com/global/policies/privacy/pp-russian',
+            messageId: 'Политика конфиденциальности'
+          },
+          {
+            url:
+              'https://www.mars.com/global/policies/note-to-parents/np-russian',
+            messageId: 'Информация для родителей'
+          },
+          {
+            url: 'https://www.mars.com/global/policies/legal/ld-russian',
+            messageId: 'Условия использования веб-сайта'
+          },
+          {
+            url: 'https://www.mars.com/global/policies/cookie/cn-russian',
+            messageId: 'Политика сбора Cookie'
           }
         ]
       }

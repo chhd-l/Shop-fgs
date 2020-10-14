@@ -12,7 +12,7 @@ import Pagination from '@/components/Pagination';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { getList, getSelectedProps, getLoginList } from '@/api/list';
 import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
-import { STORE_CATE_ENUM } from '@/utils/constant';
+import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
 import './index.css';
 
@@ -168,7 +168,12 @@ class List extends React.Component {
   async initData() {
     const { category } = this.state;
     let storeIdList = await queryStoreCateIds();
-    const t = find(STORE_CATE_ENUM, (ele) => ele.category == category);
+    const t =
+      find(STORE_CATE_ENUM, (ele) => ele.category == category) ||
+      find(
+        STORE_CATOGERY_ENUM[process.env.REACT_APP_LANG] || [],
+        (ele) => ele.category == category
+      );
     if (t) {
       const tmpStoreCateIds = Array.from(storeIdList, (s) =>
         t.cateName.includes(s.cateName) ? s.storeCateId : ''
@@ -232,7 +237,7 @@ class List extends React.Component {
       keywords,
       storeCateIds
     };
-    
+
     if (this.cidFromSearch) {
       params.storeCateIds = this.cidFromSearch.split('|');
     }
