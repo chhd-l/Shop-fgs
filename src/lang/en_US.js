@@ -371,7 +371,9 @@ const en_US = {
   "order.progress2": "Paid",
   "order.progress3": "Delivered",
   "order.progress4": "Completed",
-  "order.progress5": "Reviewed  ",
+  "order.progress5": "Reviewed",
+  'order.progress6': 'Pending review',
+  'order.progress7': 'Canceled',
   "order.rateModalTitle": "Your opinion is important",
   "order.refundErrorInfo": "This order is associated with a refund in processing and cannot be reapplied.",
   "order.return": "Return",
@@ -655,6 +657,7 @@ const en_US = {
   'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
+  'prescriptionDeclined': 'prescription declined'
 }
 
 export default en_US;

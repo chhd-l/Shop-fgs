@@ -333,6 +333,8 @@ const en_US = {
   "order.progress3": "Livré",
   "order.progress4": "Terminé",
   "order.progress5": "Révisé",
+  'order.progress6': 'En attendant l\'examen',
+  'order.progress7': 'Annulé',
   "order.expireTime": "Date d'expiration",
   "datePicker.previousMonth": "Le mois dernier",
   "datePicker.nextMonth": "Le mois prochain",
@@ -680,6 +682,7 @@ const en_US = {
   'required.logoTitle':'Bienvenue dans la boutique en ligne ROYALCANIN®',
   'required.complete':'Processus de connexion complet',
   findTheRightDiet: 'Trouver l\'alimentation adaptée',
-  viewAll: 'Voir tous les produits'
+  viewAll: 'Voir tous les produits',
+  'prescriptionDeclined': 'Ordonnance refusée'
 }
 export default en_US;
