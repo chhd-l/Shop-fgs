@@ -76,6 +76,7 @@ export default class Selection extends React.Component {
         onFocus={() => this.onFocusHandler()}
         style={{ ...this.props.customContainerStyle }}>
         <div
+          id="petType"
           className={`choices ${optionsVisible ? 'is-open' : ''} ${this.props.disabled? 'disabled': ''}`}
           role="listbox"
           tabIndex="1"

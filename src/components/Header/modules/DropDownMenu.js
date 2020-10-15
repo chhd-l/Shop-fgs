@@ -271,6 +271,132 @@ const subMenuCfgENUM = {
       mainLink: '/list/cats'
     },
     { key: 'help' }
+  ],
+  tr: [
+    {
+      key: 'dogs',
+      menus: [
+        {
+          name: 'Boyut',
+          children: [
+            {
+              name: 'İri (> 45 kg)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1818' }
+            },
+            {
+              name: 'Büyük (26-44 kg)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1819' }
+            },
+            {
+              name: 'Orta (11-25 kg)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1821' }
+            },
+            {
+              name: 'Küçük (1-10 kg)',
+              linkObj: { pathname: '/list/dogs', search: '?fid=485|1824' }
+            }
+          ]
+        },
+        {
+          name: 'Yaş',
+          children: [
+            {
+              name: 'Yavru (10 ay - 1 yaş)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Yetişkin (1 - 7 yaş)',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Yaşlı (7+ yaş)',
+              linkObj: { pathname: '/list/dogs' }
+            }
+          ]
+        },
+        {
+          name: 'Özel İhtiyaçlar',
+          children: [
+            {
+              name: 'Irklara Özel Mamalar',
+              linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
+            },
+            {
+              name: 'Özel Bakım Mamaları',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Sağlıklı Kedi Mamaları',
+              linkObj: { pathname: '/list/dogs' }
+            },
+            {
+              name: 'Yaş Mama',
+              linkObj: { pathname: '/list/dogs' }
+            }
+          ]
+        }
+      ],
+      desc: {
+        text: 'Her hayvan özeldir. Beslenme ihtiyaçları da öyle.',
+        img:
+          'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw89994f07/CMS/header-dog.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
+      },
+      mainLink: '/list/dogs'
+    },
+    {
+      key: 'cats',
+      menus: [
+        {
+          name: 'Yaş',
+          children: [
+            {
+              name: 'Yavru kedi (0-12 ay)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1898' }
+            },
+            {
+              name: 'Yetişkin (1-7 yaş)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1899' }
+            },
+            {
+              name: 'Olgun (7-11 yaş)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1900' }
+            },
+            {
+              name: 'Yaşlı (11 yaş üzeri)',
+              linkObj: { pathname: '/list/cats', search: '?fid=492|1901' }
+            }
+          ]
+        },
+        {
+          name: 'Özel İhtiyaçlar',
+          children: [
+            {
+              name: 'Irklara Özel Mamalar',
+              linkObj: { pathname: '/list/cats', search: '?fid=484|1792' }
+            },
+            {
+              name: 'Özel Bakım Mamaları',
+              linkObj: { pathname: '/list/cats' }
+            },
+            {
+              name: 'Sağlıklı Kedi Mamaları',
+              linkObj: { pathname: '/list/cats' }
+            },
+            {
+              name: 'Yaş Mama',
+              linkObj: { pathname: '/list/cats' }
+            }
+          ]
+        }
+      ],
+      desc: {
+        text: 'Her hayvan özeldir. Beslenme ihtiyaçları da öyle.',
+        img:
+          'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw73b132cd/CMS/header-cat.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
+      },
+      mainLink: '/list/cats'
+    },
+    { key: 'help' }
   ]
 };
 
@@ -432,7 +558,10 @@ export default class DropDownMenu extends React.Component {
               {' '}
               <div className="rc-margin-right--xs flex-grow-1">
                 {' '}
-                <b>Par e-mail</b> <div className="children-nomargin"> </div>{' '}
+                <b>
+                  <FormattedMessage id="help.byEmail" />
+                </b>{' '}
+                <div className="children-nomargin" />{' '}
               </div>{' '}
               <div className="rc-padding-left--xs rc-lg-up">
                 {' '}
@@ -459,7 +588,10 @@ export default class DropDownMenu extends React.Component {
               {' '}
               <div className="rc-margin-right--xs flex-grow-1">
                 {' '}
-                <b>FAQ</b> <div className="children-nomargin"> </div>{' '}
+                <b>
+                  <FormattedMessage id="footer.FAQ" />
+                </b>{' '}
+                <div className="children-nomargin" />{' '}
               </div>{' '}
               <div className="rc-padding-left--xs rc-lg-up">
                 {' '}

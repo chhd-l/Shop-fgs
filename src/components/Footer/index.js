@@ -14,8 +14,8 @@ class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cur_menubar: menubar[process.env.REACT_APP_LANG],
-      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG]
+      cur_menubar: menubar[process.env.REACT_APP_LANG] || [],
+      cur_contactInfo: contactInfo[process.env.REACT_APP_LANG] || null
     };
   }
   async componentDidMount() {
@@ -134,41 +134,43 @@ class Footer extends React.Component {
             </div>
           </div>
           <div className="rc-layout-container rc-two-column rc-padding-x--xs--desktop">
-            <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
-              <a
-                className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
-                role="menuitem"
-                href={`tel:${
-                  this.props.configStore[
-                    this.state.cur_contactInfo.phoneNumber.prop
-                  ]
-                }`}
-              >
-                {
-                  this.props.configStore[
-                    this.state.cur_contactInfo.phoneNumber.prop
-                  ]
-                }
-              </a>
-              {!!this.state.cur_contactInfo.email.link ? (
-                <Link
-                  className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
-                  role="menuitem"
-                  to="/help"
-                >
-                  <FormattedMessage id="footer.contactUs" />
-                </Link>
-              ) : (
+            {this.state.cur_contactInfo && (
+              <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
                 <a
-                  className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                  className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                   role="menuitem"
-                  href={this.state.cur_contactInfo.email.url}
-                  style={{ color: '#fff' }}
+                  href={`tel:${
+                    this.props.configStore[
+                      this.state.cur_contactInfo.phoneNumber.prop
+                    ]
+                  }`}
                 >
-                  <FormattedMessage id="footer.email" />
+                  {
+                    this.props.configStore[
+                      this.state.cur_contactInfo.phoneNumber.prop
+                    ]
+                  }
                 </a>
-              )}
-            </div>
+                {!!this.state.cur_contactInfo.email.link ? (
+                  <Link
+                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                    role="menuitem"
+                    to="/help"
+                  >
+                    <FormattedMessage id="footer.contactUs" />
+                  </Link>
+                ) : (
+                  <a
+                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                    role="menuitem"
+                    href={this.state.cur_contactInfo.email.url}
+                    style={{ color: '#fff' }}
+                  >
+                    <FormattedMessage id="footer.email" />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
           {/* 底部横向链接 */}
           <MarsFooterMap />

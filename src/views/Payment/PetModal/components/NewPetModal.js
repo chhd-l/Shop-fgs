@@ -267,6 +267,7 @@ class NewPetModal extends Component {
                   <FormattedMessage id="account.birthDate" />
                 </label>
                 <DatePicker
+                  id="receiveBirthDate"
                   className="receiveDate"
                   placeholder="Select Date"
                   dateFormat="yyyy-MM-dd"
@@ -277,7 +278,7 @@ class NewPetModal extends Component {
                   onChange={(date) => this.onDateChange(date)}
                 />
               </div>
-              <div className="form-group col-lg-6">
+              <div className="form-group col-lg-6" id="inputBreed">
                 <label
                   className="form-control-label rc-full-width"
                   htmlFor="breed"

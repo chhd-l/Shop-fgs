@@ -327,6 +327,7 @@ class Prescription extends React.Component {
                   <span
                     className="rc-input rc-input--full-width"
                     input-setup="true"
+                    id="clinicSearchListSpan"
                   >
                     <button
                       className="rc-input__submit rc-input__submit--search"
@@ -410,6 +411,7 @@ class Prescription extends React.Component {
 
                           <div style={{ height: '3rem' }}>
                             <button
+                              id="clinicBtnConfirm"
                               className="rc-btn rc-btn--sm rc-btn--one card-btn"
                               onClick={() => this.handleConfirm(item)}
                             >

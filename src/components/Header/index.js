@@ -24,6 +24,145 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+const _catogryCfg = function (lang, props) {
+  const defaultVal = [
+    { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
+    { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
+    {
+      link: props.configStore.contactUsUrl,
+      langKey: 'aboutUs'
+    },
+    { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+  ];
+  return (
+    {
+      en: [
+        { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
+        { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
+        { linkObj: { pathname: '/list/dogs' }, langKey: 'healthAndNutrition' },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs'
+        }
+      ],
+      de: [
+        {
+          linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
+          langKey: 'cats'
+        },
+        {
+          linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
+          langKey: 'dogs'
+        },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs'
+        },
+        { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+      ],
+      fr: [
+        {
+          linkObj: { pathname: '/list/dogs' },
+          langKey: 'dogs',
+          subMenuKey: 'dogs',
+          type: 'dogs'
+        },
+        {
+          linkObj: { pathname: '/list/cats' },
+          langKey: 'cats',
+          subMenuKey: 'cats',
+          type: 'cats'
+        },
+        {
+          linkObj: { pathname: '/subscription-landing' },
+          langKey: 'account.subscription',
+          type: 'subscription'
+        },
+        {
+          linkObj: { pathname: '/Tailorednutrition' },
+          langKey: 'healthAndWellbeing',
+          type: 'healthAndWellbeing'
+        },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs',
+          type: 'aboutUs'
+        },
+        {
+          linkObj: { pathname: '/help' },
+          langKey: 'contactUs',
+          subMenuKey: 'help',
+          type: 'help'
+        }
+      ],
+      ru: [
+        {
+          linkObj: { pathname: '/list/cats' },
+          langKey: 'cats',
+          subMenuKey: 'cats',
+          type: 'cats'
+        },
+        {
+          linkObj: { pathname: '/list/dogs' },
+          langKey: 'dogs',
+          subMenuKey: 'dogs',
+          type: 'dogs'
+        },
+        {
+          linkObj: { pathname: '/subscription-landing' },
+          langKey: 'account.subscription',
+          type: 'subscription'
+        },
+        {
+          linkObj: { pathname: '/Tailorednutrition' },
+          langKey: 'healthAndWellbeing',
+          type: 'healthAndWellbeing'
+        },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs',
+          type: 'aboutUs'
+        }
+      ],
+      tr: [
+        {
+          linkObj: { pathname: '/list/dogs' },
+          langKey: 'dogs',
+          subMenuKey: 'dogs',
+          type: 'dogs'
+        },
+        {
+          linkObj: { pathname: '/list/cats' },
+          langKey: 'cats',
+          subMenuKey: 'cats',
+          type: 'cats'
+        },
+        {
+          linkObj: { pathname: '/subscription-landing' },
+          langKey: 'account.subscription',
+          type: 'subscription'
+        },
+        {
+          linkObj: { pathname: '/Tailorednutrition' },
+          langKey: 'healthAndWellbeing',
+          type: 'healthAndWellbeing'
+        },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs',
+          type: 'aboutUs'
+        },
+        {
+          linkObj: { pathname: '/help' },
+          langKey: 'contactUs',
+          subMenuKey: 'help',
+          type: 'help'
+        }
+      ]
+    }[lang] || defaultVal
+  );
+};
+
 @inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
 @injectIntl
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
@@ -405,7 +544,7 @@ class Header extends React.Component {
   }
   renderResultJsx() {
     return this.state.result ? (
-      <div className="suggestions">
+      <div className="suggestions" id="mainSuggestions">
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
             <div className="col-12 rc-column">
@@ -487,100 +626,6 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
-  _catogryCfg = (lang) => {
-    const defaultVal = [
-      { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-      { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
-      {
-        link: this.props.configStore.contactUsUrl,
-        langKey: 'aboutUs'
-      },
-      { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
-    ];
-    return (
-      {
-        de: [
-          {
-            linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
-            langKey: 'cats'
-          },
-          {
-            linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
-            langKey: 'dogs'
-          },
-          {
-            link: this.props.configStore.contactUsUrl,
-            langKey: 'aboutUs'
-          },
-          { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
-        ],
-        fr: [
-          {
-            linkObj: { pathname: '/list/dogs' },
-            langKey: 'dogs',
-            subMenuKey: 'dogs',
-            type: 'dogs'
-          },
-          {
-            linkObj: { pathname: '/list/cats' },
-            langKey: 'cats',
-            subMenuKey: 'cats',
-            type: 'cats'
-          },
-          {
-            linkObj: { pathname: '/subscription-landing' },
-            langKey: 'account.subscription',
-            type: 'subscription'
-          },
-          {
-            linkObj: { pathname: '/Tailorednutrition' },
-            langKey: 'healthAndWellbeing',
-            type: 'healthAndWellbeing'
-          },
-          {
-            link: this.props.configStore.contactUsUrl,
-            langKey: 'aboutUs',
-            type: 'aboutUs'
-          },
-          {
-            linkObj: { pathname: '/help' },
-            langKey: 'contactUs',
-            subMenuKey: 'help',
-            type: 'help'
-          }
-        ],
-        ru: [
-          {
-            linkObj: { pathname: '/list/cats' },
-            langKey: 'cats',
-            subMenuKey: 'cats',
-            type: 'cats'
-          },
-          {
-            linkObj: { pathname: '/list/dogs' },
-            langKey: 'dogs',
-            subMenuKey: 'dogs',
-            type: 'dogs'
-          },
-          {
-            linkObj: { pathname: '/subscription-landing' },
-            langKey: 'account.subscription',
-            type: 'subscription'
-          },
-          {
-            linkObj: { pathname: '/Tailorednutrition' },
-            langKey: 'healthAndWellbeing',
-            type: 'healthAndWellbeing'
-          },
-          {
-            link: this.props.configStore.contactUsUrl,
-            langKey: 'aboutUs',
-            type: 'aboutUs'
-          }
-        ]
-      }[lang] || defaultVal
-    );
-  };
   _renderDropDownText = (item) => {
     return item.subMenuKey ? (
       <span class="rc-header-with-icon">
@@ -630,7 +675,10 @@ class Header extends React.Component {
                     handleMouseOver={this.handleMenuMouseOver}
                     handleMouseOut={this.handleMenuMouseOut}
                     toggleMenu={this.toggleMenu}
-                    menuData={this._catogryCfg(process.env.REACT_APP_LANG)}
+                    menuData={_catogryCfg(
+                      process.env.REACT_APP_LANG,
+                      this.props
+                    )}
                   />
                 </li>
               ) : null}
@@ -664,6 +712,7 @@ class Header extends React.Component {
                   <>
                     <div className="inlineblock">
                       <button
+                        id="mainSearch"
                         className={[
                           'rc-btn',
                           'less-width-xs',
@@ -708,6 +757,7 @@ class Header extends React.Component {
                             <FormattedMessage id="header.startTypingToSearch">
                               {(txt) => (
                                 <input
+                                  id="startTypingToSearch"
                                   ref={this.inputRef}
                                   className="search-field"
                                   type="search"
@@ -753,6 +803,7 @@ class Header extends React.Component {
                 ) : null}
                 {this.props.showUserIcon ? (
                   <span
+                    id="main_mini_cart"
                     className="minicart inlineblock"
                     onMouseOver={this.handleCenterMouseOver}
                     onMouseOut={this.handleCenterMouseOut}
@@ -933,30 +984,32 @@ class Header extends React.Component {
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-              {this._catogryCfg(process.env.REACT_APP_LANG).map((item, i) => (
-                <li
-                  className={`rc-list__item ${
-                    item.subMenuKey ? 'dropdown' : ''
-                  } ${this.state.visibleType === item.type ? 'active' : ''}`}
-                  key={i}
-                  onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
-                  onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
-                >
-                  <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                    <li className="rc-list__item">
-                      {item.link ? (
-                        <a href={item.link} className="rc-list__header">
-                          {this._renderDropDownText(item)}
-                        </a>
-                      ) : (
-                        <Link to={item.linkObj} className="rc-list__header">
-                          {this._renderDropDownText(item)}
-                        </Link>
-                      )}
-                    </li>
-                  </ul>
-                </li>
-              ))}
+              {_catogryCfg(process.env.REACT_APP_LANG, this.props).map(
+                (item, i) => (
+                  <li
+                    className={`rc-list__item ${
+                      item.subMenuKey ? 'dropdown' : ''
+                    } ${this.state.visibleType === item.type ? 'active' : ''}`}
+                    key={i}
+                    onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
+                    onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
+                  >
+                    <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                      <li className="rc-list__item">
+                        {item.link ? (
+                          <a href={item.link} className="rc-list__header">
+                            {this._renderDropDownText(item)}
+                          </a>
+                        ) : (
+                          <Link to={item.linkObj} className="rc-list__header">
+                            {this._renderDropDownText(item)}
+                          </Link>
+                        )}
+                      </li>
+                    </ul>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
           <DropDownMenu

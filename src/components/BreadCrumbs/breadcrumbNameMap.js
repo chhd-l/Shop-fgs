@@ -21,6 +21,12 @@ const breadcrumbNameMap = {
   '/list/cats-ru': [{ name: 'product.ru.catogery2.name' }],
   '/list/puppy-ru': [{ name: 'product.ru.catogery3.name' }],
   '/list/kitten-ru': [{ name: 'product.ru.catogery4.name' }],
+  '/list/dogs-tr': [{ name: 'product.tr.catogery1.name' }],
+  '/list/cats-tr': [{ name: 'product.tr.catogery2.name' }],
+  '/list/puppy-tr': [{ name: 'product.tr.catogery3.name' }],
+  '/list/kitten-tr': [{ name: 'product.tr.catogery4.name' }],
+  '/list/dogs-en': [{ name: 'product.en.catogery1.name' }],
+  '/list/cats-en': [{ name: 'product.en.catogery2.name' }],
   '/list/keywords': [{ name: 'viewResults' }],
   '/account': [{ name: 'account.personalArea' }],
   '/account/information': [
