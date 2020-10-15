@@ -45,6 +45,22 @@ class BannerTip extends React.Component {
                 En savoir plus
               </Link>
             )}
+            {process.env.REACT_APP_LANG === 'en' && (
+              <Link
+                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                to={'/subscription-landing-us'}
+              >
+                Learn more
+              </Link>
+            )}
+            {process.env.REACT_APP_LANG === 'ru' && (
+              <Link
+                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                to={'/subscription-landing-ru'}
+              >
+                Учить больше
+              </Link>
+            )}
           </div>
         )}
         <FormattedMessage id="home.note1" />{' '}

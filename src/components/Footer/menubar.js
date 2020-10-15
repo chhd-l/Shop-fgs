@@ -12,7 +12,6 @@ export const menubar = {
             messageId: 'Values'
           },
           {
-            prop: 'qualityAndSafety',
             url: 'https://shop.royalcanin.com/Quality-safety.html',
             messageId: 'Quality Safety'
           },
@@ -277,7 +276,16 @@ export const menubar = {
             messageId: 'Наши ценности'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
+            link: '/shipmentConditions',
+            messageId: 'Условия доставки'
+          },
+          {
+            link: '/general-conditions',
+            messageId: 'Возврат покупки'
+          },
+          {
+            // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
+            link: '/qualitySafety',
             messageId: 'Качество и безопасность'
           }
         ]
