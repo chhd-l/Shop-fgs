@@ -673,6 +673,7 @@ class PayOs extends React.Component {
               <div className="rc-text--right">
                 {this.state.inited ? (
                   <button
+                    id="payuBtnConfirm1"
                     className={`rc-btn rc-btn--one submit-payment`}
                     type="submit"
                     name="submit"
@@ -683,6 +684,7 @@ class PayOs extends React.Component {
                   </button>
                 ) : (
                   <button
+                    id="payuBtnConfirm2"
                     className={`rc-btn rc-btn--one submit-payment`}
                     type="submit"
                     name="submit"

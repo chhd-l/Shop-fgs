@@ -1708,6 +1708,7 @@ class Payment extends React.Component {
                                 }}
                               >
                                 <button
+                                  id="selectPet"
                                   class="rc-btn rc-btn--sm rc-btn--one"
                                   onClick={() => {
                                     this.setState({

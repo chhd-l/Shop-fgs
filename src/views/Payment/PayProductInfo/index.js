@@ -311,6 +311,7 @@ class PayProductInfo extends React.Component {
                   <label class="rc-input__label" for="id-text2"></label>
                 </span>
                 <button
+                  id="promotionApply"
                   className={[
                     'rc-btn',
                     'rc-btn--sm',

@@ -544,7 +544,7 @@ class Header extends React.Component {
   }
   renderResultJsx() {
     return this.state.result ? (
-      <div className="suggestions">
+      <div className="suggestions" id="mainSuggestions">
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
             <div className="col-12 rc-column">
@@ -712,6 +712,7 @@ class Header extends React.Component {
                   <>
                     <div className="inlineblock">
                       <button
+                        id="mainSearch"
                         className={[
                           'rc-btn',
                           'less-width-xs',
@@ -756,6 +757,7 @@ class Header extends React.Component {
                             <FormattedMessage id="header.startTypingToSearch">
                               {(txt) => (
                                 <input
+                                  id="startTypingToSearch"
                                   ref={this.inputRef}
                                   className="search-field"
                                   type="search"
@@ -801,6 +803,7 @@ class Header extends React.Component {
                 ) : null}
                 {this.props.showUserIcon ? (
                   <span
+                    id="main_mini_cart"
                     className="minicart inlineblock"
                     onMouseOver={this.handleCenterMouseOver}
                     onMouseOut={this.handleCenterMouseOut}
