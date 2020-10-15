@@ -123,6 +123,41 @@ const _catogryCfg = function (lang, props) {
           langKey: 'aboutUs',
           type: 'aboutUs'
         }
+      ],
+      tr: [
+        {
+          linkObj: { pathname: '/list/dogs' },
+          langKey: 'dogs',
+          subMenuKey: 'dogs',
+          type: 'dogs'
+        },
+        {
+          linkObj: { pathname: '/list/cats' },
+          langKey: 'cats',
+          subMenuKey: 'cats',
+          type: 'cats'
+        },
+        {
+          linkObj: { pathname: '/subscription-landing' },
+          langKey: 'account.subscription',
+          type: 'subscription'
+        },
+        {
+          linkObj: { pathname: '/Tailorednutrition' },
+          langKey: 'healthAndWellbeing',
+          type: 'healthAndWellbeing'
+        },
+        {
+          link: props.configStore.contactUsUrl,
+          langKey: 'aboutUs',
+          type: 'aboutUs'
+        },
+        {
+          linkObj: { pathname: '/help' },
+          langKey: 'contactUs',
+          subMenuKey: 'help',
+          type: 'help'
+        }
       ]
     }[lang] || defaultVal
   );
