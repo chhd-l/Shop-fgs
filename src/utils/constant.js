@@ -72,7 +72,8 @@ export const STORE_CATE_ENUM = [
       'Chien',
       'Chiot',
       'Puppy',
-      'Dogs'
+      'Dogs',
+      'Dog'
     ],
     text: CURRENT_LANGFILE['product.catogery5.name']
   },
@@ -86,7 +87,8 @@ export const STORE_CATE_ENUM = [
       'Chat',
       'Chaton',
       'Kitten',
-      'Cats'
+      'Cats',
+      'Cat'
     ],
     text: CURRENT_LANGFILE['product.catogery6.name']
   }
@@ -97,7 +99,7 @@ export const STORE_CATOGERY_ENUM = {
     {
       url: '/list/dogs-en',
       category: 'dogs-en',
-      cateName: ['Dogs'],
+      cateName: ['Dog'],
       textLangKey: 'product.en.catogery1.name',
       text: CURRENT_LANGFILE['product.en.catogery1.name'],
       title: CURRENT_LANGFILE['product.en.catogery1.title'],
@@ -109,7 +111,7 @@ export const STORE_CATOGERY_ENUM = {
     {
       url: '/list/cats-en',
       category: 'cats-en',
-      cateName: ['Cats'],
+      cateName: ['Cat'],
       textLangKey: 'product.en.catogery2.name',
       text: CURRENT_LANGFILE['product.ru.catogery2.name'],
       title: CURRENT_LANGFILE['product.ru.catogery2.title'],
