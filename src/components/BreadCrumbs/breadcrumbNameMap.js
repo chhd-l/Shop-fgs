@@ -91,6 +91,21 @@ const breadcrumbNameMap = {
   '/account/paymentMethod': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'paymentMethod' }
+  ],
+  '/general-conditions': [
+    {
+      name: 'GeneralConditions'
+    }
+  ],
+  '/qualitySafety': [
+    {
+      name: 'QualitySafety'
+    }
+  ],
+  '/shipmentConditions': [
+    {
+      name: 'ShipmentConditions'
+    }
   ]
 };
 

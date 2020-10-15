@@ -659,8 +659,10 @@ const en_US = {
   'subscriptionLanding.dogButton': 'Корм для Собаки',
   'footer.email': 'Свяжитесь с нами',
   findTheRightDiet: 'Подобрать рацион',
-  viewAll: 'Посмотреть все'
-  
+  viewAll: 'Посмотреть все',
+  GeneralConditions: 'Возврат покупки',
+  QualitySafety: 'Качество и безопасность',
+  ShipmentConditions: 'Условия доставки'
 }
 
 export default en_US;

@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
+import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -433,7 +434,7 @@ class Help extends React.Component {
           history={this.props.history}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          <BreadCrumbs/>
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
               this.state.errorMsg ? '' : 'hidden'
