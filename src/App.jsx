@@ -74,6 +74,8 @@ import US_SubscriptionLanding from '@/views/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/SubscriptionLanding/RU_index.js';
 import generalConditions from '@/views/GeneralConditions'
 import Tailorednutrition from '@/views/Tailorednutrition';
+import QualitySafety from '@/views/QualitySafety';
+import ShipmentConditions from '@/views/ShipmentConditions'
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
@@ -323,6 +325,16 @@ const App = () => (
                 path="/tailorednutrition"
                 exact
                 component={Tailorednutrition}
+              />
+              <Route
+                path="/qualitySafety"
+                exact
+                component={QualitySafety}
+              />
+              <Route
+                path="/shipmentConditions"
+                exact
+                component={ShipmentConditions}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
               <Route path="/403" component={Page403} />
