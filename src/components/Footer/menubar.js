@@ -37,7 +37,8 @@ export const menubar = {
         titleId: 'ACCOUNT',
         list: [
           { link: '/account', messageId: 'My Account' },
-          { link: '/account/orders', messageId: 'My Orders' }
+          { link: '/account/orders', messageId: 'My Orders' },
+          { link: '/account/subscription', messageId: 'My Club Shipments' }
         ]
       }
     ],
