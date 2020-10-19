@@ -72,7 +72,9 @@ import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 import SubscriptionLanding from '@/views/SubscriptionLanding';
 import US_SubscriptionLanding from '@/views/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/SubscriptionLanding/RU_index.js';
-import generalConditions from '@/views/GeneralConditions'
+import TR_SubscriptionLanding from '@/views/SubscriptionLanding/TR_index.js';
+import TR_GeneralConditions from '@/views/GeneralConditions/TR_index.js';
+import generalConditions from '@/views/GeneralConditions';
 import Tailorednutrition from '@/views/Tailorednutrition';
 import QualitySafety from '@/views/QualitySafety';
 import ShipmentConditions from '@/views/ShipmentConditions'
@@ -317,9 +319,19 @@ const App = () => (
                 component={RU_SubscriptionLanding}
               />
               <Route
+                path="/subscription-landing-tr"
+                exact
+                component={TR_SubscriptionLanding}
+              />
+              <Route
                 path="/general-conditions"
                 exact
                 component={generalConditions}
+              />
+              <Route
+                path="/general-conditions-tr"
+                exact
+                component={TR_GeneralConditions}
               />
               <Route
                 path="/tailorednutrition"

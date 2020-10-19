@@ -29,7 +29,8 @@ import {
   customerCommitAndPay,
   rePay,
   customerCommitAndPayMix,
-  getWays
+  getWays,
+  getProductPetConfig
 } from '@/api/payment';
 
 import PayUCreditCard from './PayUCreditCard';
@@ -202,6 +203,9 @@ class Payment extends React.Component {
     }
   }
   async componentDidMount() {
+    console.log(toJS(this.loginCartData), 'this.loginCartData')
+    let ressss = await getProductPetConfig({goodsInfos: this.loginCartData})
+    console.log(ressss)
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();

@@ -14,7 +14,8 @@ const api = {
   customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
   getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays:'/PayGateway/gateways',
-  adyenPaymentsDetails:'/adyenPay/payments/details'
+  adyenPaymentsDetails:'/adyenPay/payments/details',
+  getProductPetConfig: '/system/config/findPet'
 }
 
 export default api
@@ -111,6 +112,14 @@ export function getWays (parameter) {
 export function adyenPaymentsDetails (parameter) {
   return axios({
     url: api.adyenPaymentsDetails,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getProductPetConfig (parameter) {
+  return axios({
+    url: api.getProductPetConfig,
     method: 'post',
     data: parameter
   })

@@ -987,6 +987,7 @@ class Details extends React.Component {
                                             /
                                             {selectedSpecItem.baseSpecLabel &&
                                               selectedSpecItem.baseSpecLabel.slice(
+                                                0,
                                                 String(
                                                   parseFloat(
                                                     selectedSpecItem.baseSpecLabel
@@ -1070,6 +1071,7 @@ class Details extends React.Component {
                                               /
                                               {selectedSpecItem.baseSpecLabel &&
                                                 selectedSpecItem.baseSpecLabel.slice(
+                                                  0,
                                                   String(
                                                     parseFloat(
                                                       selectedSpecItem.baseSpecLabel
