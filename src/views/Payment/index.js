@@ -204,8 +204,8 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     console.log(toJS(this.loginCartData), 'this.loginCartData')
-    let ressss = await getProductPetConfig({goodsInfos: this.loginCartData})
-    console.log(ressss)
+    // let ressss = await getProductPetConfig({goodsInfos: this.loginCartData})
+    // console.log(ressss)
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
