@@ -379,6 +379,8 @@ const en_US = {
   'order.progress3': 'Entregado',
   'order.progress4': 'Terminado',
   'order.progress5': 'Revisado',
+  'order.progress6': 'Revisión pendiente',
+  'order.progress7': 'Cancelado',
   'order.rateModalTitle': 'Tu opinión es importante',
   'order.refundErrorInfo': 'Este pedido está asociado con un reembolso en proceso y no se puede volver a aplicar.',
   'order.return': 'Regreso',
@@ -669,6 +671,6 @@ const en_US = {
   'subscriptionLanding.description4': 'Ligne d\'assistance téléphonique gratuite sur la nutrition',
   'subscriptionLanding.catButton': 'Voir les formules pour chat',
   'subscriptionLanding.dogButton': 'Voir les formules pour chien',
-  
+  'prescriptionDeclined': 'Receta rechazada'
 }
 export default en_US;

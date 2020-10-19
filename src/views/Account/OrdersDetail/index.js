@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { formatMoney, getDictionary } from '@/utils/utils';
 import { find, findIndex } from 'lodash';
@@ -67,7 +68,10 @@ class AccountOrders extends React.Component {
       ],
       currentProgerssIndex: -1,
       defaultLocalDateTime: '',
-      isAuditOpen: false
+      isAuditOpen: false,
+      processMore: false,
+      confirmTooltipVisible: true,
+      auditRejectReason: ''
     };
   }
   componentDidMount() {
@@ -111,7 +115,27 @@ class AccountOrders extends React.Component {
             backendName: 'AUDIT',
             displayName: this.props.intl.messages['order.progress5']
           });
-          this.setState({ progressList, isAuditOpen: true });
+          this.setState({ isAuditOpen: true, processMore: true });
+
+          if (resContext.tradeState.auditState === 'REJECTED') {
+            progressList.splice(
+              2,
+              3,
+              {
+                backendName: 'Pending review',
+                displayName: this.props.intl.messages['order.progress6']
+              },
+              {
+                backendName: 'AUDIT',
+                displayName: this.props.intl.messages['order.progress7']
+              }
+            );
+            this.setState({
+              processMore: false,
+              auditRejectReason: resContext.tradeState.obsoleteReason
+            });
+          }
+          this.setState({ progressList });
         }
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
@@ -365,7 +389,7 @@ class AccountOrders extends React.Component {
                                           ? 'rc-current'
                                           : ''
                                       } ${
-                                        this.state.isAuditOpen
+                                        this.state.processMore
                                           ? 'step_more'
                                           : ''
                                       }`}
@@ -390,6 +414,38 @@ class AccountOrders extends React.Component {
                                   ))}
                                 </ol>
                               </div>
+                              {/* audit reject reason */}
+                              {this.state.auditRejectReason && (
+                                <div
+                                  className="d-flex justify-content-end"
+                                  style={{ marginRight: '8%' }}
+                                >
+                                  <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
+                                  <div className="mt-1">
+                                    <FormattedMessage id="prescriptionDeclined" />
+                                    :
+                                  </div>
+                                  <ConfirmTooltip
+                                    containerStyle={{
+                                      transform: 'translate(-89%, 105%)'
+                                    }}
+                                    arrowStyle={{ left: '89%' }}
+                                    cancelBtnVisible={false}
+                                    display={this.state.confirmTooltipVisible}
+                                    confirm={(e) => {
+                                      this.setState({
+                                        confirmTooltipVisible: false
+                                      });
+                                    }}
+                                    updateChildDisplay={(status) => {
+                                      this.setState({
+                                        confirmTooltipVisible: status
+                                      });
+                                    }}
+                                    content={this.state.auditRejectReason}
+                                  />
+                                </div>
+                              )}
                               <hr className="rc-margin-top---none" />
                             </>
                           ) : null}

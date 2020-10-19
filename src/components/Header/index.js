@@ -29,7 +29,7 @@ const _catogryCfg = function (lang, props) {
     { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
     { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
     {
-      link: props.configStore.contactUsUrl,
+      url: props.configStore.contactUsUrl,
       langKey: 'aboutUs'
     },
     { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
@@ -39,9 +39,10 @@ const _catogryCfg = function (lang, props) {
       en: [
         { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
         { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-        { linkObj: { pathname: '/list/dogs' }, langKey: 'healthAndNutrition' },
+        { linkObj: { pathname: '/subscription-landing-us' }, langKey: 'royalCaninClub' },
+        { linkObj: { pathname: '/Tailorednutrition' }, langKey: 'healthAndNutrition' },
         {
-          link: props.configStore.contactUsUrl,
+          url: props.configStore.contactUsUrl,
           langKey: 'aboutUs'
         }
       ],
@@ -55,7 +56,7 @@ const _catogryCfg = function (lang, props) {
           langKey: 'dogs'
         },
         {
-          link: props.configStore.contactUsUrl,
+          url: props.configStore.contactUsUrl,
           langKey: 'aboutUs'
         },
         { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
@@ -84,7 +85,7 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          link: props.configStore.contactUsUrl,
+          url: props.configStore.contactUsUrl,
           langKey: 'aboutUs',
           type: 'aboutUs'
         },
@@ -119,7 +120,7 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          link: props.configStore.contactUsUrl,
+          url: props.configStore.contactUsUrl,
           langKey: 'aboutUs',
           type: 'aboutUs'
         }
@@ -148,7 +149,7 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          link: props.configStore.contactUsUrl,
+          url: props.configStore.contactUsUrl,
           langKey: 'aboutUs',
           type: 'aboutUs'
         },
@@ -996,8 +997,8 @@ class Header extends React.Component {
                   >
                     <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                       <li className="rc-list__item">
-                        {item.link ? (
-                          <a href={item.link} className="rc-list__header">
+                        {item.url ? (
+                          <a href={item.url} className="rc-list__header">
                             {this._renderDropDownText(item)}
                           </a>
                         ) : (

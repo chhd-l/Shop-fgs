@@ -371,6 +371,8 @@ const en_US = {
   "order.progress3": "Доставлен",
   "order.progress4": "Завершено",
   "order.progress5": "Проверено",
+  'order.progress6': 'Ожидает оценки',
+  'order.progress7': 'Отменено',
   "order.rateModalTitle": "Ваше мнение важно",
   "order.refundErrorInfo": "Этот заказ связан с возмещением в процессе обработки и не может быть подан повторно",
   "order.return": "Возвращение",
@@ -660,6 +662,7 @@ const en_US = {
   'footer.email': 'Свяжитесь с нами',
   findTheRightDiet: 'Подобрать рацион',
   viewAll: 'Посмотреть все',
+  'prescriptionDeclined': 'Рецепт отклонен',
   GeneralConditions: 'Возврат покупки',
   QualitySafety: 'Качество и безопасность',
   ShipmentConditions: 'Условия доставки'

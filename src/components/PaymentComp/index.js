@@ -964,15 +964,53 @@ class PaymentComp extends React.Component {
         id="credit-card-content"
       >
         {this.state.paymentType === 'ADYEN' ? (
-          <AdyenEditForm
-            showCancelBtn={creditCardList.length > 0}
-            queryList={() => this.getPaymentMethodList()}
-            updateFormVisible={(val) => {
-              this.setState({ isEdit: val });
-            }}
-            updateInitStatus={this.updateInitStatus}
-            enableStoreDetails={this.isLogin}
-          />
+          <>
+            <div className="content-asset">
+              <div
+                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                  this.state.errorMsg ? '' : 'hidden'
+                }`}
+              >
+                <aside
+                  className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                  role="alert"
+                >
+                  <span className="pl-0">{this.state.errorMsg}</span>
+                  <button
+                    className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                    onClick={() => {
+                      this.setState({ errorMsg: '' });
+                    }}
+                    aria-label="Close"
+                  >
+                    <span className="rc-screen-reader-text">
+                      <FormattedMessage id="close" />
+                    </span>
+                  </button>
+                </aside>
+              </div>
+              <aside
+                className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                  this.state.successMsg ? '' : 'hidden'
+                }`}
+                role="alert"
+              >
+                <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                  {this.state.successMsg}
+                </p>
+              </aside>
+            </div>
+            <AdyenEditForm
+              showCancelBtn={creditCardList.length > 0}
+              queryList={() => this.getPaymentMethodList()}
+              updateFormVisible={(val) => {
+                this.setState({ isEdit: val });
+              }}
+              updateInitStatus={this.updateInitStatus}
+              enableStoreDetails={this.isLogin}
+              showErrorMsg={this.showErrorMsg}
+            />
+          </>
         ) : (
           <>
             <div

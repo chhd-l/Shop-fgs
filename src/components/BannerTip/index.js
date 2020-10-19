@@ -50,7 +50,7 @@ class BannerTip extends React.Component {
                 class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing-us'}
               >
-                Learn more
+                Join the Club
               </Link>
             )}
             {process.env.REACT_APP_LANG === 'ru' && (
@@ -63,8 +63,8 @@ class BannerTip extends React.Component {
             )}
           </div>
         )}
-        <FormattedMessage id="home.note1" />{' '}
-        <FormattedMessage id="home.note2" />
+        <FormattedMessage id="home.note1" defaultMessage={' '} />{' '}
+        <FormattedMessage id="home.note2" defaultMessage={' '} />
       </div>
     ) : null;
   }

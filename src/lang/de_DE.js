@@ -333,6 +333,8 @@ const en_US = {
   "order.progress3": "Geliefert",
   "order.progress4": "Abgeschlossen",
   "order.progress5": "Bewertet",
+  'order.progress6': 'Ausstehende Bewertung',
+  'order.progress7': 'Abgesagt',  
   "order.expireTime": "Ablaufzeit",
   "datePicker.previousMonth": "vorheriger Monat",
   "datePicker.nextMonth": "nächsten Monat",
@@ -678,5 +680,6 @@ const en_US = {
   'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Empfehlungspaket',
   'recommendation.buyNow': 'Kaufe jetzt',
+  'prescriptionDeclined': 'Rezept abgelehnt'
 }
 export default en_US;

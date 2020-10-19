@@ -272,8 +272,8 @@ const en_US = {
   "home.convenientTip2": "Fast free shipping when ordering from {val}.",
   "home.convenientTip3": "Support service: ask a question about your pet to a specialist",
   "home.convenientTitle": "Why Shop Royal Canin?",
-  "home.note1": "Afectado por la epidemia, el tiempo de entrega puede extenderse.",
-  "home.note2": "Nuestra área de distribución se limita a la Ciudad de México, Guadalajara y Monterrey.",
+  "home.note1": "",
+  "home.note2": "",
   "home.pageNotFound": "Page not found…",
   "home.pageNotFoundInfo": "Sorry, the page you are looking for does not exist.",
   "home.point1": "Secure payments",
@@ -371,7 +371,9 @@ const en_US = {
   "order.progress2": "Paid",
   "order.progress3": "Delivered",
   "order.progress4": "Completed",
-  "order.progress5": "Reviewed  ",
+  "order.progress5": "Reviewed",
+  'order.progress6': 'Pending review',
+  'order.progress7': 'Canceled',
   "order.rateModalTitle": "Your opinion is important",
   "order.refundErrorInfo": "This order is associated with a refund in processing and cannot be reapplied.",
   "order.return": "Return",
@@ -647,6 +649,7 @@ const en_US = {
   EnterCorrectValue: "Please enter the correct {val}",
   healthAndNutrition: 'Health & Nutrition',
   club: 'club',
+  royalCaninClub: 'Royal Canin Club',
   'subscriptionLanding.title1': 'Your Pet Needs You. You Need Total Pet Support.',
   'subscriptionLanding.content1': 'Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the Royal Canin Club at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with new pet gifts, exclusive offers and more.',
   'subscriptionLanding.description1': 'Specialty Welcome Box - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.',
@@ -655,6 +658,7 @@ const en_US = {
   'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
+  'prescriptionDeclined': 'prescription declined'
 }
 
 export default en_US;
