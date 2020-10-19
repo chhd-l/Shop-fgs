@@ -159,7 +159,10 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
             canPayNow:
-              tradeState.flowState === 'AUDIT' &&
+              ((!ele.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+                (ele.isAuditOpen &&
+                  tradeState.flowState === 'INIT' &&
+                  tradeState.auditState === 'NON_CHECKED')) &&
               tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
@@ -301,6 +304,7 @@ class AccountOrders extends React.Component {
         );
       }
       sessionItemRoyal.set('rc-tid', order.id);
+      sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
@@ -418,6 +422,7 @@ class AccountOrders extends React.Component {
                           selectedItemData={{
                             value: this.state.form.period
                           }}
+                          key={this.state.form.period}
                           customStyleType="select-one"
                         />
                       </div>

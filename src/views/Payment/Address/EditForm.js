@@ -382,6 +382,7 @@ class EditForm extends React.Component {
                   selectedItemData={{
                     value: this.state.address.country
                   }}
+                  key={this.state.address.country}
                 />
               </span>
             </div>
@@ -397,6 +398,7 @@ class EditForm extends React.Component {
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                 <CitySearchSelection
                   defaultValue={this.state.address.cityName}
+                  key={this.state.address.cityName}
                   onChange={this.handleCityInputChange}
                 />
               </span>

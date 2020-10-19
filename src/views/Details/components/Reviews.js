@@ -262,6 +262,7 @@ class Reviews extends React.Component {
                         selectedItemData={{
                           value: this.state.selectedSortBy
                         }}
+                        key={this.state.selectedSortBy}
                       />
                     </span>
                   </form>

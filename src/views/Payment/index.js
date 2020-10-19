@@ -109,6 +109,9 @@ class Payment extends React.Component {
       savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
+      tidList: sessionItemRoyal.get('rc-tidList')
+        ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
+        : [],
       recommend_data: [],
       petModalVisible: false,
       isAdd: 0,
@@ -119,14 +122,9 @@ class Payment extends React.Component {
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
-    this.setState(
-      {
-        requiredList
-      },
-      () => {
-        console.log({ requiredList: this.state.requiredList });
-      }
-    );
+    this.setState({
+      requiredList
+    });
   };
   //总的调用consense接口
   getConsentList() {
@@ -253,6 +251,7 @@ class Payment extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
+    sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-subform');
     sessionItemRoyal.remove('recommend_product');
   }
@@ -468,12 +467,6 @@ class Payment extends React.Component {
       });
     }
   };
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-    sessionItemRoyal.remove('rc-tid');
-    sessionItemRoyal.remove('rc-subform');
-    sessionItemRoyal.remove('recommend_product');
-  }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -490,7 +483,7 @@ class Payment extends React.Component {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
   }
   queryOrderDetails() {
-    getOrderDetails(this.state.tid).then(async (res) => {
+    getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
       let cityRes = await queryCityNameById({
         id: [resContext.consignee.cityId, resContext.invoice.cityId]
@@ -780,10 +773,12 @@ class Payment extends React.Component {
       /* 4)调用支付 */
       const res = await action(parameters);
       const { tid } = this.state;
-      let orderNumber;
-      let subNumber;
+      let orderNumber; // 主订单号
+      let subOrderNumberList = []; // 拆单时，子订单号
+      let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
+      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];
@@ -795,13 +790,20 @@ class Payment extends React.Component {
             oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
-          orderNumber = tid || oxxoContent.tid;
-          subNumber = oxxoContent.subscribeId;
+          // orderNumber = tid || oxxoContent.tid;
+          subOrderNumberList = oxxoContent && oxxoContent.tidList;
           gotoConfirmationPage = true;
           break;
         case 'payu_credit_card':
-          orderNumber =
-            tid || (res.context && res.context[0] && res.context[0].tid);
+          debugger;
+          // orderNumber =
+          //   tid ||
+          //   (res.context &&
+          //     res.context[0] &&
+          //     res.context[0].trade &&
+          //     res.context[0].trade.id);
+          subOrderNumberList =
+            res.context && res.context[0] && res.context[0].tidList;
           subNumber =
             res.context && res.context[0] && res.context[0].subscribeId;
           gotoConfirmationPage = true;
@@ -819,8 +821,14 @@ class Payment extends React.Component {
           window.location.href = res.context.url;
           break;
       }
-      if (orderNumber) {
-        sessionItemRoyal.set('orderNumber', orderNumber);
+      // if (orderNumber) {
+      //   sessionItemRoyal.set('orderNumber', orderNumber);
+      // }
+      if (subOrderNumberList.length) {
+        sessionItemRoyal.set(
+          'subOrderNumberList',
+          JSON.stringify(subOrderNumberList)
+        );
       }
       if (subNumber) {
         sessionItemRoyal.set('subNumber', subNumber);
@@ -844,16 +852,22 @@ class Payment extends React.Component {
         this.props.history.push('/confirmation');
       }
     } catch (err) {
+      debugger;
       console.log(err);
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
       }
       if (err.errorData) {
-        //err.errorData是返回的tid(订单号)
-        sessionItemRoyal.set('rc-tid', err.errorData);
+        // err.errorData 支付失败，errorData返回支付信息
+        sessionItemRoyal.set('rc-tid', err.errorData.tid);
+        sessionItemRoyal.set(
+          'rc-tidList',
+          JSON.stringify(err.errorData.tidList)
+        );
         this.setState(
           {
-            tid: err.errorData
+            tid: err.errorData.tid,
+            tidList: err.errorData.tidList
           },
           () => this.queryOrderDetails()
         );
@@ -1044,6 +1058,7 @@ class Payment extends React.Component {
     // rePay
     if (this.state.tid) {
       param.tid = this.state.tid;
+      param.tidList = this.state.tidList;
       delete param.remark;
       delete param.tradeItems;
       delete param.tradeMarketingList;

@@ -81,8 +81,6 @@ service.interceptors.response.use(
         ret = {
           message: response.data.message,
           errorData: response.data.errorData
-            ? response.data.errorData.split('|')[0]
-            : ''
         };
       }
       return Promise.reject(ret);
