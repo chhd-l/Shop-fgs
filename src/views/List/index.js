@@ -869,7 +869,8 @@ class List extends React.Component {
                         <div className="grid-footer rc-full-width">
                           <Pagination
                             loading={this.state.loading}
-                            currentPage={this.state.currentPage}
+                            defaultCurrentPage={this.state.currentPage}
+                            key={this.state.currentPage}
                             totalPage={this.state.totalPage}
                             onPageNumChange={(params) =>
                               this.hanldePageNumChange(params)

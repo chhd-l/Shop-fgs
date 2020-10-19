@@ -629,7 +629,8 @@ class AccountOrders extends React.Component {
                         <Pagination
                           loading={this.state.loading}
                           totalPage={this.state.totalPage}
-                          currentPage={this.state.currentPage}
+                          defaultCurrentPage={this.state.currentPage}
+                          key={this.state.currentPage}
                           onPageNumChange={(params) =>
                             this.hanldePageNumChange(params)
                           }
@@ -656,13 +657,13 @@ class AccountOrders extends React.Component {
                     >
                       <div>
                         <p>
-                        <FormattedMessage id="account.orders.tips" />
+                          <FormattedMessage id="account.orders.tips" />
                         </p>
                         <button
                           class="rc-btn rc-btn--one"
                           onClick={() => this.props.history.push('/')}
                         >
-                         <FormattedMessage id="account.orders.btns" />
+                          <FormattedMessage id="account.orders.btns" />
                         </button>
                       </div>
                     </div>

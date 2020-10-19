@@ -426,7 +426,8 @@ class Prescription extends React.Component {
                     <Pagination
                       loading={this.state.loading}
                       totalPage={this.state.totalPage}
-                      currentPage={this.state.current}
+                      defaultCurrentPage={this.state.current}
+                      key={this.state.current}
                       onPageNumChange={(params) =>
                         this.hanldePageNumChange(params)
                       }
