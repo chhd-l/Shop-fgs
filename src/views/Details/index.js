@@ -819,6 +819,7 @@ class Details extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">

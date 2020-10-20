@@ -1584,6 +1584,7 @@ class Payment extends React.Component {
           history={this.props.history}
           showMiniIcons={false}
           showUserIcon={true}
+          match={this.props.match}
         />
         {this.state.loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
