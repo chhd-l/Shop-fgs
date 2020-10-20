@@ -1464,7 +1464,7 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <div style={{marginLeft:'5rem',color:'#EC001A',marginBottom:'1rem'}}>Related Product</div>
+              <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem'}}>Recommanded for you</div>
               <RelatedProduct/>
             </div>           
             <div
