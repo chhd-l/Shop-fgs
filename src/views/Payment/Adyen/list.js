@@ -271,17 +271,16 @@ class AdyenCreditCardList extends React.Component {
         className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border`}
       >
         <div className={`pt-3 pb-3`}>
-          <div className="position-absolute" style={{ right: '1%', top: '2%' }}>
-            <span
-              className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
-            >
-              <span
-                onClick={(e) => {
-                  this.setState({ formVisible: true });
-                }}
-              >
-                <FormattedMessage id="edit" />
-              </span>
+          <div
+            className="position-absolute ui-cursor-pointer-pure"
+            style={{ right: '1%', top: '2%' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              this.setState({ formVisible: true });
+            }}
+          >
+            <span className={`pull-right position-relative pl-2`}>
+              <FormattedMessage id="edit" />
             </span>
           </div>
           {this._renderOneCard(visitorAdyenFormData, false)}
