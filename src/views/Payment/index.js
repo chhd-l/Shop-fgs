@@ -255,36 +255,6 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-subform');
     sessionItemRoyal.remove('recommend_product');
   }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
-  get cartData() {
-    return this.props.checkoutStore.cartData;
-  }
-  get loginCartData() {
-    return this.props.checkoutStore.loginCartData;
-  }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
-  }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.paymentMethodPanelStatus;
-  }
-  get hasConfimedPaymentVal() {
-    return this.props.paymentStore.hasConfimedPaymentVal;
-  }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedBillingAddress() {
-    return this.props.paymentStore.selectedBillingAddress;
-  }
-  get isOnepageCheckout() {
-    return this.props.configStore.isOnePageCheckout;
-  }
-  get checkoutWithClinic() {
-    return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
-  }
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
@@ -481,6 +451,21 @@ class Payment extends React.Component {
   }
   get checkoutWithClinic() {
     return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
+  }
+  get paymentMethodPanelStatus() {
+    return this.props.paymentStore.paymentMethodPanelStatus;
+  }
+  get hasConfimedPaymentVal() {
+    return this.props.paymentStore.hasConfimedPaymentVal;
+  }
+  get selectedDeliveryAddress() {
+    return this.props.paymentStore.selectedDeliveryAddress;
+  }
+  get selectedBillingAddress() {
+    return this.props.paymentStore.selectedBillingAddress;
+  }
+  get isOnepageCheckout() {
+    return this.props.configStore.isOnePageCheckout;
   }
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
