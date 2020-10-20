@@ -55,24 +55,21 @@ class MarsFooterMap extends React.Component {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
               <li>
-                <a
-                  target="_blank"
-                  href={this.props.configStore.privacyPolicyUrl}
-                >
+                <a target="_blank" href="https://www.mars.com/privacy">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href={this.props.configStore.cookiesUrl}>
+                <a target="_blank" href="https://www.mars.com/cookies-english">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href={this.props.configStore.legalTerms}>
+                <a target="_blank" href="https://www.mars.com/legal">
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
