@@ -10,6 +10,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
+//import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
 import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
