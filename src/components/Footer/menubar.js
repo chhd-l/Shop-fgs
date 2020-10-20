@@ -337,7 +337,7 @@ export const menubar = {
         list: [
           {
             url:
-              'https://www.shop.royal-canin.ru/ru/general-terms-conditions.html',
+              '/general-conditions',
             messageId: 'Пользовательское соглашение'
           },
           {

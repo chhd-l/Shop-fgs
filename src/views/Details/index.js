@@ -758,6 +758,22 @@ class Details extends React.Component {
     }
     return el.offsetTop;
   }
+  formatUnit(baseSpecLabel) {
+    let res = baseSpecLabel.slice(
+      String(
+        parseFloat(
+          baseSpecLabel
+        )
+      ).length
+    )
+    if(isNaN(parseFloat(
+      res
+    ))) {
+      return res
+    }else {
+      return this.formatUnit(res)
+    }
+  }
   render() {
     const createMarkup = (text) => ({ __html: text });
     const {
@@ -985,15 +1001,8 @@ class Details extends React.Component {
                                               ).toFixed(2)
                                             )}
                                             /
-                                            {selectedSpecItem.baseSpecLabel &&
-                                              selectedSpecItem.baseSpecLabel.slice(
-                                                0,
-                                                String(
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).length
-                                              )}
+                                            {selectedSpecItem.baseSpecLabel && this.formatUnit(selectedSpecItem.baseSpecLabel)
+                                              }
                                             )
                                           </b>
                                         ) : null}
@@ -1069,15 +1078,7 @@ class Details extends React.Component {
                                                 ).toFixed(2)
                                               )}
                                               /
-                                              {selectedSpecItem.baseSpecLabel &&
-                                                selectedSpecItem.baseSpecLabel.slice(
-                                                  0,
-                                                  String(
-                                                    parseFloat(
-                                                      selectedSpecItem.baseSpecLabel
-                                                    )
-                                                  ).length
-                                                )}
+                                              {selectedSpecItem.baseSpecLabel && this.formatUnit(selectedSpecItem.baseSpecLabel)}
                                               )
                                             </b>
                                           ) : null}
