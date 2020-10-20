@@ -683,6 +683,7 @@ const en_US = {
   'required.complete':'Processus de connexion complet',
   findTheRightDiet: 'Trouver l\'alimentation adaptée',
   viewAll: 'Voir tous les produits',
-  'prescriptionDeclined': 'Ordonnance refusée'
+  'prescriptionDeclined': 'Ordonnance refusée',
+  'recommandedForyou':'Recommandé pour vous'
 }
 export default en_US;

@@ -665,7 +665,8 @@ const en_US = {
   'prescriptionDeclined': 'Рецепт отклонен',
   GeneralConditions: 'Возврат покупки',
   QualitySafety: 'Качество и безопасность',
-  ShipmentConditions: 'Условия доставки'
+  ShipmentConditions: 'Условия доставки',
+  'recommandedForyou':'Рекомендуется для вас'
 }
 
 export default en_US;

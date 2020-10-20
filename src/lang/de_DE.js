@@ -680,6 +680,7 @@ const en_US = {
   'recommendation.productDescription': 'Royal Canin’s feeding guidelines can also be found on the product packaging.',
   'recommendation.recommendationPackage': 'Empfehlungspaket',
   'recommendation.buyNow': 'Kaufe jetzt',
-  'prescriptionDeclined': 'Rezept abgelehnt'
+  'prescriptionDeclined': 'Rezept abgelehnt',
+  'recommandedForyou':'für dich empfohlen'
 }
 export default en_US;

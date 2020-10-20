@@ -658,7 +658,8 @@ const en_US = {
   'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
-  'prescriptionDeclined': 'prescription declined'
+  'prescriptionDeclined': 'prescription declined',
+  'recommandedForyou':'Recommanded for you'
 }
 
 export default en_US;
