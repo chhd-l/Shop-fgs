@@ -159,6 +159,7 @@ class Help extends React.Component {
         inStockProducts.push(productList[i])
       }
     }
+    console.log(inStockProducts, 'instock')
     let outOfStockVal = ''
     outOfStockProducts.map((el, i) => {
       if(i === outOfStockProducts.length - 1) {
@@ -391,10 +392,11 @@ class Help extends React.Component {
     let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
     let totalPrice 
     inStockProducts.map(el => {
-      console.log(el, 'el')
-      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice
+      console.log(el, 'instock')
+      totalPrice = totalPrice + el.recommendationNumber * el.goodsInfo.salePrice
     })
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      console.log(totalPrice, 'instock')
       this.showErrorMsg(
         <FormattedMessage
           id="cart.errorInfo3"

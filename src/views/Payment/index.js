@@ -114,7 +114,8 @@ class Payment extends React.Component {
       petModalVisible: false,
       isAdd: 0,
       listData: [],
-      requiredList: []
+      requiredList: [],
+      AuditData: [],
     };
     this.timer = null;
   }
@@ -204,8 +205,13 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     console.log(toJS(this.loginCartData), 'this.loginCartData')
-    // let ressss = await getProductPetConfig({goodsInfos: this.loginCartData})
-    // console.log(ressss)
+    if(this.isLogin) {
+      let res = await getProductPetConfig({goodsInfos: this.loginCartData})
+      // this.AuditData = 
+      console.log(res)
+    }
+    
+    
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -1610,7 +1616,7 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                {/* <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                   <h5
                     className="ml-custom mr-custom"
                     style={{ overflow: 'hidden' }}
@@ -1623,7 +1629,6 @@ class Payment extends React.Component {
                     <p>
                       We need your pet information to authorize these items.
                     </p>
-                    {/* {this.loginCartData.map((el, i) => { */}
                     {this.loginCartData.length
                       ? this.loginCartData.map((el, i) => {
                           return (
@@ -1668,10 +1673,6 @@ class Payment extends React.Component {
                                 >
                                   Select a pet
                                 </button>
-                                {/* &nbsp;&nbsp;
-                            or
-                            &nbsp;&nbsp;
-                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
                               </div>
                             </div>
                           );
@@ -1723,18 +1724,12 @@ class Payment extends React.Component {
                                 >
                                   Select a pet
                                 </button>
-                                {/* &nbsp;&nbsp;
-                            or
-                            &nbsp;&nbsp;
-                            <a class="rc-styled-link rc-btn--sm" href="#/">add a pet</a> */}
                               </div>
                             </div>
                           );
                         })}
                   </h5>
-
-                  {/* {this._renderPayTab()} */}
-                </div>
+                </div> */}
 
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
@@ -1803,14 +1798,14 @@ class Payment extends React.Component {
           </div>
         </main>
         <Footer />
-        <PetModal
+        {/* <PetModal
           visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={(data) => this.petComfirm(data)}
           close={() => this.closePetModal()}
-        />
+        /> */}
       </div>
     );
   }
