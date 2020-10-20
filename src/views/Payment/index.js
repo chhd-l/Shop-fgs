@@ -207,8 +207,15 @@ class Payment extends React.Component {
     console.log(toJS(this.loginCartData), 'this.loginCartData')
     if(this.isLogin) {
       let res = await getProductPetConfig({goodsInfos: this.loginCartData})
-      // this.AuditData = 
+      this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
+    }else {
+      let paramData = this.cartData.map(el => {
+        el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
+        return el
+      })
+      let res = await getProductPetConfig({goodsInfos: paramData})
       console.log(res)
+      // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
     }
     
     
