@@ -10,7 +10,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
-//import RelatedProduct from './components/RelatedProduct';
+import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
 import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
@@ -1463,6 +1463,10 @@ class Details extends React.Component {
             <div id="review-container">
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
+            <div>
+              <div style={{marginLeft:'5rem',color:'#EC001A',marginBottom:'1rem'}}>Related Product</div>
+              <RelatedProduct/>
+            </div>           
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
