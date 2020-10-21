@@ -788,6 +788,11 @@ class SubscriptionDetail extends React.Component {
                                       ? this.state.orderOptions[0].value
                                       : ''
                                   }}
+                                  key={
+                                    this.state.orderOptions.length
+                                      ? this.state.orderOptions[0].value
+                                      : ''
+                                  }
                                   customStyleType="select-one"
                                 />
                               </h1>
@@ -861,6 +866,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
+                                  key={subDetail.frequency || ''}
                                   disabled={subDetail.subscribeStatus !== '0'}
                                 />
                               </h1>

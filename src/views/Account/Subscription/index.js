@@ -207,6 +207,7 @@ class Subscription extends React.Component {
                         selectedItemData={{
                           value: this.state.form.subscribeStatus
                         }}
+                        key={this.state.form.subscribeStatus}
                         customStyleType="select-one"
                       />
                     </div>
@@ -332,7 +333,8 @@ class Subscription extends React.Component {
                         <Pagination
                           loading={this.state.loading}
                           totalPage={this.state.totalPage}
-                          currentPage={this.state.currentPage}
+                          defaultCurrentPage={this.state.currentPage}
+                          key={this.state.currentPage}
                           onPageNumChange={(params) =>
                             this.hanldePageNumChange(params)
                           }

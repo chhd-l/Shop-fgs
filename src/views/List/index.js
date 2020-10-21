@@ -19,6 +19,26 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function ListItem(props) {
+  return (
+    <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
+      <article
+        className="rc-card rc-card--product overflow-hidden"
+        style={{ minHeight: '120px' }}
+      >
+        {props.promotionJSX}
+        <div className="fullHeight">
+          <a className="ui-cursor-pointer" onClick={props.onClick}>
+            <article className="rc-card--a rc-text--center text-center">
+              {props.children}
+            </article>
+          </a>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 @inject('loginStore')
 @injectIntl
 @observer
@@ -29,87 +49,7 @@ class List extends React.Component {
       storeCateIds: [],
       category: '',
       titleData: null,
-      productList: [
-        // 占位用，不能删
-        {
-          id: '3000_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        },
-        {
-          id: '3001_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        },
-        {
-          id: '3002_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        },
-        {
-          id: '3003_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        },
-        {
-          id: '3004_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        },
-        {
-          id: '3005_RU',
-          goodsName: 'Mini adult',
-          goodsInfos: [
-            {
-              goodsInfoImg:
-                'https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_ru/default/dw762ac7d3/products/RU/packshot_2018_SHN_DRY_Mini_Adult_4.jpg?sw=150&amp;sfrm=png',
-              specText:
-                'Mini Edalt: dry food for dogs aged 10 months to 8 years',
-              salePrice: 945
-            }
-          ]
-        }
-      ],
+      productList: Array(1).fill(null),
       loading: true,
       checkedList: [],
       currentPage: 1,
@@ -132,7 +72,6 @@ class List extends React.Component {
     this.cidFromSearch = ''; // 链接中所带catory参数
   }
   componentDidMount() {
-    console.log(localItemRoyal.get('isRefresh'));
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -226,7 +165,8 @@ class List extends React.Component {
     let params = {
       storeId: process.env.REACT_APP_STOREID,
       // cateId: process.env.REACT_APP_CATEID,
-      cateId: this.state.cateId || process.env.REACT_APP_CATEID,
+      cateId: this.state.cateId || '',
+      // cateId: this.state.cateId || process.env.REACT_APP_CATEID,
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
@@ -264,7 +204,7 @@ class List extends React.Component {
     let tmpList = this.isLogin ? getLoginList : getList;
     tmpList(params)
       .then((res) => {
-        this.setState({ loading: false, initingList: false });
+        this.setState({ initingList: false });
         const esGoods = res.context.esGoods;
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content;
@@ -297,101 +237,111 @@ class List extends React.Component {
               return ret;
             });
           }
-          this.setState(
-            {
-              productList: goodsContent,
-              results: esGoods.totalElements,
-              currentPage: esGoods.number + 1,
-              totalPage: esGoods.totalPages
-            },
-            () => {
-              console.log('productList', this.state.productList);
-            }
-          );
+          this.setState({
+            productList: goodsContent,
+            results: esGoods.totalElements,
+            currentPage: esGoods.number + 1,
+            totalPage: esGoods.totalPages
+          });
         } else {
           this.setState({
             productList: [],
             results: 0
           });
         }
+        this.setState({
+          loading: false
+        });
+        if (!this.state.filterList.length) {
+          getSelectedProps(
+            this.state.cateId ||
+              (res.context.goodsList &&
+                res.context.goodsList.length &&
+                res.context.goodsList[0].cateId.toString())
+          )
+            .then((res) => {
+              // res = JSON.parse('{"code":"K-000000","message":"Operación exitosa","errorData":null,"context":[{"propId":470,"cateId":1129,"propName":"Etapa de Vida","indexFlag":1,"createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1,"goodsPropDetails":[{"detailId":1754,"propId":470,"detailName":"Cachorro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":0},{"detailId":1751,"propId":470,"detailName":"Adulto","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1},{"detailId":1752,"propId":470,"detailName":"Maduro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":2},{"detailId":1753,"propId":470,"detailName":"Mayor","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":3},{"detailId":1779,"propId":470,"detailName":"Gatito","createTime":"2020-05-07 11:59:11.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":471,"cateId":1129,"propName":"Talla","indexFlag":1,"createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2,"goodsPropDetails":[{"detailId":1755,"propId":471,"detailName":"Minuatura","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":0},{"detailId":1756,"propId":471,"detailName":"Pequeño","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":1},{"detailId":1757,"propId":471,"detailName":"Mediano","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2},{"detailId":1758,"propId":471,"detailName":"Grande","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":3},{"detailId":1759,"propId":471,"detailName":"Gigante","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":472,"cateId":1129,"propName":"Necesidades especiales","indexFlag":1,"createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":3,"goodsPropDetails":[{"detailId":1760,"propId":472,"detailName":"Envejecimiento saludable","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":0},{"detailId":1761,"propId":472,"detailName":"Soporte cardiaco","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":1},{"detailId":1762,"propId":472,"detailName":"Apoyo para la diabetes","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":2},{"detailId":1763,"propId":472,"detailName":"Apoyo digestivo","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":3},{"detailId":1764,"propId":472,"detailName":"Apoyo de las articulaciones","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":4},{"detailId":1765,"propId":472,"detailName":"Higiene oral / dental","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":5},{"detailId":1766,"propId":472,"detailName":"Sensibilidades alimentarias","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":6},{"detailId":1767,"propId":472,"detailName":"Apoyo renal","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":7},{"detailId":1768,"propId":472,"detailName":"Soporte del hígado","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":8},{"detailId":1769,"propId":472,"detailName":"Soporte de piel y pelaje","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":9},{"detailId":1770,"propId":472,"detailName":"Soporte urinario","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":10},{"detailId":1771,"propId":472,"detailName":"Control de peso","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":11},{"detailId":1772,"propId":472,"detailName":"Convalecencia","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":12},{"detailId":1773,"propId":472,"detailName":"Sensibilidad de la piel","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":13},{"detailId":1774,"propId":472,"detailName":"Sensibilidad digestiva","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":14},{"detailId":1775,"propId":472,"detailName":"Sensibilidad articular","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":15}],"propDetailStr":null},{"propId":473,"cateId":1129,"propName":"Seco/Húmedo","indexFlag":1,"createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":4,"goodsPropDetails":[{"detailId":1776,"propId":473,"detailName":"Seco","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":0},{"detailId":1777,"propId":473,"detailName":"Húmedo","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":1},{"detailId":1778,"propId":473,"detailName":"Otro","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":2}],"propDetailStr":null}],"defaultLocalDateTime":"2020-08-14 11:54:41.553"}')
+              // debugger
+              let tmpList = res.context;
+              let tmpItem = find(
+                tmpList,
+                (v) => v.propName === 'Etapa de Vida'
+              );
+              if (
+                category === 'cats' ||
+                category === 'vd' ||
+                category === 'prescription-cats'
+              ) {
+                tmpList = res.context.filter((v) => v.propName !== 'Talla');
+                if (tmpItem) {
+                  tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
+                    (v) =>
+                      v.detailName !== 'Cachorro' && v.detailName !== 'Mayor'
+                  );
+                }
+                if (category === 'vd') {
+                  let tmpSecoItem = find(
+                    tmpList,
+                    (v) => v.propName === 'Seco/Húmedo'
+                  );
+                  tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
+                    (v) => v.detailName !== 'Otro'
+                  );
+                }
+              }
+              if (
+                (category === 'dogs' ||
+                  category === 'vcn' ||
+                  category === 'prescription-dogs') &&
+                tmpItem
+              ) {
+                tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
+                  (v) => v.detailName !== 'Gatito' && v.detailName !== 'Mayor'
+                );
+                let tmpTallaItem = find(tmpList, (v) => v.propName === 'Talla');
+                tmpTallaItem.goodsPropDetails = tmpTallaItem.goodsPropDetails.filter(
+                  (v) =>
+                    v.detailName !== 'Minuatura' && v.detailName !== 'Grande'
+                );
+
+                let tmpSecoItem = find(
+                  tmpList,
+                  (v) => v.propName === 'Seco/Húmedo'
+                );
+                tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
+                  (v) => v.detailName !== 'Otro'
+                );
+              }
+
+              const condition = this.fidFromSearch ? 'search_fid' : '';
+              let checkedListTemp;
+              switch (condition) {
+                case 'search_fid':
+                  const tmpArr = this.fidFromSearch.split('|');
+                  checkedListTemp = tmpList
+                    .filter((item) => item.propId == tmpArr[0])[0]
+                    .goodsPropDetails.filter(
+                      (item) => item.detailId == tmpArr[1]
+                    );
+                  this.setState({
+                    checkedList: checkedListTemp
+                  });
+                  break;
+              }
+
+              this.setState({
+                filterList: tmpList,
+                initingFilter: false
+              });
+            })
+            .catch(() => {
+              this.setState({ initingFilter: false });
+            });
+        }
       })
       .catch(() => {
         this.setState({ loading: false, productList: [] });
       });
-    if (!this.state.filterList.length) {
-      getSelectedProps(this.state.cateId || process.env.REACT_APP_CATEID)
-        .then((res) => {
-          // res = JSON.parse('{"code":"K-000000","message":"Operación exitosa","errorData":null,"context":[{"propId":470,"cateId":1129,"propName":"Etapa de Vida","indexFlag":1,"createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1,"goodsPropDetails":[{"detailId":1754,"propId":470,"detailName":"Cachorro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":0},{"detailId":1751,"propId":470,"detailName":"Adulto","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1},{"detailId":1752,"propId":470,"detailName":"Maduro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":2},{"detailId":1753,"propId":470,"detailName":"Mayor","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":3},{"detailId":1779,"propId":470,"detailName":"Gatito","createTime":"2020-05-07 11:59:11.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":471,"cateId":1129,"propName":"Talla","indexFlag":1,"createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2,"goodsPropDetails":[{"detailId":1755,"propId":471,"detailName":"Minuatura","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":0},{"detailId":1756,"propId":471,"detailName":"Pequeño","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":1},{"detailId":1757,"propId":471,"detailName":"Mediano","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2},{"detailId":1758,"propId":471,"detailName":"Grande","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":3},{"detailId":1759,"propId":471,"detailName":"Gigante","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":472,"cateId":1129,"propName":"Necesidades especiales","indexFlag":1,"createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":3,"goodsPropDetails":[{"detailId":1760,"propId":472,"detailName":"Envejecimiento saludable","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":0},{"detailId":1761,"propId":472,"detailName":"Soporte cardiaco","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":1},{"detailId":1762,"propId":472,"detailName":"Apoyo para la diabetes","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":2},{"detailId":1763,"propId":472,"detailName":"Apoyo digestivo","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":3},{"detailId":1764,"propId":472,"detailName":"Apoyo de las articulaciones","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":4},{"detailId":1765,"propId":472,"detailName":"Higiene oral / dental","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":5},{"detailId":1766,"propId":472,"detailName":"Sensibilidades alimentarias","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":6},{"detailId":1767,"propId":472,"detailName":"Apoyo renal","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":7},{"detailId":1768,"propId":472,"detailName":"Soporte del hígado","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":8},{"detailId":1769,"propId":472,"detailName":"Soporte de piel y pelaje","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":9},{"detailId":1770,"propId":472,"detailName":"Soporte urinario","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":10},{"detailId":1771,"propId":472,"detailName":"Control de peso","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":11},{"detailId":1772,"propId":472,"detailName":"Convalecencia","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":12},{"detailId":1773,"propId":472,"detailName":"Sensibilidad de la piel","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":13},{"detailId":1774,"propId":472,"detailName":"Sensibilidad digestiva","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":14},{"detailId":1775,"propId":472,"detailName":"Sensibilidad articular","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":15}],"propDetailStr":null},{"propId":473,"cateId":1129,"propName":"Seco/Húmedo","indexFlag":1,"createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":4,"goodsPropDetails":[{"detailId":1776,"propId":473,"detailName":"Seco","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":0},{"detailId":1777,"propId":473,"detailName":"Húmedo","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":1},{"detailId":1778,"propId":473,"detailName":"Otro","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":2}],"propDetailStr":null}],"defaultLocalDateTime":"2020-08-14 11:54:41.553"}')
-          // debugger
-          let tmpList = res.context;
-          let tmpItem = find(tmpList, (v) => v.propName === 'Etapa de Vida');
-          if (
-            category === 'cats' ||
-            category === 'vd' ||
-            category === 'prescription-cats'
-          ) {
-            tmpList = res.context.filter((v) => v.propName !== 'Talla');
-            if (tmpItem) {
-              tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
-                (v) => v.detailName !== 'Cachorro' && v.detailName !== 'Mayor'
-              );
-            }
-            if (category === 'vd') {
-              let tmpSecoItem = find(
-                tmpList,
-                (v) => v.propName === 'Seco/Húmedo'
-              );
-              tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
-                (v) => v.detailName !== 'Otro'
-              );
-            }
-          }
-          if (
-            (category === 'dogs' ||
-              category === 'vcn' ||
-              category === 'prescription-dogs') &&
-            tmpItem
-          ) {
-            tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
-              (v) => v.detailName !== 'Gatito' && v.detailName !== 'Mayor'
-            );
-            let tmpTallaItem = find(tmpList, (v) => v.propName === 'Talla');
-            tmpTallaItem.goodsPropDetails = tmpTallaItem.goodsPropDetails.filter(
-              (v) => v.detailName !== 'Minuatura' && v.detailName !== 'Grande'
-            );
-
-            let tmpSecoItem = find(
-              tmpList,
-              (v) => v.propName === 'Seco/Húmedo'
-            );
-            tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
-              (v) => v.detailName !== 'Otro'
-            );
-          }
-
-          const condition = this.fidFromSearch ? 'search_fid' : '';
-          let checkedListTemp;
-          switch (condition) {
-            case 'search_fid':
-              const tmpArr = this.fidFromSearch.split('|');
-              checkedListTemp = tmpList
-                .filter((item) => item.propId == tmpArr[0])[0]
-                .goodsPropDetails.filter((item) => item.detailId == tmpArr[1]);
-              this.setState({
-                checkedList: checkedListTemp
-              });
-              break;
-          }
-
-          this.setState({
-            filterList: tmpList,
-            initingFilter: false
-          });
-        })
-        .catch(() => {
-          this.setState({ initingFilter: false });
-        });
-    }
   }
   handleFilterChange(item) {
     const { checkedList } = this.state;
@@ -486,6 +436,16 @@ class List extends React.Component {
         }
       };
     }
+
+    const _loadingJXS = Array(6)
+      .fill(null)
+      .map((item, i) => (
+        <ListItem key={i}>
+          <span className="mt-4">
+            <Skeleton color="#f5f5f5" width="100%" height="50%" count={2} />
+          </span>
+        </ListItem>
+      ));
     return (
       <div>
         {event ? <GoogleTagManager additionalEvents={event} /> : null}
@@ -634,172 +594,162 @@ class List extends React.Component {
                       </>
                     ) : (
                       <div className="row RowFitScreen">
-                        {productList.map((item) => (
-                          <div
-                            className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen"
-                            key={item.id}
-                          >
-                            <article
-                              className="rc-card rc-card--product overflow-hidden"
-                              style={{ minHeight: '120px' }}
-                            >
-                              {find(
-                                item.goodsInfos,
-                                (ele) => ele.goodsPromotion
-                              ) ? (
-                                <div class="product-item-flag">
-                                  <FormattedMessage id="promotion" />
-                                </div>
-                              ) : null}
-                              <div className="fullHeight">
-                                <a
-                                  onClick={() => this.hanldeItemClick(item)}
-                                  className="ui-cursor-pointer"
-                                >
-                                  <article className="rc-card--a rc-text--center text-center">
-                                    {loading ? (
-                                      <span className="mt-4">
-                                        <Skeleton
-                                          color="#f5f5f5"
-                                          width="100%"
-                                          height="50%"
-                                          count={2}
-                                        />
-                                      </span>
-                                    ) : (
-                                      <>
-                                        <picture className="rc-card__image">
-                                          <div
-                                            className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                                            style={{ height: '15.7rem' }}
-                                          >
-                                            <img
-                                              src={
-                                                item.goodsImg ||
-                                                item.goodsInfos.sort(
-                                                  (a, b) =>
-                                                    a.marketPrice -
-                                                    b.marketPrice
-                                                )[0].goodsInfoImg
-                                              }
-                                              srcSet={
-                                                item.goodsImg ||
-                                                item.goodsInfos.sort(
-                                                  (a, b) =>
-                                                    a.marketPrice -
-                                                    b.marketPrice
-                                                )[0].goodsInfoImg
-                                              }
-                                              alt={item.goodsName}
-                                              title={item.goodsName}
-                                              className="ImgFitScreen pt-3"
+                        {loading
+                          ? _loadingJXS
+                          : productList.map((item, i) => (
+                              <ListItem
+                                key={item.id}
+                                promotionJSX={
+                                  find(
+                                    item.goodsInfos,
+                                    (ele) => ele.goodsPromotion
+                                  ) ? (
+                                    <div class="product-item-flag">
+                                      <FormattedMessage id="promotion" />
+                                    </div>
+                                  ) : null
+                                }
+                                onClick={() => this.hanldeItemClick(item)}
+                              >
+                                <picture className="rc-card__image">
+                                  <div
+                                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                                    style={{ height: '15.7rem' }}
+                                  >
+                                    <img
+                                      src={
+                                        item.goodsImg ||
+                                        item.goodsInfos.sort(
+                                          (a, b) =>
+                                            a.marketPrice - b.marketPrice
+                                        )[0].goodsInfoImg
+                                      }
+                                      srcSet={
+                                        item.goodsImg ||
+                                        item.goodsInfos.sort(
+                                          (a, b) =>
+                                            a.marketPrice - b.marketPrice
+                                        )[0].goodsInfoImg
+                                      }
+                                      alt={item.goodsName}
+                                      title={item.goodsName}
+                                      className="ImgFitScreen pt-3"
+                                      style={{
+                                        maxWidth: '50%',
+                                        maxHeight: '100%',
+                                        width: 'auto',
+                                        height: 'auto'
+                                      }}
+                                    />
+                                  </div>
+                                </picture>
+                                <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+                                  <div className="height-product-tile-plpOnly">
+                                    <header
+                                      className="rc-text--center"
+                                      style={{ height: '100px' }}
+                                    >
+                                      <h3
+                                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
+                                        title={item.goodsName}
+                                      >
+                                        {item.goodsName}
+                                      </h3>
+                                    </header>
+                                    <div
+                                      className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
+                                      title={item.goodsSubtitle}
+                                      style={{ color: '#4a4a4a' }}
+                                    >
+                                      {item.goodsSubtitle}
+                                    </div>
+                                  </div>
+                                  <div
+                                    className={`rc-card__price text-center RateFitScreen `}
+                                  >
+                                    <div className="display-inline">
+                                      <Rate
+                                        def={item.avgEvaluate}
+                                        disabled={true}
+                                        marginSize="smallRate"
+                                      />
+                                    </div>
+                                    <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                      ({item.goodsEvaluateNum})
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="text-center NameFitScreen"
+                                    style={{
+                                      color: '#4a4a4a',
+                                      opacity:
+                                        item.goodsInfos.length > 1 ? 1 : 0
+                                    }}
+                                  >
+                                    <FormattedMessage id="startFrom" />
+                                  </div>
+                                  <div className="d-flex justify-content-center">
+                                    <div className="rc-card__price text-left PriceFitScreen">
+                                      <div
+                                        className={`rc-full-width PriceFitScreen`}
+                                      >
+                                        <span
+                                          style={{
+                                            color: '#323232',
+                                            fontWeight: 400
+                                          }}
+                                        >
+                                          {formatMoney(
+                                            Math.min.apply(
+                                              null,
+                                              item.goodsInfos.map(
+                                                (g) => g.marketPrice || 0
+                                              )
+                                            )
+                                          )}{' '}
+                                          {item.goodsInfos.sort(
+                                            (a, b) =>
+                                              a.marketPrice - b.marketPrice
+                                          )[0].linePrice &&
+                                          item.goodsInfos.sort(
+                                            (a, b) =>
+                                              a.marketPrice - b.marketPrice
+                                          )[0].linePrice > 0 ? (
+                                            <span
+                                              className="text-line-through rc-text-colour--text font-weight-lighter"
                                               style={{
-                                                maxWidth: '50%',
-                                                maxHeight: '100%',
-                                                width: 'auto',
-                                                height: 'auto'
+                                                fontSize: '.8em'
                                               }}
-                                            />
-                                          </div>
-                                        </picture>
-                                        <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-                                          <div className="height-product-tile-plpOnly">
-                                            <header
-                                              className="rc-text--center"
-                                              style={{ height: '100px' }}
                                             >
-                                              <h3
-                                                className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
-                                                title={item.goodsName}
-                                              >
-                                                {item.goodsName}
-                                              </h3>
-                                            </header>
-                                            <div
-                                              className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
-                                              title={item.goodsSubtitle}
-                                              style={{ color: '#4a4a4a' }}
-                                            >
-                                              {item.goodsSubtitle}
-                                            </div>
-                                          </div>
-                                          <div
-                                            className={`rc-card__price text-center RateFitScreen `}
-                                          >
-                                            <div className="display-inline">
-                                              <Rate
-                                                def={item.avgEvaluate}
-                                                disabled={true}
-                                                marginSize="smallRate"
-                                              />
-                                            </div>
-                                            <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                              ({item.goodsEvaluateNum})
+                                              {formatMoney(
+                                                item.goodsInfos.sort(
+                                                  (a, b) =>
+                                                    a.marketPrice -
+                                                    b.marketPrice
+                                                )[0].linePrice
+                                              )}
                                             </span>
-                                          </div>
-                                          <div
-                                            className="text-center NameFitScreen"
+                                          ) : null}
+                                        </span>
+                                      </div>
+                                      {find(
+                                        item.goodsInfos,
+                                        (ele) => ele.subscriptionStatus
+                                      ) &&
+                                      Math.min.apply(
+                                        null,
+                                        item.goodsInfos
+                                          .filter((g) => g.subscriptionStatus)
+                                          .map((g) => g.subscriptionPrice || 0)
+                                      ) > 0 ? (
+                                        <div className="range position-relative SePriceScreen">
+                                          <span
                                             style={{
-                                              color: '#4a4a4a',
-                                              opacity:
-                                                item.goodsInfos.length > 1
-                                                  ? 1
-                                                  : 0
+                                              color: '#323232',
+                                              fontWeight: 400
                                             }}
                                           >
-                                            <FormattedMessage id="startFrom" />
-                                          </div>
-                                          <div className="d-flex justify-content-center">
-                                            <div className="rc-card__price text-left PriceFitScreen">
-                                              <div
-                                                className={`rc-full-width PriceFitScreen`}
-                                              >
-                                                <span
-                                                  style={{
-                                                    color: '#323232',
-                                                    fontWeight: 400
-                                                  }}
-                                                >
-                                                  {formatMoney(
-                                                    Math.min.apply(
-                                                      null,
-                                                      item.goodsInfos.map(
-                                                        (g) =>
-                                                          g.marketPrice || 0
-                                                      )
-                                                    )
-                                                  )}{' '}
-                                                  {item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice &&
-                                                  item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice > 0 ? (
-                                                    <span
-                                                      className="text-line-through rc-text-colour--text font-weight-lighter"
-                                                      style={{
-                                                        fontSize: '.8em'
-                                                      }}
-                                                    >
-                                                      {formatMoney(
-                                                        item.goodsInfos.sort(
-                                                          (a, b) =>
-                                                            a.marketPrice -
-                                                            b.marketPrice
-                                                        )[0].linePrice
-                                                      )}
-                                                    </span>
-                                                  ) : null}
-                                                </span>
-                                              </div>
-                                              {find(
-                                                item.goodsInfos,
-                                                (ele) => ele.subscriptionStatus
-                                              ) &&
+                                            {formatMoney(
                                               Math.min.apply(
                                                 null,
                                                 item.goodsInfos
@@ -810,67 +760,40 @@ class List extends React.Component {
                                                     (g) =>
                                                       g.subscriptionPrice || 0
                                                   )
-                                              ) > 0 ? (
-                                                <div className="range position-relative SePriceScreen">
-                                                  <span
-                                                    style={{
-                                                      color: '#323232',
-                                                      fontWeight: 400
-                                                    }}
-                                                  >
-                                                    {formatMoney(
-                                                      Math.min.apply(
-                                                        null,
-                                                        item.goodsInfos
-                                                          .filter(
-                                                            (g) =>
-                                                              g.subscriptionStatus
-                                                          )
-                                                          .map(
-                                                            (g) =>
-                                                              g.subscriptionPrice ||
-                                                              0
-                                                          )
-                                                      )
-                                                    )}{' '}
-                                                  </span>
-                                                  <span
-                                                    className="iconfont font-weight-bold red mr-1"
-                                                    style={{
-                                                      fontSize: '.65em'
-                                                    }}
-                                                  >
-                                                    &#xe675;
-                                                  </span>
-                                                  <span
-                                                    className="position-relative red-text position-absolute"
-                                                    style={{
-                                                      fontSize: '.7em',
-                                                      top: '52%',
-                                                      transform:
-                                                        'translateY(-50%)',
-                                                      whiteSpace: 'nowrap'
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="autoshop" />
-                                                  </span>
-                                                </div>
-                                              ) : null}
-                                            </div>
-                                          </div>
+                                              )
+                                            )}{' '}
+                                          </span>
+                                          <span
+                                            className="iconfont font-weight-bold red mr-1"
+                                            style={{
+                                              fontSize: '.65em'
+                                            }}
+                                          >
+                                            &#xe675;
+                                          </span>
+                                          <span
+                                            className="position-relative red-text position-absolute"
+                                            style={{
+                                              fontSize: '.7em',
+                                              top: '52%',
+                                              transform: 'translateY(-50%)',
+                                              whiteSpace: 'nowrap'
+                                            }}
+                                          >
+                                            <FormattedMessage id="autoshop" />
+                                          </span>
                                         </div>
-                                      </>
-                                    )}
-                                  </article>
-                                </a>
-                              </div>
-                            </article>
-                          </div>
-                        ))}
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                              </ListItem>
+                            ))}
                         <div className="grid-footer rc-full-width">
                           <Pagination
                             loading={this.state.loading}
-                            currentPage={this.state.currentPage}
+                            defaultCurrentPage={this.state.currentPage}
+                            key={this.state.currentPage}
                             totalPage={this.state.totalPage}
                             onPageNumChange={(params) =>
                               this.hanldePageNumChange(params)

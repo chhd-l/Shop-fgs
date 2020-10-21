@@ -458,7 +458,7 @@ class Header extends React.Component {
     this.setState({ loading: true });
 
     let params = {
-      cateId: process.env.REACT_APP_CATEID,
+      // cateId: process.env.REACT_APP_CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,

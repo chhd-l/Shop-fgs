@@ -15,27 +15,14 @@ class SearchSelection extends React.Component {
     this.state = {
       optionList: [],
       form: {
-        value: '',
+        value: this.props.defaultValue,
         pageNum: 0
       },
       loadingList: false,
-      placeholder: '',
+      placeholder: this.props.placeholder,
       searchForNoResult: true
     };
     this.timer = null;
-  }
-  componentDidMount() {
-    this.setState({
-      form: Object.assign(this.state.form, { value: this.props.defaultValue }),
-      placeholder: this.props.placeholder
-    });
-  }
-  componentWillReceiveProps(nextProps) {
-    if (this.state.form.value !== nextProps.defaultValue) {
-      this.setState({
-        form: Object.assign(this.state.form, { value: nextProps.defaultValue })
-      });
-    }
   }
   handleInputChange = (e) => {
     e.nativeEvent.stopImmediatePropagation();

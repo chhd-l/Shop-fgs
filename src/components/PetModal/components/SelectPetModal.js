@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Modal from '@/components/Modal'
 import { FormattedMessage } from 'react-intl'
-import Selection from '@/components/Selection'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 

@@ -53,7 +53,7 @@ class OxxoConfirm extends Component {
       // }
 
       this.props.clickPay({
-        type: 'payu_credit_card',
+        type: 'oxxo',
         email: this.state.email
       });
     } catch (e) {

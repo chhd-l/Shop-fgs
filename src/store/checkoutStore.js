@@ -179,7 +179,6 @@ class CheckoutStore {
         }
       }
     });
-    console.log(tmpOutOfstockProNames, 'nameaaaa');
     this.setCartData(data);
     this.offShelvesProNames = tmpOffShelvesProNames;
     this.outOfstockProNames = tmpOutOfstockProNames;
