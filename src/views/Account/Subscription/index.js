@@ -153,6 +153,7 @@ class Subscription extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -206,6 +207,7 @@ class Subscription extends React.Component {
                         selectedItemData={{
                           value: this.state.form.subscribeStatus
                         }}
+                        key={this.state.form.subscribeStatus}
                         customStyleType="select-one"
                       />
                     </div>
@@ -331,7 +333,8 @@ class Subscription extends React.Component {
                         <Pagination
                           loading={this.state.loading}
                           totalPage={this.state.totalPage}
-                          currentPage={this.state.currentPage}
+                          defaultCurrentPage={this.state.currentPage}
+                          key={this.state.currentPage}
                           onPageNumChange={(params) =>
                             this.hanldePageNumChange(params)
                           }

@@ -5,7 +5,6 @@ import { inject } from 'mobx-react';
 import { findIndex } from "lodash"
 import NewPetModal from './components/NewPetModal'
 import SelectPetModal from './components/SelectPetModal'
-import Selection from '@/components/Selection'
 import './index.css'
 import { addPet } from '@/api/pet'
 import { getPetList } from '@/api/pet'

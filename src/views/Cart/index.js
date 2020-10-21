@@ -26,9 +26,9 @@ class Cart extends React.Component {
     return (
       <>
         {this.isLogin ? (
-          <LoginCart history={this.props.history} />
+          <LoginCart history={this.props.history} match={this.props.match} />
         ) : (
-          <UnloginCart history={this.props.history} />
+          <UnloginCart history={this.props.history} match={this.props.match} />
         )}
       </>
     );

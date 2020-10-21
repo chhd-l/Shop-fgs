@@ -25,9 +25,9 @@ class SubscriptionSelect extends Component {
     };
   }
   async componentWillReceiveProps(nextProps) {
-    if(nextProps.data.length > 0){
+    if (nextProps.data.length > 0) {
       this.updateFirstOrderDiscount(nextProps.data);
-      this.setState({recommend_data: nextProps.data})
+      this.setState({ recommend_data: nextProps.data });
     }
   }
   async componentDidMount() {
@@ -61,26 +61,25 @@ class SubscriptionSelect extends Component {
   }
   updateFirstOrderDiscount(data) {
     let param = this.props.checkoutStore.loginCartData
-    .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
-    .map((ele) => {
-      return {
-        goodsInfoId: ele.goodsInfoId,
-        buyCount: ele.buyCount
-      };
-    })
-    if(data) {
-      console.log(data, 'propsdata')
-      param = data
       .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
       .map((ele) => {
         return {
           goodsInfoId: ele.goodsInfoId,
           buyCount: ele.buyCount
         };
-      })
+      });
+    if (data) {
+      console.log(data, 'propsdata');
+      param = data
+        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map((ele) => {
+          return {
+            goodsInfoId: ele.goodsInfoId,
+            buyCount: ele.buyCount
+          };
+        });
     }
     getMarketingDiscount({
-      
       goodsInfos: param,
       subscriptionFlag: this.state.form.buyWay === 'frequency'
     }).then((res) => {
@@ -99,7 +98,7 @@ class SubscriptionSelect extends Component {
     });
   }
   handleSelectedItemChange(data) {
-    console.log(data)
+    console.log(data);
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -206,37 +205,42 @@ class SubscriptionSelect extends Component {
                   selectedItemData={{
                     value: form.frequencyVal
                   }}
+                  key={form.frequencyVal}
                   customStyleType="select-one"
                 />
               </div>
               <span className="ml-2 d-flex align-items-center flex-wrap fit-screen-ml-2">
-                {this.state.recommend_data && this.state.recommend_data.length? 
-                  this.state.recommend_data.filter(
-                    (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
-                  )
-                  .map((ele, i) => (
-                    <div className="imgBoxForSelect ">
-                      <img
-                        className="width-sub-img  imgForSelect "
-                        style={{ display: 'inline-block' }}
-                        key={i}
-                        src={ele.goodsInfoImg}
-                      />
-                    </div>
-                  )) : this.props.checkoutStore.loginCartData
-                  .filter(
-                    (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
-                  )
-                  .map((ele, i) => (
-                    <div className="imgBoxForSelect ">
-                      <img
-                        className="width-sub-img  imgForSelect "
-                        style={{ display: 'inline-block' }}
-                        key={i}
-                        src={ele.goodsInfoImg}
-                      />
-                    </div>
-                  ))}
+                {this.state.recommend_data && this.state.recommend_data.length
+                  ? this.state.recommend_data
+                      .filter(
+                        (ele) =>
+                          ele.subscriptionStatus && ele.subscriptionPrice > 0
+                      )
+                      .map((ele, i) => (
+                        <div className="imgBoxForSelect ">
+                          <img
+                            className="width-sub-img  imgForSelect "
+                            style={{ display: 'inline-block' }}
+                            key={i}
+                            src={ele.goodsInfoImg}
+                          />
+                        </div>
+                      ))
+                  : this.props.checkoutStore.loginCartData
+                      .filter(
+                        (ele) =>
+                          ele.subscriptionStatus && ele.subscriptionPrice > 0
+                      )
+                      .map((ele, i) => (
+                        <div className="imgBoxForSelect ">
+                          <img
+                            className="width-sub-img  imgForSelect "
+                            style={{ display: 'inline-block' }}
+                            key={i}
+                            src={ele.goodsInfoImg}
+                          />
+                        </div>
+                      ))}
               </span>
             </div>
           </div>

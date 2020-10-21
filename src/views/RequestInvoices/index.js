@@ -6,7 +6,11 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 export default function RequestInvoices(props) {
   return (
     <div>
-      <Header showMiniIcons={true} showUserIcon={true} />
+      <Header
+        showMiniIcons={true}
+        showUserIcon={true}
+        match={this.props.match}
+      />
       <div className="RequestInvoices">
         <h1>
           <FormattedMessage id="requestInvoices.title" />

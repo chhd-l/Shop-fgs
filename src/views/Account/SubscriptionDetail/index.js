@@ -499,6 +499,7 @@ class SubscriptionDetail extends React.Component {
             showUserIcon={true}
             location={this.props.location}
             history={this.props.history}
+            match={this.props.match}
           />
 
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -787,6 +788,11 @@ class SubscriptionDetail extends React.Component {
                                       ? this.state.orderOptions[0].value
                                       : ''
                                   }}
+                                  key={
+                                    this.state.orderOptions.length
+                                      ? this.state.orderOptions[0].value
+                                      : ''
+                                  }
                                   customStyleType="select-one"
                                 />
                               </h1>
@@ -860,6 +866,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
+                                  key={subDetail.frequency || ''}
                                   disabled={subDetail.subscribeStatus !== '0'}
                                 />
                               </h1>

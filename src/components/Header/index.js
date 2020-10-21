@@ -39,8 +39,14 @@ const _catogryCfg = function (lang, props) {
       en: [
         { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
         { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-        { linkObj: { pathname: '/subscription-landing-us' }, langKey: 'royalCaninClub' },
-        { linkObj: { pathname: '/Tailorednutrition' }, langKey: 'healthAndNutrition' },
+        {
+          linkObj: { pathname: '/subscription-landing-us' },
+          langKey: 'royalCaninClub'
+        },
+        {
+          linkObj: { pathname: '/Tailorednutrition' },
+          langKey: 'healthAndNutrition'
+        },
         {
           url: props.configStore.contactUsUrl,
           langKey: 'aboutUs'
@@ -213,6 +219,9 @@ class Header extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   async componentDidMount() {
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
@@ -269,17 +278,26 @@ class Header extends React.Component {
         }
       }
     }
-
+    
     // 埋点
     setBuryPoint({
-      id: '',
-      url: window.location.href,
+      id: this.userInfo ? this.userInfo.customerId : '',
+      prescriber: this.props.clinicStore.clinicId,
       clientType: getDeviceType(),
       skuId:
         this.props.match && this.props.match.path === '/details/:id'
           ? this.props.match.params.id
           : '',
-      shopId: process.env.REACT_APP_STOREID
+      shopId: process.env.REACT_APP_STOREID,
+      page:
+        {
+          '/': '1',
+          '/cart': '2',
+          '/prescription': '3',
+          '/payment/:type': '4'
+        }[this.props.match && this.props.match.path] ||
+        (clinciRecoCode || linkClinicId ? '5' : '') ||
+        ''
     });
   }
   componentWillUnmount() {
@@ -440,7 +458,7 @@ class Header extends React.Component {
     this.setState({ loading: true });
 
     let params = {
-      cateId: process.env.REACT_APP_CATEID,
+      // cateId: process.env.REACT_APP_CATEID,
       keywords,
       propDetails: [],
       pageNum: 0,

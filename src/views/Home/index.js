@@ -75,8 +75,10 @@ class Home extends React.Component {
         <Header
           showMiniIcons={true}
           showUserIcon={true}
+          match={this.props.match}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <BannerTip />

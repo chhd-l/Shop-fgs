@@ -83,7 +83,7 @@ class RouteFilter extends Component {
 
     if (
       nextProps.location.pathname === '/confirmation' &&
-      !sessionItemRoyal.get('orderNumber')
+      !sessionItemRoyal.get('subOrderNumberList')
     ) {
       this.props.history.push('/');
       return false;

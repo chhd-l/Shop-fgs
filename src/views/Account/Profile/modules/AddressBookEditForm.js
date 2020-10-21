@@ -397,7 +397,7 @@ class AddressBookEditForm extends React.Component {
                   data-loc="countrySelect"
                 >
                   <Selection
-                    key="1"
+                    key={form.country}
                     selectedItemChange={(data) =>
                       this.handleSelectedItemChange('country', data)
                     }
@@ -421,7 +421,7 @@ class AddressBookEditForm extends React.Component {
                     data-loc="citySelect"
                   >
                     <Selection
-                      key="2"
+                      key={form.city}
                       selectedItemChange={(data) =>
                         this.handleSelectedItemChange('city', data)
                       }

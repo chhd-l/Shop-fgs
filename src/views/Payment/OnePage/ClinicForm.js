@@ -175,6 +175,7 @@ class ClinicForm extends React.Component {
                   this.handleSelectedItemChange(data)
                 }
                 defaultValue={this.state.form.clinicName}
+                key={this.state.form.clinicName}
                 placeholder={this.props.intl.messages.enterClinicName}
                 customCls="flex-fill"
               />

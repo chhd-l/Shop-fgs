@@ -845,6 +845,7 @@ class UnLoginCart extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main
           className={[

@@ -23,6 +23,7 @@ class TermUse extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">

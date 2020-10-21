@@ -50,7 +50,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
     const { details, errMsg } = this.state;
     return (
       <div>
-        <Header history={this.props.history} />
+        <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header">
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width">

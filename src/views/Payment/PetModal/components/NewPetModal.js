@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Modal from '@/components/Modal';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { findIndex } from 'lodash';
-import Selection from '@/components/Selection';
 import '../index.css';
 import { addPet } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';

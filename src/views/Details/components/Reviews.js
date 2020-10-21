@@ -262,6 +262,7 @@ class Reviews extends React.Component {
                         selectedItemData={{
                           value: this.state.selectedSortBy
                         }}
+                        key={this.state.selectedSortBy}
                       />
                     </span>
                   </form>
@@ -386,7 +387,8 @@ class Reviews extends React.Component {
                     <div className="rc-column rc-margin-top--md">
                       <Pagination
                         loading={false}
-                        currentPage={data.evaluatesCurrentPage}
+                        defaultCurrentPage={data.evaluatesCurrentPage}
+                        key={data.evaluatesCurrentPage}
                         totalPage={data.valuatesTotalPages}
                         onPageNumChange={(params) =>
                           this.hanldePageNumChange(params)

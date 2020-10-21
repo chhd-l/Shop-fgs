@@ -159,7 +159,10 @@ class AccountOrders extends React.Component {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
             canPayNow:
-              tradeState.flowState === 'AUDIT' &&
+              ((!ele.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+                (ele.isAuditOpen &&
+                  tradeState.flowState === 'INIT' &&
+                  tradeState.auditState === 'NON_CHECKED')) &&
               tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
               tradeState.payState === 'NOT_PAID' &&
               new Date(ele.orderTimeOut).getTime() >
@@ -301,6 +304,7 @@ class AccountOrders extends React.Component {
         );
       }
       sessionItemRoyal.set('rc-tid', order.id);
+      sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
         tradePrice: order.tradePrice.originPrice,
@@ -365,6 +369,7 @@ class AccountOrders extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -418,6 +423,7 @@ class AccountOrders extends React.Component {
                           selectedItemData={{
                             value: this.state.form.period
                           }}
+                          key={this.state.form.period}
                           customStyleType="select-one"
                         />
                       </div>
@@ -629,7 +635,8 @@ class AccountOrders extends React.Component {
                         <Pagination
                           loading={this.state.loading}
                           totalPage={this.state.totalPage}
-                          currentPage={this.state.currentPage}
+                          defaultCurrentPage={this.state.currentPage}
+                          key={this.state.currentPage}
                           onPageNumChange={(params) =>
                             this.hanldePageNumChange(params)
                           }
@@ -656,13 +663,13 @@ class AccountOrders extends React.Component {
                     >
                       <div>
                         <p>
-                        <FormattedMessage id="account.orders.tips" />
+                          <FormattedMessage id="account.orders.tips" />
                         </p>
                         <button
                           class="rc-btn rc-btn--one"
                           onClick={() => this.props.history.push('/')}
                         >
-                         <FormattedMessage id="account.orders.btns" />
+                          <FormattedMessage id="account.orders.btns" />
                         </button>
                       </div>
                     </div>

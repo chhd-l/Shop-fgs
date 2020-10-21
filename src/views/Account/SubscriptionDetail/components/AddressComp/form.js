@@ -322,6 +322,7 @@ export default class AddressForm extends React.Component {
                   selectedItemData={{
                     value: this.state.deliveryAddress.country
                   }}
+                  key={this.state.deliveryAddress.country}
                 />
               </span>
             </div>
@@ -333,6 +334,7 @@ export default class AddressForm extends React.Component {
             <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
               <CitySearchSelection
                 defaultValue={this.state.deliveryAddress.cityName}
+                key={this.state.deliveryAddress.cityName}
                 onChange={this.handleCityInputChange}
               />
             </span>
