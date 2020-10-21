@@ -90,7 +90,7 @@ class AdyenCreditCard extends React.Component {
     try {
       await this.isConsentRequiredChecked();
       this.props.updateAdyenPayParam(this.state.adyenPayParam);
-      this.props.clickPay({ type: 'adyen_credit_card' });
+      this.props.clickPay({ type: 'adyenCard' });
     } catch (err) {
       this.props.showErrorMsg(err.message);
     }

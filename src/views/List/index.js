@@ -72,7 +72,6 @@ class List extends React.Component {
     this.cidFromSearch = ''; // 链接中所带catory参数
   }
   componentDidMount() {
-    console.log(localItemRoyal.get('isRefresh'));
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
