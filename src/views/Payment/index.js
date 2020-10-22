@@ -202,20 +202,6 @@ class Payment extends React.Component {
     }
   }
   async componentDidMount() {
-    console.log(toJS(this.loginCartData), 'this.loginCartData')
-    if(this.isLogin) {
-      let res = await getProductPetConfig({goodsInfos: this.loginCartData})
-      this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-    }else {
-      let paramData = this.cartData.map(el => {
-        el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-        return el
-      })
-      let res = await getProductPetConfig({goodsInfos: paramData})
-      console.log(res)
-      // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-    }
-    
     
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
@@ -1587,6 +1573,7 @@ class Payment extends React.Component {
       }
     };
     const { paymentTypeVal } = this.state;
+    console.log(toJS(this.props.checkoutStore.AuditData), 'this.props.checkoutStore.AuditData')
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1621,7 +1608,7 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        {this.checkoutWithClinic ? (
+                        {this.checkoutWithClinic && !this.props.checkoutStore.autoAuditFlag ? (
                           this.isOnepageCheckout ? (
                             <OnePageClinicForm history={this.props.history} />
                           ) : (
@@ -1647,8 +1634,8 @@ class Payment extends React.Component {
                     <p>
                       We need your pet information to authorize these items.
                     </p>
-                    {this.loginCartData.length
-                      ? this.loginCartData.map((el, i) => {
+                    {this.isLogin
+                      ? this.props.checkoutStore.AuditData.map((el, i) => {
                           return (
                             <div className="petProduct">
                               <img
@@ -1695,7 +1682,7 @@ class Payment extends React.Component {
                             </div>
                           );
                         })
-                      : this.cartData.map((el, i) => {
+                      : this.props.checkoutStore.AuditData.map((el, i) => {
                           return (
                             <div className="petProduct">
                               <img

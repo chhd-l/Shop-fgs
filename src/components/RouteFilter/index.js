@@ -3,16 +3,18 @@ import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds, loadJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
-
+import { getProductPetConfig } from '@/api/payment';
+import { toJS } from 'mobx'
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore', 'loginStore')
+
+@inject('configStore', 'loginStore', 'checkoutStore')
 class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  shouldComponentUpdate(nextProps) {
+  async shouldComponentUpdate(nextProps) {
     const lang = process.env.REACT_APP_LANG;
     // 默认了clinic后，再次编辑clinic
     if (
@@ -21,7 +23,6 @@ class RouteFilter extends Component {
     ) {
       return false;
     }
-
     // 不开启地图，不进入此页面
     if (
       nextProps.location.pathname === '/prescription' &&
@@ -30,6 +31,34 @@ class RouteFilter extends Component {
       this.props.history.replace('/payment/payment');
       return false;
     }
+    
+    if (
+      nextProps.location.pathname === '/prescription'
+    ) {
+      console.log(toJS(this.props.checkoutStore.autoAuditFlag), 'AuditData')
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.props.history.replace('/payment/payment');
+      }
+      
+      // if(this.isLogin) {
+      //   let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
+      //   let AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
+      //   this.props.checkoutStore.setAuditData(AuditData)
+      // }else {
+      //   let paramData = this.props.checkoutStore.cartData.map(el => {
+      //     el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
+      //     return el
+      //   })
+      //   let res = await getProductPetConfig({goodsInfos: paramData})
+      //   console.log(res, 'res')
+      //   debugger
+      //   return false
+      //   // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
+      // }
+      // this.props.history.replace('/payment/payment');
+      // return false;
+    }
+
 
     if (
       nextProps.location.pathname === '/prescription' &&

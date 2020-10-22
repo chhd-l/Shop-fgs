@@ -7,6 +7,8 @@ const localItemRoyal = window.__.localItemRoyal;
 
 class CheckoutStore {
   @observable cartData = localItemRoyal.get('rc-cart-data') || [];
+  @observable AuditData = localItemRoyal.get('rc-audit-data') || [];
+  @observable autoAuditFlag = localItemRoyal.get('rc-autoAuditFlag') || false;
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
   @observable goodsMarketingMap =
@@ -49,6 +51,24 @@ class CheckoutStore {
     return this.cartPrice && this.cartPrice.promotionDiscount
       ? this.cartPrice.promotionDiscount
       : '';
+  }
+
+  @action.bound
+  setAutoAuditFlag(data) {
+    this.autoAuditFlag = data;
+    localItemRoyal.set('rc-autoAuditFlag', data);
+  }
+
+  @action.bound
+  setAuditData(data) {
+    this.AuditData = data;
+    localItemRoyal.set('rc-audit-data', data);
+  }
+
+  @action.bound
+  removeAuditData(data) {
+    this.AuditData = []
+    localItemRoyal.set('rc-audit-data', data);
   }
 
   @action.bound
