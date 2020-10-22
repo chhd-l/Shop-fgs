@@ -55,9 +55,12 @@ class Footer extends React.Component {
                   role="menubar"
                 >
                   {this.state.cur_menubar.map((item) =>
-                    item.map((item) => {
+                    item.map((item, i) => {
                       return (
-                        <li className="rc-list__item rc-list__item--group rc-full-width">
+                        <li
+                          key={i}
+                          className="rc-list__item rc-list__item--group rc-full-width"
+                        >
                           <div
                             className="rc-list__header"
                             id="footer-head-158504765613564650"
@@ -74,9 +77,9 @@ class Footer extends React.Component {
                             aria-labelledby="footer-head-158504765613564650"
                             role="menu"
                           >
-                            {item.list.map((listItem) => {
+                            {item.list.map((listItem, i) => {
                               return (
-                                <li className="rc-list__item">
+                                <li key={i} className="rc-list__item">
                                   {!!listItem.link ? (
                                     <Link
                                       className="rc-list__link text-decoration-none color-f6f6f6"

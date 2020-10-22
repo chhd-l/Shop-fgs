@@ -95,6 +95,7 @@ const en_US = {
   "cart.totalProduct": "{val} item(s) in the basket",
   cats: "CATS",
   cats2: "Cats",
+  cats3: "Cat",
   chang: "Change",
   'produtctNumber': 'Product number',
   changePassword: "Change Password",
@@ -179,6 +180,7 @@ const en_US = {
   "details.youCanSave": "You can save",
   dogs: "DOGS",
   dogs2: "Dogs",
+  dogs3: "Dog",
   download: "Download",
   edit: "Edit",
   editShippingAddress: "Edit Shipping Address",
@@ -192,7 +194,7 @@ const en_US = {
   enterNickname: "Enter nickname of your pet",
   enterPasswordAgain: "Enter new password again",
   example: "Example",
-  'examplePhone': '+(52) 559 801 65',
+  'examplePhone': '+1-360-522-5011',
   'examplePostCode': '02860',
   expirationDateIsInvalid: "your card expiration date is invalid",
   filters: "Filters",
@@ -621,7 +623,6 @@ const en_US = {
   'comment.commentsTooLong': 'Product comments can\'t more than 500 characters',
   'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
   'account.orders.btns':'Start Shopping',
-  EnterCorrectValue: "Please enter the correct {val}",
 
   //account.paymethods
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",
@@ -658,7 +659,13 @@ const en_US = {
   'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
-  'prescriptionDeclined': 'prescription declined'
+  'prescriptionDeclined': 'prescription declined',
+  'productFinder.index': 'Product finder',
+  'productFinder.tip1': 'Find the right food for your pet',
+  'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
+  'productFinder.tip3': 'Your Pet is a ...',
+  'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
+  'next': 'Next'
 }
 
 export default en_US;
