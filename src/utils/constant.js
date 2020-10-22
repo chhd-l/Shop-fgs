@@ -432,7 +432,8 @@ export const CREDIT_CARD_IMG_ENUM = {
   MASTERCARD: mastercardImg,
   'AMERICAN EXPRESS': amexImg,
   DISCOVER: discoverImg,
-  OXXO: oxxo
+  OXXO: oxxo,
+  AMEX: amexImg
 };
 
 export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];

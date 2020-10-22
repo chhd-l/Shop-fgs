@@ -1770,7 +1770,7 @@ class Payment extends React.Component {
                               this.state.payWayObj,
                               (el) =>
                                 el.paymentTypeVal === this.hasConfimedPaymentVal
-                            ).name
+                            ).paymentTypeVal
                           : ''
                       });
                     }}

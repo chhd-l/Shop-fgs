@@ -194,7 +194,7 @@ const en_US = {
   enterNickname: "Enter nickname of your pet",
   enterPasswordAgain: "Enter new password again",
   example: "Example",
-  'examplePhone': '+(52) 559 801 65',
+  'examplePhone': '+1-360-522-5011',
   'examplePostCode': '02860',
   expirationDateIsInvalid: "your card expiration date is invalid",
   filters: "Filters",
@@ -623,7 +623,6 @@ const en_US = {
   'comment.commentsTooLong': 'Product comments can\'t more than 500 characters',
   'account.orders.tips':"You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
   'account.orders.btns':'Start Shopping',
-  EnterCorrectValue: "Please enter the correct {val}",
 
   //account.paymethods
   'paymethods.info':"You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!",

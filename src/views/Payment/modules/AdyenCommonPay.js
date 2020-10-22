@@ -220,4 +220,4 @@ class AdyenCommonPay extends Component {
   }
 }
 
-export default injectIntl(AdyenCommonPay);
+export default AdyenCommonPay;

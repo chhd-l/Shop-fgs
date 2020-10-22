@@ -683,6 +683,8 @@ const en_US = {
   'required.complete':'Processus de connexion complet',
   findTheRightDiet: 'Trouver l\'alimentation adaptée',
   viewAll: 'Voir tous les produits',
-  'prescriptionDeclined': 'Ordonnance refusée'
+  'prescriptionDeclined': 'Ordonnance refusée',
+  EnterCorrectValue: "Veuillez saisir le bon {val}",
+  "payment.errorInfo": "* {val} doit être rempli",
 }
 export default en_US;
