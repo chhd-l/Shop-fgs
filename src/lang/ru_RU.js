@@ -665,7 +665,8 @@ const en_US = {
   'prescriptionDeclined': 'Рецепт отклонен',
   GeneralConditions: 'Возврат покупки',
   QualitySafety: 'Качество и безопасность',
-  ShipmentConditions: 'Условия доставки'
+  ShipmentConditions: 'Условия доставки',
+  "list.errMsg4": "Товаров не найдено. Измените поисковый запрос и попробуйте еще раз."
 }
 
 export default en_US;

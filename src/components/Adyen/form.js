@@ -8,6 +8,7 @@ import { loadJS } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
+import translations from './translations';
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -58,7 +59,8 @@ class AdyenCreditCardForm extends React.Component {
           const checkout = new AdyenCheckout({
             environment: 'test',
             originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
+            locale: process.env.REACT_APP_Adyen_locale,
+            translations
           });
 
           // (2). Create and mount the Component

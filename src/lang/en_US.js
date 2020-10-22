@@ -665,7 +665,8 @@ const en_US = {
   'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
   'productFinder.tip3': 'Your Pet is a ...',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
-  'next': 'Next'
+  'next': 'Next',
+  "list.errMsg4": "No products found. Please change your search term and try again."
 }
 
 export default en_US;

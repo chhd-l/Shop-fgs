@@ -641,7 +641,8 @@ const en_US = {
   'subscriptionLanding.description4': 'Ücretsiz beslenme danışma hattı',
   'subscriptionLanding.catButton': 'Kedi Mamaları',
   'subscriptionLanding.dogButton': 'Köpek Mamaları',
-  'prescriptionDeclined': 'Reçete reddedildi'
+  'prescriptionDeclined': 'Reçete reddedildi',
+  "list.errMsg4": "Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin."
 }
 
 export default en_US;
