@@ -95,6 +95,7 @@ const en_US = {
   "cart.totalProduct": "{val} item(s) in the basket",
   cats: "CATS",
   cats2: "Cats",
+  cats3: "Cat",
   chang: "Change",
   'produtctNumber': 'Product number',
   changePassword: "Change Password",
@@ -179,6 +180,7 @@ const en_US = {
   "details.youCanSave": "You can save",
   dogs: "DOGS",
   dogs2: "Dogs",
+  dogs3: "Dog",
   download: "Download",
   edit: "Edit",
   editShippingAddress: "Edit Shipping Address",
@@ -658,7 +660,13 @@ const en_US = {
   'subscriptionLanding.description4': '5% Off Every Autoship Order - plus, get 10% off your first order.',
   'subscriptionLanding.catButton': 'Shop Cat Formulas',
   'subscriptionLanding.dogButton': 'Shop Dog Formulas',
-  'prescriptionDeclined': 'prescription declined'
+  'prescriptionDeclined': 'prescription declined',
+  'productFinder.index': 'Product finder',
+  'productFinder.tip1': 'Find the right food for your pet',
+  'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
+  'productFinder.tip3': 'Your Pet is a ...',
+  'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
+  'next': 'Next'
 }
 
 export default en_US;

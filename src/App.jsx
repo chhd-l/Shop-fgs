@@ -77,7 +77,7 @@ import TR_GeneralConditions from '@/views/GeneralConditions/TR_index.js';
 import generalConditions from '@/views/GeneralConditions';
 import Tailorednutrition from '@/views/Tailorednutrition';
 import QualitySafety from '@/views/QualitySafety';
-import ShipmentConditions from '@/views/ShipmentConditions'
+import ShipmentConditions from '@/views/ShipmentConditions';
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
@@ -85,6 +85,8 @@ import ForgetPassword from '@/views/ForgetPassword';
 import RequestInvoices from '@/views/RequestInvoices';
 
 import Recommendation from '@/views/Recommendation';
+import ProductFinder from '@/views/ProductFinder';
+import ProductFinderQuestion from '@/views/ProductFinder/modules/index';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -303,6 +305,12 @@ const App = () => (
               /> */}
 
               <Route path="/conoce-mas-de-evet" exact component={Landing} />
+              <Route path="/product-finder" exact component={ProductFinder} />
+              <Route
+                exact
+                path="/product-finder/question/:type"
+                component={ProductFinderQuestion}
+              />
               <Route
                 path="/subscription-landing"
                 exact
@@ -338,11 +346,7 @@ const App = () => (
                 exact
                 component={Tailorednutrition}
               />
-              <Route
-                path="/qualitySafety"
-                exact
-                component={QualitySafety}
-              />
+              <Route path="/qualitySafety" exact component={QualitySafety} />
               <Route
                 path="/shipmentConditions"
                 exact

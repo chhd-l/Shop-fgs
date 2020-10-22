@@ -439,7 +439,9 @@ export const CREDIT_CARD_IMGURL_ENUM = [visaImg, amexImg, mastercardImg];
 const tmpArr = [visaImg, mastercardImg];
 export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
   {
-    fr: [visaImg, mastercardImg, cartebancaireImg]
+    fr: [visaImg, mastercardImg, cartebancaireImg],
+    ru: [visaImg, mastercardImg, discoverImg],
+    en: [visaImg, mastercardImg, discoverImg]
   }[process.env.REACT_APP_LANG] || tmpArr;
 
 export const ADDRESS_RULE = [

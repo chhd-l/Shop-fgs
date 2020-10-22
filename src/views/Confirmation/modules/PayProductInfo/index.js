@@ -163,7 +163,11 @@ class PayProductInfo extends React.Component {
                   <div className="row leading-lines shipping-item">
                     <div className="col-7 start-lines">
                       <p className="order-receipt-label order-shipping-cost">
-                        <span>{details.tradePrice.promotionDesc}</span>
+                        <span>
+                          {details.tradePrice.promotionDesc || (
+                            <FormattedMessage id="promotion" />
+                          )}
+                        </span>
                       </p>
                     </div>
                     <div className="col-5 end-lines">

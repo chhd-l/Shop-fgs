@@ -109,6 +109,7 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
+        const tradeState = resContext.tradeState;
         let tmpIndex = -1;
         this.setState({ totalTid: resContext.totalTid }, () => {
           // 查询支付卡信息
@@ -120,29 +121,42 @@ class AccountOrders extends React.Component {
         });
         // 开启审核时
         if (resContext.isAuditOpen) {
-          progressList.splice(2, 0, {
-            backendName: 'AUDIT',
-            displayName: this.props.intl.messages['order.progress5']
-          });
-          this.setState({ isAuditOpen: true, processMore: true });
+          this.setState({ isAuditOpen: true });
 
-          if (resContext.tradeState.auditState === 'REJECTED') {
-            progressList.splice(
-              2,
-              3,
-              {
-                backendName: 'Pending review',
-                displayName: this.props.intl.messages['order.progress6']
-              },
-              {
-                backendName: 'AUDIT',
-                displayName: this.props.intl.messages['order.progress7']
-              }
-            );
-            this.setState({
-              processMore: false,
-              auditRejectReason: resContext.tradeState.obsoleteReason
-            });
+          switch (tradeState.auditState) {
+            case 'CHECKED': // 审核通过
+            case 'NON_CHECKED': // 未审核
+              progressList.splice(
+                2,
+                1,
+                {
+                  backendName: 'Pending review',
+                  displayName: this.props.intl.messages['order.progress5']
+                },
+                {
+                  backendName: 'AUDIT',
+                  displayName: this.props.intl.messages['order.progress3'] // to be delivered
+                }
+              );
+              this.setState({ isAuditOpen: true, processMore: true });
+              break;
+            case 'REJECTED': // 审核拒绝
+              progressList.splice(
+                2,
+                3,
+                {
+                  backendName: 'Pending review',
+                  displayName: this.props.intl.messages['order.progress6']
+                },
+                {
+                  backendName: 'AUDIT',
+                  displayName: this.props.intl.messages['order.progress7']
+                }
+              );
+              this.setState({
+                auditRejectReason: tradeState.obsoleteReason
+              });
+              break;
           }
           this.setState({ progressList });
         }
@@ -430,10 +444,19 @@ class AccountOrders extends React.Component {
                                   className="d-flex justify-content-end"
                                   style={{ marginRight: '8%' }}
                                 >
-                                  <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
-                                  <div className="mt-1">
-                                    <FormattedMessage id="prescriptionDeclined" />
-                                    :
+                                  <div
+                                    className="d-flex"
+                                    onClick={() => {
+                                      this.setState((curState) => ({
+                                        confirmTooltipVisible: !curState.confirmTooltipVisible
+                                      }));
+                                    }}
+                                  >
+                                    <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
+                                    <div className="mt-1">
+                                      <FormattedMessage id="prescriptionDeclined" />
+                                      :
+                                    </div>
                                   </div>
                                   <ConfirmTooltip
                                     containerStyle={{
@@ -598,7 +621,9 @@ class AccountOrders extends React.Component {
                             {details.tradePrice.discountsPrice ? (
                               <>
                                 <div className="col-9 col-xxl-11 text-right color-999 red">
-                                  {details.tradePrice.promotionDesc}
+                                  {details.tradePrice.promotionDesc || (
+                                    <FormattedMessage id="promotion" />
+                                  )}
                                 </div>
                                 <div className="col-3 col-xxl-1 red medium text-nowrap">
                                   -

@@ -118,7 +118,7 @@ class Payment extends React.Component {
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: [],
+      AuditData: []
     };
     this.timer = null;
   }
@@ -202,7 +202,6 @@ class Payment extends React.Component {
     }
   }
   async componentDidMount() {
-    
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
@@ -1573,7 +1572,10 @@ class Payment extends React.Component {
       }
     };
     const { paymentTypeVal } = this.state;
-    console.log(toJS(this.props.checkoutStore.AuditData), 'this.props.checkoutStore.AuditData')
+    console.log(
+      toJS(this.props.checkoutStore.AuditData),
+      'this.props.checkoutStore.AuditData'
+    );
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -1608,7 +1610,8 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        {this.checkoutWithClinic && !this.props.checkoutStore.autoAuditFlag ? (
+                        {this.checkoutWithClinic &&
+                        !this.props.checkoutStore.autoAuditFlag ? (
                           this.isOnepageCheckout ? (
                             <OnePageClinicForm history={this.props.history} />
                           ) : (
