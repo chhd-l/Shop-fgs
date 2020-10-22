@@ -253,19 +253,22 @@ class Confirmation extends React.Component {
                   </>
                 )}
                 {subOrderNumberList.map((ele, i) => (
-                  <b key={i}>
-                    <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                    {this.state.paywithLogin ? (
-                      <Link
-                        to={`/account/orders-detail/${ele}`}
-                        className="rc-meta rc-styled-link backtohome mb-0"
-                      >
-                        {ele}
-                      </Link>
-                    ) : (
-                      ele
-                    )}
-                  </b>
+                  <>
+                    <b key={i}>
+                      <FormattedMessage id="confirmation.orderNumber" />:{' '}
+                      {this.state.paywithLogin ? (
+                        <Link
+                          to={`/account/orders-detail/${ele}`}
+                          className="rc-meta rc-styled-link backtohome mb-0"
+                        >
+                          {ele}
+                        </Link>
+                      ) : (
+                        ele
+                      )}
+                    </b>
+                    <br />
+                  </>
                 ))}
                 {/* <b>
                   <FormattedMessage id="confirmation.orderNumber" />:{' '}
