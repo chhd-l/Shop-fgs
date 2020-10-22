@@ -737,24 +737,26 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        // let param = this.cartData.map((el) => {
-        //   let petForm = {
-        //     birthday: el.petForm.birthday,
-        //     breed: el.petForm.breed,
-        //     petsName: el.petForm.petName,
-        //     petsType: el.petForm.petType
-        //   };
-        //   return {
-        //     customerPets: Object.assign(petForm, {
-        //       productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
-        //     }),
-        //     storeId: process.env.REACT_APP_STOREID
-        //   };
-        // });
-        // console.log(param, 'param');
-        // let res = await batchAddPets({
-        //   batchAddItemList: param
-        // });
+        if(this.props.checkoutStore.AuditData.length > 0) {
+          let param = this.props.checkoutStore.AuditData.map((el) => {
+            let petForm = {
+              birthday: el.petForm.birthday,
+              breed: el.petForm.breed,
+              petsName: el.petForm.petName,
+              petsType: el.petForm.petType
+            };
+            return {
+              customerPets: Object.assign(petForm, {
+                productId: el.sizeList.filter((e) => e.selected)[0].goodsInfoId
+              }),
+              storeId: process.env.REACT_APP_STOREID
+            };
+          });
+          let res = await batchAddPets({
+            batchAddItemList: param
+          });
+        }
+        
       }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
@@ -1532,9 +1534,9 @@ class Payment extends React.Component {
   }
   petComfirm(data) {
     if (!this.isLogin) {
-      this.cartData[this.state.currentProIndex].petForm = data;
+      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm = data;
     } else {
-      let loginCartData = this.loginCartData;
+      let loginCartData = this.props.checkoutStore.AuditData
       console.log(data, this.props, toJS(loginCartData));
       loginCartData = loginCartData.map((el, i) => {
         if (i === this.state.currentProIndex) {
@@ -1546,7 +1548,6 @@ class Payment extends React.Component {
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
     this.closePetModal();
-    // this.props.history.push('/prescription');
   }
   openNew() {
     this.setState({
@@ -1621,7 +1622,8 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                {/* <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                {
+                  this.props.checkoutStore.AuditData.length > 0 && (<div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                   <h5
                     className="ml-custom mr-custom"
                     style={{ overflow: 'hidden' }}
@@ -1702,7 +1704,7 @@ class Payment extends React.Component {
                                 <p>
                                   <span>Pet:</span>
                                   <span>
-                                    {el.petName ? el.petName : 'required'}
+                                    {el.petForm ? el.petForm.petName : 'required'}
                                   </span>
                                 </p>
                                 <p>
@@ -1734,8 +1736,8 @@ class Payment extends React.Component {
                           );
                         })}
                   </h5>
-                </div> */}
-
+                </div>)
+                }
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
                     this.isOnepageCheckout ? '' : 'pb-0'
@@ -1803,14 +1805,14 @@ class Payment extends React.Component {
           </div>
         </main>
         <Footer />
-        {/* <PetModal
+        <PetModal
           visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
           openNew={() => this.openNew()}
           closeNew={() => this.closeNew()}
           confirm={(data) => this.petComfirm(data)}
           close={() => this.closePetModal()}
-        /> */}
+        />
       </div>
     );
   }

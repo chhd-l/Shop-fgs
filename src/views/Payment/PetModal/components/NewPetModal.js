@@ -57,8 +57,21 @@ class NewPetModal extends Component {
   }
   openSelectPetModal() {
     this.setState({
-      selectModalVisible: true
+      selectModalVisible: true,
     });
+  }
+  componentWillReceiveProps(props) {
+    console.log(props, 'props')
+    if(props.visible) {
+      this.setState({
+        petForm: {
+          petName: '',
+          petType: 'cat',
+          birthday: moment(new Date()).format('YYYY-MM-DD'),
+          breed: '',
+        }
+      })
+    }
   }
   inputBlur(e) {
     let validDom = Array.from(
@@ -284,90 +297,27 @@ class NewPetModal extends Component {
                 >
                   <FormattedMessage id="breed" />
                 </label>
-                <SearchSelection
-                  queryList={async ({ inputVal, pageNum }) => {
-                    console.log({ type: form.petType, name: inputVal })
-                    let res = await getDict({ type: form.petType === 'cat' ? 'catBreed_mx' : 'dogBreed_mx', name: inputVal })
-                      if (res.code === 'K-000000') {
-                        // this.setState({
-                        //   breedList: res.context.sysDictionaryVOS,
-                        //   loading: false
-                        // });
-                        console.log(res.context.sysDictionaryVOS)
-                        return ((res.context && res.context.sysDictionaryVOS) || []).map((ele) =>
-                          Object.assign(ele, { name: ele.name })
-                        );
-                      }
-                        // this.showErrorMsg(
-                        //   res.message || this.props.intl.messages.getDataFailed
-                        // );
-                    // .catch((err) => {
-                      // this.showErrorMsg(
-                      //   err.toString() || this.props.intl.messages.getDataFailed
-                      // );
-                      // this.setState({ loading: false });
-                    // });
-
-                    // let res = await queryCityByName({ cityName: inputVal, pageNum });
-                    // return ((res.context && res.context.systemCityVO) || []).map((ele) =>
-                    //   Object.assign(ele, { name: ele.cityName })
-                    // );
-                  }}
-                  selectedItemChange={(data) => {
-                    form.breed = data.name
-                    this.setState({petForm: form})
-                  }}
-                  // defaultValue={this.props.defaultValue}
-                  // placeholder={this.props.intl.messages.inputSearchText}
-                  // customStyle={true}
-                  // isBottomPaging={true}
-                />
-                {/* <input
-                  type="text"
-                  id="dog-breed"
-                  placeholder={this.props.intl.messages.enterDogBreed}
-                  className="form-control input-pet breed"
-                  value={form.breed}
-                  onChange={this.inputBreed}
-                  // style={{
-                  //   display: this.state.isCat ? 'none' : null
-                  // }}
-                  // disabled={
-                  //   this.state.isInputDisabled ? 'disabled' : null
-                  // }
-                /> */}
-                
+                {
+                  this.props.visible && (
+                    <SearchSelection
+                      queryList={async ({ inputVal, pageNum }) => {
+                        console.log({ type: form.petType, name: inputVal })
+                        let res = await getDict({ type: form.petType === 'cat' ? 'catBreed_mx' : 'dogBreed_mx', name: inputVal })
+                          if (res.code === 'K-000000') {
+                            console.log(res.context.sysDictionaryVOS)
+                            return ((res.context && res.context.sysDictionaryVOS) || []).map((ele) =>
+                              Object.assign(ele, { name: ele.name })
+                            );
+                          }
+                      }}
+                      selectedItemChange={(data) => {
+                        form.breed = data.name
+                        this.setState({petForm: form})
+                      }}
+                    />
+                  )
+                }
               </div>
-
-              {/* <input
-                            type="text"
-                            id="dog-breed"
-                            placeholder={this.props.intl.messages.enterDogBreed}
-                            className="form-control input-pet breed"
-                            value={this.state.breed}
-                            onChange={this.inputBreed}
-                            style={{
-                              display: this.state.isCat ? 'none' : null
-                            }}
-                            disabled={
-                              this.state.isInputDisabled ? 'disabled' : null
-                            }
-                          />
-
-                          <input
-                            type="text"
-                            id="cat-breed"
-                            placeholder={this.props.intl.messages.enterCatBreed}
-                            className="form-control input-pet breed"
-                            value={this.state.breed}
-                            onChange={this.inputBreed}
-                            style={{
-                              display: !this.state.isCat ? 'none' : null
-                            }}
-                            disabled={
-                              this.state.isInputDisabled ? 'disabled' : null
-                            }
-                          /> */}
             </div>
           </div>
         </Modal>

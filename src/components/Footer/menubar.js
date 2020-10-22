@@ -285,7 +285,6 @@ export const menubar = {
             messageId: 'Возврат покупки'
           },
           {
-            // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
             link: '/qualitySafety',
             messageId: 'Качество и безопасность'
           }
@@ -316,16 +315,16 @@ export const menubar = {
           },
           { link: '/help', messageId: 'footer.contacts' },
           {
-            url: 'https://www.royalcanin.com/ru/about-us/shipment-conditions',
+            url: '/shipmentConditions',
             messageId: 'Условия доставки'
           },
           {
             url:
-              'https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6',
+              '/general-conditions',
             messageId: 'Возврат товара'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/faq.html',
+            url: '/FAQ/all',
             messageId: 'Часто задаваемые вопросы'
           }
         ]
