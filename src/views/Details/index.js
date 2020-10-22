@@ -1465,7 +1465,7 @@ class Details extends React.Component {
             </div>
             <div>
               <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem'}}>Recommanded for you</div>
-              <RelatedProduct/>
+              <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/>
             </div>           
             <div
               className="sticky-addtocart"

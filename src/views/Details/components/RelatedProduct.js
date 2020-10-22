@@ -1,96 +1,83 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-//import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
+import { getGoodsRelation } from '@/api/details';
 import Skeleton from 'react-skeleton-loader';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { find } from 'lodash';
-
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @injectIntl
 class RalatedProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      goodsId:'',
       relatedProduce: [
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 0,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 1,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 0,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 1,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 0,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          pic_url: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 1,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        }
+        // {
+        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
+        //   goodsSubtitle: 'Trocken, Hund',
+        //   avgEvaluate: 0,
+        //   goodsEvaluateNum: 2,
+        //   minMarketPrice: '6.51',
+        //   minSubscriptionPrice: '6.18',
+        //   marketPrice: null,
+        //   subscriptionStatus: null,
+        //   goodsId:"ff80808173b716520173b81bd1450070"
+        // },
+        // {
+        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
+        //   goodsSubtitle: 'Trocken, Hund',
+        //   avgEvaluate: 1,
+        //   goodsEvaluateNum: 2,
+        //   minMarketPrice: '6.51',
+        //   minSubscriptionPrice: '6.18',
+        //   marketPrice: null,
+        //   subscriptionStatus: null,
+        //   goodsId:"ff80808173b716520173b81bd1450070"
+        // },
+        // {
+        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
+        //   goodsSubtitle: 'Trocken, Hund',
+        //   avgEvaluate: 0,
+        //   goodsEvaluateNum: 2,
+        //   minMarketPrice: '6.51',
+        //   minSubscriptionPrice: '6.18',
+        //   marketPrice: null,
+        //   subscriptionStatus: null,
+        //   goodsId:"ff80808173b716520173b81bd1450070"
+        // }
       ]
     };
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    let goodsId
+    if(this.state.goodsId!==nextProps.goodsId){
+     goodsId = nextProps.goodsId
+      this.setState({goodsId})
+    }
+    
 
+    
+  }
+  componentDidMount(){
+    let goodsId = this.props.goodsId
+    if(goodsId){
+      getGoodsRelation(goodsId).then((res)=>{
+        if(res.code === 'K-000000'){
+          const relatedProduce = res.context.goods
+          this.setState({
+            relatedProduce
+          },()=>{
+            console.log(111,this.state.relatedProduce)
+          })
+        }
+      })
+    }
+  
   }
 
   hanldeItemClick=(item)=>{
@@ -109,8 +96,13 @@ class RalatedProduct extends React.Component {
 
   render() {
     const {relatedProduce} = this.state
+    console.log('renderrenderrender')
     return (
-      <div class="rc-carousel rc-carousel--cards rc-match-heights" data-js-carousel="" data-rc-cards="true">
+      <div 
+      class="rc-carousel rc-carousel--cards rc-match-heights" 
+      data-js-carousel=""
+       data-rc-cards="true"
+       >
         <div class="rc-carousel__card-gal">
           {
             relatedProduce.map((item, index) => {
@@ -118,7 +110,7 @@ class RalatedProduct extends React.Component {
                 <a class="rc-card__link" href="#/" key={index}>
                   <article class="rc-card rc-card--b">
                     <picture class="rc-card__image">
-                      <img alt="alt text" src={item.pic_url} />
+                      <img alt="alt text" src={item.goodsImg} />
                     </picture>
                     <div class="rc-card__body">
                       <header>
