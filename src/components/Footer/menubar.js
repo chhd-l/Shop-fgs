@@ -277,17 +277,13 @@ export const menubar = {
             messageId: 'Наши ценности'
           },
           {
-            link: '/shipmentConditions',
-            messageId: 'Условия доставки'
-          },
-          {
-            link: '/general-conditions',
-            messageId: 'Возврат покупки'
-          },
-          {
             // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
             link: '/qualitySafety',
             messageId: 'Качество и безопасность'
+          },
+          {
+            url: 'https://www.shop.royal-canin.ru/ru/Tailorednutrition.html',
+            messageId: 'Здоровье и питание'
           }
         ]
       }
@@ -336,8 +332,7 @@ export const menubar = {
         titleId: 'ДОПОЛНИТЕЛЬНО',
         list: [
           {
-            url:
-              '/general-conditions',
+            url: '/general-conditions',
             messageId: 'Пользовательское соглашение'
           },
           {
