@@ -961,6 +961,8 @@ class Payment extends React.Component {
       line2: deliveryAddress.address2,
       clinicsId: this.props.clinicStore.clinicId,
       clinicsName: this.props.clinicStore.clinicName,
+      recommendationId: this.props.clinicStore.clinicsId,
+      recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
