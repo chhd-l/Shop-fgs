@@ -295,7 +295,7 @@ export const menubar = {
           { link: '/list/cats', messageId: 'cats2' },
           { link: '/list/dogs', messageId: 'dogs2' },
           {
-            link: '/subscription-landing',
+            link: '/subscription-landing-ru',
             messageId: 'account.subscription'
           }
         ]
@@ -396,7 +396,7 @@ export const menubar = {
         list: [
           { link: '/account', messageId: 'Hesabım' },
           { link: '/account/orders', messageId: 'Sipariş Takibi' },
-          { link: '/subscription-landing', messageId: 'Otomatik Sipariş' }
+          { link: '/subscription-landing-tr', messageId: 'Otomatik Sipariş' }
         ]
       }
     ],

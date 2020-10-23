@@ -1146,7 +1146,7 @@ class Details extends React.Component {
                                       className="rc-input product-pricing__card__head__title"
                                       style={{ color: 'rgb(102,102,102)' }}
                                     >
-                                      <FormattedMessage id="taxLogo" />
+                                      <FormattedMessage id="taxLogo" defaultMessage={" "}/>
                                     </div>
                                   )}
                                 </div>
