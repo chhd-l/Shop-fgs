@@ -611,7 +611,7 @@ const en_US = {
   'faq.title': 'Got a question? Take a look below to see if it\'s already been answered. If you can\'t find what you are looking for, click here to contact us.',
   'faq.title2': 'Entrega del alimento',
   'every': 'Every',
-  'taxLogo': 'IVA incluido',
+  'taxLogo': '',
   'plsFillEmailTip': 'Your email is not filled in in the address bar',
   'notate':' ',
   isContinue: 'Whether to continue?',

@@ -116,7 +116,7 @@ const _catogryCfg = function (lang, props) {
           type: 'dogs'
         },
         {
-          linkObj: { pathname: '/subscription-landing' },
+          linkObj: { pathname: '/subscription-landing-ru' },
           langKey: 'account.subscription',
           type: 'subscription'
         },
@@ -145,7 +145,7 @@ const _catogryCfg = function (lang, props) {
           type: 'cats'
         },
         {
-          linkObj: { pathname: '/subscription-landing' },
+          linkObj: { pathname: '/subscription-landing-tr' },
           langKey: 'account.subscription',
           type: 'subscription'
         },
