@@ -241,6 +241,37 @@ class Payment extends React.Component {
 
     this.initPaymentWay();
 
+    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
+    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
+
+    if (!this.isLogin) {
+      let deliveryInfo = localItemRoyal.get('deliveryInfo');
+      if (deliveryInfo) {
+        creditCardInfo.cardOwner =
+          deliveryInfo.deliveryAddress.firstName +
+          ' ' +
+          deliveryInfo.deliveryAddress.lastName;
+        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
+        this.setState({
+          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
+            country: defaultCountryId
+          }),
+          billingAddress: Object.assign(deliveryInfo.billingAddress, {
+            country: defaultCountryId
+          }),
+          billingChecked: deliveryInfo.billingChecked,
+          creditCardInfo: creditCardInfo
+        });
+      } else {
+        deliveryAddress.country = defaultCountryId;
+        billingAddress.country = defaultCountryId;
+        this.setState({
+          deliveryAddress: deliveryAddress,
+          billingAddress: billingAddress
+        });
+      }
+    }
+
     // fill default subform data
     let cacheSubForm = sessionItemRoyal.get('rc-subform');
     if (cacheSubForm) {
@@ -386,61 +417,6 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
-
-    if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      // todo
-      // this.props.history.push('/cart');
-      return false;
-    }
-    if (
-      !this.isLogin &&
-      (!this.cartData.length ||
-        !this.cartData.filter((ele) => ele.selected).length ||
-        !this.state.recommend_data.length)
-    ) {
-      // todo
-      // this.props.history.push('/cart');
-      return false;
-    }
-    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
-
-    if (!this.isLogin) {
-      let deliveryInfo = localItemRoyal.get('deliveryInfo');
-      if (deliveryInfo) {
-        creditCardInfo.cardOwner =
-          deliveryInfo.deliveryAddress.firstName +
-          ' ' +
-          deliveryInfo.deliveryAddress.lastName;
-        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
-        this.setState({
-          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
-            country: defaultCountryId
-          }),
-          billingAddress: Object.assign(deliveryInfo.billingAddress, {
-            country: defaultCountryId
-          }),
-          billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo
-        });
-      } else {
-        deliveryAddress.country = defaultCountryId;
-        billingAddress.country = defaultCountryId;
-        this.setState({
-          deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress
-        });
-      }
-    }
-
-    // fill default subform data
-    let cacheSubForm = sessionItemRoyal.get('rc-subform');
-    if (cacheSubForm) {
-      cacheSubForm = JSON.parse(cacheSubForm);
-      this.setState({
-        subForm: cacheSubForm
-      });
-    }
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
