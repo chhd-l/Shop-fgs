@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
 import helpImg from '@/assets/images/product-finder-help.png';
 import RadioAnswer from './RadioAnswer';
+import SelectAnswer from './SelectAnswer';
 
 import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
@@ -43,6 +44,16 @@ const ProductFinder = ({ location, history, match }) => {
         ]
       });
       setQuestionType('radio');
+
+      setQuestionCfg({
+        title: 'How old is your cat?',
+        list: [
+          ['1 year', '2 years'],
+          ['3 month', '4 month']
+        ]
+      });
+      setQuestionType('select');
+
       setIsPageLoading(false);
     }, 2000);
   }, [url]);
@@ -82,6 +93,12 @@ const ProductFinder = ({ location, history, match }) => {
               <>
                 {questionType === 'radio' && (
                   <RadioAnswer
+                    config={questionCfg}
+                    updateFromData={updateFromData}
+                  />
+                )}
+                {questionType === 'select' && (
+                  <SelectAnswer
                     config={questionCfg}
                     updateFromData={updateFromData}
                   />

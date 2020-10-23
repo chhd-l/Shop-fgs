@@ -6,7 +6,8 @@ export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
     customStyleType: '', // eg: select-one
-    customContainerStyle: null
+    customContainerStyle: null,
+    placeholder: ''
   };
   constructor(props) {
     super(props);
@@ -57,10 +58,7 @@ export default class Selection extends React.Component {
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
-        ? findIndex(
-            this.props.optionList,
-            (o) => o.value == selectedItem.value
-          )
+        ? findIndex(this.props.optionList, (o) => o.value == selectedItem.value)
         : -1
     }));
   }
@@ -101,9 +99,10 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {find(optionList, (ele) => ele.value == selectedItem.value) &&
-                  find(optionList, (ele) => ele.value == selectedItem.value)
-                    .name}
+                {find(optionList, (ele) => ele.value == selectedItem.value)
+                  ? find(optionList, (ele) => ele.value == selectedItem.value)
+                      .name
+                  : this.props.placeholder}
                 &nbsp;
               </div>
             </div>
