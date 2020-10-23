@@ -249,6 +249,9 @@ class Payment extends React.Component {
         subForm: cacheSubForm
       });
     }
+    if (!this.checkoutWithClinic) {
+      this.props.paymentStore.setStsToCompleted({ key: 'clinic' });
+    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -452,7 +455,10 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      !this.props.checkoutStore.autoAuditFlag
+    );
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -736,7 +742,7 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        if(this.props.checkoutStore.AuditData.length > 0) {
+        if (this.props.checkoutStore.AuditData.length > 0) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
               birthday: el.petForm.birthday,
@@ -751,11 +757,10 @@ class Payment extends React.Component {
               storeId: process.env.REACT_APP_STOREID
             };
           });
-          let res = await batchAddPets({
+          await batchAddPets({
             batchAddItemList: param
           });
         }
-        
       }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
@@ -1535,9 +1540,11 @@ class Payment extends React.Component {
   }
   petComfirm(data) {
     if (!this.isLogin) {
-      this.props.checkoutStore.AuditData[this.state.currentProIndex].petForm = data;
+      this.props.checkoutStore.AuditData[
+        this.state.currentProIndex
+      ].petForm = data;
     } else {
-      let loginCartData = this.props.checkoutStore.AuditData
+      let loginCartData = this.props.checkoutStore.AuditData;
       console.log(data, this.props, toJS(loginCartData));
       loginCartData = loginCartData.map((el, i) => {
         if (i === this.state.currentProIndex) {
@@ -1613,8 +1620,7 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        {this.checkoutWithClinic &&
-                        !this.props.checkoutStore.autoAuditFlag ? (
+                        {this.checkoutWithClinic ? (
                           this.isOnepageCheckout ? (
                             <OnePageClinicForm history={this.props.history} />
                           ) : (
@@ -1627,122 +1633,124 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                {
-                  this.props.checkoutStore.AuditData.length > 0 && (<div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                  <h5
-                    className="ml-custom mr-custom"
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <i
-                      class="rc-icon rc-payment--sm rc-iconography"
-                      style={{ transform: 'scale(.9)' }}
-                    ></i>{' '}
-                    <FormattedMessage id="Pet information" />
-                    <p>
-                      We need your pet information to authorize these items.
-                    </p>
-                    {this.isLogin
-                      ? this.props.checkoutStore.AuditData.map((el, i) => {
-                          return (
-                            <div className="petProduct">
-                              <img
-                                src={el.goodsInfoImg}
-                                style={{ float: 'left' }}
-                              />
-                              <div
-                                style={{
-                                  float: 'left',
-                                  marginTop: '20px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <p>
-                                  <span>Pet:</span>
-                                  <span>
-                                    {el.petName ? el.petName : 'required'}
-                                  </span>
-                                </p>
-                                <p>
-                                  <span>Qty:</span>
-                                  <span>{el.buyCount}</span>
-                                </p>
-                              </div>
-                              <div
-                                style={{
-                                  float: 'right',
-                                  marginTop: '30px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <button
-                                  class="rc-btn rc-btn--sm rc-btn--one"
-                                  onClick={() => {
-                                    this.setState({
-                                      petModalVisible: true,
-                                      currentProIndex: i
-                                    });
+                {this.props.checkoutStore.AuditData.length > 0 && (
+                  <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                    <h5
+                      className="ml-custom mr-custom"
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <i
+                        class="rc-icon rc-payment--sm rc-iconography"
+                        style={{ transform: 'scale(.9)' }}
+                      ></i>{' '}
+                      <FormattedMessage id="Pet information" />
+                      <p>
+                        We need your pet information to authorize these items.
+                      </p>
+                      {this.isLogin
+                        ? this.props.checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct">
+                                <img
+                                  src={el.goodsInfoImg}
+                                  style={{ float: 'left' }}
+                                />
+                                <div
+                                  style={{
+                                    float: 'left',
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
                                   }}
                                 >
-                                  Select a pet
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        })
-                      : this.props.checkoutStore.AuditData.map((el, i) => {
-                          return (
-                            <div className="petProduct">
-                              <img
-                                src={
-                                  el.sizeList.filter((el) => el.selected)[0]
-                                    .goodsInfoImg
-                                }
-                                style={{ float: 'left' }}
-                              />
-                              <div
-                                style={{
-                                  float: 'left',
-                                  marginTop: '20px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <p>
-                                  <span>Pet:</span>
-                                  <span>
-                                    {el.petForm ? el.petForm.petName : 'required'}
-                                  </span>
-                                </p>
-                                <p>
-                                  <span>Qty:</span>
-                                  <span>{el.quantity}</span>
-                                </p>
-                              </div>
-                              <div
-                                style={{
-                                  float: 'right',
-                                  marginTop: '30px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <button
-                                  id="selectPet"
-                                  class="rc-btn rc-btn--sm rc-btn--one"
-                                  onClick={() => {
-                                    this.setState({
-                                      petModalVisible: true,
-                                      currentProIndex: i
-                                    });
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petName ? el.petName : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.buyCount}</span>
+                                  </p>
+                                </div>
+                                <div
+                                  style={{
+                                    float: 'right',
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
                                   }}
                                 >
-                                  Select a pet
-                                </button>
+                                  <button
+                                    class="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
-                  </h5>
-                </div>)
-                }
+                            );
+                          })
+                        : this.props.checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct">
+                                <img
+                                  src={
+                                    el.sizeList.filter((el) => el.selected)[0]
+                                      .goodsInfoImg
+                                  }
+                                  style={{ float: 'left' }}
+                                />
+                                <div
+                                  style={{
+                                    float: 'left',
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petForm
+                                        ? el.petForm.petName
+                                        : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.quantity}</span>
+                                  </p>
+                                </div>
+                                <div
+                                  style={{
+                                    float: 'right',
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    id="selectPet"
+                                    class="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                    </h5>
+                  </div>
+                )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
                     this.isOnepageCheckout ? '' : 'pb-0'

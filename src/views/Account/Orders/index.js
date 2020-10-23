@@ -72,7 +72,7 @@ class AccountOrders extends React.Component {
           value = item.valueEn;
           values = 7;
           return {
-            value: value,
+            value,
             name: (
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
             )
@@ -81,7 +81,7 @@ class AccountOrders extends React.Component {
           value = item.valueEn;
           values = 30;
           return {
-            value: value,
+            value,
             name: (
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
             )
@@ -90,7 +90,7 @@ class AccountOrders extends React.Component {
           value = item.valueEn;
           values = item.valueEn / 30;
           return {
-            value: value,
+            value,
             name: (
               <FormattedMessage
                 id="order.lastXMonths"
@@ -100,14 +100,9 @@ class AccountOrders extends React.Component {
           };
         }
       });
-    this.setState(
-      {
-        duringTimeOptions: duringTimeOptions
-      },
-      () => {
-        console.log(this.state.duringTimeOptions);
-      }
-    );
+    this.setState({
+      duringTimeOptions
+    });
   }
   handleDuringTimeChange(data) {
     // console.log("获取当前选择的天气",data,this.state.form.period)
