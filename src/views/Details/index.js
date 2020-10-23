@@ -20,6 +20,7 @@ import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
+import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -557,6 +558,16 @@ class Details extends React.Component {
           return false;
         }
         // this.openPetModal()
+        let autoAuditFlag = false
+        let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
+        let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
+          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+          return el
+        })
+        let AuditData = handledData.filter(el => el.auditCatFlag)
+        this.props.checkoutStore.setAuditData(AuditData)
+        autoAuditFlag = res.context.autoAuditFlag
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
         this.props.history.push('/prescription');
       }
     } catch (err) {
@@ -701,6 +712,31 @@ class Details extends React.Component {
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
+        let autoAuditFlag = false
+        if(this.isLogin) {
+          let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
+          let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+            return el
+          })
+          let AuditData = handledData.filter(el => el.auditCatFlag)
+          this.props.checkoutStore.setAuditData(AuditData)
+          autoAuditFlag = res.context.autoAuditFlag
+        }else {
+          let paramData = this.props.checkoutStore.cartData.map(el => {
+            el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
+            return el
+          })
+          let res = await getProductPetConfig({goodsInfos: paramData})
+          let handledData = paramData.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+            return el
+          })
+          let AuditData = handledData.filter(el => el.auditCatFlag)
+          this.props.checkoutStore.setAuditData(AuditData)
+          autoAuditFlag = res.context.autoAuditFlag
+        }
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
         history.push('/prescription');
       }
     }
