@@ -109,9 +109,7 @@ class HeroCarousel extends React.Component {
     //   sessionItemRoyal.set('recomment-preview', this.props.location.pathname|);
     //   sessionItemRoyal.set('rc-goods-name', item.goodsName);
       const { history } = this.props;
-      history.push('/details/' + item.goodsInfoIds[0]);
-      //history.push('/details/' + '2c918085754a149a01754d1b29a1002c');
-      
+      history.push('/details/' + item.goodsInfoIds[0]);  
   }
   render() {
     const settings = {
