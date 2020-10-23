@@ -249,6 +249,9 @@ class Payment extends React.Component {
         subForm: cacheSubForm
       });
     }
+    if (!this.checkoutWithClinic) {
+      this.props.paymentStore.setStsToCompleted({ key: 'clinic' });
+    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -452,7 +455,10 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    return process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true';
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      !this.props.checkoutStore.autoAuditFlag
+    );
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -1612,8 +1618,7 @@ class Payment extends React.Component {
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
-                        {this.checkoutWithClinic &&
-                        !this.props.checkoutStore.autoAuditFlag ? (
+                        {this.checkoutWithClinic ? (
                           this.isOnepageCheckout ? (
                             <OnePageClinicForm history={this.props.history} />
                           ) : (
