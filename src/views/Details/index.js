@@ -21,6 +21,7 @@ import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
+import HeroCarousel from './components/HeroCarousel';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -76,7 +77,8 @@ class Details extends React.Component {
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false
+      toolTipVisible: false,
+      relatedProduct:[]
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,6 +199,7 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
+          console.log(202,this)
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
@@ -1464,8 +1467,9 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem'}}>Recommanded for you</div>
-              <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/>
+              <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem',marginBottom:'1rem'}}>Recommanded for you</div>
+               <HeroCarousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId} />
+               {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
             </div>           
             <div
               className="sticky-addtocart"

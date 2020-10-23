@@ -13,54 +13,71 @@ class RalatedProduct extends React.Component {
     this.state = {
       goodsId:'',
       relatedProduce: [
-        // {
-        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
-        //   goodsSubtitle: 'Trocken, Hund',
-        //   avgEvaluate: 0,
-        //   goodsEvaluateNum: 2,
-        //   minMarketPrice: '6.51',
-        //   minSubscriptionPrice: '6.18',
-        //   marketPrice: null,
-        //   subscriptionStatus: null,
-        //   goodsId:"ff80808173b716520173b81bd1450070"
-        // },
-        // {
-        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
-        //   goodsSubtitle: 'Trocken, Hund',
-        //   avgEvaluate: 1,
-        //   goodsEvaluateNum: 2,
-        //   minMarketPrice: '6.51',
-        //   minSubscriptionPrice: '6.18',
-        //   marketPrice: null,
-        //   subscriptionStatus: null,
-        //   goodsId:"ff80808173b716520173b81bd1450070"
-        // },
-        // {
-        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
-        //   goodsSubtitle: 'Trocken, Hund',
-        //   avgEvaluate: 0,
-        //   goodsEvaluateNum: 2,
-        //   minMarketPrice: '6.51',
-        //   minSubscriptionPrice: '6.18',
-        //   marketPrice: null,
-        //   subscriptionStatus: null,
-        //   goodsId:"ff80808173b716520173b81bd1450070"
-        // }
+        {
+          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+          goodsName: 'MOBILITY C2P+ SMALL DOG',
+          goodsSubtitle: 'Trocken, Hund',
+          avgEvaluate: 0,
+          goodsEvaluateNum: 2,
+          minMarketPrice: '6.51',
+          minSubscriptionPrice: '6.18',
+          marketPrice: null,
+          subscriptionStatus: null,
+          goodsId:"ff80808173b716520173b81bd1450070"
+        },
+        {
+          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+          goodsName: 'MOBILITY C2P+ SMALL DOG',
+          goodsSubtitle: 'Trocken, Hund',
+          avgEvaluate: 1,
+          goodsEvaluateNum: 2,
+          minMarketPrice: '6.51',
+          minSubscriptionPrice: '6.18',
+          marketPrice: null,
+          subscriptionStatus: null,
+          goodsId:"ff80808173b716520173b81bd1450070"
+        },
+        {
+          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+          goodsName: 'MOBILITY C2P+ SMALL DOG',
+          goodsSubtitle: 'Trocken, Hund',
+          avgEvaluate: 0,
+          goodsEvaluateNum: 2,
+          minMarketPrice: '6.51',
+          minSubscriptionPrice: '6.18',
+          marketPrice: null,
+          subscriptionStatus: null,
+          goodsId:"ff80808173b716520173b81bd1450070"
+        },
+        {
+          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+          goodsName: 'MOBILITY C2P+ SMALL DOG',
+          goodsSubtitle: 'Trocken, Hund',
+          avgEvaluate: 1,
+          goodsEvaluateNum: 2,
+          minMarketPrice: '6.51',
+          minSubscriptionPrice: '6.18',
+          marketPrice: null,
+          subscriptionStatus: null,
+          goodsId:"ff80808173b716520173b81bd1450070"
+        },
+        {
+          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+          goodsName: 'MOBILITY C2P+ SMALL DOG',
+          goodsSubtitle: 'Trocken, Hund',
+          avgEvaluate: 0,
+          goodsEvaluateNum: 2,
+          minMarketPrice: '6.51',
+          minSubscriptionPrice: '6.18',
+          marketPrice: null,
+          subscriptionStatus: null,
+          goodsId:"ff80808173b716520173b81bd1450070"
+        }
       ]
     };
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    let goodsId
-    if(this.state.goodsId!==nextProps.goodsId){
-     goodsId = nextProps.goodsId
-      this.setState({goodsId})
-    }
-    
-
     
   }
   componentDidMount(){
@@ -99,9 +116,9 @@ class RalatedProduct extends React.Component {
     console.log('renderrenderrender')
     return (
       <div 
-      class="rc-carousel rc-carousel--cards rc-match-heights" 
-      data-js-carousel=""
-       data-rc-cards="true"
+        class="rc-carousel rc-carousel--cards rc-match-heights" 
+        data-js-carousel=""
+        data-rc-cards="true"
        >
         <div class="rc-carousel__card-gal">
           {
