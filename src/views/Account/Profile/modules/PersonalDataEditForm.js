@@ -372,6 +372,7 @@ class PersonalDataEditForm extends React.Component {
                 </label>
                 <DatePicker
                   className="receiveDate"
+                  style={{ padding: '.95rem 0' }}
                   placeholder="Select Date"
                   dateFormat="yyyy-MM-dd"
                   maxDate={new Date()}
@@ -437,7 +438,7 @@ class PersonalDataEditForm extends React.Component {
                   data-loc="countrySelect"
                 >
                   <Selection
-                    key="1"
+                    key={form.country}
                     selectedItemChange={(data) =>
                       this.handleSelectedItemChange('country', data)
                     }

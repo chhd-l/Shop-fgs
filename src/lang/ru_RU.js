@@ -666,7 +666,8 @@ const en_US = {
   GeneralConditions: 'Возврат покупки',
   QualitySafety: 'Качество и безопасность',
   ShipmentConditions: 'Условия доставки',
-  'recommandedForyou':'Рекомендуется для вас'
+  'recommandedForyou':'Рекомендуется для вас',
+  "list.errMsg4": "Товаров не найдено. Измените поисковый запрос и попробуйте еще раз."
 }
 
 export default en_US;

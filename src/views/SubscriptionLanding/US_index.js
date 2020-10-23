@@ -405,6 +405,7 @@ class Help extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />

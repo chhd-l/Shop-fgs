@@ -106,6 +106,11 @@ const breadcrumbNameMap = {
     {
       name: 'ShipmentConditions'
     }
+  ],
+  '/product-finder': [
+    {
+      name: 'productFinder.index'
+    }
   ]
 };
 

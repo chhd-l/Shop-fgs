@@ -19,6 +19,7 @@ import {
   deleteItemFromBackendCart,
   switchSize
 } from '@/api/cart';
+import { getProductPetConfig } from '@/api/payment';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 
@@ -167,6 +168,16 @@ class LoginCart extends React.Component {
 
       this.checkoutStore.setLoginCartData(productList);
       // this.openPetModal()
+      let autoAuditFlag = false
+      let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
+      let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
+        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+        return el
+      })
+      let AuditData = handledData.filter(el => el.auditCatFlag)
+      this.props.checkoutStore.setAuditData(AuditData)
+      autoAuditFlag = res.context.autoAuditFlag
+      this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
       this.props.history.push('/prescription');
     } catch (err) {
       this.setState({ checkoutLoading: false });
@@ -770,6 +781,7 @@ class LoginCart extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main
           className={`rc-content--fixed-header ${

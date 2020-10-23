@@ -2,12 +2,13 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
   ADYEN_CREDIT_CARD_IMGURL_ENUM,
-  CREDIT_CARD_IMG_ENUM
+  ADYEN_CREDIT_CARD_BRANDS
 } from '@/utils/constant';
 import { loadJS } from '@/utils/utils';
 import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
+import translations from './translations';
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -58,7 +59,8 @@ class AdyenCreditCardForm extends React.Component {
           const checkout = new AdyenCheckout({
             environment: 'test',
             originKey: process.env.REACT_APP_AdyenOriginKEY,
-            locale: process.env.REACT_APP_Adyen_locale
+            locale: process.env.REACT_APP_Adyen_locale,
+            translations
           });
 
           // (2). Create and mount the Component
@@ -70,7 +72,7 @@ class AdyenCreditCardForm extends React.Component {
               styles: {},
               placeholders: {},
               showPayButton: false,
-              brands: ['mc', 'visa', 'amex', 'cartebancaire'],
+              brands: ADYEN_CREDIT_CARD_BRANDS,
               onBrand: (state) => {
                 _this.setState({
                   AdyenFormData: Object.assign(_this.state.AdyenFormData, {

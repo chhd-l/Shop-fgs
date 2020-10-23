@@ -684,6 +684,8 @@ const en_US = {
   findTheRightDiet: 'Trouver l\'alimentation adaptée',
   viewAll: 'Voir tous les produits',
   'prescriptionDeclined': 'Ordonnance refusée',
-  'recommandedForyou':'Recommandé pour vous'
+  'recommandedForyou':'Recommandé pour vous',
+  EnterCorrectValue: "Veuillez saisir le bon {val}",
+  "payment.errorInfo": "* {val} doit être rempli",
 }
 export default en_US;

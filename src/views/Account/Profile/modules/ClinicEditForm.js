@@ -229,6 +229,7 @@ class ClinicEditForm extends React.Component {
               }}
               selectedItemChange={(data) => this.handleSelectedItemChange(data)}
               defaultValue={this.state.form.clinicName}
+              key={this.state.form.clinicName}
               placeholder={this.props.intl.messages.enterClinicName}
             />
             <div className="text-right">

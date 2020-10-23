@@ -40,9 +40,13 @@ class Confirmation extends React.Component {
       errorMsg2: '',
 
       subNumber: sessionItemRoyal.get('subNumber'),
-      orderNumber: sessionItemRoyal.get('orderNumber'),
+      totalTid: '',
+      subOrderNumberList: sessionItemRoyal.get('subOrderNumberList')
+        ? JSON.parse(sessionItemRoyal.get('subOrderNumberList'))
+        : [], // 拆单时，子订单列表
 
       details: null,
+      detailList: null,
       payRecord: null
     };
     this.timer = null;
@@ -57,17 +61,17 @@ class Confirmation extends React.Component {
       ); // 只移除selected
       sessionItemRoyal.remove('rc-token');
     }
-    sessionItemRoyal.remove('orderNumber');
+    sessionItemRoyal.remove('subOrderNumberList');
     sessionItemRoyal.remove('subNumber');
     sessionItemRoyal.remove('oxxoPayUrl');
   }
-  componentDidMount() {
+  async componentDidMount() {
     if (localItemRoyal.get('isRefresh')) {
       localItemRoyal.remove('isRefresh');
       window.location.reload();
       return false;
     }
-    const { orderNumber } = this.state;
+    const { subOrderNumberList } = this.state;
     let productList;
     if (this.state.paywithLogin) {
       productList = this.props.checkoutStore.loginCartData;
@@ -86,28 +90,29 @@ class Confirmation extends React.Component {
       }
     }, 3000);
 
-    Promise.all([getOrderDetails(orderNumber), getPayRecord(orderNumber)])
+    Promise.all(subOrderNumberList.map((ele) => getOrderDetails(ele)))
       .then(async (res) => {
-        if (res[0]) {
-          let resContext = res[0].context;
-          let cityRes = await queryCityNameById({
-            id: [resContext.consignee.cityId, resContext.invoice.cityId]
-          });
-          cityRes = cityRes.context.systemCityVO || [];
-          resContext.consignee.cityName = this.matchCityName(
-            cityRes,
-            resContext.consignee.cityId
-          );
-          resContext.invoice.cityName = this.matchCityName(
-            cityRes,
-            resContext.invoice.cityId
-          );
-          this.setState({
-            details: resContext
-          });
-        }
+        let resContext = res[0].context;
+        let cityRes = await queryCityNameById({
+          id: [resContext.consignee.cityId, resContext.invoice.cityId]
+        });
+        cityRes = cityRes.context.systemCityVO || [];
+        resContext.consignee.cityName = this.matchCityName(
+          cityRes,
+          resContext.consignee.cityId
+        );
+        resContext.invoice.cityName = this.matchCityName(
+          cityRes,
+          resContext.invoice.cityId
+        );
         this.setState({
-          payRecord: res[1] && res[1].context,
+          details: resContext,
+          totalTid: resContext.totalTid,
+          detailList: res.map((ele) => ele.context)
+        });
+        const payRecordRes = await getPayRecord(resContext.totalTid);
+        this.setState({
+          payRecord: payRecordRes.context,
           loading: false
         });
       })
@@ -128,40 +133,6 @@ class Confirmation extends React.Component {
       ? find(dictList, (ele) => ele.id == id).name
       : id;
   }
-  async hanldeClickSubmit() {
-    const { evalutateScore } = this.state;
-    if (evalutateScore === -1) {
-      this.setState({
-        errorMsg: <FormattedMessage id="confirmation.rateTip4" />
-      });
-      return false;
-    }
-    this.setState({ submitLoading: true });
-    try {
-      await addEvaluate({
-        storeId: process.env.REACT_APP_STOREID,
-        orderNo: this.state.orderNumber,
-        goodsScore: evalutateScore + 1,
-        consumerComment: this.state.consumerComment,
-        serverScore: -1,
-        logisticsScore: -1,
-        compositeScore: -1,
-        consumerType: this.state.paywithLogin ? 'Member' : 'Guest'
-      });
-      this.setState({
-        modalShow: false
-        // operateSuccessModalVisible: true
-      });
-      // clearTimeout(this.timer)
-      // this.timer = setTimeout(() => {
-      //   this.setState({ operateSuccessModalVisible: false })
-      // }, 5000)
-    } catch (err) {
-      this.setState({ errorMsg: err.message.toString() });
-    } finally {
-      this.setState({ submitLoading: false });
-    }
-  }
   handleConsumerCommentChange(e) {
     this.setState({
       errorMsg: '',
@@ -169,7 +140,7 @@ class Confirmation extends React.Component {
     });
   }
   render() {
-    const { loading, details } = this.state;
+    const { loading, details, subOrderNumberList } = this.state;
 
     let event;
     let eEvents;
@@ -197,7 +168,7 @@ class Confirmation extends React.Component {
           currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
-              id: this.state.orderNumber,
+              id: this.state.totalTid,
               revenue: this.state.details.tradePrice.totalPrice
             },
             products
@@ -214,7 +185,7 @@ class Confirmation extends React.Component {
             ecommerceEvents={eEvents}
           />
         ) : null}
-        <Header history={this.props.history} />
+        <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
@@ -281,19 +252,40 @@ class Confirmation extends React.Component {
                     <br />
                   </>
                 )}
-                <b>
+                {subOrderNumberList.map((ele, i) => (
+                  <>
+                    <b key={i}>
+                      <FormattedMessage id="confirmation.orderNumber" />:{' '}
+                      {this.state.paywithLogin ? (
+                        <Link
+                          to={`/account/orders-detail/${ele}`}
+                          className="rc-meta rc-styled-link backtohome mb-0"
+                        >
+                          {ele}
+                        </Link>
+                      ) : (
+                        ele
+                      )}
+                    </b>
+                    <br />
+                  </>
+                ))}
+                {/* <b>
                   <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                  {this.state.paywithLogin ? (
-                    <Link
-                      to={`/account/orders-detail/${this.state.orderNumber}`}
-                      className="rc-meta rc-styled-link backtohome mb-0"
-                    >
-                      {this.state.orderNumber}
-                    </Link>
-                  ) : (
-                    this.state.orderNumber
-                  )}
-                </b>
+                  {this.state.paywithLogin
+                    ? subOrderNumberList.map((ele, i) => (
+                        <>
+                          <Link
+                            to={`/account/orders-detail/${ele}`}
+                            className="rc-meta rc-styled-link backtohome mb-0"
+                          >
+                            {ele}
+                          </Link>
+                          {i !== subOrderNumberList.length - 1 && <br />}
+                        </>
+                      ))
+                    : subOrderNumberList.join(',')}
+                </b> */}
               </p>
             </div>
             <div
@@ -314,12 +306,20 @@ class Confirmation extends React.Component {
                 this.state.errorMsg2
               ) : (
                 <>
-                  <div className="red mb-2">
-                    <FormattedMessage id="order.orderInformation" />
-                  </div>
-                  <div className="product-summary rc-bg-colour--brand3 mb-4 mt-0">
-                    <PayProductInfo details={this.state.details} />
-                  </div>
+                  {this.state.detailList.map((ele, i) => (
+                    <>
+                      <div className="red mb-2">
+                        <FormattedMessage id="order.orderInformation" />(
+                        {subOrderNumberList[i]})
+                      </div>
+                      <div
+                        className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
+                        key={i}
+                      >
+                        <PayProductInfo details={ele} />
+                      </div>
+                    </>
+                  ))}
                   <div className="red mb-2">
                     <FormattedMessage id="confirmation.customerInformation" />
                   </div>
@@ -333,85 +333,6 @@ class Confirmation extends React.Component {
           </div>
         </main>
         <Footer />
-        <Modal
-          key="1"
-          visible={this.state.modalShow}
-          confirmLoading={this.state.submitLoading}
-          modalTitle={<FormattedMessage id="order.rateModalTitle" />}
-          confirmBtnText={<FormattedMessage id="submit" />}
-          cancelBtnVisible={false}
-          close={() => {
-            this.setState({ modalShow: false });
-          }}
-          hanldeClickConfirm={() => this.hanldeClickSubmit()}
-        >
-          <div className="text-center pl-4 pr-4" style={{ lineHeight: 2 }}>
-            <div
-              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                this.state.errorMsg ? '' : 'hidden'
-              }`}
-            >
-              <aside
-                className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                role="alert"
-              >
-                <span className="pl-0">{this.state.errorMsg}</span>
-                <button
-                  className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                  onClick={() => {
-                    this.setState({ errorMsg: '' });
-                  }}
-                  aria-label="Close"
-                >
-                  <span className="rc-screen-reader-text">
-                    <FormattedMessage id="close" />
-                  </span>
-                </button>
-              </aside>
-            </div>
-            <h4>
-              <FormattedMessage id="confirmation.rateTip" />
-            </h4>
-            <div
-              className="d-flex justify-content-around"
-              style={{ width: '40%', margin: '0 auto' }}
-            >
-              {[0, 1, 2, 3, 4].map((item, idx) => (
-                <span
-                  key={idx}
-                  className={`rc-icon ui-cursor-pointer ${
-                    this.state.evalutateScore >= idx
-                      ? 'rc-rate-fill'
-                      : 'rc-rate'
-                  } rc-brand1`}
-                  onClick={() => {
-                    this.setState({ evalutateScore: idx, errorMsg: '' });
-                  }}
-                />
-              ))}
-            </div>
-            <h4>
-              <FormattedMessage id="confirmation.rateTip2" />
-            </h4>
-            <span
-              className="rc-input nomaxwidth rc-border-all rc-border-colour--interface"
-              input-setup="true"
-            >
-              <FormattedMessage id="confirmation.rateTip3">
-                {(txt) => (
-                  <textarea
-                    className="rc-input__textarea noborder"
-                    maxLength="50"
-                    placeholder={txt}
-                    style={{ height: 100 }}
-                    value={this.state.consumerComment}
-                    onChange={(e) => this.handleConsumerCommentChange(e)}
-                  />
-                )}
-              </FormattedMessage>
-            </span>
-          </div>
-        </Modal>
         <Modal
           key="2"
           visible={this.state.operateSuccessModalVisible}

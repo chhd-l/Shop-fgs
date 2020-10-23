@@ -20,6 +20,7 @@ class CitySearchSelection extends React.Component {
         }}
         selectedItemChange={(data) => this.props.onChange(data)}
         defaultValue={this.props.defaultValue}
+        key={this.props.defaultValue}
         placeholder={this.props.intl.messages.inputSearchText}
         customStyle={true}
         isBottomPaging={true}

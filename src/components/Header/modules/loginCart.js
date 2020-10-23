@@ -6,6 +6,7 @@ import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import PetModal from '@/components/PetModal';
+import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -87,6 +88,16 @@ class LoginCart extends React.Component {
       return false;
     }
     // this.openPetModal()
+    let autoAuditFlag = false
+    let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
+    let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
+      el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+      return el
+    })
+    let AuditData = handledData.filter(el => el.auditCatFlag)
+    this.props.checkoutStore.setAuditData(AuditData)
+    autoAuditFlag = res.context.autoAuditFlag
+    this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
     this.props.history.push('/prescription');
   }
   openPetModal() {

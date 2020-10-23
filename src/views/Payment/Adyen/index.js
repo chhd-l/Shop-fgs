@@ -22,9 +22,6 @@ class AdyenCreditCard extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
   }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
   //是否consent必填项勾选
   isConsentRequiredChecked() {
     let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
@@ -93,7 +90,7 @@ class AdyenCreditCard extends React.Component {
     try {
       await this.isConsentRequiredChecked();
       this.props.updateAdyenPayParam(this.state.adyenPayParam);
-      this.props.clickPay({ type: 'adyen_credit_card' });
+      this.props.clickPay({ type: 'adyenCard' });
     } catch (err) {
       this.props.showErrorMsg(err.message);
     }

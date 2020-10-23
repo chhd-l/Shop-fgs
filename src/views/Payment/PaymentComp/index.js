@@ -78,15 +78,9 @@ class PaymentComp extends React.Component {
 
     await this.getPaymentMethodList();
 
-    let filterList = this.state.creditCardList.filter((el) => {
-      if (el.isDefault === 1) {
-        el.selected = true;
-        return true;
-      } else {
-        el.selected = false;
-        return false;
-      }
-    });
+    let filterList = this.state.creditCardList.map(
+      (el) => (el.selected = el.isDefault === 1)
+    );
     if (filterList.length) {
     } else if (this.state.creditCardList.length) {
       this.state.creditCardList[0].selected = true;
@@ -238,10 +232,12 @@ class PaymentComp extends React.Component {
     let { creditCardList } = this.state;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    creditCardList.filter((el) => el.selected)[0].cardCvv = value;
+    if (creditCardList.filter((el) => el.selected)[0]) {
+      creditCardList.filter((el) => el.selected)[0].cardCvv = value;
+    }
     this.setState(
       {
-        creditCardList: creditCardList
+        creditCardList
       },
       () => {
         this.props.getSelectedValue &&

@@ -277,17 +277,13 @@ export const menubar = {
             messageId: 'Наши ценности'
           },
           {
-            link: '/shipmentConditions',
-            messageId: 'Условия доставки'
-          },
-          {
-            link: '/general-conditions',
-            messageId: 'Возврат покупки'
-          },
-          {
             // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
             link: '/qualitySafety',
             messageId: 'Качество и безопасность'
+          },
+          {
+            url: 'https://www.shop.royal-canin.ru/ru/Tailorednutrition.html',
+            messageId: 'Здоровье и питание'
           }
         ]
       }
@@ -299,7 +295,7 @@ export const menubar = {
           { link: '/list/cats', messageId: 'cats2' },
           { link: '/list/dogs', messageId: 'dogs2' },
           {
-            link: '/subscription-landing',
+            link: '/subscription-landing-ru',
             messageId: 'account.subscription'
           }
         ]
@@ -316,16 +312,16 @@ export const menubar = {
           },
           { link: '/help', messageId: 'footer.contacts' },
           {
-            url: 'https://www.royalcanin.com/ru/about-us/shipment-conditions',
+            url: '/shipmentConditions',
             messageId: 'Условия доставки'
           },
           {
             url:
-              'https://www.shop.royal-canin.ru/ru/general-terms-conditions.html#anchor6',
+              '/general-conditions',
             messageId: 'Возврат товара'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/faq.html',
+            url: '/FAQ/all',
             messageId: 'Часто задаваемые вопросы'
           }
         ]
@@ -336,8 +332,7 @@ export const menubar = {
         titleId: 'ДОПОЛНИТЕЛЬНО',
         list: [
           {
-            url:
-              '/general-conditions',
+            url: '/general-conditions',
             messageId: 'Пользовательское соглашение'
           },
           {
@@ -401,7 +396,7 @@ export const menubar = {
         list: [
           { link: '/account', messageId: 'Hesabım' },
           { link: '/account/orders', messageId: 'Sipariş Takibi' },
-          { link: '/subscription-landing', messageId: 'Otomatik Sipariş' }
+          { link: '/subscription-landing-tr', messageId: 'Otomatik Sipariş' }
         ]
       }
     ],

@@ -34,6 +34,7 @@ class AccountOrders extends React.Component {
     super(props);
     this.state = {
       orderNumber: '',
+      totalTid: '',
       subNumber: '',
       details: null,
       payRecord: null,
@@ -108,32 +109,54 @@ class AccountOrders extends React.Component {
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
+        const tradeState = resContext.tradeState;
         let tmpIndex = -1;
+        this.setState({ totalTid: resContext.totalTid }, () => {
+          // 查询支付卡信息
+          getPayRecord(this.state.totalTid).then((res) => {
+            this.setState({
+              payRecord: res.context
+            });
+          });
+        });
         // 开启审核时
         if (resContext.isAuditOpen) {
-          progressList.splice(2, 0, {
-            backendName: 'AUDIT',
-            displayName: this.props.intl.messages['order.progress5']
-          });
-          this.setState({ isAuditOpen: true, processMore: true });
+          this.setState({ isAuditOpen: true });
 
-          if (resContext.tradeState.auditState === 'REJECTED') {
-            progressList.splice(
-              2,
-              3,
-              {
-                backendName: 'Pending review',
-                displayName: this.props.intl.messages['order.progress6']
-              },
-              {
-                backendName: 'AUDIT',
-                displayName: this.props.intl.messages['order.progress7']
-              }
-            );
-            this.setState({
-              processMore: false,
-              auditRejectReason: resContext.tradeState.obsoleteReason
-            });
+          switch (tradeState.auditState) {
+            case 'CHECKED': // 审核通过
+            case 'NON_CHECKED': // 未审核
+              progressList.splice(
+                2,
+                1,
+                {
+                  backendName: 'Pending review',
+                  displayName: this.props.intl.messages['order.progress5']
+                },
+                {
+                  backendName: 'AUDIT',
+                  displayName: this.props.intl.messages['order.progress3'] // to be delivered
+                }
+              );
+              this.setState({ isAuditOpen: true, processMore: true });
+              break;
+            case 'REJECTED': // 审核拒绝
+              progressList.splice(
+                2,
+                3,
+                {
+                  backendName: 'Pending review',
+                  displayName: this.props.intl.messages['order.progress6']
+                },
+                {
+                  backendName: 'AUDIT',
+                  displayName: this.props.intl.messages['order.progress7']
+                }
+              );
+              this.setState({
+                auditRejectReason: tradeState.obsoleteReason
+              });
+              break;
           }
           this.setState({ progressList });
         }
@@ -202,11 +225,11 @@ class AccountOrders extends React.Component {
       });
 
     // 查询支付卡信息
-    getPayRecord(orderNumber).then((res) => {
-      this.setState({
-        payRecord: res.context
-      });
-    });
+    // getPayRecord(orderNumber).then((res) => {
+    //   this.setState({
+    //     payRecord: res.context
+    //   });
+    // });
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -356,6 +379,7 @@ class AccountOrders extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
@@ -420,10 +444,19 @@ class AccountOrders extends React.Component {
                                   className="d-flex justify-content-end"
                                   style={{ marginRight: '8%' }}
                                 >
-                                  <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
-                                  <div className="mt-1">
-                                    <FormattedMessage id="prescriptionDeclined" />
-                                    :
+                                  <div
+                                    className="d-flex"
+                                    onClick={() => {
+                                      this.setState((curState) => ({
+                                        confirmTooltipVisible: !curState.confirmTooltipVisible
+                                      }));
+                                    }}
+                                  >
+                                    <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
+                                    <div className="mt-1">
+                                      <FormattedMessage id="prescriptionDeclined" />
+                                      :
+                                    </div>
                                   </div>
                                   <ConfirmTooltip
                                     containerStyle={{
@@ -588,7 +621,9 @@ class AccountOrders extends React.Component {
                             {details.tradePrice.discountsPrice ? (
                               <>
                                 <div className="col-9 col-xxl-11 text-right color-999 red">
-                                  {details.tradePrice.promotionDesc}
+                                  {details.tradePrice.promotionDesc || (
+                                    <FormattedMessage id="promotion" />
+                                  )}
                                 </div>
                                 <div className="col-3 col-xxl-1 red medium text-nowrap">
                                   -
@@ -674,52 +709,54 @@ class AccountOrders extends React.Component {
                                 {details.invoice.rfc ? <br /> : null}
                               </div>
                             </div>
-                            <div className="col-12 col-md-4 mb-2">
-                              {payRecord.last4Digits ? (
-                                <>
-                                  <div className="d-flex align-items-center">
-                                    <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
-                                    <span>
-                                      <FormattedMessage id="payment.payment" />
-                                    </span>
-                                  </div>
-                                  <div className="ml-1">
-                                    <img
-                                      className="d-inline-block mr-1"
-                                      style={{ width: '20%' }}
-                                      src={
-                                        CREDIT_CARD_IMG_ENUM[payRecord.vendor]
-                                          ? CREDIT_CARD_IMG_ENUM[
-                                              payRecord.vendor
-                                            ]
-                                          : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                      }
-                                    />
-                                    {payRecord.last4Digits ? (
-                                      <>
-                                        <span className="medium">
-                                          ********{payRecord.last4Digits}
-                                        </span>
-                                        <br />
-                                      </>
-                                    ) : null}
-                                    {payRecord.accountName ? (
-                                      <>
-                                        {payRecord.accountName}
-                                        <br />
-                                      </>
-                                    ) : null}
-                                    {payRecord.phone ? (
-                                      <>
-                                        {payRecord.phone}
-                                        <br />
-                                      </>
-                                    ) : null}
-                                    {payRecord.email}
-                                  </div>
-                                </>
-                              ) : null}
-                            </div>
+                            {payRecord ? (
+                              <div className="col-12 col-md-4 mb-2">
+                                {payRecord.last4Digits ? (
+                                  <>
+                                    <div className="d-flex align-items-center">
+                                      <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
+                                      <span>
+                                        <FormattedMessage id="payment.payment" />
+                                      </span>
+                                    </div>
+                                    <div className="ml-1">
+                                      <img
+                                        className="d-inline-block mr-1"
+                                        style={{ width: '20%' }}
+                                        src={
+                                          CREDIT_CARD_IMG_ENUM[payRecord.vendor]
+                                            ? CREDIT_CARD_IMG_ENUM[
+                                                payRecord.vendor
+                                              ]
+                                            : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                        }
+                                      />
+                                      {payRecord.last4Digits ? (
+                                        <>
+                                          <span className="medium">
+                                            ********{payRecord.last4Digits}
+                                          </span>
+                                          <br />
+                                        </>
+                                      ) : null}
+                                      {payRecord.accountName ? (
+                                        <>
+                                          {payRecord.accountName}
+                                          <br />
+                                        </>
+                                      ) : null}
+                                      {payRecord.phone ? (
+                                        <>
+                                          {payRecord.phone}
+                                          <br />
+                                        </>
+                                      ) : null}
+                                      {payRecord.email}
+                                    </div>
+                                  </>
+                                ) : null}
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                       ) : this.state.errMsg ? (

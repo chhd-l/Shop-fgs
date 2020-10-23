@@ -135,8 +135,6 @@ class Help extends React.Component {
         this.checkoutStock()
       });
       getPrescriptionById({id: res.context.prescriberId}).then(res => {
-      // getPrescriptionById({ id: '2304' }).then((res) => {
-      //   console.log(res, 'bbb');
         this.props.clinicStore.setLinkClinicId(res.context.id);
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
         this.setState({ prescriberInfo: res.context, loading: false });
@@ -521,6 +519,7 @@ class Help extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <Modal
           key="1"

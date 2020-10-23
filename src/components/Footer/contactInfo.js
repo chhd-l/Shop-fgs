@@ -17,7 +17,7 @@ export const contactInfo = {
   },
   ru: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
-    email: { url: 'mailto:info.de@royalcanin.com', messageId: 'footer.email' }
+    email: { link: '/aboutUs-ru', messageId: 'footer.email' }
   },
   tr: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },

@@ -77,7 +77,7 @@ class MarsFooterMap extends React.Component {
               </li>
               <li>
                 <a target="_blank" href="https://www.mars.com/accessibility">
-                  <span class="mars-footer-label">Accessibility</span>
+                  <span className="mars-footer-label">Accessibility</span>
                 </a>
               </li>
               <li>
@@ -85,7 +85,7 @@ class MarsFooterMap extends React.Component {
                   target="_blank"
                   href="https://www.mars.com/legal/ca-supply-chain-act"
                 >
-                  <span class="mars-footer-label">CA Supply Chain Act</span>
+                  <span className="mars-footer-label">CA Supply Chain Act</span>
                 </a>
               </li>
               <li>
@@ -93,7 +93,7 @@ class MarsFooterMap extends React.Component {
                   target="_blank"
                   href="https://www.mars.com/modern-slavery-act"
                 >
-                  <span class="mars-footer-label">Modern Slavery Act</span>
+                  <span className="mars-footer-label">Modern Slavery Act</span>
                 </a>
               </li>
               <li>
@@ -101,7 +101,7 @@ class MarsFooterMap extends React.Component {
                   target="_blank"
                   href="https://www.mars.com/mars-incorporated-adchoices-united-states"
                 >
-                  <span class="mars-footer-label">AdChoices</span>
+                  <span className="mars-footer-label">AdChoices</span>
                 </a>
               </li>
             </ul>
@@ -208,43 +208,43 @@ class MarsFooterMap extends React.Component {
       ru: (
         <div
           id="mars-footer-panel"
-          class="mars-footer-mars mars-footer-icon-size-medium"
+          className="mars-footer-mars mars-footer-icon-size-medium"
           data-cookie-warning-enabled="no"
           data-lang="ru"
         >
-          <div class="mars-footer-container">
+          <div className="mars-footer-container">
             {' '}
-            <ul class="mars-footer-list-right">
+            <ul className="mars-footer-list-right">
               {' '}
               <li>
                 <a
                   target="_blank"
                   href="https://www.mars.com/privacy-policy-russia"
                 >
-                  <span class="mars-footer-icon">
+                  <span className="mars-footer-icon">
                      <strong></strong>
                   </span>{' '}
-                  <span class="mars-footer-label">Конфиденциальность</span>
+                  <span className="mars-footer-label">Конфиденциальность</span>
                 </a>
               </li>{' '}
               <li>
                 <a target="_blank" href="https://www.mars.com/cookies-russia">
-                  <span class="mars-footer-icon">
+                  <span className="mars-footer-icon">
                      <strong></strong>
                   </span>{' '}
-                  <span class="mars-footer-label">Файлы Cookies</span>
+                  <span className="mars-footer-label">Файлы Cookies</span>
                 </a>
               </li>{' '}
               <li>
                 <a target="_blank" href="https://www.mars.com/legal-russia">
-                  <span class="mars-footer-icon">
+                  <span className="mars-footer-icon">
                      <strong></strong>
                   </span>{' '}
-                  <span class="mars-footer-label">Юридические условия</span>
+                  <span className="mars-footer-label">Юридические условия</span>
                 </a>
               </li>{' '}
             </ul>{' '}
-            <div class="mars-footer-legal">
+            <div className="mars-footer-legal">
               {' '}
               <p className="text-center">
                 Copyright © Mars 2020®, Trademark of Mars Incorporated and its

@@ -291,6 +291,7 @@ class Prescription extends React.Component {
           showUserIcon={true}
           location={this.props.location}
           history={this.props.history}
+          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <div
@@ -426,7 +427,8 @@ class Prescription extends React.Component {
                     <Pagination
                       loading={this.state.loading}
                       totalPage={this.state.totalPage}
-                      currentPage={this.state.current}
+                      defaultCurrentPage={this.state.current}
+                      key={this.state.current}
                       onPageNumChange={(params) =>
                         this.hanldePageNumChange(params)
                       }
