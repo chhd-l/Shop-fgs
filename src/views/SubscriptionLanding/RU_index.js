@@ -539,7 +539,8 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
-              <p>Выберите подходящий рацион питания для Вашего питомца</p>
+              {/* <p>Выберите подходящий рацион питания для Вашего питомца</p> */}
+              <p>Выберите&nbsp;<strong>подходящий рацион</strong>&nbsp;питания для Вашего питомца</p>
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
@@ -550,6 +551,7 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              {/* <p>Выберите частоту отправки, адрес доставки и способ оплаты</p> */}
               <p>Выберите частоту отправки, адрес доставки и способ оплаты</p>
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
@@ -561,7 +563,8 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
-              <p>Получайте заказ автоматически по Вашему расписанию</p>
+              {/* <p>Получайте заказ автоматически по Вашему расписанию</p> */}
+              <p>Получайте заказ автоматически&nbsp;<strong>по Вашему расписанию</strong></p>
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
@@ -572,7 +575,8 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
-              <p>Меняйте график доставки в любое время, когда захотите</p>
+              {/* <p>Меняйте график доставки в любое время, когда захотите</p> */}
+              <p>Меняйте график доставки в любое время,&nbsp;<strong>когда захотите</strong></p>
             </div>
           </div>
           {/* <div
