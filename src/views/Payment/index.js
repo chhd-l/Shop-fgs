@@ -18,6 +18,7 @@ import PetModal from './PetModal';
 import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
+import { searchNextConfirmPanel } from './modules/utils';
 import { formatMoney, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
@@ -281,7 +282,15 @@ class Payment extends React.Component {
       });
     }
     if (!this.checkoutWithClinic) {
-      this.props.paymentStore.setStsToCompleted({ key: 'clinic' });
+      const { paymentStore } = this.props;
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: 'clinic'
+      });
+
+      paymentStore.setStsToCompleted({ key: 'clinic' });
+      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
   componentWillUnmount() {
