@@ -269,11 +269,12 @@ export const menubar = {
         titleId: 'О КОМПАНИИ ROYAL CANIN®',
         list: [
           {
-            url: 'https://www.shop.royal-canin.ru/ru/About-Us.html',
+            // url: 'https://www.shop.royal-canin.ru/ru/About-Us.html',
+            url: '/aboutUs-ru',
             messageId: 'О нас'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/Values.html',
+            url: '/values-ru',
             messageId: 'Наши ценности'
           },
           {
