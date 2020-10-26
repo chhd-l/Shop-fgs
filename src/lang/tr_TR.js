@@ -643,7 +643,19 @@ const en_US = {
   'subscriptionLanding.dogButton': 'Köpek Mamaları',
   'prescriptionDeclined': 'Reçete reddedildi',
   'recommandedForyou':'Sizin için önerilen',
-  "list.errMsg4": "Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin."
+  "list.errMsg4": "Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin.",
+  "list.errMsg4": "Товаров не найдено. Измените поисковый запрос и попробуйте еще раз.",
+  'tailorednutrition.tip1': 'Sağlık için savaşılmayı hak ediyor',
+  'tailorednutrition.tip2': 'Evcil hayvanların sağlığı konusundaki takıntımız, ciddi sağlık sorunları olan evcil hayvanlar için bir dizi yeniliğe ilham verdi. Sayısız köpek yavrusu, kedi yavrusu, köpek ve kedi bu formüllerin başarısının yaşayan kanıtıdır. İster tıbbi bir işlemden sonra iyileşmek, gıda alerjisi sorunlarının üstesinden gelmek veya en hassas evcil hayvanları korumak olsun, kişiye özel beslenme, bu hayvanların zirveye ulaşmasına yardımcı olabilir. sağlıklarının.',
+  'tailorednutrition.tip3': 'Kişiye özel diyet nedir?',
+  'tailorednutrition.tip4': 'Benzersiz ihtiyaçları büyük bir hassasiyetle karşılamak için tasarlanmış gıdaları formüle ediyoruz. Her mama, her kedi veya köpeğe, kaslarını desteklemek, vücudunu sağlıklı tutmak ve doğal savunmasını güçlendirmek için ihtiyaç duyduğu eksiksiz ve dengeli bir besin ve amino asit kompleksi sağlar.',
+  'tailorednutrition.tip5': 'Formula Alman Çoban Köpeği örneği: Özellikle cesareti, sadakati ve zekasıyla takdir ediliyor. Bununla birlikte, büyük fiziksel ve zihinsel gücüne rağmen, Alman Çoban Köpeği sindirime duyarlılığı ile bilinir. Bu nedenle, kolay asimile proteinler ve spesifik lifler içeren uygun bir formül geliştirdik, böylece içeride olduğu kadar dışarıda da güçlü olur.',
+  'tailorednutrition.tip6': 'Doğal yatkınlıklarını teşvik edin',
+  'tailorednutrition.tip7': 'Tamamen sağlıklı bir jack russell, boyutunun altı katı yüksekliğe sıçrayabilir. İnanılmaz doğal potansiyelini özel olarak seçilmiş proteinler ve antioksidanlarla güçlendirmek, özel ihtiyaçlarını karşılamaya yardımcı olur.',
+  'tailorednutrition.tip8': 'Benzersiz ihtiyaçlar için benzersiz formüller',
+  'tailorednutrition.tip9': 'Birçok evcil hayvanın yemek yeme şeklini değiştiren belirli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir hayvanın fiziksel ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve dokusunu da inceliyoruz.',
+  'tailorednutrition.tip10': 'Sonuç',
+  'tailorednutrition.tip11': 'Sonuç, özel sağlık ihtiyaçlarınızı tam olarak karşılamak için tasarlanmış bir diyettir. Bu diyet, evcil hayvanınıza güçlü kaslar inşa etmesi, sağlıklı kalması ve bağışıklık sistemini güçlendirmesi için ihtiyaç duyduğu eksiksiz ve dengeli bir dizi besin ve amino asit sağlar. Sağlığı geliştirmek ve en üst düzeye çıkarmak için ihtiyaç duyduğu tüm enerjiyi ona verin.',
 }
 
 export default en_US;

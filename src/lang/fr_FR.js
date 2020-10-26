@@ -687,5 +687,16 @@ const en_US = {
   'recommandedForyou':'Recommandé pour vous',
   EnterCorrectValue: "Veuillez saisir le bon {val}",
   "payment.errorInfo": "* {val} doit être rempli",
+  'tailorednutrition.tip1': 'La santé mérite qu\'on se batte pour elle',
+  'tailorednutrition.tip2': 'Notre obsession de la santé des animaux de compagnie nous a inspiré une série d\'innovations pour les animaux de compagnie présentant de graves problèmes de santé. D\'innombrables chiots, chatons, chiens et chats sont la preuve vivante du succès de ces formules. Qu\'il s\'agisse de se rétablir d\'une procédure médicale, de surmonter des problèmes d\'allergies alimentaires ou de protéger les animaux de compagnie les plus fragiles, une alimentation sur mesure peut aider ces animaux à atteindre le summum de leur santé.',
+  'tailorednutrition.tip3': 'Qu\'est-ce qu\'une alimentation sur mesure?',
+  'tailorednutrition.tip4': 'Nous formulons des aliments conçus pour répondre avec une grande précision à des besoins uniques. Chaque aliment fournit à chaque chat ou chaque chien un complexe complet et équilibré de nutriments et d\'acides aminés dont il a besoin pour aider à soutenir sa musculature, à préserver son organisme en bonne santé et à renforcer ses défenses naturelles.',
+  'tailorednutrition.tip5': 'Formules\'exemple du berger allemand : il est particulièrement  apprécié pour son courage, sa fidélité et son intelligence.  Cependant, malgré sa grande force physique et mentale, le  berger allemand est connu pour sa sensibilité digestive. Nous  avons donc élaboré une formule adaptée qui contient des  protéines facilement assimilables et des fibres spécifiques  pour qu\'il soit aussi fort à l\'intérieur qu\'à l\'extérieur.',
+  'tailorednutrition.tip6': 'Encourager leurs prédispositions naturelles',
+  'tailorednutrition.tip7': 'Un jack russell en parfaite santé peut sauter à une hauteur  équivalente à six fois sa taille. Favoriser son incroyable  potentiel naturel avec des protéines et des antioxydants  spécialement sélectionnés permet de répondre à ses besoins  spécifiques.',
+  'tailorednutrition.tip8': 'Des formules uniques pour des besoins uniques',
+  'tailorednutrition.tip9': 'De nombreux animaux de compagnie ont une mâchoire spécifique  et un comportement particulier qui modifient leur façon de  manger. C\'est pour cette raison que nous adaptons non  seulement nos recettes au niveau nutritionnel, mais que nous  étudions aussi la forme et la texture de chaque croquette pour  mieux répondre aux besoins physiques de chaque animal.',
+  'tailorednutrition.tip10': 'Le résultat',
+  'tailorednutrition.tip11': 'Le résultat est une alimentation conçue pour répondre à des  besoins de santé particuliers avec une grande précision. Cette  alimentation apporte à votre animal un ensemble complet et  équilibré de nutriments et d\'acides aminés dont il a besoin pour  développer des muscles forts, garder un corps en bonne santé et  renforcer son système immunitaire. Donnez-lui toute l’énergie  nécessaire pour s’épanouir et avoir la meilleure santé possible.',
 }
 export default en_US;

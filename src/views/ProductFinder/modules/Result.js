@@ -43,11 +43,41 @@ const ProductFinder = ({ location, history, match }) => {
               <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
             </div>
           ) : (
-            <div className="text-center">
-              <h2 className="rc-beta markup-text mb-0">Search completed!</h2>
-              Below are the products that best fit your cat's needs.
-              <br />
-              Click on the recommendations for more information.
+            <div className="">
+              <h2 className="rc-beta markup-text mb-0 text-center">
+                Search completed!
+              </h2>
+              <p>
+                Below are the products that best fit your cat's needs.
+                <br />
+                Click on the recommendations for more information.
+              </p>
+              <div className="border rounded row">
+                <div className="col-12 col-md-6">
+                  <img src={productDetail.img} />
+                </div>
+                <div className="col-12 col-md-6">
+                  <header class="rc-text--center">
+                    <h3
+                      class="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
+                      title={productDetail.goodsName}
+                    >
+                      {productDetail.goodsName}
+                    </h3>
+                  </header>
+                  <div
+                    class="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                    title={productDetail.subTitle}
+                    // style="color: rgb(74, 74, 74);"
+                  >
+                    {productDetail.subTitle}
+                  </div>
+                  {/* <h2 className="rc-beta markup-text mb-0 text-center">
+                    {productDetail.goodsName}
+                  </h2>
+                  <p>{productDetail.subTitle}</p> */}
+                </div>
+              </div>
             </div>
           )}
         </div>
