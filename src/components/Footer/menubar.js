@@ -316,12 +316,11 @@ export const menubar = {
             messageId: 'Условия доставки'
           },
           {
-            url:
-              '/general-conditions',
+            link: '/general-conditions',
             messageId: 'Возврат товара'
           },
           {
-            url: '/FAQ/all',
+            link: '/FAQ/all',
             messageId: 'Часто задаваемые вопросы'
           }
         ]
@@ -332,7 +331,7 @@ export const menubar = {
         titleId: 'ДОПОЛНИТЕЛЬНО',
         list: [
           {
-            url: '/general-conditions',
+            link: '/general-conditions',
             messageId: 'Пользовательское соглашение'
           },
           {
