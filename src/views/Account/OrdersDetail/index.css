@@ -124,7 +124,11 @@
     margin: 0 7rem;
   }
   .order-progress .rc-progress-stepped__item.step_more {
-    margin: 0 6rem;
+    margin: 0 5.5rem;
+  }
+  .order-progress .rc-progress-stepped__item.step_more::after {
+    width: 11rem;
+    right: -11rem;
   }
   .order-progress .rc-progress-stepped__link {
     width: 2rem;

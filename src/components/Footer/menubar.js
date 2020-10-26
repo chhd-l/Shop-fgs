@@ -270,11 +270,11 @@ export const menubar = {
         list: [
           {
             // url: 'https://www.shop.royal-canin.ru/ru/About-Us.html',
-            url: '/aboutUs-ru',
+            link: '/aboutUs-ru',
             messageId: 'О нас'
           },
           {
-            url: '/values-ru',
+            link: '/values-ru',
             messageId: 'Наши ценности'
           },
           {
@@ -313,7 +313,7 @@ export const menubar = {
           },
           { link: '/help', messageId: 'footer.contacts' },
           {
-            url: '/shipmentConditions',
+            link: '/shipmentConditions',
             messageId: 'Условия доставки'
           },
           {
