@@ -429,14 +429,15 @@ class Help extends React.Component {
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               <FormattedMessage id="subscriptionLanding.title1"/>
             </h2>
-            <p>
+            {/* <p>
               <FormattedMessage id="subscriptionLanding.content1"/>
-            </p>
+            </p> */}
+            <p>Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the&nbsp;<strong>Royal Canin Club</strong>&nbsp;at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with <strong>new pet gifts,<br/>exclusive offers and more</strong>.</p>
           </section>
 
           <div
             class="rc-layout-container rc-two-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '20px 80px' }}
           >
             <div
               class="rc-column"
@@ -446,18 +447,26 @@ class Help extends React.Component {
                 justifyContent: 'center'
               }}
             >
-              <div>
+              <div style={{width: '550px'}}>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description1"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <strong>Specialty Welcome Box</strong> - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.
+                  {/* <FormattedMessage id="subscriptionLanding.description1"/> */}
                 </div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description2"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <strong>Free Shipping</strong> - just set your preferred schedule and you’ll never have to worry.
+                  {/* <FormattedMessage id="subscriptionLanding.description2"/> */}
                 </div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description3"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <strong>Personalized Recommendations</strong> - your breeder can send you the products they recommend for your pet as they grow.
+                  {/* <FormattedMessage id="subscriptionLanding.description3"/> */}
                 </div>
                 <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
+                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
+                  <strong>5% Off Every Autoship Order</strong> - plus, get 10% off your first order.
+                  {/* <FormattedMessage id="subscriptionLanding.description4"/> */}
                 </div>
                 <div style={{marginTop:'20px'}}>
                 <button
@@ -492,23 +501,23 @@ class Help extends React.Component {
           </section>
           <div
             class="rc-layout-container rc-four-column"
-            style={{ padding: '20px' }}
+            style={{ padding: '20px 80px' }}
           >
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon1} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Find your handpicked nutrition products in your cart.</p>
+              <p>Find your <strong>handpicked nutrition products</strong> in your cart.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon2} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Select automatic shipping and input your payment method.</p>
+              <p>Select <strong>automatic shipping</strong> and input your payment method.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon3} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Receive your product automatically based on your schedule. Change or cancel at any time.</p>
+              <p><strong>Receive your product automatically</strong> based on your schedule. Change or cancel <strong>at any time</strong>.</p>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <img src={icon4} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Get your exclusive Royal Canin Club perks, including your welcome box.</p>
+              <p>Get your exclusive<strong> Royal Canin Club perks</strong>,&nbsp;including your welcome box.</p>
             </div>
           </div>
           <div
