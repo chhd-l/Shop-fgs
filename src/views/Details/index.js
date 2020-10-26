@@ -10,6 +10,7 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
+import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
 import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
@@ -20,6 +21,7 @@ import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
+import HeroCarousel from './components/HeroCarousel';
 import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -76,7 +78,8 @@ class Details extends React.Component {
       goodsId: null,
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
-      toolTipVisible: false
+      toolTipVisible: false,
+      relatedProduct:[]
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,6 +200,7 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
+          console.log(202,this)
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
@@ -1146,7 +1150,7 @@ class Details extends React.Component {
                                       className="rc-input product-pricing__card__head__title"
                                       style={{ color: 'rgb(102,102,102)' }}
                                     >
-                                      <FormattedMessage id="taxLogo" />
+                                      <FormattedMessage id="taxLogo" defaultMessage={" "}/>
                                     </div>
                                   )}
                                 </div>
@@ -1499,6 +1503,11 @@ class Details extends React.Component {
             <div id="review-container">
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
+            <div>
+              <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem',marginBottom:'1rem'}}>Recommanded for you</div>
+               <HeroCarousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId} />
+               {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+            </div>           
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}

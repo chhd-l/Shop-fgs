@@ -642,6 +642,7 @@ const en_US = {
   'subscriptionLanding.catButton': 'Kedi Mamaları',
   'subscriptionLanding.dogButton': 'Köpek Mamaları',
   'prescriptionDeclined': 'Reçete reddedildi',
+  'recommandedForyou':'Sizin için önerilen',
   "list.errMsg4": "Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin."
 }
 

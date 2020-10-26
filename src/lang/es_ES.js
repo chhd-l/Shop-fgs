@@ -671,6 +671,7 @@ const en_US = {
   'subscriptionLanding.description4': 'Ligne d\'assistance téléphonique gratuite sur la nutrition',
   'subscriptionLanding.catButton': 'Voir les formules pour chat',
   'subscriptionLanding.dogButton': 'Voir les formules pour chien',
-  'prescriptionDeclined': 'Receta rechazada'
+  'prescriptionDeclined': 'Receta rechazada',
+  'recommandedForyou':'Recomendado para ti'
 }
 export default en_US;

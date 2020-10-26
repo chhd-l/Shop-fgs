@@ -2,7 +2,8 @@ import axios from '@/utils/request'
 
 const api = {
   details: '/goods/unLogin/spu',
-  loginDetails: '/goods/spu'
+  loginDetails: '/goods/spu',
+  goodsRelation: '/goodsRelation'
 }
 
 export default api
@@ -35,6 +36,14 @@ export function getUnLoginGoodsEvaluate (data) {
     url: `/goodsEvaluate/spuGoodsEvaluatePage`,
     method: 'post',
     data
+  })
+}
+
+//查询 Related Product
+export function getGoodsRelation (parameter) {
+  return axios({
+    url: `${api.goodsRelation}/${parameter}`,
+    method: 'get'
   })
 }
 
