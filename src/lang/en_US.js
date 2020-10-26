@@ -45,6 +45,7 @@ const en_US = {
   "account.TheAddressBook": "The address book",
   "account.toComeIn": "To come in",
   "account.unknownBreed": "Unknown breed",
+  "account.mixBreed": "Mix breed",
   "account.warmNotice": "Here you can manage your profile, edit pet information, shipping address and payment method, check status on orders and subscriptions.",
   "account.weight": "What is the weight of an adult dog of your breed {val}?",
   "account.welcome": "Welcome to the ROYAL CANIN® family!",
@@ -665,9 +666,13 @@ const en_US = {
   'productFinder.tip1': 'Find the right food for your pet',
   'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
   'productFinder.tip3': 'Your Pet is a ...',
+  'productFinder.resultPage': 'Product finder result page',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
   'next': 'Next',
-  "list.errMsg4": "No products found. Please change your search term and try again."
+  "list.errMsg4": "No products found. Please change your search term and try again.",
+  unkown: 'Unkown',
+  searchBreed: 'Search breed',
+  answeredQuestions: 'Answered questions',
 }
 
 export default en_US;

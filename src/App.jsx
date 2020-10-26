@@ -88,7 +88,11 @@ import RequestInvoices from '@/views/RequestInvoices';
 
 import Recommendation from '@/views/Recommendation';
 import ProductFinder from '@/views/ProductFinder';
-import ProductFinderQuestion from '@/views/ProductFinder/modules/index';
+import ProductFinderQuestion from '@/views/ProductFinder/modules/Question';
+import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+
+import Consent1TR from '@/views/StaticPage/tr/Consent1';
+import Consent2TR from '@/views/StaticPage/tr/Consent2';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -314,6 +318,11 @@ const App = () => (
                 component={ProductFinderQuestion}
               />
               <Route
+                exact
+                path="/product-finder/result"
+                component={ProductFinderResult}
+              />
+              <Route
                 path="/subscription-landing"
                 exact
                 component={SubscriptionLanding}
@@ -343,16 +352,8 @@ const App = () => (
                 exact
                 component={TR_GeneralConditions}
               />
-              <Route
-                path="/aboutUs-ru"
-                exact
-                component={RU_AboutUs}
-              />
-              <Route
-                path="/values-ru"
-                exact
-                component={RU_Values}
-              />
+              <Route path="/aboutUs-ru" exact component={RU_AboutUs} />
+              <Route path="/values-ru" exact component={RU_Values} />
               <Route
                 path="/tailorednutrition"
                 exact
@@ -368,6 +369,10 @@ const App = () => (
               <Route path="/403" component={Page403} />
               <Route path="/500" component={Page500} />
               <Route path="/Publishing" component={Publishing} />
+
+              <Route path="/consent1-tr" component={Consent1TR} />
+              <Route path="/consent2-tr" component={Consent2TR} />
+
               <Route path="*" component={Exception} />
             </Switch>
           </Security>

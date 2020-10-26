@@ -111,6 +111,13 @@ const breadcrumbNameMap = {
     {
       name: 'productFinder.index'
     }
+  ],
+  '/product-finder/result': [
+    {
+      name: 'productFinder.index',
+      href: '/product-finder'
+    },
+    { name: 'productFinder.resultPage' }
   ]
 };
 

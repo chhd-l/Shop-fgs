@@ -128,6 +128,7 @@ class SearchSelection extends React.Component {
             }, 500);
           }}
         >
+          {this.props.prefixIcon}
           <input
             type="text"
             placeholder={this.state.placeholder}
