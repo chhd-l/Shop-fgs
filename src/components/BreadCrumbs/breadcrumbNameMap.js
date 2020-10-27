@@ -118,7 +118,8 @@ const breadcrumbNameMap = {
       href: '/product-finder'
     },
     { name: 'productFinder.resultPage' }
-  ]
+  ],
+  '/product-finder/noresult': [{ name: 'viewResults' }]
 };
 
 export default breadcrumbNameMap;

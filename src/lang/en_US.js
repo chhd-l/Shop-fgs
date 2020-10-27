@@ -668,6 +668,19 @@ const en_US = {
   'productFinder.tip3': 'Your Pet is a ...',
   'productFinder.resultPage': 'Product finder result page',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
+  'productFinder.searchCompleted': 'Search completed!',
+  'productFinder.searchResultTip1': 'Below are the products that best fit your cat\'s needs.',
+  'productFinder.searchResultTip2': 'Click on the recommendations for more information.',
+  'productFinder.searchResultTip3': 'We are sorry!',
+  'productFinder.searchResultTip4': 'The most precise nutrition for your pet isn\'t currently availabel.',
+  'productFinder.otherProductsToConsider': 'Other products to consider',
+  'productFinder.helpTip1': 'Do you have any questions?',
+  'productFinder.helpTip2': 'Out Pet Experts are always here to help you find the most precise diet for your pet',
+  'productFinder.summary': 'Summary',
+  'productFinder.createMyPetProfile': 'Create my Pet Profile',
+  'productFinder.createMyPetProfileTip': 'Create your pet profile in RoyalCanin, and get the newsletter/specific offers which will be tailored for your pets.',
+  'productFinder.startAgin': 'Start agin',
+  'productFinder.rigisterMyPetProfile': 'Register your pet profile in RoyalCanin and get a notification when the best product is available.',
   'next': 'Next',
   "list.errMsg4": "No products found. Please change your search term and try again.",
   unkown: 'Unkown',
@@ -684,6 +697,8 @@ const en_US = {
   'tailorednutrition.tip9': 'Many pets have specific jaws and behavior that change the way they eat. It is for this reason that we not only adapt our recipes at the nutritional level, but also study the shape and texture of each kibble to better meet the physical needs of each animal.',
   'tailorednutrition.tip10': 'The result',
   'tailorednutrition.tip11': 'The result is a diet designed to meet specific health needs with great precision. This diet provides your pet with a complete and balanced set of nutrients and amino acids that it needs to build strong muscles, maintain a healthy body and strengthen its immune system. Give it all the energy it needs to thrive and have the best possible health.',
+  chooseTheProduct: 'Choose the product',
+  seeAllOurProducts: 'See all our products'
 }
 
 export default en_US;

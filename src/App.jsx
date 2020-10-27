@@ -90,6 +90,7 @@ import Recommendation from '@/views/Recommendation';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderQuestion from '@/views/ProductFinder/modules/Question';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
+import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
 import Consent1TR from '@/views/StaticPage/tr/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent2';
@@ -107,7 +108,6 @@ const LoginCallback = (props) => {
     } else {
       await authService.handleAuthentication();
     }
-    //window.location.href = process.env.REACT_APP_ACCESS_PATH;
     let homePage = '';
     process.env.REACT_APP_HOMEPAGE == '/'
       ? (homePage = '')
@@ -116,7 +116,7 @@ const LoginCallback = (props) => {
     sessionItemRoyal.set('fromLoginPage', true);
   }, [authService, authStateReady]);
 
-  return <div></div>;
+  return <div />;
 };
 
 const App = () => (
@@ -125,7 +125,11 @@ const App = () => (
       locale={process.env.REACT_APP_LANG}
       messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
     >
-      <Router basename={process.env.REACT_APP_HOMEPAGE} path={'/'}>
+      <Router
+        basename={process.env.REACT_APP_HOMEPAGE}
+        path={'/'}
+        // forceRefresh={true}
+      >
         <RouteFilter />
         <ScrollToTop>
           <Security {...config.oidc}>
@@ -322,6 +326,12 @@ const App = () => (
                 path="/product-finder/result"
                 component={ProductFinderResult}
               />
+              <Route
+                exact
+                path="/product-finder/noresult"
+                component={ProductFinderNoResult}
+              />
+
               <Route
                 path="/subscription-landing"
                 exact
