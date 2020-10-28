@@ -685,7 +685,7 @@ class PaymentComp extends React.Component {
                     <div className={`pt-3 pb-3`}>
                       <div
                         className="position-absolute"
-                        style={{ right: '1%', top: '2%', zIndex: 99 }}
+                        style={{ right: '1%', top: '2%', zIndex: 50 }}
                       >
                         <span
                           className={`pull-right position-relative ${
