@@ -7,6 +7,7 @@ import ProgressWithTooptip from '@/components/ProgressWithTooptip';
 import helpImg from '@/assets/images/product-finder-help.png';
 import RadioAnswer from './RadioAnswer';
 import SelectAnswer from './SelectAnswer';
+import SearchAnswer from './SearchAnswer';
 
 import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
@@ -20,6 +21,7 @@ const ProductFinder = ({ location, history, match }) => {
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [form, setFormData] = useState('');
   const [url, setUrl] = useState(`xxx?query=`);
+  const [qListVisible, setQListVisible] = useState(false);
 
   // setInterval(() => {
   //   if (progress < 101) {
@@ -45,14 +47,20 @@ const ProductFinder = ({ location, history, match }) => {
       });
       setQuestionType('radio');
 
-      setQuestionCfg({
-        title: 'How old is your cat?',
-        list: [
-          ['1 year', '2 years'],
-          ['3 month', '4 month']
-        ]
-      });
-      setQuestionType('select');
+      // setQuestionCfg({
+      //   title: 'How old is your cat?',
+      //   list: [
+      //     ['1 year', '2 years'],
+      //     ['3 month', '4 month']
+      //   ]
+      // });
+      // setQuestionType('select');
+
+      // setQuestionCfg({
+      //   title: 'What breed is your cat?',
+      //   list: ['a','aa', 'bb']
+      // });
+      // setQuestionType('search');
 
       setIsPageLoading(false);
     }, 2000);
@@ -67,6 +75,10 @@ const ProductFinder = ({ location, history, match }) => {
     setUrl(`xxx?query=${form}`);
   }
 
+  function toggleShowQList() {
+    setQListVisible((c) => !c);
+  }
+
   return (
     <div>
       <Header
@@ -78,8 +90,43 @@ const ProductFinder = ({ location, history, match }) => {
       />
       <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
         <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
-        <div className="row justify-content-end">
-          <div className="col-1">
+        <div className="row justify-content-between mb-4">
+          <div className="col-10 col-md-4 mt-2">
+            <div
+              className="pt-2 pb-2 rc-bg-colour--brand4 text-center rounded ui-cursor-pointer-pure"
+              onClick={toggleShowQList}
+            >
+              {qListVisible ? (
+                <span className="rc-icon rc-down--xs rc-iconography" />
+              ) : (
+                <span className="rc-icon rc-right--xs rc-iconography" />
+              )}
+              <FormattedMessage id="answeredQuestions" />
+            </div>
+            {qListVisible && (
+              <div className="mt-2 rc-bg-colour--brand4 rounded text-center">
+                {['my dsdfadsa', 'my dhahhahaha', 'yeyeyeyeyeyeyye'].map(
+                  (ele) => (
+                    <div
+                      className="ml-2 mr-2 pt-2 pb-2 border-bottom"
+                      ref={(node) => {
+                        if (node) {
+                          node.style.setProperty(
+                            'border-bottom',
+                            '2px solid #fff',
+                            'important'
+                          );
+                        }
+                      }}
+                    >
+                      {ele}
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+          <div className="col-2 col-md-1">
             <img src={helpImg} />
           </div>
         </div>
@@ -99,6 +146,12 @@ const ProductFinder = ({ location, history, match }) => {
                 )}
                 {questionType === 'select' && (
                   <SelectAnswer
+                    config={questionCfg}
+                    updateFromData={updateFromData}
+                  />
+                )}
+                {questionType === 'search' && (
+                  <SearchAnswer
                     config={questionCfg}
                     updateFromData={updateFromData}
                   />

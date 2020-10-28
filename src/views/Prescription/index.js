@@ -101,18 +101,19 @@ class Prescription extends React.Component {
     this.inputRef = React.createRef();
   }
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     this.handleInit();
 
     this.getAllPrescription();
   }
   componentWillUnmount() {
-    sessionItemRoyal.remove('clinic-reselect');
+    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
+      sessionItemRoyal.remove('clinic-reselect');
+    }
     localItemRoyal.set('isRefresh', true);
   }
   inputSearchValue = (e) => {
@@ -184,7 +185,6 @@ class Prescription extends React.Component {
       this.setState({
         clinicArr: clinicArr
       });
-      console.log(this.state.clinicArr);
     }
   }
   handleSearch = () => {

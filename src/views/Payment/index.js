@@ -203,12 +203,11 @@ class Payment extends React.Component {
     }
   }
   async componentDidMount() {
-    console.log(toJS(this.loginCartData), 'login')
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
 
     if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
       this.props.history.push('/cart');
@@ -296,10 +295,12 @@ class Payment extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-    sessionItemRoyal.remove('rc-tid');
-    sessionItemRoyal.remove('rc-tidList');
-    sessionItemRoyal.remove('rc-subform');
-    sessionItemRoyal.remove('recommend_product');
+    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
+      sessionItemRoyal.remove('rc-tid');
+      sessionItemRoyal.remove('rc-tidList');
+      sessionItemRoyal.remove('rc-subform');
+      sessionItemRoyal.remove('recommend_product');
+    }
   }
   initPaymentWay = async () => {
     //获取支付方式
@@ -759,6 +760,7 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
+      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];

@@ -681,6 +681,17 @@ const en_US = {
   'recommendation.recommendationPackage': 'Empfehlungspaket',
   'recommendation.buyNow': 'Kaufe jetzt',
   'prescriptionDeclined': 'Rezept abgelehnt',
-  'recommandedForyou':'für dich empfohlen'
+  'recommandedForyou':'für dich empfohlen',
+  'tailorednutrition.tip1': 'Für die Gesundheit muss gekämpft werden',
+  'tailorednutrition.tip2': 'Unsere Besessenheit von der Gesundheit von Haustieren hat eine Reihe von Innovationen für Haustiere mit schwerwiegenden Gesundheitsproblemen inspiriert. Unzählige Welpen, Kätzchen, Hunde und Katzen sind ein lebender Beweis für den Erfolg dieser Formeln. Unabhängig davon, ob es sich von einem medizinischen Eingriff erholt, Probleme mit Nahrungsmittelallergien überwindet oder das zerbrechlichste Haustier schützt, kann eine maßgeschneiderte Ernährung diesen Tieren helfen, ihren Höhepunkt zu erreichen. ihrer Gesundheit.',
+  'tailorednutrition.tip3': 'Was ist eine maßgeschneiderte Diät?',
+  'tailorednutrition.tip4': 'Wir formulieren Lebensmittel, die speziell auf die individuellen Bedürfnisse zugeschnitten sind. Jedes Futter versorgt jede Katze oder jeden Hund mit einem vollständigen und ausgewogenen Komplex von Nährstoffen und Aminosäuren, die sie benötigt, um ihre Muskeln zu unterstützen, ihren Körper gesund zu halten und ihre natürlichen Abwehrkräfte zu stärken.',
+  'tailorednutrition.tip5': 'Formelbeispiel des Deutschen Schäferhundes: Er wird besonders für seinen Mut, seine Loyalität und seine Intelligenz geschätzt. Trotz seiner großen körperlichen und geistigen Stärke ist der Deutsche Schäferhund für seine Verdauungsempfindlichkeit bekannt. Wir haben daher eine geeignete Formel entwickelt, die leicht assimilierbare Proteine und spezifische Fasern enthält, so dass sie innen wie außen so stark ist.',
+  'tailorednutrition.tip6': 'Ermutigen Sie ihre natürlichen Veranlagungen',
+  'tailorednutrition.tip7': 'Ein vollkommen gesunder Jack Russell kann bis zu sechsmal so groß wie er springen. Die Förderung seines unglaublichen natürlichen Potenzials mit speziell ausgewählten Proteinen und Antioxidantien trägt zur Erfüllung seiner spezifischen Bedürfnisse bei.',
+  'tailorednutrition.tip8': 'Einzigartige Formeln für einzigartige Bedürfnisse',
+  'tailorednutrition.tip9': 'Viele Haustiere haben bestimmte Kiefer und Verhaltensweisen, die ihre Essgewohnheiten verändern. Aus diesem Grund passen wir unsere Rezepte nicht nur an die Ernährung an, sondern untersuchen auch die Form und Textur jedes Knabbers, um den physischen Bedürfnissen jedes Tieres besser gerecht zu werden.',
+  'tailorednutrition.tip10': 'Das Ergebnis',
+  'tailorednutrition.tip11': 'Das Ergebnis ist eine Diät, die speziell auf die spezifischen Gesundheitsbedürfnisse zugeschnitten ist. Diese Diät versorgt Ihr Haustier mit einem vollständigen und ausgewogenen Satz an Nährstoffen und Aminosäuren, die es benötigt, um starke Muskeln aufzubauen, einen gesunden Körper zu erhalten und sein Immunsystem zu stärken. Geben Sie ihm die Energie, die er braucht, um zu gedeihen und die bestmögliche Gesundheit zu haben.',
 }
 export default en_US;

@@ -44,11 +44,11 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     const afterSaleType = sessionItemRoyal.get('rc-after-sale-type');
     if (afterSaleType) {
       this.setState(

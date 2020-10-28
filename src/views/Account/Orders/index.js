@@ -55,11 +55,11 @@ class AccountOrders extends React.Component {
   }
   componentDidMount() {
     this.FormateOderTimeFilter();
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     this.queryOrderList();
   }
   async FormateOderTimeFilter() {

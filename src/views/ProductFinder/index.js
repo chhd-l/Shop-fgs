@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
+import './index.less';
 
 const ProductFinder = ({ location, history, match }) => {
   function handleClickBtn(type) {

@@ -53,24 +53,26 @@ class Confirmation extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-    if (this.state.paywithLogin) {
-      this.props.checkoutStore.removeLoginCartData();
-    } else {
-      this.props.checkoutStore.setCartData(
-        this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
-      ); // 只移除selected
-      sessionItemRoyal.remove('rc-token');
+    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
+      if (this.state.paywithLogin) {
+        this.props.checkoutStore.removeLoginCartData();
+      } else {
+        this.props.checkoutStore.setCartData(
+          this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+        ); // 只移除selected
+        sessionItemRoyal.remove('rc-token');
+      }
+      sessionItemRoyal.remove('subOrderNumberList');
+      sessionItemRoyal.remove('subNumber');
+      sessionItemRoyal.remove('oxxoPayUrl');
     }
-    sessionItemRoyal.remove('subOrderNumberList');
-    sessionItemRoyal.remove('subNumber');
-    sessionItemRoyal.remove('oxxoPayUrl');
   }
   async componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     const { subOrderNumberList } = this.state;
     let productList;
     if (this.state.paywithLogin) {
@@ -128,20 +130,8 @@ class Confirmation extends React.Component {
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id == id)
-      ? find(dictList, (ele) => ele.id == id).name
-      : id;
-  }
-  handleConsumerCommentChange(e) {
-    this.setState({
-      errorMsg: '',
-      consumerComment: e.target.value
-    });
-  }
   render() {
     const { loading, details, subOrderNumberList } = this.state;
-
     let event;
     let eEvents;
     if (!loading) {
@@ -234,9 +224,7 @@ class Confirmation extends React.Component {
                 )}
               </div>
               <p
-                className={`rc-margin-top--sm order-number-box ${
-                  this.state.subNumber ? 'text-left' : ''
-                } ml-auto mr-auto`}
+                className={`rc-margin-top--sm order-number-box ml-auto mr-auto`}
               >
                 {this.state.subNumber && (
                   <>

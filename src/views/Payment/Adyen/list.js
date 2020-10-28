@@ -110,7 +110,9 @@ class AdyenCreditCardList extends React.Component {
           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
         >
           <img
-            className={`PayCardImgFitScreen ${el.adyenPaymentMethod}`}
+            className={`PayCardImgFitScreen ${
+              el.adyenPaymentMethod ? el.adyenPaymentMethod.name : ''
+            }`}
             src={
               CREDIT_CARD_IMG_ENUM[
                 el.adyenPaymentMethod
@@ -200,7 +202,7 @@ class AdyenCreditCardList extends React.Component {
           <div className={`pt-3 pb-3`}>
             <div
               className="position-absolute"
-              style={{ right: '1%', top: '2%' }}
+              style={{ right: '1%', top: '2%', zIndex: 50 }}
             >
               <span
                 className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
@@ -273,7 +275,7 @@ class AdyenCreditCardList extends React.Component {
         <div className={`pt-3 pb-3`}>
           <div
             className="position-absolute ui-cursor-pointer-pure"
-            style={{ right: '1%', top: '2%' }}
+            style={{ right: '1%', top: '2%', zIndex: 50 }}
             onClick={(e) => {
               e.stopPropagation();
               this.setState({ formVisible: true });

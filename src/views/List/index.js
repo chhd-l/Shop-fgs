@@ -72,11 +72,11 @@ class List extends React.Component {
     this.cidFromSearch = ''; // 链接中所带catory参数
   }
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
 

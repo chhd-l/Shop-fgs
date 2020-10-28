@@ -5,10 +5,6 @@ import { queryCityByName } from '@/api';
 
 @injectIntl
 class CitySearchSelection extends React.Component {
-  componentDidMount() {
-    // queryCityByName
-  }
-  handleSelectedItemChange() {}
   render() {
     return (
       <SearchSelection

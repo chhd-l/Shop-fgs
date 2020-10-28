@@ -672,6 +672,17 @@ const en_US = {
   'subscriptionLanding.catButton': 'Voir les formules pour chat',
   'subscriptionLanding.dogButton': 'Voir les formules pour chien',
   'prescriptionDeclined': 'Receta rechazada',
-  'recommandedForyou':'Recomendado para ti'
+  'recommandedForyou':'Recomendado para ti',
+  'tailorednutrition.tip1': 'La salud merece ser luchada',
+  'tailorednutrition.tip2': 'Nuestra obsesión por la salud de las mascotas ha inspirado una serie de innovaciones para mascotas con graves problemas de salud. Innumerables cachorros, gatitos, perros y gatos son prueba viviente del éxito de estas fórmulas. Ya sea para recuperarse de un procedimiento médico, superar problemas de alergia alimentaria o proteger a las mascotas más frágiles, la nutrición personalizada puede ayudar a estos animales a alcanzar su punto máximo. de su salud.',
+  'tailorednutrition.tip3': '¿Qué es una dieta a medida?',
+  'tailorednutrition.tip4': 'Formulamos alimentos diseñados para satisfacer necesidades únicas con gran precisión. Cada alimento proporciona a cada gato o perro un complejo completo y equilibrado de nutrientes y aminoácidos que necesita para ayudar a mantener sus músculos, mantener su cuerpo sano y fortalecer sus defensas naturales.',
+  'tailorednutrition.tip5': 'Ejemplo de fórmula del pastor alemán: es particularmente apreciado por su valentía, su lealtad y su inteligencia. Sin embargo, a pesar de su gran fuerza física y mental, el pastor alemán es conocido por su sensibilidad digestiva. Por ello, hemos desarrollado una fórmula adecuada que contiene proteínas de fácil asimilación y fibras específicas para que sea tan fuerte por dentro como por fuera.',
+  'tailorednutrition.tip6': 'Fomentar sus predisposiciones naturales.',
+  'tailorednutrition.tip7': 'Un jack russell perfectamente sano puede saltar a una altura seis veces mayor que su tamaño. Fomentar su increíble potencial natural con proteínas y antioxidantes especialmente seleccionados ayuda a satisfacer sus necesidades específicas.',
+  'tailorednutrition.tip8': 'Fórmulas únicas para necesidades únicas',
+  'tailorednutrition.tip9': 'Muchas mascotas tienen mandíbulas y comportamientos específicos que cambian su forma de comer. Es por ello que no solo adaptamos nuestras recetas a nivel nutricional, sino que también estudiamos la forma y textura de cada croqueta para satisfacer mejor las necesidades físicas de cada animal.',
+  'tailorednutrition.tip10': 'El resultado',
+  'tailorednutrition.tip11': 'El resultado es una dieta diseñada para satisfacer necesidades específicas de salud con gran precisión. Esta dieta le proporciona a tu mascota un conjunto completo y equilibrado de nutrientes y aminoácidos que necesita para desarrollar músculos fuertes, mantener un cuerpo sano y fortalecer su sistema inmunológico. Dele toda la energía que necesita para prosperar y tener la mejor salud posible.',  
 }
 export default en_US;

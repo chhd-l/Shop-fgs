@@ -22,11 +22,11 @@ class Home extends React.Component {
     super(props);
   }
   async componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);

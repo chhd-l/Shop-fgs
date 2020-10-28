@@ -172,7 +172,7 @@ class PayProductInfo extends React.Component {
                     </div>
                     <div className="col-5 end-lines">
                       <p className="text-right">
-                        <span className="shipping-total-cost">
+                        <span className="shipping-total-cost red">
                           -{formatMoney(details.tradePrice.discountsPrice)}
                         </span>
                       </p>
