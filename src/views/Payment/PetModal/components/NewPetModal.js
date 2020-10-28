@@ -124,7 +124,6 @@ class NewPetModal extends Component {
       this.props.confirm(this.state.petForm)
       return
     }
-    return 
     const pets = {
       birthOfPets: this.state.petForm.birthday,
       petsName: this.state.petForm.petName,
