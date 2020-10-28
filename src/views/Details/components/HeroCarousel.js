@@ -89,12 +89,12 @@ class HeroCarousel extends React.Component {
         })
       }
   }
-  UNSAFE_componentWillMount() {
-    // getBanner().then((res) => {
-    //   console.log(res, 'ressssss');
-    //   this.setState({ banner: res.context });
-    // });
-  }
+  /*UNSAFE_componentWillMount() {
+    getBanner().then((res) => {
+      console.log(res, 'ressssss');
+      this.setState({ banner: res.context });
+    });
+  }*/
   hideNotice() {
     this.setState({
       noticeVisible: false

@@ -65,7 +65,6 @@ class HeroCarousel extends React.Component {
   }
   async UNSAFE_componentWillMount() {
     getBanner().then((res) => {
-      console.log(res, 'ressssss');
       this.setState({ banner: res.context });
     });
   }
