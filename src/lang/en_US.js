@@ -676,11 +676,15 @@ const en_US = {
   'productFinder.otherProductsToConsider': 'Other products to consider',
   'productFinder.helpTip1': 'Do you have any questions?',
   'productFinder.helpTip2': 'Out Pet Experts are always here to help you find the most precise diet for your pet',
+  'productFinder.helpTip3': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   'productFinder.summary': 'Summary',
   'productFinder.createMyPetProfile': 'Create my Pet Profile',
   'productFinder.createMyPetProfileTip': 'Create your pet profile in RoyalCanin, and get the newsletter/specific offers which will be tailored for your pets.',
   'productFinder.startAgin': 'Start agin',
   'productFinder.rigisterMyPetProfile': 'Register your pet profile in RoyalCanin and get a notification when the best product is available.',
+  'productFinder.healthTitle': 'Veterinary Nutrition',
+  'productFinder.healthTip1': 'If your cat has health problems, we recommend that you visit your veterinarian to ensure the optimal nutrition solution for your pet\'s individual needs.',
+  'productFinder.healthTip2': 'And, you can learn more about our veterinary diets product ranges.',
   'next': 'Next',
   "list.errMsg4": "No products found. Please change your search term and try again.",
   unkown: 'Unkown',
@@ -699,7 +703,6 @@ const en_US = {
   'tailorednutrition.tip11': 'The result is a diet designed to meet specific health needs with great precision. This diet provides your pet with a complete and balanced set of nutrients and amino acids that it needs to build strong muscles, maintain a healthy body and strengthen its immune system. Give it all the energy it needs to thrive and have the best possible health.',
   chooseTheProduct: 'Choose the product',
   seeAllOurProducts: 'See all our products',
-
   'aboutUs.title': '',
   'aboutUs.description': '',
   'aboutUs.history': 'Our History',
@@ -732,7 +735,7 @@ const en_US = {
   'qualitySafety.shopDog': 'Shop Dog Formulas',
   'qualitySafety.shopCat': 'Shop Cat Formulas',
   'qualitySafety.FoodQualityandSafety': 'Food Quality and Safety',
-  'qualitySafety.foodQualityDetail': 'At Royal Canin, we have always put food quality and product safety at the forefront of our operations. Our careful attention to detail allows us to provide the most precise and effective solutions to help each pet live their healthiest life possible.'
+  'qualitySafety.foodQualityDetail': 'At Royal Canin, we have always put food quality and product safety at the forefront of our operations. Our careful attention to detail allows us to provide the most precise and effective solutions to help each pet live their healthiest life possible.',
+  learnMore: 'Learn more'
 }
-
 export default en_US;
