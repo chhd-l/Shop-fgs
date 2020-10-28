@@ -656,6 +656,40 @@ const en_US = {
   'tailorednutrition.tip9': 'Birçok evcil hayvanın yemek yeme şeklini değiştiren belirli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir hayvanın fiziksel ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve dokusunu da inceliyoruz.',
   'tailorednutrition.tip10': 'Sonuç',
   'tailorednutrition.tip11': 'Sonuç, özel sağlık ihtiyaçlarınızı tam olarak karşılamak için tasarlanmış bir diyettir. Bu diyet, evcil hayvanınıza güçlü kaslar inşa etmesi, sağlıklı kalması ve bağışıklık sistemini güçlendirmesi için ihtiyaç duyduğu eksiksiz ve dengeli bir dizi besin ve amino asit sağlar. Sağlığı geliştirmek ve en üst düzeye çıkarmak için ihtiyaç duyduğu tüm enerjiyi ona verin.',
+
+
+  'aboutUs.title': '',
+  'aboutUs.description': '',
+  'aboutUs.history': 'Tarihimiz',
+  'aboutUs.historyDetail': 'Royal Canin, 1968 yılında veteriner hekim Jean Cathary tarafından kuruldu. Dr. Cathary’nin vizyonu bilime dayalı, kedi ve köpeklerin ilk ilacı olarak beslenme sağlayan ve her bir evcil hayvanın benzersiz ihtiyaçlarını karşılamak için kesin formüller oluşturan bir evcil hayvan maması şirketiydi.',
+  'aboutUs.ourValues': 'Değerlerimiz',
+  'aboutUs.ourValuesDetail': "Royal Canin'in dünyadaki rolünü şekillendiren fikirler ve değerler hakkında daha fazla bilgi edinin.",
+  'aboutUs.FoodQualityandSafety': 'Gıda Kalitesi ve Güvenliği',
+  'aboutUs.FoodQualityandSafetyDetail': 'Beslenme kalitesine ve ürün güvenliğine olan bağlılığımız dünya çapındaki operasyonlarımızın merkezinde yer almaktadır.',
+  'aboutUs.IncredibleDetail': 'Her Ayrıntıda İnanılmaz',
+  'aboutUs.SeeHowWeDo': 'Yaptığımız her şeyin evcil hayvan sağlığına olan tutkumuz tarafından yönlendirildiğini görün.',
+  'aboutUs.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
+  'aboutUs.shopDog': 'Köpek Formülleri Satın Alın',
+  'aboutUs.shopCat': 'Kedi Formülleri Satın Alın',
+  'aboutUs.learnMore': 'Daha Fazla Bilgi Edinin',
+
+  'qualitySafety.title': 'Kalite ve Gıda Güvenliğine Kararlı',
+  'qualitySafety.description': 'Son elli yılda Royal Canin, dünya çapındaki operasyonlarımızın merkezine beslenme kalitesi ve ürün güvenliğini koydu. En küçük ayrıntılara gösterilen bu özen, evcil hayvanlar için en doğru ve etkili sağlıklı beslenmeyi sunmamıza yardımcı oluyor. ',
+  'qualitySafety.foodTitle': 'Royal Canin Gıda ve Güvenlik Süreçleri',
+  'qualitySafety.foodDetail': "Altın standart üretim süreçlerimiz, Royal Canin'in dünya çapında güvenli ve yüksek kaliteli ürünler sunmasını sağlıyor. Uzmanlarımız, ham maddeler için dünya çapında aynı seçme ve satın alma süreçlerini kullanır ve tüm ürünlerimizin aynı yüksek besin standartlarını karşılamasını sağlar. Yerel tedarikçilerin derinlemesine denetimleri, dünya çapındaki tesislerimizde kullanılan tüm hammaddeler için kesin spesifikasyonların karşılanmasını sağlar. Üretim merkezlerimize girmeden önce her gönderi kontrol ediliyor ve her tesis, gıda güvenliği göstergelerini ve beslenme kalitesini analiz etmek için test laboratuvarlarıyla donatılıyor.",
+  'qualitySafety.consistentTitle': 'Tutarlı Kalite',
+  'qualitySafety.consistentDetail': "Dünya çapında 1.800 gıda üretim operatörünün tamamı, tutarlılık ve kaliteyi sağlamak için aynı katı süreci takip eder. Üretimin her aşamasında sistematik kalite kontrolleri yapılır ve tüm ürün partilerine sevkiyat öncesi son bir test yapılır. Aslında, her yıl dünya çapında yarım milyon analiz yapıyoruz. Dünya çapındaki tüm distribütörlerimiz, güvenlik ve lojistik standartlarımıza uyduklarından emin olmak için depo ve nakliye denetimlerine tabidir. Bu prosedürler, ürünlerimizin optimum kalitesini, güvenliğini ve besin değerini garanti eder.",
+  'qualitySafety.materialsTitle': 'Kaliteli Hammaddeler',
+  'qualitySafety.materialsDetail': 'İçerikleri, yüksek besin içeriklerine ve evcil hayvanlara sağladıkları sağlık yararlarına göre seçiyoruz. Hammaddelerimizi üretim merkezlerimize yakın akredite tedarikçilerden temin etmek için her türlü çaba gösteriliyor, bu yerel ekonomiyi destekliyor, tazelik sağlıyor ve karbon ayak izimizi azaltıyor. ',
+  'qualitySafety.rigorousTitle': 'Titiz Tedarikçi Seçimi',
+  'qualitySafety.rigorousDetail': 'Sınıfının en iyisi kalite ve güvenlik standartlarımızı sürdürmemize yardımcı olabilecek tedarikçileri belirlemek için katı seçim kriterleri kullanıyoruz. Bunun bir parçası olarak besin değerini, üretim kalitesini, izlenebilirliği ve sürdürülebilirliği belirlemek için derinlemesine denetimlerden geçiyoruz. ',
+  'qualitySafety.ingredientsTitle': 'Tamamen İzlenebilir Malzemeler',
+  'qualitySafety.ingredientsDetail': "Gelen hammaddelerin% 100'ü analiz edilir ve her birinin bir numunesi iki yıl süreyle saklanır. Bu, her ham maddeyi tüm süre boyunca kaynağına kadar izleyebilmemizi sağlar. ürünün raf ömrü ",
+  'qualitySafety.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
+  'qualitySafety.shopDog': 'Köpek Formülleri Satın Alın',
+  'qualitySafety.shopCat': 'Kedi Formülleri Alışverişi',
+  'qualitySafety.FoodQualityandSafety': 'Gıda Kalitesi ve Güvenliği',
+  'qualitySafety.foodQualityDetail': "Royal Canin'de gıda kalitesini ve ürün güvenliğini her zaman operasyonlarımızın ön saflarına koyduk. Ayrıntılara olan titiz dikkatimiz, her bir evcil hayvanın mümkün olan en sağlıklı yaşamını yaşamasına yardımcı olmak için en kesin ve etkili çözümleri sunmamızı sağlar. "
 }
 
 export default en_US;

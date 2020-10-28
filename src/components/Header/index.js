@@ -29,7 +29,7 @@ const _catogryCfg = function (lang, props) {
     { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
     { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
     {
-      url: props.configStore.contactUsUrl,
+      linkObj: { pathname: '/aboutUs' },
       langKey: 'aboutUs'
     },
     { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
@@ -48,7 +48,7 @@ const _catogryCfg = function (lang, props) {
           langKey: 'healthAndNutrition'
         },
         {
-          url: props.configStore.contactUsUrl,
+          linkObj: { pathname: '/aboutUs' },
           langKey: 'aboutUs'
         }
       ],
@@ -61,11 +61,11 @@ const _catogryCfg = function (lang, props) {
           linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
           langKey: 'dogs'
         },
+        { linkObj: { pathname: '/help' }, langKey: 'contactUs' },
         {
-          url: props.configStore.contactUsUrl,
+          linkObj: { pathname: '/aboutUs' },
           langKey: 'aboutUs'
-        },
-        { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
+        }
       ],
       fr: [
         {
@@ -91,15 +91,14 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          url: props.configStore.contactUsUrl,
-          langKey: 'aboutUs',
-          type: 'aboutUs'
-        },
-        {
           linkObj: { pathname: '/help' },
           langKey: 'contactUs',
           subMenuKey: 'help',
           type: 'help'
+        },
+        {
+          linkObj: { pathname: '/aboutUs' },
+          langKey: 'aboutUs'
         }
       ],
       ru: [
@@ -126,9 +125,8 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          url: props.configStore.contactUsUrl,
-          langKey: 'aboutUs',
-          type: 'aboutUs'
+          linkObj: { pathname: '/aboutUs' },
+          langKey: 'aboutUs'
         }
       ],
       tr: [
@@ -155,15 +153,14 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
-          url: props.configStore.contactUsUrl,
-          langKey: 'aboutUs',
-          type: 'aboutUs'
-        },
-        {
           linkObj: { pathname: '/help' },
           langKey: 'contactUs',
           subMenuKey: 'help',
           type: 'help'
+        },
+        {
+          linkObj: { pathname: '/aboutUs' },
+          langKey: 'aboutUs'
         }
       ]
     }[lang] || defaultVal

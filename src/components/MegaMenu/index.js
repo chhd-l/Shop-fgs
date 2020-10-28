@@ -130,13 +130,9 @@ class MegaMenu extends React.Component {
                       </Link>
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100">
-                      <a
-                        className="rc-list__header"
-                        href={this.props.configStore.contactUsUrl}
-                        target="_blank"
-                      >
+                      <Link className="rc-list__header" to="/aboutUs">
                         <FormattedMessage id="aboutUs" />
-                      </a>
+                      </Link>
                     </li>
                     <li className="rc-list__item rc-list__item--group w-100">
                       <Link className="rc-list__header" to="/help">
