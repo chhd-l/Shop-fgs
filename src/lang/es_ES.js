@@ -717,6 +717,7 @@ const en_US = {
   'qualitySafety.shopDog': 'Comprar fórmulas para perros',
   'qualitySafety.shopCat': 'Compre fórmulas para gatos',
   'qualitySafety.FoodQualityandSafety': 'Calidad e inocuidad de los alimentos',
-  'qualitySafety.foodQualityDetail': 'En Royal Canin, siempre hemos puesto la calidad de los alimentos y la seguridad de los productos a la vanguardia de nuestras operaciones. Nuestra cuidadosa atención a los detalles nos permite brindar las soluciones más precisas y efectivas para ayudar a cada mascota a vivir una vida lo más saludable posible. '
+  'qualitySafety.foodQualityDetail': 'En Royal Canin, siempre hemos puesto la calidad de los alimentos y la seguridad de los productos a la vanguardia de nuestras operaciones. Nuestra cuidadosa atención a los detalles nos permite brindar las soluciones más precisas y efectivas para ayudar a cada mascota a vivir una vida lo más saludable posible. ',
+  'contactUsViaPhone': 'contact Us Via Phone',
 }
 export default en_US;
