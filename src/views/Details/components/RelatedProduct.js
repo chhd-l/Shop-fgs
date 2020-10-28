@@ -77,7 +77,7 @@ class RalatedProduct extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
     
   }
   componentDidMount(){

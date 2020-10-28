@@ -24,7 +24,7 @@ class SubscriptionSelect extends Component {
       recommend_data: null
     };
   }
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data.length > 0) {
       this.updateFirstOrderDiscount(nextProps.data);
       this.setState({ recommend_data: nextProps.data });

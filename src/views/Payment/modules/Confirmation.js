@@ -17,7 +17,7 @@ class Confirmation extends React.Component {
   componentDidMount() {
     this.validData();
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
   }
   get confirmationPanelStatus() {
