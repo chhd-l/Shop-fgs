@@ -12,11 +12,11 @@ export default class Rate extends Component {
     tooltipStatus: false,
   };
   /** 页面渲染前 */
-  /*UNSAFE_componentWillMount = () => {};*/
+  /*componentWillMount = () => {};*/
   /** 页面渲染后 */
   componentDidMount = () => {};
   /** 数据更新前 */
-  UNSAFE_componentWillUpdate = () => {
+  componentWillUpdate = () => {
     this.showState();
   };
   showState() {

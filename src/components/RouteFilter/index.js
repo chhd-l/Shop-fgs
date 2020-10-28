@@ -14,7 +14,7 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  async UNSAFE_componentWillMount() {
+  async componentWillMount() {
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
     // 默认了clinic后，再次编辑clinic

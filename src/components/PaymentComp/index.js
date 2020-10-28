@@ -65,7 +65,7 @@ class PaymentComp extends React.Component {
     };
     this.pathname = '';
   }
-  UNSAFE_componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     if (props.isAddNewCard) {
       this.setState({ isEdit: true }, () => {
         this.scrollToPaymentComp();

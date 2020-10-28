@@ -44,7 +44,7 @@ class AddressBookEditForm extends React.Component {
       });
     });
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
         form: Object.assign({}, nextProps.data)

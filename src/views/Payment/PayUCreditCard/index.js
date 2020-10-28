@@ -119,7 +119,7 @@ class PayOs extends React.Component {
       });
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { creditCardInfoForm } = this.state;
     let requiredList = nextProps.listData.filter((item) => item.isRequired);
     this.setState({

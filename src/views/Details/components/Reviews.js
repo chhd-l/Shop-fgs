@@ -23,7 +23,7 @@ class Reviews extends React.Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps, nextContext) {
     if (nextProps.id && nextProps.id !== this.state.id) {
       this.setState(
         {

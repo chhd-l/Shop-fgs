@@ -63,7 +63,7 @@ class HeroCarousel extends React.Component {
     this.hanldeClick = this.hanldeClick.bind(this);
     this.hideNotice = this.hideNotice.bind(this);
   }
-  async UNSAFE_componentWillMount() {
+  async componentWillMount() {
     getBanner().then((res) => {
       this.setState({ banner: res.context });
     });

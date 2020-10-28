@@ -60,7 +60,7 @@ class NewPetModal extends Component {
       selectModalVisible: true,
     });
   }
-  UNSAFE_componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     if(props.visible) {
       this.setState({
         petForm: {

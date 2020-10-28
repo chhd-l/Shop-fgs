@@ -18,7 +18,7 @@ class ReviewForm extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {}
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps, nextContext) {
     // debugger
     // if(nextProps.isSubmit) {
     //     this.textarea.blur();

@@ -80,7 +80,7 @@ class OxxoConfirm extends Component {
     }, 3000);
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     let requiredList = nextProps.listData.filter((item) => item.isRequired);
     this.setState({
       requiredList

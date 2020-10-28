@@ -43,7 +43,7 @@ class ClinicEditForm extends React.Component {
       oldForm: oldForm
     });
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
       const { data } = nextProps;
       let form = {

@@ -22,7 +22,7 @@ export default class Selection extends React.Component {
     };
     this.timeOutId = null;
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const selectedItemData = nextProps.selectedItemData;
     // if (selectedItemData.value !== this.state.selectedItem.value) {
     //   this.setState({

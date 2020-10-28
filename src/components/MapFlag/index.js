@@ -33,7 +33,7 @@ class MapFlag extends React.Component {
       isPassive: false
     })
   }
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (this.state.isPassive) {
       this.setState({
         show: nextProps.show

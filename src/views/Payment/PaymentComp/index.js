@@ -92,7 +92,7 @@ class PaymentComp extends React.Component {
     this.props.getSelectedValue && this.props.getSelectedValue(selectedCard);
     this.setState({ creditCardList: this.state.creditCardList });
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { creditCardInfoForm } = this.state;
     if (nextProps.selectedDeliveryAddress) {
       const {

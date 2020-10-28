@@ -66,7 +66,7 @@ class EditForm extends React.Component {
       });
     });
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (
       nextProps.initData &&
       JSON.stringify(nextProps.initData) !== JSON.stringify(this.state.address)

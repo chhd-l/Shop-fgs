@@ -15,7 +15,7 @@ class ConfirmTooltip extends React.Component {
     cancelBtnVisible: true,
     confirmBtnVisible: true
   };
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.display) {
       setTimeout(() => {
         document.querySelector('.confirm-tool-content') &&
