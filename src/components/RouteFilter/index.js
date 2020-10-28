@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { queryStoreCateIds, loadJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
-import { getProductPetConfig } from '@/api/payment';
+//import { getProductPetConfig } from '@/api/payment';
 import { toJS } from 'mobx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

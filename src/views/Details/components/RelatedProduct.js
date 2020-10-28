@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { getGoodsRelation } from '@/api/details';
-import Skeleton from 'react-skeleton-loader';
+//import Skeleton from 'react-skeleton-loader';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { find } from 'lodash';
@@ -77,7 +77,7 @@ class RalatedProduct extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
     
   }
   componentDidMount(){

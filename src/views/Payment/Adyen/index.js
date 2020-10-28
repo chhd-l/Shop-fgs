@@ -19,7 +19,7 @@ class AdyenCreditCard extends React.Component {
       errorMsg: ''
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
   }
   //是否consent必填项勾选

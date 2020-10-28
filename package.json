@@ -115,7 +115,12 @@
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-undef": "off",
+      "no-restricted-globals": "off",
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": {
     "production": [

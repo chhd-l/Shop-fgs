@@ -8,11 +8,11 @@ import SideMenu from '@/components/SideMenu';
 import Rate from '@/components/Rate';
 import ReviewForm from './components/ReviewForm';
 import { getGoodsList, addGoodsEvaluate } from '@/api/review';
-import ReviewList from './components/ReviewList';
-import ImgUpload from '@/components/ImgUpload';
+//import ReviewList from './components/ReviewList';
+//import ImgUpload from '@/components/ImgUpload';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 @injectIntl
 class ProductReview extends React.Component {

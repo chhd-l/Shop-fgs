@@ -5,7 +5,7 @@ import LoginButton from '@/components/LoginButton';
 import { formatMoney } from '@/utils/utils';
 import { find } from 'lodash';
 import { inject, observer } from 'mobx-react';
-import PetModal from '@/components/PetModal';
+//import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

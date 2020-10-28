@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import './index.css'
-import LeftImg from '@/assets/images/left.png'
-import RightImg from '@/assets/images/right.png'
+//import LeftImg from '@/assets/images/left.png'
+//import RightImg from '@/assets/images/right.png'
 
 class ImageMagnifier extends Component {
   constructor(props) {
