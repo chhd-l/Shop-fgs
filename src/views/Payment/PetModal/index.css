@@ -16,3 +16,17 @@
 .vertical-middle {
     align-items: center;
 }
+.rc-select > .choices {
+    border-bottom: 1px solid #ccc !important;
+}
+#petName {
+    border-bottom: 1px solid #ccc;
+}
+#inputBreed input {
+    height: 57px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+.pet-modal .searchSelection {
+    padding: 0 !important;
+}

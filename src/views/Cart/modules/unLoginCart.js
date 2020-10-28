@@ -144,8 +144,10 @@ class UnLoginCart extends React.Component {
           let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
           let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
             el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
             return el
           })
+          this.props.checkoutStore.setLoginCartData(handledData)
           let AuditData = handledData.filter(el => el.auditCatFlag)
           this.props.checkoutStore.setAuditData(AuditData)
           autoAuditFlag = res.context.autoAuditFlag
@@ -157,11 +159,14 @@ class UnLoginCart extends React.Component {
           let res = await getProductPetConfig({goodsInfos: paramData})
           let handledData = paramData.map((el, i) => {
             el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
             return el
           })
+          this.props.checkoutStore.setCartData(handledData)
           let AuditData = handledData.filter(el => el.auditCatFlag)
           this.props.checkoutStore.setAuditData(AuditData)
           autoAuditFlag = res.context.autoAuditFlag
+          this.props.checkoutStore.setPetFlag(res.context.petFlag)
         }
         this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
         history.push('/prescription');

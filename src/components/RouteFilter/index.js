@@ -29,30 +29,22 @@ class RouteFilter extends Component {
       this.props.history.replace('/payment/payment');
       return false;
     }
-
+    
     if (pathname === '/prescription') {
-      console.log(toJS(checkoutStore.autoAuditFlag), 'AuditData');
+      if(this.isLogin) {
+        let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
+        if(!needPrescriber) {
+          history.replace('/payment/payment');
+        }
+      }else {
+        let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
+        if(!needPrescriber) {
+          history.replace('/payment/payment');
+        }
+      }
       if (checkoutStore.autoAuditFlag) {
         history.replace('/payment/payment');
       }
-
-      // if(this.isLogin) {
-      //   let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
-      //   let AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-      //   this.props.checkoutStore.setAuditData(AuditData)
-      // }else {
-      //   let paramData = this.props.checkoutStore.cartData.map(el => {
-      //     el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-      //     return el
-      //   })
-      //   let res = await getProductPetConfig({goodsInfos: paramData})
-      //   console.log(res, 'res')
-      //   debugger
-      //   return false
-      //   // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
-      // }
-      // this.props.history.replace('/payment/payment');
-      // return false;
     }
 
     if (

@@ -442,10 +442,16 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    return (
-      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-      !this.props.checkoutStore.autoAuditFlag
-    );
+    if(this.isLogin) {
+      return (
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length !== 0
+      )
+    }else {
+      return (
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length !== 0
+      )
+    }
+    
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -1625,7 +1631,7 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                {this.props.checkoutStore.AuditData.length > 0 && (
+                {this.props.checkoutStore.petFlag && this.props.checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
                       className="ml-custom mr-custom"
