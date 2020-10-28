@@ -78,7 +78,7 @@ class ShippingAddressFrom extends React.Component {
       });
     }
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     sessionItemRoyal.remove('paymentMethodForm');
   }
   get userInfo() {
