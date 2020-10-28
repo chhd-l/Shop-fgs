@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './index.css'
 
 class Tooltip extends React.Component {
-    componentWillReceiveProps (nextProps) {
+    UNSAFE_componentWillReceiveProps (nextProps) {
         if (nextProps.display) {
             setTimeout(() => {
                 document.querySelector('.confirm-tool-content') && document.querySelector('.confirm-tool-content').focus()

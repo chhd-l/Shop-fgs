@@ -70,7 +70,7 @@ class HeroCarousel extends React.Component {
     this.hanldeClick = this.hanldeClick.bind(this);
     this.hideNotice = this.hideNotice.bind(this);
   }
-  componentWillReceiveProps(nextProps, nextContext) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
       
   }
   componentDidMount(){

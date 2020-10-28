@@ -16,7 +16,7 @@ export default class Rate extends Component {
   /** 页面渲染后 */
   componentDidMount = () => {};
   /** 数据更新前 */
-  componentWillUpdate = () => {
+  UNSAFE_componentWillUpdate = () => {
     this.showState();
   };
   showState() {
