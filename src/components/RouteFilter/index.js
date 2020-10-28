@@ -15,13 +15,12 @@ class RouteFilter extends Component {
     return this.props.loginStore.isLogin;
   }
   async UNSAFE_componentWillMount() {
-    debugger;
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
     // 默认了clinic后，再次编辑clinic
     if (
       pathname === '/prescription' &&
-      +sessionItemRoyal.get('clinic-reselect')
+      sessionItemRoyal.get('clinic-reselect') === 'true'
     ) {
       return false;
     }
@@ -91,7 +90,7 @@ class RouteFilter extends Component {
     // 默认了clinic后，再次编辑clinic
     if (
       nextProps.location.pathname === '/prescription' &&
-      +sessionItemRoyal.get('clinic-reselect')
+      sessionItemRoyal.get('clinic-reselect') === 'true'
     ) {
       return false;
     }

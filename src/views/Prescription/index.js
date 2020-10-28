@@ -111,7 +111,9 @@ class Prescription extends React.Component {
     this.getAllPrescription();
   }
   componentWillUnmount() {
-    sessionItemRoyal.remove('clinic-reselect');
+    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
+      sessionItemRoyal.remove('clinic-reselect');
+    }
     localItemRoyal.set('isRefresh', true);
   }
   inputSearchValue = (e) => {

@@ -56,7 +56,7 @@ class ClinicForm extends React.Component {
   }
   gotoPrescriptionPage = (e) => {
     e.preventDefault();
-    sessionItemRoyal.set('clinic-reselect', 1);
+    sessionItemRoyal.set('clinic-reselect', 'true');
     this.props.history.push('/prescription');
   };
   handleSelectedItemChange = (data) => {

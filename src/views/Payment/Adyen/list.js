@@ -202,7 +202,7 @@ class AdyenCreditCardList extends React.Component {
           <div className={`pt-3 pb-3`}>
             <div
               className="position-absolute"
-              style={{ right: '1%', top: '2%' }}
+              style={{ right: '1%', top: '2%', zIndex: 99 }}
             >
               <span
                 className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
@@ -275,7 +275,7 @@ class AdyenCreditCardList extends React.Component {
         <div className={`pt-3 pb-3`}>
           <div
             className="position-absolute ui-cursor-pointer-pure"
-            style={{ right: '1%', top: '2%' }}
+            style={{ right: '1%', top: '2%', zIndex: 99 }}
             onClick={(e) => {
               e.stopPropagation();
               this.setState({ formVisible: true });
