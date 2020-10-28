@@ -31,7 +31,7 @@ export default class AddressForm extends React.Component {
       });
     });
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.deliveryAddress) {
       this.setState({
         deliveryAddress: Object.assign({}, nextProps.data)
