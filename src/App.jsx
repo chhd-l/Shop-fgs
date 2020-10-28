@@ -128,7 +128,7 @@ const App = () => (
       <Router
         basename={process.env.REACT_APP_HOMEPAGE}
         path={'/'}
-        // forceRefresh={true}
+        forceRefresh={true}
       >
         <RouteFilter />
         <ScrollToTop>

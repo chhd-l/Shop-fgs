@@ -10,7 +10,7 @@ import GoogleMap from '@/components/GoogleMap';
 import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
-import initLocation from "./location"
+import initLocation from './location';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -55,9 +55,9 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
 @observer
 class Prescription extends React.Component {
   constructor(props) {
-    const lang = process.env.REACT_APP_LANG
-    const lat = initLocation[lang].lat
-    const lng = initLocation[lang].lng
+    const lang = process.env.REACT_APP_LANG;
+    const lat = initLocation[lang].lat;
+    const lng = initLocation[lang].lng;
     super(props);
     this.state = {
       type: 'perscription',
@@ -110,12 +110,11 @@ class Prescription extends React.Component {
     this.inputRef = React.createRef();
   }
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     this.handleInit();
 
     this.getAllPrescription();
@@ -193,7 +192,6 @@ class Prescription extends React.Component {
       this.setState({
         clinicArr: clinicArr
       });
-      console.log(this.state.clinicArr);
     }
   }
   handleSearch = () => {

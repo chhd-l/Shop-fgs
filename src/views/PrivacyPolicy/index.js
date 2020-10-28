@@ -9,11 +9,11 @@ class PrivacyPolicy extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
   }
   render() {
     return (

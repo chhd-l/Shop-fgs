@@ -110,7 +110,9 @@ class AdyenCreditCardList extends React.Component {
           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
         >
           <img
-            className={`PayCardImgFitScreen ${el.adyenPaymentMethod.name}`}
+            className={`PayCardImgFitScreen ${
+              el.adyenPaymentMethod ? el.adyenPaymentMethod.name : ''
+            }`}
             src={
               CREDIT_CARD_IMG_ENUM[
                 el.adyenPaymentMethod

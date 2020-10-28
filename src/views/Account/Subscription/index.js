@@ -53,11 +53,11 @@ class Subscription extends React.Component {
   }
 
   componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     getDictionary({ type: 'Frequency' }).then((res) => {
       this.setState({
         frequencyList: res

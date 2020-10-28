@@ -153,11 +153,11 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res

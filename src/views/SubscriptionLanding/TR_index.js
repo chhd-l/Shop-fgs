@@ -143,11 +143,11 @@ class Help extends React.Component {
       .catch((err) => {
         // this.props.history.push('/')
       });
-    if (localItemRoyal.get('isRefresh')) {
-      localItemRoyal.remove('isRefresh');
-      window.location.reload();
-      return false;
-    }
+    // if (localItemRoyal.get('isRefresh')) {
+    //   localItemRoyal.remove('isRefresh');
+    //   window.location.reload();
+    //   return false;
+    // }
   }
   checkoutStock() {
     let {
