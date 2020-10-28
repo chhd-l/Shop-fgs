@@ -9,6 +9,7 @@ class CheckoutStore {
   @observable cartData = localItemRoyal.get('rc-cart-data') || [];
   @observable AuditData = localItemRoyal.get('rc-audit-data') || [];
   @observable autoAuditFlag = localItemRoyal.get('rc-autoAuditFlag') || false;
+  @observable petFlag = localItemRoyal.get('rc-petFlag') || false;
   @observable loginCartData = localItemRoyal.get('rc-cart-data-login') || []; // 商品列表
   @observable cartPrice = localItemRoyal.get('rc-totalInfo') || null; // 价格数据
   @observable goodsMarketingMap =
@@ -57,6 +58,12 @@ class CheckoutStore {
   setAutoAuditFlag(data) {
     this.autoAuditFlag = data;
     localItemRoyal.set('rc-autoAuditFlag', data);
+  }
+
+  @action.bound
+  setPetFlag(data) {
+    this.petFlag = data;
+    localItemRoyal.set('rc-petFlag', data);
   }
 
   @action.bound

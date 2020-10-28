@@ -30,10 +30,14 @@ class NewPetModal extends Component {
       petForm: {
         petName: '',
         petType: 'cat',
-        birthday: moment(new Date()).format('YYYY-MM-DD'),
+        // birthday: moment(new Date()).format('YYYY-MM-DD'),
+        birthday: '',
         breed: '',
       },
-      selectModalVisible: false
+      selectModalVisible: false,
+      isShowBirthErorr: false,
+      isShowPetNameErorr: false,
+      isShowBreedErorr: false
     };
   }
   componentDidMount() {}
@@ -66,7 +70,8 @@ class NewPetModal extends Component {
         petForm: {
           petName: '',
           petType: 'cat',
-          birthday: moment(new Date()).format('YYYY-MM-DD'),
+          // birthday: moment(new Date()).format('YYYY-MM-DD'),
+          birthday: '',
           breed: '',
         }
       })
@@ -119,6 +124,24 @@ class NewPetModal extends Component {
   };
 
   async addPet() {
+    let isFillAll = true
+    for(let k in this.state.petForm) {
+      if(!this.state.petForm[k]) {
+        isFillAll = false
+        if(k === 'petName') {
+          this.setState({isShowPetNameErorr: true})  
+        }
+        if(k === 'birthday') {
+          this.setState({isShowBirthErorr: true})
+        }
+        if(k === 'breed') {
+          this.setState({isShowBreedErorr: true})
+        }
+      }
+    }
+    if(!isFillAll) {
+      return false
+    }
     if(!this.props.loginStore.isLogin) {
       this.props.confirm(this.state.petForm)
       return
@@ -188,9 +211,16 @@ class NewPetModal extends Component {
       });
   };
   onDateChange(date) {
-    const { petForm } = this.state;
-    petForm['birthday'] = moment(date).format('YYYY-MM-DD');
-    this.setState({ petForm });
+    console.log(date)
+    let { petForm, isShowBirthErorr } = this.state;
+    if(date) {
+      petForm['birthday'] = moment(date).format('YYYY-MM-DD');
+      isShowBirthErorr = false
+    }else {
+      petForm['birthday'] = date
+      isShowBirthErorr = true
+    }
+    this.setState({ petForm, isShowBirthErorr });
   }
   render() {
     const form = this.state.petForm;
@@ -232,7 +262,7 @@ class NewPetModal extends Component {
                   />
                   <label className="rc-input__label" htmlFor="petName"></label>
                 </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
+                <div className="invalid-feedback" style={{ display: this.state.isShowPetNameErorr? 'block': 'none' }}>
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
@@ -283,10 +313,18 @@ class NewPetModal extends Component {
                   dateFormat="yyyy-MM-dd"
                   maxDate={new Date()}
                   selected={
-                    form.birthday ? new Date(form.birthday) : new Date()
+                    form.birthday ? new Date(form.birthday) : ''
                   }
                   onChange={(date) => this.onDateChange(date)}
                 />
+                <div className="invalid-feedback" style={{ display: this.state.isShowBirthErorr? 'block': 'none' }}>
+                  <FormattedMessage
+                    id="payment.errorInfo"
+                    values={{
+                      val: <FormattedMessage id="birthDate" />
+                    }}
+                  />
+                </div>
               </div>
               <div className="form-group col-lg-6" id="inputBreed">
                 <label
@@ -310,11 +348,19 @@ class NewPetModal extends Component {
                       }}
                       selectedItemChange={(data) => {
                         form.breed = data.name
-                        this.setState({petForm: form})
+                        this.setState({petForm: form, isShowBreedErorr: false})
                       }}
                     />
                   )
                 }
+                <div className="invalid-feedback" style={{ display: this.state.isShowBreedErorr? 'block': 'none' }}>
+                  <FormattedMessage
+                    id="payment.errorInfo"
+                    values={{
+                      val: <FormattedMessage id="breed" />
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
