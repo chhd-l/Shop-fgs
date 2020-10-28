@@ -403,6 +403,7 @@ class Help extends React.Component {
       );
       return false;
     }
+    console.log(inStockProducts, 'recomend_ppp')
     if(outOfStockProducts.length > 0) {
       sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
       this.setState({modalShow: true, currentModalObj: modalList[1]})

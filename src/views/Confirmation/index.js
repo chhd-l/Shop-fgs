@@ -53,19 +53,17 @@ class Confirmation extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
-      if (this.state.paywithLogin) {
-        this.props.checkoutStore.removeLoginCartData();
-      } else {
-        this.props.checkoutStore.setCartData(
-          this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
-        ); // 只移除selected
-        sessionItemRoyal.remove('rc-token');
-      }
-      sessionItemRoyal.remove('subOrderNumberList');
-      sessionItemRoyal.remove('subNumber');
-      sessionItemRoyal.remove('oxxoPayUrl');
+    if (this.state.paywithLogin) {
+      this.props.checkoutStore.removeLoginCartData();
+    } else {
+      this.props.checkoutStore.setCartData(
+        this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+      ); // 只移除selected
+      sessionItemRoyal.remove('rc-token');
     }
+    sessionItemRoyal.remove('subOrderNumberList');
+    sessionItemRoyal.remove('subNumber');
+    sessionItemRoyal.remove('oxxoPayUrl');
   }
   async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {

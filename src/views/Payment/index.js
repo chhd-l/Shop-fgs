@@ -295,12 +295,10 @@ class Payment extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-    if (+sessionItemRoyal.get('isNavigateToOtherPage')) {
-      sessionItemRoyal.remove('rc-tid');
-      sessionItemRoyal.remove('rc-tidList');
-      sessionItemRoyal.remove('rc-subform');
-      sessionItemRoyal.remove('recommend_product');
-    }
+    sessionItemRoyal.remove('rc-tid');
+    sessionItemRoyal.remove('rc-tidList');
+    sessionItemRoyal.remove('rc-subform');
+    sessionItemRoyal.remove('recommend_product');
   }
   initPaymentWay = async () => {
     //获取支付方式
@@ -984,6 +982,8 @@ class Payment extends React.Component {
         };
       });
     } else if (this.isLogin) {
+      console.log(toJS(this.loginCartData));
+      debugger;
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1057,7 +1057,6 @@ class Payment extends React.Component {
       delete param.tradeItems;
       delete param.tradeMarketingList;
     }
-
     return param;
   }
 
@@ -1532,14 +1531,17 @@ class Payment extends React.Component {
         this.state.currentProIndex
       ].petForm = data;
     } else {
-      let loginCartData = this.props.checkoutStore.AuditData;
-      console.log(data, this.props, toJS(loginCartData));
-      loginCartData = loginCartData.map((el, i) => {
+      let loginCartData;
+      this.props.checkoutStore.AuditData.map((el, i) => {
         if (i === this.state.currentProIndex) {
-          el.petsId = data.value;
-          el.petName = data.name;
+          loginCartData = this.loginCartData.map((loginEl) => {
+            if (loginEl.goodsInfoId === el.goodsInfoId) {
+              loginEl.petsId = data.value;
+              loginEl.petName = data.name;
+            }
+            return loginEl;
+          });
         }
-        return el;
       });
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
