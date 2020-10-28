@@ -698,7 +698,41 @@ const en_US = {
   'tailorednutrition.tip10': 'The result',
   'tailorednutrition.tip11': 'The result is a diet designed to meet specific health needs with great precision. This diet provides your pet with a complete and balanced set of nutrients and amino acids that it needs to build strong muscles, maintain a healthy body and strengthen its immune system. Give it all the energy it needs to thrive and have the best possible health.',
   chooseTheProduct: 'Choose the product',
-  seeAllOurProducts: 'See all our products'
+  seeAllOurProducts: 'See all our products',
+
+  'aboutUs.title': '',
+  'aboutUs.description': '',
+  'aboutUs.history': 'Our History',
+  'aboutUs.historyDetail': 'Royal Canin was founded in 1968 by veterinarian Jean Cathary. Dr. Cathary’s vision was a pet food company grounded in science, providing nutrition as cats’ and dogs’ first medicine, and creating precise formulas to meet the unique needs of each pet.',
+  'aboutUs.ourValues': 'Our Values',
+  'aboutUs.ourValuesDetail': 'Find out more about the ideas and values that shape Royal Canin’s role in the world.',
+  'aboutUs.FoodQualityandSafety': 'Food Quality and Safety',
+  'aboutUs.FoodQualityandSafetyDetail': 'Our commitment to nutritional quality and product safety is at the heart of our operations worldwide.',
+  'aboutUs.IncredibleDetail': 'Incredible in Every Detail',
+  'aboutUs.SeeHowWeDo': 'See how everything we do is driven by our passion for pet health.',
+  'aboutUs.shopTile': 'Shop Tailored Nutrition For Your Pet',
+  'aboutUs.shopDog': 'Shop Dog Formulas',
+  'aboutUs.shopCat': 'Shop Cat Formulas',
+  'aboutUs.learnMore': 'Learn More',
+
+
+  'qualitySafety.title': 'Committed to Quality and Food Safety',
+  'qualitySafety.description': 'Over the last five decades Royal Canin has put nutritional quality and product safety at the heart of our operations worldwide. This attention to the very smallest details helps us deliver the most precise and effective health nutrition for pets.',
+  'qualitySafety.foodTitle': 'Royal Canin Food and Safety Processes',
+  'qualitySafety.foodDetail': 'Our gold standard production processes ensure Royal Canin delivers safe and high quality products worldwide. Our specialists use the same selection and purchasing processes worldwide for raw materials, ensuring all our products meet the same high nutritional standards. In-depth audits of local suppliers ensure precise specifications are met for all raw materials used in our facilities worldwide. Every shipment is checked before entering our production centers, and each facility is equipped with testing labs to analyze food safety indicators and nutritional quality.',
+  'qualitySafety.consistentTitle': 'Consistent Quality',
+  'qualitySafety.consistentDetail': 'All 1,800 food production operators worldwide follow the same strict process to ensure consistency and quality.Systematic quality checks are performed at every stage of production and all product batches are given a final test before shipping. In fact, every year we undertake half a million analyses worldwide. All our distributors worldwide are subject to warehouse and transportation audits to ensure they comply with our safety and logistical standards. These procedures guarantee the optimum quality, safety and nutritional value of our products',
+  'qualitySafety.materialsTitle': 'Quality Raw Materials',
+  'qualitySafety.materialsDetail': 'We choose ingredients based on their high nutritional content and the health benefits they deliver to pets. All efforts are made to source our raw materials from accredited suppliers close to our production centers, this supports the local economy, ensures freshness and reduces our carbon footprint.',
+  'qualitySafety.rigorousTitle': 'Rigorous Supplier Selection',
+  'qualitySafety.rigorousDetail': 'We use strict selection criteria to identify suppliers that can help us maintain our best-in-class quality and safety standards. As part of that we undergo in-depth audits to determine nutritional value, production quality, traceability and sustainability.',
+  'qualitySafety.ingredientsTitle': 'Fully Traceable Ingredients',
+  'qualitySafety.ingredientsDetail': "100% of incoming raw materials are analysed, and a sample of each is kept for two years. This ensures we are able to trace every raw material all the way back to its origin, for the full duration of the product's shelf life",
+  'qualitySafety.shopTile': 'Shop Tailored Nutrition For Your Pet',
+  'qualitySafety.shopDog': 'Shop Dog Formulas',
+  'qualitySafety.shopCat': 'Shop Cat Formulas',
+  'qualitySafety.FoodQualityandSafety': 'Food Quality and Safety',
+  'qualitySafety.foodQualityDetail': 'At Royal Canin, we have always put food quality and product safety at the forefront of our operations. Our careful attention to detail allows us to provide the most precise and effective solutions to help each pet live their healthiest life possible.'
 }
 
 export default en_US;

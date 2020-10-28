@@ -77,7 +77,7 @@ import TR_GeneralConditions from '@/views/GeneralConditions/TR_index.js';
 import generalConditions from '@/views/GeneralConditions';
 import Tailorednutrition from '@/views/Tailorednutrition';
 import QualitySafety from '@/views/QualitySafety';
-import RU_AboutUs from '@/views/AboutUs/RU_index.js';
+import AboutUs from '@/views/AboutUs/index.js';
 import RU_Values from '@/views/Values/RU_index.js';
 import ShipmentConditions from '@/views/ShipmentConditions';
 
@@ -362,7 +362,7 @@ const App = () => (
                 exact
                 component={TR_GeneralConditions}
               />
-              <Route path="/aboutUs-ru" exact component={RU_AboutUs} />
+              <Route path="/aboutUs" exact component={AboutUs} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route
                 path="/tailorednutrition"

@@ -12,6 +12,8 @@ import helpImg from '@/assets/images/slider-img-help.jpg';
 import image1 from './images/image1.jpg'
 import image2 from './images/image2.jpg'
 import image3 from './images/image3.jpg'
+import image4 from './images/image4.jpg'
+import image5 from './images/image5.jpg'
 import cat from './images/cat.jpg'
 import dog from './images/dog.jpg'
 
@@ -36,7 +38,7 @@ const localItemRoyal = window.__.localItemRoyal;
 @inject('configStore')
 @observer
 @injectIntl
-class Help extends React.Component {
+class QualitySafety extends React.Component {
   
   constructor(props) {
     super(props);
@@ -92,10 +94,10 @@ class Help extends React.Component {
           </div>
           <section style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem' }}>
-              Наши обязательства в области качества и пищевой безопасности
+              <FormattedMessage id='qualitySafety.title'/> 
             </h2>
             <p style={{fontSize: '1.2rem'}}>
-              ROYAL CANIN® существует 50 лет, и все эти годы качество и безопасность нашей продукции во всем мире были для нас безусловным приоритетом. Внимание к мельчайшим деталям позволяет нам делать специализированное здоровое питание для собак и кошек максимально эффективным.
+              <FormattedMessage id='qualitySafety.description'/> 
             </p>
           </section>
 
@@ -113,10 +115,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  Качество и пищевая безопасность
+                  <FormattedMessage id='qualitySafety.foodTitle'/> 
                 </h2>
                 <p>
-                  Высочайшие стандарты производства позволяют ROYAL CANIN обеспечивать качество и безопасность продукции в любой стране мира. Наши специалисты по закупкам во всех странах мира используют одни и те же процессы выбора и закупок сырья. Это гарантирует, что все наши продукты в равной степени соответствуют высоким стандартам в области питания. Многие наши поставщики являются долгосрочными партнерами. Регулярный углубленный аудит всех поставщиков обеспечивает точное соответствие качества сырья, которое мы используем на наших предприятиях по всему миру, нашим спецификациям.
+                  <FormattedMessage id='qualitySafety.foodDetail'/> 
                 </p>
               </div>
             </div>
@@ -141,10 +143,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  Стабильное качество
+                  <FormattedMessage id='qualitySafety.consistentTitle'/> 
                 </h2>
                 <p>
-                  Все 1800 операторов наших производственных линий в разных уголках мира следуют одним и тем же технологическим инструкциям, обеспечивая повсюду единый уровень качества. На каждой стадии производства регулярно проводятся процедуры контроля. Последний из этих тестов оценивает качество уже готовой продукции перед ее выходом с завода. Каждый год мы тестируем полмиллиона образцов! Все наши дистрибьюторы соблюдают высокие стандарты безопасности и качества логистики. Чтобы удостовериться в этом, мы регулярно проводим проверки на их складах и в транспортных парках. Благодаря такой системе контроля мы поддерживаем оптимальное качество, безопасность и пищевую ценность продукции.
+                  <FormattedMessage id='qualitySafety.consistentDetail'/> 
                 </p>
               </div>
             </div>
@@ -163,10 +165,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  Качественное сырье
+                  <FormattedMessage id='qualitySafety.materialsTitle'/> 
                 </h2>
                 <p>
-                  При выборе ингредиентов мы обращаем особое внимание на содержание в них ценных питательных веществ и пользу, которую они могут принести здоровью животных. В связи с этим мы используем только мясо и рыбу, пригодные для употребления в пищу человеком. Мы прилагаем все усилия к тому, чтобы закупать сырье у аккредитованных поставщиков в хозяйствах, расположенных поблизости от наших заводов. Это способствует развитию местной экономики, обеспечивает свежесть сырья и снижает количество вредных выбросов в атмосферу.
+                  <FormattedMessage id='qualitySafety.materialsDetail'/> 
                 </p>
               </div>
             </div>
@@ -174,43 +176,86 @@ class Help extends React.Component {
               <img src={image3} style={{ width: '100%' }} />
             </div>
           </div>
-          <section style={{ textAlign: 'center', width: '90%', margin: '80px auto' }}>
-            <h2 style={{ fontSize: '2.5rem' }}>
-              Строгий отбор поставщиков
-            </h2>
-            <p>
-              При поиске поставщиков мы руководствуемся очень строгими критериями отбора и сотрудничаем лишь с теми, кто способен поддерживать наши высокие стандарты качества и безопасности. Мы проводим тщательные проверки на предприятиях поставщиков, оценивая пищевую ценность сырья, технологии производства, системы гарантий качества, отслеживаемости и экологичности. Такие проверки выполняются на протяжении всего периода нашего сотрудничества с поставщиком, обеспечивая поддержание стандартов качества. 
-            </p>
-          </section>
-          <section style={{ textAlign: 'center', width: '90%', margin: '80px auto' }}>
-            <h2 style={{ fontSize: '2.5rem' }}>
-              Полная отслеживаемость ингредиентов
-            </h2>
-            <p>
-              Каждая партия сырья от наших поставщиков имеет уникальный номер. Это дает гарантированную возможность отследить происхождение сырья на этапе производства. В ходе изготовления продукции она проходит десять различных процедур контроля, что обеспечивает соответствие ее качества спецификациям. Это касается в том числе и отслеживаемости сырья по каждому ингредиенту.
-            </p>
-          </section>
-          <section style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', paddingLeft: '200px' }}>
-              Выберите нужный продукт. Какое у вас животное?
-            </h2>
+          <div
+            class="rc-layout-container rc-two-column"
+            style={{ padding: '20px 200px' }}
+          >
+            <div class="rc-column">
+              <img src={image4} style={{ width: '100%', marginTop: '50px' }} />
+            </div>
             <div
-              class="rc-layout-container rc-two-column"
-              style={{ padding: '20px 200px' }}
+              class="rc-column"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             >
-              <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}>
-                <img src={dog} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}>Собака</p>
-              </div>
-              <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}>
-                <img src={cat} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}>Кошка</p>
+              <div>
+                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                  <FormattedMessage id='qualitySafety.rigorousTitle'/> 
+                </h2>
+                <p>
+                  <FormattedMessage id='qualitySafety.rigorousDetail'/> 
+                </p>
               </div>
             </div>
+          </div>
+          <div
+            class="rc-layout-container rc-two-column"
+            style={{ padding: '20px 200px' }}
+          >
+            <div
+              class="rc-column"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <div>
+                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                  <FormattedMessage id='qualitySafety.ingredientsTitle'/> 
+                </h2>
+                <p>
+                  <FormattedMessage id='qualitySafety.ingredientsDetail'/> 
+                </p>
+              </div>
+            </div>
+            <div class="rc-column">
+              <img src={image5} style={{ width: '100%' }} />
+            </div>
+          </div>
+          <section style={{ textAlign: 'left', width: '100%', margin: '0 auto', padding: '20px 200px' }}>
+            <div style={{ border: 'solid 5px rgb(226, 0, 26)',borderWidth: '3px',borderRadius: '5px', padding: '2rem'}}>
+              <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', paddingLeft: '200px' }}>
+                <FormattedMessage id='qualitySafety.shopTile'/> 
+              </h2>
+              <div
+                class="rc-layout-container rc-two-column"
+              >
+                <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
+                    this.props.history.push('/list/dogs')
+                  }}>
+                  <img src={dog} style={{ width: '100%' }} />
+                  <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopDog'/> </p>
+                </div>
+                <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
+                    this.props.history.push('/list/cats')
+                  }}>
+                  <img src={cat} style={{ width: '100%' }} />
+                  <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopCat'/> </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section style={{ textAlign: 'center', width: '90%', margin: '80px auto', color: 'rgb(102, 102, 102)' }}>
+            <h2 style={{ fontSize: '2.5rem' }}>
+              <FormattedMessage id='qualitySafety.FoodQualityandSafety'/>
+            </h2>
+            <p>
+              <FormattedMessage id='qualitySafety.foodQualityDetail'/>
+            </p>
           </section>
         </main>
         <Footer />
@@ -219,4 +264,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default QualitySafety;

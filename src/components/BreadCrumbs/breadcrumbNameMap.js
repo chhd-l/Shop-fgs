@@ -102,6 +102,11 @@ const breadcrumbNameMap = {
       name: 'QualitySafety'
     }
   ],
+  '/aboutUs': [
+    {
+      name: 'AboutUs'
+    }
+  ],
   '/shipmentConditions': [
     {
       name: 'ShipmentConditions'
