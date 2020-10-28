@@ -166,7 +166,7 @@ class RouteFilter extends Component {
     const isNavigateToOtherPage = curPath !== prevPath;
 
     // 清除session/local storage数据
-    if (isNavigateToOtherPage) {
+    if (isNavigateToOtherPage && prevPath) {
       if (prevPath.includes('/payment/payment')) {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
