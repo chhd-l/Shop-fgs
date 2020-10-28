@@ -158,37 +158,38 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  //判断consent接口是否存在必填项
-  isExistRequiredListFun(result) {
-    let pathname = this.props.location.pathname; //正进入的那个页面
-    if (result.context.requiredList.length !== 0) {
-      this.props.history.push({
-        pathname: '/required',
-        state: { path: pathname }
-      });
-    }
-  }
-
-  //总的调用consense接口
-  getConsentList() {
-    if (this.isLogin) {
-      this.doFindUserConsentList();
-    }
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
-      this.isExistRequiredListFun(result);
-    });
-  }
   async componentDidMount() {
     const { history, location } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
-    sessionItemRoyal.set(
-      'isNavigateToOtherPage',
-      curPath !== sessionItemRoyal.get('prevPath') ? 1 : 0
-    );
+    const prevPath = sessionItemRoyal.get('prevPath');
+    const isNavigateToOtherPage = curPath !== prevPath;
+
+    // 清除session/local storage数据
+    if (isNavigateToOtherPage) {
+      if (prevPath.includes('/payment/payment')) {
+        sessionItemRoyal.remove('rc-tid');
+        sessionItemRoyal.remove('rc-tidList');
+        sessionItemRoyal.remove('rc-subform');
+        sessionItemRoyal.remove('recommend_product');
+      }
+      if (prevPath.includes('/confirmation')) {
+        if (this.state.paywithLogin) {
+          this.props.checkoutStore.removeLoginCartData();
+        } else {
+          this.props.checkoutStore.setCartData(
+            this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+          ); // 只移除selected
+          sessionItemRoyal.remove('rc-token');
+        }
+        sessionItemRoyal.remove('subOrderNumberList');
+        sessionItemRoyal.remove('subNumber');
+        sessionItemRoyal.remove('oxxoPayUrl');
+      }
+      if (prevPath.includes('/prescription')) {
+        sessionItemRoyal.remove('clinic-reselect');
+      }
+    }
     sessionItemRoyal.set('prevPath', curPath);
 
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
@@ -228,6 +229,29 @@ class RouteFilter extends Component {
     }
 
     queryStoreCateIds();
+  }
+  //判断consent接口是否存在必填项
+  isExistRequiredListFun(result) {
+    let pathname = this.props.location.pathname; //正进入的那个页面
+    if (result.context.requiredList.length !== 0) {
+      this.props.history.push({
+        pathname: '/required',
+        state: { path: pathname }
+      });
+    }
+  }
+
+  //总的调用consense接口
+  getConsentList() {
+    if (this.isLogin) {
+      this.doFindUserConsentList();
+    }
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList() {
+    findUserConsentList({}).then((result) => {
+      this.isExistRequiredListFun(result);
+    });
   }
   render() {
     return <React.Fragment />;
