@@ -219,9 +219,12 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
     }
     if (pathname !== '/login') {
-      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () {}, {
-        domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-        documentLanguage: 'true'
+      loadJS({
+        url: process.env.REACT_APP_ONTRUST_SRC,
+        dataSets: {
+          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+          documentLanguage: 'true'
+        }
       });
     }
 

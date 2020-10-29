@@ -57,17 +57,20 @@ class PayOs extends React.Component {
   componentDidMount() {
     const _this = this;
     if (this.isLogin) {
-      loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
-        window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
-        _this.setState({
-          inited: true
-        });
+      loadJS({
+        url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
+        callback: function () {
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
+          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          _this.setState({
+            inited: true
+          });
+        }
       });
     } else {
-      loadJS(
-        'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
-        function () {
+      loadJS({
+        url: 'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
+        callback: function () {
           window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_VISITOR);
           window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
           const style = {
@@ -113,7 +116,7 @@ class PayOs extends React.Component {
               });
           }
         }
-      );
+      });
       this.setState({
         inited: true
       });
