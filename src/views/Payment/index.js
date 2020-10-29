@@ -115,6 +115,7 @@ class Payment extends React.Component {
       tidList: sessionItemRoyal.get('rc-tidList')
         ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
         : [],
+      rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId'),
       recommend_data: [],
       petModalVisible: false,
       isAdd: 0,
@@ -865,6 +866,7 @@ class Payment extends React.Component {
       if (err.errorData) {
         // err.errorData 支付失败，errorData返回支付信息
         sessionItemRoyal.set('rc-tid', err.errorData.tid);
+        sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
         sessionItemRoyal.set(
           'rc-tidList',
           JSON.stringify(err.errorData.tidList)
@@ -873,7 +875,8 @@ class Payment extends React.Component {
         this.setState(
           {
             tid: err.errorData.tid,
-            tidList: err.errorData.tidList
+            tidList: err.errorData.tidList,
+            rePaySubscribeId: err.errorData.subscribeId
           },
           () => this.queryOrderDetails()
         );
@@ -984,12 +987,12 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-    if (!this.checkoutWithClinic) {
-      param = Object.assign(param, {
-        clinicsId: 'FG20200914',
-        clinicsName: 'France Default'
-      });
-    }
+    // if (!this.checkoutWithClinic) {
+    //   param = Object.assign(param, {
+    //     clinicsId: 'FG20200914',
+    //     clinicsName: 'France Default'
+    //   });
+    // }
     if (localItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
@@ -1069,6 +1072,7 @@ class Payment extends React.Component {
     if (this.state.tid) {
       param.tid = this.state.tid;
       param.tidList = this.state.tidList;
+      param.subscribeId = this.state.rePaySubscribeId;
       delete param.remark;
       delete param.tradeItems;
       delete param.tradeMarketingList;

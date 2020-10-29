@@ -299,6 +299,7 @@ class AccountOrders extends React.Component {
         );
       }
       sessionItemRoyal.set('rc-tid', order.id);
+      sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
       sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
