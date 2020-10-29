@@ -99,12 +99,17 @@ const breadcrumbNameMap = {
   ],
   '/qualitySafety': [
     {
-      name: 'QualitySafety'
+      name: 'qualitySafety'
     }
   ],
   '/aboutUs': [
     {
-      name: 'AboutUs'
+      name: 'aboutUs2'
+    }
+  ],
+  '/tailorednutrition': [
+    {
+      name: 'tailorednutrition'
     }
   ],
   '/shipmentConditions': [

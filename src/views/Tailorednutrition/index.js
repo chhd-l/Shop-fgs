@@ -7,9 +7,11 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
+import cat from './images/cat.jpg'
+import dog from './images/dog.jpg'
 
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
+import BreadCrumbs from '@/components/BreadCrumbs';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -17,7 +19,7 @@ const localItemRoyal = window.__.localItemRoyal;
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'configStore')
 @injectIntl
 @observer
-class Help extends React.Component {
+class Tailorednutrition extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -51,7 +53,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+        <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
@@ -62,9 +64,11 @@ class Help extends React.Component {
                 fontSize: '2.5rem'
               }}
             >
-              <FormattedMessage id="tailorednutrition.tip1" />
+              <FormattedMessage id="tailorednutrition.title" />
             </h2>
-            <p style={{ fontSize: '1.2rem' }}></p>
+            <p style={{ fontSize: '1.2rem' }}>
+              <FormattedMessage id="tailorednutrition.description" />
+            </p>
           </section>
 
           <div
@@ -81,10 +85,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="tailorednutrition.tip2" />
+                  <FormattedMessage id="tailorednutrition.nutritionTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id="tailorednutrition.tip3" />
+                  <FormattedMessage id="tailorednutrition.nutritionDetail" />
                 </p>
               </div>
             </div>
@@ -109,10 +113,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="tailorednutrition.tip4" />
+                  <FormattedMessage id="tailorednutrition.formulasTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id="tailorednutrition.tip5" />
+                  <FormattedMessage id="tailorednutrition.formulasDetail" />
                 </p>
               </div>
             </div>
@@ -131,10 +135,10 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="tailorednutrition.tip6" />
+                  <FormattedMessage id="tailorednutrition.natureTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id="tailorednutrition.tip7" />
+                  <FormattedMessage id="tailorednutrition.natureDetail" />
                 </p>
               </div>
             </div>
@@ -159,23 +163,45 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="tailorednutrition.tip8" />
+                  <FormattedMessage id="tailorednutrition.uniqueTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id="tailorednutrition.tip9" />
+                  <FormattedMessage id="tailorednutrition.uniqueDetail" />
                 </p>
               </div>
             </div>
           </div>
           <section
-            style={{ textAlign: 'center', width: '90%', margin: '0 auto' }}
+            style={{ textAlign: 'center', width: '90%', margin: '0 auto', color: 'rgb(102, 102, 102)' }}
           >
             <h2>
-              <FormattedMessage id="tailorednutrition.tip10" />
+              <FormattedMessage id="tailorednutrition.result" />
             </h2>
             <p>
-              <FormattedMessage id="tailorednutrition.tip11" />
+              <FormattedMessage id="tailorednutrition.resultDetail" />
             </p>
+          </section>
+          <section style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}>
+            <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', padding: '0 200px' }}>
+               <FormattedMessage id="tailorednutrition.shopTile"/>
+            </h2>
+            <div
+              class="rc-layout-container rc-two-column"
+              style={{ padding: '20px 200px' }}
+            >
+              <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
+                  this.props.history.push('/list/dogs')
+                }}>
+                <img src={dog} style={{ width: '100%' }} />
+                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}><FormattedMessage id="tailorednutrition.shopDog"/></p>
+              </div>
+              <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
+                  this.props.history.push('/list/cats')
+                }}>
+                <img src={cat} style={{ width: '100%' }} />
+                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}><FormattedMessage id="tailorednutrition.shopCat"/></p>
+              </div>
+            </div>
           </section>
         </main>
         <Footer />
@@ -184,4 +210,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default Tailorednutrition;
