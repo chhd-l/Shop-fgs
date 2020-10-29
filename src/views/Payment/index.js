@@ -3,6 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
+import Cookies from 'cookies-js';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -123,85 +124,6 @@ class Payment extends React.Component {
     };
     this.timer = null;
   }
-  checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
-    this.setState({
-      requiredList
-    });
-  };
-  //总的调用consense接口
-  getConsentList() {
-    this.isLogin
-      ? this.doFindUserConsentList()
-      : this.doGetStoreOpenConsentList();
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
-      this.isExistOptionalListFun(result);
-    });
-  }
-  //2.游客调用consense接口
-  doGetStoreOpenConsentList() {
-    getStoreOpenConsentList({}).then((result) => {
-      this.isExistListFun(result);
-    });
-  }
-  //重新组装listData
-  rebindListData(listData) {
-    this.setState(
-      {
-        listData
-      },
-      () => {
-        this.checkRequiredItem(listData);
-      }
-    );
-  }
-  //判断consent接口是否存在项目
-  isExistListFun(result) {
-    if (result.code === 'K-000000') {
-      const optioalList = result.context.optionalList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: false,
-          detailList: item.detailList
-        };
-      });
-
-      const requiredList = result.context.requiredList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: true,
-          detailList: item.detailList
-        };
-      });
-      let listData = [...requiredList, ...optioalList]; //必填项+选填项
-      this.rebindListData(listData);
-    }
-  }
-  //判断consent接口是否存在选填项
-  isExistOptionalListFun(result) {
-    if (
-      result.code === 'K-000000' &&
-      result.context.optionalList.length !== 0
-    ) {
-      const optionalList = result.context.optionalList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: false,
-          detailList: item.detailList
-        };
-      });
-      this.rebindListData(optionalList);
-    }
-  }
   async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -299,6 +221,85 @@ class Payment extends React.Component {
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('rc-subform');
     sessionItemRoyal.remove('recommend_product');
+  }
+  checkRequiredItem = (list) => {
+    let requiredList = list.filter((item) => item.isRequired);
+    this.setState({
+      requiredList
+    });
+  };
+  //总的调用consense接口
+  getConsentList() {
+    this.isLogin
+      ? this.doFindUserConsentList()
+      : this.doGetStoreOpenConsentList();
+  }
+  //1.会员调用consense接口
+  doFindUserConsentList() {
+    findUserConsentList({}).then((result) => {
+      this.isExistOptionalListFun(result);
+    });
+  }
+  //2.游客调用consense接口
+  doGetStoreOpenConsentList() {
+    getStoreOpenConsentList({}).then((result) => {
+      this.isExistListFun(result);
+    });
+  }
+  //重新组装listData
+  rebindListData(listData) {
+    this.setState(
+      {
+        listData
+      },
+      () => {
+        this.checkRequiredItem(listData);
+      }
+    );
+  }
+  //判断consent接口是否存在项目
+  isExistListFun(result) {
+    if (result.code === 'K-000000') {
+      const optioalList = result.context.optionalList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: false,
+          detailList: item.detailList
+        };
+      });
+
+      const requiredList = result.context.requiredList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: true,
+          detailList: item.detailList
+        };
+      });
+      let listData = [...requiredList, ...optioalList]; //必填项+选填项
+      this.rebindListData(listData);
+    }
+  }
+  //判断consent接口是否存在选填项
+  isExistOptionalListFun(result) {
+    if (
+      result.code === 'K-000000' &&
+      result.context.optionalList.length !== 0
+    ) {
+      const optionalList = result.context.optionalList.map((item) => {
+        return {
+          id: item.id,
+          consentTitle: item.consentTitle,
+          isChecked: false,
+          isRequired: false,
+          detailList: item.detailList
+        };
+      });
+      this.rebindListData(optionalList);
+    }
   }
   initPaymentWay = async () => {
     //获取支付方式
@@ -440,16 +441,19 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    if(this.isLogin) {
+    if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length !== 0
-      )
-    }else {
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
+          .length !== 0
+      );
+    } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length !== 0
-      )
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+          .length !== 0
+      );
     }
-    
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -753,6 +757,12 @@ class Payment extends React.Component {
           });
         }
       }
+
+      parameters = Object.assign(parameters, {
+        userAgent: navigator.userAgent,
+        cookie: Cookies.get('JSESSIONID'),
+        fingerprint: ''
+      });
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
 
@@ -1629,124 +1639,125 @@ class Payment extends React.Component {
                     {this._renderSubSelect()}
                   </>
                 )}
-                {this.props.checkoutStore.petFlag && this.props.checkoutStore.AuditData.length > 0 && (
-                  <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                    <h5
-                      className="ml-custom mr-custom"
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <i
-                        class="rc-icon rc-payment--sm rc-iconography"
-                        style={{ transform: 'scale(.9)' }}
-                      ></i>{' '}
-                      <FormattedMessage id="Pet information" />
-                      <p>
-                        We need your pet information to authorize these items.
-                      </p>
-                      {this.isLogin
-                        ? this.props.checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <img
-                                  src={el.goodsInfoImg}
-                                  style={{ float: 'left' }}
-                                />
-                                <div
-                                  style={{
-                                    float: 'left',
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petName ? el.petName : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.buyCount}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  style={{
-                                    float: 'right',
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    class="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
+                {this.props.checkoutStore.petFlag &&
+                  this.props.checkoutStore.AuditData.length > 0 && (
+                    <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                      <h5
+                        className="ml-custom mr-custom"
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <i
+                          class="rc-icon rc-payment--sm rc-iconography"
+                          style={{ transform: 'scale(.9)' }}
+                        ></i>{' '}
+                        <FormattedMessage id="Pet information" />
+                        <p>
+                          We need your pet information to authorize these items.
+                        </p>
+                        {this.isLogin
+                          ? this.props.checkoutStore.AuditData.map((el, i) => {
+                              return (
+                                <div className="petProduct">
+                                  <img
+                                    src={el.goodsInfoImg}
+                                    style={{ float: 'left' }}
+                                  />
+                                  <div
+                                    style={{
+                                      float: 'left',
+                                      marginTop: '20px',
+                                      marginLeft: '20px'
                                     }}
                                   >
-                                    Select a pet
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })
-                        : this.props.checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <img
-                                  src={
-                                    el.sizeList.filter((el) => el.selected)[0]
-                                      .goodsInfoImg
-                                  }
-                                  style={{ float: 'left' }}
-                                />
-                                <div
-                                  style={{
-                                    float: 'left',
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petForm
-                                        ? el.petForm.petName
-                                        : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.quantity}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  style={{
-                                    float: 'right',
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    id="selectPet"
-                                    class="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
+                                    <p>
+                                      <span>Pet:</span>
+                                      <span>
+                                        {el.petName ? el.petName : 'required'}
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span>Qty:</span>
+                                      <span>{el.buyCount}</span>
+                                    </p>
+                                  </div>
+                                  <div
+                                    style={{
+                                      float: 'right',
+                                      marginTop: '30px',
+                                      marginLeft: '20px'
                                     }}
                                   >
-                                    Select a pet
-                                  </button>
+                                    <button
+                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      onClick={() => {
+                                        this.setState({
+                                          petModalVisible: true,
+                                          currentProIndex: i
+                                        });
+                                      }}
+                                    >
+                                      Select a pet
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
-                    </h5>
-                  </div>
-                )}
+                              );
+                            })
+                          : this.props.checkoutStore.AuditData.map((el, i) => {
+                              return (
+                                <div className="petProduct">
+                                  <img
+                                    src={
+                                      el.sizeList.filter((el) => el.selected)[0]
+                                        .goodsInfoImg
+                                    }
+                                    style={{ float: 'left' }}
+                                  />
+                                  <div
+                                    style={{
+                                      float: 'left',
+                                      marginTop: '20px',
+                                      marginLeft: '20px'
+                                    }}
+                                  >
+                                    <p>
+                                      <span>Pet:</span>
+                                      <span>
+                                        {el.petForm
+                                          ? el.petForm.petName
+                                          : 'required'}
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span>Qty:</span>
+                                      <span>{el.quantity}</span>
+                                    </p>
+                                  </div>
+                                  <div
+                                    style={{
+                                      float: 'right',
+                                      marginTop: '30px',
+                                      marginLeft: '20px'
+                                    }}
+                                  >
+                                    <button
+                                      id="selectPet"
+                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      onClick={() => {
+                                        this.setState({
+                                          petModalVisible: true,
+                                          currentProIndex: i
+                                        });
+                                      }}
+                                    >
+                                      Select a pet
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                      </h5>
+                    </div>
+                  )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
                     this.isOnepageCheckout ? '' : 'pb-0'
