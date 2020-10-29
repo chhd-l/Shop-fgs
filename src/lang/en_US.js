@@ -697,7 +697,7 @@ const en_US = {
   answeredQuestions: 'Answered questions',
 
   'tailorednutrition': 'Health and Nutrition',
-  'tailorednutrition.title': 'Health deserves to be fought for',
+  'tailorednutrition.title': 'Health is the Difference',
   'tailorednutrition.description': 'Our attention to the unique needs of cats and dogs has taught us that the smallest nutritional difference can make a huge difference to a pet’s health. This obsession with pet health drives us to deliver precise, effective nutrition, and help them become their magnificent best.',
   'tailorednutrition.nutritionTitle': 'What is Tailored Nutrition?',
   'tailorednutrition.nutritionDetail': 'Dogs and cats have unique needs, and we focus on delivering the best possible health nutrition for each of those needs. Each recipe is formulated to deliver the exact level of nutrients that are essential to your pet’s individual health needs.',
