@@ -612,7 +612,128 @@ class Help extends React.Component {
                 Bize aşağıdaki kanallar üzerinden ulaşabilirsiniz:
               </p>
             </section>
-            <div class="experience-region experience-main">
+            <div class="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div style={{width: '100%'}}>
+                          <b style={{ color: '#00A4A6' }}><FormattedMessage id="help.byTelephone" /></b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              {this.props.configStore.contactTimePeriod}
+                            </span>
+                          </p>
+                          <div class="rc-margin-top--xs">
+                            <a
+                              href="tel: 1-844-673-3772"
+                              style={{ color: '#00A4A6' }}
+                              class="rc-numeric"
+                            >
+                              {this.props.configStore.storeContactPhoneNumber}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="call us"
+                          title="call us"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div style={{width: '100%'}}>
+                          <b style={{ color: '#0087BD' }}><FormattedMessage id="help.byEmail" /></b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              <FormattedMessage id="help.tip3" />
+                            </span>
+                          </p>
+                          <div class="rc-margin-top--xs">
+                            <div
+                              href="https://shop.royalcanin.com/help/contact"
+                              style={{ color: '#0087BD' }}
+                              class="rc-numeric"
+                            >
+                              {this.props.configStore.storeContactEmail}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="email us"
+                          title="email us"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div>
+                          <b>Have a question?</b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              Check out our&nbsp;
+                            </span>
+                            <Link
+                              to="/faq/all"
+                              rel="noopener noreferrer"
+                              data-link-type="external"
+                              style={{
+                                color: 'rgb(236, 0, 26)',
+                                backgroundColor: 'rgb(255, 255, 255)'
+                              }}
+                            >
+                              FAQs
+                            </Link>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              &nbsp;to find the answers you're looking for.
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="faq"
+                          title="faq"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+            {/* <div class="experience-region experience-main">
               <div class="experience-region experience-main">
                 <div class="experience-component experience-layouts-1column">
                   <div class="row rc-margin-x--none">
@@ -754,7 +875,7 @@ class Help extends React.Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </main>
 

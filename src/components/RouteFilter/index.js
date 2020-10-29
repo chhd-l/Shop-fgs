@@ -29,16 +29,21 @@ class RouteFilter extends Component {
       this.props.history.replace('/payment/payment');
       return false;
     }
-    
+
     if (pathname === '/prescription') {
-      if(this.isLogin) {
-        let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber) {
+      if (this.isLogin) {
+        let needPrescriber =
+          this.props.checkoutStore.loginCartData.filter(
+            (el) => el.prescriberFlag
+          ).length > 0;
+        if (!needPrescriber) {
           history.replace('/payment/payment');
         }
-      }else {
-        let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber) {
+      } else {
+        let needPrescriber =
+          this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+            .length > 0;
+        if (!needPrescriber) {
           history.replace('/payment/payment');
         }
       }
@@ -151,7 +156,7 @@ class RouteFilter extends Component {
     return true;
   }
   async componentDidMount() {
-    const { history, location } = this.props;
+    const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
     const prevPath = sessionItemRoyal.get('prevPath');
@@ -166,11 +171,11 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('recommend_product');
       }
       if (prevPath.includes('/confirmation')) {
-        if (this.state.paywithLogin) {
-          this.props.checkoutStore.removeLoginCartData();
+        if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
+          checkoutStore.removeLoginCartData();
         } else {
-          this.props.checkoutStore.setCartData(
-            this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+          checkoutStore.setCartData(
+            checkoutStore.cartData.filter((ele) => !ele.selected)
           ); // 只移除selected
           sessionItemRoyal.remove('rc-token');
         }
