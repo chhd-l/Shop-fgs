@@ -62,10 +62,10 @@ const ProductFinder = ({ location, history, match }) => {
               <div className="rc-md-up">{_btnJSX}</div>
             </div>
             <div className="col-6 col-md-4 order-1 order-md-0">
-              <img src={catImg} />
+              <img src={catImg} alt="" />
             </div>
             <div className="col-6 col-md-4 order-2 order-md-2">
-              <img src={dogImg} />
+              <img src={dogImg} alt="" />
             </div>
           </div>
           <div className="next-step-button d-md-none">{_btnJSX}</div>

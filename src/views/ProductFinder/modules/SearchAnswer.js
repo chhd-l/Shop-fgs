@@ -11,7 +11,7 @@ const RadioAnswer = (props) => {
 
   useEffect(() => {
     props.updateFromData(form);
-  }, [form]);
+  }, [form, props]);
 
   return (
     <>

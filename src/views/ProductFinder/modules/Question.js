@@ -148,6 +148,7 @@ const ProductFinder = ({ location, history, match }) => {
               onMouseLeave={() => {
                 setIconToolTipVisible(false);
               }}
+              alt=""
             />
             <ConfirmTooltip
               arrowDirection="right"
@@ -257,6 +258,7 @@ const ProductFinder = ({ location, history, match }) => {
             <img
               src={{ cat: catImg, dog: dogImg }[type]}
               className="p-f-q-avatar"
+              alt=""
             />
           </div>
         </div>

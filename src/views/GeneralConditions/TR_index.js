@@ -1,413 +1,17 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
-import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from '@/components/ImageMagnifier';
-import { formatMoney } from '@/utils/utils';
-// import paymentImg from "./img/payment.jpg";
-import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
-import { getRecommendationList } from '@/api/recommendation';
-import { getPrescriptionById } from '@/api/clinic';
-import { sitePurchase } from '@/api/cart';
 import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      details: {
-        id: '',
-        goodsName: '',
-        goodsImg:
-          'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
-        goodsDescription: '',
-        sizeList: [],
-        images: [],
-        goodsCategory: '',
-        goodsSpecDetails: [],
-        goodsSpecs: []
-      },
-      productList: [],
-      currentDetail: {},
-      images: [],
-      activeIndex: 0,
-      prescriberInfo: {},
-      loading: false,
-      buttonLoading: false,
-      errorMsg: '',
-      modalShow: false,
-      modalList: [
-        {
-          title: this.props.intl.messages.isContinue,
-          content: this.props.intl.messages.outOfStockContent_cart,
-          type: 'addToCart'
-        },
-        {
-          title: this.props.intl.messages.isContinue,
-          content: this.props.intl.messages.outOfStockContent_pay,
-          type: 'payNow'
-        }
-      ],
-      currentModalObj: {
-        title: this.props.intl.messages.isContinue,
-        content: this.props.intl.messages.outOfStockContent_cart,
-        type: 'addToCart'
-      },
-      outOfStockProducts: [],
-      inStockProducts: [],
-      needLogin: false
-    };
-  }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async componentDidMount() {
-    this.setState({ loading: true });
-    // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id)
-      .then((res) => {
-        console.log(res, 'aaa');
-        let productList = res.context.recommendationGoodsInfoRels;
-        productList.map((el) => {
-          el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-            g = Object.assign({}, g, { selected: false });
-            console.log(g.goodsInfoId, el, 'hhhh');
-            if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
-              g.selected = true;
-            }
-            return g;
-          });
-          let specList = el.goodsSpecs;
-          let specDetailList = el.goodsSpecDetails;
-          specList.map((sItem) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              return sdItem.specId === sItem.specId;
-            });
-            console.log(sItem, el, 'hhhh');
 
-            sItem.chidren.map((child) => {
-              if (
-                el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-              ) {
-                console.log(child, 'child');
-                child.selected = true;
-              }
-            });
-          });
-          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-          el.goodsInfo.goods.goodsSpecs = specList;
-        });
-
-        this.setState({ productList }, () => {
-          this.checkoutStock();
-        });
-        // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-        getPrescriptionById({ id: '2304' }).then((res) => {
-          console.log(res, 'bbb');
-          this.props.clinicStore.setLinkClinicId('2304');
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.setState({ prescriberInfo: res.context, loading: false });
-        });
-      })
-      .catch((err) => {
-        // this.props.history.push('/')
-      });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
-  }
-  checkoutStock() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
-    for (let i = 0; i < productList.length; i++) {
-      if (
-        productList[i].recommendationNumber > productList[i].goodsInfo.stock
-      ) {
-        outOfStockProducts.push(productList[i]);
-      } else {
-        inStockProducts.push(productList[i]);
-      }
-    }
-    let outOfStockVal = '';
-    outOfStockProducts.map((el, i) => {
-      if (i === outOfStockProducts.length - 1) {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
-      } else {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ',';
-      }
-    });
-    modalList[0].content = this.props.intl.formatMessage(
-      { id: 'outOfStockContent_cart' },
-      { val: outOfStockVal }
-    );
-    modalList[1].content = this.props.intl.formatMessage(
-      { id: 'outOfStockContent_pay' },
-      { val: outOfStockVal }
-    );
-  }
-  async hanldeLoginAddToCart() {
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
-    // console.log(outOfStockProducts, inStockProducts, '...1')
-    // return
-
-    // for (let i = 0; i < productList.length; i++) {
-    //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-    //     outOfStockProducts.push(productList[i])
-    //     this.setState({ buttonLoading: false });
-    //     continue
-    //   }else {
-    //     inStockProducts.push(productList[i])
-    //   }
-    // }
-    if (outOfStockProducts.length > 0) {
-      this.setState({ modalShow: true, currentModalObj: modalList[0] });
-    } else {
-      this.setState({ buttonLoading: true });
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
-      this.props.history.push('/cart');
-    }
-  }
-  async hanldeUnloginAddToCart(products, path) {
-    console.log(products, 'products');
-    for (let i = 0; i < products.length; i++) {
-      let product = products[i];
-      // this.setState({ checkOutErrMsg: "" });
-      // if (this.state.loading) {
-      //   return false;
-      // }
-      // const { history } = this.props;
-      // const { currentUnitPrice, quantity, instockStatus } = this.state;
-      // const { goodsId, sizeList } = this.state.details;
-      // const currentSelectedSize = find(sizeList, (s) => s.selected);
-      // let quantityNew = quantity;
-
-      let tmpData = Object.assign({}, product.goodsInfo.goods, {
-        quantity: quantityNew
-      });
-
-      let quantityNew = product.recommendationNumber;
-      let cartDataCopy = cloneDeep(
-        toJS(this.props.checkoutStore.cartData).filter((el) => el)
-      );
-
-      // if (!instockStatus || !quantityNew) {
-      //   return false;
-      // }
-      // this.setState({ addToCartLoading: true });
-      let flag = true;
-      if (cartDataCopy && cartDataCopy.length) {
-        const historyItem = find(
-          cartDataCopy,
-          (c) =>
-            c.goodsId === product.goodsInfo.goodsId &&
-            product.goodsInfo.goodsInfoId ===
-              c.sizeList.filter((s) => s.selected)[0].goodsInfoId
-        );
-        console.log(historyItem, 'historyItem');
-        if (historyItem) {
-          flag = false;
-          quantityNew += historyItem.quantity;
-          if (quantityNew > 30) {
-            // this.setState({
-            //   checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
-            // });
-            this.setState({ addToCartLoading: false });
-            return;
-          }
-          tmpData = Object.assign(tmpData, { quantity: quantityNew });
-        }
-      }
-
-      // 超过库存时，修改产品数量为最大值替换
-      // let res = await miniPurchases({
-      //   goodsInfoDTOList: [
-      //     {
-      //       goodsInfoId: currentSelectedSize.goodsInfoId,
-      //       goodsNum: quantityNew
-      //     }
-      //   ]
-      // });
-      // let tmpObj = find(
-      //   res.context.goodsList,
-      //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-      // );
-      // if (tmpObj) {
-      //   if (quantityNew > tmpObj.stock) {
-      //     quantityNew = tmpObj.stock;
-      //     if (flag) {
-      //       this.setState({
-      //         quantity: quantityNew
-      //       });
-      //     }
-      //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-      //   }
-      // }
-
-      const idx = findIndex(
-        cartDataCopy,
-        (c) =>
-          c.goodsId === product.goodsInfo.goodsId &&
-          product.goodsInfo.goodsInfoId ===
-            find(c.sizeList, (s) => s.selected).goodsInfoId
-      );
-      tmpData = Object.assign(tmpData, {
-        currentAmount: product.goodsInfo.marketPrice * quantityNew,
-        selected: true,
-        quantity: quantityNew
-      });
-      console.log(idx, 'idx');
-      if (idx > -1) {
-        cartDataCopy.splice(idx, 1, tmpData);
-      } else {
-        if (cartDataCopy.length >= 30) {
-          this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
-          });
-          return;
-        }
-        cartDataCopy.push(tmpData);
-      }
-      console.log(cartDataCopy, 'cartDataCopy');
-      await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
-    }
-    this.props.history.push(path);
-  }
-  showErrorMsg = (msg) => {
-    this.setState({
-      errorMsg: msg
-    });
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.setState({
-        errorMsg: ''
-      });
-    }, 5000);
-  };
-  async buyNow(needLogin) {
-    if (needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
-    }
-    this.setState({ needLogin });
-    let {
-      productList,
-      outOfStockProducts,
-      inStockProducts,
-      modalList
-    } = this.state;
-    let totalPrice;
-    inStockProducts.map((el) => {
-      console.log(el, 'el');
-      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice;
-    });
-    if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      this.showErrorMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
-    if (outOfStockProducts.length > 0) {
-      sessionItemRoyal.set(
-        'recommend_product',
-        JSON.stringify(inStockProducts)
-      );
-      this.setState({ modalShow: true, currentModalObj: modalList[1] });
-      return false;
-    } else {
-      sessionItemRoyal.set(
-        'recommend_product',
-        JSON.stringify(inStockProducts)
-      );
-      this.props.history.push('/prescription');
-    }
-  }
-  async hanldeClickSubmit() {
-    let {
-      currentModalObj,
-      subDetail,
-      outOfStockProducts,
-      inStockProducts
-    } = this.state;
-    this.setState({ loading: true, modalShow: false });
-    if (currentModalObj.type === 'addToCart') {
-      for (let i = 0; i < inStockProducts.length; i++) {
-        try {
-          await sitePurchase({
-            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-            goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
-          });
-          await this.props.checkoutStore.updateLoginCart();
-        } catch (e) {
-          this.setState({ buttonLoading: false });
-        }
-      }
-      this.props.history.push('/cart');
-    } else if (currentModalObj.type === 'payNow') {
-      // for (let i = 0; i < inStockProducts.length; i++) {
-      //   try {
-      //     await sitePurchase({
-      //       goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-      //       goodsNum: inStockProducts[i].recommendationNumber,
-      //       goodsCategory: ''
-      //     });
-      //     await this.props.checkoutStore.updateLoginCart();
-      //   } catch (e) {
-      //     this.setState({ buttonLoading: false });
-      //   }
-      // }
-      this.props.history.push('/prescription');
-    }
-  }
   render(h) {
     const event = {
       page: {
@@ -425,39 +29,26 @@ class Help extends React.Component {
           location={this.props.location}
           history={this.props.history}
           match={this.props.match}
-          
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BreadCrumbs />
-          <div
-            className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-            style={{
-              width: '50%',
-              margin: '20px auto 0'
-            }}
-          >
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close"
-              role="alert"
-            >
-              {this.state.errorMsg}
-            </aside>
-          </div>
           <section
-            style={{ textAlign: 'center', width: '50%', margin: '40px auto 80px' }}
+            style={{
+              textAlign: 'center',
+              width: '50%',
+              margin: '40px auto 80px'
+            }}
           >
             <h1 style={{ color: '#E2001A', marginTop: '40px' }}>
               Şartlar ve Koşullar
             </h1>
           </section>
           <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
-            <h2 style={{textAlign: 'center'}}>Geçerlilik Kapsamı</h2>
-            <h3 style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>Geçerlilik Kapsamı</h2>
+            <h3 style={{ textAlign: 'center' }}>
               <br />
             </h3>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               İşbu Genel Hükümler ve Koşullar (“<strong>Koşullar</strong>”)
               Royal Canin Turkey Evcil Hayvan Ürünleri Limited Şirketi (bundan
               sonra “<strong>Royal Canin</strong>” olarak anılacaktır) ile Royal
@@ -467,7 +58,7 @@ class Help extends React.Component {
               arasındaki belirli yasal yükümlülüklere dair bildirimde bulunmak
               amacıyla hazırlanmıştır.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Site üzerinde her tür kullanım ve tasarruf yetkisi Royal Canin’e
               aittir. Koşullar, Site kullanımınızı ve Site’de satın aldığınız
               veya kullandığınız herhangi bir ürün veya hizmetimizin yasal
@@ -485,7 +76,7 @@ class Help extends React.Component {
               girer. Site’yi kullanabilmeniz işbu Koşullar’ı kabul etmenize
               bağlıdır.&nbsp;&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, Site’de mevcut olan bilgilerin doğruluk ve
               güncelliğini sürekli şekilde kontrol etmektedir. Ancak tüm itinalı
               çalışmaya rağmen, Site’de sunulmuş olan bilgiler fiili
@@ -494,9 +85,11 @@ class Help extends React.Component {
               sunulmuştur. Bu sebeple ilgili hizmetin güncel durumu ile Site’de
               yer alan durumu arasında farklılık olabilir.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>Site’de Değişiklik Yapma Hakkı</h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              Site’de Değişiklik Yapma Hakkı
+            </h2>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, işbu Koşullar da dâhil olmak üzere Site ve Site
               uzantısında mevcut her tür hizmet, ürün ve Site’yi kullanma
               koşulları ile Site’de sunulan bilgileri önceden bir ihtara gerek
@@ -511,15 +104,15 @@ class Help extends React.Component {
               değiştirilmesi veya kullanılması hususunda herhangi bir sorumluluk
               kabul etmez.
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>
                 <em>&nbsp;</em>
               </strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>
               Bilgi, Makale ve Tavsiyeye İlişkin Kısıtlamalar
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, Site’de evcil hayvanlar hakkında sadece eğitim amaçlı
               bilgi, makale ve tavsiye sunabilmektedir. Bu Site aracılığıyla
               sunulan herhangi bir bilgi, makale veya tavsiye evcil hayvanınızda
@@ -529,12 +122,12 @@ class Help extends React.Component {
               tıbbi veya sağlıkla ilgili tavsiyeler için, veteriner hekiminiz
               ile iletişim kurunuz.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>Ürün Ekranı &amp; Renkler</h2>
-            <p style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>Ürün Ekranı &amp; Renkler</h2>
+            <p style={{ textAlign: 'center' }}>
               Bu Site, ürün resimlerini olabildiğince gerçeğe uygun bir şekilde
               göstermeye çalışır. Ancak, Site’de gördüğünüz rengin ürünün gerçek
               rengiyle eşleştiğini garanti edemeyiz. Renk görüntüsünün, kısmen
@@ -542,9 +135,11 @@ class Help extends React.Component {
               olabileceğini ve bunlardan dolayı renklerde farklılık
               olabileceğini unutmayınız.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>Site’de Oluşabilecek Hatalar</h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              Site’de Oluşabilecek Hatalar
+            </h2>
+            <p style={{ textAlign: 'center' }}>
               Site’de sunulan ürün ve hizmetlerin fiyatları ve
               kullanılabilirliği, kullanıcılara önceden bilgi verilmeksizin
               değiştirilebilir. Site’de verilen bilgilerde hata bulunduğu
@@ -561,11 +156,11 @@ class Help extends React.Component {
               memnun olmadığınız takdirde işbu Koşullar’da belirtilen iade
               şartları doğrultusunda ürün iadesi yapabilirsiniz.
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>Fikri Mülkiyet Hakları</h2>
-            <p style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>Fikri Mülkiyet Hakları</h2>
+            <p style={{ textAlign: 'center' }}>
               Site, Royal Canin logosu ve Royal Canin sanal mağaza logosu dâhil
               ancak bunlarla sınırlı olmamak kaydıyla Royal Canin’in sahip
               olduğu ve kullandığı değerli ticari markaları ve hizmet
@@ -583,11 +178,11 @@ class Help extends React.Component {
               kopyalanması veya basılması ancak ticari olmayan kişisel
               ihtiyaçlarınız için mümkündür.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Site’nin İzin Verilen Kullanımları
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               İşbu Koşullar’a tabi olarak, Royal Canin size, Site’ye erişmek
               için kişisel kullanımınız ile sınırlı, devredilemez, münhasır
               olmayan bir hak vermektedir. Bu hak, Site özelliklerinin veya
@@ -597,7 +192,7 @@ class Help extends React.Component {
               bu hakkı herhangi bir zamanda bir gerekçe gösterme zorunluluğu
               olmaksızın geri alabilir.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               İşbu Koşullar’da size verilen haklar şu koşullara tâbidir: (a)
               Site’yi kendiniz veya bir üçüncü taraf adına, üçüncü bir tarafa
               ürünlerin veya hizmetlerin yeniden satışı için kullanamazsınız;
@@ -615,7 +210,7 @@ class Help extends React.Component {
               yayınlayamaz, indiremez, gösteremez veya
               iletemezsiniz.&nbsp;&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, herhangi bir zamanda, Site’yi veya herhangi bir
               parçasını önceden haber vermeksizin veya herhangi bir bildirimde
               bulunmaksızın değiştirme, askıya alma veya durdurma hakkını saklı
@@ -623,11 +218,11 @@ class Help extends React.Component {
               değiştirilmesi, askıya alınması veya durdurulması için size veya
               üçüncü taraflara karşı sorumlu olmayacağını kabul etmektesiniz.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Kullanıcı Hesabı<strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Sitenin belirli özelliklerini kullanabilmeniz için Site’ye kayıt
               olmanız ve Site kayıt formunda belirtilen belirli bilgileri
               sağlamanız gerekir. Bu kayıt formunda şunları beyan ve taahhüt
@@ -636,7 +231,7 @@ class Help extends React.Component {
               Site’yi kullanımınız geçerli herhangi bir mevzuat hükmünü veya
               Koşullar’ı ihlal etmemektedir.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin hesabınızın giriş bilgilerinizin gizliliğini korumakla
               yükümlüsünüz. Royal Canin hesabınızla ilişkili tüm etkinliklerin
               (bunlarla sınırlı olmamak üzere, herhangi bir satın alma, Site
@@ -649,9 +244,9 @@ class Help extends React.Component {
               hesabınızı askıya alabilir veya başka şekilde güvence altına
               alabilir.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>Kullanıcı İçeriği</h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>Kullanıcı İçeriği</h2>
+            <p style={{ textAlign: 'center' }}>
               “<strong>Kullanıcı İçeriği</strong>”, Site kullanıcısının Royal
               Canin’e gönderdiği her türlü bilgi ve içeriği ifade eder.
               Kullanıcı İçeriği’nden yalnızca siz sorumlusunuz. Kullanıcı
@@ -670,7 +265,7 @@ class Help extends React.Component {
                 <em>&nbsp;</em>
               </strong>
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, Royal Canin’e sağladığınız her türlü geri bildirimi,
               iletişimi veya öneriyi gizli bir şekilde ele alacaktır. Bu
               nedenle, Royal Canin ile aksi yönde yazılı bir anlaşmanın
@@ -678,13 +273,13 @@ class Help extends React.Component {
               olduğunu düşündüğünüz herhangi bir bilgi veya fikri Royal Canin’e
               göndermeyeceğinizi kabul etmektesiniz.
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>
               Kullanım Politikası<strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Site’yi (a) herhangi bir üçüncü kişinin fikri mülkiyet hakkını ve
               gizli bilgisini ihlal eden; (b) hukuka aykırı, haksız, tehdit
               edici, zararlı, başkalarının mahremiyetine zarar veren, kaba,
@@ -697,7 +292,7 @@ class Help extends React.Component {
               toplamak, yüklemek, iletmek, görüntülemek veya dağıtmak için
               kullanmamayı kabul etmektesiniz.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Buna ek olarak, Site’yi ticari amaçlarla veya aşağıdaki amaçlarla
               kullanmamayı da kabul etmektesiniz: (a) bilgisayar sistemlerini
               hasara uğratacak virüsleri veya yazılımları yüklemek, iletmek ya
@@ -714,7 +309,7 @@ class Help extends React.Component {
               kullanıcının Site’yi kullanmına müdahale etmek veya herhangi bir
               şekilde engellemek.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               İşbu Koşullar’ın herhangi bir hükmünü ihlal etmeniz halinde,
               tamamen Royal Canin’in takdirine bağlı olarak, Kullanıcı
               İçeriği’nin kaldırılması, değiştirilmesi, kullanıcı hesabının
@@ -731,7 +326,7 @@ class Help extends React.Component {
               ve trafik bilgileriniz, Kullanıcı İçeriğiniz dâhil, gerekli
               bilgiler ilgili makamlar ile paylaşılabilecektir.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Herhangi bir şüpheye mahal vermemek adına, Site’ye iletilen her
               türlü Kullanıcı İçeriği’nden ilgili kullanıcı sorumlu olup Royal
               Canin’in bunları denetleme, değiştirme veya Site’den kaldırma
@@ -741,17 +336,17 @@ class Help extends React.Component {
               durumdan ilgili kullanıcının kendisi şahsen sorumlu olup Royal
               Canin’in herhangi bir sorumluluğu bulunmamaktadır.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Diğer Site kullanıcılarıyla olan etkileşimleriniz yalnızca siz ve
               ilgili kullanıcı arasındadır. Bu tür etkileşimlerin sonucu olarak
               meydana gelen herhangi bir uyuşmazlık, kayıp veya hasardan Royal
               Canin’in sorumlu olmayacağını kabul etmektesiniz.
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
-            <h2 style={{textAlign: 'center'}}>&nbsp;Abone Programı</h2>
-            <p style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>&nbsp;Abone Programı</h2>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin ödeme sayfasında “Abonelik” seçeneğini işaretleyerek,
               abonelik programımızda uygulanacak Abonelik Hüküm ve Koşullarını
               (“Abonelik Şartları”) kabul etmiş sayılırsınız. Abonelik
@@ -762,11 +357,11 @@ class Help extends React.Component {
               programımıza kayıt olarak, Abonelik Şartları’nı kabul etmiş
               sayılırsınız. Lütfen bu Abonelik Şartları’nı dikkatle okuyun.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Üçüncü Taraf Siteleri ve Diğer Kullanıcılar
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Site, üçüncü taraf internet sitelerine (topluca “
               <strong>Üçüncü Taraf Siteleri</strong>”) (örneğin, Facebook,
               YouTube, Twitter veya Pinterest gibi sosyal medya siteleri)
@@ -784,11 +379,13 @@ class Help extends React.Component {
               da devam etmeden önce gerekli veya uygun incelemeleri yapmanız
               gerekmektedir.
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>Siparişi Değerlendirme Koşulu</h2>
-            <p style={{textAlign: 'center'}}>
+            <h2 style={{ textAlign: 'center' }}>
+              Siparişi Değerlendirme Koşulu
+            </h2>
+            <p style={{ textAlign: 'center' }}>
               Site üzerinden bir sipariş verdiğinizde ödeme yönteminizi ve /
               veya gönderim adresinizi doğrulayacağız. Royal Canin, herhangi bir
               neden göstermeksizin herhangi bir siparişinizi reddetme veya temin
@@ -798,11 +395,11 @@ class Help extends React.Component {
               için sizden hâlihazırda ücret tahsil edildiği durumda ücret size
               kendi ödeme yönteminiz ile iade edilecektir.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Sipariş Kabul ve Onayı<strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Site üzerinden bir sipariş verdiğinizde bu siparişinizin
               alındığına dair e-posta adresiniz kullanılarak bilgilendirme
               yapılacaktır. Royal Canin, önceden haber vermeksizin herhangi bir
@@ -814,11 +411,11 @@ class Help extends React.Component {
               Site’de veya siparişte herhangi bir hata tespit edildiği takdirde
               bu hatalar Royal Canin tarafından düzeltilebilir.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Sipariş ve Miktar Sınırlamaları<strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin, tamamen kendi takdirine bağlı olarak ve önceden
               bilgilendirme yapma zorunluluğu olmaksızın, kişi başına, hane
               başına veya sipariş başına satın alınan miktarları sınırlayabilir
@@ -831,11 +428,11 @@ class Help extends React.Component {
               müşterilere yapılan satışları sınırlama veya yasaklama hakkını
               saklı tutar.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
               Teslimat Koşulları<strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Siparişleriniz, ödemenizin teyidi alındıktan sonra en geç üç (3)
               iş günü (Pazartesi-Cuma günleri arası) içinde&nbsp;kargo şirketine
               teslim edilir. Siparişleriniz, sadece Türkiye Cumhuriyeti
@@ -860,15 +457,15 @@ class Help extends React.Component {
               kesinleşirse söz konusu ürün için yaptığınız ödeme, kendi ödeme
               yönteminiz kullanılarak iade edilecektir.<strong>&nbsp;</strong>
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               Royal Canin’den satın alınan tüm ürünler, bir kargo şirketi
               aracılığıyla kullanıcılara iletilecektir. Ürünler, kargo şirketi
               tarafından kullanıcıya teslim edildiğinde ürünlere ilişkin her
               türlü hasar ve risk kullanıcıya geçecektir.
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>Fiyat ve Ödeme</h2>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>Fiyat ve Ödeme</h2>
+            <p style={{ textAlign: 'center' }}>
               Siparişlerinize ilişkin ödemeleri bir veya kredi kartı ile
               yapabilirsiniz. Site’de Visa®, MasterCard®, American Express® Card
               ve MasterCard veya Visa logolu banka kartlarını kabul ediyoruz.
@@ -885,17 +482,17 @@ class Help extends React.Component {
               düzenleyicinizle ön provizyon alabiliriz. Bu, mevcut kredinizi
               etkileyebilir.&nbsp;
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Promosyonlar ve Kuponlar
               </span>
               <strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Bir promosyon / kupon kodu kullanılıyorsa, ilgili teklifi
                 kullanmak için belirlenen kod, “Promosyon Kodu” alanına ödeme
                 sırasında girilmelidir. Herhangi bir promosyon veya kupon, diğer
@@ -910,15 +507,15 @@ class Help extends React.Component {
                 noktasında geçerli değildir.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 İade Şartları ve Prosedürü
               </span>
               <strong>&nbsp;</strong>
             </h2>
             <p>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Site üzerinden satın almış olduğunuz ürünü kullanmadan, tahrip
                 etmeden ve ticari olarak satılabilirliğini ve
                 kullanılabilirliğini bozmadan teslim almış olduğunuz tarihinden
@@ -933,7 +530,7 @@ class Help extends React.Component {
               <br />
             </p>
             <p>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 İade etmek istediğiniz ürünün faturası kurumsal ise, iade
                 ederken kurumun düzenlemiş olduğu iade faturası ile birlikte
                 göndermeniz gerekmektedir. İade faturası, kargo payı dâhil
@@ -943,7 +540,7 @@ class Help extends React.Component {
               </span>
             </p>
             <p>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Teslim aldığınız paketleri kargo şirketi yetkilisi önünde açıp
                 kontrol ediniz. Eğer üründe herhangi bir hasar varsa kargo
                 şirketine tutanak tutturarak ürünü teslim almayınız. Ürün teslim
@@ -955,8 +552,8 @@ class Help extends React.Component {
             <p>
               <br />
             </p>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Site üzerinden satın almış olduğunuz ve paketi açılmış, ambalajı
                 veya kendisi zarar görmüş, bozulmuş, kırılmış, tahrip edilmiş,
                 yırtılmış ve/veya kullanılmış ürünlerin iadesi kabul
@@ -975,17 +572,17 @@ class Help extends React.Component {
                 yansıtılabilir.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <strong>&nbsp;</strong>
             </p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Sorumluluk Sınırlaması
               </span>
               <strong>&nbsp;</strong>
             </h2>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Royal Canin, Site’ye erişilmesi, Site’nin ya da Site’deki
                 bilgilerin ve diğer verilerin ve programların kullanılması
                 sebebiyle, Koşullar’ın ihlali, haksız fiil ya da başkaca
@@ -1001,14 +598,14 @@ class Help extends React.Component {
                 olmayacaktır.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Uygulanacak Hukuk ve Yetkili Mahkeme
               </span>
             </h2>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 İşbu Koşullar ve Site’nin kullanımı ile ilgili olarak
                 çıkabilecek ihtilaflarda öncelikle işbu Koşullar’daki hükümler;
                 Koşullar’da hüküm bulunmaması halinde ise Türkiye Cumhuriyeti
@@ -1017,13 +614,13 @@ class Help extends React.Component {
                 (Çağlayan) Mahkemeleri ile İcra Daireleri yetkili olacaktır.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>Gizlilik</span>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>Gizlilik</span>
               <strong>&nbsp;</strong>
             </h2>
             <p>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 İşbu Koşullar’ın yürürlükte olduğu süre boyunca ve Koşullar’ın
                 sona ermesinden sonra taraflar yazılı, sözlü veya sair surette
                 kendilerine iletilen her türlü bilgi ve belgeleri (“
@@ -1037,47 +634,47 @@ class Help extends React.Component {
                 Gizli Bilgiler
               </a>
               ”), ilgili m
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 evzuat hükümleri saklı kalmak üzere, karşı tarafın yazılı onayı
                 olmadan üçüncü kişilere açıklayamaz; başka kişi, kurum ve
                 kuruluşların yararına kullanamaz ve kullandıramaz. Taraflar,
                 yukarıda sayılan{' '}
               </span>
               Gizli Bilgiler’in gizliliğini sağlamak, bu hususta her türlü
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 {' '}
                 önlemi almak, gizlilik esaslarına uygun hareket etmek, bu
                 bilgilerin yetkisiz kişilerce kullanımını önlemek ve her türlü
                 suiistimalden korumak için her türlü önlemi almakla yükümlüdür.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Kişisel Verilerin Korunması
               </span>
               &nbsp;
             </h2>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Site’yi kullanımınız kapsamında kişisel verilerinizin korunması
                 hakkında aydınlatma ve muvafakatname metnine&nbsp;
               </span>
-              <u style={{color: 'rgb(102, 102, 102)'}}>buradan</u>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <u style={{ color: 'rgb(102, 102, 102)' }}>buradan</u>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 &nbsp;ulaşabilirsiniz.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>&nbsp;</p>
-            <h2 style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>&nbsp;</p>
+            <h2 style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Site Kullanımının Sona Erdirilmesi
               </span>
             </h2>
             <p>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Royal Canin, yürürlükteki mevzuat hükümlerine veya işbu
                 Koşullar’a aykırı herhangi bir davranışınız olması halinde
                 tamamen kendi takdirine bağlı olarak, bu Site’deki kişisel
@@ -1094,23 +691,23 @@ class Help extends React.Component {
                 gönderebilir.
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>
-              <span style={{color: 'rgb(102, 102, 102)'}}>
+            <p style={{ textAlign: 'center' }}>
+              <span style={{ color: 'rgb(102, 102, 102)' }}>
                 Royal Canin önceden haber vermeksizin tamamen kendi takdirine
                 bağlı olarak bu Site’nin tamamını veya bir kısmını değiştirme,
                 askıya alma, kapatma veya devam ettirme hakkını saklı tutar
               </span>
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
-            <p style={{textAlign: 'center'}}>
+            <p style={{ textAlign: 'center' }}>
               <br />
             </p>
           </div>

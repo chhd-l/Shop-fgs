@@ -27,6 +27,7 @@ function QListAndPetJSX(props) {
             <img
               src={{ cat: catImg, dog: dogImg }[props.type]}
               style={{ width: '50%', margin: '0 auto' }}
+              alt=""
             />
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
               {['My dsfa', 'dsfahofiads', 'ddsadsadsfdsa'].map((ele, i) => (
@@ -56,6 +57,7 @@ function QListAndPetJSX(props) {
                     width: '50%',
                     margin: '0 auto'
                   }}
+                  alt=""
                 />
               </div>
               <div className="col-12 col-md-6 text-center text-md-left">
@@ -183,7 +185,7 @@ const ProductFinderResult = ({ location, history, match }) => {
               <div className="p-f-result-box">
                 <div className="border rounded row pt-3 pb-3">
                   <div className="col-12 col-md-6">
-                    <img src={productDetail.img} className="p-img" />
+                    <img src={productDetail.img} className="p-img" alt="" />
                   </div>
                   <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
                     <header class="rc-text--center">
@@ -231,7 +233,7 @@ const ProductFinderResult = ({ location, history, match }) => {
                       }`}
                     >
                       <div className="mb-3">
-                        <img src={productDetail.img} className="p-img" />
+                        <img src={productDetail.img} className="p-img" alt="" />
                       </div>
                       <div className="d-flex flex-column justify-content-center">
                         <header class="rc-text--center">
