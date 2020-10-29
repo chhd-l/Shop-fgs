@@ -39,7 +39,7 @@ class Tailorednutrition extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: ''
+        theme: 'Health Nutrition'
       }
     };
     return (

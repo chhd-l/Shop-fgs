@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -28,8 +29,15 @@ const ProductFinder = ({ location, history, match }) => {
       </button>
     </div>
   );
+  const event = {
+    page: {
+      type: 'Product Finder',
+      theme: ''
+    }
+  };
   return (
     <div>
+      <GoogleTagManager additionalEvents={event} />
       <Header
         showMiniIcons={true}
         showUserIcon={true}

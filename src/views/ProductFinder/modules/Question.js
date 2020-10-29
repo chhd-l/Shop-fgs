@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -82,8 +83,16 @@ const ProductFinder = ({ location, history, match }) => {
     setQListVisible((c) => !c);
   }
 
+  const event = {
+    page: {
+      type: 'Product Finder',
+      theme: type
+    }
+  };
+
   return (
     <div>
+      <GoogleTagManager additionalEvents={event} />
       <Header
         showMiniIcons={true}
         showUserIcon={true}
@@ -245,7 +254,10 @@ const ProductFinder = ({ location, history, match }) => {
             )}
           </div>
           <div className="col-12 col-md-6 order-0 order-md-1">
-            <img src={{ cat: catImg, dog: dogImg }[type]} className="p-f-q-avatar" />
+            <img
+              src={{ cat: catImg, dog: dogImg }[type]}
+              className="p-f-q-avatar"
+            />
           </div>
         </div>
       </div>

@@ -55,7 +55,7 @@ class Help extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: ''
+        theme: 'Brand'
       }
     };
     return (

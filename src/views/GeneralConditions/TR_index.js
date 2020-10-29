@@ -411,7 +411,7 @@ class Help extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
+        type: 'Other',
         theme: ''
       }
     };

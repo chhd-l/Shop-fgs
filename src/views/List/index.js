@@ -416,18 +416,19 @@ class List extends React.Component {
       let type;
       switch (category) {
         case 'dogs':
-        case 'vcn':
           theme = 'Dog';
           type = 'Product Catalogue';
           break;
         case 'cats':
-        case 'vd':
           theme = 'Cat';
           type = 'Product Catalogue';
           break;
-        default:
+        case 'keywords':
           theme = '';
           type = 'Search Results';
+        default:
+          theme = 'Cat or Dog';
+          type = 'Product';
       }
       event = {
         page: {

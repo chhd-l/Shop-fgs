@@ -1,5 +1,4 @@
 import React from 'react';
-import { GTMID } from "@/utils/constant"
 import { inject, observer } from 'mobx-react'
 import { loadJS } from '@/utils/utils';
 
@@ -15,7 +14,8 @@ class GoogleTagManager extends React.Component {
       site: {
         id: process.env.REACT_APP_GTM_SITE_ID,
         environment: process.env.REACT_APP_GA_ENV,
-        country: process.env.REACT_APP_GA_COUNTRY
+        country: process.env.REACT_APP_GA_COUNTRY,
+        currency: ''
       }
     }
     let userInfo = this.props.loginStore.userInfo
@@ -42,7 +42,7 @@ class GoogleTagManager extends React.Component {
       j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl
       ;
       f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','${this.props.GTMID || GTMID}');`, function () { }, 'optanon-category-2', 'text/plain')
+  })(window,document,'script','dataLayer','${process.env.REACT_APP_GA_GTMID}');`, function () { }, 'optanon-category-2', 'text/plain')
   }
   render () {
     return (<React.Fragment />)
