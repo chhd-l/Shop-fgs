@@ -15,7 +15,7 @@ class AdyenPayResult extends Component {
   render() {
     return <div className="checkout--padding"></div>;
   }
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     let commonResult = this.props.location.search.split('=')[1];//adyen_credit_card、paylater，paynow
     let payloadResult = url.parse(this.props.location.search, true).query.payload //sofort取的方式有点不一样
     let redirectResult

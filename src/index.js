@@ -4,15 +4,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App.jsx';
-import * as serviceWorker from './serviceWorker';
+//import * as serviceWorker from './serviceWorker';
 import '@/assets/css/checkout.css'
 // import 'semantic-ui-css/semantic.min.css';
 import './polyfills';
-import registerServiceWorker from './registerServiceWorker';
+//import registerServiceWorker from './registerServiceWorker';
 ReactDOM.render(
-  <React.StrictMode>
+  <App />,
+  /*<React.StrictMode>
     <App /> 
-  </React.StrictMode>,
+  </React.StrictMode>,*/
   document.getElementById('root')
 );
 

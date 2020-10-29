@@ -90,7 +90,7 @@ dw.ac = {
         }
         dw.ac._events.push(configs);
     },
-	capture: function() { 
+	capture: function() {
 		dw.ac._capture(arguments);
 		// send to CQ as well:
 		if (window.CQuotient) {
@@ -199,7 +199,7 @@ CQuotient.trackViewProduct = function(/* Object */ cqParamData){
 	cq_params.siteId = cqParamData.siteId;
 	cq_params.instanceType = cqParamData.instanceType;
 	cq_params.locale = CQuotient.locale;
-	
+
 	if(CQuotient.sendActivity) {
 		CQuotient.sendActivity(CQuotient.clientId, 'viewProduct', cq_params);
 	} else {

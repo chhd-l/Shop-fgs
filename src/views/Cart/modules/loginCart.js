@@ -6,14 +6,14 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import PetModal from '@/components/PetModal';
+//import PetModal from '@/components/PetModal';
 import BannerTip from '@/components/BannerTip';
 import { Link } from 'react-router-dom';
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils';
-import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
+//import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
 import { find } from 'lodash';
-import { getPetList } from '@/api/pet';
-import { getCustomerInfo } from '@/api/user';
+//import { getPetList } from '@/api/pet';
+//import { getCustomerInfo } from '@/api/user';
 import {
   updateBackendCart,
   deleteItemFromBackendCart,

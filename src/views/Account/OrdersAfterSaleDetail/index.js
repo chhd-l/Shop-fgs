@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+//import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
 import { formatMoney } from '@/utils/utils';
 import Header from '@/components/Header';
