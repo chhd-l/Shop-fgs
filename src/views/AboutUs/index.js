@@ -1,14 +1,9 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
 import image1 from './images/image1.jpg'
 import image2 from './images/image2.jpg'
 import image3 from './images/image3.jpg'
@@ -17,7 +12,6 @@ import dog from './images/dog.jpg'
 import { inject, observer } from 'mobx-react';
 import './index.css';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')

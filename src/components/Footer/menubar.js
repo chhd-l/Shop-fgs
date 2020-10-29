@@ -12,12 +12,11 @@ export const menubar = {
             messageId: 'Values'
           },
           {
-            url: 'https://shop.royalcanin.com/Quality-safety.html',
+            link: '/qualitySafety',
             messageId: 'Quality Safety'
           },
           {
-            prop: 'specificNutrition',
-            url: 'https://shop.royalcanin.com/Tailorednutrition.html',
+            link: '/tailorednutrition',
             messageId: 'Tailored Nutrition'
           }
         ]
@@ -64,9 +63,7 @@ export const menubar = {
             messageId: 'footer.ourValues'
           },
           {
-            prop: 'qualityAndSafety',
-            url:
-              'https://www.royalcanin.com/mx/about-us/quality-and-food-safety',
+            link: '/qualitySafety',
             messageId: 'footer.qualityAndSafety'
           },
           {
@@ -198,7 +195,7 @@ export const menubar = {
         titleId: 'ROYAL CANIN',
         list: [
           {
-            url: 'https://shop.royalcanin.fr/About-Us.html',
+            link: '/aboutUs',
             messageId: 'A propos'
           },
           {
@@ -219,7 +216,7 @@ export const menubar = {
           { link: '/list/cats', messageId: 'Chat' },
           { link: '/list/dogs', messageId: 'Chien' },
           {
-            url: 'https://shop.royalcanin.fr/Tailorednutrition.html',
+            link: '/tailorednutrition',
             messageId: 'Santé et bien-être'
           }
         ]
@@ -270,7 +267,7 @@ export const menubar = {
         list: [
           {
             // url: 'https://www.shop.royal-canin.ru/ru/About-Us.html',
-            link: '/aboutUs-ru',
+            link: '/aboutUs',
             messageId: 'О нас'
           },
           {
@@ -283,7 +280,7 @@ export const menubar = {
             messageId: 'Качество и безопасность'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/Tailorednutrition.html',
+            link: '/tailorednutrition',
             messageId: 'Здоровье и питание'
           }
         ]
@@ -368,14 +365,11 @@ export const menubar = {
             messageId: 'Değerlerimiz'
           },
           {
-            prop: 'qualityAndSafety',
-            url: 'https://www.shop.royalcanin.com.tr/tr/Quality-safety.html',
+            link: '/qualitySafety',
             messageId: 'Gıda Kalitesi ve Güvenliği'
           },
           {
-            prop: 'specificNutrition',
-            url:
-              'https://www.shop.royalcanin.com.tr/tr/saglik-beslenme/Tailorednutrition.html',
+            link: '/tailorednutrition',
             messageId: 'Sağlık ve Beslenme'
           }
         ]

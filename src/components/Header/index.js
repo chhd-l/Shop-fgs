@@ -44,7 +44,7 @@ const _catogryCfg = function (lang, props) {
           langKey: 'royalCaninClub'
         },
         {
-          linkObj: { pathname: '/Tailorednutrition' },
+          linkObj: { pathname: '/tailorednutrition' },
           langKey: 'healthAndNutrition'
         },
         {
@@ -86,7 +86,7 @@ const _catogryCfg = function (lang, props) {
           type: 'subscription'
         },
         {
-          linkObj: { pathname: '/Tailorednutrition' },
+          linkObj: { pathname: '/tailorednutrition' },
           langKey: 'healthAndWellbeing',
           type: 'healthAndWellbeing'
         },
@@ -120,7 +120,7 @@ const _catogryCfg = function (lang, props) {
           type: 'subscription'
         },
         {
-          linkObj: { pathname: '/Tailorednutrition' },
+          linkObj: { pathname: '/tailorednutrition' },
           langKey: 'healthAndWellbeing',
           type: 'healthAndWellbeing'
         },
@@ -148,7 +148,7 @@ const _catogryCfg = function (lang, props) {
           type: 'subscription'
         },
         {
-          linkObj: { pathname: '/Tailorednutrition' },
+          linkObj: { pathname: '/tailorednutrition' },
           langKey: 'healthAndWellbeing',
           type: 'healthAndWellbeing'
         },

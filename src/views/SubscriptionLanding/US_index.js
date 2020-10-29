@@ -12,13 +12,13 @@ import recommendation1 from '@/assets/images/recommendation1.png';
 import recommendation2 from '@/assets/images/recommendation2.png';
 import recommendation3 from '@/assets/images/recommendation3.png';
 import recommendation4 from '@/assets/images/recommendation4.png';
-import autoship from './images/us_autoship.png'
-import icon1 from './images/us_icon1.png'
-import icon2 from './images/us_icon2.png'
-import icon3 from './images/us_icon3.png'
-import icon4 from './images/us_icon4.png'
-import cat from './images/cat.png'
-import dog from './images/dog.png'
+import autoship from './images/us_autoship.png';
+import icon1 from './images/us_icon1.png';
+import icon2 from './images/us_icon2.png';
+import icon3 from './images/us_icon3.png';
+import icon4 from './images/us_icon4.png';
+import cat from './images/cat.png';
+import dog from './images/dog.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
@@ -41,7 +41,6 @@ const localItemRoyal = window.__.localItemRoyal;
 @observer
 @injectIntl
 class Help extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -95,51 +94,55 @@ class Help extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id).then((res) => {
-      console.log(res, 'aaa');
-      let productList = res.context.recommendationGoodsInfoRels;
-      productList.map((el) => {
-        el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-          g = Object.assign({}, g, { selected: false });
-          console.log(g.goodsInfoId, el, 'hhhh')
-          if(g.goodsInfoId === el.goodsInfo.goodsInfoId) {
-            g.selected = true
-          }
-          return g;
-        });
-        let specList = el.goodsSpecs;
-        let specDetailList = el.goodsSpecDetails;
-        specList.map((sItem) => {
-          sItem.chidren = specDetailList.filter((sdItem, i) => {
-            return sdItem.specId === sItem.specId;
-          });
-          console.log(sItem, el,'hhhh')
-          
-          sItem.chidren.map(child => {
-            if(el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1) {
-              console.log(child, 'child')
-              child.selected = true
+    getRecommendationList(this.props.match.params.id)
+      .then((res) => {
+        console.log(res, 'aaa');
+        let productList = res.context.recommendationGoodsInfoRels;
+        productList.map((el) => {
+          el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
+            g = Object.assign({}, g, { selected: false });
+            console.log(g.goodsInfoId, el, 'hhhh');
+            if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
+              g.selected = true;
             }
-          })
-        });
-        el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-        el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-        el.goodsInfo.goods.goodsSpecs = specList;
-      });
+            return g;
+          });
+          let specList = el.goodsSpecs;
+          let specDetailList = el.goodsSpecDetails;
+          specList.map((sItem) => {
+            sItem.chidren = specDetailList.filter((sdItem, i) => {
+              return sdItem.specId === sItem.specId;
+            });
+            console.log(sItem, el, 'hhhh');
 
-      this.setState({ productList }, () => {
-        this.checkoutStock()
+            sItem.chidren.map((child) => {
+              if (
+                el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+              ) {
+                console.log(child, 'child');
+                child.selected = true;
+              }
+            });
+          });
+          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
+          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
+          el.goodsInfo.goods.goodsSpecs = specList;
+        });
+
+        this.setState({ productList }, () => {
+          this.checkoutStock();
+        });
+        // getPrescriptionById({id: res.context.prescriberId}).then(res => {
+        getPrescriptionById({ id: '2304' }).then((res) => {
+          console.log(res, 'bbb');
+          this.props.clinicStore.setLinkClinicId('2304');
+          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+          this.setState({ prescriberInfo: res.context, loading: false });
+        });
+      })
+      .catch((err) => {
+        // this.props.history.push('/')
       });
-      // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-      getPrescriptionById({ id: '2304' }).then((res) => {
-        console.log(res, 'bbb');
-        this.props.clinicStore.setLinkClinicId('2304');
-        this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-        this.setState({ prescriberInfo: res.context, loading: false });
-      });
-    }).catch(err => {
-      // this.props.history.push('/')
-    })
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -147,68 +150,78 @@ class Help extends React.Component {
     // }
   }
   checkoutStock() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     for (let i = 0; i < productList.length; i++) {
-      if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-        outOfStockProducts.push(productList[i])
-      }else {
-        inStockProducts.push(productList[i])
+      if (
+        productList[i].recommendationNumber > productList[i].goodsInfo.stock
+      ) {
+        outOfStockProducts.push(productList[i]);
+      } else {
+        inStockProducts.push(productList[i]);
       }
     }
-    let outOfStockVal = ''
+    let outOfStockVal = '';
     outOfStockProducts.map((el, i) => {
-      if(i === outOfStockProducts.length - 1) {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName
-      }else {
-        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ','
+      if (i === outOfStockProducts.length - 1) {
+        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName;
+      } else {
+        outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ',';
       }
-    })
+    });
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
-      { val:  outOfStockVal}
-    )
+      { val: outOfStockVal }
+    );
     modalList[1].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_pay' },
-      { val:  outOfStockVal}
-    )
+      { val: outOfStockVal }
+    );
   }
   async hanldeLoginAddToCart() {
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
     // console.log(outOfStockProducts, inStockProducts, '...1')
-    // return 
-    
-    
+    // return
 
-      // for (let i = 0; i < productList.length; i++) {
-      //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
-      //     outOfStockProducts.push(productList[i])
-      //     this.setState({ buttonLoading: false });
-      //     continue
-      //   }else {
-      //     inStockProducts.push(productList[i])
-      //   }
-      // }
-      if(outOfStockProducts.length > 0) {
-        this.setState({modalShow: true, currentModalObj: modalList[0]})
-      }else {
-        this.setState({ buttonLoading: true });
-        for (let i = 0; i < inStockProducts.length; i++) {
-          try {
-            await sitePurchase({
-              goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
-              goodsNum: inStockProducts[i].recommendationNumber,
-              goodsCategory: ''
-            });
-            await this.props.checkoutStore.updateLoginCart();
-          } catch (e) {
-            this.setState({ buttonLoading: false });
-          }
+    // for (let i = 0; i < productList.length; i++) {
+    //   if(productList[i].recommendationNumber > productList[i].goodsInfo.stock) {
+    //     outOfStockProducts.push(productList[i])
+    //     this.setState({ buttonLoading: false });
+    //     continue
+    //   }else {
+    //     inStockProducts.push(productList[i])
+    //   }
+    // }
+    if (outOfStockProducts.length > 0) {
+      this.setState({ modalShow: true, currentModalObj: modalList[0] });
+    } else {
+      this.setState({ buttonLoading: true });
+      for (let i = 0; i < inStockProducts.length; i++) {
+        try {
+          await sitePurchase({
+            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+            goodsNum: inStockProducts[i].recommendationNumber,
+            goodsCategory: ''
+          });
+          await this.props.checkoutStore.updateLoginCart();
+        } catch (e) {
+          this.setState({ buttonLoading: false });
         }
-        this.props.history.push('/cart');
       }
+      this.props.history.push('/cart');
+    }
   }
   async hanldeUnloginAddToCart(products, path) {
-    console.log(products,'products')
+    console.log(products, 'products');
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
       // this.setState({ checkOutErrMsg: "" });
@@ -220,11 +233,11 @@ class Help extends React.Component {
       // const { goodsId, sizeList } = this.state.details;
       // const currentSelectedSize = find(sizeList, (s) => s.selected);
       // let quantityNew = quantity;
-      
+
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      
+
       let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
@@ -243,7 +256,7 @@ class Help extends React.Component {
             product.goodsInfo.goodsInfoId ===
               c.sizeList.filter((s) => s.selected)[0].goodsInfoId
         );
-        console.log(historyItem, 'historyItem')
+        console.log(historyItem, 'historyItem');
         if (historyItem) {
           flag = false;
           quantityNew += historyItem.quantity;
@@ -328,16 +341,21 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    if(needLogin) {
-      sessionItemRoyal.set('okta-redirectUrl', '/prescription')
+    if (needLogin) {
+      sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
-    this.setState({needLogin})
-    let { productList, outOfStockProducts, inStockProducts, modalList } = this.state;
-    let totalPrice 
-    inStockProducts.map(el => {
-      console.log(el, 'el')
-      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice
-    })
+    this.setState({ needLogin });
+    let {
+      productList,
+      outOfStockProducts,
+      inStockProducts,
+      modalList
+    } = this.state;
+    let totalPrice;
+    inStockProducts.map((el) => {
+      console.log(el, 'el');
+      totalPrice = el.recommendationNumber * el.goodsInfo.salePrice;
+    });
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.showErrorMsg(
         <FormattedMessage
@@ -347,17 +365,28 @@ class Help extends React.Component {
       );
       return false;
     }
-    if(outOfStockProducts.length > 0) {
-      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
-      this.setState({modalShow: true, currentModalObj: modalList[1]})
-      return false
-    }else {
-      sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
+    if (outOfStockProducts.length > 0) {
+      sessionItemRoyal.set(
+        'recommend_product',
+        JSON.stringify(inStockProducts)
+      );
+      this.setState({ modalShow: true, currentModalObj: modalList[1] });
+      return false;
+    } else {
+      sessionItemRoyal.set(
+        'recommend_product',
+        JSON.stringify(inStockProducts)
+      );
       this.props.history.push('/prescription');
     }
   }
   async hanldeClickSubmit() {
-    let { currentModalObj, subDetail, outOfStockProducts, inStockProducts } = this.state;
+    let {
+      currentModalObj,
+      subDetail,
+      outOfStockProducts,
+      inStockProducts
+    } = this.state;
     this.setState({ loading: true, modalShow: false });
     if (currentModalObj.type === 'addToCart') {
       for (let i = 0; i < inStockProducts.length; i++) {
@@ -425,14 +454,27 @@ class Help extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section
+            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
+          >
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="subscriptionLanding.title1"/>
+              IT’S MORE THAN FREE DELIVERY
             </h2>
-            {/* <p>
-              <FormattedMessage id="subscriptionLanding.content1"/>
-            </p> */}
-            <p>Pets bring a lot of joy—and a lot of questions. When you sign up for automatic shipping, you’ll be a member of the&nbsp;<strong>Royal Canin Club</strong>&nbsp;at no extra cost. Throughout the year, you’ll get your pet’s precisely tailored formulas, along with <strong>new pet gifts,<br/>exclusive offers and more</strong>.</p>
+            <div class="rc-intro inherit-fontsize children-nomargin">
+              <p>
+                At Royal Canin®, we know that caring for a new puppy can bring a
+                lot of questions. That’s why we offer exclusive benefits like
+                24/7 access to pet experts, welcome home puppy kits and more
+                through the Royal Canin Club. Joining is easy — sign up for
+                automatic shipping on your pet’s tailored formulas to become a
+                member today.
+                <br />
+              </p>
+              <p>
+                Your <strong>free</strong> membership includes:
+              </p>
+              <p>&nbsp;</p>
+            </div>
           </section>
 
           <div
@@ -447,46 +489,45 @@ class Help extends React.Component {
                 justifyContent: 'center'
               }}
             >
-              <div style={{width: '550px'}}>
+              <div style={{ width: '550px' }}>
                 <div>
                   <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>Specialty Welcome Box</strong> - with your first order, you’ll get an assortment of gifts to help you welcome your new pet home.
-                  {/* <FormattedMessage id="subscriptionLanding.description1"/> */}
-                </div>
-                <div>
-                  <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>Free Shipping</strong> - just set your preferred schedule and you’ll never have to worry.
-                  {/* <FormattedMessage id="subscriptionLanding.description2"/> */}
+                  <strong>The Royal Canin Pet Advisor Live App</strong> - chat
+                  with experts around the clock about your pet’s health,
+                  nutrition and behavior; track your pet’s growth; view
+                  checklists to ensure your home is puppy-proof; and more.
                 </div>
                 <div>
                   <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>Personalized Recommendations</strong> - your breeder can send you the products they recommend for your pet as they grow.
-                  {/* <FormattedMessage id="subscriptionLanding.description3"/> */}
+                  <strong>Specialty Welcome Box + FREE Shipping</strong> -
+                  receive an assortment of gifts with your first autoshipment,
+                  plus save 30% on your first order and another 5% on every
+                  autoship order.
                 </div>
                 <div>
                   <i class="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <strong>5% Off Every Autoship Order</strong> - plus, get 10% off your first order.
-                  {/* <FormattedMessage id="subscriptionLanding.description4"/> */}
+                  <strong>Personalized Recommendations</strong> - get breeder
+                  recommendations for pet food and products as your pet grows.
                 </div>
-                <div style={{marginTop:'20px'}}>
-                <button
-                class="rc-btn rc-btn--one"
-                onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}
-                >
-                  <FormattedMessage id="subscriptionLanding.catButton"/>
-                </button>
+                <div style={{ marginTop: '20px' }}>
+                  <button
+                    class="rc-btn rc-btn--one"
+                    onClick={() => {
+                      this.props.history.push('/list/cats');
+                    }}
+                  >
+                    <FormattedMessage id="subscriptionLanding.catButton" />
+                  </button>
                 </div>
-                <div style={{marginTop:'20px'}}>
-                <button
-                class="rc-btn rc-btn--one"
-                onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}
-                >
-                  <FormattedMessage id="subscriptionLanding.dogButton"/>
-                </button>
+                <div style={{ marginTop: '20px' }}>
+                  <button
+                    class="rc-btn rc-btn--one"
+                    onClick={() => {
+                      this.props.history.push('/list/dogs');
+                    }}
+                  >
+                    <FormattedMessage id="subscriptionLanding.dogButton" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -494,7 +535,9 @@ class Help extends React.Component {
               <img src={autoship} style={{ width: '100%' }} />
             </div>
           </div>
-          <section style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}>
+          <section
+            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
+          >
             <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
               How to Join Royal Canin Club
             </h2>
@@ -503,42 +546,114 @@ class Help extends React.Component {
             class="rc-layout-container rc-four-column"
             style={{ padding: '20px 80px' }}
           >
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon1} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Find your <strong>handpicked nutrition products</strong> in your cart.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon1}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>
+                Find your <strong>handpicked nutrition products</strong> in your
+                cart.
+              </p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon2} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Select <strong>automatic shipping</strong> and input your payment method.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon2}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>
+                Select <strong>automatic shipping</strong> and input your
+                payment method.
+              </p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon3} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p><strong>Receive your product automatically</strong> based on your schedule. Change or cancel <strong>at any time</strong>.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon3}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>
+                <strong>Receive your product automatically</strong> based on
+                your schedule. Change or cancel <strong>at any time</strong>.
+              </p>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={icon4} style={{ width: '100px', display: 'inline-block', marginBottom: '20px' }} />
-              <p>Get your exclusive<strong> Royal Canin Club perks</strong>,&nbsp;including your welcome box.</p>
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={icon4}
+                style={{
+                  width: '100px',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
+              <p>
+                Get your exclusive<strong> Royal Canin Club perks</strong>,
+                including the Royal Canin Pet Advisor Live app.
+              </p>
             </div>
           </div>
           <div
             class="rc-layout-container rc-three-column"
             style={{ padding: '20px', background: '#eee' }}
           >
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={cat}
+                style={{
+                  width: '100%',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
             </div>
-            <div class="rc-column" style={{textAlign: 'center', paddingTop: '80px'}}>
-              <h2 style={{ color: '#E2001A'}}>Get Started</h2>
-              <p>Find your pet’s precise formula, and be sure to choose automatic shipping at checkout.
+            <div
+              class="rc-column"
+              style={{ textAlign: 'center', paddingTop: '80px' }}
+            >
+              <h2 style={{ color: '#E2001A' }}>Get Started</h2>
+              <p>
+                Find your pet’s precise formula, and be sure to choose automatic
+                shipping at checkout.
               </p>
-              <div><button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}>Cat</button> <button class="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}>Dog</button></div>
+              <div>
+                <button
+                  class="rc-btn rc-btn--sm rc-btn--two"
+                  onClick={() => {
+                    this.props.history.push('/list/cats');
+                  }}
+                >
+                  Cat
+                </button>{' '}
+                <button
+                  class="rc-btn rc-btn--sm rc-btn--two"
+                  onClick={() => {
+                    this.props.history.push('/list/dogs');
+                  }}
+                >
+                  Dog
+                </button>
+              </div>
             </div>
-            <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
+            <div class="rc-column" style={{ textAlign: 'center' }}>
+              <img
+                src={dog}
+                style={{
+                  width: '100%',
+                  display: 'inline-block',
+                  marginBottom: '20px'
+                }}
+              />
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>
@@ -547,10 +662,132 @@ class Help extends React.Component {
                 Need help?
               </h2>
               <p>
-                As true pet lovers and experts in tailored nutrition, we're here to help you give your pet the healthiest life possible.
+                As true pet lovers and experts in tailored nutrition, we're here
+                to help you give your pet the healthiest life possible.
               </p>
             </section>
-            <div class="experience-region experience-main">
+            <div class="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div style={{width: '100%'}}>
+                          <b style={{ color: '#00A4A6' }}><FormattedMessage id="help.byTelephone" /></b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              {this.props.configStore.contactTimePeriod}
+                            </span>
+                          </p>
+                          <div class="rc-margin-top--xs">
+                            <a
+                              href="tel: 1-844-673-3772"
+                              style={{ color: '#00A4A6' }}
+                              class="rc-numeric"
+                            >
+                              {this.props.configStore.storeContactPhoneNumber}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="call us"
+                          title="call us"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div style={{width: '100%'}}>
+                          <b style={{ color: '#0087BD' }}><FormattedMessage id="help.byEmail" /></b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              <FormattedMessage id="help.tip3" />
+                            </span>
+                          </p>
+                          <div class="rc-margin-top--xs">
+                            <div
+                              href="https://shop.royalcanin.com/help/contact"
+                              style={{ color: '#0087BD' }}
+                              class="rc-numeric"
+                            >
+                              {this.props.configStore.storeContactEmail}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="email us"
+                          title="email us"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div class="rc-column rc-padding--none">
+                <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+                  <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+                    <div class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+                      <div class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                        <div>
+                          <b>Have a question?</b>
+                          <p>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              Check out our&nbsp;
+                            </span>
+                            <Link
+                              to="/faq/all"
+                              rel="noopener noreferrer"
+                              data-link-type="external"
+                              style={{
+                                color: 'rgb(236, 0, 26)',
+                                backgroundColor: 'rgb(255, 255, 255)'
+                              }}
+                            >
+                              FAQs
+                            </Link>
+                            <span style={{ color: 'rgb(102, 102, 102)' }}>
+                              &nbsp;to find the answers you're looking for.
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <img
+                          class="align-self-center widthAuto ls-is-cached lazyloaded"
+                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          alt="faq"
+                          title="faq"
+                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+            {/* <div class="experience-region experience-main">
               <div class="experience-region experience-main">
                 <div class="experience-component experience-layouts-1column">
                   <div class="row rc-margin-x--none">
@@ -693,8 +930,8 @@ class Help extends React.Component {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>         
+            </div> */}
+          </div>
         </main>
 
         <Footer />
