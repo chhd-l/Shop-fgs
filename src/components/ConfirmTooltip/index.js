@@ -1,17 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import './index.css';
+import './index.less';
 
 class ConfirmTooltip extends React.Component {
-  static propTypes = {
-    containerStyle: PropTypes.object,
-    arrowStyle: PropTypes.object
-  };
   static defaultProps = {
     content: <FormattedMessage id="confirmDelete" />,
     containerStyle: {},
     arrowStyle: {},
+    arrowDirection: 'top',
     cancelBtnVisible: true,
     confirmBtnVisible: true
   };
@@ -32,9 +29,10 @@ class ConfirmTooltip extends React.Component {
     this.props.updateChildDisplay(false);
   }
   render() {
+    const { arrowDirection } = this.props;
     return this.props.display ? (
       <div
-        className="confirm-tool-container position-relative"
+        className={`confirm-tool-container position-relative arrow-direction-${arrowDirection}`}
         onBlur={(e) => this.onBlur(e)}
       >
         <div
@@ -42,7 +40,7 @@ class ConfirmTooltip extends React.Component {
           style={this.props.containerStyle}
           tabIndex="1"
         >
-          <div className="confirm-tool-arrow" style={this.props.arrowStyle} />
+          <div className={`confirm-tool-arrow`} style={this.props.arrowStyle} />
           <div className="pt-1">{this.props.content}</div>
           <div className="d-flex justify-content-between">
             {this.props.cancelBtnVisible ? (
