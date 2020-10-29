@@ -489,7 +489,12 @@ const en_US = {
   'product.catogery4.name': 'VD cats',
   'product.catogery4.title': 'Dietas de Prescripción Veterinaria Gatos',
   'product.catogery5.name': 'Dogs',
+  'product.catogery5.title': 'Exactly what your dog needs',
+  'product.catogery5.desc': 'Each dog has different nutritional needs based on their breed, age and lifestyle. Find your dog’s unique formula tailored to his needs and sensitivities.',
+
   'product.catogery6.name': 'Cats',
+  'product.catogery6.title': 'Exactly what your cat needs',
+  'product.catogery6.desc': 'Each cat has different nutritional needs based on their breed, age and lifestyle. Find your cat’s unique formula tailored to her needs and sensitivities.',
   'product.catogery7.name': 'Dietas para Gatos de Raza',
   'product.catogery7.title': 'Dietas para Gatos de Raza',
   'product.catogery7.desc': 'Nutrición individualizada para gatos de Raza.',  

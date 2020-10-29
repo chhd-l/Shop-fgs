@@ -73,7 +73,10 @@ export const STORE_CATE_ENUM = [
       'Dogs',
       'Dog'
     ],
-    text: CURRENT_LANGFILE['product.catogery5.name']
+    text: CURRENT_LANGFILE['product.catogery5.name'],
+    title: CURRENT_LANGFILE['product.catogery5.title'],
+    desc: CURRENT_LANGFILE['product.catogery5.desc'],
+    img: dogsImg
   },
   {
     url: '/list/cats',
@@ -88,7 +91,9 @@ export const STORE_CATE_ENUM = [
       'Cats',
       'Cat'
     ],
-    text: CURRENT_LANGFILE['product.catogery6.name']
+    text: CURRENT_LANGFILE['product.catogery6.name'],
+    title: CURRENT_LANGFILE['product.catogery6.title'],
+    desc: CURRENT_LANGFILE['product.catogery6.desc'],
   }
 ];
 
