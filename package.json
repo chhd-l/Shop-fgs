@@ -86,6 +86,7 @@
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
+    "webpackbar": "^4.0.0",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {

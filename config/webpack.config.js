@@ -27,7 +27,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const postcssNormalize = require('postcss-normalize');
 const { version } = require('os');
-
+const WebpackBar = require('webpackbar');
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -564,6 +564,14 @@ module.exports = function (webpackEnv) {
       ]
     },
     plugins: [
+      // 添加 进度条
+      new WebpackBar(
+        {
+          name: 'Royal Canin Shop',
+          color: '#e2001a'
+        }
+      ),
+
       // new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
