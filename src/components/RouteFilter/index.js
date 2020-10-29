@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { queryStoreCateIds, loadJS } from '@/utils/utils';
+import { queryStoreCateIds, loadJS, loadNoScriptIframeJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
@@ -14,7 +14,7 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  async componentWillMount() {
+  componentWillMount() {
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
     // 默认了clinic后，再次编辑clinic
@@ -80,6 +80,18 @@ class RouteFilter extends Component {
       history.push('/');
       return false;
     }
+
+    // if (deviceSessionId) {
+    //   loadJS({
+    //     url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    //   loadNoScriptIframeJS({
+    //     style:
+    //       'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    //     src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    // }
+
     return true;
   }
   // router refresh=true后，此生命周期无效

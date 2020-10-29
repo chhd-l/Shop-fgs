@@ -293,7 +293,7 @@ const en_US = {
   "home.specialInfo3": "Find out what makes them unique!",
   "home.specialInfo4": "For more than 50 years, we have been following the principle of “Well-being for dogs and cats, above all.” We create adapted food for animals according to their special needs.",
   "home.viewProducts": "View Products",
-  homePage: "Home Page",
+  homePage: "Home",
   iHaveReadThe: "I have read the",
   inactive: "Inactive",
   information: "Information",

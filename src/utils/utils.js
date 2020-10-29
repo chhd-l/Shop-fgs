@@ -228,6 +228,16 @@ export function loadJS({
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
+export function loadNoScriptIframeJS({ style, src }) {
+  var script = document.createElement('noscript');
+  let iframe = document.createElement('iframe');
+  iframe.style = style;
+  iframe.src = src;
+
+  script.appendChild(iframe);
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
+
 export function dynamicLoadCss(url) {
   var head = document.getElementsByTagName('head')[0];
   var link = document.createElement('link');
