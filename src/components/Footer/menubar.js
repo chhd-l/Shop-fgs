@@ -283,7 +283,7 @@ export const menubar = {
             messageId: 'Качество и безопасность'
           },
           {
-            url: 'https://www.shop.royal-canin.ru/ru/Tailorednutrition.html',
+            url: '/tailorednutrition',
             messageId: 'Здоровье и питание'
           }
         ]
