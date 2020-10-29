@@ -70,7 +70,7 @@ class HeroCarousel extends React.Component {
     this.hanldeClick = this.hanldeClick.bind(this);
     this.hideNotice = this.hideNotice.bind(this);
   }
-  componentWillReceiveProps(nextProps, nextContext) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
       
   }
   componentDidMount(){
@@ -89,12 +89,12 @@ class HeroCarousel extends React.Component {
         })
       }
   }
-  componentWillMount() {
-    // getBanner().then((res) => {
-    //   console.log(res, 'ressssss');
-    //   this.setState({ banner: res.context });
-    // });
-  }
+  /*componentWillMount() {
+    getBanner().then((res) => {
+      console.log(res, 'ressssss');
+      this.setState({ banner: res.context });
+    });
+  }*/
   hideNotice() {
     this.setState({
       noticeVisible: false

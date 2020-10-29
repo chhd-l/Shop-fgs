@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
+import Modal from '@/components/Modal';
+
+import veterinaryImg from '@/assets/images/veterinary.png';
+import veterinaryProductImg from '@/assets/images/veterinary_product.png';
 
 const RadioAnswer = (props) => {
+  const [sickModalVisible, setSickModalVisible] = useState(true);
   const [form, setFormData] = useState('');
   // setInterval(() => {
   //   if (progress < 101) {
@@ -8,7 +14,10 @@ const RadioAnswer = (props) => {
   //   }
   // }, 3000);
 
-  function handleRadioChange(e, idx) {
+  function handleRadioChange(item, idx) {
+    if (item.includes('health problems')) {
+      setSickModalVisible(true);
+    }
     setFormData(idx + '');
   }
 
@@ -30,7 +39,7 @@ const RadioAnswer = (props) => {
             type="radio"
             name="buyWay"
             value={i}
-            onChange={(event) => handleRadioChange(event, i)}
+            onChange={(event) => handleRadioChange(ele, i)}
             checked={ele.selected}
           />
           <label
@@ -41,6 +50,47 @@ const RadioAnswer = (props) => {
           </label>
         </div>
       ))}
+      <Modal
+        footerVisible={false}
+        visible={sickModalVisible}
+        modalTitle={''}
+        modalText={
+          <div className="row ml-3 mr-3">
+            <div className="col-12 col-md-6">
+              <h2 className="rc-beta markup-text">
+                <FormattedMessage id="productFinder.healthTitle" />
+              </h2>
+              <p>
+                <FormattedMessage id="productFinder.healthTip1" />
+              </p>
+              <p>
+                <FormattedMessage id="productFinder.healthTip2" />
+              </p>
+              <div class="rc-btn-group mb-3">
+                <button class="rc-btn rc-btn--one">
+                  <FormattedMessage id="learnMore" />
+                </button>
+                <button class="rc-btn rc-btn--two">
+                  <FormattedMessage id="contactUs" />
+                </button>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <img
+                src={veterinaryImg}
+                style={{ width: '20%', margin: '0 auto' }}
+              />
+              <img className="mt-3 rc-full-width" src={veterinaryProductImg} />
+            </div>
+          </div>
+        }
+        close={() => {
+          setSickModalVisible(false);
+        }}
+        hanldeClickConfirm={() => {
+          setSickModalVisible(false);
+        }}
+      />
     </>
   );
 };

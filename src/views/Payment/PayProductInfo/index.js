@@ -34,7 +34,7 @@ class PayProductInfo extends React.Component {
       )
     );
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
     //     }
@@ -45,7 +45,6 @@ class PayProductInfo extends React.Component {
         JSON.stringify(this.state.productList) &&
       this.props.data.length
     ) {
-      console.log(nextProps, 'nextProp');
       productList = nextProps.data;
       this.setState(
         Object.assign({
@@ -56,7 +55,6 @@ class PayProductInfo extends React.Component {
   }
   async componentDidMount() {
     let productList;
-    console.log(this.props, 'props');
     if (this.props.data.length) {
       productList = this.props.data;
     } else if (this.isLogin) {
@@ -101,6 +99,7 @@ class PayProductInfo extends React.Component {
                 <img
                   className="product-image"
                   src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
+                  alt=""
                 />
               </div>
               <div className="wrap-item-title">

@@ -42,7 +42,7 @@ class PersonalDataEditForm extends React.Component {
       });
     });
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
       this.setState({
         form: Object.assign({}, nextProps.data),

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import './index.css'
-import LeftImg from '@/assets/images/left.png'
-import RightImg from '@/assets/images/right.png'
+//import LeftImg from '@/assets/images/left.png'
+//import RightImg from '@/assets/images/right.png'
 
 class ImageMagnifier extends Component {
   constructor(props) {
@@ -106,7 +106,7 @@ class ImageMagnifier extends Component {
    * 生命周期函数
    */
   // 组件初始化
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.initParam();
     this.updataImg(this.props);
   }
@@ -136,7 +136,7 @@ class ImageMagnifier extends Component {
     }
   }
   // props 变化时更新
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     console.log(nextProps, 'nextProps')
     let { currentImg } = this.state
     let { images } = this.props

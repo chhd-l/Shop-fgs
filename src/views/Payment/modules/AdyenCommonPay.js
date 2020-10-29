@@ -75,7 +75,7 @@ class AdyenCommonPay extends Component {
       }
     );
   };
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(
       {
         type: nextProps.type

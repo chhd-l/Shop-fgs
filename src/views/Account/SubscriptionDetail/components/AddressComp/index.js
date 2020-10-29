@@ -56,7 +56,7 @@ class AddressList extends React.Component {
     };
     this.timer = null;
   }
-  async componentWillReceiveProps(props) {
+  async UNSAFE_componentWillReceiveProps(props) {
     if (props.type !== this.state.type) {
       if (props.type === 'delivery') {
         this.setState({ selectedId: props.deliveryAddressId }, () => {

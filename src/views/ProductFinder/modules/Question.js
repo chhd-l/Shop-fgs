@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
@@ -22,6 +23,8 @@ const ProductFinder = ({ location, history, match }) => {
   const [form, setFormData] = useState('');
   const [url, setUrl] = useState(`xxx?query=`);
   const [qListVisible, setQListVisible] = useState(false);
+  const [iconToolTipVisible, setIconToolTipVisible] = useState(false);
+  const [btnToolTipVisible, setBtnToolTipVisible] = useState(false);
 
   // setInterval(() => {
   //   if (progress < 101) {
@@ -90,8 +93,8 @@ const ProductFinder = ({ location, history, match }) => {
       />
       <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
         <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
-        <div className="row justify-content-between mb-4">
-          <div className="col-10 col-md-4 mt-2">
+        <div className="row justify-content-center justify-content-md-between mb-4">
+          <div className="col-8 col-md-4 mt-2">
             <div
               className="pt-2 pb-2 rc-bg-colour--brand4 text-center rounded ui-cursor-pointer-pure"
               onClick={toggleShowQList}
@@ -126,8 +129,27 @@ const ProductFinder = ({ location, history, match }) => {
               </div>
             )}
           </div>
-          <div className="col-2 col-md-1">
-            <img src={helpImg} />
+          <div className="col-2 col-md-1 rc-md-up">
+            <img
+              className="ui-cursor-pointer"
+              src={helpImg}
+              onMouseEnter={() => {
+                setIconToolTipVisible(true);
+              }}
+              onMouseLeave={() => {
+                setIconToolTipVisible(false);
+              }}
+            />
+            <ConfirmTooltip
+              arrowDirection="right"
+              arrowStyle={{ top: '25%' }}
+              display={iconToolTipVisible}
+              cancelBtnVisible={false}
+              confirmBtnVisible={false}
+              updateChildDisplay={(status) => setIconToolTipVisible(status)}
+              content={<FormattedMessage id="productFinder.helpTip3" />}
+              key="1"
+            />
           </div>
         </div>
         <div className="row">
@@ -168,9 +190,54 @@ const ProductFinder = ({ location, history, match }) => {
                       </button>
                     </div>
                     <div className="col-12 col-md-6 mt-2 mb-4 mt-md-0 mb-md-0">
-                      <p className="rc-styled-link mb-0 mt-2">
-                        <FormattedMessage id="productFinder.whyAreWeAskingThis" />
-                      </p>
+                      <div className="position-relative inlineblock">
+                        <p
+                          className="rc-styled-link mb-0 mt-2"
+                          onMouseEnter={() => {
+                            setBtnToolTipVisible(true);
+                          }}
+                          onMouseLeave={() => {
+                            setBtnToolTipVisible(false);
+                          }}
+                        >
+                          <FormattedMessage id="productFinder.whyAreWeAskingThis" />
+                        </p>
+                        <div className="rc-md-up">
+                          <ConfirmTooltip
+                            arrowDirection="left"
+                            arrowStyle={{ top: '50%' }}
+                            display={btnToolTipVisible}
+                            cancelBtnVisible={false}
+                            confirmBtnVisible={false}
+                            updateChildDisplay={(status) =>
+                              setBtnToolTipVisible(status)
+                            }
+                            content={
+                              <FormattedMessage id="productFinder.helpTip3" />
+                            }
+                            key="2"
+                          />
+                        </div>
+                        <div className="rc-md-down">
+                          <ConfirmTooltip
+                            arrowDirection="bottom"
+                            arrowStyle={{ top: '-14%' }}
+                            containerStyle={{
+                              transform: 'translate(-50%, 120%)'
+                            }}
+                            display={btnToolTipVisible}
+                            cancelBtnVisible={false}
+                            confirmBtnVisible={false}
+                            updateChildDisplay={(status) =>
+                              setBtnToolTipVisible(status)
+                            }
+                            content={
+                              <FormattedMessage id="productFinder.helpTip3" />
+                            }
+                            key="3"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -178,7 +245,7 @@ const ProductFinder = ({ location, history, match }) => {
             )}
           </div>
           <div className="col-12 col-md-6 order-0 order-md-1">
-            <img src={{ cat: catImg, dog: dogImg }[type]} />
+            <img src={{ cat: catImg, dog: dogImg }[type]} className="p-f-q-avatar" />
           </div>
         </div>
       </div>
