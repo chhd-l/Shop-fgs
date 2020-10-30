@@ -152,6 +152,7 @@ class AdyenCreditCardForm extends React.Component {
                 style={{ width: '50px' }}
                 className="logo-payment-card mr-1"
                 src={el}
+                alt=""
               />
             ))}
           </span>
@@ -171,7 +172,7 @@ class AdyenCreditCardForm extends React.Component {
           <div className="text-right">
             {this.props.showCancelBtn && (
               <>
-                <a
+                <span
                   className="rc-styled-link editPersonalInfoBtn"
                   name="contactInformation"
                   onClick={() => {
@@ -179,7 +180,7 @@ class AdyenCreditCardForm extends React.Component {
                   }}
                 >
                   <FormattedMessage id="cancel" />
-                </a>{' '}
+                </span>{' '}
                 <FormattedMessage id="or" />{' '}
               </>
             )}

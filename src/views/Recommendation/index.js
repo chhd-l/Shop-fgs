@@ -26,6 +26,7 @@ import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
+import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 import { cloneDeep, findIndex, find } from 'lodash';
@@ -124,11 +125,14 @@ class Help extends React.Component {
               console.log(child, 'child')
               child.selected = true
             }
+            return child;
           })
+          return sItem;
         });
         el.goodsInfo.goods.goodsInfos = el.goodsInfos;
         el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
         el.goodsInfo.goods.goodsSpecs = specList;
+        return el;
       });
 
       this.setState({ productList }, () => {
@@ -166,6 +170,7 @@ class Help extends React.Component {
       }else {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ','
       }
+      return el;
     })
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
@@ -215,29 +220,15 @@ class Help extends React.Component {
     console.log(products,'products')
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
-      // this.setState({ checkOutErrMsg: "" });
-      // if (this.state.loading) {
-      //   return false;
-      // }
-      // const { history } = this.props;
-      // const { currentUnitPrice, quantity, instockStatus } = this.state;
-      // const { goodsId, sizeList } = this.state.details;
-      // const currentSelectedSize = find(sizeList, (s) => s.selected);
-      // let quantityNew = quantity;
       
+      let quantityNew = product.recommendationNumber;
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      
-      let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
       );
 
-      // if (!instockStatus || !quantityNew) {
-      //   return false;
-      // }
-      // this.setState({ addToCartLoading: true });
       let flag = true;
       if (cartDataCopy && cartDataCopy.length) {
         const historyItem = find(
@@ -252,40 +243,12 @@ class Help extends React.Component {
           flag = false;
           quantityNew += historyItem.quantity;
           if (quantityNew > 30) {
-            // this.setState({
-            //   checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />,
-            // });
             this.setState({ addToCartLoading: false });
             return;
           }
           tmpData = Object.assign(tmpData, { quantity: quantityNew });
         }
       }
-
-      // 超过库存时，修改产品数量为最大值替换
-      // let res = await miniPurchases({
-      //   goodsInfoDTOList: [
-      //     {
-      //       goodsInfoId: currentSelectedSize.goodsInfoId,
-      //       goodsNum: quantityNew
-      //     }
-      //   ]
-      // });
-      // let tmpObj = find(
-      //   res.context.goodsList,
-      //   (ele) => ele.goodsInfoId === currentSelectedSize.goodsInfoId
-      // );
-      // if (tmpObj) {
-      //   if (quantityNew > tmpObj.stock) {
-      //     quantityNew = tmpObj.stock;
-      //     if (flag) {
-      //       this.setState({
-      //         quantity: quantityNew
-      //       });
-      //     }
-      //     tmpData = Object.assign(tmpData, { quantity: quantityNew });
-      //   }
-      // }
 
       const idx = findIndex(
         cartDataCopy,
@@ -314,58 +277,6 @@ class Help extends React.Component {
       console.log(cartDataCopy, 'cartDataCopy');
       await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
     }
-    // this.setState({ addToCartLoading: false });
-    // if (redirect) {
-    //   if (
-    //     this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
-    //   ) {
-    //     this.setState({
-    //       checkOutErrMsg: (
-    //         <FormattedMessage
-    //           id="cart.errorInfo3"
-    //           values={{
-    //             val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT),
-    //           }}
-    //         />
-    //       ),
-    //     });
-    //     return false;
-    //   }
-    //   if (this.props.checkoutStore.offShelvesProNames.length) {
-    //     this.setState({
-    //       checkOutErrMsg: (
-    //         <FormattedMessage
-    //           id="cart.errorInfo4"
-    //           values={{
-    //             val: this.props.checkoutStore.offShelvesProNames.join("/"),
-    //           }}
-    //         />
-    //       ),
-    //     });
-    //     return false;
-    //   }
-    //   if (this.checkoutStore.outOfstockProNames.length) {
-    //     this.setState({
-    //       checkOutErrMsg: (
-    //         <FormattedMessage
-    //           id="cart.errorInfo2"
-    //           values={{ val: this.checkoutStore.outOfstockProNames.join("/") }}
-    //         />
-    //       ),
-    //     });
-    //     return false;
-    //   }
-    //   if (needLogin) {
-    //     // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-    //   } else {
-    //     history.push("/prescription");
-    //   }
-    // }
-    // // todo 改为mobx
-    // this.headerRef.current && this.headerRef.current.handleCartMouseOver();
-    // setTimeout(() => {
-    //   this.headerRef.current && this.headerRef.current.handleCartMouseOut();
-    // }, 1000);
     this.props.history.push(path);
   }
   showErrorMsg = (msg) => {
@@ -393,6 +304,7 @@ class Help extends React.Component {
     inStockProducts.map(el => {
       console.log(el, 'instock')
       totalPrice = totalPrice + el.recommendationNumber * el.goodsInfo.salePrice
+      return el;
     })
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       console.log(totalPrice, 'instock')
@@ -404,12 +316,18 @@ class Help extends React.Component {
       );
       return false;
     }
-    console.log(inStockProducts, 'recomend_ppp')
     if(outOfStockProducts.length > 0) {
       sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
       this.setState({modalShow: true, currentModalObj: modalList[1]})
       return false
     }else {
+      let res = await getProductPetConfig({goodsInfos: inStockProducts.map(el => el.goodsInfo)})
+      console.log(res)
+      let AuditData = res.context.goodsInfos.filter(el => el.auditCatFlag)
+      this.props.checkoutStore.setAuditData(AuditData)
+      let autoAuditFlag = res.context.autoAuditFlag
+      this.props.checkoutStore.setPetFlag(res.context.petFlag)
+      this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
       sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
       if(!needLogin) {
         this.props.history.push('/prescription');
@@ -607,6 +525,7 @@ class Help extends React.Component {
                         >
                           <i></i>
                           <img
+                            alt=""
                             src={
                               el.goodsInfo.goodsInfoImg ||
                               el.goodsInfo.goods.goodsImg
@@ -787,6 +706,7 @@ class Help extends React.Component {
                     </div>
                     <div className="description">
                       <img
+                        alt=""
                         src={storeLogo}
                         style={{
                           float: 'left',
@@ -903,6 +823,7 @@ class Help extends React.Component {
                         >
                           <i></i>
                           <img
+                            alt=""
                             style={{height: '65px'}}
                             src={
                               el.goodsInfo.goodsInfoImg ||
@@ -1053,6 +974,7 @@ class Help extends React.Component {
                     </div>
                     <div className="description">
                       <img
+                        alt=""
                         src={storeLogo}
                         style={{
                           float: 'left',
@@ -1119,7 +1041,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={recommendation1} style={{ width: '100%' }} />
+              <img src={recommendation1} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>
@@ -1304,13 +1226,13 @@ class Help extends React.Component {
             style={{ textAlign: 'center', display: 'flex' }}
           >
             <li>
-              <img src={cur_recommendation2} />
+              <img src={cur_recommendation2} alt=""/>
             </li>
             <li>
-              <img src={cur_recommendation3} />
+              <img src={cur_recommendation3} alt=""/>
             </li>
             <li>
-              <img src={cur_recommendation4} />
+              <img src={cur_recommendation4} alt=""/>
             </li>
           </section>
           <section className="re-p-sm-12 re-p-md-4068" style={{ background: '#f6f6f6' }}>

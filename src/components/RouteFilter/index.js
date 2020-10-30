@@ -33,21 +33,21 @@ class RouteFilter extends Component {
     if (pathname === '/prescription') {
       if(this.isLogin) {
         let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber && checkoutStore.autoAuditFlag) {
+        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
           history.replace('/payment/payment');
         }
       }else {
         let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber && checkoutStore.autoAuditFlag) {
+        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
           history.replace('/payment/payment');
         }
       }
     }
 
     if (
-      pathname === '/prescription' &&
+      pathname === '/prescription' && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`) && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) ||
+        localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
           localItemRoyal.get(`rc-clinic-name-select`)) ||
         (localItemRoyal.get(`rc-clinic-id-default`) &&
@@ -196,7 +196,7 @@ class RouteFilter extends Component {
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
     if (
       localItemRoyal.get('rc-token') &&
-      pathname == '/' &&
+      pathname === '/' &&
       pathname !== '/implicit/callback' &&
       pathname !== '/required' &&
       pathname !== '/account/information'
@@ -214,7 +214,7 @@ class RouteFilter extends Component {
       //游客+从url输入required ===>直接跳回首页
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/required') !== -1 &&
-      sessionItemRoyal.get('fromLoginPage') != 'true'
+      sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
       history.push('/');
     }

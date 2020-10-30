@@ -108,10 +108,10 @@ class List extends React.Component {
     const { category } = this.state;
     let storeIdList = await queryStoreCateIds();
     const t =
-      find(STORE_CATE_ENUM, (ele) => ele.category == category) ||
+      find(STORE_CATE_ENUM, (ele) => ele.category === category) ||
       find(
         STORE_CATOGERY_ENUM[process.env.REACT_APP_LANG] || [],
-        (ele) => ele.category == category
+        (ele) => ele.category === category
       );
     if (t) {
       const tmpStoreCateIds = Array.from(storeIdList, (s) =>
@@ -319,13 +319,15 @@ class List extends React.Component {
                 case 'search_fid':
                   const tmpArr = this.fidFromSearch.split('|');
                   checkedListTemp = tmpList
-                    .filter((item) => item.propId == tmpArr[0])[0]
+                    .filter((item) => item.propId === tmpArr[0])[0]
                     .goodsPropDetails.filter(
-                      (item) => item.detailId == tmpArr[1]
+                      (item) => item.detailId === tmpArr[1]
                     );
                   this.setState({
                     checkedList: checkedListTemp
                   });
+                  break;
+                default:
                   break;
               }
 
@@ -408,9 +410,11 @@ class List extends React.Component {
       productList,
       loading,
       checkedList,
-      titleData
+      titleData,
+      initingList
     } = this.state;
     let event;
+    let eEvents;
     if (category) {
       let theme;
       let type;
@@ -426,14 +430,36 @@ class List extends React.Component {
         case 'keywords':
           theme = '';
           type = 'Search Results';
+          break;
         default:
           theme = 'Cat or Dog';
           type = 'Product';
+          break;
       }
       event = {
         page: {
           type,
           theme
+        }
+      };
+    }
+    if (!initingList) {
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+        ecommerce: {
+          // impressions: [
+          //   {
+          //     id: '',
+          //     name: item.goodsCategory,
+          //     price: currentUnitPrice,
+          //     brand: 'Royal Canin',
+          //     category: this.specie,
+          //     quantity: selectedSpecItem.buyCount,
+          //     variant: selectedSpecItem.specText,
+          //     club: 'no',
+          //     sku: selectedSpecItem.goodsInfoId
+          //   }
+          // ]
         }
       };
     }
@@ -470,6 +496,7 @@ class List extends React.Component {
                 </div>
                 <div className="rc-column pt-0 pb-0">
                   <img
+                    alt=""
                     className="mw-100"
                     src={titleData.img}
                     style={{ width: '63%', margin: '0 auto' }}

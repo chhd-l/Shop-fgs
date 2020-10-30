@@ -374,7 +374,7 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == 'K-000000' && !res.context.promotionFlag) {
+      if (res.code === 'K-000000' && !res.context.promotionFlag) {
         //只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
@@ -1053,7 +1053,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ width: '80%' }}
                                 >
                                   <div className="img-container">
-                                    <img src={el.goodsPic} />
+                                    <img src={el.goodsPic} alt=""/>
                                   </div>
                                   <div
                                     className="v-center"
@@ -1391,7 +1391,7 @@ class SubscriptionDetail extends React.Component {
                                     this.state.promotionInputValue
                                   );
                                   if (
-                                    result.code == 'K-000000' &&
+                                    result.code === 'K-000000' &&
                                     !result.context.promotionFlag
                                   ) {
                                     //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
@@ -1532,6 +1532,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div className="ml-1">
                               <img
+                                alt=""
                                 className="d-inline-block mr-1"
                                 style={{ width: '20%' }}
                                 src={

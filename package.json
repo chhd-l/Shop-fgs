@@ -46,6 +46,7 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "js-md5": "^0.7.3",
     "less": "^3.11.3",
     "less-loader": "^6.1.2",
     "mini-css-extract-plugin": "0.9.0",
@@ -94,7 +95,7 @@
     "start": "cross-env PORT=3000 node scripts/start.js",
     "test": "node scripts/test.js",
     "start:us": "dotenv -e .env.development.local -e .env.development.us node scripts/start.js",
-    "start:mx": "dotenv -e .env.development.mx node scripts/start.js",
+    "start:mx": "dotenv -e .env.development.local -e .env.development.mx node scripts/start.js",
     "start:de": "dotenv -e .env.development.local -e .env.development.de node scripts/start.js",
     "start:fr": "dotenv -e .env.development.local -e .env.development.fr node scripts/start.js",
     "start:ru": "dotenv -e .env.development.local -e .env.development.ru node scripts/start.js",
@@ -114,14 +115,16 @@
     "build:stg_tr": "dotenv -e .env.stage.tr node scripts/build.js",
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
-    "build:prod_de": "dotenv -e .env.production.de node scripts/build.js"
+    "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
+    "lint-fix": "eslint --fix --ext .js --ext .jsx src/components"
   },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
       "no-undef": "off",
       "no-restricted-globals": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   "browserslist": {

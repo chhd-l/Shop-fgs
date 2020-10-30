@@ -21,9 +21,6 @@ const localItemRoyal = window.__.localItemRoyal;
 @injectIntl
 @observer
 class Tailorednutrition extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -95,7 +92,7 @@ class Tailorednutrition extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} />
+              <img src={image1} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div
@@ -103,7 +100,7 @@ class Tailorednutrition extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div class="rc-column">
-              <img src={image2} style={{ width: '100%' }} />
+              <img src={image2} style={{ width: '100%' }} alt=""/>
             </div>
             <div
               class="rc-column"
@@ -145,7 +142,7 @@ class Tailorednutrition extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} />
+              <img src={image3} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div
@@ -153,7 +150,7 @@ class Tailorednutrition extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div class="rc-column">
-              <img src={image4} style={{ width: '100%' }} />
+              <img src={image4} style={{ width: '100%' }} alt=""/>
             </div>
             <div
               class="rc-column"
@@ -212,7 +209,7 @@ class Tailorednutrition extends React.Component {
                   this.props.history.push('/list/dogs');
                 }}
               >
-                <img src={dog} style={{ width: '100%' }} />
+                <img src={dog} style={{ width: '100%' }} alt=""/>
                 <p
                   style={{
                     color: '#E2001A',
@@ -234,7 +231,7 @@ class Tailorednutrition extends React.Component {
                   this.props.history.push('/list/cats');
                 }}
               >
-                <img src={cat} style={{ width: '100%' }} />
+                <img src={cat} style={{ width: '100%' }} alt=""/>
                 <p
                   style={{
                     color: '#E2001A',

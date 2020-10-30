@@ -486,7 +486,7 @@ class PrivacyPolicy extends React.Component {
                 </p>
                 <p>
                   En Estados Unidos, visite este sitio:&nbsp;
-                  <a href="http://www.aboutads.info/choices/" target="_blank">
+                  <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">
                     Ad Choices
                   </a>
                   .
@@ -561,7 +561,7 @@ class PrivacyPolicy extends React.Component {
                 <p>
                   Podemos permitir a terceros utilizar cookies y publicitar en
                   nuestros sitios web. No controlamos las cookies de terceros.
-                  <a name="tab57" id="tab57"></a>&nbsp;Hay programas gratuitos
+                  <a name="tab57" id="tab57"> </a>&nbsp;Hay programas gratuitos
                   que puede descargar y que le permitirían configurar sus
                   preferencias y bloquear la mayoría de las cookies de terceros
                   en Internet.

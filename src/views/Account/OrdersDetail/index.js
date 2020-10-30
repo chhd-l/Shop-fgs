@@ -99,8 +99,8 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id == id)
-      ? find(dictList, (ele) => ele.id == id).name
+    return find(dictList, (ele) => ele.id === id)
+      ? find(dictList, (ele) => ele.id === id).name
       : id;
   }
   init() {
@@ -120,7 +120,7 @@ class AccountOrders extends React.Component {
           });
         });
         // 开启审核时
-        if (resContext.isAuditOpen) {
+        if (resContext.isAuditOpen) {debugger
           this.setState({ isAuditOpen: true });
 
           switch (tradeState.auditState) {
@@ -156,6 +156,8 @@ class AccountOrders extends React.Component {
               this.setState({
                 auditRejectReason: tradeState.obsoleteReason
               });
+              break;
+            default:
               break;
           }
           this.setState({ progressList });
@@ -409,7 +411,7 @@ class AccountOrders extends React.Component {
                                       className={`rc-list__item rc-progress-stepped__item ${
                                         i < currentProgerssIndex
                                           ? 'rc-complete'
-                                          : i == currentProgerssIndex
+                                          : i === currentProgerssIndex
                                           ? 'rc-current'
                                           : ''
                                       } ${
@@ -721,6 +723,7 @@ class AccountOrders extends React.Component {
                                     </div>
                                     <div className="ml-1">
                                       <img
+                                        alt=""
                                         className="d-inline-block mr-1"
                                         style={{ width: '20%' }}
                                         src={

@@ -64,6 +64,7 @@ class PaymentComp extends React.Component {
         if (el.id === this.props.paymentId) {
           el.selected = true;
         }
+        return el;
       });
     }
     this.setState({ creditCardList: this.state.creditCardList });
@@ -327,7 +328,7 @@ class PaymentComp extends React.Component {
       }
       if (
         k === 'email' &&
-        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
+        !/^\w+([-_.]?\w+)*@\w+([-]?\w+)*(\.\w{2,6})+$/.test(
           creditCardInfoForm[k].replace(/\s*/g, '')
         )
       ) {
@@ -531,7 +532,7 @@ class PaymentComp extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
+          <img key={idx} className="logo-payment-card" src={el} alt=""/>
         ))}
       </span>
     );
@@ -706,6 +707,7 @@ class PaymentComp extends React.Component {
                           className={`col-6 col-sm-3 d-flex flex-column justify-content-center`}
                         >
                           <img
+                            alt=""
                             src={
                               CREDIT_CARD_IMG_ENUM[
                                 el.paymentMethod ? el.paymentMethod.vendor : ''

@@ -9,7 +9,7 @@ import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic';
+import { getPrescriptionById, getPrescriberByEncryptCode, getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { setBuryPoint } from '@/api';
 import { doLogout } from '@/api/login';
 import LoginButton from '@/components/LoginButton';
@@ -238,7 +238,7 @@ class Header extends React.Component {
       'clinic'
     );
     let linkClinicName = '';
-
+      console.log(linkClinicId , clinicStore.clinicId !== linkClinicId, 'heiheihei')
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
       location &&
@@ -264,14 +264,16 @@ class Header extends React.Component {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
         }
-      } else if (linkClinicId && clinicStore.clinicId !== linkClinicId) {
-        const res = await getPrescriptionById({ id: linkClinicId });
+      } else if (linkClinicId && location.pathname === '/') {
+        const idRes = await getPrescriberByPrescriberIdAndStoreId({prescriberId: linkClinicId, storeId: process.env.REACT_APP_STOREID})
+        const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
+          clinicStore.setAuditAuthority(res.context.auditAuthority);
         }
       }
     }

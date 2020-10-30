@@ -7,6 +7,7 @@ const api = {
   getPrescriberByKeyWord: '/prescriber/getPrescriberByKeyWord', //根据clinic name/id查询
   getPrescriberByCode: '/prescriber/getPrescriberByCode', //根据recommendation code查询(明文)
   getPrescriberByEncryptCode: '/prescriber/getPrescriberByEncryptCode',//根据recommendation code查询(密文)
+  getPrescriberByPrescriberIdAndStoreId: '/prescriber/getPrescriberByPrescriberIdAndStoreId',
 }
 
 export default api
@@ -53,6 +54,14 @@ export function getPrescriberByCode (parameter) {
 export function getPrescriberByEncryptCode (parameter) {
   return axios({
     url: `${api.getPrescriberByEncryptCode}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getPrescriberByPrescriberIdAndStoreId (parameter) {
+  return axios({
+    url: `${api.getPrescriberByPrescriberIdAndStoreId}`,
     method: 'post',
     data: parameter
   })

@@ -65,7 +65,7 @@ class Landing extends Component {
                 email,
                 "storeId": 123456858
             })
-            if (res.code == 'K-000000') {
+            if (res.code === 'K-000000') {
                 this.setState({
                     showSuccess: true
                 }, () => {

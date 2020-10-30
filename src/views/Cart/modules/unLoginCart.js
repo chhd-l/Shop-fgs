@@ -687,6 +687,7 @@ class UnLoginCart extends React.Component {
         } else {
           item.selected = false;
         }
+        return item;
       });
 
     let selectedSpecIds = [];
@@ -712,6 +713,7 @@ class UnLoginCart extends React.Component {
       } else {
         ele.selected = false;
       }
+      return ele;
     });
 
     const { productList } = this.state;

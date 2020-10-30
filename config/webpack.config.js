@@ -38,7 +38,7 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
-const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'false';
+const isExtendingEslintConfig = process.env.EXTEND_ESLINT === 'true';
 
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
@@ -355,7 +355,7 @@ module.exports = function (webpackEnv) {
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
           enforce: 'pre',
-          /*use: [
+          use: [
             {
               options: {
                 cache: true,
@@ -365,7 +365,7 @@ module.exports = function (webpackEnv) {
               },
               loader: require.resolve('eslint-loader')
             }
-          ],*/
+          ],
           include: paths.appSrc
         },
         {
@@ -557,6 +557,9 @@ module.exports = function (webpackEnv) {
         }
       ]
     },
+    // external: {
+    //   // todo
+    // },
     plugins: [
       // 添加 进度条
       new WebpackBar(
