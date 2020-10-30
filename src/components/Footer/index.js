@@ -32,14 +32,14 @@ class Footer extends React.Component {
         <div className="rc-max-width--lg rc-scroll--y">
           <div className="rc-layout-container rc-md-up">
             <div className="rc-column rc-text--right">
-              <a
+              <span
                 className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3"
                 role="menuitem"
                 onClick={scrollToTop}
                 style={{ color: '#f6f6f6' }}
               >
                 <FormattedMessage id="footer.toTheTop" />
-              </a>
+              </span>
             </div>
           </div>
           <div className="rc-divider rc-md-up"></div>

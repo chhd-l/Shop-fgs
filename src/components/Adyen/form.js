@@ -49,9 +49,10 @@ class AdyenCreditCardForm extends React.Component {
   }
   initForm() {
     const _this = this;
-    loadJS(
-      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
-      function () {
+    loadJS({
+      url:
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
+      callback: function () {
         if (!!window.AdyenCheckout) {
           //要有值
           const AdyenCheckout = window.AdyenCheckout;
@@ -108,7 +109,7 @@ class AdyenCreditCardForm extends React.Component {
           _this.props.updateInitStatus(true);
         }
       }
-    );
+    });
   }
   handleSave = async () => {
     try {

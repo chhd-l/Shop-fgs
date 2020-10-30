@@ -27,6 +27,7 @@ function PetJSX(props) {
                       width: '50%',
                       margin: '0 auto'
                     }}
+                    alt=""
                   />
                 </div>
                 <div className="col-12 col-md-6 text-center text-md-left">
@@ -227,7 +228,7 @@ const ProductFinderNoResult = ({ location, history, match }) => {
                         </div>
                       </div>
                       <div className="col-12 col-md-4 order-1 order-md-0">
-                        <img src={catImg} />
+                        <img src={catImg} alt="" />
                         <div className="rc-md-down text-center mt-4">
                           <Link className="rc-btn rc-btn--one" to="/list/cats">
                             <FormattedMessage id="cats3" />
@@ -235,7 +236,7 @@ const ProductFinderNoResult = ({ location, history, match }) => {
                         </div>
                       </div>
                       <div className="col-12 col-md-4 order-2 order-md-2">
-                        <img src={dogImg} />
+                        <img src={dogImg} alt="" />
                         <div className="rc-md-down text-center mt-4">
                           <Link className="rc-btn rc-btn--one" to="/list/dogs">
                             <FormattedMessage id="dogs3" />

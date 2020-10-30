@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { queryStoreCateIds, loadJS } from '@/utils/utils';
+import { queryStoreCateIds, loadJS, loadNoScriptIframeJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
@@ -14,7 +14,7 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  async componentWillMount() {
+  componentWillMount() {
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
     // 默认了clinic后，再次编辑clinic
@@ -29,7 +29,7 @@ class RouteFilter extends Component {
       this.props.history.replace('/payment/payment');
       return false;
     }
-    
+
     if (pathname === '/prescription') {
       if(this.isLogin) {
         let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
@@ -74,6 +74,18 @@ class RouteFilter extends Component {
       history.push('/');
       return false;
     }
+
+    // if (deviceSessionId) {
+    //   loadJS({
+    //     url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    //   loadNoScriptIframeJS({
+    //     style:
+    //       'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    //     src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    // }
+
     return true;
   }
   // router refresh=true后，此生命周期无效
@@ -150,7 +162,7 @@ class RouteFilter extends Component {
     return true;
   }
   async componentDidMount() {
-    const { history, location } = this.props;
+    const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
     const curPath = `${pathname}_${key}`;
     const prevPath = sessionItemRoyal.get('prevPath');
@@ -165,11 +177,11 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('recommend_product');
       }
       if (prevPath.includes('/confirmation')) {
-        if (this.state.paywithLogin) {
-          this.props.checkoutStore.removeLoginCartData();
+        if (sessionItemRoyal.get('rc-paywith-login') === 'true') {
+          checkoutStore.removeLoginCartData();
         } else {
-          this.props.checkoutStore.setCartData(
-            this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
+          checkoutStore.setCartData(
+            checkoutStore.cartData.filter((ele) => !ele.selected)
           ); // 只移除selected
           sessionItemRoyal.remove('rc-token');
         }
@@ -213,9 +225,12 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
     }
     if (pathname !== '/login') {
-      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () {}, {
-        domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-        documentLanguage: 'true'
+      loadJS({
+        url: process.env.REACT_APP_ONTRUST_SRC,
+        dataSets: {
+          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+          documentLanguage: 'true'
+        }
       });
     }
 

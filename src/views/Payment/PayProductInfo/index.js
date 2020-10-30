@@ -397,14 +397,14 @@ class PayProductInfo extends React.Component {
                     >
                       {/* <span><FormattedMessage id="subscribeDiscount" /></span> */}
                       {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
+                        <FormattedMessage id="promotion" />
                       )}
                     </p>
                   </div>
                   <div className="col-5 end-lines">
                     <p className="text-right">
                       <span
-                        className="shipping-total-cost"
+                        className="shipping-total-cost red"
                         style={{ color: '#ec001a' }}
                       >
                         - {formatMoney(this.subscriptionPrice)}

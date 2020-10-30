@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -7,8 +8,8 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
-import cat from './images/cat.jpg'
-import dog from './images/dog.jpg'
+import cat from './images/cat.jpg';
+import dog from './images/dog.jpg';
 
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -39,7 +40,7 @@ class Tailorednutrition extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: ''
+        theme: 'Health Nutrition'
       }
     };
     return (
@@ -53,7 +54,8 @@ class Tailorednutrition extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-        <BreadCrumbs />
+          <BannerTip />
+          <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
@@ -172,7 +174,12 @@ class Tailorednutrition extends React.Component {
             </div>
           </div>
           <section
-            style={{ textAlign: 'center', width: '90%', margin: '0 auto', color: 'rgb(102, 102, 102)' }}
+            style={{
+              textAlign: 'center',
+              width: '90%',
+              margin: '0 auto',
+              color: 'rgb(102, 102, 102)'
+            }}
           >
             <h2>
               <FormattedMessage id="tailorednutrition.result" />
@@ -181,25 +188,62 @@ class Tailorednutrition extends React.Component {
               <FormattedMessage id="tailorednutrition.resultDetail" />
             </p>
           </section>
-          <section style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', padding: '0 200px' }}>
-               <FormattedMessage id="tailorednutrition.shopTile"/>
+          <section
+            style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}
+          >
+            <h2
+              style={{
+                color: '#E2001A',
+                marginTop: '40px',
+                fontSize: '2.5rem',
+                padding: '0 200px'
+              }}
+            >
+              <FormattedMessage id="tailorednutrition.shopTile" />
             </h2>
             <div
               class="rc-layout-container rc-two-column"
               style={{ padding: '20px 200px' }}
             >
-              <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}>
+              <div
+                class="rc-column"
+                style={{ border: '1px solid #ccc', cursor: 'pointer' }}
+                onClick={() => {
+                  this.props.history.push('/list/dogs');
+                }}
+              >
                 <img src={dog} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}><FormattedMessage id="tailorednutrition.shopDog"/></p>
+                <p
+                  style={{
+                    color: '#E2001A',
+                    fontSize: '1.5rem',
+                    fontWeight: '400'
+                  }}
+                >
+                  <FormattedMessage id="tailorednutrition.shopDog" />
+                </p>
               </div>
-              <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}>
+              <div
+                class="rc-column"
+                style={{
+                  border: '1px solid #ccc',
+                  marginLeft: '20px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  this.props.history.push('/list/cats');
+                }}
+              >
                 <img src={cat} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}><FormattedMessage id="tailorednutrition.shopCat"/></p>
+                <p
+                  style={{
+                    color: '#E2001A',
+                    fontSize: '1.5rem',
+                    fontWeight: '400'
+                  }}
+                >
+                  <FormattedMessage id="tailorednutrition.shopCat" />
+                </p>
               </div>
             </div>
           </section>

@@ -2,6 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
+import { dynamicLoadCss } from '@/utils/utils';
 import { isPrevReady } from '../modules/utils';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
@@ -18,6 +19,11 @@ class AdyenCreditCard extends React.Component {
       isValid: false,
       errorMsg: ''
     };
+  }
+  componentDidMount() {
+    dynamicLoadCss(
+      'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+    );
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
