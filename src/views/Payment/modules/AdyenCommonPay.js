@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
+import { PAYMENT_METHOD_RULE } from '@/utils/constant';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl
@@ -29,9 +30,9 @@ class AdyenCommonPay extends Component {
   }
   //是否填写邮箱正确
   isTestMail() {
-    var pattern = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-    if (!pattern.test(this.state.text)) {
-      throw new Error(this.props.intl.messages.emailFormatFalse);
+    const emailRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === 'email');
+    if (emailRule && !emailRule.regExp.test(this.state.text)) {
+      throw new Error(emailRule.errMsg);
     }
   }
 
