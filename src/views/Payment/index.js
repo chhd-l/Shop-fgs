@@ -131,18 +131,19 @@ class Payment extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-
-    if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      this.props.history.push('/cart');
-      return false;
-    }
-    if (
-      !this.isLogin &&
-      (!this.cartData.length ||
-        !this.cartData.filter((ele) => ele.selected).length)
-    ) {
-      this.props.history.push('/cart');
-      return false;
+    if(!sessionItemRoyal.get('recommend_product')) {
+      if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
+        this.props.history.push('/cart');
+        return false;
+      }
+      if (
+        !this.isLogin &&
+        (!this.cartData.length ||
+          !this.cartData.filter((ele) => ele.selected).length)
+      ) {
+        this.props.history.push('/cart');
+        return false;
+      }
     }
 
     this.getConsentList();
@@ -738,7 +739,7 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        if (this.props.checkoutStore.AuditData.length > 0) {
+        if (this.props.checkoutStore.AuditData.length > 0 && this.props.checkoutStore.petFlag && !this.props.checkoutStore.autoAuditFlag) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
               birthday: el.petForm.birthday,
@@ -899,7 +900,7 @@ class Payment extends React.Component {
         billingChecked,
         creditCardInfo
       } = this.state;
-      const cartData = this.cartData.filter((ele) => ele.selected);
+      const cartData = this.cartData.filter((ele) => ele.selected)
 
       let param = Object.assign(
         {},
@@ -927,16 +928,28 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-
-      await batchAdd({
-        goodsInfos: cartData.map((ele) => {
-          return {
-            verifyStock: false,
-            buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-          };
-        })
-      });
+      if(this.state.recommend_data) {
+        await batchAdd({
+          goodsInfos: this.state.recommend_data.map((ele) => {
+            console.log(ele, 'ele')
+            return {
+              verifyStock: false,
+              buyCount: ele.buyCount,
+              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+            };
+          })
+        });
+      }else {
+        await batchAdd({
+          goodsInfos: cartData.map((ele) => {
+            return {
+              verifyStock: false,
+              buyCount: ele.quantity,
+              goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+            };
+          })
+        });
+      }
     } catch (err) {
       console.log(err);
       throw new Error(err.message);
@@ -993,6 +1006,7 @@ class Payment extends React.Component {
     //   });
     // }
     if (sessionItemRoyal.get('recommend_product')) {
+      debugger
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1008,6 +1022,7 @@ class Payment extends React.Component {
         };
       });
     } else {
+      debugger
       param.tradeItems = cartData.map((ele) => {
         return {
           num: ele.quantity,
@@ -1017,6 +1032,7 @@ class Payment extends React.Component {
     }
 
     if (subForm.buyWay === 'frequency') {
+      debugger
       param.tradeItems = loginCartData
         .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .map((g) => {
