@@ -137,7 +137,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} />
+              <img src={image1} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div
@@ -145,7 +145,7 @@ class Help extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div class="rc-column">
-              <img src={image2} style={{ width: '100%', marginTop: '50px' }} />
+              <img src={image2} style={{ width: '100%', marginTop: '50px' }} alt=""/>
             </div>
             <div
               class="rc-column"
@@ -215,7 +215,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} />
+              <img src={image3} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <section

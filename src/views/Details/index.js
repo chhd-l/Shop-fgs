@@ -172,6 +172,7 @@ class Details extends React.Component {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
       }
+      return el;
     });
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
@@ -186,6 +187,7 @@ class Details extends React.Component {
         ) {
           item.baseSpecLabel = el.detailName;
         }
+        return el;
       });
       let specTextArr = [];
       for (let specItem of specList) {
@@ -220,6 +222,7 @@ class Details extends React.Component {
       } else {
         item.selected = false;
       }
+      return item;
     });
     console.log(details, 'details');
     this.setState(
@@ -289,13 +292,13 @@ class Details extends React.Component {
             for (let item of res.context.goodsPropDetailRels) {
               const t = find(
                 propsRes || [],
-                (ele) => ele.propId == item.propId
+                (ele) => ele.propId === item.propId
               );
               // 区分cat or dog(de)
               if (t && t.propName.includes('Spezies')) {
                 const t3 = find(
                   t.goodsPropDetails,
-                  (ele) => ele.detailId == item.detailId
+                  (ele) => ele.detailId === item.detailId
                 );
                 if (t3) {
                   this.specie =
@@ -309,7 +312,7 @@ class Details extends React.Component {
               ) {
                 const t2 = find(
                   t.goodsPropDetails,
-                  (ele) => ele.detailId == item.detailId
+                  (ele) => ele.detailId === item.detailId
                 );
                 if (t2) {
                   tmpFormat.push(
@@ -330,6 +333,7 @@ class Details extends React.Component {
               return sdItem.specId === sItem.specId;
             });
             sItem.chidren[0].selected = true;
+            return sItem;
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
@@ -499,6 +503,7 @@ class Details extends React.Component {
         } else {
           item.selected = false;
         }
+        return item;
       });
     console.log(specList, 'sss');
     this.setState({ specList }, () => {
@@ -993,7 +998,6 @@ class Details extends React.Component {
                                 />
                               </div>
                               <a
-                                href="javascript:;"
                                 className="comments rc-margin-left--xs rc-text-colour--text"
                                 onClick={this.handleAClick.bind(this)}
                               >
@@ -1190,7 +1194,7 @@ class Details extends React.Component {
                                   </>
                                 ) : null}
                                 <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
-                                  {process.env.REACT_APP_LANG == 'de' ? (
+                                  {process.env.REACT_APP_LANG === 'de' ? (
                                     <div
                                       className="rc-input product-pricing__card__head__title taxLogo"
                                       style={{ color: 'rgb(102,102,102)' }}

@@ -327,6 +327,7 @@ class Login extends React.Component {
                 <div class="rc-column">
                   <h1 class="rc-espilon imgBox">
                     <img
+                      alt=""
                       src={bg1}
                       style={{ display: "inline"}}
                     />
@@ -805,14 +806,14 @@ class Login extends React.Component {
                             <FormattedMessage id='iHaveReadThe'/>
                           <a
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
-                            target="_blank" rel='noreferrer'
+                            target="_blank" rel="noopener noreferrer"
                           >
                             <font> <FormattedMessage id='userAgreement'/></font>
                           </a>
                             <FormattedMessage id='andThe'/>
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
-                            target="_blank" rel='noreferrer'
+                            target="_blank" rel="noopener noreferrer"
                           >
                             <font><FormattedMessage id='privacyPolicy'/> </font>
                           </a>
@@ -852,7 +853,7 @@ class Login extends React.Component {
                 <h3 style={{textAlign: 'center', fontSize: '30px'}}><FormattedMessage id='forgetPassword.createNewPassword'/></h3>
 
                 <div className="forgetBox" style={{position: 'relative'}}>
-                <img src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
+                <img alt="" src={bg2} className="registerImg" style={{width: '300px', position: 'absolute', bottom: '-120px', right: '-400px'}}/>
                 <p><FormattedMessage id='forgetPassword.forgetPasswordTip'/></p>
                 <div className="miaa_input required">
                       <input

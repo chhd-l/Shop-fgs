@@ -338,7 +338,7 @@ class Payment extends React.Component {
       payuNameArr = [];
     if (payWay.context.length > 0) {
       //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if (payWay.context[0].name.indexOf('PAYU') != -1) {
+      if (payWay.context[0].name.indexOf('PAYU') !== -1) {
         payuNameArr = payWay.context.map((item) => item.name);
       } else {
         //正常处理
@@ -349,14 +349,14 @@ class Payment extends React.Component {
       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       for (let item of payuNameArr) {
         // 只是为了墨西哥环境测试adyen订阅支付start
-        if (item == 'adyen_card_subscription') {
+        if (item === 'adyen_card_subscription') {
           payWayNameArr.push({
             name: 'adyen_credit_card',
             id: 'adyen',
             paymentTypeVal: 'adyenCard'
           });
         }
-        if (item == 'adyen_klarna_subscription') {
+        if (item === 'adyen_klarna_subscription') {
           payWayNameArr.push({
             name: 'adyen_klarna_pay_now',
             id: 'adyenPayNow',
@@ -826,6 +826,8 @@ class Payment extends React.Component {
           }
           window.location.href = res.context.url;
           break;
+        default:
+          break;
       }
       // if (orderNumber) {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
@@ -1053,10 +1055,10 @@ class Payment extends React.Component {
         // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
         const tmpMarketing = goodsMarketingMap[k][0];
         let targetLevelId = '';
-        if (tmpMarketing.marketingType == 0) {
+        if (tmpMarketing.marketingType === 0) {
           targetLevelId =
             tmpMarketing.fullReductionLevelList[0].reductionLevelId;
-        } else if (tmpMarketing.marketingType == 1) {
+        } else if (tmpMarketing.marketingType === 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId;
         }
         tmpParam.marketingLevelId = targetLevelId;
@@ -1337,21 +1339,23 @@ class Payment extends React.Component {
             if (
               Object.prototype.toString
                 .call(this.state.payWayObj)
-                .slice(8, -1) == 'Array'
+                .slice(8, -1) === 'Array'
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                  return o.name == 'payuoxxo';
+                  return o.name === 'payuoxxo';
                 }); //找到oxxo在数组中的下标
-                if (payuoxxoIndex != -1) {
+                if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
                 }
               } else {
                 //为后台提供的初始支付方式
-                this.state.payWayObj = JSON.parse(
-                  JSON.stringify(this.state.savedPayWayObj)
-                );
+                this.setState({
+                  payWayObj: JSON.parse(
+                    JSON.stringify(this.state.savedPayWayObj)
+                  )
+                })
               }
             }
             // ****************订阅的时候隐藏oxxo支付方式end******************
@@ -1559,6 +1563,7 @@ class Payment extends React.Component {
             return loginEl;
           });
         }
+        return el;
       });
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
@@ -1660,6 +1665,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={el.goodsInfoImg}
                                     style={{ float: 'left' }}
                                   />
@@ -1707,6 +1713,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg

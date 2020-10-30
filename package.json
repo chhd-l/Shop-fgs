@@ -115,7 +115,7 @@
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
-    "lint-fix": "eslint --fix --ext .js --ext .jsx src/views/Account/PetForm"
+    "lint-fix": "eslint --fix --ext .js --ext .jsx src/views"
   },
   "eslintConfig": {
     "extends": "react-app",

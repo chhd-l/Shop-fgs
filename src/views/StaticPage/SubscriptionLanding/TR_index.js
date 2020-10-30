@@ -463,7 +463,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={autoship} style={{ width: '100%' }} />
+              <img src={autoship} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <section
@@ -479,6 +479,7 @@ class Help extends React.Component {
           >
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon1}
                 style={{
                   width: '100px',
@@ -490,6 +491,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon2}
                 style={{
                   width: '100px',
@@ -501,6 +503,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon3}
                 style={{
                   width: '100px',
@@ -512,6 +515,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon4}
                 style={{
                   width: '100px',
@@ -527,7 +531,7 @@ class Help extends React.Component {
             style={{ padding: '20px', background: '#eee' }}
           >
             <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
+              <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} alt=""/>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
               <h2 style={{ color: '#E2001A'}}>Hemen Başlayın!</h2>
@@ -540,7 +544,7 @@ class Help extends React.Component {
                 }}>Köpek</button></div>
             </div>
             <div class="rc-column" style={{textAlign: 'center'}}>
-              <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
+              <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} alt=""/>
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>

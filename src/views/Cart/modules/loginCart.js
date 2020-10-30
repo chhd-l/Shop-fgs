@@ -867,7 +867,7 @@ class LoginCart extends React.Component {
                     </div>
                   </>
                 )}
-                {productList.length == 0 && !initLoading && (
+                {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
                       <div className="rc-beta mb-1 mt-3">

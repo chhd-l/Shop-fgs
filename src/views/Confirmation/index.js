@@ -178,6 +178,7 @@ class Confirmation extends React.Component {
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
               <img
+                alt=""
                 src={successImg}
                 className="mb-3"
                 style={{ display: 'inline-block' }}

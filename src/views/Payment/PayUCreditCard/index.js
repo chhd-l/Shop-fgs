@@ -302,7 +302,7 @@ class PayOs extends React.Component {
     });
   };
   updateConfirmationPanelStatus() {
-    this.props.paymentTypeVal == 'payUCreditCard' &&
+    this.props.paymentTypeVal === 'payUCreditCard' &&
       this.props.paymentStore.setStsToEdit({ key: 'confirmation' });
   }
   checkRequiredItem = (list) => {
@@ -317,7 +317,7 @@ class PayOs extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
+          <img key={idx} className="logo-payment-card" src={el} alt=""/>
         ))}
       </span>
     );
@@ -534,6 +534,7 @@ class PayOs extends React.Component {
                         <div className="row">
                           <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
                             <img
+                              alt=""
                               className="PayCardImgFitScreen"
                               src={
                                 CREDIT_CARD_IMG_ENUM[

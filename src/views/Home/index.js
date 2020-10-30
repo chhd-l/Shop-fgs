@@ -202,7 +202,7 @@ function HealthNutrition() {
                       name="undefined"
                       class="page-section-anchor"
                       aria-hidden="true"
-                    ></a>
+                    > </a>
                     <div class="row w-100 align-items-center hp-right-content-block rc-margin-top--none">
                       <div class=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
@@ -525,9 +525,6 @@ function Share() {
   );
 }
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -585,7 +582,6 @@ class Home extends React.Component {
           match={this.props.match}
           location={this.props.location}
           history={this.props.history}
-          match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper ">
           <BannerTip />
