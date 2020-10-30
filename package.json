@@ -94,7 +94,7 @@
     "start": "cross-env PORT=3000 node scripts/start.js",
     "test": "node scripts/test.js",
     "start:us": "dotenv -e .env.development.local -e .env.development.us node scripts/start.js",
-    "start:mx": "dotenv -e .env.development.mx node scripts/start.js",
+    "start:mx": "dotenv -e .env.development.local -e .env.development.mx node scripts/start.js",
     "start:de": "dotenv -e .env.development.local -e .env.development.de node scripts/start.js",
     "start:fr": "dotenv -e .env.development.local -e .env.development.fr node scripts/start.js",
     "start:ru": "dotenv -e .env.development.local -e .env.development.ru node scripts/start.js",
@@ -115,7 +115,7 @@
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
-    "lint-fix": "eslint --fix --ext .js --ext .jsx src/views/Account/PetForm"
+    "lint-fix": "eslint --fix --ext .js --ext .jsx src/components"
   },
   "eslintConfig": {
     "extends": "react-app",
