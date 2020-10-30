@@ -87,7 +87,8 @@ class UnloginCart extends React.Component {
           return el
         })
         let res = await getProductPetConfig({goodsInfos: paramData})
-
+        console.log(res, 'debugger')
+        debugger
         let handledData = paramData.map((el, i) => {
           el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
           el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']

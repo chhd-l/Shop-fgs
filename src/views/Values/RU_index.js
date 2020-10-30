@@ -20,7 +20,6 @@ import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import { getRecommendationList } from '@/api/recommendation';
-import { getPrescriptionById } from '@/api/clinic';
 import { sitePurchase } from '@/api/cart';
 import './index.css';
 import { cloneDeep, findIndex, find } from 'lodash';

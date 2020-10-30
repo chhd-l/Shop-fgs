@@ -137,6 +137,7 @@ class Help extends React.Component {
       getPrescriptionById({id: res.context.prescriberId}).then(res => {
         this.props.clinicStore.setLinkClinicId(res.context.id);
         this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
+        this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
         this.setState({ prescriberInfo: res.context, loading: false });
       });
     }).catch(err => {
@@ -410,7 +411,9 @@ class Help extends React.Component {
       return false
     }else {
       sessionItemRoyal.set('recommend_product', JSON.stringify(inStockProducts))
-      this.props.history.push('/prescription');
+      if(!needLogin) {
+        this.props.history.push('/prescription');
+      }
     }
   }
   async hanldeClickSubmit() {

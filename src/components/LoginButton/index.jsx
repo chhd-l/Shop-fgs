@@ -86,7 +86,7 @@ const LoginButton = (props) => {
       if (res === false) {
         return false;
       }
-      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      // sessionItemRoyal.set('okta-redirectUrl', '/cart');
     }
     authService.login(process.env.REACT_APP_HOMEPAGE);
   };
