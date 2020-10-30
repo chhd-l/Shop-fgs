@@ -15,9 +15,6 @@ class Modal extends React.Component {
     confirmBtnText: <FormattedMessage id="yes" />,
     cancelBtnVisible: true
   };
-  constructor(props) {
-    super(props);
-  }
   close() {
     this.props.close();
   }

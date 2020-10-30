@@ -52,7 +52,7 @@ class AdyenCreditCardList extends React.Component {
         (defaultItem && defaultItem.id) ||
         (cardList.length && cardList[0].id) ||
         '';
-      Array.from(cardList, (ele) => (ele.selected = ele.id == tmpId));
+      Array.from(cardList, (ele) => (ele.selected = ele.id === tmpId));
 
       this.setState({ cardList, selectedId: tmpId }, () => {
         this.props.updateSelectedCardInfo(
@@ -110,6 +110,7 @@ class AdyenCreditCardList extends React.Component {
           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
         >
           <img
+            alt=""
             className={`PayCardImgFitScreen ${
               el.adyenPaymentMethod ? el.adyenPaymentMethod.name : ''
             }`}

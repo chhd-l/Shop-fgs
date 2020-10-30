@@ -88,6 +88,7 @@ class ShippingAddress extends React.Component {
         ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
           : ele.cityId;
+        return ele
       });
       this.setState({
         addressList: addressList,

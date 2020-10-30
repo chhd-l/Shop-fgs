@@ -11,12 +11,12 @@ function Page403() {
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}
-      <img src={logo} style={{width: '150px', margin: '80px auto 20px'}}></img>
+      <img src={logo} style={{width: '150px', margin: '80px auto 20px'}} alt=""></img>
       <div
       >
         <div className="container">
           <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
-            <img src={image} style={{width: '300px', margin: '0 auto'}}></img>
+            <img src={image} style={{width: '300px', margin: '0 auto'}} alt=""></img>
 
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-margin-bottom--xs">

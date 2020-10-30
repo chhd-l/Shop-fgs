@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Consent2({}) {
+function Consent2() {
   return (
     <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
       <div class="rc-padding--sm rc-margin-bottom--sm rc-agreements-container">

@@ -31,7 +31,6 @@ class Subscription extends React.Component {
       totalPage: 1,
       initing: true,
       errMsg: '',
-      subList: [],
       frequencyList: [],
       subStatus: [
         { value: '', name: <FormattedMessage id="all" /> },

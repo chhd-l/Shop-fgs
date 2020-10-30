@@ -68,8 +68,6 @@ class PaymentComp extends React.Component {
         deliveryInfo.deliveryAddress.firstName +
         '' +
         deliveryInfo.deliveryAddress.lastName;
-      deliveryInfo.deliveryAddress.phoneNumber =
-        deliveryInfo.deliveryAddress.phoneNumber;
 
       this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
         this.initCardInfo();
@@ -478,6 +476,7 @@ class PaymentComp extends React.Component {
             el.selected = true;
             el.cardCvv = this.state.creditCardInfoForm.cardCvv;
           }
+          return el;
         });
         this.props.getSelectedValue &&
           this.props.getSelectedValue(
@@ -575,6 +574,7 @@ class PaymentComp extends React.Component {
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <img
+            alt=""
             key={idx}
             style={{ width: '50px' }}
             className="logo-payment-card mr-1"
@@ -671,9 +671,11 @@ class PaymentComp extends React.Component {
                     key={idx}
                     onClick={() => {
                       if (creditCardList[idx].selected) return;
-                      creditCardList.map(
-                        (el) => ((el.selected = false), (el.cardCvv = ''))
-                      );
+                      creditCardList.map((el) => {
+                        el.selected = false;
+                        el.cardCvv = '';
+                        return el;
+                      });
                       el.selected = true;
                       this.props.getSelectedValue &&
                         this.props.getSelectedValue(el);
@@ -762,6 +764,7 @@ class PaymentComp extends React.Component {
                           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
                         >
                           <img
+                            alt=""
                             className="PayCardImgFitScreen"
                             src={
                               CREDIT_CARD_IMG_ENUM[

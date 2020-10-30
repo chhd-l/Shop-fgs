@@ -169,7 +169,7 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img className="product-image" src={el.goodsInfoImg} />
+                <img className="product-image" src={el.goodsInfoImg} alt=""/>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -341,7 +341,7 @@ class PayProductInfo extends React.Component {
                       );
                     }
                     if (
-                      result.backCode == 'K-000000' &&
+                      result.backCode === 'K-000000' &&
                       result.context.promotionDiscount
                     ) {
                       //表示输入apply promotionCode成功
@@ -418,7 +418,7 @@ class PayProductInfo extends React.Component {
                   style={{
                     display:
                       parseInt(this.discountPrice) > 0 &&
-                      this.state.discount.length == 0
+                      this.state.discount.length === 0
                         ? 'flex'
                         : 'none'
                   }}
@@ -483,7 +483,7 @@ class PayProductInfo extends React.Component {
                                   this.props.buyWay === 'frequency'
                                 );
                               }
-                              if (result.backCode == 'K-000000') {
+                              if (result.backCode === 'K-000000') {
                                 discount.pop();
                                 this.setState({
                                   discount: discount,

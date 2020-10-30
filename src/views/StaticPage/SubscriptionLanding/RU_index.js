@@ -459,7 +459,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={autoship} style={{ width: '100%' }} />
+              <img src={autoship} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <section
@@ -475,6 +475,7 @@ class Help extends React.Component {
           >
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon1}
                 style={{
                   width: '100px',
@@ -487,6 +488,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon2}
                 style={{
                   width: '100px',
@@ -499,6 +501,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon3}
                 style={{
                   width: '100px',
@@ -511,6 +514,7 @@ class Help extends React.Component {
             </div>
             <div class="rc-column" style={{ textAlign: 'center' }}>
               <img
+                alt=""
                 src={icon4}
                 style={{
                   width: '100px',

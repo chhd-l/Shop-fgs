@@ -29,7 +29,7 @@ class TermsCommon extends Component {
               .parentNode.parentNode.id
           );
           let arr = this.state.list[index].detailList.filter((item) => {
-            return item.contentTitle == keyWords;
+            return item.contentTitle === keyWords;
           });
 
           let tempArr = [...this.state.list];

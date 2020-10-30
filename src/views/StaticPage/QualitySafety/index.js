@@ -122,7 +122,7 @@ class QualitySafety extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} />
+              <img src={image1} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div
@@ -130,7 +130,7 @@ class QualitySafety extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div class="rc-column">
-              <img src={image2} style={{ width: '100%', marginTop: '50px' }} />
+              <img src={image2} style={{ width: '100%', marginTop: '50px' }} alt=""/>
             </div>
             <div
               class="rc-column"
@@ -172,7 +172,7 @@ class QualitySafety extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} />
+              <img src={image3} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div
@@ -180,7 +180,7 @@ class QualitySafety extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div class="rc-column">
-              <img src={image4} style={{ width: '100%', marginTop: '50px' }} />
+              <img src={image4} style={{ width: '100%', marginTop: '50px' }} alt=""/>
             </div>
             <div
               class="rc-column"
@@ -222,7 +222,7 @@ class QualitySafety extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={image5} style={{ width: '100%' }} />
+              <img src={image5} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <section style={{ textAlign: 'left', width: '100%', margin: '0 auto', padding: '20px 200px' }}>
@@ -236,13 +236,13 @@ class QualitySafety extends React.Component {
                 <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
                     this.props.history.push('/list/dogs')
                   }}>
-                  <img src={dog} style={{ width: '100%' }} />
+                  <img src={dog} style={{ width: '100%' }} alt=""/>
                   <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopDog'/> </p>
                 </div>
                 <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
                     this.props.history.push('/list/cats')
                   }}>
-                  <img src={cat} style={{ width: '100%' }} />
+                  <img src={cat} style={{ width: '100%' }} alt=""/>
                   <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopCat'/> </p>
                 </div>
               </div>

@@ -219,6 +219,7 @@ class SubscriptionSelect extends Component {
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
                           <img
+                            alt=""
                             className="width-sub-img  imgForSelect "
                             style={{ display: 'inline-block' }}
                             key={i}
@@ -234,6 +235,7 @@ class SubscriptionSelect extends Component {
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
                           <img
+                            alt=""
                             className="width-sub-img  imgForSelect "
                             style={{ display: 'inline-block' }}
                             key={i}

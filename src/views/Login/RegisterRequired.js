@@ -126,7 +126,7 @@ class RegisterRequired extends Component {
 
       result = await findUserConsentList({});
       //没有必选项，直接跳回
-      if (result.context.requiredList.length == 0) {
+      if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
         this.props.history.push(tmpUrl);
       }
@@ -204,7 +204,7 @@ class RegisterRequired extends Component {
             .parentNode.parentNode.id
         );
         let arr = this.state.list[index].detailList.filter((item) => {
-          return item.contentTitle == keyWords;
+          return item.contentTitle === keyWords;
         });
 
         let tempArr = [...this.state.list];
