@@ -11,9 +11,8 @@ import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import successImg from '@/assets/images/credit-cards/success.png';
-import { find } from 'lodash';
 import { queryCityNameById } from '@/api';
-import { addEvaluate, getOrderDetails, getPayRecord } from '@/api/order';
+import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -135,13 +134,17 @@ class Confirmation extends React.Component {
     if (!loading) {
       let products = details.tradeItems.map((item) => {
         return {
-          id: item.skuId,
+          id: '',
           name: item.spuName,
           price: item.price,
           brand: 'Royal Canin',
           category: item.goodsCategory,
           quantity: item.num,
-          variant: item.specDetails
+          variant: item.specDetails,
+          sku: item.skuId,
+          recommandation: details.recommendationId
+            ? 'recommended'
+            : 'self-selected'
         };
       });
       event = {
@@ -152,12 +155,16 @@ class Confirmation extends React.Component {
       };
       eEvents = {
         event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+        action: 'purchase',
         ecommerce: {
           currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
               id: this.state.totalTid,
-              revenue: this.state.details.tradePrice.totalPrice
+              type: this.state.subNumber ? 'Subscription' : 'One-shot',
+              revenue: details.tradePrice.totalPrice,
+              shipping: details.tradePrice.deliveryPrice,
+              coupon: 0
             },
             products
           }

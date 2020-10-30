@@ -887,16 +887,6 @@ class Details extends React.Component {
       specList,
       initing
     } = this.state;
-    let event;
-    if (!this.state.initing) {
-      event = {
-        page: {
-          type: 'Product',
-          theme: this.specie
-        }
-      };
-    }
-
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (selectedSpecItem) {
       console.log(
@@ -905,10 +895,47 @@ class Details extends React.Component {
         String(parseFloat(selectedSpecItem.baseSpecLabel)).length
       );
     }
+    let event;
+    let eEvents;
+    if (!this.state.initing) {
+      event = {
+        page: {
+          type: 'Product',
+          theme: this.specie
+        }
+      };
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+        action: 'detail',
+        ecommerce: {
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          detail: {
+            products: [
+              {
+                id: '',
+                name: details.goodsName,
+                price: currentUnitPrice,
+                brand: 'Royal Canin',
+                category: this.specie,
+                quantity: selectedSpecItem.buyCount,
+                variant: selectedSpecItem.specText,
+                club: 'no',
+                sku: selectedSpecItem.goodsInfoId
+              }
+            ]
+          }
+        }
+      };
+    }
 
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        {event ? (
+          <GoogleTagManager
+            additionalEvents={event}
+            ecommerceEvents={eEvents}
+          />
+        ) : null}
         <Header
           ref={this.headerRef}
           showMiniIcons={true}

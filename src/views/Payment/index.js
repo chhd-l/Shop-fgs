@@ -4,6 +4,7 @@ import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
+import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -20,7 +21,7 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { searchNextConfirmPanel } from './modules/utils';
-import { formatMoney, validData } from '@/utils/utils';
+import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
@@ -305,6 +306,7 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
+
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -428,6 +430,16 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
+  };
+  generatePayUParam = () => {
+    console.log('jsessionid', Cookies.get('jsessionid'));
+    const jsessionid = Cookies.get('jsessionid') || '1';
+    if (jsessionid) {
+      const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
+      generatePayUScript(fingerprint);
+      this.jsessionid = jsessionid;
+      this.fingerprint = jsessfingerprintionid;
+    }
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -694,6 +706,7 @@ class Payment extends React.Component {
   async allAdyenPayment(parameters, type) {
     try {
       const { clinicStore } = this.props;
+      const { paymentTypeVal } = this.state;
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -738,6 +751,7 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
+
         if (this.props.checkoutStore.AuditData.length > 0) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
@@ -758,14 +772,17 @@ class Payment extends React.Component {
           });
         }
       }
-      debugger;
-      //
-      console.log('jsessionid', Cookies.get('jsessionid'));
-      parameters = Object.assign(parameters, {
-        userAgent: navigator.userAgent,
-        cookie: Cookies.get('jsessionid'),
-        fingerprint: ''
-      });
+
+      if (paymentTypeVal === 'payUCreditCard') {
+        this.generatePayUParam();
+      }
+      if (this.jsessionid && this.fingerprint) {
+        parameters = Object.assign(parameters, {
+          userAgent: navigator.userAgent,
+          cookie: this.jsessionid,
+          fingerprint: this.fingerprint
+        });
+      }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
 

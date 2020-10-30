@@ -408,9 +408,11 @@ class List extends React.Component {
       productList,
       loading,
       checkedList,
-      titleData
+      titleData,
+      initingList
     } = this.state;
     let event;
+    let eEvents;
     if (category) {
       let theme;
       let type;
@@ -434,6 +436,26 @@ class List extends React.Component {
         page: {
           type,
           theme
+        }
+      };
+    }
+    if (!initingList) {
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+        ecommerce: {
+          // impressions: [
+          //   {
+          //     id: '',
+          //     name: item.goodsCategory,
+          //     price: currentUnitPrice,
+          //     brand: 'Royal Canin',
+          //     category: this.specie,
+          //     quantity: selectedSpecItem.buyCount,
+          //     variant: selectedSpecItem.specText,
+          //     club: 'no',
+          //     sku: selectedSpecItem.goodsInfoId
+          //   }
+          // ]
         }
       };
     }

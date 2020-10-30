@@ -46,6 +46,7 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "js-md5": "^0.7.3",
     "less": "^3.11.3",
     "less-loader": "^6.1.2",
     "mini-css-extract-plugin": "0.9.0",
@@ -123,7 +124,7 @@
       "no-undef": "off",
       "no-restricted-globals": "off",
       "no-unused-vars": "off",
-      "jsx-a11y/anchor-is-valid":"off"
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   "browserslist": {

@@ -15,7 +15,7 @@ class GoogleTagManager extends React.Component {
         id: process.env.REACT_APP_GTM_SITE_ID,
         environment: process.env.REACT_APP_GA_ENV,
         country: process.env.REACT_APP_GA_COUNTRY,
-        currency: ''
+        currency: process.env.REACT_APP_GA_CURRENCY_CODE
       }
     };
     let userInfo = this.props.loginStore.userInfo;
