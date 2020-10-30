@@ -113,14 +113,16 @@
     "build:stg_tr": "dotenv -e .env.stage.tr node scripts/build.js",
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
-    "build:prod_de": "dotenv -e .env.production.de node scripts/build.js"
+    "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
+    "lint-fix": "eslint --fix --ext .js --ext .jsx src/views/Account/PetForm"
   },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
       "no-undef": "off",
       "no-restricted-globals": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "jsx-a11y/anchor-is-valid":"off"
     }
   },
   "browserslist": {

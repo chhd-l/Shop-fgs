@@ -32,6 +32,8 @@ switch (lang) {
   case 'es':
     registerLocale('es', es);
     break;
+  default:
+    break;
 }
 
 const datePickerCfg = {
@@ -1330,6 +1332,7 @@ class PetForm extends React.Component {
                   {this.state.currentStep === 'success' ? (
                     <div className="add-pet-success js-add-pet-success">
                       <img
+                        alt=""
                         src={success}
                         className="img-success"
                         style={{ margin: '0 auto' }}

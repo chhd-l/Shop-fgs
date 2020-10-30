@@ -149,7 +149,7 @@ class PaymentMethod extends React.Component {
                         </div>
                       </div>
                       <div class="rc-column">
-                        <img src={paymentImg} style={{ width: '100%' }} />
+                        <img src={paymentImg} style={{ width: '100%' }} alt=""/>
                       </div>
                     </div>
                   </div>
