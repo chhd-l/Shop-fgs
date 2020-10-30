@@ -84,6 +84,8 @@ class AdyenCreditCardForm extends React.Component {
                 });
               },
               onChange: (state) => {
+                console.log('adyen form state:', state);
+                console.log('adyen form card:', card);
                 let tmpValidSts;
                 // 会员必须勾选保存按钮
                 if (_this.props.enableStoreDetails) {

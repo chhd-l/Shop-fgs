@@ -634,10 +634,9 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    sessionItemRoyal.set('okta-redirectUrl', '/cart');
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
-      return false;
+      throw new Error();
     }
     const { history } = this.props;
     const { currentUnitPrice, quantity, instockStatus } = this.state;
@@ -652,7 +651,7 @@ class Details extends React.Component {
     );
 
     if (!instockStatus || !quantityNew) {
-      return false;
+      throw new Error();
     }
     this.setState({ addToCartLoading: true });
     let flag = true;
@@ -741,7 +740,7 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (this.props.checkoutStore.offShelvesProNames.length) {
         this.setState({
@@ -754,7 +753,7 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (this.checkoutStore.outOfstockProNames.length) {
         this.setState({
@@ -765,7 +764,7 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
@@ -1422,12 +1421,22 @@ class Details extends React.Component {
                                           </button>
                                         ) : (
                                           <LoginButton
-                                            beforeLoginCallback={async () =>
-                                              this.hanldeUnloginAddToCart({
-                                                redirect: true,
-                                                needLogin: true
-                                              })
-                                            }
+                                            beforeLoginCallback={async () => {
+                                              try {
+                                                await this.hanldeUnloginAddToCart(
+                                                  {
+                                                    redirect: true,
+                                                    needLogin: true
+                                                  }
+                                                );
+                                                sessionItemRoyal.set(
+                                                  'okta-redirectUrl',
+                                                  '/cart'
+                                                );
+                                              } catch (err) {
+                                                throw new Error();
+                                              }
+                                            }}
                                             btnClass={`add-to-cart rc-btn rc-btn--one rc-full-width ${
                                               addToCartLoading
                                                 ? 'ui-btn-loading'
@@ -1636,12 +1645,17 @@ class Details extends React.Component {
                   </button>
                 ) : (
                   <LoginButton
-                    beforeLoginCallback={async () =>
-                      this.hanldeUnloginAddToCart({
-                        redirect: true,
-                        needLogin: true
-                      })
-                    }
+                    beforeLoginCallback={async () => {
+                      try {
+                        await this.hanldeUnloginAddToCart({
+                          redirect: true,
+                          needLogin: true
+                        });
+                        sessionItemRoyal.set('okta-redirectUrl', '/cart');
+                      } catch (err) {
+                        throw new Error();
+                      }
+                    }}
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
                     } ${

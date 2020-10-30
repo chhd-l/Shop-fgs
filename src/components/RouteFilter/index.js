@@ -31,31 +31,23 @@ class RouteFilter extends Component {
     }
 
     if (pathname === '/prescription') {
-      if (this.isLogin) {
-        let needPrescriber =
-          this.props.checkoutStore.loginCartData.filter(
-            (el) => el.prescriberFlag
-          ).length > 0;
-        if (!needPrescriber) {
+      if(this.isLogin) {
+        let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
+        if(!needPrescriber && checkoutStore.autoAuditFlag) {
           history.replace('/payment/payment');
         }
-      } else {
-        let needPrescriber =
-          this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-            .length > 0;
-        if (!needPrescriber) {
+      }else {
+        let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
+        if(!needPrescriber && checkoutStore.autoAuditFlag) {
           history.replace('/payment/payment');
         }
-      }
-      if (checkoutStore.autoAuditFlag) {
-        history.replace('/payment/payment');
       }
     }
 
     if (
       pathname === '/prescription' &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`)) ||
+        localItemRoyal.get(`rc-clinic-name-link`) && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
           localItemRoyal.get(`rc-clinic-name-select`)) ||
         (localItemRoyal.get(`rc-clinic-id-default`) &&

@@ -24,7 +24,6 @@ import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
 import { getRecommendationList } from '@/api/recommendation';
-import { getPrescriptionById } from '@/api/clinic';
 import { sitePurchase } from '@/api/cart';
 import './index.less';
 import { cloneDeep, findIndex, find } from 'lodash';
@@ -89,63 +88,7 @@ class Help extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async componentDidMount() {
-    this.setState({ loading: true });
-    // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id)
-      .then((res) => {
-        console.log(res, 'aaa');
-        let productList = res.context.recommendationGoodsInfoRels;
-        productList.map((el) => {
-          el.goodsInfo.goods.sizeList = el.goodsInfos.map((g) => {
-            g = Object.assign({}, g, { selected: false });
-            console.log(g.goodsInfoId, el, 'hhhh');
-            if (g.goodsInfoId === el.goodsInfo.goodsInfoId) {
-              g.selected = true;
-            }
-            return g;
-          });
-          let specList = el.goodsSpecs;
-          let specDetailList = el.goodsSpecDetails;
-          specList.map((sItem) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              return sdItem.specId === sItem.specId;
-            });
-            console.log(sItem, el, 'hhhh');
-
-            sItem.chidren.map((child) => {
-              if (
-                el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-              ) {
-                console.log(child, 'child');
-                child.selected = true;
-              }
-            });
-          });
-          el.goodsInfo.goods.goodsInfos = el.goodsInfos;
-          el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
-          el.goodsInfo.goods.goodsSpecs = specList;
-        });
-
-        this.setState({ productList }, () => {
-          this.checkoutStock();
-        });
-        // getPrescriptionById({id: res.context.prescriberId}).then(res => {
-        getPrescriptionById({ id: '2304' }).then((res) => {
-          console.log(res, 'bbb');
-          this.props.clinicStore.setLinkClinicId('2304');
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.setState({ prescriberInfo: res.context, loading: false });
-        });
-      })
-      .catch((err) => {
-        // this.props.history.push('/')
-      });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+  componentDidMount() {
   }
   checkoutStock() {
     let {

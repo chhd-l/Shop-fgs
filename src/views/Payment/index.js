@@ -775,7 +775,6 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];
@@ -993,7 +992,7 @@ class Payment extends React.Component {
     //     clinicsName: 'France Default'
     //   });
     // }
-    if (localItemRoyal.get('recommend_product')) {
+    if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1001,8 +1000,6 @@ class Payment extends React.Component {
         };
       });
     } else if (this.isLogin) {
-      console.log(toJS(this.loginCartData));
-      debugger;
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
