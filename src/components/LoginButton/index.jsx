@@ -79,7 +79,7 @@ const LoginButton = (props) => {
           loginStore.changeLoginModal(false);
         });
     }
-  }, [authState, authService]); // Update if authState changes
+  }, [authState, authService, accessToken, props]); // Update if authState changes
 
   const login = async () => {
     try {

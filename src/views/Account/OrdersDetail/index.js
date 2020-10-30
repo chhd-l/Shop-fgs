@@ -120,7 +120,7 @@ class AccountOrders extends React.Component {
           });
         });
         // 开启审核时
-        if (resContext.isAuditOpen) {
+        if (resContext.isAuditOpen) {debugger
           this.setState({ isAuditOpen: true });
 
           switch (tradeState.auditState) {
