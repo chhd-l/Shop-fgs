@@ -24,7 +24,7 @@ class CommunicationDataEditForm extends React.Component {
         );
 
         let arr = this.state.list[index].detailList.filter((item) => {
-          return item.contentTitle == keyWords;
+          return item.contentTitle === keyWords;
         });
 
         let tempArr = [...this.state.list];

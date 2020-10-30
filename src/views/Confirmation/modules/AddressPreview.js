@@ -19,8 +19,8 @@ class InfosPreview extends React.Component {
     });
   }
   matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id == id)
-      ? find(dictList, (ele) => ele.id == id).name
+    return find(dictList, (ele) => ele.id === id)
+      ? find(dictList, (ele) => ele.id === id).name
       : id;
   }
   render() {
@@ -56,6 +56,7 @@ class InfosPreview extends React.Component {
               <FormattedMessage id="payment.paymentInformation" />
               <br />
               <img
+                alt=""
                 className="d-inline-block mr-1"
                 style={{ width: '20%' }}
                 src={

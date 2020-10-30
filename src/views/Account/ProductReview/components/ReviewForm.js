@@ -162,7 +162,7 @@ class ReviewForm extends React.Component {
 
             <div className="rc-column text-right padb0">
               <div className="img-container">
-                <img className="product-img" src={this.props.product.pic} />
+                <img className="product-img" src={this.props.product.pic} alt=""/>
               </div>
             </div>
           </div>

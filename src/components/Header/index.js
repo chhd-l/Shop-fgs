@@ -277,7 +277,7 @@ class Header extends React.Component {
         }
       }
     }
-    
+
     // 埋点
     setBuryPoint({
       id: this.userInfo ? this.userInfo.customerId : '',
@@ -289,14 +289,14 @@ class Header extends React.Component {
           : '',
       shopId: process.env.REACT_APP_STOREID,
       page:
-        {
-          '/': '1',
-          '/cart': '2',
-          '/prescription': '3',
-          '/payment/:type': '4'
-        }[this.props.match && this.props.match.path] ||
-        (clinciRecoCode || linkClinicId ? '5' : '') ||
-        ''
+        clinciRecoCode || linkClinicId
+          ? '5'
+          : {
+              '/': '1',
+              '/cart': '2',
+              '/prescription': '3',
+              '/payment/:type': '4'
+            }[this.props.match && this.props.match.path] || ''
     });
   }
   componentWillUnmount() {

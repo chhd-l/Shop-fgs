@@ -58,7 +58,7 @@ export default class Selection extends React.Component {
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
-        ? findIndex(this.props.optionList, (o) => o.value == selectedItem.value)
+        ? findIndex(this.props.optionList, (o) => o.value.toString() === selectedItem.value.toString())
         : -1
     }));
   }
@@ -99,8 +99,8 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {find(optionList, (ele) => ele.value == selectedItem.value)
-                  ? find(optionList, (ele) => ele.value == selectedItem.value)
+                {find(optionList, (ele) => ele.value.toString() === selectedItem.value.toString())
+                  ? find(optionList, (ele) => ele.value.toString() === selectedItem.value.toString())
                       .name
                   : this.props.placeholder}
                 &nbsp;

@@ -4,6 +4,7 @@ import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
+import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -20,7 +21,7 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { searchNextConfirmPanel } from './modules/utils';
-import { formatMoney, validData } from '@/utils/utils';
+import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
@@ -306,6 +307,7 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
+
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -339,7 +341,7 @@ class Payment extends React.Component {
       payuNameArr = [];
     if (payWay.context.length > 0) {
       //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if (payWay.context[0].name.indexOf('PAYU') != -1) {
+      if (payWay.context[0].name.indexOf('PAYU') !== -1) {
         payuNameArr = payWay.context.map((item) => item.name);
       } else {
         //正常处理
@@ -350,14 +352,14 @@ class Payment extends React.Component {
       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       for (let item of payuNameArr) {
         // 只是为了墨西哥环境测试adyen订阅支付start
-        if (item == 'adyen_card_subscription') {
+        if (item === 'adyen_card_subscription') {
           payWayNameArr.push({
             name: 'adyen_credit_card',
             id: 'adyen',
             paymentTypeVal: 'adyenCard'
           });
         }
-        if (item == 'adyen_klarna_subscription') {
+        if (item === 'adyen_klarna_subscription') {
           payWayNameArr.push({
             name: 'adyen_klarna_pay_now',
             id: 'adyenPayNow',
@@ -429,6 +431,16 @@ class Payment extends React.Component {
         initPaymentWay[payMethod]();
       }
     );
+  };
+  generatePayUParam = () => {
+    console.log('jsessionid', Cookies.get('jsessionid'));
+    const jsessionid = Cookies.get('jsessionid') || '1';
+    if (jsessionid) {
+      const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
+      generatePayUScript(fingerprint);
+      this.jsessionid = jsessionid;
+      this.fingerprint = jsessfingerprintionid;
+    }
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -695,6 +707,7 @@ class Payment extends React.Component {
   async allAdyenPayment(parameters, type) {
     try {
       const { clinicStore } = this.props;
+      const { paymentTypeVal } = this.state;
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -760,11 +773,16 @@ class Payment extends React.Component {
         }
       }
 
-      parameters = Object.assign(parameters, {
-        userAgent: navigator.userAgent,
-        cookie: Cookies.get('JSESSIONID'),
-        fingerprint: ''
-      });
+      if (paymentTypeVal === 'payUCreditCard') {
+        this.generatePayUParam();
+      }
+      if (this.jsessionid && this.fingerprint) {
+        parameters = Object.assign(parameters, {
+          userAgent: navigator.userAgent,
+          cookie: this.jsessionid,
+          fingerprint: this.fingerprint
+        });
+      }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
 
@@ -826,6 +844,8 @@ class Payment extends React.Component {
             sessionItemRoyal.remove('rc-token');
           }
           window.location.href = res.context.url;
+          break;
+        default:
           break;
       }
       // if (orderNumber) {
@@ -1069,10 +1089,10 @@ class Payment extends React.Component {
         // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
         const tmpMarketing = goodsMarketingMap[k][0];
         let targetLevelId = '';
-        if (tmpMarketing.marketingType == 0) {
+        if (tmpMarketing.marketingType === 0) {
           targetLevelId =
             tmpMarketing.fullReductionLevelList[0].reductionLevelId;
-        } else if (tmpMarketing.marketingType == 1) {
+        } else if (tmpMarketing.marketingType === 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId;
         }
         tmpParam.marketingLevelId = targetLevelId;
@@ -1353,21 +1373,23 @@ class Payment extends React.Component {
             if (
               Object.prototype.toString
                 .call(this.state.payWayObj)
-                .slice(8, -1) == 'Array'
+                .slice(8, -1) === 'Array'
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                  return o.name == 'payuoxxo';
+                  return o.name === 'payuoxxo';
                 }); //找到oxxo在数组中的下标
-                if (payuoxxoIndex != -1) {
+                if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
                 }
               } else {
                 //为后台提供的初始支付方式
-                this.state.payWayObj = JSON.parse(
-                  JSON.stringify(this.state.savedPayWayObj)
-                );
+                this.setState({
+                  payWayObj: JSON.parse(
+                    JSON.stringify(this.state.savedPayWayObj)
+                  )
+                })
               }
             }
             // ****************订阅的时候隐藏oxxo支付方式end******************
@@ -1575,6 +1597,7 @@ class Payment extends React.Component {
             return loginEl;
           });
         }
+        return el;
       });
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
@@ -1676,6 +1699,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={el.goodsInfoImg}
                                     style={{ float: 'left' }}
                                   />
@@ -1723,6 +1747,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg

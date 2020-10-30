@@ -155,7 +155,7 @@ class Reviews extends React.Component {
     console.log('点击方向是：', direction);
     console.log('当前是第', this.state.showPicIndex);
     if (direction > 0) {
-      if (this.state.showPicIndex + 1 == this.state.imgList.length) {
+      if (this.state.showPicIndex + 1 === this.state.imgList.length) {
         this.setState({
           showPicIndex: 0
         });
@@ -165,7 +165,7 @@ class Reviews extends React.Component {
         });
       }
     } else {
-      if (this.state.showPicIndex == 0) {
+      if (this.state.showPicIndex === 0) {
         this.setState({
           showPicIndex: this.state.imgList.length - 1
         });
@@ -210,6 +210,7 @@ class Reviews extends React.Component {
                 onClick={() => this.handleDirectionClick(-1)}
               ></div>
               <img
+                alt=""
                 style={{ maxWidth: '100%', maxHeight: '100%' }}
                 src={this.state.imgList[this.state.showPicIndex].artworkUrl}
               ></img>
@@ -335,6 +336,7 @@ class Reviews extends React.Component {
                                           // 评论显示九宫格
                                           return (
                                             <img
+                                              alt=""
                                               className="rc-img--square rc-img--square-custom mr-1"
                                               src={img.artworkUrl}
                                               key={j}

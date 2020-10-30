@@ -1,26 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '@/assets/css/heroCarousel.css';
-import Banner_Horizontal_Hot_Sale from '@/assets/images/Banner_Horizontal_Hot_Sale.jpg';
-import Pomotion25offImg from '@/assets/images/pomotion_25off.png';
-import Banner_recommend_item from '@/assets/images/Banner_recommend_item.jpg';
-import Banner_recommend_item_m from '@/assets/images/Banner_recommend_item_m.jpg';
-import Banner_urinary from '@/assets/images/banner/banner_urinary.jpg';
-import Banner_urinary_m from '@/assets/images/banner/banner_urinary_m.jpg';
-import Banner_subscritipon from '@/assets/images/banner/banner_subscritipon.jpg';
-import Banner_subscritipon_m from '@/assets/images/banner/banner_subscritipon_m.jpg';
 import './index.less';
-import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import { getBanner } from '@/api/home.js';
 import { getGoodsRelation } from '@/api/details';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -144,7 +132,7 @@ class HeroCarousel extends React.Component {
               <div className="hero-carousel__slide" key={i}>
                 <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                     <a className="related-product-a" onClick={()=>this.hanldeClick(item)}>
-                        <img className="related-product-img" src={item.goodsImg}></img>
+                        <img className="related-product-img" src={item.goodsImg} alt=""></img>
                         <h1 className="rc-card__title">{item.goodsSubtitle}</h1>
                         <p className="rc-card__meta">{item.goodsName}</p>
                         <div

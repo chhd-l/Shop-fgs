@@ -3,7 +3,6 @@ import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { find } from 'lodash';
 import stores from '@/store';
-import store from 'storejs';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -186,6 +185,17 @@ export async function validData(rule, data) {
       }
     }
   }
+}
+
+export function generatePayUScript(deviceSessionId) {
+  loadJS({
+    url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+  });
+  loadNoScriptIframeJS({
+    style:
+      'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+  });
 }
 
 export function loadJS({

@@ -113,6 +113,7 @@ class Help extends React.Component {
       } else {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ',';
       }
+      return el;
     });
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
@@ -175,11 +176,10 @@ class Help extends React.Component {
       // const currentSelectedSize = find(sizeList, (s) => s.selected);
       // let quantityNew = quantity;
 
+      let quantityNew = product.recommendationNumber;
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-
-      let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
       );
@@ -296,6 +296,7 @@ class Help extends React.Component {
     inStockProducts.map((el) => {
       console.log(el, 'el');
       totalPrice = el.recommendationNumber * el.goodsInfo.salePrice;
+      return el;
     });
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.showErrorMsg(
@@ -403,7 +404,7 @@ class Help extends React.Component {
               style={{ padding: '20px' }}
             >
               <div class="rc-column rc-double-width">
-                <img src={image1}/>
+                <img src={image1} alt=""/>
               </div>
               <div class="rc-column">
                 <div className="content1">
@@ -515,7 +516,7 @@ class Help extends React.Component {
                 </div>
               </div>
               <div class="rc-column">
-                <img src={image2}/>
+                <img src={image2} alt=""/>
               </div>
             </div>
           </section>
@@ -530,13 +531,13 @@ class Help extends React.Component {
                 <div>
                   <h2 class="rc-beta ">Изменения адреса доставки</h2>
                   <span style={{fontSize: '18px', backgroundColor: 'rgba(255, 255, 255, 0.95)'}}>Вы можете изменить адрес доставки в пределах одного города.</span>
-                  <img style={{marginTop: '20px'}} src={image3}/>
+                  <img style={{marginTop: '20px'}} src={image3} alt=""/>
                 </div>
               </div>
               <div class="rc-column">
                 <h2 class="rc-beta ">Выбор пункта самовывоза</h2>
                 <span style={{fontSize: '18px', backgroundColor: 'rgba(255, 255, 255, 0.95)'}}>Или выберете доставку в один из пунктов выдачи заказов в пределах города с помощью чузера. На карте отображены все доступные по заказу пункты выдачи с подробным описанием каждого пункта.</span>
-                <img style={{marginTop: '20px'}} src={image4}/>
+                <img style={{marginTop: '20px'}} src={image4} alt=""/>
               </div>
             </div>
           </section>
@@ -554,7 +555,7 @@ class Help extends React.Component {
                 </div>
               </div>
               <div class="rc-column">
-                <img src={image5}/>
+                <img src={image5} alt=""/>
               </div>
             </div>
           </section>
@@ -572,7 +573,7 @@ class Help extends React.Component {
                 </div>
               </div>
               <div class="rc-column">
-                <img src={image6}/>
+                <img src={image6} alt=""/>
               </div>
             </div>
           </section>
@@ -584,7 +585,7 @@ class Help extends React.Component {
               style={{ padding: '20px' }}
             >
               <div class="rc-column">
-                <img style={{width: '80%'}} src={image7}/>
+                <img style={{width: '80%'}} src={image7} alt=""/>
               </div>
               <div class="rc-column">
                 <div style={{marginTop: '80px'}}>

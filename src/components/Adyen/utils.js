@@ -47,7 +47,7 @@ export const httpPost = (endpoint, data) =>
 export const getPaymentMethods = () =>
   httpPost('paymentMethods', paymentMethodsConfig)
     .then((response) => {
-      if (response.error) throw 'No paymentMethods available';
+      if (response.error) throw new error('No paymentMethods available');
 
       return response;
     })
@@ -60,7 +60,7 @@ export const makePayment = (paymentMethod, config = {}) => {
 
   return httpPost('payments', paymentRequest)
     .then((response) => {
-      if (response.error) throw 'Payment initiation failed';
+      if (response.error) throw new Error('Payment initiation failed');
 
       return response;
     })
@@ -72,7 +72,7 @@ export const getOriginKey = () =>
   httpPost('originKeys')
     .then((response) => {
       if (response.error || !response.originKeys)
-        throw 'No originKey available';
+        throw new Error('No originKey available');
 
       return response.originKeys[Object.keys(response.originKeys)[0]];
     })

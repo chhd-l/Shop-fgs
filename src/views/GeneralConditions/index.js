@@ -106,6 +106,7 @@ class Help extends React.Component {
       } else {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ',';
       }
+      return el;
     });
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
@@ -168,11 +169,10 @@ class Help extends React.Component {
       // const currentSelectedSize = find(sizeList, (s) => s.selected);
       // let quantityNew = quantity;
 
+      let quantityNew = product.recommendationNumber;
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-
-      let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
       );
@@ -289,6 +289,7 @@ class Help extends React.Component {
     inStockProducts.map((el) => {
       console.log(el, 'el');
       totalPrice = el.recommendationNumber * el.goodsInfo.salePrice;
+      return el;
     });
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       this.showErrorMsg(

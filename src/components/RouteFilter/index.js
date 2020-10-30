@@ -196,7 +196,7 @@ class RouteFilter extends Component {
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
     if (
       localItemRoyal.get('rc-token') &&
-      pathname == '/' &&
+      pathname === '/' &&
       pathname !== '/implicit/callback' &&
       pathname !== '/required' &&
       pathname !== '/account/information'
@@ -214,7 +214,7 @@ class RouteFilter extends Component {
       //游客+从url输入required ===>直接跳回首页
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/required') !== -1 &&
-      sessionItemRoyal.get('fromLoginPage') != 'true'
+      sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
       history.push('/');
     }

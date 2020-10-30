@@ -105,9 +105,9 @@ class ShippingAddressFrom extends React.Component {
         value.length > creditCardInfo[name].length
       )
         return;
-      if (creditCardInfo[name].length == 2 && value.length == 3) {
+      if (creditCardInfo[name].length === 2 && value.length === 3) {
         creditCardInfo[name] = value.slice(0, 2) + '/' + value.slice(2);
-      } else if (creditCardInfo[name].length == 4 && value.length == 3) {
+      } else if (creditCardInfo[name].length === 4 && value.length === 3) {
         creditCardInfo[name] = creditCardInfo[name].slice(0, 2);
       } else {
         creditCardInfo[name] = value;
@@ -269,7 +269,7 @@ class ShippingAddressFrom extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
+          <img key={idx} className="logo-payment-card" src={el} alt=""/>
         ))}
       </span>
     );

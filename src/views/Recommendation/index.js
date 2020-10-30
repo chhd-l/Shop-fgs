@@ -125,11 +125,14 @@ class Help extends React.Component {
               console.log(child, 'child')
               child.selected = true
             }
+            return child;
           })
+          return sItem;
         });
         el.goodsInfo.goods.goodsInfos = el.goodsInfos;
         el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
         el.goodsInfo.goods.goodsSpecs = specList;
+        return el;
       });
 
       this.setState({ productList }, () => {
@@ -167,6 +170,7 @@ class Help extends React.Component {
       }else {
         outOfStockVal = outOfStockVal + el.goodsInfo.goodsInfoName + ','
       }
+      return el;
     })
     modalList[0].content = this.props.intl.formatMessage(
       { id: 'outOfStockContent_cart' },
@@ -217,11 +221,10 @@ class Help extends React.Component {
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
       
+      let quantityNew = product.recommendationNumber;
       let tmpData = Object.assign({}, product.goodsInfo.goods, {
         quantity: quantityNew
       });
-      
-      let quantityNew = product.recommendationNumber;
       let cartDataCopy = cloneDeep(
         toJS(this.props.checkoutStore.cartData).filter((el) => el)
       );
@@ -301,6 +304,7 @@ class Help extends React.Component {
     inStockProducts.map(el => {
       console.log(el, 'instock')
       totalPrice = totalPrice + el.recommendationNumber * el.goodsInfo.salePrice
+      return el;
     })
     if (totalPrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
       console.log(totalPrice, 'instock')
@@ -521,6 +525,7 @@ class Help extends React.Component {
                         >
                           <i></i>
                           <img
+                            alt=""
                             src={
                               el.goodsInfo.goodsInfoImg ||
                               el.goodsInfo.goods.goodsImg
@@ -701,6 +706,7 @@ class Help extends React.Component {
                     </div>
                     <div className="description">
                       <img
+                        alt=""
                         src={storeLogo}
                         style={{
                           float: 'left',
@@ -817,6 +823,7 @@ class Help extends React.Component {
                         >
                           <i></i>
                           <img
+                            alt=""
                             style={{height: '65px'}}
                             src={
                               el.goodsInfo.goodsInfoImg ||
@@ -967,6 +974,7 @@ class Help extends React.Component {
                     </div>
                     <div className="description">
                       <img
+                        alt=""
                         src={storeLogo}
                         style={{
                           float: 'left',
@@ -1033,7 +1041,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div class="rc-column">
-              <img src={recommendation1} style={{ width: '100%' }} />
+              <img src={recommendation1} style={{ width: '100%' }} alt=""/>
             </div>
           </div>
           <div class="help-page" style={{ marginBottom: '1rem' }}>
@@ -1218,13 +1226,13 @@ class Help extends React.Component {
             style={{ textAlign: 'center', display: 'flex' }}
           >
             <li>
-              <img src={cur_recommendation2} />
+              <img src={cur_recommendation2} alt=""/>
             </li>
             <li>
-              <img src={cur_recommendation3} />
+              <img src={cur_recommendation3} alt=""/>
             </li>
             <li>
-              <img src={cur_recommendation4} />
+              <img src={cur_recommendation4} alt=""/>
             </li>
           </section>
           <section className="re-p-sm-12 re-p-md-4068" style={{ background: '#f6f6f6' }}>
