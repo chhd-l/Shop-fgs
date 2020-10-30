@@ -566,7 +566,6 @@ const en_US = {
   'shipmentTrackingFalse':'Bitte klicken Sie dieses Kästchen an, wenn Sie fortfahren möchten.',
   'NoPromotionDesc': 'Keine PromotionDesc',
   //qhx新增
-  delivery: "Lieferkosten",
   FrequentQuestions: "Häufige Fragen",
   clickHere: "klicken Sie hier",
   clickHere2: "Hier",

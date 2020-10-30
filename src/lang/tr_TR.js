@@ -644,7 +644,6 @@ const en_US = {
   'prescriptionDeclined': 'Reçete reddedildi',
   'recommandedForyou':'Sizin için önerilen',
   "list.errMsg4": "Ürün bulunamadı. Lütfen arama teriminizi değiştirin ve tekrar deneyin.",
-  "list.errMsg4": "Товаров не найдено. Измените поисковый запрос и попробуйте еще раз.",
 
   'tailorednutrition': 'Sağlık ve Beslenme',
   'tailorednutrition.title': 'Sağlık için savaşılmayı hak ediyor',

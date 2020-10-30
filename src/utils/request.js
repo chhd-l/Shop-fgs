@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createBrowserHistory } from 'history'
-const history = createBrowserHistory()
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 

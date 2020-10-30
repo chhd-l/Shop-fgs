@@ -11,7 +11,6 @@ import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic';
 import { setBuryPoint } from '@/api';
-import { doLogout } from '@/api/login';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';

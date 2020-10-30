@@ -696,13 +696,13 @@ class PetForm extends React.Component {
                     role="tablist"
                   >
                     <li className="pet-element">
-                      <a
+                      <span
                         onClick={() => this.add()}
                         className="tab-add tab--img"
                         role="tab"
                       >
                         <span className="rc-icon rc-plus rc-iconography plus-icon add_pet ui-cursor-pointer"></span>
-                      </a>
+                      </span>
                     </li>
 
                     {petList.map((item) => (
@@ -710,7 +710,7 @@ class PetForm extends React.Component {
                         className="rc-margin-x--xs pet-element"
                         key={item.petsId}
                       >
-                        <a onClick={() => this.petsById(item.petsId)}>
+                        <span onClick={() => this.petsById(item.petsId)}>
                           <div
                             className={
                               'tab__img img--round img--round--md name--select text-center ' +
@@ -721,7 +721,7 @@ class PetForm extends React.Component {
                           >
                             {item.petsName}
                           </div>
-                        </a>
+                        </span>
                       </li>
                     ))}
                   </ul>

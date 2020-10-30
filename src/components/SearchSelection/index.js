@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 
 /**
  * 带有远程搜索功能的下拉选择组件

@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Progress from '@/components/Progress';
 import Pagination from '@/components/Pagination';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
@@ -12,7 +11,6 @@ import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import initLocation from './location';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const AnyReactComponent = ({ obj, show, sonMess, props }) => {

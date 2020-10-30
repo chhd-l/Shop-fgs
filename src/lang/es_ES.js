@@ -28,7 +28,6 @@ const en_US = {
   'account.orders': 'Pedidos',
   'account.ordersTip': 'Verifique el estado de los pedidos actuales y vea el historial de los anteriores.',
   'account.paymentMethod': 'Método de pago',
-  'account.paymentMethodTip': 'Ver y actualizar la información de pago',
   "account.paymentMethodTip": "Ver y actualizar la información de pago",
   'account.personalArea': 'Perfil',
   'account.personalData': 'Información personal',

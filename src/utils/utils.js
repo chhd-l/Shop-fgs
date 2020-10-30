@@ -223,7 +223,7 @@ export function loadJS({
   //IE
   if (script.readyState) {
     script.onreadystatechange = function () {
-      if (script.readyState == 'loaded' || script.readyState == 'complete') {
+      if (script.readyState === 'loaded' || script.readyState === 'complete') {
         script.onreadystatechange = null;
         callback();
       }
