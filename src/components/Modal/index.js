@@ -11,9 +11,6 @@ export default class Modal extends React.Component {
     cancelBtnVisible: true,
     footerVisible: true
   };
-  constructor(props) {
-    super(props);
-  }
   close() {
     this.props.close();
   }

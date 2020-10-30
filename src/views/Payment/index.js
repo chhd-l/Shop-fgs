@@ -758,10 +758,12 @@ class Payment extends React.Component {
           });
         }
       }
-
+      debugger;
+      //
+      console.log('jsessionid', Cookies.get('jsessionid'));
       parameters = Object.assign(parameters, {
         userAgent: navigator.userAgent,
-        cookie: Cookies.get('JSESSIONID'),
+        cookie: Cookies.get('jsessionid'),
         fingerprint: ''
       });
 

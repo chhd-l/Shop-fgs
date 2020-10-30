@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import './index.css'
+import React, { Component } from 'react';
+import './index.css';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
 
@@ -15,14 +15,14 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: (props.config && props.config.width) || "400",
+        width: (props.config && props.config.width) || '400',
         // 组件高
-        height: (props.config && props.config.height) || "450"
+        height: (props.config && props.config.height) || '450'
       },
       // 缩略图
-      minImg: "",
+      minImg: '',
       // 大图
-      maxImg: "",
+      maxImg: '',
       currentImg: '',
       // 开关
       magnifierOff: false,
@@ -38,59 +38,59 @@ class ImageMagnifier extends Component {
           // height: "400px",
           // border: "1px solid #ccc",
           margin: '0 auto',
-          cursor: "move",
-          position: "relative"
+          cursor: 'move',
+          position: 'relative'
         },
         // 鼠标悬停小方块样式
         mouseBlock: {
-          position: "absolute",
-          top: "0",
-          left: "0",
-          width: "100px",
-          height: "100px",
-          background: "rgba(0,0,0,0.1)",
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '100px',
+          height: '100px',
+          background: 'rgba(0,0,0,0.1)',
           zIndex: 99
         },
         // 鼠标悬停遮罩层样式
         maskBlock: {
-          position: "absolute",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          background: "rgba(0,0,0,0)",
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0,0,0,0)',
           zIndex: 100
         },
 
         //  放大镜容器样式
         magnifierContainer: {
-          position: "absolute",
-          left: "-400px",
-          top: "0",
-          width: "400px",
-          height: "400px",
-          border: "1px solid #ccc",
-          overflow: "hidden",
+          position: 'absolute',
+          left: '-400px',
+          top: '0',
+          width: '400px',
+          height: '400px',
+          border: '1px solid #ccc',
+          overflow: 'hidden',
           zIndex: 98,
           background: '#fff'
         },
         // 图片样式
         imgStyle: {
-          width: "400",
-          height: "100%",
-          margin: "0 auto",
+          width: '400',
+          height: '100%',
+          margin: '0 auto',
           display: 'block'
         },
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: "400px",
-          height: "400px",
-          position: "absolute",
+          width: '400px',
+          height: '400px',
+          position: 'absolute',
           top: 0,
           left: 0,
-          transform: "scale(4)",
-          transformOrigin: "top left"
+          transform: 'scale(4)',
+          transformOrigin: 'top left'
         }
       },
       videoShow: false,
@@ -106,63 +106,81 @@ class ImageMagnifier extends Component {
    * 生命周期函数
    */
   // 组件初始化
-  UNSAFE_componentWillMount () {
+  UNSAFE_componentWillMount() {
     this.initParam();
     this.updataImg(this.props);
   }
-  componentDidMount () {
-    let { currentImg } = this.state
-    let { images, sizeList } = this.props
+  componentDidMount() {
+    let { currentImg } = this.state;
+    let { images, sizeList } = this.props;
     if (!currentImg && images && images.length > 0) {
-      currentImg = images[0].artworkUrl
+      currentImg = images[0].artworkUrl;
     }
-    console.log(currentImg, 'currentImg')
+    console.log(currentImg, 'currentImg');
     this.setState({
       currentImg: currentImg
-    })
+    });
 
-    let selectedSizeInfo = sizeList.filter(item => item.selected)
-    if(!selectedSizeInfo.length) {
-      selectedSizeInfo = [sizeList[0]]
+    let selectedSizeInfo = sizeList.filter((item) => item.selected);
+    if (!selectedSizeInfo.length) {
+      selectedSizeInfo = [sizeList[0]];
     }
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
-      let hoverIndex = 0
+      let hoverIndex = 0;
       images.map((el, i) => {
-        if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
-          hoverIndex = i
+        if (
+          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+        ) {
+          hoverIndex = i;
         }
-      })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*400})
+        return el;
+      });
+      this.setState({
+        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        videoShow: false,
+        hoverIndex,
+        offsetX: hoverIndex * 400
+      });
     }
   }
   // props 变化时更新
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    console.log(nextProps, 'nextProps')
-    let { currentImg } = this.state
-    let { images } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log(nextProps, 'nextProps');
+    let { currentImg } = this.state;
+    let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
-      currentImg = images[0].artworkUrl
+      currentImg = images[0].artworkUrl;
     }
-    
-    console.log(currentImg, 'currentImg', images)
+
+    console.log(currentImg, 'currentImg', images);
     this.setState({
       currentImg: currentImg
-    })
+    });
     this.updataImg(nextProps);
-    const { sizeList } = nextProps
-    console.log(sizeList.filter(item => item.selected))
-    let selectedSizeInfo = sizeList.filter(item => item.selected)
-    if(!selectedSizeInfo.length) {
-      selectedSizeInfo = [sizeList[0]]
+    const { sizeList } = nextProps;
+    console.log(sizeList.filter((item) => item.selected));
+    let selectedSizeInfo = sizeList.filter((item) => item.selected);
+    if (!selectedSizeInfo.length) {
+      selectedSizeInfo = [sizeList[0]];
     }
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
-      let hoverIndex = 0
+      let hoverIndex = 0;
       images.map((el, i) => {
-        if(el.artworkUrl === selectedSizeInfo[0].goodsInfoImg || el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg) {
-          hoverIndex = i
+        if (
+          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
+          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+        ) {
+          hoverIndex = i;
         }
-      })
-      this.setState({ currentImg: selectedSizeInfo[0].goodsInfoImg, videoShow: false , hoverIndex, offsetX: hoverIndex*400})
+        return el;
+      });
+      this.setState({
+        currentImg: selectedSizeInfo[0].goodsInfoImg,
+        videoShow: false,
+        hoverIndex,
+        offsetX: hoverIndex * 400
+      });
     }
   }
 
@@ -171,14 +189,20 @@ class ImageMagnifier extends Component {
    */
   // 鼠标移入
   mouseEnter = () => {
-    this.setState({
-      magnifierOff: true,
-      params: Object.assign({}, this.state.params,
-        {
-          width: document.querySelector('#J_detail_img')? document.querySelector('#J_detail_img').offsetWidth: 10,
-          height: document.querySelector('#J_detail_img')?document.querySelector('#J_detail_img').offsetHeight: 10
+    this.setState(
+      {
+        magnifierOff: true,
+        params: Object.assign({}, this.state.params, {
+          width: document.querySelector('#J_detail_img')
+            ? document.querySelector('#J_detail_img').offsetWidth
+            : 10,
+          height: document.querySelector('#J_detail_img')
+            ? document.querySelector('#J_detail_img').offsetHeight
+            : 10
         })
-    }, () => this.initParam());
+      },
+      () => this.initParam()
+    );
   };
   // 鼠标移除
   mouseLeave = () => {
@@ -187,38 +211,38 @@ class ImageMagnifier extends Component {
     });
   };
   // 鼠标移动
-  mouseMove = event => {
+  mouseMove = (event) => {
     // console.log(event);
     let e = event.nativeEvent;
     this.calculationBlock(e.offsetX, e.offsetY);
   };
 
   // 计算相关参数
-  calculationBlock (offsetX, offsetY) {
+  calculationBlock(offsetX, offsetY) {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
-    const scale = parseInt(this.state.params.scale)
+    const scale = parseInt(this.state.params.scale);
     /* 小方块位置 */
     // 防止鼠标移动过快导致计算失误，只要小于或者大于对应值，直接设置偏移量等于最小值或者最大值
     if (offsetX < 50) {
       offsetX = 50;
     }
-    const tmpWidth = parseInt(this.state.params.width)
+    const tmpWidth = parseInt(this.state.params.width);
     if (offsetX > tmpWidth - 50) {
       offsetX = tmpWidth - 50;
     }
     if (offsetY < 50) {
       offsetY = 50;
     }
-    const tmpHeight = parseInt(this.state.params.height)
+    const tmpHeight = parseInt(this.state.params.height);
     if (offsetY > tmpHeight - 50) {
       offsetY = tmpHeight - 50;
     }
-    cssStyle.mouseBlock.left = parseFloat(offsetX - 50) + "px";
-    cssStyle.mouseBlock.top = parseFloat(offsetY - 50) + "px";
+    cssStyle.mouseBlock.left = parseFloat(offsetX - 50) + 'px';
+    cssStyle.mouseBlock.top = parseFloat(offsetY - 50) + 'px';
 
     /* 计算图片放大位置 */
-    cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + "px";
-    cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + "px";
+    cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
+    cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
 
     this.setState({
       cssStyle: cssStyle
@@ -226,19 +250,19 @@ class ImageMagnifier extends Component {
   }
 
   // 初始化静态参数
-  initParam () {
+  initParam() {
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
     let params = JSON.parse(JSON.stringify(this.state.params));
-    console.log('params', params)
+    console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = 400 + "px";
-    cssStyle.imgContainer.height = params.height + "px";
-    cssStyle.magnifierContainer.width = params.width + "px";
-    cssStyle.magnifierContainer.height = params.height + "px";
-    cssStyle.magnifierContainer.left = (parseInt(params.width) + 120) + "px";
-    cssStyle.imgStyle2.width = params.width + "px";
-    cssStyle.imgStyle2.height = params.height + "px";
-    cssStyle.imgStyle2.transform = "scale(" + params.scale + ")";
+    cssStyle.imgContainer.width = 400 + 'px';
+    cssStyle.imgContainer.height = params.height + 'px';
+    cssStyle.magnifierContainer.width = params.width + 'px';
+    cssStyle.magnifierContainer.height = params.height + 'px';
+    cssStyle.magnifierContainer.left = parseInt(params.width) + 120 + 'px';
+    cssStyle.imgStyle2.width = params.width + 'px';
+    cssStyle.imgStyle2.height = params.height + 'px';
+    cssStyle.imgStyle2.transform = 'scale(' + params.scale + ')';
 
     this.setState({
       cssStyle: cssStyle
@@ -246,95 +270,132 @@ class ImageMagnifier extends Component {
   }
 
   // 更新图片
-  updataImg (props) {
+  updataImg(props) {
     this.setState({
       minImg: props.minImg,
       maxImg: props.maxImg
     });
   }
-  imageChange (e, image, i) {
-    console.log(i)
+  imageChange(e, image, i) {
+    console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
-    cssStyle.imgContainer.cursor = 'move'
+    cssStyle.imgContainer.cursor = 'move';
     this.setState({
       currentImg: image,
       videoShow: false,
       cssStyle,
       hoverIndex: i,
       offsetX: i * 400
-    })
+    });
   }
   // 图片加载情况
-  handleImageLoaded (e) {
+  handleImageLoaded(e) {
     // console.log(e);
     this.setState({ imgLoad: true });
   }
 
   // 图片加载中
-  handleImageErrored () {
+  handleImageErrored() {
     this.setState({ imgLoad: false });
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (this.refs.video) {
-      this.refs.video['disablePictureInPicture'] = true
+      this.refs.video['disablePictureInPicture'] = true;
       this.refs.video.addEventListener('play', () => {
-        console.log(false)
-        this.setState({ videoModalShow: false })
-      })
+        console.log(false);
+        this.setState({ videoModalShow: false });
+      });
       this.refs.video.addEventListener('pause', () => {
-        console.log(true)
-        this.setState({ videoModalShow: true })
-      })
+        console.log(true);
+        this.setState({ videoModalShow: true });
+      });
     }
   }
   // closeVideoModal() {
   //   this.setState()
   // }
   filterImage(arr) {
-    let images = []
-    arr && arr.map(item => {
-      if(!images.filter(img => img.goodsInfoImg === item.goodsInfoImg).length) {
-        images.push(item)
-      }
-    })
-    return images
+    let images = [];
+    arr &&
+      arr.map((item) => {
+        if (
+          !images.filter((img) => img.goodsInfoImg === item.goodsInfoImg).length
+        ) {
+          images.push(item);
+        }
+        return item;
+      });
+    return images;
   }
-  render () {
-    const { cssStyle, magnifierOff, imgLoad, currentImg, videoShow, videoModalShow, hoverIndex } = this.state;
-    let { images, video } = this.props
+  render() {
+    const {
+      cssStyle,
+      magnifierOff,
+      imgLoad,
+      currentImg,
+      videoShow,
+      videoModalShow,
+      hoverIndex
+    } = this.state;
+    let { images, video } = this.props;
     // images = this.filterImage(images)
-    let imgCount = images.length 
-    if(video) {
-      imgCount = imgCount + 1
+    let imgCount = images.length;
+    if (video) {
+      imgCount = imgCount + 1;
     }
     return (
       <div>
         <div style={{ position: 'relative' }}>
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
-            <div className="bigImageInnerBox rc-loaded--final" style={{transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`}}>
-              {
-                images.map((el,i) => (
-                  <div key={i}>
-                    <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />
-                  </div>
-                ))
-              }
-              {(videoShow && video) && <div><video ref="video" style={cssStyle.imgStyle} src={video ? video : ''} 
-                controlsList="nodownload" onContextMenu="return false;" controls></video></div>}
+            <div
+              className="bigImageInnerBox rc-loaded--final"
+              style={{
+                transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
+              }}
+            >
+              {images.map((el, i) => (
+                <div key={i}>
+                  <img
+                    id="J_detail_img"
+                    style={cssStyle.imgStyle}
+                    src={currentImg}
+                    alt=""
+                  />
+                </div>
+              ))}
+              {videoShow && video && (
+                <div>
+                  <video
+                    ref="video"
+                    style={cssStyle.imgStyle}
+                    src={video ? video : ''}
+                    controlsList="nodownload"
+                    onContextMenu="return false;"
+                    controls
+                  ></video>
+                </div>
+              )}
             </div>
-            {videoShow && videoModalShow && <div className="videoModal" onClick={() => {
-              this.refs.video.play()
-              this.setState({ videoModalShow: false })
-            }}></div>}
+            {videoShow && videoModalShow && (
+              <div
+                className="videoModal"
+                onClick={() => {
+                  this.refs.video.play();
+                  this.setState({ videoModalShow: false });
+                }}
+              ></div>
+            )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
-            
-            {!videoShow && <div
-              style={cssStyle.maskBlock}
-              onMouseEnter={this.mouseEnter}
-              onMouseLeave={this.mouseLeave}
-              onMouseMove={this.mouseMove}
-            />}
+
+            {!videoShow && (
+              <div
+                style={cssStyle.maskBlock}
+                onMouseEnter={this.mouseEnter}
+                onMouseLeave={this.mouseLeave}
+                onMouseMove={this.mouseMove}
+              />
+            )}
             {!videoShow && magnifierOff && <div style={cssStyle.mouseBlock} />}
           </div>
           {magnifierOff && !videoShow && (
@@ -346,44 +407,88 @@ class ImageMagnifier extends Component {
                 onError={this.handleImageErrored.bind(this)}
                 alt=""
               />
-              {!imgLoad && "failed to load"}
+              {!imgLoad && 'failed to load'}
             </div>
           )}
         </div>
         <div className="scrollOutBox">
-        <i className={`rc-icon rc-left leftArrow rc-iconography ${this.state.positionLeft === 0?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
-          if(this.state.positionLeft === 0) return;
-          this.setState({positionLeft: this.state.positionLeft + 69})
-        }}></i>
-        {/* <img className="moveImg" src={LeftImg} /> */}
-        <div className="imageOutBox">
-        <div className="justify-content-center imageInnerBox" style={{ marginTop: '2rem', textAlign: imgCount <= 5? 'center': 'left', width: imgCount <= 5? '100%': '1000px', left: this.state.positionLeft + 'px'}}>
-          {
-            images && images.map((el, i) => (
-              <div
-                key={i}
-                // className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
-                className={`rc-img--square rc-img--square-custom ${hoverIndex === i ? 'hover' : ''}`}
-                onMouseEnter={(e) => this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)}
-                style={{ backgroundImage: 'url(' + (el.artworkUrl || el.goodsInfoImg) + ')' }}></div>
-            ))
-          }
-          {video && <video className={`rc-img--square rc-img--square-custom ${hoverIndex === images.length ? 'hover' : ''}`} onMouseEnter={() => {
-            let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
-            cssStyle.imgContainer.cursor = 'pointer'
-            this.setState({ videoShow: true, cssStyle ,hoverIndex: images.length, offsetX: images.length * 400})
-          }} src={video ? video : ''}></video>}
-        </div>
-        </div>
-        {/* <img className="moveImg" src={RightImg} /> */}
-        <i className={`rc-icon rc-right rightArrow rc-iconography ${this.state.positionLeft === (imgCount - 5) * -69?'': 'rc-brand1'}`} style={{visibility: imgCount > 5? 'visible': 'hidden'}} onClick={() => {
-          if(this.state.positionLeft === (imgCount - 5) * -69) return;
-          this.setState({positionLeft: this.state.positionLeft - 69})
-        }}></i>
+          <i
+            className={`rc-icon rc-left leftArrow rc-iconography ${
+              this.state.positionLeft === 0 ? '' : 'rc-brand1'
+            }`}
+            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            onClick={() => {
+              if (this.state.positionLeft === 0) return;
+              this.setState({ positionLeft: this.state.positionLeft + 69 });
+            }}
+          ></i>
+          {/* <img className="moveImg" src={LeftImg} /> */}
+          <div className="imageOutBox">
+            <div
+              className="justify-content-center imageInnerBox"
+              style={{
+                marginTop: '2rem',
+                textAlign: imgCount <= 5 ? 'center' : 'left',
+                width: imgCount <= 5 ? '100%' : '1000px',
+                left: this.state.positionLeft + 'px'
+              }}
+            >
+              {images &&
+                images.map((el, i) => (
+                  <div
+                    key={i}
+                    // className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
+                    className={`rc-img--square rc-img--square-custom ${
+                      hoverIndex === i ? 'hover' : ''
+                    }`}
+                    onMouseEnter={(e) =>
+                      this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)
+                    }
+                    style={{
+                      backgroundImage:
+                        'url(' + (el.artworkUrl || el.goodsInfoImg) + ')'
+                    }}
+                  ></div>
+                ))}
+              {video && (
+                <video
+                  className={`rc-img--square rc-img--square-custom ${
+                    hoverIndex === images.length ? 'hover' : ''
+                  }`}
+                  onMouseEnter={() => {
+                    let cssStyle = JSON.parse(
+                      JSON.stringify(this.state.cssStyle)
+                    );
+                    cssStyle.imgContainer.cursor = 'pointer';
+                    this.setState({
+                      videoShow: true,
+                      cssStyle,
+                      hoverIndex: images.length,
+                      offsetX: images.length * 400
+                    });
+                  }}
+                  src={video ? video : ''}
+                ></video>
+              )}
+            </div>
+          </div>
+          {/* <img className="moveImg" src={RightImg} /> */}
+          <i
+            className={`rc-icon rc-right rightArrow rc-iconography ${
+              this.state.positionLeft === (imgCount - 5) * -69
+                ? ''
+                : 'rc-brand1'
+            }`}
+            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            onClick={() => {
+              if (this.state.positionLeft === (imgCount - 5) * -69) return;
+              this.setState({ positionLeft: this.state.positionLeft - 69 });
+            }}
+          ></i>
         </div>
       </div>
     );
   }
 }
 
-export default ImageMagnifier
+export default ImageMagnifier;

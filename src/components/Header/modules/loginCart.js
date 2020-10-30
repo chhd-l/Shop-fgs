@@ -285,7 +285,7 @@ class LoginCart extends React.Component {
                                   </div>
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
-                                      {process.env.REACT_APP_LANG != 'de' ? (
+                                      {process.env.REACT_APP_LANG !== 'de' ? (
                                         <p className="line-item-attributes">
                                           {item.specText} -{' '}
                                           {item.buyCount > 1

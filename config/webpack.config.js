@@ -563,6 +563,9 @@ module.exports = function (webpackEnv) {
         }
       ]
     },
+    // external: {
+    //   // todo
+    // },
     plugins: [
       // 添加 进度条
       new WebpackBar(

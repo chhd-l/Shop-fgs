@@ -66,7 +66,7 @@ class Consent extends Component {
                       </div>
                       <div
                         className={
-                          zoom == '150%'
+                          zoom === '150%'
                             ? 'footer-checkbox-title mt'
                             : 'footer-checkbox-title'
                         }

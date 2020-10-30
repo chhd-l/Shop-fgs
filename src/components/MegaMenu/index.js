@@ -44,6 +44,7 @@ class MegaMenu extends React.Component {
         href={item.link}
         target="_blank"
         aria-haspopup={!!item.subMenuKey}
+        rel="noopener noreferrer"
       >
         <FormattedMessage id={item.langKey} />
       </a>
