@@ -775,7 +775,6 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];

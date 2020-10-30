@@ -38,8 +38,6 @@ class RouteFilter extends Component {
         }
       }else {
         let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        console.log(needPrescriber, 'debugger')
-        debugger
         if(!needPrescriber && checkoutStore.autoAuditFlag) {
           history.replace('/payment/payment');
         }
