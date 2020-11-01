@@ -36,11 +36,11 @@ function Ads() {
       en: (
         <>
           <Divider />
-          <div class="experience-component experience-layouts-1column">
-            <div class="row rc-margin-x--none">
-              <div class="rc-full-width">
-                <div class="experience-component experience-assets-banner">
-                  <div class="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-banner">
+                  <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
                     <Link to="/Tailorednutrition">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
@@ -59,7 +59,7 @@ function Ads() {
                           srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=1336, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004 1.5x, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2380 2x"
                         />
                         <img
-                          class="w-100 lazyloaded"
+                          className="w-100 lazyloaded"
                           data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw7176d0bf/Homepage/Banner_USA@2x.png?sw=2004"
                           alt="Royal Canin Extensive Product Range"
                           title="Royal Canin Extensive Product Range"
@@ -82,29 +82,29 @@ function HealthNutrition() {
   return (
     {
       en: (
-        <div class="experience-component experience-layouts-1to2columnRatio">
-          <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-            <div class="row d-flex align-items-center">
-              <div class="col-12 col-lg-4">
-                <div class="experience-component experience-layouts-minicarousel">
+        <div className="experience-component experience-layouts-1to2columnRatio">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+            <div className="row d-flex align-items-center">
+              <div className="col-12 col-lg-4">
+                <div className="experience-component experience-layouts-minicarousel">
                   <div
                     data-js-carousel=""
                     className="rc-carousel js-mini-carousel"
                   >
-                    <div class="rc-hero rc-hero__layout--3">
-                      <div class="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                        <div class="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                    <div className="rc-hero rc-hero__layout--3">
+                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
                           <Link to="/list/dogs" title="SHOP DOG">
-                            <div class="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
                               <p>Canine Breed-Specific Nutrition</p>
                             </div>
-                            <p class="rc-body">
+                            <p className="rc-body">
                               Find your dog's unique formula
                             </p>
                           </Link>
                           <Link
                             to="/list/dogs"
-                            class="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
                             title="SHOP DOG"
                           >
@@ -112,7 +112,7 @@ function HealthNutrition() {
                           </Link>
                         </div>
                         <Link to="/list/dogs" title="SHOP DOG">
-                          <div class="rc-hero__section rc-hero__section--img">
+                          <div className="rc-hero__section rc-hero__section--img">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <source
                                 media="(max-width: 640px)"
@@ -130,7 +130,7 @@ function HealthNutrition() {
                                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
                               />
                               <img
-                                class="w-100 ls-is-cached lazyloaded"
+                                className="w-100 ls-is-cached lazyloaded"
                                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png"
                                 alt="Royal Canin specific dog food for every breed"
                                 title="Royal Canin specific dog food for every breed"
@@ -141,20 +141,20 @@ function HealthNutrition() {
                         </Link>
                       </div>
                     </div>
-                    <div class="rc-hero rc-hero__layout--3">
-                      <div class="rc-hero__fg mini-carousel-slide rc-padding--xs">
-                        <div class="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
+                    <div className="rc-hero rc-hero__layout--3">
+                      <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
+                        <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
                           <Link to="/list/cats" title="SHOP CAT">
-                            <div class="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
+                            <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
                               <p>Feline Breed-Specific Nutrition</p>
                             </div>
-                            <p class="rc-body">
+                            <p className="rc-body">
                               Find your cat's unique formula
                             </p>
                           </Link>
                           <Link
                             to="/list/cats"
-                            class="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
+                            className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
                             title="SHOP CAT"
                           >
@@ -162,7 +162,7 @@ function HealthNutrition() {
                           </Link>
                         </div>
                         <Link to="/list/cats" title="SHOP CAT">
-                          <div class="rc-hero__section rc-hero__section--img">
+                          <div className="rc-hero__section rc-hero__section--img">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <source
                                 media="(max-width: 640px)"
@@ -180,7 +180,7 @@ function HealthNutrition() {
                                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
                               />
                               <img
-                                class="w-100 ls-is-cached lazyloaded"
+                                className="w-100 ls-is-cached lazyloaded"
                                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png"
                                 alt="Royal Canin specific cat food for every breed"
                                 title="Royal Canin specific cat food for every breed"
@@ -194,17 +194,19 @@ function HealthNutrition() {
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-lg-8">
-                <div class="experience-component experience-assets-contentBlock">
-                  <div class="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+              <div className="col-12 col-lg-8">
+                <div className="experience-component experience-assets-contentBlock">
+                  <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
                     <a
                       id="undefined"
                       name="undefined"
-                      class="page-section-anchor"
+                      className="page-section-anchor"
                       aria-hidden="true"
-                    > </a>
-                    <div class="row w-100 align-items-center hp-right-content-block rc-margin-top--none">
-                      <div class=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                    >
+                      {' '}
+                    </a>
+                    <div className="row w-100 align-items-center hp-right-content-block rc-margin-top--none">
+                      <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                         <picture data-rc-feature-objectfillpolyfill-setup="true">
                           <source
                             media="(max-width: 640px)"
@@ -222,7 +224,7 @@ function HealthNutrition() {
                             srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
                           />
                           <img
-                            class="w-100 ls-is-cached lazyloaded"
+                            className="w-100 ls-is-cached lazyloaded"
                             data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png"
                             alt="Royal Canin Health Through Nutrition"
                             title="Royal Canin Health Through Nutrition"
@@ -230,9 +232,9 @@ function HealthNutrition() {
                           />
                         </picture>
                       </div>
-                      <div class=" col-12 col-lg-6">
-                        <div class=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                          <h2 class="rc-beta markup-text">
+                      <div className=" col-12 col-lg-6">
+                        <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                          <h2 className="rc-beta markup-text">
                             Health is Our Obsession
                           </h2>
                           <p>
@@ -242,7 +244,7 @@ function HealthNutrition() {
                             they need to support their lifelong health.
                           </p>
                           <Link
-                            class="rc-btn rc-btn--two gtm-content-block-btn js-hnc-try-the-club"
+                            className="rc-btn rc-btn--two gtm-content-block-btn js-hnc-try-the-club"
                             to="/Tailorednutrition"
                             title="Learn more"
                           >
@@ -322,10 +324,10 @@ function Advantage() {
     {
       en: (
         <>
-          <div class="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div class="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <img
-                class="value-proposition__img lazyloaded"
+                className="value-proposition__img lazyloaded"
                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 alt="ideal formula"
@@ -333,17 +335,17 @@ function Advantage() {
                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0a2524e3/Homepage/CLUB-BENEFITS_PRODUCT-RECOS@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
               />
-              <div class="pl-3 d-flex align-items-center value-proposition__text">
-                <p class="rc-margin-bottom--none rc-intro">
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
                   Find the Ideal Formula for Your Pet’s Health
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div class="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <img
-                class="value-proposition__img lazyloaded"
+                className="value-proposition__img lazyloaded"
                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 alt="club benefits"
@@ -351,18 +353,18 @@ function Advantage() {
                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwc5a22147/Homepage/CLUB-BENEFITS_DISCOUNT@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
               />
-              <div class="pl-3 d-flex align-items-center value-proposition__text">
-                <p class="rc-margin-bottom--none rc-intro">
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
                   Save 5% on Every Autoship Order Plus, 30% Off Your First Order
                   Through Royal Canin Club
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div class="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <img
-                class="value-proposition__img lazyloaded"
+                className="value-proposition__img lazyloaded"
                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 alt="Welcome Box"
@@ -370,18 +372,18 @@ function Advantage() {
                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0e710f21/Homepage/CLUB-BENEFITS_WELCOME-BOX@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
               />
-              <div class="pl-3 d-flex align-items-center value-proposition__text">
-                <p class="rc-margin-bottom--none rc-intro">
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
                   Receive a Specialty Welcome Box to Help Welcome Your New Pet
                   Home{' '}
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div class="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <img
-                class="value-proposition__img lazyloaded"
+                className="value-proposition__img lazyloaded"
                 data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 alt="Free Automatic Shipping"
@@ -389,8 +391,8 @@ function Advantage() {
                 srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png 2x"
                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw647a8fe4/Homepage/CLUB-BENEFITS_FREE-SHIPPING@x2.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
               />
-              <div class="pl-3 d-flex align-items-center value-proposition__text">
-                <p class="rc-margin-bottom--none rc-intro">
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p className="rc-margin-bottom--none rc-intro">
                   Free Automatic Shipping
                 </p>
               </div>
@@ -406,12 +408,12 @@ function Share() {
   return (
     {
       en: (
-        <div class="experience-component experience-layouts-1column">
-          <div class="row rc-margin-x--none">
-            <div class="rc-full-width">
-              <div class="experience-component experience-layouts-cardcarousel">
-                <div class="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
-                  <h3 class="rc-beta">Share With Us #RoyalCanin</h3>
+        <div className="experience-component experience-layouts-1column">
+          <div className="row rc-margin-x--none">
+            <div className="rc-full-width">
+              <div className="experience-component experience-layouts-cardcarousel">
+                <div className="rc-margin-bottom--md rc-margin-bottom--xl--mobile text-center">
+                  <h3 className="rc-beta">Share With Us #RoyalCanin</h3>
                 </div>
                 <div
                   data-js-carousel=""
@@ -421,19 +423,19 @@ function Share() {
                   data-rc-next="next"
                   className="rc-carousel rc-carousel--cards rc-match-heights js-card-carousel"
                 >
-                  <div class="rc-carousel__card-gal">
-                    <div class="rc-padding-x--xs">
+                  <div className="rc-carousel__card-gal">
+                    <div className="rc-padding-x--xs">
                       <a
-                        class="rc-full-width"
+                        className="rc-full-width"
                         href="https://www.instagram.com/royalcaninus/"
                       >
-                        <article class="rc-card rc-card--b rc-border--none">
+                        <article className="rc-card rc-card--b rc-border--none">
                           <picture
-                            class="rc-card__image"
+                            className="rc-card__image"
                             data-rc-feature-objectfillpolyfill-setup="true"
                           >
                             <img
-                              class="w-100 lazyloaded"
+                              className="w-100 lazyloaded"
                               data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=293&amp;sfrm=png"
                               data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwcb8977c3/Homepage/SOCIAL1.jpg?sw=586&amp;sfrm=png 2x"
                               alt="Royal Canin Dog Products on Social Media"
@@ -445,18 +447,18 @@ function Share() {
                         </article>
                       </a>
                     </div>
-                    <div class="rc-padding-x--xs">
+                    <div className="rc-padding-x--xs">
                       <a
-                        class="rc-full-width"
+                        className="rc-full-width"
                         href="https://www.instagram.com/royalcaninus/"
                       >
-                        <article class="rc-card rc-card--b rc-border--none">
+                        <article className="rc-card rc-card--b rc-border--none">
                           <picture
-                            class="rc-card__image"
+                            className="rc-card__image"
                             data-rc-feature-objectfillpolyfill-setup="true"
                           >
                             <img
-                              class="w-100 lazyloaded"
+                              className="w-100 lazyloaded"
                               data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png"
                               data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=586&amp;sfrm=png 2x"
                               alt="Royal Canin Cat Products on Social Media"
@@ -468,18 +470,18 @@ function Share() {
                         </article>
                       </a>
                     </div>
-                    <div class="rc-padding-x--xs">
+                    <div className="rc-padding-x--xs">
                       <a
-                        class="rc-full-width"
+                        className="rc-full-width"
                         href="https://www.instagram.com/royalcaninus/"
                       >
-                        <article class="rc-card rc-card--b rc-border--none">
+                        <article className="rc-card rc-card--b rc-border--none">
                           <picture
-                            class="rc-card__image"
+                            className="rc-card__image"
                             data-rc-feature-objectfillpolyfill-setup="true"
                           >
                             <img
-                              class="w-100 lazyloaded"
+                              className="w-100 lazyloaded"
                               data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png"
                               data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=586&amp;sfrm=png 2x"
                               alt="Royal Canin Dog Products on Social Media"
@@ -491,18 +493,18 @@ function Share() {
                         </article>
                       </a>
                     </div>
-                    <div class="rc-padding-x--xs">
+                    <div className="rc-padding-x--xs">
                       <a
-                        class="rc-full-width"
+                        className="rc-full-width"
                         href="https://www.instagram.com/royalcaninus/"
                       >
-                        <article class="rc-card rc-card--b rc-border--none">
+                        <article className="rc-card rc-card--b rc-border--none">
                           <picture
-                            class="rc-card__image"
+                            className="rc-card__image"
                             data-rc-feature-objectfillpolyfill-setup="true"
                           >
                             <img
-                              class="w-100 ls-is-cached lazyloaded"
+                              className="w-100 ls-is-cached lazyloaded"
                               data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png"
                               data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=586&amp;sfrm=png 2x"
                               alt="Royal Canin Cat Products on Social Media"

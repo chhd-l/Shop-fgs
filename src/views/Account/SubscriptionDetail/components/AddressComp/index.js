@@ -611,7 +611,7 @@ class AddressList extends React.Component {
               {!addOrEdit && (
                 <div className="text-right" style={{ marginTop: '10px' }}>
                   {/* <button
-                    class="rc-btn rc-btn--sm rc-btn--two"
+                    className="rc-btn rc-btn--sm rc-btn--two"
                     onClick={() => this.props.cancel()}
                   >
                     Cancel
@@ -631,7 +631,7 @@ class AddressList extends React.Component {
                   </span>
                   &nbsp;
                   <button
-                    class="rc-btn rc-btn--sm rc-btn--one"
+                    className="rc-btn rc-btn--sm rc-btn--one"
                     onClick={() => {
                       this.props.save(
                         addressList.filter((el) => el.selected)[0],

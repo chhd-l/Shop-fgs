@@ -106,7 +106,7 @@ const LoginCallback = (props) => {
       await authService.handleAuthentication();
     }
     let homePage = '';
-    process.env.REACT_APP_HOMEPAGE == '/'
+    process.env.REACT_APP_HOMEPAGE === '/'
       ? (homePage = '')
       : (homePage = process.env.REACT_APP_HOMEPAGE);
     window.location.href = homePage + '/required';

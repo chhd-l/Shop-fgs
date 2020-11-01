@@ -1439,9 +1439,9 @@ class Payment extends React.Component {
         <div className={`ml-custom mr-custom `}>
           {Object.entries(this.state.payWayObj).map((item) => {
             return (
-              <div class="rc-input rc-input--inline">
+              <div className="rc-input rc-input--inline">
                 <input
-                  class="rc-input__radio"
+                  className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
                   value={item[1].paymentTypeVal}
                   type="radio"
@@ -1451,7 +1451,7 @@ class Payment extends React.Component {
                   key={item[1].id}
                 />
                 <label
-                  class="rc-input__label--inline"
+                  className="rc-input__label--inline"
                   for={`payment-info-${item[1].id}`}
                 >
                   <FormattedMessage id={item[1].id} />
@@ -1687,7 +1687,7 @@ class Payment extends React.Component {
                         style={{ overflow: 'hidden' }}
                       >
                         <i
-                          class="rc-icon rc-payment--sm rc-iconography"
+                          className="rc-icon rc-payment--sm rc-iconography"
                           style={{ transform: 'scale(.9)' }}
                         ></i>{' '}
                         <FormattedMessage id="Pet information" />
@@ -1729,7 +1729,7 @@ class Payment extends React.Component {
                                     }}
                                   >
                                     <button
-                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      className="rc-btn rc-btn--sm rc-btn--one"
                                       onClick={() => {
                                         this.setState({
                                           petModalVisible: true,
@@ -1783,7 +1783,7 @@ class Payment extends React.Component {
                                   >
                                     <button
                                       id="selectPet"
-                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      className="rc-btn rc-btn--sm rc-btn--one"
                                       onClick={() => {
                                         this.setState({
                                           petModalVisible: true,
@@ -1807,7 +1807,7 @@ class Payment extends React.Component {
                 >
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
-                      class="rc-icon rc-payment--sm rc-iconography"
+                      className="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />

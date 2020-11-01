@@ -171,7 +171,7 @@ class PasswordForm extends React.Component {
               </div>
             </div>
             <div className="text-right">
-              <a
+              <span
                 className="rc-styled-link"
                 name="contactPreference"
                 onClick={() => {
@@ -179,7 +179,7 @@ class PasswordForm extends React.Component {
                 }}
               >
                 <FormattedMessage id="cancel" />
-              </a>
+              </span>
               &nbsp;
               <FormattedMessage id="or" />
               &nbsp;

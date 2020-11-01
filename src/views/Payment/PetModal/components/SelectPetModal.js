@@ -159,8 +159,8 @@ export default class SelectPetModal extends Component { // 新建Pet
                                 </div>
                             </div>
                         </div>
-                        <div class="rc-layout-container rc-three-column">
-                            <div class="rc-column">
+                        <div className="rc-layout-container rc-three-column">
+                            <div className="rc-column">
                                 <div className="row">
                                     <div className="col-lg-12 ">
                                         <div className="form-group col-lg-12 pull-left no-padding required">

@@ -62,12 +62,12 @@ function PetJSX(props) {
                 </p>
                 <div className="row align-items-center text-center">
                   <div className="col-12 col-md-6">
-                    <button class="rc-btn rc-btn--one mb-3">
+                    <button className="rc-btn rc-btn--one mb-3">
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </button>
                   </div>
                   <div className="col-12 col-md-6">
-                    <Link class="rc-btn rc-btn--two mb-4" to="/product-finder">
+                    <Link className="rc-btn rc-btn--two mb-4" to="/product-finder">
                       <FormattedMessage id="productFinder.startAgin" />
                     </Link>
                   </div>
@@ -145,33 +145,33 @@ const ProductFinderNoResult = ({ location, history, match }) => {
                     </p>
                     <div className="row">
                       <div className="col-12 col-md-6 ">
-                        <div class="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
-                          <div class="rc-margin-right--xs flex-grow-1">
+                        <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
+                          <div className="rc-margin-right--xs flex-grow-1">
                             <b>Par téléphone</b>
-                            <div class="children-nomargin">
+                            <div className="children-nomargin">
                               <p>De 8h00 à 20h00</p>{' '}
                             </div>
                             <div>
                               <a
                                 href="tel:+0 800 005 360"
-                                class="rc-large-body tel"
+                                className="rc-large-body tel"
                               >
                                 0 800 005 360
                               </a>
                             </div>{' '}
                           </div>
-                          <div class="rc-padding-left--xs rc-lg-up">
+                          <div className="rc-padding-left--xs rc-lg-up">
                             <img
-                              class=" ls-is-cached lazyloaded"
+                              className=" ls-is-cached lazyloaded"
                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                               alt="Par téléphone icon"
                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                             />{' '}
                           </div>{' '}
-                          <div class="rc-padding-left--xs rc-md-down">
+                          <div className="rc-padding-left--xs rc-md-down">
                             {' '}
                             <img
-                              class="lazyload"
+                              className="lazyload"
                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                               alt="Par téléphone icon"
                             />{' '}
@@ -180,28 +180,28 @@ const ProductFinderNoResult = ({ location, history, match }) => {
                       </div>
                       <div className="col-12 col-md-6 ">
                         <a
-                          class="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+                          className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
                           href="/fr/help"
                         >
                           {' '}
-                          <div class="rc-margin-right--xs flex-grow-1">
+                          <div className="rc-margin-right--xs flex-grow-1">
                             {' '}
                             <b>Par mail</b>{' '}
-                            <div class="children-nomargin"></div>{' '}
+                            <div className="children-nomargin"></div>{' '}
                           </div>{' '}
-                          <div class="rc-padding-left--xs rc-lg-up">
+                          <div className="rc-padding-left--xs rc-lg-up">
                             {' '}
                             <img
-                              class=" ls-is-cached lazyloaded"
+                              className=" ls-is-cached lazyloaded"
                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                               alt="Par e-mail icon"
                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                             />{' '}
                           </div>{' '}
-                          <div class="rc-padding-left--xs rc-md-down">
+                          <div className="rc-padding-left--xs rc-md-down">
                             {' '}
                             <img
-                              class="lazyload"
+                              className="lazyload"
                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                               alt="Par e-mail icon"
                             />{' '}

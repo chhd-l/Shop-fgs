@@ -21,7 +21,6 @@ const localItemRoyal = window.__.localItemRoyal;
 @injectIntl
 @observer
 class Tailorednutrition extends React.Component {
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -71,11 +70,11 @@ class Tailorednutrition extends React.Component {
           </section>
 
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -91,19 +90,19 @@ class Tailorednutrition extends React.Component {
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image1} style={{ width: '100%' }} alt="" />
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
-            <div class="rc-column">
-              <img src={image2} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image2} style={{ width: '100%' }} alt="" />
             </div>
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -121,11 +120,11 @@ class Tailorednutrition extends React.Component {
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -141,19 +140,19 @@ class Tailorednutrition extends React.Component {
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image3} style={{ width: '100%' }} alt="" />
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
-            <div class="rc-column">
-              <img src={image4} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image4} style={{ width: '100%' }} alt="" />
             </div>
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -199,17 +198,17 @@ class Tailorednutrition extends React.Component {
               <FormattedMessage id="tailorednutrition.shopTile" />
             </h2>
             <div
-              class="rc-layout-container rc-two-column"
+              className="rc-layout-container rc-two-column"
               style={{ padding: '20px 200px' }}
             >
               <div
-                class="rc-column"
+                className="rc-column"
                 style={{ border: '1px solid #ccc', cursor: 'pointer' }}
                 onClick={() => {
                   this.props.history.push('/list/dogs');
                 }}
               >
-                <img src={dog} style={{ width: '100%' }} alt=""/>
+                <img src={dog} style={{ width: '100%' }} alt="" />
                 <p
                   style={{
                     color: '#E2001A',
@@ -221,7 +220,7 @@ class Tailorednutrition extends React.Component {
                 </p>
               </div>
               <div
-                class="rc-column"
+                className="rc-column"
                 style={{
                   border: '1px solid #ccc',
                   marginLeft: '20px',
@@ -231,7 +230,7 @@ class Tailorednutrition extends React.Component {
                   this.props.history.push('/list/cats');
                 }}
               >
-                <img src={cat} style={{ width: '100%' }} alt=""/>
+                <img src={cat} style={{ width: '100%' }} alt="" />
                 <p
                   style={{
                     color: '#E2001A',

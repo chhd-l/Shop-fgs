@@ -321,7 +321,7 @@ class Login extends React.Component {
               >
                 <object
                   id="main-logo"
-                  class="rc-logo-svg rc-logo--primary"
+                  className="rc-logo-svg rc-logo--primary"
                   data="https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.svg?v=8-9-5"
                   type="image/svg+xml"
                 >
@@ -338,23 +338,19 @@ class Login extends React.Component {
                 </object>
               </div>
               <div
-                class="rc-layout-container rc-two-column"
+                className="rc-layout-container rc-two-column"
                 style={{
                   display: this.state.type === 'login' ? 'block' : 'none'
                 }}
               >
-                <div class="rc-column">
-                  <h1 class="rc-espilon imgBox">
-                    <img src={bg1} style={{ display: 'inline' }} />
-                    {/* <img
-                      src={bg2}
-                      style={{ display: "inline", width: "70%" }}
-                    /> */}
+                <div className="rc-column">
+                  <h1 className="rc-espilon imgBox">
+                    <img src={bg1} style={{ display: 'inline' }}  alt=""/>
                   </h1>
                 </div>
 
-                <div class="rc-column loginForm">
-                  <h1 class="rc-espilon">
+                <div className="rc-column loginForm">
+                  <h1 className="rc-espilon">
                     <h3 style={{ fontSize: '32px' }}>
                       <span style={{ color: '#666' }}>
                         <FormattedMessage id="welcomeTo" />
@@ -411,17 +407,17 @@ class Login extends React.Component {
                           />
                         </div>
                         {/* <span
-                        class="rc-input rc-input--inline rc-input--label"
+                        className="rc-input rc-input--inline rc-input--label"
                         style={{ width: "100%" }}
                       >
                         <input
-                          class="rc-input__control"
+                          className="rc-input__control"
                           id="email"
                           type="text"
                           name="text"
                         />
-                        <label class="rc-input__label" for="email">
-                          <span class="rc-input__label-text">
+                        <label className="rc-input__label" for="email">
+                          <span className="rc-input__label-text">
                             Email Address
                           </span>
                         </label>
@@ -460,17 +456,17 @@ class Login extends React.Component {
                           </div>
                         </div>
                         {/* <span
-                        class="rc-input rc-input--inline rc-input--label"
+                        className="rc-input rc-input--inline rc-input--label"
                         style={{ width: "100%" }}
                       >
                         <input
-                          class="rc-input__control"
+                          className="rc-input__control"
                           id="password"
                           type="text"
                           name="text"
                         />
-                        <label class="rc-input__label" for="password">
-                          <span class="rc-input__label-text">Password</span>
+                        <label className="rc-input__label" for="password">
+                          <span className="rc-input__label-text">Password</span>
                         </label>
                       </span> */}
                       </div>
@@ -482,18 +478,18 @@ class Login extends React.Component {
                         }}
                       >
                         <div
-                          class="rc-input rc-input--inline"
+                          className="rc-input rc-input--inline"
                           style={{ float: 'left' }}
                         >
                           <input
-                            class="rc-input__checkbox"
+                            className="rc-input__checkbox"
                             id="id-checkbox-cat"
                             value="Cat"
                             type="checkbox"
                             name="checkbox-1"
                           />
                           <label
-                            class="rc-input__label--inline"
+                            className="rc-input__label--inline"
                             for="id-checkbox-cat"
                             style={{ color: '#666', fontSize: '14px' }}
                           >
@@ -503,7 +499,7 @@ class Login extends React.Component {
 
                         <p style={{ float: 'right' }}>
                           <a
-                            class="rc-styled-link"
+                            className="rc-styled-link"
                             href="#/"
                             style={{ color: '#666', fontSize: '14px' }}
                             onClick={(e) => {
@@ -520,21 +516,21 @@ class Login extends React.Component {
                         </p>
                       </div>
                       <div
-                        class="rc-layout-container rc-two-column"
+                        className="rc-layout-container rc-two-column"
                         style={{ width: '100%' }}
                       >
-                        <div class="rc-column" style={{ textAlign: 'center' }}>
+                        <div className="rc-column" style={{ textAlign: 'center' }}>
                           <button
-                            class="rc-btn rc-btn--one"
+                            className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
                             onClick={() => this.loginClick()}
                           >
                             <FormattedMessage id="login" />
                           </button>
                         </div>
-                        <div class="rc-column" style={{ textAlign: 'center' }}>
+                        <div className="rc-column" style={{ textAlign: 'center' }}>
                           <button
-                            class="rc-btn rc-btn--two"
+                            className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
                             onClick={() => {
                               this.setState({ type: 'register' });
@@ -546,7 +542,7 @@ class Login extends React.Component {
                         </div>
                       </div>
                       <a
-                        class="rc-styled-link"
+                        className="rc-styled-link"
                         style={{ color: '#666', fontSize: '14px' }}
                         onClick={() => {
                           window.location.href =
@@ -633,8 +629,8 @@ class Login extends React.Component {
                     }}
                     alt=""
                   />
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
                       <div className="miaa_input required">
                         <input
                           id="capture_traditionalRegistration_firstName"
@@ -653,7 +649,7 @@ class Login extends React.Component {
                         />
                       </div>
                     </div>
-                    <div class="rc-column">
+                    <div className="rc-column">
                       <div className="miaa_input required">
                         <input
                           id="capture_traditionalRegistration_lastName"
@@ -673,8 +669,8 @@ class Login extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
                       <div className="miaa_input required">
                         <input
                           id="capture_traditionalRegistration_email"
@@ -693,7 +689,7 @@ class Login extends React.Component {
                         />
                       </div>
                     </div>
-                    <div class="rc-column">
+                    <div className="rc-column">
                       <div className="miaa_input required country_select">
                         <select
                           data-js-select=""
@@ -719,8 +715,8 @@ class Login extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
                       <div className="input-append input-group miaa_input required">
                         <input
                           autoComplete="off"
@@ -760,7 +756,7 @@ class Login extends React.Component {
                         <FormattedMessage id="login.passwordTip" />{' '}
                       </p>
                     </div>
-                    <div class="rc-column">
+                    <div className="rc-column">
                       <div className="input-append input-group miaa_input required">
                         <input
                           autoComplete="off"
@@ -797,8 +793,8 @@ class Login extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
                       <div className="miaa_input required country_select">
                         <select
                           data-js-select=""
@@ -825,7 +821,7 @@ class Login extends React.Component {
                         </select>
                       </div>
                     </div>
-                    <div class="rc-column">
+                    <div className="rc-column">
                       <div className="miaa_input required">
                         <input
                           id="capture_traditionalRegistration_firstName"
@@ -846,16 +842,16 @@ class Login extends React.Component {
                     </div>
                   </div>
                   <div className="policyBox" style={{ textAlign: 'left' }}>
-                    {/* <div class="rc-input rc-input--inline">
+                    {/* <div className="rc-input rc-input--inline">
                   <input
-                    class="rc-input__checkbox"
+                    className="rc-input__checkbox"
                     id="id-checkbox-cat"
                     value="Cat"
                     type="checkbox"
                     name="checkbox-1"
                   />
                   <label
-                    class="rc-input__label--inline"
+                    className="rc-input__label--inline"
                     for="id-checkbox-cat"
                     style={{ color: "#666", fontSize: "14px" }}
                   >
@@ -885,7 +881,7 @@ class Login extends React.Component {
                       <a
                         href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                       >
                         <font>
                           {' '}
@@ -896,7 +892,7 @@ class Login extends React.Component {
                       <a
                         href="https://www.mars.com/global/policies/privacy/pp-russian/"
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                       >
                         <font>
                           <FormattedMessage id="privacyPolicy" />{' '}
@@ -909,20 +905,20 @@ class Login extends React.Component {
 
                 <div
                   style={{ textAlign: 'center' }}
-                  class="rc-layout-container rc-two-column buttonGroup"
+                  className="rc-layout-container rc-two-column buttonGroup"
                 >
-                  <div class="rc-column" style={{ textAlign: 'center' }}>
+                  <div className="rc-column" style={{ textAlign: 'center' }}>
                     <button
-                      class="rc-btn rc-btn--one"
+                      className="rc-btn rc-btn--one"
                       style={{ width: '100%' }}
                       onClick={() => this.register()}
                     >
                       <FormattedMessage id="createAnAccount" />
                     </button>
                   </div>
-                  <div class="rc-column" style={{ textAlign: 'center' }}>
+                  <div className="rc-column" style={{ textAlign: 'center' }}>
                     <button
-                      class="rc-btn rc-btn--two"
+                      className="rc-btn rc-btn--two"
                       style={{ width: '100%' }}
                       onClick={(e) => {
                         e.preventDefault();
@@ -957,6 +953,7 @@ class Login extends React.Component {
                       bottom: '-120px',
                       right: '-400px'
                     }}
+                    alt=""
                   />
                   <p>
                     <FormattedMessage id="forgetPassword.forgetPasswordTip" />
@@ -980,7 +977,7 @@ class Login extends React.Component {
                     <div style={{ width: '100%', marginTop: '100px' }}>
                       <p style={{ textAlign: 'center' }}>
                         <button
-                          class="rc-btn rc-btn--one"
+                          className="rc-btn rc-btn--one"
                           style={{ width: '70%' }}
                           onClick={() => {
                             this.setState({ type: 'login' });
@@ -991,7 +988,7 @@ class Login extends React.Component {
                       </p>
                       <p style={{ textAlign: 'center' }}>
                         <button
-                          class="rc-btn rc-btn--two"
+                          className="rc-btn rc-btn--two"
                           style={{ width: '70%' }}
                           onClick={() => this.setState({ type: 'login' })}
                         >
@@ -1370,14 +1367,14 @@ class Login extends React.Component {
                             I have read the
                           <a
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
-                            target="_blank" rel='noreferrer'
+                            target="_blank" rel='noopener noreferrer'
                           >
                             <font> User Agreement </font>
                           </a>
                               and the
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
-                            target="_blank" rel='noreferrer'
+                            target="_blank" rel='noopener noreferrer'
                           >
                             <font> Privacy Policy </font>
                           </a>

@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import image1 from './images/image1.jpg'
-import image2 from './images/image2.jpg'
-import image3 from './images/image3.jpg'
-import image4 from './images/image4.jpg'
-import image5 from './images/image5.jpg'
-import cat from './images/cat.jpg'
-import dog from './images/dog.jpg'
+import image1 from './images/image1.jpg';
+import image2 from './images/image2.jpg';
+import image3 from './images/image3.jpg';
+import image4 from './images/image4.jpg';
+import image5 from './images/image5.jpg';
+import cat from './images/cat.jpg';
+import dog from './images/dog.jpg';
 
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
@@ -38,24 +38,22 @@ const localItemRoyal = window.__.localItemRoyal;
 @observer
 @injectIntl
 class QualitySafety extends React.Component {
-  
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {  
+  componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
   }
-  
+
   render(h) {
     const event = {
       page: {
@@ -91,21 +89,29 @@ class QualitySafety extends React.Component {
               {this.state.errorMsg}
             </aside>
           </div>
-          <section style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem' }}>
-              <FormattedMessage id='qualitySafety.title'/> 
+          <section
+            style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
+          >
+            <h2
+              style={{
+                color: '#E2001A',
+                marginTop: '40px',
+                fontSize: '2.5rem'
+              }}
+            >
+              <FormattedMessage id="qualitySafety.title" />
             </h2>
-            <p style={{fontSize: '1.2rem'}}>
-              <FormattedMessage id='qualitySafety.description'/> 
+            <p style={{ fontSize: '1.2rem' }}>
+              <FormattedMessage id="qualitySafety.description" />
             </p>
           </section>
 
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -114,26 +120,30 @@ class QualitySafety extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id='qualitySafety.foodTitle'/> 
+                  <FormattedMessage id="qualitySafety.foodTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id='qualitySafety.foodDetail'/> 
+                  <FormattedMessage id="qualitySafety.foodDetail" />
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image1} style={{ width: '100%' }} alt="" />
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
-            <div class="rc-column">
-              <img src={image2} style={{ width: '100%', marginTop: '50px' }} alt=""/>
+            <div className="rc-column">
+              <img
+                src={image2}
+                style={{ width: '100%', marginTop: '50px' }}
+                alt=""
+              />
             </div>
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -142,70 +152,20 @@ class QualitySafety extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id='qualitySafety.consistentTitle'/> 
+                  <FormattedMessage id="qualitySafety.consistentTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id='qualitySafety.consistentDetail'/> 
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
-          >
-            <div
-              class="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id='qualitySafety.materialsTitle'/> 
-                </h2>
-                <p>
-                  <FormattedMessage id='qualitySafety.materialsDetail'/> 
-                </p>
-              </div>
-            </div>
-            <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} alt=""/>
-            </div>
-          </div>
-          <div
-            class="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
-          >
-            <div class="rc-column">
-              <img src={image4} style={{ width: '100%', marginTop: '50px' }} alt=""/>
-            </div>
-            <div
-              class="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id='qualitySafety.rigorousTitle'/> 
-                </h2>
-                <p>
-                  <FormattedMessage id='qualitySafety.rigorousDetail'/> 
+                  <FormattedMessage id="qualitySafety.consistentDetail" />
                 </p>
               </div>
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -214,46 +174,156 @@ class QualitySafety extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id='qualitySafety.ingredientsTitle'/> 
+                  <FormattedMessage id="qualitySafety.materialsTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id='qualitySafety.ingredientsDetail'/> 
+                  <FormattedMessage id="qualitySafety.materialsDetail" />
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image5} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image3} style={{ width: '100%' }} alt="" />
             </div>
           </div>
-          <section style={{ textAlign: 'left', width: '100%', margin: '0 auto', padding: '20px 200px' }}>
-            <div style={{ border: 'solid 5px rgb(226, 0, 26)',borderWidth: '3px',borderRadius: '5px', padding: '2rem'}}>
-              <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', paddingLeft: '200px' }}>
-                <FormattedMessage id='qualitySafety.shopTile'/> 
-              </h2>
-              <div
-                class="rc-layout-container rc-two-column"
+          <div
+            className="rc-layout-container rc-two-column"
+            style={{ padding: '20px 200px' }}
+          >
+            <div className="rc-column">
+              <img
+                src={image4}
+                style={{ width: '100%', marginTop: '50px' }}
+                alt=""
+              />
+            </div>
+            <div
+              className="rc-column"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <div>
+                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                  <FormattedMessage id="qualitySafety.rigorousTitle" />
+                </h2>
+                <p>
+                  <FormattedMessage id="qualitySafety.rigorousDetail" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="rc-layout-container rc-two-column"
+            style={{ padding: '20px 200px' }}
+          >
+            <div
+              className="rc-column"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <div>
+                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
+                  <FormattedMessage id="qualitySafety.ingredientsTitle" />
+                </h2>
+                <p>
+                  <FormattedMessage id="qualitySafety.ingredientsDetail" />
+                </p>
+              </div>
+            </div>
+            <div className="rc-column">
+              <img src={image5} style={{ width: '100%' }} alt="" />
+            </div>
+          </div>
+          <section
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              margin: '0 auto',
+              padding: '20px 200px'
+            }}
+          >
+            <div
+              style={{
+                border: 'solid 5px rgb(226, 0, 26)',
+                borderWidth: '3px',
+                borderRadius: '5px',
+                padding: '2rem'
+              }}
+            >
+              <h2
+                style={{
+                  color: '#E2001A',
+                  marginTop: '40px',
+                  fontSize: '2.5rem',
+                  paddingLeft: '200px'
+                }}
               >
-                <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
-                    this.props.history.push('/list/dogs')
-                  }}>
-                  <img src={dog} style={{ width: '100%' }} alt=""/>
-                  <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopDog'/> </p>
+                <FormattedMessage id="qualitySafety.shopTile" />
+              </h2>
+              <div className="rc-layout-container rc-two-column">
+                <div
+                  className="rc-column"
+                  style={{ border: '1px solid #ccc', cursor: 'pointer' }}
+                  onClick={() => {
+                    this.props.history.push('/list/dogs');
+                  }}
+                >
+                  <img src={dog} style={{ width: '100%' }} alt="" />
+                  <p
+                    style={{
+                      color: '#E2001A',
+                      fontSize: '1.5rem',
+                      margin: '20px 0 20px 20px',
+                      fontWeight: '400'
+                    }}
+                  >
+                    <FormattedMessage id="qualitySafety.shopDog" />{' '}
+                  </p>
                 </div>
-                <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
-                    this.props.history.push('/list/cats')
-                  }}>
-                  <img src={cat} style={{ width: '100%' }} alt=""/>
-                  <p style={{color: '#E2001A', fontSize: '1.5rem', margin: '20px 0 20px 20px', fontWeight: '400'}}><FormattedMessage id='qualitySafety.shopCat'/> </p>
+                <div
+                  className="rc-column"
+                  style={{
+                    border: '1px solid #ccc',
+                    marginLeft: '20px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => {
+                    this.props.history.push('/list/cats');
+                  }}
+                >
+                  <img src={cat} style={{ width: '100%' }} alt="" />
+                  <p
+                    style={{
+                      color: '#E2001A',
+                      fontSize: '1.5rem',
+                      margin: '20px 0 20px 20px',
+                      fontWeight: '400'
+                    }}
+                  >
+                    <FormattedMessage id="qualitySafety.shopCat" />{' '}
+                  </p>
                 </div>
               </div>
             </div>
           </section>
-          <section style={{ textAlign: 'center', width: '90%', margin: '80px auto', color: 'rgb(102, 102, 102)' }}>
+          <section
+            style={{
+              textAlign: 'center',
+              width: '90%',
+              margin: '80px auto',
+              color: 'rgb(102, 102, 102)'
+            }}
+          >
             <h2 style={{ fontSize: '2.5rem' }}>
-              <FormattedMessage id='qualitySafety.FoodQualityandSafety'/>
+              <FormattedMessage id="qualitySafety.FoodQualityandSafety" />
             </h2>
             <p>
-              <FormattedMessage id='qualitySafety.foodQualityDetail'/>
+              <FormattedMessage id="qualitySafety.foodQualityDetail" />
             </p>
           </section>
         </main>

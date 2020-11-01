@@ -74,7 +74,7 @@ class CheckoutStore {
 
   @action.bound
   removeAuditData(data) {
-    this.AuditData = []
+    this.AuditData = [];
     localItemRoyal.set('rc-audit-data', data);
   }
 
@@ -182,6 +182,7 @@ class CheckoutStore {
     Array.from(data, (item) => {
       item.sizeList.map((el) => {
         el.goodsInfoImg = el.goodsInfoImg || item.goodsImg;
+        return el;
       });
       let selectedSize = find(item.sizeList, (s) => s.selected);
       console.log(toJS(item), toJS(selectedSize), 'selectedSize');
@@ -205,6 +206,7 @@ class CheckoutStore {
           tmpOutOfstockProNames.push(tmpName);
         }
       }
+      return item;
     });
     this.setCartData(data);
     this.offShelvesProNames = tmpOffShelvesProNames;
@@ -259,6 +261,7 @@ class CheckoutStore {
               }
               return sdItem.specId === sItem.specId;
             });
+            return sItem
           });
         }
         this.setLoginCartData(goodsList);

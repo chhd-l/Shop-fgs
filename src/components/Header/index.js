@@ -645,10 +645,10 @@ class Header extends React.Component {
   }
   _renderDropDownText = (item) => {
     return item.subMenuKey ? (
-      <span class="rc-header-with-icon">
+      <span className="rc-header-with-icon">
         <FormattedMessage id={item.langKey} />
         <span
-          class={`rc-icon rc-iconography ${
+          className={`rc-icon rc-iconography ${
             item.type === this.state.visibleType ? 'rc-up rc-brand1' : 'rc-down'
           }`}
         ></span>

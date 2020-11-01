@@ -228,7 +228,7 @@ class OrdersAfterSale extends React.Component {
         theme: ''
       }
     };
-    const { afterSaleType, details, selectedIdx, form } = this.state;
+    const { afterSaleType, details, form } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -274,7 +274,9 @@ class OrdersAfterSale extends React.Component {
                               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                               role="alert"
                             >
-                              <span className="pl-0">{this.state.errorMsgTop}</span>
+                              <span className="pl-0">
+                                {this.state.errorMsgTop}
+                              </span>
                               <button
                                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                                 onClick={() => {
@@ -453,7 +455,9 @@ class OrdersAfterSale extends React.Component {
                                     className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                                     role="alert"
                                   >
-                                    <span className="pl-0">{this.state.errorMsg}</span>
+                                    <span className="pl-0">
+                                      {this.state.errorMsg}
+                                    </span>
                                     <button
                                       className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                                       onClick={() => {
