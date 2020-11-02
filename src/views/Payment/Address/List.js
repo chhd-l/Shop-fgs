@@ -96,7 +96,7 @@ class AddressList extends React.Component {
 
       Array.from(
         addressList,
-        (ele) => (ele.selected = ele.deliveryAddressId == tmpId)
+        (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
       let cityRes = await queryCityNameById({
@@ -107,6 +107,7 @@ class AddressList extends React.Component {
         ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
           : ele.cityId;
+        return ele;
       });
       this.setState(
         {
@@ -128,10 +129,10 @@ class AddressList extends React.Component {
           }
 
           // 下一个最近的未complete的panel
-          let nextConfirmPanel = (nextConfirmPanel = searchNextConfirmPanel({
+          let nextConfirmPanel = searchNextConfirmPanel({
             list: toJS(paymentStore.panelStatus),
             curKey: this.curPanelKey
-          }));
+          });
 
           if (tmpObj) {
             paymentStore.setStsToCompleted({ key: this.curPanelKey });
@@ -420,12 +421,12 @@ class AddressList extends React.Component {
             ].join(', ')}
           </div>
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
-            <a
+            <span
               className="addr-btn-edit border-left pl-2"
               onClick={() => this.addOrEditAddress(i)}
             >
               <FormattedMessage id="edit" />
-            </a>
+            </span>
           </div>
         </div>
       </div>
@@ -518,12 +519,12 @@ class AddressList extends React.Component {
             {addressList.length ? (
               <>
                 <div className="rc-md-up">
-                  <a
+                  <span
                     className="rc-styled-link"
                     onClick={() => this.handleClickCancel()}
                   >
                     <FormattedMessage id="cancel" />
-                  </a>{' '}
+                  </span>{' '}
                   <FormattedMessage id="or" />{' '}
                   <button
                     className="rc-btn rc-btn--one submitBtn"
@@ -536,12 +537,12 @@ class AddressList extends React.Component {
                   </button>
                 </div>
                 <div className="rc-md-down rc-full-width text-right">
-                  <a
+                  <span
                     className="rc-styled-link"
                     onClick={() => this.handleClickCancel()}
                   >
                     <FormattedMessage id="cancel" />
-                  </a>{' '}
+                  </span>{' '}
                   <FormattedMessage id="or" />{' '}
                   <button
                     className="rc-btn rc-btn--one submitBtn"

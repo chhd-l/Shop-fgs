@@ -38,7 +38,7 @@ function Progress(props) {
                 <i
                   className={[
                     'rc-icon',
-                    'rc-health',
+                    'rc-health--xs',
                     props.type === 'perscription'
                       ? 'rc-brand1'
                       : 'rc-iconography'

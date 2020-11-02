@@ -134,7 +134,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         className="mr-1 mb-1 img-item"
                                         key={i}
                                       >
-                                        <img src={JSON.parse(item).url} />
+                                        <img src={JSON.parse(item).url} alt=""/>
                                       </div>
                                     ))
                                   : 'none'}

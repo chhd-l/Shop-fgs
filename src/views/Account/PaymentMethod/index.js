@@ -113,7 +113,7 @@ class PaymentMethod extends React.Component {
                       }}
                     />
                     <div
-                      class="rc-layout-container rc-two-column"
+                      className="rc-layout-container rc-two-column"
                       style={{
                         display:
                           paymentCompShow || paymentCompShow === null
@@ -122,7 +122,7 @@ class PaymentMethod extends React.Component {
                       }}
                     >
                       <div
-                        class="rc-column"
+                        className="rc-column"
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -148,23 +148,23 @@ class PaymentMethod extends React.Component {
                           </button>
                         </div>
                       </div>
-                      <div class="rc-column">
-                        <img src={paymentImg} style={{ width: '100%' }} />
+                      <div className="rc-column">
+                        <img src={paymentImg} style={{ width: '100%' }} alt=""/>
                       </div>
                     </div>
                   </div>
                   {/* <div className="content-asset" style={{display: paymentCompShow? 'none': 'block'}}>
                   {this.state.loading || this.state.paymentCompShow === null ? <div className="mt-4"><Skeleton color="#f5f5f5" width="100%" height="50%" count={5} /></div> : null}
-                    <div class="rc-layout-container rc-two-column">
-                      <div class="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
+                    <div className="rc-layout-container rc-two-column">
+                      <div className="rc-column" style={{display: 'flex',alignItems: 'center', justifyContent: 'center'}}>
                         <div>
                         <p>
                           You have no saved payment methods. Add your payment information here to speed up checkout. It's easy, private, and secure!
                         </p>
-                        <button class="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>Add Payment</button>
+                        <button className="rc-btn rc-btn--one" onClick={() => this.setState({isAddNewCard: true, paymentCompShow: true})}>Add Payment</button>
                         </div>
                       </div>
-                      <div class="rc-column">
+                      <div className="rc-column">
                         <img src={paymentImg} style={{width: '100%'}}/>
                       </div>
                     </div>

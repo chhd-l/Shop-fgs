@@ -3,7 +3,6 @@ import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { find } from 'lodash';
 import stores from '@/store';
-import store from 'storejs';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const checkoutStore = stores.checkoutStore;
@@ -42,9 +41,7 @@ export async function queryStoreCateIds() {
   let tmp = sessionItemRoyal.get('rc-storeId-list');
   if (!tmp) {
     let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
-    if (res.context && res.context.length) {
-      sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
-    }
+    sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
   }
   return JSON.parse(sessionItemRoyal.get('rc-storeId-list'));
 }
@@ -188,31 +185,72 @@ export async function validData(rule, data) {
   }
 }
 
-export function loadJS(url, callback, dataSets) {
-  var script = document.createElement('script'),
-    fn = callback || function () {};
-  script.type = 'text/javascript';
-  script.charset = 'UTF-8';
+export function generatePayUScript(deviceSessionId) {
+  loadJS({
+    url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+  });
+  loadNoScriptIframeJS({
+    style:
+      'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+  });
+}
+
+export function loadJS({
+  url,
+  callback = function () {},
+  dataSets,
+  code,
+  className,
+  type
+}) {
+  var script = document.createElement('script');
+  if (className) {
+    script.className = className;
+  }
+  script.type = type || 'text/javascript';
 
   if (dataSets) {
     for (let key in dataSets) {
       script.dataset[key] = dataSets[key];
     }
   }
+  if (code) {
+    script.innerHTML = code;
+  }
   //IE
   if (script.readyState) {
     script.onreadystatechange = function () {
-      if (script.readyState == 'loaded' || script.readyState == 'complete') {
+      if (script.readyState === 'loaded' || script.readyState === 'complete') {
         script.onreadystatechange = null;
-        fn();
+        callback();
       }
     };
   } else {
     //其他浏览器
     script.onload = function () {
-      fn();
+      callback();
     };
   }
   script.src = url;
   document.getElementsByTagName('head')[0].appendChild(script);
+}
+
+export function loadNoScriptIframeJS({ style, src }) {
+  var script = document.createElement('noscript');
+  let iframe = document.createElement('iframe');
+  iframe.style = style;
+  iframe.src = src;
+
+  script.appendChild(iframe);
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
+
+export function dynamicLoadCss(url) {
+  var head = document.getElementsByTagName('head')[0];
+  var link = document.createElement('link');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = url;
+  head.appendChild(link);
 }

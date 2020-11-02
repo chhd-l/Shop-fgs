@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { queryStoreCateIds, loadJS } from '@/utils/utils';
+import { queryStoreCateIds, loadJS, loadNoScriptIframeJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
@@ -14,10 +14,10 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  async componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
-    // 默认了clinic后，再次编辑clinic
+  // 默认了clinic后，再次编辑clinic
     if (
       pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -31,29 +31,31 @@ class RouteFilter extends Component {
     }
 
     if (pathname === '/prescription') {
-      if (this.isLogin) {
-        let needPrescriber =
-          this.props.checkoutStore.loginCartData.filter(
-            (el) => el.prescriberFlag
-          ).length > 0;
-        if (!needPrescriber) {
+      if(this.isLogin) {
+        let needPrescriber
+        if(this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
+        }else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+        }
+        if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
-      } else {
-        let needPrescriber =
-          this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-            .length > 0;
-        if (!needPrescriber) {
+      }else {
+        let needPrescriber
+        if(this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
+        }else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+        }
+        if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
-      }
-      if (checkoutStore.autoAuditFlag) {
-        history.replace('/payment/payment');
       }
     }
 
     if (
-      pathname === '/prescription' &&
+      pathname === '/prescription' && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
         localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
@@ -80,6 +82,18 @@ class RouteFilter extends Component {
       history.push('/');
       return false;
     }
+
+    // if (deviceSessionId) {
+    //   loadJS({
+    //     url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    //   loadNoScriptIframeJS({
+    //     style:
+    //       'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
+    //     src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
+    //   });
+    // }
+
     return true;
   }
   // router refresh=true后，此生命周期无效
@@ -192,7 +206,7 @@ class RouteFilter extends Component {
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
     if (
       localItemRoyal.get('rc-token') &&
-      pathname == '/' &&
+      pathname === '/' &&
       pathname !== '/implicit/callback' &&
       pathname !== '/required' &&
       pathname !== '/account/information'
@@ -210,7 +224,7 @@ class RouteFilter extends Component {
       //游客+从url输入required ===>直接跳回首页
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/required') !== -1 &&
-      sessionItemRoyal.get('fromLoginPage') != 'true'
+      sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
       history.push('/');
     }
@@ -219,9 +233,12 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
     }
     if (pathname !== '/login') {
-      loadJS(process.env.REACT_APP_ONTRUST_SRC, function () {}, {
-        domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
-        documentLanguage: 'true'
+      loadJS({
+        url: process.env.REACT_APP_ONTRUST_SRC,
+        dataSets: {
+          domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
+          documentLanguage: 'true'
+        }
       });
     }
 

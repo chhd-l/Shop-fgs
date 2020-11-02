@@ -96,6 +96,7 @@ class HeroCarousel extends React.Component {
                   className="w-100"
                   src={el.mobiUrl}
                   style={{ maxHeight: '100%' }}
+                  alt=""
                 />
               </a>
             ) : (
@@ -103,6 +104,7 @@ class HeroCarousel extends React.Component {
                 className="w-100"
                 src={el.mobiUrl}
                 style={{ maxHeight: '100%' }}
+                alt=""
               />
             )}
           </div>
@@ -145,6 +147,7 @@ class HeroCarousel extends React.Component {
                             className="rc-md-up"
                             src={el.webUrl}
                             style={{ maxHeight: '100%' }}
+                            alt=""
                           />
                         </a>
                       ) : (
@@ -152,6 +155,7 @@ class HeroCarousel extends React.Component {
                           className="rc-md-up"
                           src={el.webUrl}
                           style={{ maxHeight: '100%' }}
+                          alt=""
                         />
                       )}
 
@@ -161,6 +165,7 @@ class HeroCarousel extends React.Component {
                             className="rc-md-down w-100"
                             src={el.mobiUrl}
                             style={{ maxHeight: '100%' }}
+                            alt=""
                           />
                         </a>
                       ) : (
@@ -168,6 +173,7 @@ class HeroCarousel extends React.Component {
                           className="rc-md-down w-100"
                           src={el.mobiUrl}
                           style={{ maxHeight: '100%' }}
+                          alt=""
                         />
                       )}
                     </>

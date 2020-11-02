@@ -23,7 +23,7 @@ const RadioAnswer = (props) => {
 
   useEffect(() => {
     props.updateFromData(form);
-  }, [form]);
+  }, [form, props]);
 
   return (
     <>
@@ -66,11 +66,11 @@ const RadioAnswer = (props) => {
               <p>
                 <FormattedMessage id="productFinder.healthTip2" />
               </p>
-              <div class="rc-btn-group mb-3">
-                <button class="rc-btn rc-btn--one">
+              <div className="rc-btn-group mb-3">
+                <button className="rc-btn rc-btn--one">
                   <FormattedMessage id="learnMore" />
                 </button>
-                <button class="rc-btn rc-btn--two">
+                <button className="rc-btn rc-btn--two">
                   <FormattedMessage id="contactUs" />
                 </button>
               </div>
@@ -78,9 +78,15 @@ const RadioAnswer = (props) => {
             <div className="col-12 col-md-6">
               <img
                 src={veterinaryImg}
+                className="rc-md-up"
                 style={{ width: '20%', margin: '0 auto' }}
+                alt=""
               />
-              <img className="mt-3 rc-full-width" src={veterinaryProductImg} />
+              <img
+                className="mt-3 rc-full-width"
+                src={veterinaryProductImg}
+                alt=""
+              />
             </div>
           </div>
         }

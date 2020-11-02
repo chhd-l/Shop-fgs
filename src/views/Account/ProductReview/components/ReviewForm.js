@@ -17,14 +17,6 @@ class ReviewForm extends React.Component {
     };
     this.imgUploaderRef = React.createRef();
   }
-  componentDidMount() {}
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    // debugger
-    // if(nextProps.isSubmit) {
-    //     this.textarea.blur();
-    // }
-  }
-
   selectProductRate(rate) {
     this.props.selectProductRate(rate, this.props.product);
   }
@@ -122,21 +114,21 @@ class ReviewForm extends React.Component {
                   ></Rate>
                 </div>
               </div>
-              <div class="row">
-                <div class="form-group col-lg-6 pull-left">
+              <div className="row">
+                <div className="form-group col-lg-6 pull-left">
                   <label
-                    class="form-control-label rc-full-width"
+                    className="form-control-label rc-full-width"
                     for="reference"
                   >
                     <FormattedMessage id="title" />
                   </label>
                   <span
-                    class="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                    className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
                     input-setup="true"
                   >
                     {/* <input
                     type="text"
-                    class="rc-input__control input__phoneField"
+                    className="rc-input__control input__phoneField"
                     id="reference"
                     name="rfc"
                     maxlength="50"
@@ -148,13 +140,13 @@ class ReviewForm extends React.Component {
                     <input
                       type="text"
                       placeholder={this.props.intl.messages.title}
-                      class="form-control"
+                      className="form-control"
                       value={this.state.title}
                       style={{ padding: 0 }}
                       onChange={(e) => this.handleTitleChange(e)}
                       onBlur={(e) => this.inputBlur(e)}
                     ></input>
-                    <label class="rc-input__label" for="reference"></label>
+                    <label className="rc-input__label" for="reference"></label>
                   </span>
                 </div>
               </div>
@@ -162,7 +154,11 @@ class ReviewForm extends React.Component {
 
             <div className="rc-column text-right padb0">
               <div className="img-container">
-                <img className="product-img" src={this.props.product.pic} />
+                <img
+                  className="product-img"
+                  src={this.props.product.pic}
+                  alt=""
+                />
               </div>
             </div>
           </div>
@@ -209,15 +205,15 @@ class ReviewForm extends React.Component {
                 }`}
               >
                 <aside
-                  class="rc-alert rc-alert--error rc-alert--with-close errorAccount mb-3"
+                  className="rc-alert rc-alert--error rc-alert--with-close errorAccount mb-3"
                   role="alert"
                 >
                   <span className="pl-0">{this.state.errMessage}</span>
                   <button
-                    class="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                    className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                     aria-label="Close"
                   >
-                    <span class="rc-screen-reader-text">Close</span>
+                    <span className="rc-screen-reader-text">Close</span>
                   </button>
                 </aside>
               </div>

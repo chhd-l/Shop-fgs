@@ -556,13 +556,13 @@ class AddressBookEditForm extends React.Component {
             * <FormattedMessage id="account.requiredFields" />
           </span>
           <div className="text-right">
-            <a
+            <span
               className="rc-styled-link editPersonalInfoBtn"
               name="contactInformation"
               onClick={() => this.handleCancel()}
             >
               <FormattedMessage id="cancel" />
-            </a>
+            </span>
             &nbsp;
             <FormattedMessage id="or" />
             &nbsp;

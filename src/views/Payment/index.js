@@ -4,6 +4,7 @@ import { findIndex, find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
+import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -20,7 +21,7 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import { searchNextConfirmPanel } from './modules/utils';
-import { formatMoney, validData } from '@/utils/utils';
+import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
@@ -115,33 +116,50 @@ class Payment extends React.Component {
       tidList: sessionItemRoyal.get('rc-tidList')
         ? JSON.parse(sessionItemRoyal.get('rc-tidList'))
         : [],
+      rePaySubscribeId: sessionItemRoyal.get('rc-rePaySubscribeId'),
       recommend_data: [],
       petModalVisible: false,
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: []
+      AuditData: [],
+      needPrescriber: false,
     };
     this.timer = null;
   }
   async componentDidMount() {
+    if(this.isLogin) {
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
+      
+    }else {
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
+    }
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-
-    if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
-      this.props.history.push('/cart');
-      return false;
-    }
-    if (
-      !this.isLogin &&
-      (!this.cartData.length ||
-        !this.cartData.filter((ele) => ele.selected).length)
-    ) {
-      this.props.history.push('/cart');
-      return false;
+    if(!sessionItemRoyal.get('recommend_product')) {
+      if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
+        this.props.history.push('/cart');
+        return false;
+      }
+      if (
+        !this.isLogin &&
+        (!this.cartData.length ||
+          !this.cartData.filter((ele) => ele.selected).length)
+      ) {
+        this.props.history.push('/cart');
+        return false;
+      }
     }
 
     this.getConsentList();
@@ -304,6 +322,7 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
+    this.generatePayUParam()
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -337,7 +356,7 @@ class Payment extends React.Component {
       payuNameArr = [];
     if (payWay.context.length > 0) {
       //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if (payWay.context[0].name.indexOf('PAYU') != -1) {
+      if (payWay.context[0].name.indexOf('PAYU') !== -1) {
         payuNameArr = payWay.context.map((item) => item.name);
       } else {
         //正常处理
@@ -348,14 +367,14 @@ class Payment extends React.Component {
       //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
       for (let item of payuNameArr) {
         // 只是为了墨西哥环境测试adyen订阅支付start
-        if (item == 'adyen_card_subscription') {
+        if (item === 'adyen_card_subscription') {
           payWayNameArr.push({
             name: 'adyen_credit_card',
             id: 'adyen',
             paymentTypeVal: 'adyenCard'
           });
         }
-        if (item == 'adyen_klarna_subscription') {
+        if (item === 'adyen_klarna_subscription') {
           payWayNameArr.push({
             name: 'adyen_klarna_pay_now',
             id: 'adyenPayNow',
@@ -428,6 +447,16 @@ class Payment extends React.Component {
       }
     );
   };
+  generatePayUParam = () => {debugger
+    console.log('jsessionid', Cookies.get('jsessionid'));
+    const jsessionid = Cookies.get('jsessionid') || '1';
+    if (jsessionid) {
+      const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
+      generatePayUScript(fingerprint);
+      this.jsessionid = jsessionid;
+      this.fingerprint = fingerprint;
+    }
+  };
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
@@ -443,15 +472,11 @@ class Payment extends React.Component {
   get checkoutWithClinic() {
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-        this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-          .length !== 0
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-        this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-          .length !== 0
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     }
   }
@@ -693,6 +718,7 @@ class Payment extends React.Component {
   async allAdyenPayment(parameters, type) {
     try {
       const { clinicStore } = this.props;
+      const { paymentTypeVal } = this.state;
       let action;
       const actions = () => {
         const rePayFun = () => {
@@ -737,7 +763,7 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        if (this.props.checkoutStore.AuditData.length > 0) {
+        if (this.props.checkoutStore.AuditData.length > 0 && this.props.checkoutStore.petFlag && !this.props.checkoutStore.autoAuditFlag) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
               birthday: el.petForm.birthday,
@@ -758,11 +784,16 @@ class Payment extends React.Component {
         }
       }
 
-      parameters = Object.assign(parameters, {
-        userAgent: navigator.userAgent,
-        cookie: Cookies.get('JSESSIONID'),
-        fingerprint: ''
-      });
+      if (paymentTypeVal === 'payUCreditCard') {
+        this.generatePayUParam();
+      }
+      if (this.jsessionid && this.fingerprint) {
+        parameters = Object.assign(parameters, {
+          userAgent: navigator.userAgent,
+          cookie: this.jsessionid,
+          fingerprint: this.fingerprint
+        });
+      }
 
       payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
 
@@ -774,7 +805,6 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
-      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];
@@ -826,6 +856,8 @@ class Payment extends React.Component {
           }
           window.location.href = res.context.url;
           break;
+        default:
+          break;
       }
       // if (orderNumber) {
       //   sessionItemRoyal.set('orderNumber', orderNumber);
@@ -865,6 +897,7 @@ class Payment extends React.Component {
       if (err.errorData) {
         // err.errorData 支付失败，errorData返回支付信息
         sessionItemRoyal.set('rc-tid', err.errorData.tid);
+        sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
         sessionItemRoyal.set(
           'rc-tidList',
           JSON.stringify(err.errorData.tidList)
@@ -873,7 +906,8 @@ class Payment extends React.Component {
         this.setState(
           {
             tid: err.errorData.tid,
-            tidList: err.errorData.tidList
+            tidList: err.errorData.tidList,
+            rePaySubscribeId: err.errorData.subscribeId
           },
           () => this.queryOrderDetails()
         );
@@ -897,7 +931,7 @@ class Payment extends React.Component {
         billingChecked,
         creditCardInfo
       } = this.state;
-      const cartData = this.cartData.filter((ele) => ele.selected);
+      const cartData = this.cartData.filter((ele) => ele.selected)
 
       let param = Object.assign(
         {},
@@ -925,16 +959,27 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-
-      await batchAdd({
-        goodsInfos: cartData.map((ele) => {
-          return {
-            verifyStock: false,
-            buyCount: ele.quantity,
-            goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
-          };
-        })
-      });
+      if(sessionItemRoyal.get('recommend_product')) {
+        await batchAdd({
+          goodsInfos: this.state.recommend_data.map((ele) => {
+            return {
+              verifyStock: false,
+              buyCount: ele.buyCount,
+              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+            };
+          })
+        });
+      }else {
+        await batchAdd({
+          goodsInfos: cartData.map((ele) => {
+            return {
+              verifyStock: false,
+              buyCount: ele.quantity,
+              goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+            };
+          })
+        });
+      }
     } catch (err) {
       console.log(err);
       throw new Error(err.message);
@@ -984,13 +1029,13 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-    if (!this.checkoutWithClinic) {
-      param = Object.assign(param, {
-        clinicsId: 'FG20200914',
-        clinicsName: 'France Default'
-      });
-    }
-    if (localItemRoyal.get('recommend_product')) {
+    // if (!this.checkoutWithClinic) {
+    //   param = Object.assign(param, {
+    //     clinicsId: 'FG20200914',
+    //     clinicsName: 'France Default'
+    //   });
+    // }
+    if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
@@ -998,8 +1043,6 @@ class Payment extends React.Component {
         };
       });
     } else if (this.isLogin) {
-      console.log(toJS(this.loginCartData));
-      debugger;
       param.tradeItems = loginCartData.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1053,10 +1096,10 @@ class Payment extends React.Component {
         // marketingType 0-满减fullReductionLevelList-reductionLevelId 1-满折fullDiscountLevelList-discountLevelId
         const tmpMarketing = goodsMarketingMap[k][0];
         let targetLevelId = '';
-        if (tmpMarketing.marketingType == 0) {
+        if (tmpMarketing.marketingType === 0) {
           targetLevelId =
             tmpMarketing.fullReductionLevelList[0].reductionLevelId;
-        } else if (tmpMarketing.marketingType == 1) {
+        } else if (tmpMarketing.marketingType === 1) {
           targetLevelId = tmpMarketing.fullDiscountLevelList[0].discountLevelId;
         }
         tmpParam.marketingLevelId = targetLevelId;
@@ -1069,6 +1112,7 @@ class Payment extends React.Component {
     if (this.state.tid) {
       param.tid = this.state.tid;
       param.tidList = this.state.tidList;
+      param.subscribeId = this.state.rePaySubscribeId;
       delete param.remark;
       delete param.tradeItems;
       delete param.tradeMarketingList;
@@ -1336,21 +1380,23 @@ class Payment extends React.Component {
             if (
               Object.prototype.toString
                 .call(this.state.payWayObj)
-                .slice(8, -1) == 'Array'
+                .slice(8, -1) === 'Array'
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                  return o.name == 'payuoxxo';
+                  return o.name === 'payuoxxo';
                 }); //找到oxxo在数组中的下标
-                if (payuoxxoIndex != -1) {
+                if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
                 }
               } else {
                 //为后台提供的初始支付方式
-                this.state.payWayObj = JSON.parse(
-                  JSON.stringify(this.state.savedPayWayObj)
-                );
+                this.setState({
+                  payWayObj: JSON.parse(
+                    JSON.stringify(this.state.savedPayWayObj)
+                  )
+                })
               }
             }
             // ****************订阅的时候隐藏oxxo支付方式end******************
@@ -1400,9 +1446,9 @@ class Payment extends React.Component {
         <div className={`ml-custom mr-custom `}>
           {Object.entries(this.state.payWayObj).map((item) => {
             return (
-              <div class="rc-input rc-input--inline">
+              <div className="rc-input rc-input--inline">
                 <input
-                  class="rc-input__radio"
+                  className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
                   value={item[1].paymentTypeVal}
                   type="radio"
@@ -1412,7 +1458,7 @@ class Payment extends React.Component {
                   key={item[1].id}
                 />
                 <label
-                  class="rc-input__label--inline"
+                  className="rc-input__label--inline"
                   for={`payment-info-${item[1].id}`}
                 >
                   <FormattedMessage id={item[1].id} />
@@ -1554,11 +1600,15 @@ class Payment extends React.Component {
             if (loginEl.goodsInfoId === el.goodsInfoId) {
               loginEl.petsId = data.value;
               loginEl.petName = data.name;
+              el.petsId = data.value;
+              el.petName = data.name;
             }
             return loginEl;
           });
         }
+        return el;
       });
+      console.log(loginCartData, 'hahaha')
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
     this.closePetModal();
@@ -1647,7 +1697,7 @@ class Payment extends React.Component {
                         style={{ overflow: 'hidden' }}
                       >
                         <i
-                          class="rc-icon rc-payment--sm rc-iconography"
+                          className="rc-icon rc-payment--sm rc-iconography"
                           style={{ transform: 'scale(.9)' }}
                         ></i>{' '}
                         <FormattedMessage id="Pet information" />
@@ -1659,6 +1709,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={el.goodsInfoImg}
                                     style={{ float: 'left' }}
                                   />
@@ -1688,7 +1739,7 @@ class Payment extends React.Component {
                                     }}
                                   >
                                     <button
-                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      className="rc-btn rc-btn--sm rc-btn--one"
                                       onClick={() => {
                                         this.setState({
                                           petModalVisible: true,
@@ -1706,6 +1757,7 @@ class Payment extends React.Component {
                               return (
                                 <div className="petProduct">
                                   <img
+                                    alt=""
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg
@@ -1741,7 +1793,7 @@ class Payment extends React.Component {
                                   >
                                     <button
                                       id="selectPet"
-                                      class="rc-btn rc-btn--sm rc-btn--one"
+                                      className="rc-btn rc-btn--sm rc-btn--one"
                                       onClick={() => {
                                         this.setState({
                                           petModalVisible: true,
@@ -1765,7 +1817,7 @@ class Payment extends React.Component {
                 >
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
-                      class="rc-icon rc-payment--sm rc-iconography"
+                      className="rc-icon rc-payment--sm rc-iconography"
                       style={{ transform: 'scale(.9)' }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />

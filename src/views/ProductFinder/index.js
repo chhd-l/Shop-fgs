@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -28,8 +29,15 @@ const ProductFinder = ({ location, history, match }) => {
       </button>
     </div>
   );
+  const event = {
+    page: {
+      type: 'Product Finder',
+      theme: ''
+    }
+  };
   return (
     <div>
+      <GoogleTagManager additionalEvents={event} />
       <Header
         showMiniIcons={true}
         showUserIcon={true}
@@ -54,10 +62,10 @@ const ProductFinder = ({ location, history, match }) => {
               <div className="rc-md-up">{_btnJSX}</div>
             </div>
             <div className="col-6 col-md-4 order-1 order-md-0">
-              <img src={catImg} />
+              <img src={catImg} alt="" />
             </div>
             <div className="col-6 col-md-4 order-2 order-md-2">
-              <img src={dogImg} />
+              <img src={dogImg} alt="" />
             </div>
           </div>
           <div className="next-step-button d-md-none">{_btnJSX}</div>

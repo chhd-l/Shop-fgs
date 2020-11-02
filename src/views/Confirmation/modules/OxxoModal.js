@@ -44,6 +44,7 @@ export default class OxxoModal extends Component {
                 }}
               >
                 <iframe
+                  title="OXXO"
                   src={this.props.oxxoPayUrl}
                   width="100%"
                   style={{ height: '78vh' }}

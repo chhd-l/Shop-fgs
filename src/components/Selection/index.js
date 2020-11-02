@@ -58,7 +58,10 @@ export default class Selection extends React.Component {
     this.setState((currentState) => ({
       optionsVisible: !currentState.optionsVisible,
       hoveredIdx: !currentState.optionsVisible
-        ? findIndex(this.props.optionList, (o) => o.value == selectedItem.value)
+        ? findIndex(
+            this.props.optionList,
+            (o) => o.value.toString() === selectedItem.value.toString()
+          )
         : -1
     }));
   }
@@ -74,7 +77,6 @@ export default class Selection extends React.Component {
   }
   render() {
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
-
     const { optionList } = this.props;
     return (
       <div
@@ -99,9 +101,14 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {find(optionList, (ele) => ele.value == selectedItem.value)
-                  ? find(optionList, (ele) => ele.value == selectedItem.value)
-                      .name
+                {find(
+                  optionList,
+                  (ele) => ele.value + '' === selectedItem.value + ''
+                )
+                  ? find(
+                      optionList,
+                      (ele) => ele.value + '' === selectedItem.value + ''
+                    ).name
                   : this.props.placeholder}
                 &nbsp;
               </div>
@@ -114,7 +121,7 @@ export default class Selection extends React.Component {
             aria-expanded={optionsVisible}
           >
             <div className="choices__list" dir="ltr" role="listbox">
-              {this.props.optionList.map((item, i) => (
+              {optionList.map((item, i) => (
                 <div
                   className={`choices__item choices__item--choice choices__item--selectable ${
                     hoveredIdx === i ? 'is-highlighted' : ''

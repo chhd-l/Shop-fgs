@@ -2,9 +2,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 class FooterImage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const defaultVal = (
       <div className="row rc-margin-x--none d-flex">
@@ -108,8 +105,8 @@ class FooterImage extends React.Component {
       ),
       en: defaultVal,
       de: (
-        <div class="rc-layout-container rc-three-column">
-          <div class="rc-column">
+        <div className="rc-layout-container rc-three-column">
+          <div className="rc-column">
             <picture>
               <source
                 media="(max-width: 640px)"

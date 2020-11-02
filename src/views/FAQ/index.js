@@ -65,7 +65,7 @@ class FAQ extends React.Component {
     return el.offsetTop;
   }
   handleSelect(index) {
-    if (index == this.state.showCur) {
+    if (index === this.state.showCur) {
       this.setState({
         showCur: -1
       });
@@ -107,12 +107,13 @@ class FAQ extends React.Component {
                           values={{
                             val1: (
                               <a
+                                rel="noopener noreferrer"
                                 className="rc-styled-link"
                                 target="_blank"
-                                href="https://shopstg.royalcanin.com/help"
+                                href="/help"
                                 style={{ cursor: 'pointer' }}
                               >
-                                Expertenteam
+                                <FormattedMessage id="here"/>
                               </a>
                             )
                           }}
@@ -144,7 +145,7 @@ class FAQ extends React.Component {
                       <div
                         key={item.id}
                         className={`rc-list__accordion-item test-color 
-                  ${this.state.showCur == index ? 'showItem' : 'hiddenItem'}`}
+                  ${this.state.showCur === index ? 'showItem' : 'hiddenItem'}`}
                       >
                         <div
                           className="rc-list__header"
@@ -160,7 +161,7 @@ class FAQ extends React.Component {
 
                           <span
                             className={`icon-change ${
-                              this.state.showCur == index
+                              this.state.showCur === index
                                 ? 'rc-icon rc-up rc-brand1'
                                 : 'rc-icon rc-down rc-iconography'
                             }`}
@@ -170,7 +171,7 @@ class FAQ extends React.Component {
                           <p
                             dangerouslySetInnerHTML={{ __html: item.answer }}
                           ></p>
-                          <img src={item.imgUl}></img>
+                          <img src={item.imgUl} alt=""></img>
                         </div>
                       </div>
                     ))}

@@ -58,13 +58,13 @@ const LogoutButton = () => {
   };
   return (
     <div className="logoff-style">
-      <a
+      <span
         className="rc-styled-link--external"
         id="J-btn-logoff"
         onClick={clickLogoff}
       >
         <FormattedMessage id="logOff" />
-      </a>
+      </span>
     </div>
   );
 };

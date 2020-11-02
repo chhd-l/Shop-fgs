@@ -374,7 +374,7 @@ class SubscriptionDetail extends React.Component {
       });
 
       //拼装订阅购物车参数
-      if (res.code == 'K-000000' && !res.context.promotionFlag) {
+      if (res.code === 'K-000000' && !res.context.promotionFlag) {
         //只有promotionFlag为false的时候表示prootionCode生效
         let subTradeTotal =
           this.state.subTotal +
@@ -737,7 +737,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                   </div>
-                  <hr class="rc-margin-top---none" />
+                  <hr className="rc-margin-top---none" />
                   <div className="content-asset">
                     {this.state.loading && (
                       <div className="mt-4">
@@ -894,7 +894,7 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-card__meta order-Id"
                                 style={{ marginTop: '10px' }}
                               >
-                                {/* <span class="rc-input"> */}
+                                {/* <span className="rc-input"> */}
                                 {/* <span
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
@@ -919,7 +919,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <hr class="rc-margin-top---none" />
+                      <hr className="rc-margin-top---none" />
                       <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
@@ -1053,7 +1053,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ width: '80%' }}
                                 >
                                   <div className="img-container">
-                                    <img src={el.goodsPic} />
+                                    <img src={el.goodsPic} alt=""/>
                                   </div>
                                   <div
                                     className="v-center"
@@ -1349,11 +1349,11 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <span
-                                class="rc-input rc-input--inline rc-input--label"
+                                className="rc-input rc-input--inline rc-input--label"
                                 style={{ width: '180px' }}
                               >
                                 <input
-                                  class="rc-input__control"
+                                  className="rc-input__control"
                                   id="id-text2"
                                   type="text"
                                   name="text"
@@ -1364,7 +1364,7 @@ class SubscriptionDetail extends React.Component {
                                   onChange={(e) => this.handlerChange(e)}
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text2"
                                 ></label>
                               </span>
@@ -1391,7 +1391,7 @@ class SubscriptionDetail extends React.Component {
                                     this.state.promotionInputValue
                                   );
                                   if (
-                                    result.code == 'K-000000' &&
+                                    result.code === 'K-000000' &&
                                     !result.context.promotionFlag
                                   ) {
                                     //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
@@ -1431,10 +1431,10 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <hr class="rc-margin-top---none" />
+                      <hr className="rc-margin-top---none" />
                       {/*footer*/}
-                      <div class="row ml-2 mr-2 text-left text-break">
-                        <div class="col-12 col-md-4 mb-2">
+                      <div className="row ml-2 mr-2 text-left text-break">
+                        <div className="col-12 col-md-4 mb-2">
                           <div className="d-flex align-items-center">
                             <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
                             <span>
@@ -1532,6 +1532,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div className="ml-1">
                               <img
+                                alt=""
                                 className="d-inline-block mr-1"
                                 style={{ width: '20%' }}
                                 src={

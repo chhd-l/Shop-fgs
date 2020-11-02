@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 //import PetModal from '@/components/PetModal';
-import BannerTip from '@/components/BannerTip';
 import { Link } from 'react-router-dom';
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
@@ -791,7 +790,6 @@ class LoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           }`}
         >
-          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {initLoading ? (
               <div className="mt-4">
@@ -867,7 +865,7 @@ class LoginCart extends React.Component {
                     </div>
                   </>
                 )}
-                {productList.length == 0 && !initLoading && (
+                {productList.length === 0 && !initLoading && (
                   <>
                     <div className="rc-text-center">
                       <div className="rc-beta mb-1 mt-3">

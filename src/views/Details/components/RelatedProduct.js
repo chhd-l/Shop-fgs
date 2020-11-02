@@ -124,23 +124,23 @@ class RalatedProduct extends React.Component {
     // if(relatedProduce.length===0) return
     return (
       <div 
-        class="rc-carousel rc-carousel--cards rc-match-heights" 
+        className="rc-carousel rc-carousel--cards rc-match-heights" 
         data-js-carousel=""
         data-rc-cards="true"
        >
-        <div class="rc-carousel__card-gal">
+        <div className="rc-carousel__card-gal">
           {
             relatedProduce.map((item, index) => {
               return (
-                <a class="rc-card__link" href="#/" key={index}>
-                  <article class="rc-card rc-card--b">
-                    <picture class="rc-card__image">
+                <a className="rc-card__link" href="#/" key={index}>
+                  <article className="rc-card rc-card--b">
+                    <picture className="rc-card__image">
                       <img alt="alt text" src={item.goodsImg} />
                     </picture>
-                    <div class="rc-card__body">
+                    <div className="rc-card__body">
                       <header>
-                        <h1 class="rc-card__title">{item.goodsSubtitle}</h1>
-                        <p class="rc-card__meta">{item.goodsName}</p>
+                        <h1 className="rc-card__title">{item.goodsSubtitle}</h1>
+                        <p className="rc-card__meta">{item.goodsName}</p>
                         <div
                           className={`rc-card__price text-center RateFitScreen `}
                         >

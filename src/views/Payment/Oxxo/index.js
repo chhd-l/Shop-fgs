@@ -37,7 +37,7 @@ class OxxoConfirm extends Component {
       }
       this.setState({ showReqiredInfo: false });
       if (
-        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
+        !/^\w+([-_.]?\w+)*@\w+([-]?\w+)*(\.\w{2,6})+$/.test(
           this.state.email.replace(/\s*/g, '')
         )
       ) {
@@ -126,7 +126,7 @@ class OxxoConfirm extends Component {
             </aside>
           </div>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <img src={oxxo} style={{ display: 'inline-block' }} />
+            <img src={oxxo} style={{ display: 'inline-block' }} alt=""/>
           </div>
           <h6>
             <p>

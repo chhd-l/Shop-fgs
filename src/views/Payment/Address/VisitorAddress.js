@@ -83,8 +83,8 @@ class VisitorAddress extends React.Component {
     this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
   };
   matchNamefromDict = (dictList, id) => {
-    return find(dictList, (ele) => ele.id == id)
-      ? find(dictList, (ele) => ele.id == id).name
+    return find(dictList, (ele) => ele.id === id)
+      ? find(dictList, (ele) => ele.id === id).name
       : id;
   };
   updateSameAsCheckBoxVal = (val) => {
@@ -100,7 +100,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? (
       <>
         <i
-          className={`rc-icon rc-home--xs ${
+          className={`11 rc-icon rc-health--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}
@@ -127,9 +127,7 @@ class VisitorAddress extends React.Component {
   _titleJSXForEdit = () => {
     return (
       <>
-        <h5 className={`mb-0 red`}>
-          {this._titleJSX({ redColor: true })}
-        </h5>
+        <h5 className={`mb-0 red`}>{this._titleJSX({ redColor: true })}</h5>
       </>
     );
   };
@@ -140,10 +138,7 @@ class VisitorAddress extends React.Component {
           {this._titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
-        <p
-          onClick={this.handleClickEdit}
-          className="rc-styled-link mb-1"
-        >
+        <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
           <FormattedMessage id="edit" />
         </p>
       </>

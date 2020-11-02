@@ -18,7 +18,7 @@ class BannerTip extends React.Component {
   render() {
     return this.state.noticeVisible &&
       process.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
-      <div className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4">
+      <div id="bannerTip" className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4">
         <span
           className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
           style={{ transform: 'translateY(-40%)' }}
@@ -39,7 +39,7 @@ class BannerTip extends React.Component {
             <FormattedMessage id="home.promotionTip" />
             {process.env.REACT_APP_LANG === 'fr' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing'}
               >
                 En savoir plus
@@ -47,7 +47,7 @@ class BannerTip extends React.Component {
             )}
             {process.env.REACT_APP_LANG === 'en' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing-us'}
               >
                 Join the Club
@@ -55,7 +55,7 @@ class BannerTip extends React.Component {
             )}
             {process.env.REACT_APP_LANG === 'ru' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing-ru'}
               >
                 Учить больше

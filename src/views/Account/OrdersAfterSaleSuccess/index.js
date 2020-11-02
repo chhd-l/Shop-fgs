@@ -124,7 +124,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                   </React.Fragment>
                 ) : errMsg ? (
                   <div className="text-center mt-5 mb-5">
-                    <span class="rc-icon rc-incompatible--xs rc-iconography"></span>
+                    <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
                     {errMsg}
                   </div>
                 ) : null}

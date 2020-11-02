@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import "./index.less";
-import Tooltip from "@/components/Tooltip";
+import React, { Component } from 'react';
+import './index.less';
+import Tooltip from '@/components/Tooltip';
 export default class Rate extends Component {
   state = {
     count: this.props.number || 5,
@@ -8,8 +8,8 @@ export default class Rate extends Component {
     disabled: this.props.disabled || false,
     enter: 0,
     leave: this.props.def || 0,
-    state: ["不满意", "满意", "超满意"],
-    tooltipStatus: false,
+    state: ['不满意', '满意', '超满意'],
+    tooltipStatus: false
   };
   /** 页面渲染前 */
   /*componentWillMount = () => {};*/
@@ -22,11 +22,11 @@ export default class Rate extends Component {
   showState() {
     let { count, num, enter, state } = this.state;
     let f = Math.ceil(count / 2);
-    if (num == 0 && enter == 0) {
-      return "";
+    if (Number(num) === 0 && Number(enter) === 0) {
+      return '';
     } else if (num < f && enter < f) {
       return state[0];
-    } else if (num == count || enter == count) {
+    } else if (Number(num) === Number(count) || Number(enter) === Number(count)) {
       return state[2];
     } else {
       return state[1];
@@ -41,7 +41,6 @@ export default class Rate extends Component {
     const numInt = parseInt(num);
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
     return (
-      
       <div>
         <div className="rate">
           {new Array(count).fill().map((item, index) => (
@@ -91,7 +90,7 @@ export default class Rate extends Component {
               ) : (
                 <span
                   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
-                  style={{opacity: ".5"}}
+                  style={{ opacity: '.5' }}
                   disabled={this.state.disabled}
                 ></span>
               )}

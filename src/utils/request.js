@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { createBrowserHistory } from 'history'
-const history = createBrowserHistory()
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -45,6 +43,9 @@ service.interceptors.response.use(
     if (response.data instanceof Blob) {
       return response;
     }
+    if (response.headers.jsessionid) {
+      sessionItemRoyal.set('jsessionid', response.headers.jsessionid)
+    }
     if (
       response.status === 200 &&
       response.data &&
@@ -87,12 +88,16 @@ service.interceptors.response.use(
     }
   },
   (err) => {
-    if(err.response && err.response.status >= 500 && window.location.pathname !== '/500' ) {
+    if (
+      err.response &&
+      err.response.status >= 500 &&
+      window.location.pathname !== '/500'
+    ) {
       // history.push('/500')
       // window.location.href = window.location.href + '500'
       // window.location.reload()
     }
-    return Promise.reject(err)
+    return Promise.reject(err);
   }
 );
 

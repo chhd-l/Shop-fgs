@@ -9,14 +9,14 @@ import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { getPrescriptionById, getPrescriberByEncryptCode } from '@/api/clinic';
+import { getPrescriptionById, getPrescriberByEncryptCode, getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
 import { setBuryPoint } from '@/api';
-import { doLogout } from '@/api/login';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
+import BannerTip from '@/components/BannerTip'
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
@@ -238,7 +238,7 @@ class Header extends React.Component {
       'clinic'
     );
     let linkClinicName = '';
-
+      console.log(linkClinicId , clinicStore.clinicId !== linkClinicId, 'heiheihei')
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
       location &&
@@ -264,18 +264,20 @@ class Header extends React.Component {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
         }
-      } else if (linkClinicId && clinicStore.clinicId !== linkClinicId) {
-        const res = await getPrescriptionById({ id: linkClinicId });
+      } else if (linkClinicId && location.pathname === '/') {
+        const idRes = await getPrescriberByPrescriberIdAndStoreId({prescriberId: linkClinicId, storeId: process.env.REACT_APP_STOREID})
+        const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
+          clinicStore.setAuditAuthority(res.context.auditAuthority);
         }
       }
     }
-    
+
     // 埋点
     setBuryPoint({
       id: this.userInfo ? this.userInfo.customerId : '',
@@ -287,14 +289,14 @@ class Header extends React.Component {
           : '',
       shopId: process.env.REACT_APP_STOREID,
       page:
-        {
-          '/': '1',
-          '/cart': '2',
-          '/prescription': '3',
-          '/payment/:type': '4'
-        }[this.props.match && this.props.match.path] ||
-        (clinciRecoCode || linkClinicId ? '5' : '') ||
-        ''
+        clinciRecoCode || linkClinicId
+          ? '5'
+          : {
+              '/': '1',
+              '/cart': '2',
+              '/payment/:type': '3',
+              '/confirmation': '4'
+            }[this.props.match && this.props.match.path] || ''
     });
   }
   componentWillUnmount() {
@@ -644,10 +646,10 @@ class Header extends React.Component {
   }
   _renderDropDownText = (item) => {
     return item.subMenuKey ? (
-      <span class="rc-header-with-icon">
+      <span className="rc-header-with-icon">
         <FormattedMessage id={item.langKey} />
         <span
-          class={`rc-icon rc-iconography ${
+          className={`rc-icon rc-iconography ${
             item.type === this.state.visibleType ? 'rc-up rc-brand1' : 'rc-down'
           }`}
         ></span>
@@ -718,7 +720,6 @@ class Header extends React.Component {
                 />
               </object>
             </Link>
-
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
               role="menubar"
@@ -997,8 +998,7 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-
-          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
+          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               {_catogryCfg(process.env.REACT_APP_LANG, this.props).map(
                 (item, i) => (
@@ -1090,6 +1090,7 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
+        <BannerTip /> 
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

@@ -92,11 +92,7 @@ class MapFlag extends React.Component {
                   aria-label="Close"
                   onClick={() => this.handleClose()}
                 >
-                  <span aria-hidden="true">
-                    <font>
-                      <font>×</font>
-                    </font>
-                  </span>
+                  <span aria-hidden="true">×</span>
                 </button>
               </div>
 

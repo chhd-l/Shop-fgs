@@ -483,10 +483,12 @@ export default class DropDownMenu extends React.Component {
                 className="pull-right rc-lg-up ls-is-cached lazyloaded"
                 data-src={item.desc && item.desc.img}
                 src={item.desc && item.desc.img}
+                alt=""
               />
               <img
                 className="pull-right rc-md-down lazyload"
                 data-src={item.desc && item.desc.img}
+                alt=""
               />
             </div>
           </div>

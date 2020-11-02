@@ -27,6 +27,7 @@ function QListAndPetJSX(props) {
             <img
               src={{ cat: catImg, dog: dogImg }[props.type]}
               style={{ width: '50%', margin: '0 auto' }}
+              alt=""
             />
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
               {['My dsfa', 'dsfahofiads', 'ddsadsadsfdsa'].map((ele, i) => (
@@ -56,6 +57,7 @@ function QListAndPetJSX(props) {
                     width: '50%',
                     margin: '0 auto'
                   }}
+                  alt=""
                 />
               </div>
               <div className="col-12 col-md-6 text-center text-md-left">
@@ -88,11 +90,11 @@ function QListAndPetJSX(props) {
               <br />
             </p>
             <div className="text-center pb-4">
-              <button class="rc-btn rc-btn--one mb-3">
+              <button className="rc-btn rc-btn--one mb-3">
                 <FormattedMessage id="productFinder.createMyPetProfile" />
               </button>
               <br />
-              <Link class="rc-btn rc-btn--two mb-4" to="/product-finder">
+              <Link className="rc-btn rc-btn--two mb-4" to="/product-finder">
                 <FormattedMessage id="productFinder.startAgin" />
               </Link>
             </div>
@@ -183,19 +185,19 @@ const ProductFinderResult = ({ location, history, match }) => {
               <div className="p-f-result-box">
                 <div className="border rounded row pt-3 pb-3">
                   <div className="col-12 col-md-6">
-                    <img src={productDetail.img} className="p-img" />
+                    <img src={productDetail.img} className="p-img" alt="" />
                   </div>
                   <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
-                    <header class="rc-text--center">
+                    <header className="rc-text--center">
                       <h3
-                        class="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
+                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
                         title={productDetail.goodsName}
                       >
                         {productDetail.goodsName}
                       </h3>
                     </header>
                     <div
-                      class="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                      className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
                       title={productDetail.subTitle}
                     >
                       {productDetail.subTitle}
@@ -231,19 +233,19 @@ const ProductFinderResult = ({ location, history, match }) => {
                       }`}
                     >
                       <div className="mb-3">
-                        <img src={productDetail.img} className="p-img" />
+                        <img src={productDetail.img} className="p-img" alt="" />
                       </div>
                       <div className="d-flex flex-column justify-content-center">
-                        <header class="rc-text--center">
+                        <header className="rc-text--center">
                           <h3
-                            class="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
+                            className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen"
                             title={productDetail.goodsName}
                           >
                             {productDetail.goodsName}
                           </h3>
                         </header>
                         <div
-                          class="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
+                          className="ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen"
                           title={productDetail.subTitle}
                         >
                           {productDetail.subTitle}
@@ -275,33 +277,33 @@ const ProductFinderResult = ({ location, history, match }) => {
                 </p>
                 <div className="row">
                   <div className="col-12 col-md-6 ">
-                    <div class="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
-                      <div class="rc-margin-right--xs flex-grow-1">
+                    <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
+                      <div className="rc-margin-right--xs flex-grow-1">
                         <b>Par téléphone</b>
-                        <div class="children-nomargin">
+                        <div className="children-nomargin">
                           <p>De 8h00 à 20h00</p>{' '}
                         </div>
                         <div>
                           <a
                             href="tel:+0 800 005 360"
-                            class="rc-large-body tel"
+                            className="rc-large-body tel"
                           >
                             0 800 005 360
                           </a>
                         </div>{' '}
                       </div>
-                      <div class="rc-padding-left--xs rc-lg-up">
+                      <div className="rc-padding-left--xs rc-lg-up">
                         <img
-                          class=" ls-is-cached lazyloaded"
+                          className=" ls-is-cached lazyloaded"
                           data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                           alt="Par téléphone icon"
                           src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                         />{' '}
                       </div>{' '}
-                      <div class="rc-padding-left--xs rc-md-down">
+                      <div className="rc-padding-left--xs rc-md-down">
                         {' '}
                         <img
-                          class="lazyload"
+                          className="lazyload"
                           data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                           alt="Par téléphone icon"
                         />{' '}
@@ -310,29 +312,29 @@ const ProductFinderResult = ({ location, history, match }) => {
                   </div>
                   <div className="col-12 col-md-6 ">
                     <a
-                      class="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+                      className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
                       href="/fr/help"
                     >
                       {' '}
-                      <div class="rc-margin-right--xs flex-grow-1">
+                      <div className="rc-margin-right--xs flex-grow-1">
                         {' '}
                         <b>
                           Par mail
-                        </b> <div class="children-nomargin"></div>{' '}
+                        </b> <div className="children-nomargin"></div>{' '}
                       </div>{' '}
-                      <div class="rc-padding-left--xs rc-lg-up">
+                      <div className="rc-padding-left--xs rc-lg-up">
                         {' '}
                         <img
-                          class=" ls-is-cached lazyloaded"
+                          className=" ls-is-cached lazyloaded"
                           data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                           alt="Par e-mail icon"
                           src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                         />{' '}
                       </div>{' '}
-                      <div class="rc-padding-left--xs rc-md-down">
+                      <div className="rc-padding-left--xs rc-md-down">
                         {' '}
                         <img
-                          class="lazyload"
+                          className="lazyload"
                           data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                           alt="Par e-mail icon"
                         />{' '}

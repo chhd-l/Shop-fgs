@@ -57,17 +57,20 @@ class PayOs extends React.Component {
   componentDidMount() {
     const _this = this;
     if (this.isLogin) {
-      loadJS('https://js.paymentsos.com/v2/0.0.1/token.min.js', function () {
-        window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
-        window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
-        _this.setState({
-          inited: true
-        });
+      loadJS({
+        url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
+        callback: function () {
+          window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_MEMBER);
+          window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
+          _this.setState({
+            inited: true
+          });
+        }
       });
     } else {
-      loadJS(
-        'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
-        function () {
+      loadJS({
+        url: 'https://js.paymentsos.com/v2/latest/secure-fields.min.js',
+        callback: function () {
           window.POS.setPublicKey(process.env.REACT_APP_PaymentKEY_VISITOR);
           window.POS.setEnvironment(process.env.REACT_APP_PaymentENV);
           const style = {
@@ -113,7 +116,7 @@ class PayOs extends React.Component {
               });
           }
         }
-      );
+      });
       this.setState({
         inited: true
       });
@@ -299,7 +302,7 @@ class PayOs extends React.Component {
     });
   };
   updateConfirmationPanelStatus() {
-    this.props.paymentTypeVal == 'payUCreditCard' &&
+    this.props.paymentTypeVal === 'payUCreditCard' &&
       this.props.paymentStore.setStsToEdit({ key: 'confirmation' });
   }
   checkRequiredItem = (list) => {
@@ -314,7 +317,7 @@ class PayOs extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} />
+          <img key={idx} className="logo-payment-card" src={el} alt=""/>
         ))}
       </span>
     );
@@ -531,6 +534,7 @@ class PayOs extends React.Component {
                         <div className="row">
                           <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
                             <img
+                              alt=""
                               className="PayCardImgFitScreen"
                               src={
                                 CREDIT_CARD_IMG_ENUM[

@@ -22,14 +22,58 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
 import HeroCarousel from './components/HeroCarousel';
-import Response from './components/Response';
-import Carousel from './components/Carousel';
 import { getProductPetConfig } from '@/api/payment';
-import { getGoodsRelation } from '@/api/details';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function Advantage() {
+  return (
+    {
+      en: (
+        <div className="rc-bg-colour--brand4">
+          <div className="reassurance-banner rc-max-width--xl rc-padding-x--sm rc-margin-bottom--sm">
+            <div className="rc-layout-container rc-four-column rc-text--center rc-content-h-middle">
+              <div className="rc-column rc-padding-y--xs">
+                <div className="reassurance-banner__item rc-text--left">
+                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                    <span className="rc-icon rc-vet--sm rc-brand1 rc-iconography"></span>
+                    The Royal Canin Pet Advisor Live app to answer all your pet
+                    questions
+                  </span>
+                </div>
+              </div>
+              <div className="rc-column rc-padding-y--xs">
+                <div className="reassurance-banner__item rc-text--left">
+                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                    <span className="rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
+                    Free shipping and 5% off every autoship order
+                  </span>
+                </div>
+              </div>
+              <div className="rc-column rc-padding-y--xs">
+                <div className="reassurance-banner__item rc-text--left">
+                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                    <span className="rc-icon rc-low-maintenance--sm rc-brand1 rc-iconography"></span>
+                    Welcome box with pet essentials
+                  </span>
+                </div>
+              </div>
+              <div className="rc-column rc-padding-y--xs">
+                <div className="reassurance-banner__item rc-text--left">
+                  <span className="rc-header-with-icon rc-header-with-icon--gamma">
+                    <span className="rc-icon rc-food--sm rc-brand1 rc-iconography"></span>
+                    Personalized product recommendations
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }[process.env.REACT_APP_LANG] || null
+  );
+}
 @inject('checkoutStore', 'loginStore', 'headerCartStore')
 @injectIntl
 @observer
@@ -37,7 +81,6 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      relatedProduce:[],
       initing: true,
       details: {
         id: '',
@@ -83,7 +126,7 @@ class Details extends React.Component {
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
-      relatedProduct:[]
+      relatedProduct: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -129,6 +172,7 @@ class Details extends React.Component {
       if (el.chidren.filter((item) => item.selected).length) {
         selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
       }
+      return el;
     });
     selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     idArr = selectedArr.map((el) => el.specDetailId);
@@ -143,6 +187,7 @@ class Details extends React.Component {
         ) {
           item.baseSpecLabel = el.detailName;
         }
+        return el;
       });
       let specTextArr = [];
       for (let specItem of specList) {
@@ -177,6 +222,7 @@ class Details extends React.Component {
       } else {
         item.selected = false;
       }
+      return item;
     });
     console.log(details, 'details');
     this.setState(
@@ -204,24 +250,13 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          console.log(202,this)
+          console.log(202, this);
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
             goodsId: res.context.goods.goodsId,
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice
-          },()=>{
-            getGoodsRelation(this.state.goodsId).then((res)=>{
-              if(res.code === 'K-000000'){
-                const relatedProduce = res.context.goods
-                this.setState({
-                  relatedProduce
-                },()=>{
-                  console.log(77777,this.state.relatedProduce)
-                })
-              }
-            })
           });
         } else {
           this.setState({
@@ -257,13 +292,13 @@ class Details extends React.Component {
             for (let item of res.context.goodsPropDetailRels) {
               const t = find(
                 propsRes || [],
-                (ele) => ele.propId == item.propId
+                (ele) => ele.propId === item.propId
               );
               // 区分cat or dog(de)
               if (t && t.propName.includes('Spezies')) {
                 const t3 = find(
                   t.goodsPropDetails,
-                  (ele) => ele.detailId == item.detailId
+                  (ele) => ele.detailId === item.detailId
                 );
                 if (t3) {
                   this.specie =
@@ -277,7 +312,7 @@ class Details extends React.Component {
               ) {
                 const t2 = find(
                   t.goodsPropDetails,
-                  (ele) => ele.detailId == item.detailId
+                  (ele) => ele.detailId === item.detailId
                 );
                 if (t2) {
                   tmpFormat.push(
@@ -298,6 +333,7 @@ class Details extends React.Component {
               return sdItem.specId === sItem.specId;
             });
             sItem.chidren[0].selected = true;
+            return sItem;
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
@@ -467,6 +503,7 @@ class Details extends React.Component {
         } else {
           item.selected = false;
         }
+        return item;
       });
     console.log(specList, 'sss');
     this.setState({ specList }, () => {
@@ -577,19 +614,23 @@ class Details extends React.Component {
           return false;
         }
         // this.openPetModal()
-        let autoAuditFlag = false
-        let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
-        let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-          return el
-        })
-        this.props.checkoutStore.setLoginCartData(handledData)
-        let AuditData = handledData.filter(el => el.auditCatFlag)
-        this.props.checkoutStore.setAuditData(AuditData)
-        autoAuditFlag = res.context.autoAuditFlag
-        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
-        this.props.checkoutStore.setPetFlag(res.context.petFlag)
+        let autoAuditFlag = false;
+        let res = await getProductPetConfig({
+          goodsInfos: this.props.checkoutStore.loginCartData
+        });
+        let handledData = this.props.checkoutStore.loginCartData.map(
+          (el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          }
+        );
+        this.props.checkoutStore.setLoginCartData(handledData);
+        let AuditData = handledData.filter((el) => el.auditCatFlag);
+        this.props.checkoutStore.setAuditData(AuditData);
+        autoAuditFlag = res.context.autoAuditFlag;
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        this.props.checkoutStore.setPetFlag(res.context.petFlag);
         this.props.history.push('/prescription');
       }
     } catch (err) {
@@ -598,10 +639,9 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    sessionItemRoyal.set('okta-redirectUrl', '/cart');
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
-      return false;
+      throw new Error();
     }
     const { history } = this.props;
     const { currentUnitPrice, quantity, instockStatus } = this.state;
@@ -616,7 +656,7 @@ class Details extends React.Component {
     );
 
     if (!instockStatus || !quantityNew) {
-      return false;
+      throw new Error();
     }
     this.setState({ addToCartLoading: true });
     let flag = true;
@@ -705,7 +745,7 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (this.props.checkoutStore.offShelvesProNames.length) {
         this.setState({
@@ -718,7 +758,7 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (this.checkoutStore.outOfstockProNames.length) {
         this.setState({
@@ -729,41 +769,47 @@ class Details extends React.Component {
             />
           )
         });
-        return false;
+        throw new Error();
       }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
-        let autoAuditFlag = false
-        if(this.isLogin) {
-          let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
-          let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-            return el
-          })
-          this.props.checkoutStore.setLoginCartData(handledData)
-          let AuditData = handledData.filter(el => el.auditCatFlag)
-          this.props.checkoutStore.setAuditData(AuditData)
-          autoAuditFlag = res.context.autoAuditFlag
-        }else {
-          let paramData = this.props.checkoutStore.cartData.map(el => {
-            el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-            return el
-          })
-          let res = await getProductPetConfig({goodsInfos: paramData})
+        let autoAuditFlag = false;
+        if (this.isLogin) {
+          let res = await getProductPetConfig({
+            goodsInfos: this.props.checkoutStore.loginCartData
+          });
+          let handledData = this.props.checkoutStore.loginCartData.map(
+            (el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            }
+          );
+          this.props.checkoutStore.setLoginCartData(handledData);
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          this.props.checkoutStore.setAuditData(AuditData);
+          autoAuditFlag = res.context.autoAuditFlag;
+        } else {
+          let paramData = this.props.checkoutStore.cartData.map((el) => {
+            el.goodsInfoId = el.sizeList.filter(
+              (item) => item.selected
+            )[0].goodsInfoId;
+            return el;
+          });
+          let res = await getProductPetConfig({ goodsInfos: paramData });
           let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-            return el
-          })
-          this.props.checkoutStore.setCartData(handledData)
-          let AuditData = handledData.filter(el => el.auditCatFlag)
-          this.props.checkoutStore.setAuditData(AuditData)
-          autoAuditFlag = res.context.autoAuditFlag
-          this.props.checkoutStore.setPetFlag(res.context.petFlag)
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          });
+          this.props.checkoutStore.setCartData(handledData);
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          this.props.checkoutStore.setAuditData(AuditData);
+          autoAuditFlag = res.context.autoAuditFlag;
+          this.props.checkoutStore.setPetFlag(res.context.petFlag);
         }
-        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
         history.push('/prescription');
       }
     }
@@ -822,19 +868,11 @@ class Details extends React.Component {
     return el.offsetTop;
   }
   formatUnit(baseSpecLabel) {
-    let res = baseSpecLabel.slice(
-      String(
-        parseFloat(
-          baseSpecLabel
-        )
-      ).length
-    )
-    if(isNaN(parseFloat(
-      res
-    ))) {
-      return res
-    }else {
-      return this.formatUnit(res)
+    let res = baseSpecLabel.slice(String(parseFloat(baseSpecLabel)).length);
+    if (isNaN(parseFloat(res))) {
+      return res;
+    } else {
+      return this.formatUnit(res);
     }
   }
   render() {
@@ -854,16 +892,6 @@ class Details extends React.Component {
       specList,
       initing
     } = this.state;
-    let event;
-    if (!this.state.initing) {
-      event = {
-        page: {
-          type: 'Product',
-          theme: this.specie
-        }
-      };
-    }
-
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (selectedSpecItem) {
       console.log(
@@ -872,10 +900,47 @@ class Details extends React.Component {
         String(parseFloat(selectedSpecItem.baseSpecLabel)).length
       );
     }
+    let event;
+    let eEvents;
+    if (!this.state.initing) {
+      event = {
+        page: {
+          type: 'Product',
+          theme: this.specie
+        }
+      };
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+        action: 'detail',
+        ecommerce: {
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          detail: {
+            products: [
+              {
+                id: '',
+                name: details.goodsName,
+                price: currentUnitPrice,
+                brand: 'Royal Canin',
+                category: this.specie,
+                quantity: selectedSpecItem.buyCount,
+                variant: selectedSpecItem.specText,
+                club: 'no',
+                sku: selectedSpecItem.goodsInfoId
+              }
+            ]
+          }
+        }
+      };
+    }
 
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        {event ? (
+          <GoogleTagManager
+            additionalEvents={event}
+            ecommerceEvents={eEvents}
+          />
+        ) : null}
         <Header
           ref={this.headerRef}
           showMiniIcons={true}
@@ -960,7 +1025,6 @@ class Details extends React.Component {
                                 />
                               </div>
                               <a
-                                href="javascript:;"
                                 className="comments rc-margin-left--xs rc-text-colour--text"
                                 onClick={this.handleAClick.bind(this)}
                               >
@@ -1065,8 +1129,10 @@ class Details extends React.Component {
                                               ).toFixed(2)
                                             )}
                                             /
-                                            {selectedSpecItem.baseSpecLabel && this.formatUnit(selectedSpecItem.baseSpecLabel)
-                                              }
+                                            {selectedSpecItem.baseSpecLabel &&
+                                              this.formatUnit(
+                                                selectedSpecItem.baseSpecLabel
+                                              )}
                                             )
                                           </b>
                                         ) : null}
@@ -1142,7 +1208,10 @@ class Details extends React.Component {
                                                 ).toFixed(2)
                                               )}
                                               /
-                                              {selectedSpecItem.baseSpecLabel && this.formatUnit(selectedSpecItem.baseSpecLabel)}
+                                              {selectedSpecItem.baseSpecLabel &&
+                                                this.formatUnit(
+                                                  selectedSpecItem.baseSpecLabel
+                                                )}
                                               )
                                             </b>
                                           ) : null}
@@ -1152,7 +1221,7 @@ class Details extends React.Component {
                                   </>
                                 ) : null}
                                 <div className="product-pricing__card__head d-flex align-items-center rc-margin-top--xs">
-                                  {process.env.REACT_APP_LANG == 'de' ? (
+                                  {process.env.REACT_APP_LANG === 'de' ? (
                                     <div
                                       className="rc-input product-pricing__card__head__title taxLogo"
                                       style={{ color: 'rgb(102,102,102)' }}
@@ -1173,7 +1242,10 @@ class Details extends React.Component {
                                       className="rc-input product-pricing__card__head__title"
                                       style={{ color: 'rgb(102,102,102)' }}
                                     >
-                                      <FormattedMessage id="taxLogo" defaultMessage={" "}/>
+                                      <FormattedMessage
+                                        id="taxLogo"
+                                        defaultMessage={' '}
+                                      />
                                     </div>
                                   )}
                                 </div>
@@ -1323,7 +1395,10 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                     <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                      <div className="cart-and-ipay" id="cartAndIpay1">
+                                      <div
+                                        className="cart-and-ipay"
+                                        id="cartAndIpay1"
+                                      >
                                         <button
                                           className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
                                             addToCartLoading
@@ -1346,7 +1421,10 @@ class Details extends React.Component {
                                       </div>
                                     </div>
                                     <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                      <div className="cart-and-ipay" id="cartAndIpay2">
+                                      <div
+                                        className="cart-and-ipay"
+                                        id="cartAndIpay2"
+                                      >
                                         {this.isLogin ? (
                                           <button
                                             className={`add-to-cart rc-btn rc-btn--one rc-full-width ${
@@ -1374,12 +1452,22 @@ class Details extends React.Component {
                                           </button>
                                         ) : (
                                           <LoginButton
-                                            beforeLoginCallback={async () =>
-                                              this.hanldeUnloginAddToCart({
-                                                redirect: true,
-                                                needLogin: true
-                                              })
-                                            }
+                                            beforeLoginCallback={async () => {
+                                              try {
+                                                await this.hanldeUnloginAddToCart(
+                                                  {
+                                                    redirect: true,
+                                                    needLogin: true
+                                                  }
+                                                );
+                                                sessionItemRoyal.set(
+                                                  'okta-redirectUrl',
+                                                  '/cart'
+                                                );
+                                              } catch (err) {
+                                                throw new Error();
+                                              }
+                                            }}
                                             btnClass={`add-to-cart rc-btn rc-btn--one rc-full-width ${
                                               addToCartLoading
                                                 ? 'ui-btn-loading'
@@ -1400,7 +1488,10 @@ class Details extends React.Component {
                                     </div>
                                     {!this.isLogin && (
                                       <div className="product-pricing__cta prices-add-to-cart-actions rc-margin-top--xs rc-padding-top--xs toggleVisibility">
-                                        <div className="cart-and-ipay" id="cartAndIpay3">
+                                        <div
+                                          className="cart-and-ipay"
+                                          id="cartAndIpay3"
+                                        >
                                           <button
                                             className={`rc-styled-link color-999 ${
                                               addToCartLoading
@@ -1463,79 +1554,88 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
-            <div>
-              {this.state.goodsDetailTab.tabName.length ? (
-                <div className="rc-max-width--xl rc-padding-x--sm">
-                  <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
-                    <div>
-                      <div className="rc-border-bottom rc-border-colour--interface">
-                        <nav className="rc-fade--x">
-                          <ul
-                            className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
-                            role="tablist"
-                          >
-                            {this.state.goodsDetailTab.tabName.map(
-                              (ele, index) => (
-                                <li key={index}>
-                                  <button
-                                    className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                    data-toggle={`tab__panel-${index}`}
-                                    aria-selected={
-                                      this.state.activeTabIdx === index
-                                        ? 'true'
-                                        : 'false'
-                                    }
-                                    role="tab"
-                                    onClick={(e) => this.changeTab(e, index)}
-                                  >
-                                    {ele}
-                                  </button>
-                                </li>
-                              )
-                            )}
-                          </ul>
-                        </nav>
-                      </div>
-                      <div
-                        className="rc-tabs tabs-detail"
-                        style={{ marginTop: '40px' }}
-                      >
-                        {this.state.goodsDetailTab.tabContent.map((ele, i) => (
-                          <div
-                            id={`tab__panel-${i}`}
-                            key={i}
-                            className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                            aria-expanded={
-                              this.state.activeTabIdx === i ? 'true' : 'false'
-                            }
-                          >
-                            <div className="block">
-                              <p
-                                className="content rc-scroll--x"
-                                dangerouslySetInnerHTML={createMarkup(ele)}
-                              />
-                            </div>
+            <Advantage />
+            {this.state.goodsDetailTab.tabName.length ? (
+              <div className="rc-max-width--xl rc-padding-x--sm">
+                <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
+                  <div>
+                    <div className="rc-border-bottom rc-border-colour--interface">
+                      <nav className="rc-fade--x">
+                        <ul
+                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
+                          role="tablist"
+                        >
+                          {this.state.goodsDetailTab.tabName.map(
+                            (ele, index) => (
+                              <li key={index}>
+                                <button
+                                  className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                  data-toggle={`tab__panel-${index}`}
+                                  aria-selected={
+                                    this.state.activeTabIdx === index
+                                      ? 'true'
+                                      : 'false'
+                                  }
+                                  role="tab"
+                                  onClick={(e) => this.changeTab(e, index)}
+                                >
+                                  {ele}
+                                </button>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </nav>
+                    </div>
+                    <div
+                      className="rc-tabs tabs-detail"
+                      style={{ marginTop: '40px' }}
+                    >
+                      {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                        <div
+                          id={`tab__panel-${i}`}
+                          key={i}
+                          className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                          aria-expanded={
+                            this.state.activeTabIdx === i ? 'true' : 'false'
+                          }
+                        >
+                          <div className="block">
+                            <p
+                              className="content rc-scroll--x"
+                              dangerouslySetInnerHTML={createMarkup(ele)}
+                            />
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
             <div id="review-container">
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem',marginBottom:'1rem'}}>Recommanded for you</div>
-               {/* <HeroCarousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId} /> */}
-               {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-               <RelatedProduct relatedProduce={this.state.relatedProduce}/>
-               {/* <div style={{width:'1300px',margin:'0 auto'}}>
-                  <Response history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
-               </div> */}
-               {/* <Carousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-            </div>           
+              <div
+                style={{
+                  textAlign: 'center',
+                  color: 'rgb(236, 0, 26)',
+                  height: '50px',
+                  lineHeight: '50px',
+                  fontSize: '1.4rem',
+                  marginBottom: '1rem'
+                }}
+              >
+                Recommanded for you
+              </div>
+              <HeroCarousel
+                history={this.props.history}
+                goodsId={this.state.goodsId}
+                key={this.state.goodsId}
+              />
+              {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+            </div>
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
@@ -1576,12 +1676,17 @@ class Details extends React.Component {
                   </button>
                 ) : (
                   <LoginButton
-                    beforeLoginCallback={async () =>
-                      this.hanldeUnloginAddToCart({
-                        redirect: true,
-                        needLogin: true
-                      })
-                    }
+                    beforeLoginCallback={async () => {
+                      try {
+                        await this.hanldeUnloginAddToCart({
+                          redirect: true,
+                          needLogin: true
+                        });
+                        sessionItemRoyal.set('okta-redirectUrl', '/cart');
+                      } catch (err) {
+                        throw new Error();
+                      }
+                    }}
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
                     } ${

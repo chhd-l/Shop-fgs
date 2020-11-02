@@ -31,8 +31,8 @@ class PayProductInfo extends React.Component {
     });
   }
   matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id == id)
-      ? find(dictList, (ele) => ele.id == id).name
+    return find(dictList, (ele) => ele.id.toString() === id.toString())
+      ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
       : id;
   }
   handleClickProName = (item) => {

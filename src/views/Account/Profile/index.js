@@ -7,10 +7,8 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
-import AddressBookEditForm from './modules/AddressBookEditForm';
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
 import ClinicEditForm from './modules/ClinicEditForm';
-import PasswordForm from './modules/PasswordForm';
 import { getCustomerInfo } from '@/api/user';
 import './index.css';
 

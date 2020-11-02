@@ -65,7 +65,7 @@ class UnloginCart extends React.Component {
     }
 
     if (this.props.checkoutStore.outOfstockProNames.length) {
-      console.log(this.props.checkoutStore.outOfstockProNames, 'names')
+      console.log(this.props.checkoutStore.outOfstockProNames, 'names');
       this.props.headerCartStore.setErrMsg(
         <FormattedMessage
           id="cart.errorInfo2"
@@ -79,27 +79,28 @@ class UnloginCart extends React.Component {
     if (needLogin) {
       // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
     } else {
-      let autoAuditFlag = false
-      if(this.isLogin) {
-      }else {
-        let paramData = this.props.checkoutStore.cartData.map(el => {
-          el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-          return el
-        })
-        let res = await getProductPetConfig({goodsInfos: paramData})
-
+      let autoAuditFlag = false;
+      if (this.isLogin) {
+      } else {
+        let paramData = this.props.checkoutStore.cartData.map((el) => {
+          el.goodsInfoId = el.sizeList.filter(
+            (item) => item.selected
+          )[0].goodsInfoId;
+          return el;
+        });
+        let res = await getProductPetConfig({ goodsInfos: paramData });
         let handledData = paramData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-          return el
-        })
-        this.props.checkoutStore.setCartData(handledData)
-        let AuditData = handledData.filter(el => el.auditCatFlag)
-        this.props.checkoutStore.setAuditData(AuditData)
-        autoAuditFlag = res.context.autoAuditFlag
-        this.props.checkoutStore.setPetFlag(res.context.petFlag)
+          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+          return el;
+        });
+        this.props.checkoutStore.setCartData(handledData);
+        let AuditData = handledData.filter((el) => el.auditCatFlag);
+        this.props.checkoutStore.setAuditData(AuditData);
+        autoAuditFlag = res.context.autoAuditFlag;
+        this.props.checkoutStore.setPetFlag(res.context.petFlag);
       }
-      this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
+      this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
       history.push('/prescription');
     }
   }
@@ -147,9 +148,11 @@ class UnloginCart extends React.Component {
       >
         <Link to="/cart" className="minicart-link" data-loc="miniCartOrderBtn">
           <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon rc-cart--xs rc-iconography rc-interactive"></i>
-          {
-            this.totalNum > 0?(<span className="minicart-quantity">{this.totalNum}</span>) : ''
-          }
+          {this.totalNum > 0 ? (
+            <span className="minicart-quantity">{this.totalNum}</span>
+          ) : (
+            ''
+          )}
         </Link>
         {!this.totalNum ? (
           <div
@@ -244,7 +247,7 @@ class UnloginCart extends React.Component {
                   </LoginButton>
                 </div>
                 <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
-                  <a
+                  <span
                     id="unLoginCarCheckout"
                     onClick={() => this.handleCheckout()}
                     className={`rc-styled-link color-999 ${
@@ -254,7 +257,7 @@ class UnloginCart extends React.Component {
                     }`}
                   >
                     <FormattedMessage id="GuestCheckout" />
-                  </a>
+                  </span>
                 </div>
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">

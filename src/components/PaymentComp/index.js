@@ -16,7 +16,8 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import AdyenEditForm from '@/components/Adyen/form';
 import {
   CREDIT_CARD_IMG_ENUM,
-  CREDIT_CARD_IMGURL_ENUM
+  CREDIT_CARD_IMGURL_ENUM,
+  PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import './index.css';
 
@@ -72,7 +73,7 @@ class PaymentComp extends React.Component {
       });
       this.initCardInfo();
     }
-    if (props.isApplyCvv != this.props.isApplyCvv) {
+    if (props.isApplyCvv !== this.props.isApplyCvv) {
       this.setState({
         currentCvv: '',
         isCurrentCvvConfirm: false
@@ -89,8 +90,6 @@ class PaymentComp extends React.Component {
           deliveryInfo.deliveryAddress.firstName +
           '' +
           deliveryInfo.deliveryAddress.lastName;
-        deliveryInfo.deliveryAddress.phoneNumber =
-          deliveryInfo.deliveryAddress.phoneNumber;
         this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
           this.initCardInfo();
         });
@@ -449,13 +448,14 @@ class PaymentComp extends React.Component {
         );
         return;
       }
+      const emailRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === 'email');
       if (
         k === 'email' &&
-        !/^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(
-          creditCardInfoForm[k].replace(/\s*/g, '')
-        )
+        emailRule &&
+        creditCardInfoForm[k] &&
+        !emailRule.regExp.test(creditCardInfoForm[k])
       ) {
-        this.showErrorMsg(this.props.intl.messages.pleaseEnterTheCorrectEmail);
+        this.showErrorMsg(emailRule.errMsg);
         return;
       }
     }
@@ -535,6 +535,7 @@ class PaymentComp extends React.Component {
               el.selected = true;
               creditCardInfoForm = el;
             }
+            return el;
           });
           this.props.getSelectedValue &&
             this.props.getSelectedValue(creditCardInfoForm);
@@ -774,6 +775,7 @@ class PaymentComp extends React.Component {
                         ]
                       : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
+                  alt=""
                 />
               </div>
               <div
@@ -885,6 +887,7 @@ class PaymentComp extends React.Component {
                           float: 'right',
                           marginTop: '20px'
                         }}
+                        alt=""
                       />
                       {/* <FormattedMessage id="payment.cardType" /><br />
                         <span className="creditCompleteInfo">{el.cardType}</span> */}
@@ -949,6 +952,7 @@ class PaymentComp extends React.Component {
             style={{ width: '50px' }}
             className="logo-payment-card mr-1"
             src={el}
+            alt=""
           />
         ))}
       </span>
@@ -1043,6 +1047,7 @@ class PaymentComp extends React.Component {
                         ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
                         : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                     }
+                    alt=""
                   />
                 </div>
                 <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
@@ -1383,7 +1388,7 @@ class PaymentComp extends React.Component {
                         <FormattedMessage id="setDefaultPaymentMethod" />
                       </label>
                     </div>
-                    <a
+                    <span
                       className="rc-styled-link editPersonalInfoBtn"
                       name="contactInformation"
                       style={{
@@ -1400,7 +1405,7 @@ class PaymentComp extends React.Component {
                       }}
                     >
                       <FormattedMessage id="cancel" />
-                    </a>
+                    </span>
                     &nbsp;
                     <span
                       style={{
@@ -1542,9 +1547,9 @@ class PaymentComp extends React.Component {
                 }}
                 onClick={this.handleClickAdd}
               >
-                <a className="rc-styled-link">
+                <span className="rc-styled-link">
                   <FormattedMessage id="addNewCreditCard" />
-                </a>
+                </span>
               </div>
             </>
           )

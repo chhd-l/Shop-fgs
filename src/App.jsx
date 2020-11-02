@@ -17,7 +17,7 @@ import {
   Redirect,
   Switch
 } from 'react-router-dom';
-import { Security, SecureRoute, useOktaAuth } from '@okta/okta-react';
+import { Security, useOktaAuth } from '@okta/okta-react';
 import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
@@ -29,7 +29,6 @@ import { Provider } from 'mobx-react';
 import stores from './store';
 
 import RegisterRequired from '@/views/Login/RegisterRequired';
-import Landing from '@/views/Landing/index2';
 import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
@@ -42,15 +41,7 @@ import Confirmation from '@/views/Confirmation';
 import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
-import Exception from '@/views/Exception';
-import Publishing from '@/views/Publishing';
-import Page403 from '@/views/403';
-import Page500 from '@/views/500';
-import Help from '@/views/Help';
 import FAQ from '@/views/FAQ';
-import TermUse from '@/views/TermUse';
-import TermsAndConditions from '@/views/TermUse/TermsAndConditions';
-import PrivacyPolicy from '@/views/PrivacyPolicy';
 import AccountHome from '@/views/Account/Home';
 import AccountProfile from '@/views/Account/Profile';
 import AccountPets from '@/views/Account/Pet';
@@ -69,31 +60,37 @@ import ProductReview from '@/views/Account/ProductReview';
 import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
 import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
-import SubscriptionLanding from '@/views/SubscriptionLanding';
-import US_SubscriptionLanding from '@/views/SubscriptionLanding/US_index.js';
-import RU_SubscriptionLanding from '@/views/SubscriptionLanding/RU_index.js';
-import TR_SubscriptionLanding from '@/views/SubscriptionLanding/TR_index.js';
-import TR_GeneralConditions from '@/views/GeneralConditions/TR_index.js';
-import generalConditions from '@/views/GeneralConditions';
-import Tailorednutrition from '@/views/Tailorednutrition';
-import QualitySafety from '@/views/QualitySafety';
-import AboutUs from '@/views/AboutUs/index.js';
-import RU_Values from '@/views/Values/RU_index.js';
-import ShipmentConditions from '@/views/ShipmentConditions';
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
-
-import RequestInvoices from '@/views/RequestInvoices';
-
 import Recommendation from '@/views/Recommendation';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderQuestion from '@/views/ProductFinder/modules/Question';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
-import Consent1TR from '@/views/StaticPage/tr/Consent1';
-import Consent2TR from '@/views/StaticPage/tr/Consent2';
+import TermUse from '@/views/StaticPage/TermUse';
+import TermsAndConditions from '@/views/StaticPage/TermUse/TermsAndConditions';
+import PrivacyPolicy from '@/views/StaticPage/PrivacyPolicy';
+import Exception from '@/views/StaticPage/Exception';
+import Page403 from '@/views/StaticPage/403';
+import Page500 from '@/views/StaticPage/500';
+import Help from '@/views/StaticPage/Help';
+import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
+import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
+import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
+import TR_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/TR_index.js';
+import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.js';
+import generalConditions from '@/views/StaticPage/GeneralConditions';
+import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
+import QualitySafety from '@/views/StaticPage/QualitySafety';
+import AboutUs from '@/views/StaticPage/AboutUs/index.js';
+import RU_Values from '@/views/StaticPage/Values/RU_index.js';
+import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
+import RequestInvoices from '@/views/StaticPage/RequestInvoices';
+import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
+import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
+import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -109,7 +106,7 @@ const LoginCallback = (props) => {
       await authService.handleAuthentication();
     }
     let homePage = '';
-    process.env.REACT_APP_HOMEPAGE == '/'
+    process.env.REACT_APP_HOMEPAGE === '/'
       ? (homePage = '')
       : (homePage = process.env.REACT_APP_HOMEPAGE);
     window.location.href = homePage + '/required';
@@ -314,7 +311,7 @@ const App = () => (
                 }
               /> */}
 
-              <Route path="/conoce-mas-de-evet" exact component={Landing} />
+              <Route path="/conoce-mas-de-evet" exact component={ConoceMasDeEvet} />
               <Route path="/product-finder" exact component={ProductFinder} />
               <Route
                 exact
@@ -378,7 +375,6 @@ const App = () => (
               <Route exact path="/forgetPassword" component={ForgetPassword} />
               <Route path="/403" component={Page403} />
               <Route path="/500" component={Page500} />
-              <Route path="/Publishing" component={Publishing} />
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />

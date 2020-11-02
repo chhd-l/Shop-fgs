@@ -68,7 +68,7 @@ class AccountOrders extends React.Component {
       res &&
       res.map((item) => {
         let value, values;
-        if (item.valueEn == 7) {
+        if (Number(item.valueEn) === 7) {
           value = item.valueEn;
           values = 7;
           return {
@@ -77,7 +77,7 @@ class AccountOrders extends React.Component {
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
             )
           };
-        } else if (item.valueEn == 30) {
+        } else if (Number(item.valueEn) === 30) {
           value = item.valueEn;
           values = 30;
           return {
@@ -299,6 +299,7 @@ class AccountOrders extends React.Component {
         );
       }
       sessionItemRoyal.set('rc-tid', order.id);
+      sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
       sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
       this.props.checkoutStore.setCartPrice({
         totalPrice: order.tradePrice.totalPrice,
@@ -644,12 +645,12 @@ class AccountOrders extends React.Component {
                   className="content-asset"
                   style={{ display: haveList ? 'none' : 'block' }}
                 >
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
-                      <img src={orderImg} style={{ width: '100%' }} />
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
+                      <img src={orderImg} style={{ width: '100%' }} alt="" />
                     </div>
                     <div
-                      class="rc-column"
+                      className="rc-column"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -661,7 +662,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="account.orders.tips" />
                         </p>
                         <button
-                          class="rc-btn rc-btn--one"
+                          className="rc-btn rc-btn--one"
                           onClick={() => this.props.history.push('/')}
                         >
                           <FormattedMessage id="account.orders.btns" />
