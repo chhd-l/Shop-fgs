@@ -293,8 +293,8 @@ class Header extends React.Component {
           : {
               '/': '1',
               '/cart': '2',
-              '/prescription': '3',
-              '/payment/:type': '4'
+              '/payment/:type': '3',
+              '/confirmation': '4'
             }[this.props.match && this.props.match.path] || ''
     });
   }

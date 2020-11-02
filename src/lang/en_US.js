@@ -107,6 +107,7 @@ const en_US = {
   clickConfirmCardButton: "Please click the confirm card button",
   clickConfirmCvvButton: "If you want to use this credit card, please enter CVV and click the Apply button",
   clickHere: "Click here",
+  here: 'here',
   "clinic.cancel": "Cancel",
   "clinic.clinic": "clinic",
   "clinic.clinicTip": "Which clinic has provided prescription for you？",
@@ -614,7 +615,7 @@ const en_US = {
   yourPasswordNotVerified: "Your password has not been verified",
   'reviewisRequired': 'Review is required.',
   'faq.frequentQuestions': "Frequently Asked Questions",
-  'faq.title': 'Got a question? Take a look below to see if it\'s already been answered. If you can\'t find what you are looking for, click here to contact us.',
+  'faq.title': 'Got a question? Take a look below to see if it\'s already been answered. If you can\'t find what you are looking for, click {val1} to contact us.',
   'faq.title2': 'Entrega del alimento',
   'every': 'Every',
   'taxLogo': '',
@@ -728,7 +729,7 @@ const en_US = {
   'aboutUs.shopTile': 'Shop Tailored Nutrition For Your Pet',
   'aboutUs.shopDog': 'Shop Dog Formulas',
   'aboutUs.shopCat': 'Shop Cat Formulas',
-  'aboutUs.learnMore': 'Учить больше',
+  'aboutUs.learnMore': 'Learn More',
 
 
   'qualitySafety': 'Quality Safety',
