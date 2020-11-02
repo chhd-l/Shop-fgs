@@ -32,14 +32,22 @@ class RouteFilter extends Component {
 
     if (pathname === '/prescription') {
       if(this.isLogin) {
-        let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
+        let needPrescriber
+        if(this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
+        }else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+        }
         if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
       }else {
-        let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        console.log(toJS(this.props.checkoutStore.cartData))
-        debugger
+        let needPrescriber
+        if(this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
+        }else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+        }
         if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }

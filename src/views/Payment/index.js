@@ -129,9 +129,18 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     if(this.isLogin) {
-      this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
+      
     }else {
-      this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
     }
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
