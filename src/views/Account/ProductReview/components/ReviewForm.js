@@ -17,14 +17,6 @@ class ReviewForm extends React.Component {
     };
     this.imgUploaderRef = React.createRef();
   }
-  componentDidMount() {}
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    // debugger
-    // if(nextProps.isSubmit) {
-    //     this.textarea.blur();
-    // }
-  }
-
   selectProductRate(rate) {
     this.props.selectProductRate(rate, this.props.product);
   }
@@ -162,7 +154,11 @@ class ReviewForm extends React.Component {
 
             <div className="rc-column text-right padb0">
               <div className="img-container">
-                <img className="product-img" src={this.props.product.pic} alt=""/>
+                <img
+                  className="product-img"
+                  src={this.props.product.pic}
+                  alt=""
+                />
               </div>
             </div>
           </div>

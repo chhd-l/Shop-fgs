@@ -14,10 +14,10 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { history, location, configStore, checkoutStore } = this.props;
     const { pathname } = location;
-    // 默认了clinic后，再次编辑clinic
+  // 默认了clinic后，再次编辑clinic
     if (
       pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -33,12 +33,12 @@ class RouteFilter extends Component {
     if (pathname === '/prescription') {
       if(this.isLogin) {
         let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
+        if((!needPrescriber && checkoutStore.autoAuditFlag) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
       }else {
         let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
+        if((!needPrescriber && checkoutStore.autoAuditFlag) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
       }

@@ -883,10 +883,8 @@ class Login extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <font>
                           {' '}
                           <FormattedMessage id="userAgreement" />
-                        </font>
                       </a>
                       <FormattedMessage id="andThe" />
                       <a
@@ -894,9 +892,7 @@ class Login extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <font>
                           <FormattedMessage id="privacyPolicy" />{' '}
-                        </font>
                       </a>
                       <FormattedMessage id="giveConsentPersonalData" />
                     </label>
@@ -1369,14 +1365,14 @@ class Login extends React.Component {
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
                             target="_blank" rel='noopener noreferrer'
                           >
-                            <font> User Agreement </font>
+                            User Agreement
                           </a>
                               and the
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
                             target="_blank" rel='noopener noreferrer'
                           >
-                            <font> Privacy Policy </font>
+                            Privacy Policy
                           </a>
                               and give my consent to the processing of
                               personal data, including cross-border transfer
