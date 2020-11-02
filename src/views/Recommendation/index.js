@@ -23,7 +23,6 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
 import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
@@ -496,7 +495,6 @@ class Help extends React.Component {
           <span>{currentModalObj.content}</span>
         </Modal>
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
               this.state.errorMsg ? '' : 'hidden'

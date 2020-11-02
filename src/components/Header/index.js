@@ -16,6 +16,7 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
+import BannerTip from '@/components/BannerTip'
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
@@ -719,7 +720,6 @@ class Header extends React.Component {
                 />
               </object>
             </Link>
-
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
               role="menubar"
@@ -998,8 +998,7 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-
-          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
+          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               {_catogryCfg(process.env.REACT_APP_LANG, this.props).map(
                 (item, i) => (
@@ -1091,6 +1090,7 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
+        <BannerTip /> 
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

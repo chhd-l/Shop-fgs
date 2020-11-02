@@ -14,11 +14,10 @@ import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
 import './index.css';
 
 @injectIntl
-class Help extends React.Component {
+class SubscriptionLanding extends React.Component {
   render(h) {
     const event = {
       page: {
@@ -38,7 +37,6 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
               this.state.errorMsg ? '' : 'hidden'
@@ -406,4 +404,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default SubscriptionLanding;

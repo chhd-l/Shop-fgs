@@ -1344,7 +1344,7 @@ video.rc-hero__bg {
 }
 
 .rc-content--fixed-header {
-  padding-top: 4.167rem
+  padding-top: 7.0rem !important
 }
 
 .rc-header__nav {

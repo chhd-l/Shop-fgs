@@ -11,7 +11,6 @@ import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
-import BannerTip from '@/components/BannerTip';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -40,7 +39,6 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
           >
