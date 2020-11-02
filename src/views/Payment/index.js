@@ -439,7 +439,7 @@ class Payment extends React.Component {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
       this.jsessionid = jsessionid;
-      this.fingerprint = jsessfingerprintionid;
+      this.fingerprint = fingerprint;
     }
   };
   get isLogin() {
@@ -455,17 +455,20 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
+    console.log(process.env.REACT_APP_CHECKOUT_WITH_CLINIC, this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
+    .length !== 0, this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+    .length !== 0, toJS(this.props.checkoutStore.loginCartData), toJS(this.props.checkoutStore.cartData))
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
         this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-          .length !== 0
+          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
         this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-          .length !== 0
+          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
       );
     }
   }
@@ -948,10 +951,9 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      if(this.state.recommend_data) {
+      if(sessionItemRoyal.get('recommend_product')) {
         await batchAdd({
           goodsInfos: this.state.recommend_data.map((ele) => {
-            console.log(ele, 'ele')
             return {
               verifyStock: false,
               buyCount: ele.buyCount,
@@ -1026,7 +1028,6 @@ class Payment extends React.Component {
     //   });
     // }
     if (sessionItemRoyal.get('recommend_product')) {
-      debugger
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
@@ -1042,7 +1043,6 @@ class Payment extends React.Component {
         };
       });
     } else {
-      debugger
       param.tradeItems = cartData.map((ele) => {
         return {
           num: ele.quantity,
@@ -1052,7 +1052,6 @@ class Payment extends React.Component {
     }
 
     if (subForm.buyWay === 'frequency') {
-      debugger
       param.tradeItems = loginCartData
         .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
         .map((g) => {
@@ -1593,12 +1592,15 @@ class Payment extends React.Component {
             if (loginEl.goodsInfoId === el.goodsInfoId) {
               loginEl.petsId = data.value;
               loginEl.petName = data.name;
+              el.petsId = data.value;
+              el.petName = data.name;
             }
             return loginEl;
           });
         }
         return el;
       });
+      console.log(loginCartData, 'hahaha')
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
     this.closePetModal();

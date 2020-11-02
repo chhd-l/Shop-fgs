@@ -12,6 +12,7 @@ class ClinicStore {
   @observable defaultClinicId = localItemRoyal.get(`rc-clinic-id-default`) || ''
   @observable defaultClinicName = localItemRoyal.get(`rc-clinic-name-default`) || ''
 
+  // 店铺是否能作为审核者
   @observable linkedAuditAuthorityFlag = localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || ''
 
   @observable clinicRecoCode = localItemRoyal.get(`rc-clinic-reco-code`) || ''
