@@ -22,7 +22,10 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
 import HeroCarousel from './components/HeroCarousel';
+import Response from './components/Response';
+import Carousel from './components/Carousel';
 import { getProductPetConfig } from '@/api/payment';
+import { getGoodsRelation } from '@/api/details';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -34,6 +37,7 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      relatedProduce:[],
       initing: true,
       details: {
         id: '',
@@ -207,6 +211,17 @@ class Details extends React.Component {
             goodsId: res.context.goods.goodsId,
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice
+          },()=>{
+            getGoodsRelation(this.state.goodsId).then((res)=>{
+              if(res.code === 'K-000000'){
+                const relatedProduce = res.context.goods
+                this.setState({
+                  relatedProduce
+                },()=>{
+                  console.log(77777,this.state.relatedProduce)
+                })
+              }
+            })
           });
         } else {
           this.setState({
@@ -1513,8 +1528,13 @@ class Details extends React.Component {
             </div>
             <div>
               <div style={{textAlign: 'center',color: 'rgb(236, 0, 26)',height: '50px',lineHeight: '50px',fontSize: '1.4rem',marginBottom:'1rem'}}>Recommanded for you</div>
-               <HeroCarousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId} />
+               {/* <HeroCarousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId} /> */}
                {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+               <RelatedProduct relatedProduce={this.state.relatedProduce}/>
+               {/* <div style={{width:'1300px',margin:'0 auto'}}>
+                  <Response history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
+               </div> */}
+               {/* <Carousel history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
             </div>           
             <div
               className="sticky-addtocart"

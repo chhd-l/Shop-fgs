@@ -143,8 +143,9 @@ class HeroCarousel extends React.Component {
             {this.state.goodsList.map((item, i) => (
               <div className="hero-carousel__slide" key={i}>
                 <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                    <a className="related-product-a" onClick={()=>this.hanldeClick(item)}>
-                        <img className="related-product-img" src={item.goodsImg}></img>
+                    <a className="related-product-a" onClick={()=>this.hanldeClick(item)} style={{width:'250px',height:'400px'}}>
+                        {/* <img className="related-product-img" src={item.goodsImg}></img> */}
+                        <div style={{width:'150px',height:'200px',backgroundSize:'150px 200px',backgroundImage:'url('+item.goodsImg+')',margin:'0 auto'}}></div>
                         <h1 className="rc-card__title">{item.goodsSubtitle}</h1>
                         <p className="rc-card__meta">{item.goodsName}</p>
                         <div

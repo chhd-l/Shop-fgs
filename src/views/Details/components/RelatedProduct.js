@@ -16,7 +16,7 @@ class RalatedProduct extends React.Component {
         {
           goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
           goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
+          goodsSubtitle: 'Trocken, Hund1',
           avgEvaluate: 0,
           goodsEvaluateNum: 2,
           minMarketPrice: '6.51',
@@ -28,7 +28,7 @@ class RalatedProduct extends React.Component {
         {
           goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
           goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
+          goodsSubtitle: 'Trocken, Hund2',
           avgEvaluate: 1,
           goodsEvaluateNum: 2,
           minMarketPrice: '6.51',
@@ -40,7 +40,7 @@ class RalatedProduct extends React.Component {
         {
           goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
           goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
+          goodsSubtitle: 'Trocken, Hund3',
           avgEvaluate: 0,
           goodsEvaluateNum: 2,
           minMarketPrice: '6.51',
@@ -49,53 +49,60 @@ class RalatedProduct extends React.Component {
           subscriptionStatus: null,
           goodsId:"ff80808173b716520173b81bd1450070"
         },
-        {
-          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 1,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        },
-        {
-          goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
-          goodsName: 'MOBILITY C2P+ SMALL DOG',
-          goodsSubtitle: 'Trocken, Hund',
-          avgEvaluate: 0,
-          goodsEvaluateNum: 2,
-          minMarketPrice: '6.51',
-          minSubscriptionPrice: '6.18',
-          marketPrice: null,
-          subscriptionStatus: null,
-          goodsId:"ff80808173b716520173b81bd1450070"
-        }
+        // {
+        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
+        //   goodsSubtitle: 'Trocken, Hund4',
+        //   avgEvaluate: 1,
+        //   goodsEvaluateNum: 2,
+        //   minMarketPrice: '6.51',
+        //   minSubscriptionPrice: '6.18',
+        //   marketPrice: null,
+        //   subscriptionStatus: null,
+        //   goodsId:"ff80808173b716520173b81bd1450070"
+        // },
+        // {
+        //   goodsImg: 'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202008050653441618.png',
+        //   goodsName: 'MOBILITY C2P+ SMALL DOG',
+        //   goodsSubtitle: 'Trocken, Hund5',
+        //   avgEvaluate: 0,
+        //   goodsEvaluateNum: 2,
+        //   minMarketPrice: '6.51',
+        //   minSubscriptionPrice: '6.18',
+        //   marketPrice: null,
+        //   subscriptionStatus: null,
+        //   goodsId:"ff80808173b716520173b81bd1450070"
+        // }
       ]
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    
-  }
-  componentDidMount(){
-    let goodsId = this.props.goodsId
-    if(goodsId){
-      getGoodsRelation(goodsId).then((res)=>{
-        if(res.code === 'K-000000'){
-          const relatedProduce = res.context.goods
-          this.setState({
-            relatedProduce
-          },()=>{
-            console.log(111,this.state.relatedProduce)
-          })
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.relatedProduce && nextProps.relatedProduce !== this.state.relatedProduce) {
+      this.setState(
+        {
+          relatedProduce: nextProps.relatedProduce
+        },()=>{
+          console.log(789,this.state.relatedProduce)
         }
-      })
+      );
     }
-  
   }
+  // componentDidMount(){
+  //   let goodsId = this.props.goodsId
+  //   if(goodsId){
+  //     getGoodsRelation(goodsId).then((res)=>{
+  //       if(res.code === 'K-000000'){
+  //         const relatedProduce = res.context.goods
+  //         this.setState({
+  //           relatedProduce
+  //         },()=>{
+  //           console.log(111,this.state.relatedProduce)
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 
   hanldeItemClick=(item)=>{
     // if (this.state.loading) {
@@ -113,7 +120,8 @@ class RalatedProduct extends React.Component {
 
   render() {
     const {relatedProduce} = this.state
-    console.log('renderrenderrender')
+    // console.log('renderrenderrender')
+    // if(relatedProduce.length===0) return
     return (
       <div 
         class="rc-carousel rc-carousel--cards rc-match-heights" 
