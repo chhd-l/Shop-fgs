@@ -345,8 +345,13 @@ class Help extends React.Component {
       let res = await getProductPetConfig({
         goodsInfos: inStockProducts.map((el) => el.goodsInfo)
       });
-      console.log(res);
-      let AuditData = res.context.goodsInfos.filter((el) => el.auditCatFlag);
+      let handledData = inStockProducts.map((el, i) => {
+        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        el.sizeList = el.goodsInfo.goods.sizeList
+        return el;
+      });
+      let AuditData = handledData.filter((el) => el.auditCatFlag);
       this.props.checkoutStore.setAuditData(AuditData);
       let autoAuditFlag = res.context.autoAuditFlag;
       this.props.checkoutStore.setPetFlag(res.context.petFlag);
