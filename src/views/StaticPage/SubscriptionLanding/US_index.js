@@ -12,7 +12,6 @@ import icon4 from './images/us_icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
 import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
 import './index.css';
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -38,7 +37,6 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
           >

@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import LoginButton from '@/components/LoginButton';
 import { Link } from 'react-router-dom';
@@ -886,7 +885,6 @@ class UnLoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           ].join(' ')}
         >
-          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {productList.length ? (
               <>
