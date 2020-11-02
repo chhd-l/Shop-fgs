@@ -110,10 +110,10 @@ class FAQ extends React.Component {
                                 rel="noopener noreferrer"
                                 className="rc-styled-link"
                                 target="_blank"
-                                href="https://shopstg.royalcanin.com/help"
+                                href="/help"
                                 style={{ cursor: 'pointer' }}
                               >
-                                Expertenteam
+                                <FormattedMessage id="here"/>
                               </a>
                             )
                           }}

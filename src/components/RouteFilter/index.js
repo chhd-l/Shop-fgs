@@ -33,12 +33,12 @@ class RouteFilter extends Component {
     if (pathname === '/prescription') {
       if(this.isLogin) {
         let needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
+        if((!needPrescriber && checkoutStore.autoAuditFlag) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
       }else {
         let needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        if(!needPrescriber || (checkoutStore.autoAuditFlag && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`))) {
+        if((!needPrescriber && checkoutStore.autoAuditFlag) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
           history.replace('/payment/payment');
         }
       }
