@@ -122,11 +122,17 @@ class Payment extends React.Component {
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: []
+      AuditData: [],
+      needPrescriber: false,
     };
     this.timer = null;
   }
   async componentDidMount() {
+    if(this.isLogin) {
+      this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
+    }else {
+      this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
+    }
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -455,20 +461,13 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    console.log(process.env.REACT_APP_CHECKOUT_WITH_CLINIC, this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-    .length !== 0, this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-    .length !== 0, toJS(this.props.checkoutStore.loginCartData), toJS(this.props.checkoutStore.cartData))
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     }
   }
