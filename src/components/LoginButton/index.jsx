@@ -27,15 +27,24 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
+  const init = props.init;
   // console.log(useOktaAuth)
   // console.log(useOktaAuth(), 'useOktaAuth')
   // const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
+  const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
   const { authState, authService } = useOktaAuth();
 
   const { accessToken } = authState;
 
   useEffect(() => {
+    if (isGetUserInfoDown && init) {
+      init();
+    }
+  }, [isGetUserInfoDown, init]);
+
+  useEffect(() => {
+    setIsGetUserInfoDown(false);
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
@@ -65,7 +74,7 @@ const LoginButton = (props) => {
                   await checkoutStore.updateLoginCart();
                 }
 
-                props.init && props.init();
+                setIsGetUserInfoDown(true);
               })
               .catch((e) => {
                 console.log(e);
@@ -79,7 +88,7 @@ const LoginButton = (props) => {
           loginStore.changeLoginModal(false);
         });
     }
-  }, [authState, authService, accessToken, props]); // Update if authState changes
+  }, [authState, authService, accessToken]); // Update if authState changes
 
   const login = async () => {
     try {
