@@ -132,7 +132,7 @@ class Payment extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    if(!sessionItemRoyal.get('recommend_product')) {
+    if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
         this.props.history.push('/cart');
         return false;
@@ -307,7 +307,7 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
-    this.generatePayUParam()
+    this.generatePayUParam();
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -432,9 +432,9 @@ class Payment extends React.Component {
       }
     );
   };
-  generatePayUParam = () => {debugger
-    console.log('jsessionid', Cookies.get('jsessionid'));
-    const jsessionid = Cookies.get('jsessionid') || '1';
+  generatePayUParam = () => {
+    const jsessionid =
+      Cookies.get('jsessionid') || sessionItemRoyal.get('jsessionid');
     if (jsessionid) {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
@@ -455,20 +455,29 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    console.log(process.env.REACT_APP_CHECKOUT_WITH_CLINIC, this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-    .length !== 0, this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-    .length !== 0, toJS(this.props.checkoutStore.loginCartData), toJS(this.props.checkoutStore.cartData))
+    console.log(
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC,
+      this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
+        .length !== 0,
+      this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+        .length !== 0,
+      toJS(this.props.checkoutStore.loginCartData),
+      toJS(this.props.checkoutStore.cartData)
+    );
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        (this.props.checkoutStore.loginCartData.filter(
+          (el) => el.prescriberFlag
+        ).length !== 0 ||
+          !this.props.checkoutStore.autoAuditFlag)
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        (this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+          .length !== 0 ||
+          !this.props.checkoutStore.autoAuditFlag)
       );
     }
   }
@@ -755,7 +764,14 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        if (this.props.checkoutStore.AuditData.length > 0 && this.props.checkoutStore.petFlag && !this.props.checkoutStore.autoAuditFlag) {
+        if (paymentTypeVal === 'payUCreditCard') {
+          this.generatePayUParam();
+        }
+        if (
+          this.props.checkoutStore.AuditData.length > 0 &&
+          this.props.checkoutStore.petFlag &&
+          !this.props.checkoutStore.autoAuditFlag
+        ) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
               birthday: el.petForm.birthday,
@@ -774,11 +790,7 @@ class Payment extends React.Component {
             batchAddItemList: param
           });
         }
-      }
-
-      if (paymentTypeVal === 'payUCreditCard') {
-        this.generatePayUParam();
-      }
+      }debugger
       if (this.jsessionid && this.fingerprint) {
         parameters = Object.assign(parameters, {
           userAgent: navigator.userAgent,
@@ -923,7 +935,7 @@ class Payment extends React.Component {
         billingChecked,
         creditCardInfo
       } = this.state;
-      const cartData = this.cartData.filter((ele) => ele.selected)
+      const cartData = this.cartData.filter((ele) => ele.selected);
 
       let param = Object.assign(
         {},
@@ -951,17 +963,18 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      if(sessionItemRoyal.get('recommend_product')) {
+      if (sessionItemRoyal.get('recommend_product')) {
         await batchAdd({
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,
               buyCount: ele.buyCount,
-              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected)
+                .goodsInfoId
             };
           })
         });
-      }else {
+      } else {
         await batchAdd({
           goodsInfos: cartData.map((ele) => {
             return {
@@ -1388,7 +1401,7 @@ class Payment extends React.Component {
                   payWayObj: JSON.parse(
                     JSON.stringify(this.state.savedPayWayObj)
                   )
-                })
+                });
               }
             }
             // ****************订阅的时候隐藏oxxo支付方式end******************
@@ -1600,7 +1613,7 @@ class Payment extends React.Component {
         }
         return el;
       });
-      console.log(loginCartData, 'hahaha')
+      console.log(loginCartData, 'hahaha');
       this.props.checkoutStore.setLoginCartData(loginCartData);
     }
     this.closePetModal();
@@ -1747,7 +1760,7 @@ class Payment extends React.Component {
                             })
                           : this.props.checkoutStore.AuditData.map((el, i) => {
                               return (
-                                <div className="petProduct">
+                                <div className="petProduct" key={i}>
                                   <img
                                     alt=""
                                     src={
