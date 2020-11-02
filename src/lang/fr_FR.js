@@ -568,6 +568,7 @@ const en_US = {
   //qhx新增
   FrequentQuestions: "Questions courantes",
   clickHere: "cliquez ici",
+  here: 'ici',
   clickHere2: "Ici",
   FAQdesc: "Si vous avez une question. Jetez un œil ci-dessous pour voir s'il y a une réponse. Lorsque vous ne trouvez pas ce que vous cherchez. {val} pour nous contacter.",
   startFrom: "De",
