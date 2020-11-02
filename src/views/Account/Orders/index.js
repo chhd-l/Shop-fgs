@@ -68,7 +68,7 @@ class AccountOrders extends React.Component {
       res &&
       res.map((item) => {
         let value, values;
-        if (item.valueEn === 7) {
+        if (Number(item.valueEn) === 7) {
           value = item.valueEn;
           values = 7;
           return {
@@ -77,7 +77,7 @@ class AccountOrders extends React.Component {
               <FormattedMessage id="order.lastXDays" values={{ val: values }} />
             )
           };
-        } else if (item.valueEn === 30) {
+        } else if (Number(item.valueEn) === 30) {
           value = item.valueEn;
           values = 30;
           return {
@@ -647,7 +647,7 @@ class AccountOrders extends React.Component {
                 >
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
-                      <img src={orderImg} style={{ width: '100%' }} alt=""/>
+                      <img src={orderImg} style={{ width: '100%' }} alt="" />
                     </div>
                     <div
                       className="rc-column"

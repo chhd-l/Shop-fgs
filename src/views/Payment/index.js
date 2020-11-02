@@ -307,7 +307,7 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
-
+    this.generatePayUParam()
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -432,7 +432,7 @@ class Payment extends React.Component {
       }
     );
   };
-  generatePayUParam = () => {
+  generatePayUParam = () => {debugger
     console.log('jsessionid', Cookies.get('jsessionid'));
     const jsessionid = Cookies.get('jsessionid') || '1';
     if (jsessionid) {
