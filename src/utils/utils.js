@@ -41,9 +41,7 @@ export async function queryStoreCateIds() {
   let tmp = sessionItemRoyal.get('rc-storeId-list');
   if (!tmp) {
     let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
-    if (res.context && res.context.length) {
-      sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
-    }
+    sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
   }
   return JSON.parse(sessionItemRoyal.get('rc-storeId-list'));
 }
@@ -223,7 +221,7 @@ export function loadJS({
   //IE
   if (script.readyState) {
     script.onreadystatechange = function () {
-      if (script.readyState == 'loaded' || script.readyState == 'complete') {
+      if (script.readyState === 'loaded' || script.readyState === 'complete') {
         script.onreadystatechange = null;
         callback();
       }

@@ -38,6 +38,7 @@ export function purchases (parameter) {
       customerId: null,
       marketingId: 401 // todo
     })
+    return el
   })
   parameter.goodsMarketingDTOList = goodsMarketingDTOList
   parameter.goodsInfoIds = goodsInfoIds

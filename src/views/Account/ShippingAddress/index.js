@@ -377,16 +377,16 @@ class ShippingAddress extends React.Component {
                     </button>
                   </div> */}
                   <nav
-                    class="rc-tabs__controller rc-fade--x "
+                    className="rc-tabs__controller rc-fade--x "
                     data-toggle-group=""
                   >
                     <ul
-                      class="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
+                      className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank text-break"
                       role="tablist"
                     >
                       <li className="rc-tabs-li">
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.switchAddressType('DELIVERY')}
                           style={{ padding: '8px 15px' }}
                           data-toggle="deliveryAddress"
@@ -397,7 +397,7 @@ class ShippingAddress extends React.Component {
                       </li>
                       <li className="rc-tabs-li">
                         <button
-                          class="rc-tab text-break"
+                          className="rc-tab text-break"
                           onClick={() => this.switchAddressType('BILLING')}
                           style={{ padding: '8px 15px' }}
                           data-toggle="billingAddress"

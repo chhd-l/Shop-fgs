@@ -39,7 +39,7 @@ class BannerTip extends React.Component {
             <FormattedMessage id="home.promotionTip" />
             {process.env.REACT_APP_LANG === 'fr' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing'}
               >
                 En savoir plus
@@ -47,7 +47,7 @@ class BannerTip extends React.Component {
             )}
             {process.env.REACT_APP_LANG === 'en' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing-us'}
               >
                 Join the Club
@@ -55,7 +55,7 @@ class BannerTip extends React.Component {
             )}
             {process.env.REACT_APP_LANG === 'ru' && (
               <Link
-                class="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+                className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
                 to={'/subscription-landing-ru'}
               >
                 Учить больше

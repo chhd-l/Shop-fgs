@@ -103,11 +103,11 @@ class Help extends React.Component {
           </section>
 
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -136,19 +136,23 @@ class Help extends React.Component {
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image1} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image1} style={{ width: '100%' }} alt="" />
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
-            <div class="rc-column">
-              <img src={image2} style={{ width: '100%', marginTop: '50px' }} alt=""/>
+            <div className="rc-column">
+              <img
+                src={image2}
+                style={{ width: '100%', marginTop: '50px' }}
+                alt=""
+              />
             </div>
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -181,11 +185,11 @@ class Help extends React.Component {
             </div>
           </div>
           <div
-            class="rc-layout-container rc-two-column"
+            className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
             <div
-              class="rc-column"
+              className="rc-column"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -214,8 +218,8 @@ class Help extends React.Component {
                 </p>
               </div>
             </div>
-            <div class="rc-column">
-              <img src={image3} style={{ width: '100%' }} alt=""/>
+            <div className="rc-column">
+              <img src={image3} style={{ width: '100%' }} alt="" />
             </div>
           </div>
           <section
@@ -254,16 +258,16 @@ class Help extends React.Component {
               Выберите нужный продукт. Какое у вас животное?
             </h2>
             <div
-              class="rc-layout-container rc-two-column"
+              className="rc-layout-container rc-two-column"
               style={{ padding: '20px 200px' }}
             >
-              <div class="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
+              <div className="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
                   this.props.history.push('/list/dogs')
                 }}>
                 <img src={dog} style={{ width: '100%' }} />
                 <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}>Узнайте больше и подберите подходящее питание для вашего питомца</p>
               </div>
-              <div class="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
+              <div className="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
                   this.props.history.push('/list/cats')
                 }}>
                 <img src={cat} style={{ width: '100%' }} />

@@ -3,8 +3,8 @@ import React from 'react';
 function Consent1() {
   return (
     <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
-      <div class="rc-padding--sm rc-margin-bottom--sm  rc-agreements-container">
-        <h2 class="rc-beta text-center">
+      <div className="rc-padding--sm rc-margin-bottom--sm  rc-agreements-container">
+        <h2 className="rc-beta text-center">
           MESAFELİ SATIŞ ÖN BİLGİLENDİRME FORMU{' '}
         </h2>
         <p>SATICI’YA AİT BİLGİLER </p>
@@ -21,59 +21,59 @@ function Consent1() {
         <p>Ticaret Sicil No: 983173</p>
         <br />
 
-        <div class="rc-table">
-          {/* <div class="rc-scroll--x">
+        <div className="rc-table">
+          {/* <div className="rc-scroll--x">
             <table
-              class="rc-table__table"
+              className="rc-table__table"
               data-js-table="checkout_billing_productTable"
               data-rc-feature-tables-setup="true"
             >
-              <thead class="rc-table__thead">
-                <tr class="rc-table__row">
-                  <th class="rc-table__th rc-espilon">Ürün Kodu</th>
-                  <th class="rc-table__th rc-espilon">Mal Hizmet</th>
-                  <th class="rc-table__th rc-espilon">Birim fiyat(TL)</th>
-                  <th class="rc-table__th rc-espilon">Miktar</th>
-                  <th class="rc-table__th rc-espilon">Toplam Fiyat (TL)</th>
+              <thead className="rc-table__thead">
+                <tr className="rc-table__row">
+                  <th className="rc-table__th rc-espilon">Ürün Kodu</th>
+                  <th className="rc-table__th rc-espilon">Mal Hizmet</th>
+                  <th className="rc-table__th rc-espilon">Birim fiyat(TL)</th>
+                  <th className="rc-table__th rc-espilon">Miktar</th>
+                  <th className="rc-table__th rc-espilon">Toplam Fiyat (TL)</th>
                 </tr>
               </thead>
-              <tbody class="rc-table__tbody">
-                <tr class="rc-table__row">
-                  <td class="rc-table__td">100200500_TR</td>
-                  <td class="rc-table__td">X-small Puppy</td>
-                  <td class="rc-table__td">49.50 TL</td>
-                  <td class="rc-table__td">1.00</td>
-                  <td class="rc-table__td">49.50 TL</td>
+              <tbody className="rc-table__tbody">
+                <tr className="rc-table__row">
+                  <td className="rc-table__td">100200500_TR</td>
+                  <td className="rc-table__td">X-small Puppy</td>
+                  <td className="rc-table__td">49.50 TL</td>
+                  <td className="rc-table__td">1.00</td>
+                  <td className="rc-table__td">49.50 TL</td>
                 </tr>
               </tbody>
               <tbody>
-                <tr class="rc-table__row">
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td">Toplam Miktar</td>
-                  <td class="rc-table__td">1.00</td>
+                <tr className="rc-table__row">
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td">Toplam Miktar</td>
+                  <td className="rc-table__td">1.00</td>
                 </tr>
-                <tr class="rc-table__row">
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td">KDV Matrahi</td>
-                  <td class="rc-table__td">7.55 TL</td>
+                <tr className="rc-table__row">
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td">KDV Matrahi</td>
+                  <td className="rc-table__td">7.55 TL</td>
                 </tr>
-                <tr class="rc-table__row">
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td">Kargo bedeli</td>
-                  <td class="rc-table__td">7.99 TL</td>
+                <tr className="rc-table__row">
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td">Kargo bedeli</td>
+                  <td className="rc-table__td">7.99 TL</td>
                 </tr>
-                <tr class="rc-table__row">
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td"></td>
-                  <td class="rc-table__td">Ödenecek Tutar</td>
-                  <td class="rc-table__td">49.50 TL</td>
+                <tr className="rc-table__row">
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td"></td>
+                  <td className="rc-table__td">Ödenecek Tutar</td>
+                  <td className="rc-table__td">49.50 TL</td>
                 </tr>
               </tbody>
             </table>
@@ -98,7 +98,7 @@ function Consent1() {
           E-posta:
           <span data-represents-field="#billingEmail"></span>
         </p> */}
-        <div class="content-asset">
+        <div className="content-asset">
           <p>
             <a href="#anchorTest">CAYMA HAKKI</a>
           </p>

@@ -566,7 +566,6 @@ const en_US = {
   'shipmentTrackingFalse':'Veuillez cocher cette case si vous souhaitez continuer.',
   'NoPromotionDesc': 'Pas de doctorat',
   //qhx新增
-  delivery: "Livraison",
   FrequentQuestions: "Questions courantes",
   clickHere: "cliquez ici",
   clickHere2: "Ici",
@@ -686,7 +685,6 @@ const en_US = {
   'prescriptionDeclined': 'Ordonnance refusée',
   'recommandedForyou':'Recommandé pour vous',
   EnterCorrectValue: "Veuillez saisir le bon {val}",
-  "payment.errorInfo": "* {val} doit être rempli",
 
   'tailorednutrition': 'Santé et Nutrition',
   'tailorednutrition.title': "La santé mérite qu'on se batte pour elle",

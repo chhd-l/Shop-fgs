@@ -30,6 +30,8 @@ const { version } = require('os');
 const WebpackBar = require('webpackbar');
 const appPackageJson = require(paths.appPackageJson);
 
+//const CompressionPlugin = require("compression-webpack-plugin");  //Gzip
+
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
@@ -268,29 +270,21 @@ module.exports = function (webpackEnv) {
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
-        chunks: 'all',
-        // name: false,
+        chunks: 'async',
+        minSize: 20000,
+        maxSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 5,
+        automaticNameDelimiter: '~',
+        name: true,
         cacheGroups: {
-          vendor: {
-            chunks: 'async',
-            minChunks: 2,
-            name: 'vendor',
-            test: /node_modules/
-          },
-          common: {
-            chunks: 'async',
-            minChunks: 2,
-            name: 'common',
-            reuseExistingChunk: true,
-            enforce: true // 我们的公用代码小于 30kb，这里强制分离
-          },
-          reactBase: {
-            test: (module) => {
-              return /react|redux|prop-types/.test(module.context);
-            }, // 直接使用 test 来做路径匹配，抽离react相关代码
-            chunks: 'initial',
-            name: 'reactBase',
-            priority: 10
+          default: {
+            test: function (module, chunks) {
+              return true
+            },
+            priority: -20,
+            reuseExistingChunk: true
           }
         }
       },
@@ -574,7 +568,14 @@ module.exports = function (webpackEnv) {
           color: '#e2001a'
         }
       ),
-
+      // compression-webpack-plugin 因为版本问题，2.x将 asset 改为了 filename
+     /* new CompressionPlugin({
+        filename: '[path].gz[query]', // 目标资源名称。[file] 会被替换成原资源。[path] 会被替换成原资源路径，[query] 替换成原查询字符串
+        algorithm: 'gzip', // 算法
+        test: new RegExp('\\.(js|css)$'), // 压缩 js 与 css
+        threshold: 10240, // 只处理比这个值大的资源。按字节计算
+        minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
+      }),*/
       // new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(

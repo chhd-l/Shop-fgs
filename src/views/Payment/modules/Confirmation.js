@@ -67,7 +67,7 @@ class Confirmation extends React.Component {
   render() {
     return (
       <>
-        <div class="card-panel checkout--padding rc-bg-colour--brand3 rounded">
+        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded">
           <div className="bg-transparent d-flex justify-content-between align-items-center">
             <h5
               className={`mb-0 ${

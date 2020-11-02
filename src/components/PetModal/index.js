@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import Modal from '@/components/Modal';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { inject } from 'mobx-react';
-import { findIndex } from 'lodash';
+import { injectIntl } from 'react-intl';
 import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
 import './index.css';
-import { addPet } from '@/api/pet';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
 

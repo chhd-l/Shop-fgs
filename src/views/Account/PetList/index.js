@@ -1,12 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
-import { Link } from 'react-router-dom';
 
 export default class PetForm extends React.Component {
   constructor(props) {
@@ -30,62 +28,62 @@ export default class PetForm extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div class="list-select-pet js-list-pet" data-toggle-group="">
+                <div className="list-select-pet js-list-pet" data-toggle-group="">
                   <ul
-                    class="scroll--x list list--inline list--align list--blank flex--middle"
+                    className="scroll--x list list--inline list--align list--blank flex--middle"
                     role="tablist"
                   >
-                    <li class="pet-element">
+                    <li className="pet-element">
                       <a
                         href="/ru/account/"
-                        class="tab-add tab--img"
+                        className="tab-add tab--img"
                         role="tab"
                       >
-                        <span class="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
+                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet"></span>
                       </a>
                     </li>
-                    <li class="rc-margin-x--xs pet-element">
+                    <li className="rc-margin-x--xs pet-element">
                       <a href="/on/demandware.store">
-                        <div class="tab__img img--round img--round--md name--select text-center active">
+                        <div className="tab__img img--round img--round--md name--select text-center active">
                           Rita
                         </div>
                       </a>
                     </li>
                   </ul>
                 </div>
-                <div class="pet-information js-pet-information rc-margin-bottom--md">
-                  <h2 class="name-pet">Rita</h2>
-                  <div class="rc-layout-container">
-                    <div class="rc-column">
-                      <ul class="pet-data">
-                        <li class="breed dog">
-                          <span class="">Unknown breed</span>
+                <div className="pet-information js-pet-information rc-margin-bottom--md">
+                  <h2 className="name-pet">Rita</h2>
+                  <div className="rc-layout-container">
+                    <div className="rc-column">
+                      <ul className="pet-data">
+                        <li className="breed dog">
+                          <span className="">Unknown breed</span>
                         </li>
-                        <li class="birth">
-                          <span class="">2020-05-05</span>
+                        <li className="birth">
+                          <span className="">2020-05-05</span>
                         </li>
-                        <li class="gender male sprite-pet">
-                          <span class="">male</span>
+                        <li className="gender male sprite-pet">
+                          <span className="">male</span>
                         </li>
-                        <li class="weight">
-                          <span class="">Mini</span>
+                        <li className="weight">
+                          <span className="">Mini</span>
                         </li>
                       </ul>
                     </div>
-                    <div class="rc-column">
-                      <div class="pet-special-need">Special needs</div>
-                      <ul class="list-special-need">
-                        <li class="">Skin and Wool Care</li>
-                        <li class="">Increased joint sensitivity</li>
-                        <li class="">Sensitive digestive system</li>
+                    <div className="rc-column">
+                      <div className="pet-special-need">Special needs</div>
+                      <ul className="list-special-need">
+                        <li className="">Skin and Wool Care</li>
+                        <li className="">Increased joint sensitivity</li>
+                        <li className="">Sensitive digestive system</li>
                       </ul>
                     </div>
-                    <div class="edit js-edit-pet">
-                      <a href="#" class="tab--img" data-toggle="">
-                        <img src={edit} class="img-success" alt="" />
+                    <div className="edit js-edit-pet">
+                      <a href="#" className="tab--img" data-toggle="">
+                        <img src={edit} className="img-success" alt="" />
                       </a>
                     </div>
-                    <div class="delete">
+                    <div className="delete">
                       <a href="#">X</a>
                     </div>
                   </div>

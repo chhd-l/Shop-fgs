@@ -632,7 +632,7 @@ class List extends React.Component {
                                     item.goodsInfos,
                                     (ele) => ele.goodsPromotion
                                   ) ? (
-                                    <div class="product-item-flag">
+                                    <div className="product-item-flag">
                                       <FormattedMessage id="promotion" />
                                     </div>
                                   ) : null

@@ -645,12 +645,12 @@ class AccountOrders extends React.Component {
                   className="content-asset"
                   style={{ display: haveList ? 'none' : 'block' }}
                 >
-                  <div class="rc-layout-container rc-two-column">
-                    <div class="rc-column">
+                  <div className="rc-layout-container rc-two-column">
+                    <div className="rc-column">
                       <img src={orderImg} style={{ width: '100%' }} alt=""/>
                     </div>
                     <div
-                      class="rc-column"
+                      className="rc-column"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -662,7 +662,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="account.orders.tips" />
                         </p>
                         <button
-                          class="rc-btn rc-btn--one"
+                          className="rc-btn rc-btn--one"
                           onClick={() => this.props.history.push('/')}
                         >
                           <FormattedMessage id="account.orders.btns" />

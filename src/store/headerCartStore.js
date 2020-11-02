@@ -1,5 +1,4 @@
 import { action, observable } from "mobx";
-import store from 'storejs'
 
 class HeaderCartStore {
   @observable visible = false

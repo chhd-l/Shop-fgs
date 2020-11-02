@@ -290,7 +290,7 @@ class PayProductInfo extends React.Component {
               {/* 支付新增promotionCode(选填) */}
               <div className="mb-3 d-flex justify-content-between">
                 <span
-                  class="rc-input rc-input--inline rc-input--label mr-0"
+                  className="rc-input rc-input--inline rc-input--label mr-0"
                   style={{ width: '150px' }}
                 >
                   <FormattedMessage id="promotionCode">
@@ -307,7 +307,7 @@ class PayProductInfo extends React.Component {
                     )}
                   </FormattedMessage>
 
-                  <label class="rc-input__label" for="id-text2"></label>
+                  <label className="rc-input__label" for="id-text2"></label>
                 </span>
                 <button
                   id="promotionApply"

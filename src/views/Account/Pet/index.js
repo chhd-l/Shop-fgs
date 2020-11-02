@@ -11,7 +11,6 @@ import './index.css';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
-import Loading from '@/components/Loading';
 import { getCustomerInfo } from '@/api/user';
 
 @inject('loginStore')

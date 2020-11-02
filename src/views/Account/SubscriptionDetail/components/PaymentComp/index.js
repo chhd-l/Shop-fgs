@@ -846,7 +846,7 @@ class PaymentComp extends React.Component {
         {!this.state.isEdit && (
           <div className="text-right" style={{ marginTop: '10px' }}>
             {/* <button
-              class="rc-btn rc-btn--sm rc-btn--two"
+              className="rc-btn rc-btn--sm rc-btn--two"
               onClick={() => this.props.cancel()}
             >
               Cancel
@@ -866,7 +866,7 @@ class PaymentComp extends React.Component {
             </span>
             &nbsp;
             <button
-              class="rc-btn rc-btn--sm rc-btn--one"
+              className="rc-btn rc-btn--sm rc-btn--one"
               onClick={() => {
                 const selectedItem = creditCardList.filter(
                   (el) => el.selected

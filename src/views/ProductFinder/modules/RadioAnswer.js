@@ -66,11 +66,11 @@ const RadioAnswer = (props) => {
               <p>
                 <FormattedMessage id="productFinder.healthTip2" />
               </p>
-              <div class="rc-btn-group mb-3">
-                <button class="rc-btn rc-btn--one">
+              <div className="rc-btn-group mb-3">
+                <button className="rc-btn rc-btn--one">
                   <FormattedMessage id="learnMore" />
                 </button>
-                <button class="rc-btn rc-btn--two">
+                <button className="rc-btn rc-btn--two">
                   <FormattedMessage id="contactUs" />
                 </button>
               </div>

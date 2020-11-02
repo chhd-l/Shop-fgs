@@ -737,7 +737,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                   </div>
-                  <hr class="rc-margin-top---none" />
+                  <hr className="rc-margin-top---none" />
                   <div className="content-asset">
                     {this.state.loading && (
                       <div className="mt-4">
@@ -894,7 +894,7 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-card__meta order-Id"
                                 style={{ marginTop: '10px' }}
                               >
-                                {/* <span class="rc-input"> */}
+                                {/* <span className="rc-input"> */}
                                 {/* <span
                                 className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
                                 input-setup="true"
@@ -919,7 +919,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <hr class="rc-margin-top---none" />
+                      <hr className="rc-margin-top---none" />
                       <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
@@ -1349,11 +1349,11 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <span
-                                class="rc-input rc-input--inline rc-input--label"
+                                className="rc-input rc-input--inline rc-input--label"
                                 style={{ width: '180px' }}
                               >
                                 <input
-                                  class="rc-input__control"
+                                  className="rc-input__control"
                                   id="id-text2"
                                   type="text"
                                   name="text"
@@ -1364,7 +1364,7 @@ class SubscriptionDetail extends React.Component {
                                   onChange={(e) => this.handlerChange(e)}
                                 />
                                 <label
-                                  class="rc-input__label"
+                                  className="rc-input__label"
                                   for="id-text2"
                                 ></label>
                               </span>
@@ -1431,10 +1431,10 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <hr class="rc-margin-top---none" />
+                      <hr className="rc-margin-top---none" />
                       {/*footer*/}
-                      <div class="row ml-2 mr-2 text-left text-break">
-                        <div class="col-12 col-md-4 mb-2">
+                      <div className="row ml-2 mr-2 text-left text-break">
+                        <div className="col-12 col-md-4 mb-2">
                           <div className="d-flex align-items-center">
                             <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
                             <span>
