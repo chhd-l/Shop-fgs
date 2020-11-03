@@ -154,13 +154,13 @@ class CommunicationDataEditForm extends React.Component {
                 editFormVisible ? '' : 'hidden'
               }`}
             >
-              <a
+              <span
                 className="rc-styled-link editPersonalInfoBtn"
                 name="contactPreference"
                 onClick={() => this.handleCancel()}
               >
                 <FormattedMessage id="cancel" />
-              </a>
+              </span>
               &nbsp;
               <FormattedMessage id="or" />
               &nbsp;
