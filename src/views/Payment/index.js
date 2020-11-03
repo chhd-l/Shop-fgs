@@ -1034,8 +1034,8 @@ class Payment extends React.Component {
       billAddressId: billingAddress.addressId
     };
     if(this.state.needPrescriber) {
-      param.clinicsId = this.props.clinicStore.clinicId,
-      param.clinicsName = this.props.clinicStore.clinicName,
+      param.clinicsId = this.props.clinicStore.clinicId
+      param.clinicsName = this.props.clinicStore.clinicName
     }
     
     // if (!this.checkoutWithClinic) {
