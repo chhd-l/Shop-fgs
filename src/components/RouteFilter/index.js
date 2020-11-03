@@ -53,9 +53,8 @@ class RouteFilter extends Component {
         }
       }
     }
-
     if (
-      pathname === '/prescription' && localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) &&
+      pathname === '/prescription' && (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === null)  &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
         localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
