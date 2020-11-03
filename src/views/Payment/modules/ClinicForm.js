@@ -93,7 +93,7 @@ class ClinicForm extends React.Component {
             <FormattedMessage id="edit" />
           </p>
         </div>
-        <div>{this.props.clinicStore.clinicName}</div>
+        <div>{this.props.clinicStore.selectClinicName}</div>
       </div>
     );
 

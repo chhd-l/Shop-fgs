@@ -9,7 +9,7 @@ import { toJS } from 'mobx';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore', 'loginStore', 'checkoutStore')
+@inject('configStore', 'loginStore', 'checkoutStore', 'clinicStore')
 class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -62,6 +62,10 @@ class RouteFilter extends Component {
         (localItemRoyal.get(`rc-clinic-id-default`) &&
           localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
+      if(localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        this.props.clinicStore.setSelectClinicId(this.props.clinicStore.linkClinicId)
+        this.props.clinicStore.setSelectClinicName(this.props.clinicStore.linkClinicName)
+      }
       history.replace('/payment/payment');
       return false;
     }

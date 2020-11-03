@@ -881,12 +881,14 @@ class Payment extends React.Component {
 
       // update clinic
       if (this.checkoutWithClinic) {
-        clinicStore.removeLinkClinicId();
-        clinicStore.removeLinkClinicName();
-        clinicStore.setSelectClinicId(clinicStore.clinicId);
-        clinicStore.setSelectClinicName(clinicStore.clinicName);
-        clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        clinicStore.setDefaultClinicName(clinicStore.clinicName);
+        if(clinicStore.linkClinicId && clinicStore.linkClinicId !== clinicStore.selectClinicId) {
+          clinicStore.removeLinkClinicId();
+          clinicStore.removeLinkClinicName();
+        }
+        // clinicStore.setSelectClinicId(clinicStore.clinicId);
+        // clinicStore.setSelectClinicName(clinicStore.clinicName);
+        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
       }
 
       sessionItemRoyal.remove('payosdata');
@@ -1015,27 +1017,22 @@ class Payment extends React.Component {
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
-      clinicsId: this.props.clinicStore.clinicId,
-      clinicsName: this.props.clinicStore.clinicName,
-      recommendationId: this.props.clinicStore.clinicId,
+      recommendationId: this.props.clinicStore.linkClinicId,
       recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-
       last4Digits: payosdata.last_4_digits,
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-
       petsId: '1231',
-
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
     if(this.state.needPrescriber) {
-      param.clinicsId = this.props.clinicStore.clinicId
-      param.clinicsName = this.props.clinicStore.clinicName
+      param.clinicsId = this.props.clinicStore.selectClinicId
+      param.clinicsName = this.props.clinicStore.selectClinicName
     }
     
     // if (!this.checkoutWithClinic) {
