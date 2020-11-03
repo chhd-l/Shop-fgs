@@ -1080,44 +1080,115 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
-                        {specList.map((sItem, i) => (
-                          <div id="choose-select" key={i}>
-                            <div className="rc-margin-bottom--xs">
-                              {/* <FormattedMessage id="details.theSize" /> */}
-                              {sItem.specName}:
-                            </div>
+                        <div className="specAndQuantity rc-margin-bottom--xs">
+                          <div className="spec">
+                            {specList.map((sItem, i) => (
+                              <div id="choose-select" key={i}>
+                                <div className="rc-margin-bottom--xs">
+                                  {/* <FormattedMessage id="details.theSize" /> */}
+                                  {sItem.specName}:
+                                </div>
 
-                            <div data-attr="size">
-                              <div
-                                className="rc-swatch __select-size"
-                                id="id-single-select-size"
-                              >
-                                {sItem.chidren.map(
-                                  (sdItem, i) => (
-                                    <div
-                                      key={i}
-                                      className={`rc-swatch__item ${
-                                        sdItem.selected
-                                          ? 'selected'
-                                          : ''
-                                      }`}
-                                      onClick={() =>
-                                        this.handleChooseSize(
-                                          sItem.specId,
-                                          sdItem.specDetailId
-                                        )
-                                      }
-                                    >
-                                      <span>
-                                        {sdItem.detailName}
-                                      </span>
-                                    </div>
-                                  )
-                                )}
+                                <div data-attr="size">
+                                  <div
+                                    className="rc-swatch __select-size"
+                                    id="id-single-select-size"
+                                  >
+                                    {sItem.chidren.map((sdItem, i) => (
+                                      <div
+                                        key={i}
+                                        className={`rc-swatch__item ${
+                                          sdItem.selected ? 'selected' : ''
+                                        }`}
+                                        onClick={() =>
+                                          this.handleChooseSize(
+                                            sItem.specId,
+                                            sdItem.specDetailId
+                                          )
+                                        }
+                                      >
+                                        <span>{sdItem.detailName}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="Quantity">
+                            <span>
+                              <FormattedMessage id="amount" />:
+                            </span>
+                            <div className="quantity d-flex justify-content-between align-items-center">
+                              <input
+                                type="hidden"
+                                id="invalid-quantity"
+                                value="Пожалуйста, введите правильный номер."
+                              />
+                              <div className="rc-quantity text-right d-flex justify-content-end">
+                                <span
+                                  className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                  onClick={() =>
+                                    this.hanldeAmountChange('minus')
+                                  }
+                                ></span>
+                                <input
+                                  className="rc-quantity__input"
+                                  id="quantity"
+                                  name="quantity"
+                                  value={quantity}
+                                  min={quantityMinLimit}
+                                  max={stock}
+                                  onChange={this.handleAmountInput}
+                                  maxLength="5"
+                                />
+                                <span
+                                  className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                  onClick={() =>
+                                    this.hanldeAmountChange('plus')
+                                  }
+                                ></span>
                               </div>
                             </div>
                           </div>
-                        ))}
+                        </div>
+                        <div className="singleBuy">
+                          <div className="radioBox">
+                            <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
+                              <FormattedMessage id="email">
+                                {(txt) => (
+                                  <input
+                                    className="rc-input__radio"
+                                    id="optsemail"
+                                    type="radio"
+                                    alt={txt}
+                                    name="buyWay"
+                                    value="once"
+                                    key="1"
+                                    // onChange={(event) => this.handleInputChange(event)}
+                                    checked
+                                  />
+                                )}
+                              </FormattedMessage>
+                              <label
+                                className="rc-input__label--inline"
+                                htmlFor="optsemail"
+                              >
+                                <span
+                                  style={{ fontWeight: '400', color: '#333' }}
+                                >
+                                  <FormattedMessage id="Single purchase" />
+                                </span>
+                              </label>
+                            </div>
+                            <br/>
+                            -4$ for your 1st order
+                          </div>
+                          <div className="freqency">
+                            delivery 1 time only
+                          </div>
+                          <div className="price">$30</div>
+                        </div>
                       </div>
                       {/* <div className="rc-column product-column">
                         {this.state.loading ? (
