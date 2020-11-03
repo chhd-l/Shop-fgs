@@ -45,7 +45,9 @@ class AccountOrders extends React.Component {
       errMsg: '',
       duringTimeOptions: [],
       defaultLocalDateTime: '',
-      haveList: true
+      haveList: true,
+      haveOrder:true,
+      isFirstComeIn: true,
     };
 
     this.pageSize = 6;
@@ -182,6 +184,9 @@ class AccountOrders extends React.Component {
         if (!tmpList.length) {
           this.setState({ haveList: false });
         } else {
+          if(this.state.isFirstComeIn) {
+            this.setState({haveOrder: true, isFirstComeIn: false})
+          }
           this.setState({ haveList: true });
         }
         this.setState({
@@ -356,7 +361,7 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     };
-    let { haveList } = this.state;
+    let { haveList, haveOrder } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -380,7 +385,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="row justify-content-around"
-                  style={{ display: haveList ? 'flex' : 'none' }}
+                  style={{ display: haveOrder? 'flex' : 'none' }}
                 >
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
@@ -393,7 +398,7 @@ class AccountOrders extends React.Component {
                           id="id-text8"
                           type="text"
                           name="orderNumber"
-                          maxLength="20"
+                          maxLength="21"
                           // placeholder={this.props.intl.message.order.inputOrderNumberTip}
                           value={this.state.form.orderNumber}
                           onChange={(e) => this.handleInputChange(e)}
@@ -428,7 +433,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="order__listing"
-                  style={{ display: haveList ? 'block' : 'none' }}
+                  style={{ display: haveOrder? 'block' : 'none' }}
                 >
                   <div className="order-list-container">
                     {this.state.loading ? (
@@ -624,7 +629,7 @@ class AccountOrders extends React.Component {
                           </div>
                         ))}
                       </>
-                    ) : null}
+                    ) : <div style={{margin: '50px auto', textAlign: 'center'}}><FormattedMessage id="order.noDataTip" /></div>}
                     {this.state.errMsg ||
                     !this.state.orderList.length ? null : (
                       <div className="grid-footer rc-full-width mt-2">
@@ -643,7 +648,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="content-asset"
-                  style={{ display: haveList ? 'none' : 'block' }}
+                  style={{ display: haveOrder? 'none' : 'block' }}
                 >
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">

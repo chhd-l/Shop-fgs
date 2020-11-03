@@ -541,6 +541,28 @@ class Payment extends React.Component {
   };
   // 支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
+    if(this.props.checkoutStore.AuditData.length) {
+      let petFlag = true
+      let data = this.props.checkoutStore.AuditData
+      for(let i = 0; i < data.length; i++) {
+        if(this.isLogin) {
+          if(!data.petsId) {
+            petFlag = false
+            break
+          }
+        }else {
+          if(!data.petForm.petName) {
+            petFlag = false
+            break
+          }
+        }
+      }
+      if(!petFlag) {
+        this.showErrorMsg('Please fill in pet information')
+        this.endLoading()
+        return
+      }
+    }
     this.doGetAdyenPayParam(type);
     if (email) {
       this.setState({
@@ -884,6 +906,7 @@ class Payment extends React.Component {
         if(clinicStore.linkClinicId && clinicStore.linkClinicId !== clinicStore.selectClinicId) {
           clinicStore.removeLinkClinicId();
           clinicStore.removeLinkClinicName();
+          clinicStore.removeAuditAuthority()
         }
         // clinicStore.setSelectClinicId(clinicStore.clinicId);
         // clinicStore.setSelectClinicName(clinicStore.clinicName);
