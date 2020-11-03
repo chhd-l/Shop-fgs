@@ -913,7 +913,7 @@ class Payment extends React.Component {
             tidList: err.errorData.tidList,
             rePaySubscribeId: err.errorData.subscribeId
           },
-          () => this.queryOrderDetails()
+          () => this.state.tidList.length > 0 && this.queryOrderDetails()
         );
       }
       throw new Error(err.message);
