@@ -13,11 +13,11 @@ export const menubar = {
           },
           {
             link: '/qualitySafety',
-            messageId: 'Quality Safety'
+            messageId: 'footer.qualityAndSafety'
           },
           {
             link: '/tailorednutrition',
-            messageId: 'Tailored Nutrition'
+            messageId: 'tailorednutrition'
           }
         ]
       }
@@ -192,32 +192,32 @@ export const menubar = {
   fr: [
     [
       {
-        titleId: 'ROYAL CANIN',
+        titleId: 'footer.aboutRoyalCanin',
         list: [
           {
             link: '/aboutUs',
-            messageId: 'A propos'
+            messageId: 'aboutUs'
           },
           {
             url: 'https://shop.royalcanin.fr/Values.html',
-            messageId: 'Nos valeurs'
+            messageId: 'footer.ourValues'
           },
           {
-            url: 'https://shop.royalcanin.fr/Quality-safety.html',
-            messageId: 'Qualité et sécurité alimentaire'
+            url: '/qualitySafety',
+            messageId: 'footer.qualityAndSafety'
           }
         ]
       }
     ],
     [
       {
-        titleId: 'ALIMENTS',
+        titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'Chat' },
-          { link: '/list/dogs', messageId: 'Chien' },
+          { link: '/list/cats', messageId: 'account.cat' },
+          { link: '/list/dogs', messageId: 'account.dog' },
           {
             link: '/tailorednutrition',
-            messageId: 'Santé et bien-être'
+            messageId: 'tailorednutrition'
           }
         ]
       }
@@ -277,18 +277,18 @@ export const menubar = {
           {
             // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
             link: '/qualitySafety',
-            messageId: 'Качество и безопасность'
+            messageId: 'footer.qualityAndSafety'
           },
           {
             link: '/tailorednutrition',
-            messageId: 'Здоровье и питание'
+            messageId: 'tailorednutrition'
           }
         ]
       }
     ],
     [
       {
-        titleId: 'ПРОДУКТЫ',
+        titleId: 'footer.products',
         list: [
           { link: '/list/cats', messageId: 'cats2' },
           { link: '/list/dogs', messageId: 'dogs2' },
@@ -366,11 +366,11 @@ export const menubar = {
           },
           {
             link: '/qualitySafety',
-            messageId: 'Gıda Kalitesi ve Güvenliği'
+            messageId: 'footer.qualityAndSafety'
           },
           {
             link: '/tailorednutrition',
-            messageId: 'Sağlık ve Beslenme'
+            messageId: 'tailorednutrition'
           }
         ]
       }
