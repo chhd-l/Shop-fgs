@@ -7,9 +7,9 @@ export default class OxxoModal extends Component {
     super(props);
     this.state = {};
   }
-  close() {
+  close = () => {
     this.props.close();
-  }
+  };
   render() {
     const { visible } = this.props;
     return (
@@ -48,7 +48,7 @@ export default class OxxoModal extends Component {
                   src={this.props.oxxoPayUrl}
                   width="100%"
                   style={{ height: '78vh' }}
-                ></iframe>
+                />
               </div>
               <div className="modal-footer" style={{ borderTop: 'none' }}>
                 <a
@@ -58,9 +58,9 @@ export default class OxxoModal extends Component {
                 >
                   <FormattedMessage id="visitStoreMap" />
                 </a>
-                <a href="#" onClick={() => this.close()}>
+                <span onClick={this.close}>
                   <FormattedMessage id="close" />
-                </a>
+                </span>
               </div>
             </div>
           </div>

@@ -322,7 +322,6 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
-    this.generatePayUParam()
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -447,9 +446,11 @@ class Payment extends React.Component {
       }
     );
   };
-  generatePayUParam = () => {debugger
-    console.log('jsessionid', Cookies.get('jsessionid'));
-    const jsessionid = Cookies.get('jsessionid') || '1';
+  generatePayUParam = () => {
+    const jsessionid =
+      Cookies.get('jsessionid') ||
+      sessionItemRoyal.get('jsessionid') ||
+      `${this.userInfo.customerId}${new Date().getTime()}`;
     if (jsessionid) {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
@@ -459,6 +460,9 @@ class Payment extends React.Component {
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   get cartData() {
     return this.props.checkoutStore.cartData;
@@ -1013,7 +1017,7 @@ class Payment extends React.Component {
       line2: deliveryAddress.address2,
       clinicsId: this.props.clinicStore.clinicId,
       clinicsName: this.props.clinicStore.clinicName,
-      recommendationId: this.props.clinicStore.clinicsId,
+      recommendationId: this.props.clinicStore.clinicId,
       recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
@@ -1029,6 +1033,11 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
+    if(this.state.needPrescriber) {
+      param.clinicsId = this.props.clinicStore.clinicId
+      param.clinicsName = this.props.clinicStore.clinicName
+    }
+    
     // if (!this.checkoutWithClinic) {
     //   param = Object.assign(param, {
     //     clinicsId: 'FG20200914',
@@ -1755,7 +1764,7 @@ class Payment extends React.Component {
                             })
                           : this.props.checkoutStore.AuditData.map((el, i) => {
                               return (
-                                <div className="petProduct">
+                                <div className="petProduct" key={i}>
                                   <img
                                     alt=""
                                     src={
