@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -50,7 +49,6 @@ class Tailorednutrition extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
           <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}

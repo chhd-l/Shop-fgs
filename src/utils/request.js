@@ -43,6 +43,9 @@ service.interceptors.response.use(
     if (response.data instanceof Blob) {
       return response;
     }
+    if (response.headers.jsessionid) {
+      sessionItemRoyal.set('jsessionid', response.headers.jsessionid)
+    }
     if (
       response.status === 200 &&
       response.data &&

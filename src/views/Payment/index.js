@@ -122,11 +122,26 @@ class Payment extends React.Component {
       isAdd: 0,
       listData: [],
       requiredList: [],
-      AuditData: []
+      AuditData: [],
+      needPrescriber: false,
     };
     this.timer = null;
   }
   async componentDidMount() {
+    if(this.isLogin) {
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
+      
+    }else {
+      if(this.props.checkoutStore.autoAuditFlag) {
+        this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
+      }else {
+        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+      }
+    }
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -307,7 +322,6 @@ class Payment extends React.Component {
   initPaymentWay = async () => {
     //获取支付方式
     const payWay = await getWays();
-    this.generatePayUParam()
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
       PAYU: {
@@ -432,9 +446,11 @@ class Payment extends React.Component {
       }
     );
   };
-  generatePayUParam = () => {debugger
-    console.log('jsessionid', Cookies.get('jsessionid'));
-    const jsessionid = Cookies.get('jsessionid') || '1';
+  generatePayUParam = () => {
+    const jsessionid =
+      Cookies.get('jsessionid') ||
+      sessionItemRoyal.get('jsessionid') ||
+      `${this.userInfo.customerId}${new Date().getTime()}`;
     if (jsessionid) {
       const fingerprint = md5(`${jsessionid}${new Date().getTime()}`);
       generatePayUScript(fingerprint);
@@ -444,6 +460,9 @@ class Payment extends React.Component {
   };
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
   }
   get cartData() {
     return this.props.checkoutStore.cartData;
@@ -455,20 +474,13 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    console.log(process.env.REACT_APP_CHECKOUT_WITH_CLINIC, this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-    .length !== 0, this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-    .length !== 0, toJS(this.props.checkoutStore.loginCartData), toJS(this.props.checkoutStore.cartData))
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.loginCartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-        this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-          .length !== 0 || !this.props.checkoutStore.autoAuditFlag)
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
       );
     }
   }
@@ -1747,7 +1759,7 @@ class Payment extends React.Component {
                             })
                           : this.props.checkoutStore.AuditData.map((el, i) => {
                               return (
-                                <div className="petProduct">
+                                <div className="petProduct" key={i}>
                                   <img
                                     alt=""
                                     src={
