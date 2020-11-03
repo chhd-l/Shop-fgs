@@ -60,7 +60,7 @@ export default class Selection extends React.Component {
       hoveredIdx: !currentState.optionsVisible
         ? findIndex(
             this.props.optionList,
-            (o) => o.value.toString() === selectedItem.value.toString()
+            (o) => o.value + '' === selectedItem.value + ''
           )
         : -1
     }));

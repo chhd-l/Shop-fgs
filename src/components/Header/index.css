@@ -28,9 +28,9 @@
   color: #e2001a;
 }
 #bannerTip {
-  z-index: 999;
+  z-index: 8;
   position: relative !important;
-  top: 7em;
+  top: 7.4em;
 }
 
 @media (max-width: 639.98px) {
