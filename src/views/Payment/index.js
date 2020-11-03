@@ -1017,7 +1017,7 @@ class Payment extends React.Component {
       line2: deliveryAddress.address2,
       clinicsId: this.props.clinicStore.clinicId,
       clinicsName: this.props.clinicStore.clinicName,
-      recommendationId: this.props.clinicStore.clinicsId,
+      recommendationId: this.props.clinicStore.clinicId,
       recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
@@ -1033,6 +1033,11 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
+    if(this.state.needPrescriber) {
+      param.clinicsId = this.props.clinicStore.clinicId,
+      param.clinicsName = this.props.clinicStore.clinicName,
+    }
+    
     // if (!this.checkoutWithClinic) {
     //   param = Object.assign(param, {
     //     clinicsId: 'FG20200914',
