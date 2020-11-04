@@ -546,12 +546,12 @@ class Payment extends React.Component {
       let data = this.props.checkoutStore.AuditData
       for(let i = 0; i < data.length; i++) {
         if(this.isLogin) {
-          if(!data.petsId) {
+          if(!data[i].petsId) {
             petFlag = false
             break
           }
         }else {
-          if(!data.petForm.petName) {
+          if(!data[i].petForm.petName) {
             petFlag = false
             break
           }
