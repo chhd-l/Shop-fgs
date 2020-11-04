@@ -518,6 +518,7 @@
 }
 
 .dashboard-order-card-image {
+  width: 7rem;
   padding-right: 1rem
 }
 
@@ -658,7 +659,7 @@
   width: 100%;
   min-width: 100%;
   margin:0;
-  padding: 0;
+  padding: 0
 }
 
 @media (max-width: 768.98px) {
@@ -1086,64 +1087,191 @@
   border-radius: 3px
 }
 
-.card-footer-border {
-  border-top: 1px dashed #999
+.product-summary {
+  position: relative
 }
 
-.card-make-default-link {
-  margin-top: 1rem
+.product-summary__title {
+  padding: .75rem 0
 }
 
-.dashboard-order-card-status {
-  text-transform: capitalize
+.product-summary__recap {
+  margin: .75rem 0 1rem
 }
 
-.dashboard-order-card-image {
-  width: 7rem
+.product-summary__products,.product-summary__recap__content {
+  padding: 0 1px
 }
 
-.account-landing-ordercard {
-  padding: 0;
-  height: 1rem;
-  margin-left: 1.25rem;
-  border-bottom: 0 none;
-  margin-top: 1rem
+.product-summary__products__item {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #d7d7d7
 }
 
-.account-landing-ordercard h4 {
-  font-size: 1.2rem
+.product-summary__products__item .item-image {
+  width: 45px;
+  height: auto;
+  margin: 0 .8em 0 0
 }
 
-div.order-number {
-  padding-top: .2rem
+.product-summary__products__item .wrap-item-title {
+  width: 100%
 }
 
-.dashboard-cards-block-title {
-  margin-bottom: 1em
+.product-summary__products__item .line-item-autoship {
+  margin-top: 6px
 }
 
-.profileDashboardImage {
-  overflow: hidden;
-  height: auto!important
+.product-summary__products__item .line-item-autoship .icon {
+  padding-right: 5px;
+  padding-top: 5px;
+  color: #83cf51;
+  font-size: 2rem
 }
 
-.profileDashboardImage img {
-  -webkit-transition: -webkit-transform .5s ease;
-  transition: -webkit-transform .5s ease;
-  transition: transform .5s ease;
-  transition: transform .5s ease,-webkit-transform .5s ease;
+.product-summary__fees p {
+  margin: 0
+}
+
+.product-summary__fees .leading-lines:not(:first-child) {
+  margin-top: .5rem
+}
+
+.product-summary .autoship-icon {
+  position: absolute;
+  bottom: 4px;
+  left: -18px;
+  color: #47b800
+}
+
+.profile-back-to-account-link {
+  color: #ec001a;
+  text-decoration: underline;
+  display: block;
+  text-align: center
+}
+
+.tracking-consent {
+  color: #5ca9ad;
+  text-decoration: underline;
+  cursor: pointer
+}
+
+.logo-payment-card-list {
+  vertical-align: text-bottom
+}
+
+.logo-payment-card-list img.logo-payment-card {
+  display: inline-block;
+  width: 30px;
+  margin-left: 2px
+}
+
+.profileSubFormTitle {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between
+}
+
+.address,.profileSubFormTitle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex
+}
+
+.address {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column
+}
+
+.form-group .rc-icon:after {
+  position: absolute!important;
+  top: 50%;
+  right: 20px
+}
+
+.my__account__information input {
+  background-color: #fff
+}
+
+.my__account__information input span.rc-meta {
+  color: #808285
+}
+
+.choices__inner,.my__account__information select.form-control {
+  background-color: #fff!important
+}
+
+.mandatoryField {
+  color: #ec001a!important
+}
+
+@media screen and (min-color-index: 0) and (-webkit-min-device-pixel-ratio:0) {
+  div.price-symbol,span.price-symbol {
+      font-family:Helvetica Neue,sans-serif;
+      font-weight: 300
+  }
+}
+
+.clnc-overlay {
+  background-color: #fff;
+  z-index: 99;
+  border-radius: .1875rem;
+}
+
+.clinic-item-container {
+  padding-inline-start: 0;
+  max-height: 15rem;
+  overflow-y: auto 
+}
+.clinic-item {
+  cursor: pointer;
+}
+.clinic-item:hover {
+  background-color: #fff3f3;
+}
+
+.password-input {
+  background-color: #F9F9F9;
+  border: 0;
+  border-bottom: 2px solid #A3A3A4;
+  border-color: #A3A3A4;
+  padding: 1rem 0.9rem;
+  flex-grow: 1;
+  margin: 1rem 0;
+}
+.accountProfile .react-datepicker-wrapper {
+  padding: .95rem 0;
+  border-bottom: 2px solid #d7d7d7;
   width: 100%;
-  margin-bottom: 5px
 }
 
-.profileDashboardImage img:hover {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1)
+.account-infomation p {
+  padding:0;
+  margin:0;
+  user-select: none;
+}
+.account-infomation.required-checkbox .description p{
+  font-size: 14px;
+  color:#000;
+}
+.account-infomation.required-checkbox .description span{
+  color:#000!important;
+  font-weight:bold;
+  cursor: pointer;
+}
+.account-infomation .consent p{
+  color: #000;
+  font-size: 12px;
+}
+.account-infomation .consent p a{
+  color: #EC051E;
 }
 
-.profileTextColor a {
-  color: #ec001a
-}
-.font-2rem {
-  font-size: 2rem;
+.title-icon {
+  margin-right: .5rem;
+  font-size: 1.2rem;
 }

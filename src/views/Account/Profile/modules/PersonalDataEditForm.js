@@ -2,12 +2,14 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex } from 'lodash';
 import Loading from '@/components/Loading';
-import { getDictionary } from '@/utils/utils';
+import { PRESONAL_INFO_RULE } from '@/utils/constant';
+import { getDictionary, validData } from '@/utils/utils';
 import { updateCustomerBaseInfo } from '@/api/user';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import classNames from 'classnames';
 
 class PersonalDataEditForm extends React.Component {
   constructor(props) {
@@ -27,15 +29,21 @@ class PersonalDataEditForm extends React.Component {
         rfc: ''
       },
       oldForm: {},
-      countryList: []
+      countryList: [],
+      isValid: false
     };
   }
   componentDidMount() {
     const { data } = this.props;
-    this.setState({
-      form: Object.assign({}, data),
-      oldForm: Object.assign({}, data)
-    });
+    this.setState(
+      {
+        form: Object.assign({}, data),
+        oldForm: Object.assign({}, data)
+      },
+      () => {
+        this.validFormData();
+      }
+    );
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -44,13 +52,18 @@ class PersonalDataEditForm extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.form) {
-      this.setState({
-        form: Object.assign({}, nextProps.data),
-        oldForm: Object.assign({}, nextProps.data)
-      });
+      this.setState(
+        {
+          form: Object.assign({}, nextProps.data),
+          oldForm: Object.assign({}, nextProps.data)
+        },
+        () => {
+          this.validFormData();
+        }
+      );
     }
   }
-  inputBlur(e) {
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -62,14 +75,16 @@ class PersonalDataEditForm extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
-  handleInputChange(e) {
+  };
+  handleInputChange = (e) => {
     const target = e.target;
     const { form } = this.state;
     form[target.name] = target.value;
-    this.setState({ form: form });
+    this.setState({ form: form }, () => {
+      this.validFormData();
+    });
     this.inputBlur(e);
-  }
+  };
   showErrMsg(msg) {
     this.setState({
       errorMsg: msg
@@ -88,45 +103,34 @@ class PersonalDataEditForm extends React.Component {
     const { oldForm } = this.state;
     this.setState({
       form: Object.assign({}, oldForm),
-      editFormVisible: false,
       errorMsg: ''
     });
+    this.changeEditFormVisible(false);
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }
-  async handleSave() {
-    const { form } = this.state;
-    for (let key in form) {
-      const value = form[key];
-      if (!value && key !== 'birthdate' && key !== 'rfc') {
-        this.showErrMsg(this.props.intl.messages.CompleteRequiredItems);
-        return;
-      }
-      if (
-        key === 'email' &&
-        value &&
-        !/^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/.test(value)
-      ) {
-        this.showErrMsg(this.props.intl.messages.EnterCorrectEmail);
-        return;
-      }
-    }
-
-    this.setState({ loading: true });
-    let param = Object.assign({}, this.props.originData, {
-      firstName: form.firstName,
-      lastName: form.lastName,
-      email: form.email,
-      birthDay: form.birthdate
-        ? form.birthdate.split('/').join('-')
-        : form.birthdate,
-      countryId: form.country,
-      contactPhone: form.phoneNumber,
-      reference: form.rfc
-    });
+  changeEditFormVisible = (status) => {
+    this.setState({ editFormVisible: status });
+    this.props.updateEditOperationPanelName(status ? 'My account' : '');
+  };
+  handleSave = async () => {
     try {
+      const { form } = this.state;
+      this.setState({ loading: true });
+      let param = Object.assign({}, this.props.originData, {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        birthDay: form.birthdate
+          ? form.birthdate.split('/').join('-')
+          : form.birthdate,
+        countryId: form.country,
+        contactPhone: form.phoneNumber,
+        reference: form.rfc
+      });
+
       await updateCustomerBaseInfo(param);
       this.props.updateData(this.state.form);
       this.setState({
@@ -138,21 +142,22 @@ class PersonalDataEditForm extends React.Component {
         });
       }, 2000);
     } catch (err) {
-      this.setState({
-        errorMsg: typeof err === 'object' ? err.message.toString() : err
-      });
-      setTimeout(() => {
-        this.setState({
-          errorMsg: ''
-        });
-      }, 5000);
+      this.showErrMsg(err.message);
     } finally {
+      this.changeEditFormVisible(false);
       this.setState({
-        editFormVisible: false,
         loading: false
       });
     }
-  }
+  };
+  validFormData = async () => {
+    try {
+      await validData(PRESONAL_INFO_RULE, this.state.form);
+      this.setState({ isValid: true });
+    } catch (err) {
+      this.setState({ isValid: false });
+    }
+  };
   getDictValue(list, id) {
     if (list && list.length > 0) {
       let item = list.find((item) => {
@@ -170,7 +175,9 @@ class PersonalDataEditForm extends React.Component {
   onDateChange(date) {
     const { form } = this.state;
     form['birthdate'] = moment(date).format('YYYY-MM-DD');
-    this.setState({ form: form });
+    this.setState({ form: form }, () => {
+      this.validFormData();
+    });
   }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
@@ -185,18 +192,24 @@ class PersonalDataEditForm extends React.Component {
   handleSelectedItemChange(key, data) {
     const { form } = this.state;
     form[key] = data.value;
-    this.setState({ form: form });
+    this.setState({ form: form }, () => {
+      this.validFormData();
+    });
   }
+  handleClickEditBtn = () => {
+    this.changeEditFormVisible(true);
+  };
   render() {
-    const { editFormVisible, form } = this.state;
+    const { editFormVisible, form, isValid } = this.state;
     const { data } = this.props;
     return (
-      <div>
+      <div className={classNames({ border: !editFormVisible })}>
         {this.state.loading ? <Loading positionAbsolute="true" /> : null}
         <div className="personalInfo">
-          <div className="profileSubFormTitle">
-            <h5 className="rc-espilon rc-margin--none">
-              <FormattedMessage id="account.personalData" />
+          <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+            <h5 className="rc-margin--none">
+              <span className="iconfont title-icon">&#xe6a4;</span>
+              <FormattedMessage id="account.myAccount" />
             </h5>
             <FormattedMessage id="edit">
               {(txt) => (
@@ -208,337 +221,336 @@ class PersonalDataEditForm extends React.Component {
                   id="personalInfoEditBtn"
                   title={txt}
                   alt={txt}
-                  onClick={() => {
-                    this.setState({ editFormVisible: true });
-                  }}
+                  onClick={this.handleClickEditBtn}
                 >
                   {txt}
                 </button>
               )}
             </FormattedMessage>
           </div>
-          <hr />
-          <div
-            className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-          >
+          <hr className={classNames({ 'border-0': editFormVisible })} />
+          <div class="pl-3 pr-3 pb-3">
+            <div
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                this.state.errorMsg ? '' : 'hidden'
+              }`}
+            >
+              <aside
+                className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                role="alert"
+              >
+                <span className="pl-0">{this.state.errorMsg}</span>
+                <button
+                  className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                  aria-label="Close"
+                  onClick={() => {
+                    this.setState({ errorMsg: '' });
+                  }}
+                >
+                  <span className="rc-screen-reader-text">
+                    <FormattedMessage id="close" />
+                  </span>
+                </button>
+              </aside>
+            </div>
             <aside
-              className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+              className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+                this.state.successTipVisible ? '' : 'hidden'
+              }`}
               role="alert"
             >
-              <span className="pl-0">{this.state.errorMsg}</span>
-              <button
-                className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                aria-label="Close"
-                onClick={() => {
-                  this.setState({ errorMsg: '' });
-                }}
-              >
-                <span className="rc-screen-reader-text">
-                  <FormattedMessage id="close" />
-                </span>
-              </button>
+              <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+                <FormattedMessage id="saveSuccessfullly" />
+              </p>
             </aside>
-          </div>
-          <aside
-            className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-              this.state.successTipVisible ? '' : 'hidden'
-            }`}
-            role="alert"
-          >
-            <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-              <FormattedMessage id="saveSuccessfullly" />
-            </p>
-          </aside>
-          <div
-            className={`row userProfileInfo text-break ${
-              editFormVisible ? 'hidden' : ''
-            }`}
-          >
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="payment.firstName" />
+
+            {/* preview form */}
+            <div
+              className={`row userProfileInfo text-break ${
+                editFormVisible ? 'hidden' : ''
+              }`}
+            >
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="payment.firstName" />
+              </div>
+              <div className="col-6 col-md-2">{data.firstName}</div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="payment.lastName" />
+              </div>
+              <div className="col-6 col-md-2">{data.lastName}</div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="account.birthDate" />
+              </div>
+              <div className="col-6 col-md-2">{data.birthdate}</div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="account.Email" />
+              </div>
+              <div className="col-6 col-md-2">{data.email}</div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="payment.country" />
+              </div>
+              <div className="col-6 col-md-2">
+                {this.getDictValue(this.state.countryList, data.country)}
+              </div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="payment.phoneNumber" />
+              </div>
+              <div className="col-6 col-md-2">{data.phoneNumber}</div>
+              <div className="col-6 col-md-10">
+                <FormattedMessage id="payment.rfc" />
+              </div>
+              <div className="col-6 col-md-2">{data.rfc}</div>
             </div>
-            <div className="col-6 col-md-7">{data.firstName}</div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="payment.lastName" />
-            </div>
-            <div className="col-6 col-md-7">{data.lastName}</div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="account.birthDate" />
-            </div>
-            <div className="col-6 col-md-7">{data.birthdate}</div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="account.Email" />
-            </div>
-            <div className="col-6 col-md-7">{data.email}</div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="payment.country" />
-            </div>
-            <div className="col-6 col-md-7">
-              {this.getDictValue(this.state.countryList, data.country)}
-            </div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="payment.phoneNumber" />
-            </div>
-            <div className="col-6 col-md-7">{data.phoneNumber}</div>
-            <div className="col-6 col-md-5">
-              <FormattedMessage id="payment.rfc" />
-            </div>
-            <div className="col-6 col-md-7">{data.rfc}</div>
-          </div>
-          <div
-            className={[
-              'userProfileInfoEdit',
-              editFormVisible ? '' : 'hidden'
-            ].join(' ')}
-          >
-            <div className="row">
-              <div className="form-group col-lg-6 pull-left required">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="firstName"
-                >
-                  <FormattedMessage id="payment.firstName" />
-                </label>
-                <span
-                  className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                >
-                  <input
-                    type="text"
-                    className="rc-input__control"
-                    id="firstName"
-                    data-name="profile_personalInfo"
-                    alt="Name"
-                    name="firstName"
-                    required=""
-                    aria-required="true"
-                    value={form.firstName}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    maxLength="50"
-                  />
+
+            {/* edit form */}
+            <div
+              className={classNames('userProfileInfoEdit', {
+                hidden: !editFormVisible
+              })}
+            >
+              <div className="row">
+                <div className="form-group col-lg-6 pull-left required">
                   <label
-                    className="rc-input__label"
+                    className="form-control-label rc-input--full-width w-100"
                     htmlFor="firstName"
-                  ></label>
-                </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
+                  >
+                    <FormattedMessage id="payment.firstName" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="firstName"
+                      data-name="profile_personalInfo"
+                      alt="Name"
+                      name="firstName"
+                      required=""
+                      aria-required="true"
+                      value={form.firstName}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="firstName" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
                 </div>
-              </div>
-              <div className="form-group col-lg-6 pull-left required">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="lastname"
-                >
-                  <FormattedMessage id="payment.lastName" />
-                </label>
-                <span
-                  className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                >
-                  <input
-                    type="text"
-                    className="rc-input__control"
-                    id="lastname"
-                    data-name="profile_personalInfo"
-                    alt="Фамилия"
-                    data-pattern-mismatch="Please match the requested format"
-                    data-missing-error="Это поле обязательно для заполнения."
-                    name="lastName"
-                    required=""
-                    aria-required="true"
-                    value={form.lastName}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    maxLength="50"
-                  />
-                  <label className="rc-input__label" htmlFor="lastname"></label>
-                </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="form-group col-lg-6">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="birthdate"
-                >
-                  <FormattedMessage id="account.birthDate" />
-                </label>
-                <DatePicker
-                  className="receiveDate"
-                  style={{ padding: '.95rem 0' }}
-                  placeholder="Select Date"
-                  dateFormat="yyyy-MM-dd"
-                  maxDate={new Date()}
-                  selected={
-                    form.birthdate ? new Date(form.birthdate) : new Date()
-                  }
-                  onChange={(date) => this.onDateChange(date)}
-                />
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-                <div
-                  className="invalid-birthdate invalid-feedback"
-                  style={{ display: 'none' }}
-                >
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-              </div>
-              <div className="form-group col-lg-6 required">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="email"
-                >
-                  <FormattedMessage id="account.Email" />
-                </label>
-                <span
-                  className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                  style={{ opacity: 0.8 }}
-                >
-                  <input
-                    type="email"
-                    className="rc-input__control"
-                    id="email"
-                    data-name="profile_personalInfo"
-                    alt="E-mail"
-                    data-pattern-mismatch="Please match the requested format"
-                    data-missing-error="Это поле обязательно для заполнения."
-                    name="email"
-                    required=""
-                    aria-required="true"
-                    value={form.email}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    maxLength="50"
-                    pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
-                    disabled
-                  />
-                  <label className="rc-input__label" htmlFor="email"></label>
-                </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="form-group col-lg-6 pull-left required">
-                <label className="form-control-label" htmlFor="country">
-                  <FormattedMessage id="payment.country" />
-                </label>
-                <span
-                  className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0"
-                  data-loc="countrySelect"
-                >
-                  <Selection
-                    key={form.country}
-                    selectedItemChange={(data) =>
-                      this.handleSelectedItemChange('country', data)
-                    }
-                    optionList={this.computedList('country')}
-                    selectedItemData={{
-                      value: form.country
-                    }}
-                  />
-                </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-              </div>
-              <div className="form-group col-lg-6 pull-left required">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="phone"
-                >
-                  <FormattedMessage id="payment.phoneNumber" />
-                </label>
-                <span
-                  className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                >
-                  <input
-                    className="rc-input__control input__phoneField"
-                    id="phone"
-                    name="phoneNumber"
-                    type="number"
-                    value={form.phoneNumber}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    maxLength="20"
-                    minLength="18"
-                  />
-                  <label className="rc-input__label" htmlFor="phone"></label>
-                </span>
-                <span className="ui-lighter">
-                  <FormattedMessage id="example" />:{' '}
-                  <FormattedMessage id="examplePhone" />
-                </span>
-                <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="form-group col-lg-6 pull-left">
-                <label
-                  className="form-control-label rc-full-width"
-                  htmlFor="reference"
-                >
-                  <FormattedMessage id="payment.rfc" />
-                </label>
-                <span
-                  className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                  input-setup="true"
-                >
-                  <input
-                    type="text"
-                    className="rc-input__control input__phoneField"
-                    id="reference"
-                    name="rfc"
-                    value={form.rfc}
-                    onChange={(e) => this.handleInputChange(e)}
-                    onBlur={(e) => this.inputBlur(e)}
-                    maxLength="50"
-                  />
+                <div className="form-group col-lg-6 pull-left required">
                   <label
-                    className="rc-input__label"
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="lastname"
+                  >
+                    <FormattedMessage id="payment.lastName" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="lastname"
+                      data-name="profile_personalInfo"
+                      alt="Фамилия"
+                      data-pattern-mismatch="Please match the requested format"
+                      data-missing-error="Это поле обязательно для заполнения."
+                      name="lastName"
+                      required=""
+                      aria-required="true"
+                      value={form.lastName}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="lastname" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-lg-6">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="birthdate"
+                  >
+                    <FormattedMessage id="account.birthDate" />
+                  </label>
+                  <DatePicker
+                    className="receiveDate"
+                    style={{ padding: '.95rem 0' }}
+                    placeholder="Select Date"
+                    dateFormat="yyyy-MM-dd"
+                    maxDate={new Date()}
+                    selected={
+                      form.birthdate ? new Date(form.birthdate) : new Date()
+                    }
+                    onChange={(date) => this.onDateChange(date)}
+                  />
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                  <div
+                    className="invalid-birthdate invalid-feedback"
+                    style={{ display: 'none' }}
+                  >
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+                <div className="form-group col-lg-6 required">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="email"
+                  >
+                    <FormattedMessage id="account.Email" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                    style={{ opacity: 0.8 }}
+                  >
+                    <input
+                      type="email"
+                      className="rc-input__control"
+                      id="email"
+                      data-name="profile_personalInfo"
+                      alt="E-mail"
+                      data-pattern-mismatch="Please match the requested format"
+                      data-missing-error="Это поле обязательно для заполнения."
+                      name="email"
+                      required=""
+                      aria-required="true"
+                      value={form.email}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                      pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
+                      disabled
+                    />
+                    <label className="rc-input__label" htmlFor="email" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-lg-6 pull-left required">
+                  <label className="form-control-label" htmlFor="country">
+                    <FormattedMessage id="payment.country" />
+                  </label>
+                  <span
+                    className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                    data-loc="countrySelect"
+                  >
+                    <Selection
+                      key={form.country}
+                      selectedItemChange={(data) =>
+                        this.handleSelectedItemChange('country', data)
+                      }
+                      optionList={this.computedList('country')}
+                      selectedItemData={{
+                        value: form.country
+                      }}
+                    />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+                <div className="form-group col-lg-6 pull-left required">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="phone"
+                  >
+                    <FormattedMessage id="payment.phoneNumber" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      className="rc-input__control input__phoneField"
+                      id="phone"
+                      name="phoneNumber"
+                      type="number"
+                      value={form.phoneNumber}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="20"
+                      minLength="18"
+                    />
+                    <label className="rc-input__label" htmlFor="phone" />
+                  </span>
+                  <br />
+                  <span className="ui-lighter">
+                    <FormattedMessage id="example" />:{' '}
+                    <FormattedMessage id="examplePhone" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-lg-6 pull-left">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
                     htmlFor="reference"
-                  ></label>
-                </span>
-                {/* <div className="invalid-feedback" style={{ display: 'none' }}>
+                  >
+                    <FormattedMessage id="payment.rfc" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--full-width rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control input__phoneField"
+                      id="reference"
+                      name="rfc"
+                      value={form.rfc}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="reference" />
+                  </span>
+                  {/* <div className="invalid-feedback" style={{ display: 'none' }}>
                   <FormattedMessage id="payment.errorInfo2" />
                 </div> */}
+                </div>
               </div>
-            </div>
-            <span className="rc-meta mandatoryField">
-              * <FormattedMessage id="account.requiredFields" />
-            </span>
-            <div className="text-right">
-              <span
-                className="rc-styled-link editPersonalInfoBtn"
-                name="personalInformation"
-                onClick={() => this.handleCancel()}
-              >
-                <FormattedMessage id="cancel" />
+              <span className="rc-meta mandatoryField">
+                * <FormattedMessage id="account.requiredFields" />
               </span>
-              &nbsp;
-              <FormattedMessage id="or" />
-              &nbsp;
-              <button
-                className="rc-btn rc-btn--one submitBtn"
-                name="personalInformation"
-                type="submit"
-                onClick={() => this.handleSave()}
-              >
-                <FormattedMessage id="save" />
-              </button>
+              <div className="text-right">
+                <span
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="personalInformation"
+                  onClick={() => this.handleCancel()}
+                >
+                  <FormattedMessage id="cancel" />
+                </span>
+                &nbsp;
+                <FormattedMessage id="or" />
+                &nbsp;
+                <button
+                  className="rc-btn rc-btn--one submitBtn"
+                  name="personalInformation"
+                  type="submit"
+                  disabled={!isValid}
+                  onClick={this.handleSave}
+                >
+                  <FormattedMessage id="save" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

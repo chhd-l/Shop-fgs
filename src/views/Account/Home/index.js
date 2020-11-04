@@ -16,6 +16,40 @@ import subscriptionImg from '@/assets/images/profile/Subscription.jpg';
 import addressImg from '@/assets/images/profile/Address.png';
 import './index.css';
 
+const itemList = [
+  {
+    icon: <span className="iconfont font-2rem">&#xe68f;</span>,
+    titleLangKey: 'account.profile',
+    textLangKey: 'account.profileTip',
+    link: '/account/information'
+  },
+  {
+    icon: <span className="iconfont font-2rem">&#xe690;</span>,
+    titleLangKey: 'account.petsTitle',
+    textLangKey: 'account.petsTip',
+    link: '/account/pets/petForm'
+  },
+  {
+    icon: <span className="iconfont font-2rem">&#xe693;</span>,
+    titleLangKey: 'account.ordersTitle',
+    textLangKey: 'account.ordersTip',
+    link: '/account/orders'
+  },
+  {
+    icon: <span className="iconfont font-2rem">&#xe691;</span>,
+    titleLangKey: 'account.subscriptionTitle',
+    textLangKey: 'account.subscriptionTip',
+    link: '/account/subscription'
+  },
+  {
+    icon: <span className="iconfont font-2rem">&#xe692;</span>,
+    // icon: <svg class="icon" aria-hidden="true"><use xlink:href="#icon-xxx"></use></svg>,
+    titleLangKey: 'account.faqTitle',
+    textLangKey: 'account.faqTip',
+    link: '/faq/all'
+  }
+];
+
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
@@ -47,19 +81,43 @@ class AccountHome extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu />
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <h4>
-                  <FormattedMessage id="welcome" />{' '}
-                  {this.userInfo && this.userInfo.firstName}
-                </h4>
+              <SideMenu type="Home" customCls="order-1 order-md-0" />
+              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
                 <p>
-                  <FormattedMessage id="account.warmNotice" />
+                  <FormattedMessage
+                    id="account.warmNotice"
+                    values={{ val: this.userInfo && this.userInfo.firstName }}
+                  />
                 </p>
-                <div className="clearfix"></div>
-                <div className="dashboard__profile-cards">
+                <div className="clearfix" />
+                <div className="dashboard__profile-cards rc-md-up">
                   <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
-                    <div className="col-12 col-md-4">
+                    {itemList.map((item, i) => (
+                      <Link
+                        key={i}
+                        className="col-12 col-md-4  mb-3"
+                        to={item.link}
+                      >
+                        <div className="d-flex align-items-center border m-2 w-100 h-100 pl-3">
+                          {item.icon}
+                          {/* <svg className="icon" aria-hidden="true">
+                            <use xlinkHref="#icon-xxx"></use>
+                          </svg> */}
+                          <div className="ml-3">
+                            <h3 className="rc-delta profileTextColor mb-1">
+                              <b>
+                                <FormattedMessage id={item.titleLangKey} />
+                              </b>
+                            </h3>
+                            <p>
+                              <FormattedMessage id={item.textLangKey} />
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+
+                    {/* <div className="col-12 col-md-4">
                       <div className="profileDashboardImage">
                         <Link to="/account/information">
                           <FormattedMessage id="account.profile">
@@ -265,6 +323,7 @@ class AccountHome extends React.Component {
                         </p>
                       </div>
                     </div>
+                 */}
                   </div>
                 </div>
               </div>

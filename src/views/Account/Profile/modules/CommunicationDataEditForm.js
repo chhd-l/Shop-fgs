@@ -80,7 +80,7 @@ class CommunicationDataEditForm extends React.Component {
   //保存
   async handleSave() {
     try {
-      let oktaToken = 'Bearer ' + this.props.authState.accessToken
+      let oktaToken = 'Bearer ' + this.props.authState.accessToken;
       let submitParam = this.bindSubmitParam(this.state.list);
       await userBindConsent({ ...submitParam, ...{ oktaToken } });
       window.location.reload();
@@ -102,10 +102,10 @@ class CommunicationDataEditForm extends React.Component {
     const { editFormVisible } = this.state;
     const createMarkup = (text) => ({ __html: text });
     return (
-      <div>
+      <div className="border">
         <div className="userContactPreferenceInfo">
-          <div className="profileSubFormTitle">
-            <h5 className="rc-espilon rc-margin--none">
+          <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+            <h5 className="rc-margin--none">
               <FormattedMessage id="account.preferredMmethodsOfCommunication" />
             </h5>
             <FormattedMessage id="edit">
@@ -128,50 +128,52 @@ class CommunicationDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr />
-          <span className="rc-meta">
-            <b>
-              <FormattedMessage id="account.emailCommunication" />
-            </b>
-          </span>
-          <div
-            className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
-              editFormVisible ? 'hidden' : ''
-            }`}
-          ></div>
-          <div id="wrap" style={{ marginLeft: '30px' }}>
-            {/* checkbox组 */}
-            <Consent
-              list={this.state.list}
-              sendList={this.sendList}
-              disabled={!this.state.editFormVisible}
-              checkboxPadding={'10px'}
-              zoom={'150%'}
-              key={"profile"}
-            />
-            {/* 取消和保存 按钮 */}
+          <div class="pl-3 pr-3 pb-3">
+            <span className="rc-meta">
+              <b>
+                <FormattedMessage id="account.emailCommunication" />
+              </b>
+            </span>
             <div
-              className={`text-right contactPreferenceFormBtn ${
-                editFormVisible ? '' : 'hidden'
+              className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
+                editFormVisible ? 'hidden' : ''
               }`}
-            >
-              <span
-                className="rc-styled-link editPersonalInfoBtn"
-                name="contactPreference"
-                onClick={() => this.handleCancel()}
+            ></div>
+            <div id="wrap" style={{ marginLeft: '30px' }}>
+              {/* checkbox组 */}
+              <Consent
+                list={this.state.list}
+                sendList={this.sendList}
+                disabled={!this.state.editFormVisible}
+                checkboxPadding={'10px'}
+                zoom={'150%'}
+                key={'profile'}
+              />
+              {/* 取消和保存 按钮 */}
+              <div
+                className={`text-right contactPreferenceFormBtn ${
+                  editFormVisible ? '' : 'hidden'
+                }`}
               >
-                <FormattedMessage id="cancel" />
-              </span>
-              &nbsp;
-              <FormattedMessage id="or" />
-              &nbsp;
-              <button
-                className="rc-btn rc-btn--one submitBtn"
-                name="contactPreference"
-                type="submit"
-                onClick={() => this.handleSave()}
-              >
-                <FormattedMessage id="save" />
-              </button>
+                <span
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="contactPreference"
+                  onClick={() => this.handleCancel()}
+                >
+                  <FormattedMessage id="cancel" />
+                </span>
+                &nbsp;
+                <FormattedMessage id="or" />
+                &nbsp;
+                <button
+                  className="rc-btn rc-btn--one submitBtn"
+                  name="contactPreference"
+                  type="submit"
+                  onClick={() => this.handleSave()}
+                >
+                  <FormattedMessage id="save" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

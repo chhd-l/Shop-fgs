@@ -9,14 +9,18 @@ import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { getPrescriptionById, getPrescriberByEncryptCode, getPrescriberByPrescriberIdAndStoreId } from '@/api/clinic';
+import {
+  getPrescriptionById,
+  getPrescriberByEncryptCode,
+  getPrescriberByPrescriberIdAndStoreId
+} from '@/api/clinic';
 import { setBuryPoint } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
-import BannerTip from '@/components/BannerTip'
+import BannerTip from '@/components/BannerTip';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
@@ -238,7 +242,11 @@ class Header extends React.Component {
       'clinic'
     );
     let linkClinicName = '';
-      console.log(linkClinicId , clinicStore.clinicId !== linkClinicId, 'heiheihei')
+    console.log(
+      linkClinicId,
+      clinicStore.clinicId !== linkClinicId,
+      'heiheihei'
+    );
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
       location &&
@@ -265,7 +273,10 @@ class Header extends React.Component {
           clinicStore.setLinkClinicName(linkClinicName);
         }
       } else if (linkClinicId && location.pathname === '/') {
-        const idRes = await getPrescriberByPrescriberIdAndStoreId({prescriberId: linkClinicId, storeId: process.env.REACT_APP_STOREID})
+        const idRes = await getPrescriberByPrescriberIdAndStoreId({
+          prescriberId: linkClinicId,
+          storeId: process.env.REACT_APP_STOREID
+        });
         const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
           linkClinicName = res.context.prescriberName;
@@ -575,7 +586,7 @@ class Header extends React.Component {
                     <div className="col-12 item" key={item.id + idx}>
                       <div className="row">
                         <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                          <a
+                          <span
                             className="ui-cursor-pointer"
                             onClick={() => this.gotoDetails(item)}
                           >
@@ -591,17 +602,17 @@ class Header extends React.Component {
                                 IMG_DEFAULT
                               }
                             />
-                          </a>
+                          </span>
                         </div>
                         <div className="col-8 col-md-9 col-lg-10">
-                          <a
+                          <span
                             onClick={() => this.gotoDetails(item)}
                             className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                             alt={item.goodsName}
                             title={item.goodsName}
                           >
                             {item.goodsName}
-                          </a>
+                          </span>
                           <div className="rc-meta searchProductKeyword"></div>
                         </div>
                       </div>
@@ -876,7 +887,7 @@ class Header extends React.Component {
                             <div>
                               <FormattedMessage id="account.notRegistred" />
                             </div>
-                            <a
+                            <span
                               className="rc-styled-link"
                               onClick={() => {
                                 // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
@@ -890,7 +901,7 @@ class Header extends React.Component {
                               }}
                             >
                               <FormattedMessage id="signUp" />
-                            </a>
+                            </span>
                           </div>
 
                           {/* <div className="link-group">
@@ -925,11 +936,9 @@ class Header extends React.Component {
                       </div>
                     ) : (
                       <div
-                        className={[
-                          'popover',
-                          'popover-bottom',
+                        className={`popover popover-bottom ${
                           this.state.showCenter ? 'show' : ''
-                        ].join(' ')}
+                        }`}
                         style={{ minWidth: '13rem' }}
                         onMouseOver={this.handleMouseOver}
                         onMouseOut={this.handleMouseOut}
@@ -938,6 +947,7 @@ class Header extends React.Component {
                           <div className="link-group">
                             <div className="link-style">
                               <Link to="/account" className="click-hover">
+                                <span className="iconfont">&#xe697;</span>{' '}
                                 <FormattedMessage id="account.myAccount" />
                               </Link>
                             </div>
@@ -946,20 +956,14 @@ class Header extends React.Component {
                                 to="/account/information"
                                 className="click-hover"
                               >
+                                <span className="iconfont">&#xe69c;</span>{' '}
                                 <FormattedMessage id="account.basicInfomation" />
                               </Link>
                             </div>
                             <div className="link-style">
+                              <span className="iconfont">&#xe69a;</span>{' '}
                               <Link to="/account/pets" className="click-hover">
                                 <FormattedMessage id="account.pets" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <Link
-                                to="/account/subscription"
-                                className="click-hover"
-                              >
-                                <FormattedMessage id="account.subscription" />
                               </Link>
                             </div>
                             <div className="link-style">
@@ -967,27 +971,25 @@ class Header extends React.Component {
                                 to="/account/orders"
                                 className="click-hover"
                               >
+                                <span className="iconfont">&#xe699;</span>{' '}
                                 <FormattedMessage id="account.orders" />
                               </Link>
                             </div>
                             <div className="link-style">
                               <Link
-                                to="/account/shippingAddress"
+                                to="/account/subscription"
                                 className="click-hover"
                               >
-                                <FormattedMessage id="shippingAddress" />
+                                <span className="iconfont">&#xe6a2;</span>{' '}
+                                <FormattedMessage id="account.subscription" />
                               </Link>
                             </div>
-                            {this.props.configStore.profilePaymentMethod && (
-                              <div className="link-style">
-                                <Link
-                                  to="/account/paymentMethod"
-                                  className="click-hover"
-                                >
-                                  <FormattedMessage id="paymentMethod" />
-                                </Link>
-                              </div>
-                            )}
+                            <div className="link-style">
+                              <Link to="/FAQ/all" className="click-hover">
+                                <span className="iconfont">&#xe696;</span>{' '}
+                                <FormattedMessage id="footer.FAQ" />
+                              </Link>
+                            </div>
                           </div>
                           <LogoutButton />
                         </div>
@@ -998,7 +1000,8 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up">
+
+          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
               {_catogryCfg(process.env.REACT_APP_LANG, this.props).map(
                 (item, i) => (
@@ -1090,7 +1093,7 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
-        <BannerTip /> 
+        <BannerTip />
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

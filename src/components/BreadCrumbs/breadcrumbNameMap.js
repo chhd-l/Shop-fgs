@@ -28,7 +28,7 @@ const breadcrumbNameMap = {
   '/list/dogs-en': [{ name: 'product.en.catogery1.name' }],
   '/list/cats-en': [{ name: 'product.en.catogery2.name' }],
   '/list/keywords': [{ name: 'viewResults' }],
-  '/account': [{ name: 'account.personalArea' }],
+  '/account': [{ name: 'home' }],
   '/account/information': [
     { name: 'account.personalArea', href: '/account' },
     { name: 'account.profile' }
