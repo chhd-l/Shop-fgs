@@ -19,7 +19,8 @@ class Reviews extends React.Component {
       loading: false,
       noData: true,
       showPicIndex: -1,
-      imgList: -1
+      imgList: -1,
+      total: 0
     };
   }
 
@@ -109,6 +110,7 @@ class Reviews extends React.Component {
     if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage;
       let list = obj.content;
+      this.setState({total: obj.total})
       if (list.length > 0) {
         list.forEach((item) => {
           item.commentator = item.customerName;
@@ -241,13 +243,13 @@ class Reviews extends React.Component {
                   className="rc-column padl0"
                   style={{ marginBottom: '2rem' }}
                 >
-                  <div className="red-text" style={{ fontSize: '26px' }}>
+                  <div className="red-text text-center" style={{ fontSize: '26px' }}>
                     <FormattedMessage id="customerReviews" />
                   </div>
                 </div>
               </div>
-              <div className="rc-max-width--xl rc-padding-x--sm">
-                <div className="rc-column padl0">
+              <div className="commentNum rc-max-width--xl rc-margin-x--sm">
+                {/* <div className="rc-column padl0">
                   <form>
                     <span className="rc-select rc-select-processed">
                       <label
@@ -267,68 +269,52 @@ class Reviews extends React.Component {
                       />
                     </span>
                   </form>
-                </div>
+                </div> */}
+                {this.state.total} Reviews
               </div>
 
               <div
-                className="rc-layout-container rc-one-column rc-max-width--lg"
+                className="rc-one-column rc-max-width--lg"
                 style={{ maxWidth: '1200px' }}
               >
-                <div className="rc-column rc-margin-bottom--sm padl0">
-                  <div className="rc-layout-container rc-margin-top--md rc-stacked">
-                    <div className="rc-column rc-padding-x--none--desktop">
+                <div className="rc-margin-bottom--sm padl0">
+                  <div className="rc-stacked">
+                    <div className="rc-padding-x--none--desktop">
                       {this.state.loading ? (
                         <Skeleton color="#f5f5f5" width="100%" height="100%" />
                       ) : (
                         data.goodsEvaluatesList.map((item, i) => (
                           <div
-                            className="rc-layout-container rc-five-column  rc-border-bottom rc-border-colour--interface"
+                            className="rc-border-bottom rc-border-colour--interface"
                             key={i}
                             style={{ paddingBottom: '20px' }}
                           >
                             <div className="rc-column padl0 padr0">
-                              <div className="">
-                                {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
-                                <div
-                                  className="red-text"
-                                  style={{ fontSize: '23px' }}
+                              <div style={{height: '40px', lineHeight: '40px'}}>
+                                <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle', marginTop: '-43px'}}><Rate
+                                  def={item.evaluateScore}
+                                  disabled={true}
+                                  marginSize="maxRate"
+                                /></span>
+                                
+                                <span
+                                  className="commentTitle"
                                 >
-                                  {item.commentator}
-                                </div>
-                                <div
+                                  {item.title}
+                                </span>
+                                {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
+                              </div>
+                              <div>
+                                <span
                                   style={{
                                     fontSize: '14px',
                                     marginTop: '.3rem'
                                   }}
                                 >
-                                  {item.commentTime}
-                                </div>
+                                  by {item.commentator} &nbsp; on {item.commentTime}
+                                </span>
                               </div>
-                            </div>
-                            <div className="rc-column rc-quad-width padl0">
-                              <div className="">
-                                <Rate
-                                  def={item.evaluateScore}
-                                  disabled={true}
-                                  marginSize="maxRate"
-                                />
-                                <div
-                                  style={{
-                                    marginTop: '.1rem',
-                                    marginBottom: '.7rem',
-                                    fontSize: '20px'
-                                  }}
-                                >
-                                  {item.evaluateReviewTitle}
-                                </div>
-                                <div
-                                  className="break mgt-10 mgb-3"
-                                  style={{ fontSize: '18px' }}
-                                >
-                                  {item.title}
-                                </div>
-                                {/*{item.description}*/}
-                                <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap align-items-start">
+                              <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap align-items-start">
                                   {item.evaluateImageList &&
                                   item.evaluateImageList.length > 0
                                     ? item.evaluateImageList.map((img, j) => {
@@ -359,27 +345,11 @@ class Reviews extends React.Component {
                                 </div>
                                 {item.evaluateAnswer ? (
                                   <div>
-                                    <div>
-                                      <span
-                                        className="red-text rc-margin-right--xs"
-                                        style={{ fontWeight: '400' }}
-                                      >
-                                        <FormattedMessage id="replyComments" />
-                                      </span>
-                                      <span style={{ fontSize: '14px' }}>
-                                        {new Date(item.evaluateAnswerTime)
-                                          .toGMTString()
-                                          .split(' ')
-                                          .splice(1, 3)
-                                          .join(' ')}
-                                      </span>
-                                    </div>
                                     <div className="rc-padding-top--xs">
                                       {item.evaluateAnswer}
                                     </div>
                                   </div>
                                 ) : null}
-                              </div>
                             </div>
                           </div>
                         ))

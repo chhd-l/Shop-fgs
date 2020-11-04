@@ -5,6 +5,7 @@ import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Selection from '@/components/Selection';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
@@ -13,7 +14,12 @@ import Reviews from './components/Reviews';
 import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
-import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
+import {
+  formatMoney,
+  translateHtmlCharater,
+  queryProps,
+  getDictionary
+} from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { cloneDeep, findIndex, find } from 'lodash';
@@ -127,7 +133,14 @@ class Details extends React.Component {
       minMarketPrice: 0,
       minSubscriptionPrice: 0,
       toolTipVisible: false,
-      relatedProduct: []
+      relatedProduct: [],
+      form: {
+        buyWay: 'once', // once/frequency
+        frequencyVal: '',
+        frequencyName: '',
+        frequencyId: -1
+      },
+      frequencyList: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -147,6 +160,24 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
+      this.setState(
+        {
+          frequencyList: [...dictList[0], ...dictList[1]],
+          form: Object.assign(this.state.form, {
+            frequencyVal: dictList[0][0].valueEn,
+            frequencyName: dictList[0][0].name,
+            frequencyId: dictList[0][0].id
+          })
+        },
+        () => {
+          // this.props.updateSelectedData(this.state.form);
+        }
+      );
+    });
     this.setState({ id: this.props.match.params.id }, () =>
       this.queryDetails()
     );
@@ -156,6 +187,14 @@ class Details extends React.Component {
   }
   get checkoutStore() {
     return this.props.checkoutStore;
+  }
+  get computedList() {
+    return this.state.frequencyList.map((ele) => {
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
+    });
   }
   matchGoods() {
     let {
@@ -493,6 +532,16 @@ class Details extends React.Component {
       }
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
+  }
+  handleSelectedItemChange(data) {
+    console.log(data);
+    const { form } = this.state;
+    form.frequencyVal = data.value;
+    form.frequencyName = data.name;
+    form.frequencyId = data.id;
+    this.setState({ form: form }, () => {
+      // this.props.updateSelectedData(this.state.form);
+    });
   }
   handleChooseSize(sId, sdId) {
     let { specList } = this.state;
@@ -891,7 +940,8 @@ class Details extends React.Component {
       errMsg,
       addToCartLoading,
       specList,
-      initing
+      initing,
+      form
     } = this.state;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (selectedSpecItem) {
@@ -935,7 +985,7 @@ class Details extends React.Component {
     // }
 
     return (
-      <div>
+      <div id="Details">
         {/* {event ? (
           <GoogleTagManager
             additionalEvents={event}
@@ -1152,7 +1202,7 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="singleBuy">
+                        <div className="buyMethod rc-margin-bottom--xs">
                           <div className="radioBox">
                             <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
                               <FormattedMessage id="email">
@@ -1181,13 +1231,202 @@ class Details extends React.Component {
                                 </span>
                               </label>
                             </div>
-                            <br/>
-                            -4$ for your 1st order
+                            <br />
+                            <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                              -4$
+                            </b>{' '}
+                            for your 1st order
                           </div>
                           <div className="freqency">
-                            delivery 1 time only
+                            <span
+                              style={{ height: '73px', lineHeight: '55px' }}
+                            >
+                              delivery 1 time only
+                            </span>
                           </div>
-                          <div className="price">$30</div>
+                          <div className="price" style={{ fontSize: '22px' }}>
+                            {formatMoney(currentUnitPrice)}
+                          </div>
+                        </div>
+                        <div className="buyMethod rc-margin-bottom--xs">
+                          <div className="radioBox">
+                            <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
+                              <FormattedMessage id="email">
+                                {(txt) => (
+                                  <input
+                                    className="rc-input__radio"
+                                    id="optsemail"
+                                    type="radio"
+                                    alt={txt}
+                                    name="buyWay"
+                                    value="once"
+                                    key="1"
+                                    // onChange={(event) => this.handleInputChange(event)}
+                                    checked
+                                  />
+                                )}
+                              </FormattedMessage>
+                              <label
+                                className="rc-input__label--inline"
+                                htmlFor="optsemail"
+                              >
+                                <span
+                                  style={{ fontWeight: '400', color: '#333' }}
+                                >
+                                  <FormattedMessage id="autoship" />
+                                  <span
+                                    className="info-tooltip delivery-method-tooltip"
+                                    onMouseEnter={() => {
+                                      this.setState({
+                                        toolTipVisible: true
+                                      });
+                                    }}
+                                    onMouseLeave={() => {
+                                      this.setState({
+                                        toolTipVisible: false
+                                      });
+                                    }}
+                                  >
+                                    i
+                                  </span>
+                                  <ConfirmTooltip
+                                    arrowStyle={{ left: '65%' }}
+                                    display={this.state.toolTipVisible}
+                                    cancelBtnVisible={false}
+                                    confirmBtnVisible={false}
+                                    updateChildDisplay={(status) =>
+                                      this.setState({
+                                        toolTipVisible: status
+                                      })
+                                    }
+                                    content={
+                                      <FormattedMessage id="subscription.promotionTip2" />
+                                    }
+                                  />
+                                </span>
+                              </label>
+                            </div>
+                            <br />
+                            Save extra{' '}
+                            <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                              10%
+                            </b>
+                          </div>
+                          <div className="freqency">
+                            delivery every:
+                            <Selection
+                              customContainerStyle={{
+                                display: 'inline-block',
+                                marginLeft: '100px'
+                              }}
+                              selectedItemChange={(data) =>
+                                this.handleSelectedItemChange(data)
+                              }
+                              optionList={this.computedList}
+                              selectedItemData={{
+                                value: form.frequencyVal
+                              }}
+                              key={form.frequencyVal}
+                              customStyleType="select-one"
+                            />
+                          </div>
+                          <div className="price">
+                            {formatMoney(currentSubscriptionPrice || 0)}
+                          </div>
+                        </div>
+                        <div
+                        // className="sticky-addtocart"
+                        // style={{ transform: 'translateY(-80px)' }}
+                        >
+                          <div
+                            className="rc-max-width--xl fullHeight justify-content-center"
+                            style={{ textAlign: 'right', marginTop: '20px' }}
+                          >
+                            <button
+                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                addToCartLoading ? 'ui-btn-loading' : ''
+                              } ${
+                                !initing && instockStatus && quantity
+                                  ? ''
+                                  : 'rc-btn-solid-disabled'
+                              }`}
+                              onClick={() => this.hanldeAddToCart()}
+                            >
+                              <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                              <span className="default-txt">
+                                <FormattedMessage id="details.addToCart" />
+                              </span>
+                            </button>
+                            {this.isLogin ? (
+                              <button
+                                className={`rc-btn rc-btn--one js-sticky-cta ${
+                                  addToCartLoading ? 'ui-btn-loading' : ''
+                                } ${
+                                  !initing && instockStatus && quantity
+                                    ? ''
+                                    : 'rc-btn-solid-disabled'
+                                }`}
+                                onClick={() =>
+                                  this.hanldeAddToCart({
+                                    redirect: true,
+                                    needLogin: false
+                                  })
+                                }
+                              >
+                                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                <span className="default-txt">
+                                  <FormattedMessage id="checkout" />
+                                </span>
+                              </button>
+                            ) : (
+                              <LoginButton
+                                beforeLoginCallback={async () => {
+                                  try {
+                                    await this.hanldeUnloginAddToCart({
+                                      redirect: true,
+                                      needLogin: true
+                                    });
+                                    sessionItemRoyal.set(
+                                      'okta-redirectUrl',
+                                      '/cart'
+                                    );
+                                  } catch (err) {
+                                    throw new Error();
+                                  }
+                                }}
+                                btnClass={`rc-btn rc-btn--one js-sticky-cta ${
+                                  addToCartLoading ? 'ui-btn-loading' : ''
+                                } ${
+                                  !initing && instockStatus && quantity
+                                    ? ''
+                                    : 'rc-btn-solid-disabled'
+                                }`}
+                                history={this.props.history}
+                              >
+                                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                <span className="default-txt">
+                                  <FormattedMessage id="checkout" />
+                                </span>
+                              </LoginButton>
+                            )}
+                            {!this.isLogin && (
+                              <button
+                                style={{ marginLeft: '10px' }}
+                                className={`rc-styled-link color-999 ${
+                                  addToCartLoading ? 'ui-btn-loading' : ''
+                                } ${
+                                  !initing && instockStatus && quantity
+                                    ? ''
+                                    : 'rc-btn-disabled'
+                                }`}
+                                onClick={() =>
+                                  this.hanldeAddToCart({ redirect: true })
+                                }
+                              >
+                                <FormattedMessage id="GuestCheckout" />
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                       {/* <div className="rc-column product-column">

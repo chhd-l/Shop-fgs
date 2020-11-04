@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import UnloginCart from './modules/unLoginCart';
+import UnloginCart from './modules/COPY_unLoginCart';
+// import UnloginCart from './modules/COPY_unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 
