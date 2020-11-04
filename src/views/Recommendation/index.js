@@ -32,6 +32,9 @@ import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
+import {
+  updateBackendCart
+} from '@/api/cart';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -229,7 +232,6 @@ class Help extends React.Component {
     }
   }
   async hanldeUnloginAddToCart(products, path) {
-    console.log(products, 'products');
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
 
@@ -342,15 +344,31 @@ class Help extends React.Component {
       this.setState({ modalShow: true, currentModalObj: modalList[1] });
       return false;
     } else {
+      for (let i = 0; i < inStockProducts.length; i++) {
+        try {
+          await sitePurchase({
+            goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
+            goodsNum: inStockProducts[i].recommendationNumber,
+            goodsCategory: ''
+          });
+          await this.props.checkoutStore.updateLoginCart();
+        } catch (e) {
+          this.setState({ buttonLoading: false });
+        }
+      }
       let res = await getProductPetConfig({
-        goodsInfos: inStockProducts.map((el) => el.goodsInfo)
+        goodsInfos: inStockProducts.map((el) => {
+          el.goodsInfo.buyCount = el.recommendationNumber
+          return el.goodsInfo
+        })
       });
-      let handledData = inStockProducts.map((el, i) => {
-        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-        el.sizeList = el.goodsInfo.goods.sizeList
-        return el;
-      });
+      // let handledData = inStockProducts.map((el, i) => {
+      //   el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+      //   el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+      //   el.sizeList = el.goodsInfo.goods.sizeList
+      //   return el;
+      // });
+      let handledData = res.context.goodsInfos
       let AuditData = handledData.filter((el) => el.auditCatFlag);
       this.props.checkoutStore.setAuditData(AuditData);
       let autoAuditFlag = res.context.autoAuditFlag;
