@@ -3,6 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 import { PAYMENT_METHOD_RULE } from '@/utils/constant';
+import { find } from 'lodash';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl

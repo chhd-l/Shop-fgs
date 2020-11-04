@@ -541,6 +541,28 @@ class Payment extends React.Component {
   };
   // 支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
+    if(this.props.checkoutStore.AuditData.length) {
+      let petFlag = true
+      let data = this.props.checkoutStore.AuditData
+      for(let i = 0; i < data.length; i++) {
+        if(this.isLogin) {
+          if(!data[i].petsId) {
+            petFlag = false
+            break
+          }
+        }else {
+          if(!data[i].petForm.petName) {
+            petFlag = false
+            break
+          }
+        }
+      }
+      if(!petFlag) {
+        this.showErrorMsg('Please fill in pet information')
+        this.endLoading()
+        return
+      }
+    }
     this.doGetAdyenPayParam(type);
     if (email) {
       this.setState({
@@ -881,12 +903,15 @@ class Payment extends React.Component {
 
       // update clinic
       if (this.checkoutWithClinic) {
-        clinicStore.removeLinkClinicId();
-        clinicStore.removeLinkClinicName();
-        clinicStore.setSelectClinicId(clinicStore.clinicId);
-        clinicStore.setSelectClinicName(clinicStore.clinicName);
-        clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        clinicStore.setDefaultClinicName(clinicStore.clinicName);
+        if(clinicStore.linkClinicId && clinicStore.linkClinicId !== clinicStore.selectClinicId) {
+          clinicStore.removeLinkClinicId();
+          clinicStore.removeLinkClinicName();
+          clinicStore.removeAuditAuthority()
+        }
+        // clinicStore.setSelectClinicId(clinicStore.clinicId);
+        // clinicStore.setSelectClinicName(clinicStore.clinicName);
+        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
       }
 
       sessionItemRoyal.remove('payosdata');
@@ -913,7 +938,7 @@ class Payment extends React.Component {
             tidList: err.errorData.tidList,
             rePaySubscribeId: err.errorData.subscribeId
           },
-          () => this.queryOrderDetails()
+          () => this.state.tidList.length > 0 && this.queryOrderDetails()
         );
       }
       throw new Error(err.message);
@@ -1015,24 +1040,24 @@ class Payment extends React.Component {
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
-      clinicsId: this.props.clinicStore.clinicId,
-      clinicsName: this.props.clinicStore.clinicName,
-      recommendationId: this.props.clinicStore.clinicsId,
+      recommendationId: this.props.clinicStore.linkClinicId,
       recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-
       last4Digits: payosdata.last_4_digits,
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-
       petsId: '1231',
-
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
+    if(this.state.needPrescriber) {
+      param.clinicsId = this.props.clinicStore.selectClinicId
+      param.clinicsName = this.props.clinicStore.selectClinicName
+    }
+    
     // if (!this.checkoutWithClinic) {
     //   param = Object.assign(param, {
     //     clinicsId: 'FG20200914',

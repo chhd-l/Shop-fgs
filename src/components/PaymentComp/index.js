@@ -19,6 +19,8 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
+import { dynamicLoadCss } from '@/utils/utils';
+
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -136,6 +138,9 @@ class PaymentComp extends React.Component {
       find(waysRes.context || [], (ele) => ele.isOpen && ele.name === 'ADYEN')
     ) {
       this.setState({ paymentType: 'ADYEN' });
+      dynamicLoadCss(
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+      );
     }
     if (this.state.paymentType === 'PAYU') {
       this.updateInitStatus(true);

@@ -31,6 +31,12 @@ class ClinicStore {
   }
 
   @action.bound
+  removeAuditAuthority (data) {
+    this.linkedAuditAuthorityFlag = ''
+    localItemRoyal.remove(`rc-linkedAuditAuthorityFlag`)
+  }
+
+  @action.bound
   setLinkClinicId (data) {
     this.linkClinicId = data
     localItemRoyal.set(`rc-clinic-id-link`, data)
