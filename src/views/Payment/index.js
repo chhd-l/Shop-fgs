@@ -633,6 +633,7 @@ class Payment extends React.Component {
         },
         adyenCard: () => {
           const { adyenPayParam } = this.state;
+          console.log(9999,adyenPayParam)
           parameters = Object.assign(commonParameter, {
             shopperLocale: 'en_US',
             currency: 'EUR',
