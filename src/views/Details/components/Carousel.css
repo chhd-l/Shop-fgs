@@ -48,10 +48,10 @@
 .carousel .m_unit ul>li>div>p .subtitle{
 	height: 50px;
 	text-align: center;
-	color:#E6311B;
 	font-size: 20px;
 }
 .carousel .m_unit ul>li>div>p .goodsName{
+	color:#E6311B;
 	height: 50px;
 	text-align: center;
 }
@@ -59,9 +59,14 @@
 	text-align: center;
 }
 .carousel .m_unit ul>li>div>p .marketPrice{
-	height: 50px;
+	height: 25px;
 	text-align: center;
 }
+.carousel .m_unit ul>li>div>p .subscriptionPrice>div{
+	height: 25px;
+	text-align: center;
+}
+
 
 .Btn{
 	position: absolute;

@@ -72,7 +72,8 @@ class Carousel extends React.Component {
 
     var length = imageLis.length;
 
-
+    //阻止第一个跳转
+    if(idx===0) return
 
     //函数截流
     if (m_unit.isanimated) return;
@@ -100,11 +101,16 @@ class Carousel extends React.Component {
 
     var length = imageLis.length;
 
+     //阻止最后一个跳转
+     if(idx===length - 1) return
+
     //函数截流
     if (m_unit.isanimated) return;
 
     //信号量的变化
     idx++;
+
+    
 
     //改变小圆点
     this.changeCircles();
@@ -185,7 +191,7 @@ class Carousel extends React.Component {
                                       ({item2.goodsEvaluateNum})
                                   </span>
                                   </div>
-                                  <div className="marketPrice" style={{ marginTop: '1rem', marginLeft: '-20px' }}>{formatMoney(item2.minMarketPrice)}</div>
+                                  <div className="marketPrice" style={{marginTop:'10px', marginLeft: '-20px' }}>{formatMoney(item2.minMarketPrice)}</div>
                                   {
                                     item2.minSubscriptionPrice
                                       ?
