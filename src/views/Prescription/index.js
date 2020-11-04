@@ -229,8 +229,8 @@ class Prescription extends React.Component {
       removeLinkClinicId,
       removeLinkClinicName
     } = this.props.clinicStore;
-    removeLinkClinicId();
-    removeLinkClinicName();
+    // removeLinkClinicId();
+    // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
     this.props.history.push('/payment/payment');
