@@ -268,9 +268,9 @@
 }
 
 @media(max-width:540px) {
-  .PayCardImgFitScreen {
+  /* .PayCardImgFitScreen {
     width: 50% !important;
-  }
+  } */
 
   .PayCardBoxMargin {
     margin-top: 0rem;

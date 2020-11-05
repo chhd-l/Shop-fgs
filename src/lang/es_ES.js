@@ -719,6 +719,7 @@ const es_ES = {
   'writeYourReview': 'Escribe tu reseña',
   'yes': 'sí',
   'yourEmailNotVerified': '¡Tu email no se ha verificado!',
-  'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada'
+  'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada',
+  supportCardTypeMismatch: 'Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard'
 }
 export default es_ES;

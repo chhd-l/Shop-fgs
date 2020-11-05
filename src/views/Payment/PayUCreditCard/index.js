@@ -541,7 +541,7 @@ class PayOs extends React.Component {
                                   this.state.payosdata.vendor
                                 ]
                                   ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.payosdata.vendor
+                                      this.state.payosdata.vendor.toUpperCase()
                                     ]
                                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }

@@ -61,7 +61,7 @@ class InfosPreview extends React.Component {
                 style={{ width: '20%' }}
                 src={
                   CREDIT_CARD_IMG_ENUM[payRecord.vendor]
-                    ? CREDIT_CARD_IMG_ENUM[payRecord.vendor]
+                    ? CREDIT_CARD_IMG_ENUM[payRecord.vendor.toUpperCase()]
                     : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
               />

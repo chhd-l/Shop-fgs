@@ -729,7 +729,7 @@ class AccountOrders extends React.Component {
                                         src={
                                           CREDIT_CARD_IMG_ENUM[payRecord.vendor]
                                             ? CREDIT_CARD_IMG_ENUM[
-                                                payRecord.vendor
+                                                payRecord.vendor.toUpperCase()
                                               ]
                                             : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                         }

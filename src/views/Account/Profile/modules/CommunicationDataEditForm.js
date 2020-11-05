@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
-import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
-@inject('configStore')
-@observer
+import Loading from '@/components/Loading';
+import classNames from 'classnames';
+
 class CommunicationDataEditForm extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class CommunicationDataEditForm extends React.Component {
       isLoading: false
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     document.getElementById('wrap').addEventListener('click', (e) => {
       if (e.target.localName === 'span') {
         let keyWords = e.target.innerText;
@@ -38,6 +38,9 @@ class CommunicationDataEditForm extends React.Component {
         this.setState({ list: tempArr });
       }
     });
+    this.init();
+  }
+  init = async () => {
     this.setState({
       isLoading: true
     });
@@ -65,7 +68,7 @@ class CommunicationDataEditForm extends React.Component {
         isLoading: false
       });
     }
-  }
+  };
   //组装submit参数
   bindSubmitParam = (list) => {
     let obj = { optionalList: [] };
@@ -78,31 +81,46 @@ class CommunicationDataEditForm extends React.Component {
     return obj;
   };
   //保存
-  async handleSave() {
+  handleSave = async () => {
     try {
+      this.setState({
+        isLoading: true
+      });
       let oktaToken = 'Bearer ' + this.props.authState.accessToken;
       let submitParam = this.bindSubmitParam(this.state.list);
       await userBindConsent({ ...submitParam, ...{ oktaToken } });
-      window.location.reload();
+      await this.init();
+      this.handleCancel();
     } catch (err) {
       console.log(err.message);
+    } finally {
+      this.setState({
+        isLoading: false
+      });
     }
-  }
+  };
   handleCancel = () => {
-    this.setState({
-      editFormVisible: false
-    });
+    this.changeEditFormVisible(false);
   };
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
   };
-
+  changeEditFormVisible = (status) => {
+    this.setState({ editFormVisible: status });
+    this.props.updateEditOperationPanelName(status ? 'Communication' : '');
+  };
+  handleClickEditBtn = () => {
+    this.changeEditFormVisible(true);
+  };
   render() {
     const { editFormVisible } = this.state;
     const createMarkup = (text) => ({ __html: text });
     return (
-      <div className="border">
+      <div className={classNames({ border: !editFormVisible })}>
+        {this.state.isLoading ? (
+          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
+        ) : null}
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5 className="rc-margin--none">
@@ -118,16 +136,14 @@ class CommunicationDataEditForm extends React.Component {
                   id="contactPrefEditBtn"
                   title={txt}
                   alt={txt}
-                  onClick={() => {
-                    this.setState({ editFormVisible: true });
-                  }}
+                  onClick={this.handleClickEditBtn}
                 >
                   {txt}
                 </button>
               )}
             </FormattedMessage>
           </div>
-          <hr />
+          <hr className={classNames({ 'border-0': editFormVisible })} />
           <div class="pl-3 pr-3 pb-3">
             <span className="rc-meta">
               <b>
@@ -158,7 +174,7 @@ class CommunicationDataEditForm extends React.Component {
                 <span
                   className="rc-styled-link editPersonalInfoBtn"
                   name="contactPreference"
-                  onClick={() => this.handleCancel()}
+                  onClick={this.handleCancel}
                 >
                   <FormattedMessage id="cancel" />
                 </span>
@@ -169,7 +185,7 @@ class CommunicationDataEditForm extends React.Component {
                   className="rc-btn rc-btn--one submitBtn"
                   name="contactPreference"
                   type="submit"
-                  onClick={() => this.handleSave()}
+                  onClick={this.handleSave}
                 >
                   <FormattedMessage id="save" />
                 </button>

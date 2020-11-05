@@ -576,6 +576,14 @@ export const PRESONAL_INFO_RULE = [
     )
   },
   {
+    key: 'country',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.country']
+    )
+  },
+  {
     key: 'email',
     regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
     require: true,

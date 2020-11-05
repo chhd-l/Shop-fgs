@@ -99,7 +99,7 @@ class PersonalDataEditForm extends React.Component {
       });
     }, 5000);
   }
-  handleCancel() {
+  handleCancel = () => {
     const { oldForm } = this.state;
     this.setState({
       form: Object.assign({}, oldForm),
@@ -110,7 +110,7 @@ class PersonalDataEditForm extends React.Component {
       top: 0,
       behavior: 'smooth'
     });
-  }
+  };
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status });
     this.props.updateEditOperationPanelName(status ? 'My account' : '');
@@ -204,7 +204,9 @@ class PersonalDataEditForm extends React.Component {
     const { data } = this.props;
     return (
       <div className={classNames({ border: !editFormVisible })}>
-        {this.state.loading ? <Loading positionAbsolute="true" /> : null}
+        {/* {this.state.loading ? (
+          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
+        ) : null} */}
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             <h5 className="rc-margin--none">
@@ -218,7 +220,6 @@ class PersonalDataEditForm extends React.Component {
                     editFormVisible ? 'hidden' : ''
                   }`}
                   name="personalInformation"
-                  id="personalInfoEditBtn"
                   title={txt}
                   alt={txt}
                   onClick={this.handleClickEditBtn}
@@ -229,7 +230,7 @@ class PersonalDataEditForm extends React.Component {
             </FormattedMessage>
           </div>
           <hr className={classNames({ 'border-0': editFormVisible })} />
-          <div class="pl-3 pr-3 pb-3">
+          <div className="pl-3 pr-3 pb-3">
             <div
               className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
                 this.state.errorMsg ? '' : 'hidden'
@@ -270,36 +271,41 @@ class PersonalDataEditForm extends React.Component {
                 editFormVisible ? 'hidden' : ''
               }`}
             >
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="payment.firstName" />
-              </div>
-              <div className="col-6 col-md-2">{data.firstName}</div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="payment.lastName" />
-              </div>
-              <div className="col-6 col-md-2">{data.lastName}</div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="account.birthDate" />
-              </div>
-              <div className="col-6 col-md-2">{data.birthdate}</div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="account.Email" />
-              </div>
-              <div className="col-6 col-md-2">{data.email}</div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="payment.country" />
-              </div>
-              <div className="col-6 col-md-2">
-                {this.getDictValue(this.state.countryList, data.country)}
-              </div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="payment.phoneNumber" />
-              </div>
-              <div className="col-6 col-md-2">{data.phoneNumber}</div>
-              <div className="col-6 col-md-10">
-                <FormattedMessage id="payment.rfc" />
-              </div>
-              <div className="col-6 col-md-2">{data.rfc}</div>
+              {[
+                {
+                  name: <FormattedMessage id="payment.firstName" />,
+                  val: data.firstName
+                },
+                {
+                  name: <FormattedMessage id="payment.lastName" />,
+                  val: data.lastName
+                },
+                {
+                  name: <FormattedMessage id="account.birthDate" />,
+                  val: data.birthdate
+                },
+                {
+                  name: <FormattedMessage id="account.Email" />,
+                  val: data.email
+                },
+                {
+                  name: <FormattedMessage id="payment.country" />,
+                  val: this.getDictValue(this.state.countryList, data.country)
+                },
+                {
+                  name: <FormattedMessage id="payment.phoneNumber" />,
+                  val: data.phoneNumber
+                },
+                {
+                  name: <FormattedMessage id="payment.rfc" />,
+                  val: data.rfc
+                }
+              ].map((item, i) => (
+                <>
+                  <div className="col-6 col-md-9">{item.name}</div>
+                  <div className="col-6 col-md-3">{item.val}</div>
+                </>
+              ))}
             </div>
 
             {/* edit form */}
@@ -534,7 +540,7 @@ class PersonalDataEditForm extends React.Component {
                 <span
                   className="rc-styled-link editPersonalInfoBtn"
                   name="personalInformation"
-                  onClick={() => this.handleCancel()}
+                  onClick={this.handleCancel}
                 >
                   <FormattedMessage id="cancel" />
                 </span>
@@ -542,7 +548,9 @@ class PersonalDataEditForm extends React.Component {
                 <FormattedMessage id="or" />
                 &nbsp;
                 <button
-                  className="rc-btn rc-btn--one submitBtn"
+                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
+                    'ui-btn-loading': this.state.loading
+                  })}
                   name="personalInformation"
                   type="submit"
                   disabled={!isValid}

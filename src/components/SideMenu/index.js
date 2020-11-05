@@ -2,10 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-const defaultProps = {
-  customCls: ''
-};
-
 const menuList = [
   {
     catogery: 'Home',
@@ -22,7 +18,14 @@ const menuList = [
   },
   {
     catogery: 'Pets',
-    icon: <span className="iconfont">&#xe69a;</span>,
+    icon: (
+      <span
+        className="iconfont"
+        style={{ fontSize: '1.1rem', marginLeft: '-.1rem' }}
+      >
+        &#xe69a;
+      </span>
+    ),
     langKey: 'pets',
     url: '/account/pets'
   },
@@ -57,8 +60,10 @@ const menuList = [
     url: '/account/paymentMethod'
   }
 ];
-
 class SideMenu extends React.Component {
+  static defaultProps = {
+    customCls: ''
+  };
   render() {
     const { type } = this.props;
     return (
@@ -88,7 +93,5 @@ class SideMenu extends React.Component {
     );
   }
 }
-
-SideMenu.defaultProps = defaultProps;
 
 export default SideMenu;

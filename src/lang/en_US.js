@@ -749,6 +749,11 @@ const en_US = {
   yourPasswordNotVerified: "Your password has not been verified",
   home: 'Home',
   'account.myAddresses': 'My addresses',
-  addANewAddress: 'Add a new Address'
+  addANewAddress: 'Add a new Address',
+  'account.myPayments': 'My payments',
+  addANewPaymentMethod: 'Add a new payment method',
+  supportCardTypeMismatch: 'Sorry, the currently supported credit card types are: VISA, American Express, MasterCard',
+  ihaveADefaultClinic: 'I have a default clinic',
+  noDefaultClinic: 'No default clinic'
 }
 export default en_US;

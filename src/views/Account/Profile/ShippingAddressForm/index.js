@@ -3,27 +3,21 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
 import { findIndex } from 'lodash';
-import {
-  saveAddress,
-  setDefaltAddress,
-  deleteAddress,
-  getAddressById,
-  editAddress
-} from '@/api/address';
+import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
 import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
+import classNames from 'classnames';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-const defaulProps = {
-  addressId: ''
-};
-
 @injectIntl
 class ShippingAddressFrom extends React.Component {
+  static defaultProps = {
+    addressId: ''
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -83,10 +77,8 @@ class ShippingAddressFrom extends React.Component {
     this.setState({
       loading: true
     });
-    let params = { id };
-
     try {
-      let res = await getAddressById(params);
+      let res = await getAddressById({ id });
       let data = res.context;
       let addressForm = {
         firstName: data.firstName,
@@ -114,7 +106,6 @@ class ShippingAddressFrom extends React.Component {
           addressForm,
           showModal: true,
           isAdd: false,
-          loading: false,
           curType: data.type === 'DELIVERY' ? 'delivery' : 'billing'
         },
         () => {
@@ -122,8 +113,9 @@ class ShippingAddressFrom extends React.Component {
         }
       );
     } catch (err) {
-      this.setState({ loading: false });
       this.showErrorMsg(err.message.toString());
+    } finally {
+      this.setState({ loading: false });
     }
   };
   isDefalt = () => {
@@ -138,7 +130,7 @@ class ShippingAddressFrom extends React.Component {
       }
     );
   };
-  saveAddress = async () => {
+  handleSave = async () => {
     try {
       let data = this.state.addressForm;
       this.setState({
@@ -165,69 +157,16 @@ class ShippingAddressFrom extends React.Component {
         email: data.email,
         type: data.addressType
       };
-      if (this.state.isAdd) {
-        await saveAddress(params);
-        this.setState({
-          loading: false
-        });
-        this.handleCancel();
-      } else {
-        let editRes = await editAddress(params);
-        this.setState({
-          loading: false
-        });
-        this.showSuccessMsg(editRes.message);
-        setTimeout(() => {
-          this.handleCancel();
-        }, 3000);
-      }
+      await (this.state.isAdd ? saveAddress : editAddress)(params);
+      this.handleCancel();
       this.props.refreshList();
     } catch (err) {
+      this.showErrorMsg(err.message);
+    } finally {
       this.setState({
         loading: false
       });
-      this.showErrorMsg(
-        err.message.toString() || this.props.intl.messages.saveFailed
-      );
     }
-  };
-  setDefaltAddress = async (id) => {
-    this.setState({
-      loading: true
-    });
-    let params = {
-      deliveryAddressId: id
-    };
-    await setDefaltAddress(params)
-      .then((res) => {
-        this.showSuccessMsg(res.message);
-        this.getAddressList();
-      })
-      .catch((err) => {
-        this.showErrorMsg(err.message);
-        this.setState({
-          loading: false
-        });
-      });
-  };
-  deleteAddress = async (id) => {
-    this.setState({
-      loading: true
-    });
-    let params = {
-      id: id
-    };
-    await deleteAddress(params)
-      .then((res) => {
-        this.showSuccessMsg(res.message);
-        this.getAddressList();
-      })
-      .catch((err) => {
-        this.showErrorMsg(err.message);
-        this.setState({
-          loading: false
-        });
-      });
   };
   showErrorMsg = (message) => {
     this.setState({
@@ -310,9 +249,6 @@ class ShippingAddressFrom extends React.Component {
   handleCancel = () => {
     this.props.hideMyself({ closeListPage: this.props.backPage === 'cover' });
   };
-  handleSave = () => {
-    this.saveAddress();
-  };
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -385,7 +321,7 @@ class ShippingAddressFrom extends React.Component {
                 { type: 'delivery', langKey: 'deliveryAddress' },
                 { type: 'billing', langKey: 'billingAddress' }
               ].map((item, i) => (
-                <div className="col-12 col-md-3" key={i}>
+                <div className="col-12 col-md-4" key={i}>
                   <div className="rc-input rc-input--inline">
                     <input
                       className="rc-input__radio"
@@ -767,7 +703,7 @@ class ShippingAddressFrom extends React.Component {
               <span
                 className="rc-styled-link editPersonalInfoBtn"
                 name="contactInformation"
-                onClick={() => this.handleCancel()}
+                onClick={this.handleCancel}
               >
                 <FormattedMessage id="cancel" />
               </span>
@@ -775,7 +711,9 @@ class ShippingAddressFrom extends React.Component {
               <FormattedMessage id="or" />
               &nbsp;
               <button
-                className="rc-btn rc-btn--one submitBtn editAddress"
+                className={classNames('rc-btn', 'rc-btn--one', 'editAddress', {
+                  'ui-btn-loading': this.state.loading
+                })}
                 data-sav="false"
                 name="contactInformation"
                 type="submit"
@@ -791,6 +729,5 @@ class ShippingAddressFrom extends React.Component {
     );
   }
 }
-ShippingAddressFrom.defaulProps = defaulProps;
 
 export default ShippingAddressFrom;
