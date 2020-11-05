@@ -89,6 +89,7 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: 19.09,
         longitude: -99.24,
+        auditAuthority: true,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
