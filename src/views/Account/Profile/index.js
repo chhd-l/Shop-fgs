@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -13,6 +14,7 @@ import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
+import { FormattedMessage } from 'react-intl';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -106,7 +108,6 @@ class AccountProfile extends React.Component {
               ? context.birthDay.split('-').join('/')
               : context.birthDay,
             country: context.countryId,
-            // country: 6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
@@ -128,7 +129,7 @@ class AccountProfile extends React.Component {
           }
         });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ loading: false });
       });
   };
@@ -160,6 +161,15 @@ class AccountProfile extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                {editOperationPaneName ? null : (
+                  <Link to="/account" className="rc-md-down">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="home" />
+                    </span>
+                  </Link>
+                )}
+
                 <div className="card-body_">
                   <>
                     <PanleContainer
@@ -179,6 +189,27 @@ class AccountProfile extends React.Component {
                         }
                       />
                     </PanleContainer>
+
+                    <PanleContainer
+                      loading={loading}
+                      customCls={classNames({
+                        hidden:
+                          process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                            'true' &&
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'Clinic'
+                      })}
+                    >
+                      <ClinicEditForm
+                        originData={this.state.originData}
+                        data={this.state.clinicData}
+                        updateData={this.queryCustomerBaseInfo}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
                     <PanleContainer
                       customCls={classNames({
                         hidden:
@@ -221,51 +252,6 @@ class AccountProfile extends React.Component {
                         }
                       />
                     </PanleContainer>
-
-                    <PanleContainer
-                      loading={loading}
-                      customCls={classNames({
-                        hidden:
-                          process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
-                            'true' &&
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Clinic'
-                      })}
-                    >
-                      <ClinicEditForm
-                        originData={this.state.originData}
-                        data={this.state.clinicData}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
-
-                    {/* {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
-                      <div className="rc-layout-container rc-one-column">
-                        <div
-                          className={`rc-column rc-padding-x--none--mobile border ${
-                            loading ? '' : 'p-0'
-                          }`}
-                        >
-                          {loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="10%"
-                              count={5}
-                            />
-                          ) : (
-                            <ClinicEditForm
-                              originData={this.state.originData}
-                              data={this.state.clinicData}
-                              updateData={this.queryCustomerBaseInfo}
-                            />
-                          )}
-                        </div>
-                      </div>
-                    )} */}
                   </>
                 </div>
               </div>

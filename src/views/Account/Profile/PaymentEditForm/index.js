@@ -30,7 +30,6 @@ class PaymentEditForm extends React.Component {
         cardOwner: '',
         email: '',
         phoneNumber: '',
-        identifyNumber: '111',
         isDefault: false,
         paymentToken: '',
         paymentTransactionId: '',

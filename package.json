@@ -205,6 +205,7 @@
     "cookies-js": "^1.2.3",
     "customize-cra": "^0.9.1",
     "dotenv-cli": "^3.1.0",
+    "js-md5": "^0.7.3",
     "react-app-rewired": "^2.1.6",
     "react-format": "^1.2.0",
     "react-google-tag-manager": "^2.2.1",

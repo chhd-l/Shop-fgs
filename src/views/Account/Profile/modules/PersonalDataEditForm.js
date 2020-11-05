@@ -133,18 +133,10 @@ class PersonalDataEditForm extends React.Component {
 
       await updateCustomerBaseInfo(param);
       this.props.updateData(this.state.form);
-      this.setState({
-        successTipVisible: true
-      });
-      setTimeout(() => {
-        this.setState({
-          successTipVisible: false
-        });
-      }, 2000);
+      this.changeEditFormVisible(false);
     } catch (err) {
       this.showErrMsg(err.message);
     } finally {
-      this.changeEditFormVisible(false);
       this.setState({
         loading: false
       });
@@ -199,20 +191,39 @@ class PersonalDataEditForm extends React.Component {
   handleClickEditBtn = () => {
     this.changeEditFormVisible(true);
   };
+  handleClickGoBack = () => {
+    this.changeEditFormVisible(false);
+  };
   render() {
     const { editFormVisible, form, isValid } = this.state;
     const { data } = this.props;
+    const curPageAtCover = !editFormVisible;
     return (
-      <div className={classNames({ border: !editFormVisible })}>
+      <div className={classNames({ border: curPageAtCover })}>
         {/* {this.state.loading ? (
           <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
         ) : null} */}
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            <h5 className="rc-margin--none">
-              <span className="iconfont title-icon">&#xe6a4;</span>
-              <FormattedMessage id="account.myAccount" />
-            </h5>
+            {curPageAtCover ? (
+              <h5>
+                <svg
+                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                  aria-hidden="true"
+                >
+                  <use xlinkHref="#iconaccount"></use>
+                </svg>
+                <FormattedMessage id="account.myAccount" />
+              </h5>
+            ) : (
+              <h5
+                className="ui-cursor-pointer"
+                onClick={this.handleClickGoBack}
+              >
+                <span>&larr; </span>
+                <FormattedMessage id="account.myAccount" />
+              </h5>
+            )}
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
@@ -229,7 +240,11 @@ class PersonalDataEditForm extends React.Component {
               )}
             </FormattedMessage>
           </div>
-          <hr className={classNames({ 'border-0': editFormVisible })} />
+          <hr
+            className={classNames('account-info-hr-border-color', {
+              'border-0': editFormVisible
+            })}
+          />
           <div className="pl-3 pr-3 pb-3">
             <div
               className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${

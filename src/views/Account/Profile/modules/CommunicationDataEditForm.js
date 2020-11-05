@@ -12,7 +12,8 @@ class CommunicationDataEditForm extends React.Component {
     this.state = {
       editFormVisible: false,
       list: [],
-      isLoading: false
+      isLoading: false,
+      saveLoading: false
     };
   }
   componentDidMount() {
@@ -84,7 +85,7 @@ class CommunicationDataEditForm extends React.Component {
   handleSave = async () => {
     try {
       this.setState({
-        isLoading: true
+        saveLoading: true
       });
       let oktaToken = 'Bearer ' + this.props.authState.accessToken;
       let submitParam = this.bindSubmitParam(this.state.list);
@@ -95,7 +96,7 @@ class CommunicationDataEditForm extends React.Component {
       console.log(err.message);
     } finally {
       this.setState({
-        isLoading: false
+        saveLoading: false
       });
     }
   };
@@ -113,19 +114,41 @@ class CommunicationDataEditForm extends React.Component {
   handleClickEditBtn = () => {
     this.changeEditFormVisible(true);
   };
+  handleClickGoBack = () => {
+    this.changeEditFormVisible(false);
+  };
   render() {
     const { editFormVisible } = this.state;
     const createMarkup = (text) => ({ __html: text });
+    const curPageAtCover = !editFormVisible;
     return (
-      <div className={classNames({ border: !editFormVisible })}>
-        {this.state.isLoading ? (
+      <div className={classNames({ border: curPageAtCover })}>
+        {/* {this.state.isLoading ? (
           <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
-        ) : null}
+        ) : null} */}
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-            <h5 className="rc-margin--none">
-              <FormattedMessage id="account.preferredMmethodsOfCommunication" />
-            </h5>
+            {curPageAtCover ? (
+              <h5>
+                <svg
+                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                  aria-hidden="true"
+                  style={{ width: '1.2em', height: '1.2em' }}
+                >
+                  <use xlinkHref="#iconcommunication"></use>
+                </svg>
+                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+              </h5>
+            ) : (
+              <h5
+                className="ui-cursor-pointer"
+                onClick={this.handleClickGoBack}
+              >
+                <span>&larr; </span>
+                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+              </h5>
+            )}
+
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
@@ -143,7 +166,11 @@ class CommunicationDataEditForm extends React.Component {
               )}
             </FormattedMessage>
           </div>
-          <hr className={classNames({ 'border-0': editFormVisible })} />
+          <hr
+            className={classNames('account-info-hr-border-color', {
+              'border-0': editFormVisible
+            })}
+          />
           <div class="pl-3 pr-3 pb-3">
             <span className="rc-meta">
               <b>
@@ -182,7 +209,9 @@ class CommunicationDataEditForm extends React.Component {
                 <FormattedMessage id="or" />
                 &nbsp;
                 <button
-                  className="rc-btn rc-btn--one submitBtn"
+                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
+                    'ui-btn-loading': this.state.saveLoading
+                  })}
                   name="contactPreference"
                   type="submit"
                   onClick={this.handleSave}

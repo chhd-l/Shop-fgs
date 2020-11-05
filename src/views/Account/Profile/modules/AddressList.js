@@ -5,9 +5,45 @@ import { getDictionary } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
-import { getAddressList } from '@/api/address';
+import { getAddressList, deleteAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
+import ConfirmTooltip from '@/components/ConfirmTooltip';
+
+function CardItem(props) {
+  const { data } = props;
+  return (
+    <div
+      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure"
+      onClick={props.handleClickCoverItem}
+    >
+      {props.removeBtnJSX}
+      <div className="font-weight-normal">
+        {data.type === 'DELIVERY' ? (
+          <FormattedMessage id="deliveryAddress" />
+        ) : (
+          <FormattedMessage id="billingAddress" />
+        )}
+      </div>
+      <div>
+        <div className="ccard-phone-title word-break">
+          <div className="address-name">
+            <span>{data.firstName + ' ' + data.lastName}</span>
+            {data.isDefaltAddress === 1 ? (
+              <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
+                <FormattedMessage id="default" />
+              </span>
+            ) : null}
+          </div>
+        </div>
+        <p className="mb-0">{data.consigneeNumber}</p>
+        <p className="mb-0">{props.countryName}</p>
+        <p className="mb-0">{data.cityName}</p>
+        <p className="mb-0">{data.address1}</p>
+      </div>
+    </div>
+  );
+}
 
 @injectIntl
 class AddressList extends React.Component {
@@ -21,12 +57,15 @@ class AddressList extends React.Component {
       addressList: [],
       currentAddressList: [],
       curAddressId: '',
-      curPage: 'cover',
+      fromPage: 'cover',
 
       countryList: []
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
+    this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
+    this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
   }
   componentDidMount() {
     this.getAddressList();
@@ -56,7 +95,7 @@ class AddressList extends React.Component {
         listLoading: false
       });
     } catch (err) {
-      this.showErrorMsg(err.message);
+      // this.showErrorMsg(err.message);
       this.setState({ listLoading: false });
     }
   };
@@ -83,20 +122,77 @@ class AddressList extends React.Component {
     }
   }
   handleClickEditBtn = () => {
-    // this.changeEditFormVisible(true);
     this.changeListVisible(true);
+    this.setState({ fromPage: 'cover' });
   };
-  handleClickCoverItem(item, curPage) {
+  handleClickCoverItem(item, fromPage) {
     this.changeEditFormVisible(true);
-    this.setState({ curAddressId: item.deliveryAddressId, curPage });
+    this.setState({ curAddressId: item.deliveryAddressId, fromPage });
   }
   handleHideEditForm = ({ closeListPage }) => {
     this.changeEditFormVisible(false);
-    this.setState({ listVisible: closeListPage });
+    this.changeListVisible(!closeListPage); // 是否关闭list页面，如果是从封面过来
   };
-  handleClickAddBtn = () => {
+  handleClickAddBtn(fromPage) {
     this.changeEditFormVisible(true);
-    this.setState({ curPage: 'list' });
+    this.setState({ fromPage });
+  }
+  updateConfirmTooltipVisible = (el, status) => {
+    let { addressList } = this.state;
+    el.confirmTooltipVisible = status;
+    this.setState({
+      addressList
+    });
+  };
+  handleClickDeleteBtn(data, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.updateConfirmTooltipVisible(data, true);
+  }
+  async deleteCard(el, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    let { addressList } = this.state;
+    el.confirmTooltipVisible = false;
+    this.setState({
+      listLoading: true,
+      addressList
+    });
+    await deleteAddress({ id: el.deliveryAddressId })
+      .then(() => {
+        this.getAddressList();
+      })
+      .catch((err) => {
+        this.showErrorMsg(err.message);
+        this.setState({
+          listLoading: false
+        });
+      });
+  }
+  handleClickGoBack = () => {
+    this.changeEditFormVisible(false);
+    this.changeListVisible(this.state.fromPage === 'list');
+    // 最后一次返回cover
+    this.setState({ fromPage: 'cover' });
+  };
+  addBtnJSX = ({ fromPage }) => {
+    return (
+      <div
+        className="rounded p-4 border"
+        onClick={this.handleClickAddBtn.bind(this, fromPage)}
+        ref={(node) => {
+          if (node) {
+            node.style.setProperty('border-width', '.1rem', 'important');
+            node.style.setProperty('border-style', 'dashed', 'important');
+          }
+        }}
+      >
+        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+        <FormattedMessage id="addANewAddress" />
+      </div>
+    );
   };
   render() {
     const {
@@ -104,23 +200,38 @@ class AddressList extends React.Component {
       editFormVisible,
       addressList,
       listLoading,
-      loading
+      loading,
+      countryList
     } = this.state;
+    const curPageAtCover = !listVisible && !editFormVisible;
     return (
       <>
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div
-            className={classNames({ border: !listVisible && !editFormVisible })}
-          >
+          <div className={classNames({ border: curPageAtCover })}>
             {loading ? <Loading positionAbsolute="true" /> : null}
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                <h5 className="rc-margin--none">
-                  <span className="iconfont title-icon">&#xe6a3;</span>
-                  <FormattedMessage id="account.myAddresses" />
-                </h5>
+                {curPageAtCover ? (
+                  <h5>
+                    <svg
+                      className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                      aria-hidden="true"
+                    >
+                      <use xlinkHref="#iconaddresses"></use>
+                    </svg>
+                    <FormattedMessage id="account.myAddresses" />
+                  </h5>
+                ) : (
+                  <h5
+                    className="ui-cursor-pointer"
+                    onClick={this.handleClickGoBack}
+                  >
+                    <span>&larr; </span>
+                    <FormattedMessage id="account.myAddresses" />
+                  </h5>
+                )}
                 <FormattedMessage id="edit">
                   {(txt) => (
                     <button
@@ -139,11 +250,17 @@ class AddressList extends React.Component {
                 </FormattedMessage>
               </div>
               <hr
-                className={classNames({
+                className={classNames('account-info-hr-border-color', {
                   'border-0': listVisible || editFormVisible
                 })}
               />
-              <div className={classNames('pl-3', 'pr-3', 'pb-3')}>
+              <div
+                className={classNames(
+                  'pb-3',
+                  { 'pl-3': curPageAtCover },
+                  { 'pr-3': curPageAtCover }
+                )}
+              >
                 {/* preview form */}
                 <div
                   className={classNames('row', 'ml-0', 'mr-0', {
@@ -152,47 +269,25 @@ class AddressList extends React.Component {
                 >
                   {addressList.slice(0, 2).map((item, i) => (
                     <div className="col-12 col-md-4 p-2" key={i}>
-                      <div
-                        className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure"
-                        onClick={this.handleClickCoverItem.bind(
+                      <CardItem
+                        data={item}
+                        handleClickCoverItem={this.handleClickCoverItem.bind(
                           this,
                           item,
                           'cover'
                         )}
-                      >
-                        <div className="font-weight-normal">
-                          {item.type === 'DELIVERY' ? (
-                            <FormattedMessage id="deliveryAddress" />
-                          ) : (
-                            <FormattedMessage id="billingAddress" />
-                          )}
-                        </div>
-                        <div>
-                          <div className="ccard-phone-title word-break">
-                            <div className="address-name">
-                              <span>
-                                {item.firstName + ' ' + item.lastName}
-                              </span>
-                              {item.isDefaltAddress === 1 ? (
-                                <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                                  <FormattedMessage id="default" />
-                                </span>
-                              ) : null}
-                            </div>
-                          </div>
-                          <p className="mb-0">{item.consigneeNumber}</p>
-                          <p className="mb-0">
-                            {this.getDictValue(
-                              this.state.countryList,
-                              item.countryId
-                            )}
-                          </p>
-                          <p className="mb-0">{item.cityName}</p>
-                          <p className="mb-0">{item.address1}</p>
-                        </div>
-                      </div>
+                        countryName={this.getDictValue(
+                          countryList,
+                          item.countryId
+                        )}
+                      />
                     </div>
                   ))}
+                  {addressList.slice(0, 2).length < 2 && (
+                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                      {this.addBtnJSX({ fromPage: 'cover' })}
+                    </div>
+                  )}
                 </div>
 
                 {/* list panel */}
@@ -204,71 +299,56 @@ class AddressList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {addressList.map((item, i) => (
                       <div className="col-12 col-md-4 p-2" key={i}>
-                        <div
-                          className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure"
-                          onClick={this.handleClickCoverItem.bind(
+                        <CardItem
+                          data={item}
+                          removeBtnJSX={
+                            <div
+                              className="position-absolute"
+                              style={{ right: '4%', top: '7%', zIndex: 9 }}
+                            >
+                              <span
+                                className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}
+                              >
+                                <span
+                                  className="rc-styled-link"
+                                  onClick={this.handleClickDeleteBtn.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <FormattedMessage id="delete" />
+                                </span>
+                                <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: 'translate(-89%, 105%)'
+                                  }}
+                                  arrowStyle={{ left: '89%' }}
+                                  display={item.confirmTooltipVisible}
+                                  confirm={this.deleteCard.bind(this, item)}
+                                  updateChildDisplay={(status) =>
+                                    this.updateConfirmTooltipVisible(
+                                      item,
+                                      status
+                                    )
+                                  }
+                                />
+                              </span>
+                            </div>
+                          }
+                          handleClickCoverItem={this.handleClickCoverItem.bind(
                             this,
                             item,
                             'list'
                           )}
-                        >
-                          <div className="font-weight-normal">
-                            {item.type === 'DELIVERY' ? (
-                              <FormattedMessage id="deliveryAddress" />
-                            ) : (
-                              <FormattedMessage id="billingAddress" />
-                            )}
-                          </div>
-                          <div>
-                            <div className="ccard-phone-title word-break">
-                              <div className="address-name">
-                                <span>
-                                  {item.firstName + ' ' + item.lastName}
-                                </span>
-                                {item.isDefaltAddress === 1 ? (
-                                  <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
-                                    <FormattedMessage id="default" />
-                                  </span>
-                                ) : null}
-                              </div>
-                            </div>
-                            <p className="mb-0">{item.consigneeNumber}</p>
-                            <p className="mb-0">
-                              {this.getDictValue(
-                                this.state.countryList,
-                                item.countryId
-                              )}
-                            </p>
-                            <p className="mb-0">{item.cityName}</p>
-                            <p className="mb-0">{item.address1}</p>
-                          </div>
-                        </div>
+                          countryName={this.getDictValue(
+                            countryList,
+                            item.countryId
+                          )}
+                        />
                       </div>
                     ))}
-                  </div>
-                  <div className="row ml-0 mr-0">
                     <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      <div
-                        className="rounded p-4 border"
-                        onClick={this.handleClickAddBtn}
-                        ref={(node) => {
-                          if (node) {
-                            node.style.setProperty(
-                              'border-width',
-                              '.1rem',
-                              'important'
-                            );
-                            node.style.setProperty(
-                              'border-style',
-                              'dashed',
-                              'important'
-                            );
-                          }
-                        }}
-                      >
-                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
-                        <FormattedMessage id="addANewAddress" />
-                      </div>
+                      {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>
                 </div>
@@ -277,7 +357,7 @@ class AddressList extends React.Component {
                 {editFormVisible && (
                   <AddressEditForm
                     addressId={this.state.curAddressId}
-                    backPage={this.state.curPage}
+                    backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getAddressList}
                   />

@@ -67,12 +67,13 @@ class AddressList extends React.Component {
       loading: false,
       listLoading: false,
       creditCardList: [],
-      curPage: 'cover',
+      fromPage: 'cover',
       paymentType: 'PAYU'
     };
 
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
+    this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
   }
   componentDidMount() {
     this.getPaymentMethodList();
@@ -126,7 +127,10 @@ class AddressList extends React.Component {
       });
     }
   };
-  async deleteCard(el) {
+  async deleteCard(el, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = false;
     this.setState({
@@ -138,7 +142,7 @@ class AddressList extends React.Component {
         this.getPaymentMethodList();
       })
       .catch((err) => {
-        this.showErrorMsg(err.message);
+        // this.showErrorMsg(err.message);
         this.setState({
           listLoading: false
         });
@@ -167,29 +171,52 @@ class AddressList extends React.Component {
     }
   }
   handleClickEditBtn = () => {
-    // this.changeEditFormVisible(true);
     this.changeListVisible(true);
   };
   handleHideEditForm = ({ closeListPage }) => {
     this.changeEditFormVisible(false);
-    this.setState({ listVisible: closeListPage });
+    this.changeListVisible(!closeListPage);
   };
-  handleClickAddBtn = () => {
+  handleClickAddBtn(fromPage) {
     this.changeEditFormVisible(true);
-    this.setState({ curPage: 'list' });
-  };
+    this.setState({ fromPage });
+  }
   updateConfirmTooltipVisible(el, status) {
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = status;
     this.setState({
-      creditCardList: creditCardList
+      creditCardList
     });
   }
   handleClickDeleteBtn(data, e) {
     e.preventDefault();
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     this.updateConfirmTooltipVisible(data, true);
   }
+  handleClickGoBack = () => {
+    this.changeEditFormVisible(false);
+    this.changeListVisible(this.state.fromPage === 'list');
+    // 最后一次返回cover
+    this.setState({ fromPage: 'cover' });
+  };
+  addBtnJSX = ({ fromPage }) => {
+    return (
+      <div
+        className="rounded p-4 border"
+        onClick={this.handleClickAddBtn.bind(this, fromPage)}
+        ref={(node) => {
+          if (node) {
+            node.style.setProperty('border-width', '.1rem', 'important');
+            node.style.setProperty('border-style', 'dashed', 'important');
+          }
+        }}
+      >
+        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+        <FormattedMessage id="addANewPaymentMethod" />
+      </div>
+    );
+  };
   render() {
     const {
       listVisible,
@@ -198,22 +225,38 @@ class AddressList extends React.Component {
       listLoading,
       loading
     } = this.state;
+    const curPageAtCover = !listVisible && !editFormVisible;
     return (
       <>
         {' '}
         {listLoading ? (
           <Skeleton color="#f5f5f5" width="100%" height="10%" count={4} />
         ) : (
-          <div
-            className={classNames({ border: !listVisible && !editFormVisible })}
-          >
+          <div className={classNames({ border: curPageAtCover })}>
             {loading ? <Loading positionAbsolute="true" /> : null}
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
-                <h5 className="rc-margin--none">
-                  <span className="iconfont title-icon">&#xe6a9;</span>
-                  <FormattedMessage id="account.myPayments" />
-                </h5>
+                {curPageAtCover ? (
+                  <h5>
+                    <svg
+                      className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                      aria-hidden="true"
+                      style={{ width: '1.4em', height: '1.4em' }}
+                    >
+                      <use xlinkHref="#iconpayments"></use>
+                    </svg>
+                    <FormattedMessage id="account.myPayments" />
+                  </h5>
+                ) : (
+                  <h5
+                    className="ui-cursor-pointer"
+                    onClick={this.handleClickGoBack}
+                  >
+                    <span>&larr; </span>
+                    <FormattedMessage id="account.myPayments" />
+                  </h5>
+                )}
+
                 <FormattedMessage id="edit">
                   {(txt) => (
                     <button
@@ -232,11 +275,17 @@ class AddressList extends React.Component {
                 </FormattedMessage>
               </div>
               <hr
-                className={classNames({
+                className={classNames('account-info-hr-border-color', {
                   'border-0': listVisible || editFormVisible
                 })}
               />
-              <div className={classNames('pl-3', 'pr-3', 'pb-3')}>
+              <div
+                className={classNames(
+                  'pb-3',
+                  { 'pl-3': curPageAtCover },
+                  { 'pr-3': curPageAtCover }
+                )}
+              >
                 {/* preview form */}
                 <div
                   className={classNames('row', 'ml-0', 'mr-0', {
@@ -248,6 +297,11 @@ class AddressList extends React.Component {
                       <CardItem data={el} />
                     </div>
                   ))}
+                  {creditCardList.slice(0, 2).length < 2 && (
+                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                      {this.addBtnJSX({ fromPage: 'cover' })}
+                    </div>
+                  )}
                 </div>
 
                 {/* list panel */}
@@ -267,7 +321,7 @@ class AddressList extends React.Component {
                               style={{ right: '4%', top: '7%', zIndex: 9 }}
                             >
                               <span
-                                className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
+                                className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}
                               >
                                 <span
                                   className="rc-styled-link"
@@ -295,30 +349,8 @@ class AddressList extends React.Component {
                         />
                       </div>
                     ))}
-                  </div>
-                  <div className="row ml-0 mr-0">
                     <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
-                      <div
-                        className="rounded p-4 border"
-                        onClick={this.handleClickAddBtn}
-                        ref={(node) => {
-                          if (node) {
-                            node.style.setProperty(
-                              'border-width',
-                              '.1rem',
-                              'important'
-                            );
-                            node.style.setProperty(
-                              'border-style',
-                              'dashed',
-                              'important'
-                            );
-                          }
-                        }}
-                      >
-                        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
-                        <FormattedMessage id="addANewPaymentMethod" />
-                      </div>
+                      {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>
                 </div>
@@ -326,7 +358,7 @@ class AddressList extends React.Component {
                 {/* edit form panel  */}
                 {editFormVisible && (
                   <PaymentEditForm
-                    backPage={this.state.curPage}
+                    backPage={this.state.fromPage}
                     hideMyself={this.handleHideEditForm}
                     refreshList={this.getPaymentMethodList}
                     paymentType={this.state.paymentType}
