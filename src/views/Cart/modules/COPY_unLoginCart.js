@@ -12,10 +12,13 @@ import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
 import { cloneDeep, find, findIndex } from 'lodash';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
+import cartImg from './images/cart.png';
+import refreshImg from './images/refresh.png';
 import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -135,7 +138,7 @@ class UnLoginCart extends React.Component {
     });
   }
   async handleCheckout({ needLogin = false } = {}) {
-    sessionItemRoyal.set('okta-redirectUrl', '/cart')
+    sessionItemRoyal.set('okta-redirectUrl', '/cart');
     const { history } = this.props;
     this.setState({ checkoutLoading: true });
     try {
@@ -166,7 +169,7 @@ class UnLoginCart extends React.Component {
       }
       // 库存不够，不能下单
       if (this.props.checkoutStore.outOfstockProNames.length) {
-        console.log('names', toJS(this.props.checkoutStore.outOfstockProNames))
+        console.log('names', toJS(this.props.checkoutStore.outOfstockProNames));
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage
@@ -182,36 +185,42 @@ class UnLoginCart extends React.Component {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
         // this.openPetModal()
-        let autoAuditFlag = false
-        if(this.isLogin) {
-          let res = await getProductPetConfig({goodsInfos: this.props.checkoutStore.loginCartData})
-          let handledData = this.props.checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-            return el
-          })
-          this.props.checkoutStore.setLoginCartData(handledData)
-          let AuditData = handledData.filter(el => el.auditCatFlag)
-          this.props.checkoutStore.setAuditData(AuditData)
-          autoAuditFlag = res.context.autoAuditFlag
-        }else {
-          let paramData = this.props.checkoutStore.cartData.map(el => {
-            el.goodsInfoId = el.sizeList.filter(item => item.selected)[0].goodsInfoId
-            return el
-          })
-          let res = await getProductPetConfig({goodsInfos: paramData})
+        let autoAuditFlag = false;
+        if (this.isLogin) {
+          let res = await getProductPetConfig({
+            goodsInfos: this.props.checkoutStore.loginCartData
+          });
+          let handledData = this.props.checkoutStore.loginCartData.map(
+            (el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            }
+          );
+          this.props.checkoutStore.setLoginCartData(handledData);
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          this.props.checkoutStore.setAuditData(AuditData);
+          autoAuditFlag = res.context.autoAuditFlag;
+        } else {
+          let paramData = this.props.checkoutStore.cartData.map((el) => {
+            el.goodsInfoId = el.sizeList.filter(
+              (item) => item.selected
+            )[0].goodsInfoId;
+            return el;
+          });
+          let res = await getProductPetConfig({ goodsInfos: paramData });
           let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag']
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag']
-            return el
-          })
-          this.props.checkoutStore.setCartData(handledData)
-          let AuditData = handledData.filter(el => el.auditCatFlag)
-          this.props.checkoutStore.setAuditData(AuditData)
-          autoAuditFlag = res.context.autoAuditFlag
-          this.props.checkoutStore.setPetFlag(res.context.petFlag)
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          });
+          this.props.checkoutStore.setCartData(handledData);
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          this.props.checkoutStore.setAuditData(AuditData);
+          autoAuditFlag = res.context.autoAuditFlag;
+          this.props.checkoutStore.setPetFlag(res.context.petFlag);
         }
-        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag)
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
         history.push('/prescription');
       }
     } catch (e) {
@@ -466,9 +475,7 @@ class UnLoginCart extends React.Component {
 
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
               <div>
-                <div>
-                  {pitem.goodsDescription}
-                </div>
+                <div>{pitem.goodsDescription}</div>
                 <div className="align-left flex rc-margin-bottom--xs">
                   <div className="stock__wrapper">
                     <div className="stock">
@@ -555,127 +562,126 @@ class UnLoginCart extends React.Component {
             </div>
             <div className="availability  product-availability">
               <div className="flex justify-content-between rc-md-up">
-                
-              <div className="buyMethod rc-margin-bottom--xs">
-                          <div className="radioBox">
-                            <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
-                              {/* <FormattedMessage id="email">
-                                {(txt) => (
-                                  <input
-                                    className="rc-input__radio"
-                                    id="optsemail"
-                                    type="radio"
-                                    alt={txt}
-                                    name="buyWay"
-                                    value="once"
-                                    key="1"
-                                    // onChange={(event) => this.handleInputChange(event)}
-                                    checked
-                                  />
-                                )}
-                              </FormattedMessage> */}
-                              <label
-                                className="rc-input__label--inline"
-                                htmlFor="optsemail"
-                              >
-                                <span
-                                  style={{ fontWeight: '400', color: '#333' }}
-                                >
-                                  <FormattedMessage id="Single purchase" />
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="price" style={{ fontSize: '22px' }}>
-                            {/* {formatMoney(currentUnitPrice)} */}
-                          </div>
-                        </div>
-                        <div className="buyMethod rc-margin-bottom--xs">
-                          <div className="radioBox">
-                            <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width ml-2">
-                              {/* <FormattedMessage id="email">
-                                {(txt) => (
-                                  <input
-                                    className="rc-input__radio"
-                                    id="optsemail"
-                                    type="radio"
-                                    alt={txt}
-                                    name="buyWay"
-                                    value="once"
-                                    key="1"
-                                    // onChange={(event) => this.handleInputChange(event)}
-                                    checked
-                                  />
-                                )}
-                              </FormattedMessage> */}
-                              <label
-                                className="rc-input__label--inline"
-                                htmlFor="optsemail"
-                              >
-                                <span
-                                  style={{ fontWeight: '400', color: '#333' }}
-                                >
-                                  <FormattedMessage id="autoship" />
-                                  <span
-                                    className="info-tooltip delivery-method-tooltip"
-                                    onMouseEnter={() => {
-                                      this.setState({
-                                        toolTipVisible: true
-                                      });
-                                    }}
-                                    onMouseLeave={() => {
-                                      this.setState({
-                                        toolTipVisible: false
-                                      });
-                                    }}
-                                  >
-                                    i
-                                  </span>
-                                  <ConfirmTooltip
-                                    arrowStyle={{ left: '65%' }}
-                                    display={this.state.toolTipVisible}
-                                    cancelBtnVisible={false}
-                                    confirmBtnVisible={false}
-                                    updateChildDisplay={(status) =>
-                                      this.setState({
-                                        toolTipVisible: status
-                                      })
-                                    }
-                                    content={
-                                      <FormattedMessage id="subscription.promotionTip2" />
-                                    }
-                                  />
-                                </span>
-                              </label>
-                            </div>
-                            <br />
-                            Save extra{' '}
-                            <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                              10%
-                            </b>
-                          </div>
-                          <div className="freqency">
-                            delivery every:
-                            <Selection
-                              customContainerStyle={{
-                                display: 'inline-block',
-                                marginLeft: '100px'
-                              }}
-                              selectedItemChange={(data) =>
-                                this.handleSelectedItemChange(data)
-                              }
-                              optionList={this.computedList}
-                              selectedItemData={{
-                                value: form.frequencyVal
-                              }}
-                              key={form.frequencyVal}
-                              customStyleType="select-one"
-                            />
-                          </div>
-                          <div className="price">
-                            {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                          </div>
-                        </div>
+                <div
+                  className="buyMethod rc-margin-bottom--xs"
+                  style={{ height: '73px' }}
+                >
+                  <div className="buyMethodInnerBox">
+                    <div className="radioBox">
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          height: '100%',
+                          fontWeight: '100',
+                          color: '#666',
+                          fontSize: '20px',
+                          lineHeight: '56px'
+                        }}
+                      >
+                        <img src={cartImg} />
+                        <FormattedMessage id="Single purchase" />
+                      </span>
+                    </div>
+                    <div
+                      className="price singlePrice"
+                      style={{ fontSize: '22px' }}
+                    >
+                      {formatMoney(
+                        pitem.quantity *
+                          pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="buyMethod rc-margin-bottom--xs rc-margin-left--xs">
+                  <div className="buyMethodInnerBox">
+                    <div className="radioBox">
+                      <span
+                        style={{
+                          fontWeight: '400',
+                          color: '#333',
+                          display: 'inline-block',
+                          marginTop: '5px'
+                        }}
+                      >
+                        <img src={refreshImg} />
+                        <FormattedMessage id="autoship" />
+                        <span
+                          className="info-tooltip delivery-method-tooltip"
+                          onMouseEnter={() => {
+                            this.setState({
+                              toolTipVisible: true
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({
+                              toolTipVisible: false
+                            });
+                          }}
+                        >
+                          i
+                        </span>
+                        <ConfirmTooltip
+                          arrowStyle={{ left: '65%' }}
+                          display={this.state.toolTipVisible}
+                          cancelBtnVisible={false}
+                          confirmBtnVisible={false}
+                          updateChildDisplay={(status) =>
+                            this.setState({
+                              toolTipVisible: status
+                            })
+                          }
+                          content={
+                            <FormattedMessage id="subscription.promotionTip2" />
+                          }
+                        />
+                      </span>
+                      {/* </div> */}
+                      <br />
+                      Save extra{' '}
+                      <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                        10%
+                      </b>
+                    </div>
+                    <div className="price">
+                      <div
+                        style={{
+                          fontSize: '15px',
+                          textDecoration: 'line-through'
+                        }}
+                      >
+                        {formatMoney(
+                          pitem.quantity *
+                            pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                        )}
+                      </div>
+                      <div style={{ color: '#ec001a' }}>{formatMoney(
+                    pitem.quantity *
+                      pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
+                  )}</div>
+
+                      {/* {formatMoney(currentSubscriptionPrice || 0)} */}
+                    </div>
+                  </div>
+                  <div className="freqency">
+                    delivery every:
+                    <Selection
+                      customContainerStyle={{
+                        display: 'inline-block',
+                        marginLeft: '100px'
+                      }}
+                      selectedItemChange={(data) =>
+                        this.handleSelectedItemChange(data)
+                      }
+                      optionList={this.computedList}
+                      selectedItemData={{
+                        value: form.frequencyVal
+                      }}
+                      key={form.frequencyVal}
+                      customStyleType="select-one"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -983,7 +989,7 @@ class UnLoginCart extends React.Component {
       }
     };
     return (
-      <div>
+      <div className="Carts">
         <GoogleTagManager additionalEvents={event} />
         <Header
           ref={this.headerRef}

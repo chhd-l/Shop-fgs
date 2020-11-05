@@ -1,45 +1,172 @@
 .desAndStars {
   display: flex;
+
   .des {
     flex: 3;
   }
+
   .stars {
     flex: 1;
     padding-top: 5px;
   }
 }
+
 .specAndQuantity {
   display: flex;
+
   .spec {
     flex: 3;
   }
+
   .quantity {
     flex: 1;
   }
+
   .rc-quantity {
     margin: 15px 0 0 -13px;
   }
 }
+
 .buyMethod {
   display: flex;
   border: 1px solid #e2001a;
   border-radius: 5px;
   padding: 15px 20px;
+
   .radioBox {
     flex: 2;
   }
+
   .freqency {
     flex: 4;
     height: 73px;
     line-height: 24px;
     padding-top: 1rem;
   }
+
   .price {
     flex: 1;
     padding-top: 1.5rem;
     font-weight: 400;
   }
 }
+
 #Details .maxRate {
   margin-right: 0;
+}
+
+.comments {
+  top: 4px;
+}
+
+.commentNum {
+  border-bottom: 1px solid #d7d7d7;
+  max-width: 1200px !important;
+  font-size: 20px;
+  color: #333;
+  font-weight: 400;
+}
+
+#Details .commentTitle {
+  max-width: 400px;
+  margin-top: .1rem;
+  margin-bottom: .7rem;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  margin-left: 10px;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+@media (min-width: 769px) {}
+
+@media (max-width: 769px) {
+  #Details .commentTitle {
+    max-width: 100px;
+  }
+
+  .commentBox {
+    padding: 0 20px;
+  }
+
+  .rc-icon.rc-iconography--xs:after {
+    width: 20px;
+  }
+
+  #Details .detailHeader {
+    padding: 0 20px;
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0;
+    }
+  }
+
+  #Details .des {
+    flex: 1;
+
+    h3 {
+      width: 100%;
+      max-width: 200px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-all;
+    }
+
+  }
+
+  #Details .stars {
+    text-align: right;
+  }
+
+  .imageBox {
+    padding-top: 0 !important;
+  }
+
+  .rc-layout-container {
+    padding-top: 0 !important;
+  }
+
+  .rc-content--fixed-header {
+    padding-top: 5rem;
+  }
+  #Details .buyMethod {
+    display: block;
+  }
+  #Details .buyMethodInnerBox {
+    display: flex;
+  }
+}
+
+#Details {
+  .showItem>div:last-child {
+    max-height: 2000px;
+    transition: max-height .5s ease-in-out;
+  }
+
+  .showItem>div:first-child {
+    color: red;
+    font-size: 22px;
+  }
+
+  .hiddenItem>div:first-child {
+    color: #666;
+    font-size: 22px;
+  }
+
+  .hiddenItem>div:last-child {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-in-out;
+  }
+
+  dl {
+    margin-bottom: 0;
+    padding: 0 20px;
+  }
 }

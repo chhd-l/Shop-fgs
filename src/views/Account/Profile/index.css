@@ -1202,7 +1202,7 @@
 }
 
 .choices__inner,.my__account__information select.form-control {
-  background-color: #fff!important
+  background-color: #fff;
 }
 
 .mandatoryField {

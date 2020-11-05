@@ -233,21 +233,27 @@ class Reviews extends React.Component {
           </div>
         ) : null}
         {!data.noData ? (
-          <div>
-            <div>
+          <div className="commentBox">
+            {/* <div>
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
-            </div>
+            </div> */}
             <div>
-              <div className="rc-max-width--xl rc-padding-x--sm">
-                <div
-                  className="rc-column padl0"
-                  style={{ marginBottom: '2rem' }}
-                >
-                  <div className="red-text text-center" style={{ fontSize: '26px' }}>
-                    <FormattedMessage id="customerReviews" />
+              {
+                !/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                  navigator.userAgent
+                ) && (
+                  <div className="rc-max-width--xl rc-padding-x--sm">
+                    <div
+                      className="rc-column padl0"
+                      style={{ marginBottom: '2rem' }}
+                    >
+                      <div className="red-text text-center" style={{ fontSize: '26px' }}>
+                        <FormattedMessage id="customerReviews" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                )
+              }
               <div className="commentNum rc-max-width--xl rc-margin-x--sm">
                 {/* <div className="rc-column padl0">
                   <form>
@@ -291,10 +297,11 @@ class Reviews extends React.Component {
                           >
                             <div className="rc-column padl0 padr0">
                               <div style={{height: '40px', lineHeight: '40px'}}>
-                                <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle', marginTop: '-43px'}}><Rate
+                                <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle', marginTop: '-60px'}}><Rate
                                   def={item.evaluateScore}
                                   disabled={true}
                                   marginSize="maxRate"
+                                  color="yellow"
                                 /></span>
                                 
                                 <span

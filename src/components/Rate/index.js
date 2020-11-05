@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './index.less';
 import Tooltip from '@/components/Tooltip';
+import redStar from './images/redStar.svg'
+import grayStar from './images/grayStar.svg'
+import oraStar from './images/oraStar.svg'
+import oraStar_active from './images/oraStar_active.svg'
 export default class Rate extends Component {
   state = {
     count: this.props.number || 5,
@@ -9,12 +13,18 @@ export default class Rate extends Component {
     enter: 0,
     leave: this.props.def || 0,
     state: ['不满意', '满意', '超满意'],
-    tooltipStatus: false
+    tooltipStatus: false,
+    inActiveStar: grayStar,
+    activeStar: redStar,
   };
   /** 页面渲染前 */
   /*componentWillMount = () => {};*/
   /** 页面渲染后 */
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    if(this.props.color === 'yellow') {
+      this.setState({inActiveStar: oraStar, activeStar: oraStar_active})
+    }
+  };
   /** 数据更新前 */
   UNSAFE_componentWillUpdate = () => {
     this.showState();
@@ -76,23 +86,27 @@ export default class Rate extends Component {
               }}
             >
               {enter > index || num - 1 >= index ? (
-                <span
-                  className={`rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs ${this.props.marginSize}`}
-                  disabled={this.state.disabled}
-                  // style={{marginRight:this.props.marginSize}}
-                ></span>
+                // <span
+                //   className={`rc-icon  hands rc-margin-bottom--xs rc-rate-fill--xs rc-brand1--xs ${this.props.marginSize}`}
+                //   disabled={this.state.disabled}
+                //   // style={{marginRight:this.props.marginSize}}
+                // ></span>
+                
+                <img src={this.state.activeStar}/>
               ) : flag && index === numInt ? (
                 <span
                   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
                   disabled={this.state.disabled}
                   // style={{marginRight:this.props.marginSize}}
                 ></span>
+                // <img src={redStar}/>
               ) : (
-                <span
-                  className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
-                  style={{ opacity: '.5' }}
-                  disabled={this.state.disabled}
-                ></span>
+                // <span
+                //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
+                //   style={{ opacity: '.5' }}
+                //   disabled={this.state.disabled}
+                // ></span>
+                <img src={this.state.inActiveStar}/>
               )}
             </span>
           ))}
