@@ -337,7 +337,11 @@ class AdyenCreditCardList extends React.Component {
         isSaveToBackend={this.isLogin}
         showCancelBtn={cardList.length > 0}
         updateFormVisible={(val) => {
-          this.setState({ formVisible: val });
+          this.setState({ formVisible: val },()=>{
+            if(!val){ //取消操作，重新刷列表才会出现cvv框
+              this.queryList()
+            }  
+          });
         }}
         queryList={() => this.queryList()}
         updateSelectedId={(selectedId) => {
