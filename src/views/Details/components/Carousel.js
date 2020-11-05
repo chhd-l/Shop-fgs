@@ -72,7 +72,8 @@ class Carousel extends React.Component {
 
     var length = imageLis.length;
 
-
+    //阻止第一个跳转
+    if(idx===0) return
 
     //函数截流
     if (m_unit.isanimated) return;
@@ -100,11 +101,16 @@ class Carousel extends React.Component {
 
     var length = imageLis.length;
 
+     //阻止最后一个跳转
+     if(idx===length - 1) return
+
     //函数截流
     if (m_unit.isanimated) return;
 
     //信号量的变化
     idx++;
+
+    
 
     //改变小圆点
     this.changeCircles();
@@ -151,7 +157,7 @@ class Carousel extends React.Component {
             fontSize: '1.4rem'
           }}
         >
-          Recommanded for you
+          <FormattedMessage id="recommandedForyou" />
       </div>
         <div className='carousel-wrap'>
           <a href="javascript:;" className="leftBtn Btn rc-icon rc-left rc-iconography" id="leftBtn" onClick={this.leftBtnClick}></a>
@@ -168,9 +174,9 @@ class Carousel extends React.Component {
                             item.map((item2, index2) => {
                               return (
                                 <p key={index2} onClick={() => this.hanldeClick(item2)} style={{ cursor: 'pointer' }}>
-                                  <div style={{ width: '150px', height: '200px', backgroundSize: '150px 200px', backgroundImage: 'url(' + item2.goodsImg + ')', margin: '0 auto' }}></div>
+                                  <div style={{ width: '150px', height: '180px', backgroundSize: '150px 180px', backgroundImage: 'url(' + item2.goodsImg + ')', margin: '10px auto 0' }}></div>
                                   <div className="goodsName">{item2.goodsName}</div>
-                                  <div className="subtitle" style={{ width: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item2.goodsSubtitle}</div>
+                                  <div className="subtitle">{item2.goodsSubtitle}</div>
                                   <div
                                     className='rete'
                                   >
@@ -185,7 +191,9 @@ class Carousel extends React.Component {
                                       ({item2.goodsEvaluateNum})
                                   </span>
                                   </div>
-                                  <div className="marketPrice" style={{ marginTop: '1rem', marginLeft: '-20px' }}>{formatMoney(item2.minMarketPrice)}</div>
+                                  <div className="marketPrice">{formatMoney(item2.minMarketPrice)}
+                                  {item2.minLinePrice&&<span>{formatMoney(item2.minLinePrice)}</span>}
+                                  </div>
                                   {
                                     item2.minSubscriptionPrice
                                       ?
@@ -196,7 +204,9 @@ class Carousel extends React.Component {
                                             className="iconfont font-weight-bold red mr-1"
                                             style={{
                                               fontSize: '.65em',
-                                              marginLeft: '6px'
+                                              marginLeft: '6px',
+                                              color:'#323232',
+                                              fontWeight:'bold'
                                             }}
                                           >
                                             &#xe675;

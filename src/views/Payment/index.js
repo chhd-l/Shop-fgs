@@ -562,7 +562,7 @@ class Payment extends React.Component {
             break
           }
         }else {
-          if(!data[i].petForm.petName) {
+          if(!data[i].petForm || !data[i].petForm.petName) {
             petFlag = false
             break
           }
@@ -645,6 +645,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
+            encryptedSecurityCode:adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -1086,7 +1087,9 @@ class Payment extends React.Component {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId
+          skuId: ele.goodsInfoId,
+          petsId: ele.petsId,
+          petsName: ele.petsName
         };
       });
     } else if (this.isLogin) {
@@ -1094,7 +1097,8 @@ class Payment extends React.Component {
         return {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId
+          petsId: ele.petsId,
+          petsName: ele.petsName
         };
       });
     } else {
@@ -1640,23 +1644,39 @@ class Payment extends React.Component {
         this.state.currentProIndex
       ].petForm = data;
     } else {
-      let loginCartData;
+      let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
         if (i === this.state.currentProIndex) {
-          loginCartData = this.loginCartData.map((loginEl) => {
-            if (loginEl.goodsInfoId === el.goodsInfoId) {
-              loginEl.petsId = data.value;
-              loginEl.petName = data.name;
-              el.petsId = data.value;
-              el.petName = data.name;
-            }
-            return loginEl;
-          });
+          if(sessionItemRoyal.get('recommend_product')) {
+            handledData = this.state.recommend_data.map(recomEl => {
+              if (recomEl.goodsInfoId === el.goodsInfoId) {
+                recomEl.petsId = data.value;
+                recomEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              console.log(el, 'ellll')
+              return recomEl;  
+            })
+          }else {
+            handledData = this.loginCartData.map((loginEl) => {
+              if (loginEl.goodsInfoId === el.goodsInfoId) {
+                loginEl.petsId = data.value;
+                loginEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              return loginEl;
+            });
+          }
         }
         return el;
       });
-      console.log(loginCartData, 'hahaha');
-      this.props.checkoutStore.setLoginCartData(loginCartData);
+      if(sessionItemRoyal.get('recommend_product')) {
+        this.setState({recommend_data: handledData})
+      }else {
+        this.props.checkoutStore.setLoginCartData(handledData);
+      }
     }
     this.closePetModal();
   }
