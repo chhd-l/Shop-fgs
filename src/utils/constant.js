@@ -93,7 +93,7 @@ export const STORE_CATE_ENUM = [
     ],
     text: CURRENT_LANGFILE['product.catogery6.name'],
     title: CURRENT_LANGFILE['product.catogery6.title'],
-    desc: CURRENT_LANGFILE['product.catogery6.desc'],
+    desc: CURRENT_LANGFILE['product.catogery6.desc']
   }
 ];
 
@@ -496,7 +496,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
+    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
     require: true,
     errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
       /{.+}/,
@@ -541,7 +541,51 @@ export const PAYMENT_METHOD_RULE = [
   },
   {
     key: 'email',
-    regExp: /^\w+([-_.]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/,
+    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
+    require: true,
+    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['email']
+    )
+  }
+];
+
+export const PRESONAL_INFO_RULE = [
+  {
+    key: 'firstName',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.firstName']
+    )
+  },
+  {
+    key: 'lastName',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.lastName']
+    )
+  },
+  {
+    key: 'phoneNumber',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.phoneNumber']
+    )
+  },
+  {
+    key: 'country',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.country']
+    )
+  },
+  {
+    key: 'email',
+    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
     require: true,
     errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
       /{.+}/,

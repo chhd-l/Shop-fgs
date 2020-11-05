@@ -1,5 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -9,10 +11,32 @@ import SideMenu from '@/components/SideMenu';
 import PersonalDataEditForm from './modules/PersonalDataEditForm';
 import CommunicationDataEditForm from './modules/CommunicationDataEditForm';
 import ClinicEditForm from './modules/ClinicEditForm';
+import AddressList from './modules/AddressList';
+import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
-import './index.css';
+import { FormattedMessage } from 'react-intl';
+import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
+
+function PanleContainer(props) {
+  const loading = props.loading || false;
+  return (
+    <div className={`rc-layout-container rc-one-column ${props.customCls}`}>
+      <div
+        className={classNames('rc-column', 'rc-padding-x--none--mobile', {
+          'p-0': !loading
+        })}
+      >
+        {loading ? (
+          <Skeleton color="#f5f5f5" width="100%" height="10%" count={5} />
+        ) : (
+          props.children
+        )}
+      </div>
+    </div>
+  );
+}
 
 @inject('loginStore')
 @observer
@@ -46,9 +70,9 @@ class AccountProfile extends React.Component {
         clinicId: ''
       },
       originData: null,
-      loading: true
+      loading: true,
+      editOperationPaneName: ''
     };
-    this.headerRef = React.createRef();
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -61,7 +85,7 @@ class AccountProfile extends React.Component {
     // }
     this.queryCustomerBaseInfo();
   }
-  queryCustomerBaseInfo() {
+  queryCustomerBaseInfo = () => {
     this.setState({ loading: true });
     getCustomerInfo()
       .then((res) => {
@@ -84,7 +108,6 @@ class AccountProfile extends React.Component {
               ? context.birthDay.split('-').join('/')
               : context.birthDay,
             country: context.countryId,
-            // country: 6, //先写死墨西哥id
             phoneNumber: context.contactPhone,
             rfc: context.reference
           },
@@ -106,12 +129,16 @@ class AccountProfile extends React.Component {
           }
         });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ loading: false });
       });
-  }
+  };
+  updateEditOperationPanelName = (name) => {
+    this.setState({ editOperationPaneName: name });
+  };
+
   render() {
-    const { loading } = this.state;
+    const { loading, editOperationPaneName } = this.state;
     const event = {
       page: {
         type: 'Account',
@@ -122,7 +149,6 @@ class AccountProfile extends React.Component {
       <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Header
-          ref={this.headerRef}
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}
@@ -133,78 +159,100 @@ class AccountProfile extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Profile" />
+              <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                {editOperationPaneName ? null : (
+                  <Link to="/account" className="rc-md-down">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="home" />
+                    </span>
+                  </Link>
+                )}
+
                 <div className="card-body_">
-                  {false ? (
-                    <Skeleton
-                      color="#f5f5f5"
-                      width="100%"
-                      height="50%"
-                      count={5}
-                    />
-                  ) : (
-                    <>
-                      <div className="rc-layout-container rc-two-column">
-                        <div className="rc-column rc-padding-x--none--mobile">
-                          {loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="10%"
-                              count={5}
-                            />
-                          ) : (
-                            <PersonalDataEditForm
-                              originData={this.state.originData}
-                              data={this.state.personalData}
-                              updateData={() => this.queryCustomerBaseInfo()}
-                            />
-                          )}
-                        </div>
-                        <div className="rc-column rc-padding-x--none--mobile">
-                          {/* <AddressBookEditForm
+                  <>
+                    <PanleContainer
+                      loading={loading}
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My account'
+                      })}
+                    >
+                      <PersonalDataEditForm
                         originData={this.state.originData}
-                        data={this.state.addressBookData}
-                        updateData={() => this.queryCustomerBaseInfo()} /> */}
-                          {loading ? (
-                            <Skeleton
-                              color="#f5f5f5"
-                              width="100%"
-                              height="10%"
-                              count={5}
-                            />
-                          ) : (
-                            <CommunicationDataEditForm/>
-                          )}
-                        </div>
-                      </div>
-                      {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
-                        'true' && (
-                        <div className="rc-layout-container rc-two-column">
-                          <div className="rc-column rc-padding-x--none--mobile">
-                            {loading ? (
-                              <Skeleton
-                                color="#f5f5f5"
-                                width="100%"
-                                height="10%"
-                                count={5}
-                              />
-                            ) : (
-                              <ClinicEditForm
-                                originData={this.state.originData}
-                                data={this.state.clinicData}
-                                updateData={() => this.queryCustomerBaseInfo()}
-                              />
-                            )}
-                          </div>
-                          {/* <div className="rc-column rc-padding-x--none--mobile">
-                      <PasswordForm />
-                    </div> */}
-                        </div>
-                      )}
-                    </>
-                  )}
+                        data={this.state.personalData}
+                        updateData={this.queryCustomerBaseInfo}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      loading={loading}
+                      customCls={classNames({
+                        hidden:
+                          process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                            'true' &&
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'Clinic'
+                      })}
+                    >
+                      <ClinicEditForm
+                        originData={this.state.originData}
+                        data={this.state.clinicData}
+                        updateData={this.queryCustomerBaseInfo}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My addresses'
+                      })}
+                    >
+                      <AddressList
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My payments'
+                      })}
+                    >
+                      <PaymentList
+                        history={this.props.history}
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'Communication'
+                      })}
+                    >
+                      <CommunicationDataEditForm
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+                  </>
                 </div>
               </div>
             </div>

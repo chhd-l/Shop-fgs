@@ -1,21 +1,22 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
-import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
-@inject('configStore')
-@observer
+import Loading from '@/components/Loading';
+import classNames from 'classnames';
+
 class CommunicationDataEditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       editFormVisible: false,
       list: [],
-      isLoading: false
+      isLoading: false,
+      saveLoading: false
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     document.getElementById('wrap').addEventListener('click', (e) => {
       if (e.target.localName === 'span') {
         let keyWords = e.target.innerText;
@@ -38,6 +39,9 @@ class CommunicationDataEditForm extends React.Component {
         this.setState({ list: tempArr });
       }
     });
+    this.init();
+  }
+  init = async () => {
     this.setState({
       isLoading: true
     });
@@ -65,7 +69,7 @@ class CommunicationDataEditForm extends React.Component {
         isLoading: false
       });
     }
-  }
+  };
   //组装submit参数
   bindSubmitParam = (list) => {
     let obj = { optionalList: [] };
@@ -78,36 +82,73 @@ class CommunicationDataEditForm extends React.Component {
     return obj;
   };
   //保存
-  async handleSave() {
+  handleSave = async () => {
     try {
-      let oktaToken = 'Bearer ' + this.props.authState.accessToken
+      this.setState({
+        saveLoading: true
+      });
+      let oktaToken = 'Bearer ' + this.props.authState.accessToken;
       let submitParam = this.bindSubmitParam(this.state.list);
       await userBindConsent({ ...submitParam, ...{ oktaToken } });
-      window.location.reload();
+      await this.init();
+      this.handleCancel();
     } catch (err) {
       console.log(err.message);
+    } finally {
+      this.setState({
+        saveLoading: false
+      });
     }
-  }
+  };
   handleCancel = () => {
-    this.setState({
-      editFormVisible: false
-    });
+    this.changeEditFormVisible(false);
   };
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
   };
-
+  changeEditFormVisible = (status) => {
+    this.setState({ editFormVisible: status });
+    this.props.updateEditOperationPanelName(status ? 'Communication' : '');
+  };
+  handleClickEditBtn = () => {
+    this.changeEditFormVisible(true);
+  };
+  handleClickGoBack = () => {
+    this.changeEditFormVisible(false);
+  };
   render() {
     const { editFormVisible } = this.state;
     const createMarkup = (text) => ({ __html: text });
+    const curPageAtCover = !editFormVisible;
     return (
-      <div>
+      <div className={classNames({ border: curPageAtCover })}>
+        {/* {this.state.isLoading ? (
+          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
+        ) : null} */}
         <div className="userContactPreferenceInfo">
-          <div className="profileSubFormTitle">
-            <h5 className="rc-espilon rc-margin--none">
-              <FormattedMessage id="account.preferredMmethodsOfCommunication" />
-            </h5>
+          <div className="profileSubFormTitle pl-3 pr-3 pt-3">
+            {curPageAtCover ? (
+              <h5>
+                <svg
+                  className="svg-icon account-info-icon align-middle mr-3 ml-1"
+                  aria-hidden="true"
+                  style={{ width: '1.2em', height: '1.2em' }}
+                >
+                  <use xlinkHref="#iconcommunication"></use>
+                </svg>
+                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+              </h5>
+            ) : (
+              <h5
+                className="ui-cursor-pointer"
+                onClick={this.handleClickGoBack}
+              >
+                <span>&larr; </span>
+                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+              </h5>
+            )}
+
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
@@ -118,60 +159,66 @@ class CommunicationDataEditForm extends React.Component {
                   id="contactPrefEditBtn"
                   title={txt}
                   alt={txt}
-                  onClick={() => {
-                    this.setState({ editFormVisible: true });
-                  }}
+                  onClick={this.handleClickEditBtn}
                 >
                   {txt}
                 </button>
               )}
             </FormattedMessage>
           </div>
-          <hr />
-          <span className="rc-meta">
-            <b>
-              <FormattedMessage id="account.emailCommunication" />
-            </b>
-          </span>
-          <div
-            className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
-              editFormVisible ? 'hidden' : ''
-            }`}
-          ></div>
-          <div id="wrap" style={{ marginLeft: '30px' }}>
-            {/* checkbox组 */}
-            <Consent
-              list={this.state.list}
-              sendList={this.sendList}
-              disabled={!this.state.editFormVisible}
-              checkboxPadding={'10px'}
-              zoom={'150%'}
-              key={"profile"}
-            />
-            {/* 取消和保存 按钮 */}
+          <hr
+            className={classNames('account-info-hr-border-color', {
+              'border-0': editFormVisible
+            })}
+          />
+          <div class="pl-3 pr-3 pb-3">
+            <span className="rc-meta">
+              <b>
+                <FormattedMessage id="account.emailCommunication" />
+              </b>
+            </span>
             <div
-              className={`text-right contactPreferenceFormBtn ${
-                editFormVisible ? '' : 'hidden'
+              className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
+                editFormVisible ? 'hidden' : ''
               }`}
-            >
-              <span
-                className="rc-styled-link editPersonalInfoBtn"
-                name="contactPreference"
-                onClick={() => this.handleCancel()}
+            ></div>
+            <div id="wrap" style={{ marginLeft: '30px' }}>
+              {/* checkbox组 */}
+              <Consent
+                list={this.state.list}
+                sendList={this.sendList}
+                disabled={!this.state.editFormVisible}
+                checkboxPadding={'10px'}
+                zoom={'150%'}
+                key={'profile'}
+              />
+              {/* 取消和保存 按钮 */}
+              <div
+                className={`text-right contactPreferenceFormBtn ${
+                  editFormVisible ? '' : 'hidden'
+                }`}
               >
-                <FormattedMessage id="cancel" />
-              </span>
-              &nbsp;
-              <FormattedMessage id="or" />
-              &nbsp;
-              <button
-                className="rc-btn rc-btn--one submitBtn"
-                name="contactPreference"
-                type="submit"
-                onClick={() => this.handleSave()}
-              >
-                <FormattedMessage id="save" />
-              </button>
+                <span
+                  className="rc-styled-link editPersonalInfoBtn"
+                  name="contactPreference"
+                  onClick={this.handleCancel}
+                >
+                  <FormattedMessage id="cancel" />
+                </span>
+                &nbsp;
+                <FormattedMessage id="or" />
+                &nbsp;
+                <button
+                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
+                    'ui-btn-loading': this.state.saveLoading
+                  })}
+                  name="contactPreference"
+                  type="submit"
+                  onClick={this.handleSave}
+                >
+                  <FormattedMessage id="save" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

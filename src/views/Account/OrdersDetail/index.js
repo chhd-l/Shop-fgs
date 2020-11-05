@@ -67,6 +67,28 @@ class AccountOrders extends React.Component {
           displayName: this.props.intl.messages['order.progress4']
         }
       ],
+      auditNormalProgressList: [
+        {
+          backendName: 'Create Order',
+          displayName: this.props.intl.messages['order.progress1']
+        },
+        {
+          backendName: 'Order payment',
+          displayName: this.props.intl.messages['order.progress2']
+        },
+        {
+          backendName: 'AUDIT',
+          displayName: this.props.intl.messages['order.progress5']
+        },
+        {
+          backendName: 'DELIVERED',
+          displayName: this.props.intl.messages['order.progress3']
+        },
+        {
+          backendName: 'COMPLETED',
+          displayName: this.props.intl.messages['order.progress4']
+        }
+      ],
       currentProgerssIndex: -1,
       defaultLocalDateTime: '',
       isAuditOpen: false,
@@ -106,6 +128,7 @@ class AccountOrders extends React.Component {
   init() {
     const { orderNumber, progressList } = this.state;
     this.setState({ loading: true });
+    let curProgressList = [...progressList];
     getOrderDetails(orderNumber)
       .then(async (res) => {
         let resContext = res.context;
@@ -120,72 +143,57 @@ class AccountOrders extends React.Component {
           });
         });
         // 开启审核时
-        if (resContext.isAuditOpen) {debugger
+        if (resContext.isAuditOpen) {
           this.setState({ isAuditOpen: true });
 
           switch (tradeState.auditState) {
             case 'CHECKED': // 审核通过
             case 'NON_CHECKED': // 未审核
-              progressList.splice(
-                2,
-                1,
-                {
-                  backendName: 'Pending review',
-                  displayName: this.props.intl.messages['order.progress5']
-                },
-                {
-                  backendName: 'AUDIT',
-                  displayName: this.props.intl.messages['order.progress3'] // to be delivered
-                }
-              );
-              this.setState({ isAuditOpen: true, processMore: true });
+              curProgressList = [...this.state.auditNormalProgressList];
+              this.setState({
+                isAuditOpen: true,
+                processMore: true
+              });
               break;
             case 'REJECTED': // 审核拒绝
-              progressList.splice(
-                2,
-                3,
-                {
-                  backendName: 'Pending review',
-                  displayName: this.props.intl.messages['order.progress6']
-                },
-                {
-                  backendName: 'AUDIT',
-                  displayName: this.props.intl.messages['order.progress7']
-                }
-              );
               this.setState({
                 auditRejectReason: tradeState.obsoleteReason
               });
               break;
-            default:
-              break;
           }
-          this.setState({ progressList });
         }
         const tradeEventLogs = res.context.tradeEventLogs || [];
         if (tradeEventLogs.length) {
           const lastedEventLog = tradeEventLogs[0];
-          tmpIndex = findIndex(progressList, (ele) =>
+          tmpIndex = findIndex(curProgressList, (ele) =>
             lastedEventLog.eventType.includes(ele.backendName)
           );
-          // 特殊处理作废发货的情况
-          if (
-            tmpIndex === -1 &&
-            lastedEventLog.eventType === 'Void shipment record'
-          ) {
-            if (lastedEventLog.eventDetail.includes('part shipped')) {
+
+          if (tmpIndex === -1) {
+            // 特殊处理作废发货的情况
+            if (lastedEventLog.eventType === 'Void shipment record') {
+              if (lastedEventLog.eventDetail.includes('part shipped')) {
+                tmpIndex = findIndex(
+                  curProgressList,
+                  (ele) => ele.backendName === 'DELIVERED'
+                );
+              } else if (lastedEventLog.eventDetail.includes('not shipped')) {
+                tmpIndex = findIndex(
+                  curProgressList,
+                  (ele) => ele.backendName === 'Order payment'
+                );
+              }
+            }
+            // 特殊处理订单未审核状态
+            if (lastedEventLog.eventType === 'Pending review') {
               tmpIndex = findIndex(
-                progressList,
-                (ele) => ele.backendName === 'DELIVERED'
-              );
-            } else if (lastedEventLog.eventDetail.includes('not shipped')) {
-              tmpIndex = findIndex(
-                progressList,
+                curProgressList,
                 (ele) => ele.backendName === 'Order payment'
               );
             }
           }
-          Array.from(progressList, (item) => {
+
+          Array.from(curProgressList, (item) => {
             const tpm = find(tradeEventLogs, (ele) =>
               ele.eventType.includes(item.backendName)
             );
@@ -212,7 +220,7 @@ class AccountOrders extends React.Component {
           details: resContext,
           loading: false,
           currentProgerssIndex: tmpIndex,
-          progressList,
+          progressList: curProgressList,
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber:
             resContext.subscriptionResponseVO &&

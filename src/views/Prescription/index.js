@@ -89,6 +89,7 @@ class Prescription extends React.Component {
         pageSize: 3,
         latitude: 19.09,
         longitude: -99.24,
+        auditAuthority: true,
         storeId: process.env.REACT_APP_STOREID
       },
       currentSelectClinic: {
@@ -229,8 +230,8 @@ class Prescription extends React.Component {
       removeLinkClinicId,
       removeLinkClinicName
     } = this.props.clinicStore;
-    removeLinkClinicId();
-    removeLinkClinicName();
+    // removeLinkClinicId();
+    // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
     this.props.history.push('/payment/payment');

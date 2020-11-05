@@ -19,11 +19,14 @@ import {
   CREDIT_CARD_IMGURL_ENUM,
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
+import { dynamicLoadCss } from '@/utils/utils';
+
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore')
+@injectIntl
 @observer
 class PaymentComp extends React.Component {
   static defaultProps = {
@@ -136,6 +139,9 @@ class PaymentComp extends React.Component {
       find(waysRes.context || [], (ele) => ele.isOpen && ele.name === 'ADYEN')
     ) {
       this.setState({ paymentType: 'ADYEN' });
+      dynamicLoadCss(
+        'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+      );
     }
     if (this.state.paymentType === 'PAYU') {
       this.updateInitStatus(true);
@@ -771,7 +777,7 @@ class PaymentComp extends React.Component {
                       el.paymentMethod ? el.paymentMethod.vendor : ''
                     ]
                       ? CREDIT_CARD_IMG_ENUM[
-                          el.paymentMethod ? el.paymentMethod.vendor : ''
+                          el.paymentMethod ? el.paymentMethod.vendor.toUpperCase() : ''
                         ]
                       : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
@@ -1044,7 +1050,7 @@ class PaymentComp extends React.Component {
                   <img
                     src={
                       CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
-                        ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
+                        ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor.toUpperCase()]
                         : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                     }
                     alt=""
@@ -1142,7 +1148,7 @@ class PaymentComp extends React.Component {
                               src={
                                 CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
                                   ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.currentVendor
+                                      this.state.currentVendor.toUpperCase()
                                     ]
                                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
@@ -1560,4 +1566,4 @@ class PaymentComp extends React.Component {
   }
 }
 
-export default injectIntl(PaymentComp);
+export default PaymentComp

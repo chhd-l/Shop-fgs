@@ -51,7 +51,7 @@ const es_ES = {
   'account.petsTip': 'Crea y administra tus perfiles de mascotas.',
   'account.preferredContactMethod': 'Método de Contacto Preferido',
   'account.preferredMmethodsOfCommunication': 'Métodos preferidos de comunicación.',
-  'account.profile': 'Información básica',
+  'account.profile': 'Mi informacion',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.requiredFields': 'Campos requeridos',
   'account.shippingAddressTip': 'Crea y edita tu dirección de envío.',
@@ -63,7 +63,7 @@ const es_ES = {
   'account.TheAddressBook': 'La libreta de direcciones',
   'account.toComeIn': 'Entrar',
   'account.unknownBreed': 'Raza desconocida',
-  'account.warmNotice': 'Aquí puede administrar su perfil, editar la información de la mascota y la dirección de envío, y hacer un seguimiento del estado de su pedido.',
+  'account.warmNotice': 'Bienvenido {val}, esta área está dedicada a administrar su cuenta. Puede cambiar fácilmente la información de su perfil, administrar las necesidades de su mascota, verificar el estado de sus pedidos y su Autoenvío.',
   'account.weight': '¿Cuál es el peso de un perro adulto de tu raza {val}?',
   'account.welcome': '¡Multa!',
   'active': 'Activo',
@@ -719,6 +719,7 @@ const es_ES = {
   'writeYourReview': 'Escribe tu reseña',
   'yes': 'sí',
   'yourEmailNotVerified': '¡Tu email no se ha verificado!',
-  'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada'
+  'yourPasswordNotVerified': 'Tu contraseña no ha sido verificada',
+  supportCardTypeMismatch: 'Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard'
 }
 export default es_ES;

@@ -1615,6 +1615,7 @@ ul.ui-star-list {
   padding-inline-start: 0;
   display: flex;
   flex-wrap: wrap;
+  width: auto!important;
 }
 ul.ui-star-list li {
   width: 50%;

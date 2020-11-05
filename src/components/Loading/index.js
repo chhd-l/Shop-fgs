@@ -3,14 +3,21 @@ import React from 'react';
 class Loading extends React.Component {
   static defaultProps = {
     positionAbsolute: false,
-    bgColor: 'rgba(0,0,0,.25)'
+    bgColor: 'rgba(0,0,0,.25)',
+    customCls: '',
+    customStyle: {}
   };
   render() {
     const bgColor = { backgroundColor: this.props.bgColor };
     return (
       <div
-        className={`veil ${this.props.positionAbsolute ? 'absolute' : ''}`}
-        style={{ position: this.props.positionFixed ? 'fixed' : '' }}
+        className={`veil ${this.props.positionAbsolute ? 'absolute' : ''} ${
+          this.props.customCls
+        }`}
+        style={{
+          position: this.props.positionFixed ? 'fixed' : '',
+          ...this.props.customStyle
+        }}
       >
         <div
           className={`underlay ${

@@ -10,7 +10,6 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
-import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
 import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
@@ -21,7 +20,7 @@ import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
-import HeroCarousel from './components/HeroCarousel';
+import Carousel from './components/Carousel';
 import { getProductPetConfig } from '@/api/payment';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -250,7 +249,7 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          console.log(202, this);
+          console.log(203, res.context.goods);
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
@@ -1137,24 +1136,7 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <div
-                style={{
-                  textAlign: 'center',
-                  color: 'rgb(236, 0, 26)',
-                  height: '50px',
-                  lineHeight: '50px',
-                  fontSize: '1.4rem',
-                  marginBottom: '1rem'
-                }}
-              >
-                Recommanded for you
-              </div>
-              <HeroCarousel
-                history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
-              />
-              {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+              <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>/>
             </div>
             <div
               className="sticky-addtocart"

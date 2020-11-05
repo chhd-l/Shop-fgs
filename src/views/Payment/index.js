@@ -123,23 +123,32 @@ class Payment extends React.Component {
       listData: [],
       requiredList: [],
       AuditData: [],
-      needPrescriber: false,
+      needPrescriber: false
     };
     this.timer = null;
   }
   async componentDidMount() {
-    if(this.isLogin) {
-      if(this.props.checkoutStore.autoAuditFlag) {
-        this.setState({needPrescriber: this.loginCartData.filter(el => el.prescriberFlag).length > 0})
-      }else {
-        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+    if (this.isLogin) {
+      if (this.props.checkoutStore.autoAuditFlag) {
+        this.setState({
+          needPrescriber:
+            this.loginCartData.filter((el) => el.prescriberFlag).length > 0
+        });
+      } else {
+        this.setState({
+          needPrescriber: this.props.checkoutStore.AuditData.length > 0
+        });
       }
-      
-    }else {
-      if(this.props.checkoutStore.autoAuditFlag) {
-        this.setState({needPrescriber: this.cartData.filter(el => el.prescriberFlag).length > 0})
-      }else {
-        this.setState({needPrescriber: this.props.checkoutStore.AuditData.length > 0})
+    } else {
+      if (this.props.checkoutStore.autoAuditFlag) {
+        this.setState({
+          needPrescriber:
+            this.cartData.filter((el) => el.prescriberFlag).length > 0
+        });
+      } else {
+        this.setState({
+          needPrescriber: this.props.checkoutStore.AuditData.length > 0
+        });
       }
     }
     // if (localItemRoyal.get('isRefresh')) {
@@ -147,7 +156,7 @@ class Payment extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    if(!sessionItemRoyal.get('recommend_product')) {
+    if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
         this.props.history.push('/cart');
         return false;
@@ -476,11 +485,13 @@ class Payment extends React.Component {
   get checkoutWithClinic() {
     if (this.isLogin) {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        this.state.needPrescriber
       );
     } else {
       return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && this.state.needPrescriber
+        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+        this.state.needPrescriber
       );
     }
   }
@@ -541,6 +552,28 @@ class Payment extends React.Component {
   };
   // 支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
+    if(this.props.checkoutStore.AuditData.length) {
+      let petFlag = true
+      let data = this.props.checkoutStore.AuditData
+      for(let i = 0; i < data.length; i++) {
+        if(this.isLogin) {
+          if(!data[i].petsId) {
+            petFlag = false
+            break
+          }
+        }else {
+          if(!data[i].petForm || !data[i].petForm.petName) {
+            petFlag = false
+            break
+          }
+        }
+      }
+      if(!petFlag) {
+        this.showErrorMsg('Please fill in pet information')
+        this.endLoading()
+        return
+      }
+    }
     this.doGetAdyenPayParam(type);
     if (email) {
       this.setState({
@@ -612,6 +645,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
+            encryptedSecurityCode:adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -767,7 +801,11 @@ class Payment extends React.Component {
       this.startLoading();
       if (!this.isLogin) {
         await this.visitorLoginAndAddToCart();
-        if (this.props.checkoutStore.AuditData.length > 0 && this.props.checkoutStore.petFlag && !this.props.checkoutStore.autoAuditFlag) {
+        if (
+          this.props.checkoutStore.AuditData.length > 0 &&
+          this.props.checkoutStore.petFlag &&
+          !this.props.checkoutStore.autoAuditFlag
+        ) {
           let param = this.props.checkoutStore.AuditData.map((el) => {
             let petForm = {
               birthday: el.petForm.birthday,
@@ -881,12 +919,15 @@ class Payment extends React.Component {
 
       // update clinic
       if (this.checkoutWithClinic) {
-        clinicStore.removeLinkClinicId();
-        clinicStore.removeLinkClinicName();
-        clinicStore.setSelectClinicId(clinicStore.clinicId);
-        clinicStore.setSelectClinicName(clinicStore.clinicName);
-        clinicStore.setDefaultClinicId(clinicStore.clinicId);
-        clinicStore.setDefaultClinicName(clinicStore.clinicName);
+        if(clinicStore.linkClinicId && clinicStore.linkClinicId !== clinicStore.selectClinicId) {
+          clinicStore.removeLinkClinicId();
+          clinicStore.removeLinkClinicName();
+          clinicStore.removeAuditAuthority()
+        }
+        // clinicStore.setSelectClinicId(clinicStore.clinicId);
+        // clinicStore.setSelectClinicName(clinicStore.clinicName);
+        // clinicStore.setDefaultClinicId(clinicStore.clinicId);
+        // clinicStore.setDefaultClinicName(clinicStore.clinicName);
       }
 
       sessionItemRoyal.remove('payosdata');
@@ -913,7 +954,9 @@ class Payment extends React.Component {
             tidList: err.errorData.tidList,
             rePaySubscribeId: err.errorData.subscribeId
           },
-          () => this.queryOrderDetails()
+          () => {
+            this.state.tidList.length && this.queryOrderDetails();
+          }
         );
       }
       throw new Error(err.message);
@@ -935,7 +978,7 @@ class Payment extends React.Component {
         billingChecked,
         creditCardInfo
       } = this.state;
-      const cartData = this.cartData.filter((ele) => ele.selected)
+      const cartData = this.cartData.filter((ele) => ele.selected);
 
       let param = Object.assign(
         {},
@@ -963,17 +1006,18 @@ class Payment extends React.Component {
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
       );
-      if(sessionItemRoyal.get('recommend_product')) {
+      if (sessionItemRoyal.get('recommend_product')) {
         await batchAdd({
           goodsInfos: this.state.recommend_data.map((ele) => {
             return {
               verifyStock: false,
               buyCount: ele.buyCount,
-              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected).goodsInfoId
+              goodsInfoId: find(ele.goods.sizeList, (s) => s.selected)
+                .goodsInfoId
             };
           })
         });
-      }else {
+      } else {
         await batchAdd({
           goodsInfos: cartData.map((ele) => {
             return {
@@ -1015,24 +1059,24 @@ class Payment extends React.Component {
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
-      clinicsId: this.props.clinicStore.clinicId,
-      clinicsName: this.props.clinicStore.clinicName,
-      recommendationId: this.props.clinicStore.clinicsId,
+      recommendationId: this.props.clinicStore.linkClinicId,
       recommendationName: this.props.clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-
       last4Digits: payosdata.last_4_digits,
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
-
       petsId: '1231',
-
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
+    if(this.state.needPrescriber) {
+      param.clinicsId = this.props.clinicStore.selectClinicId
+      param.clinicsName = this.props.clinicStore.selectClinicName
+    }
+    
     // if (!this.checkoutWithClinic) {
     //   param = Object.assign(param, {
     //     clinicsId: 'FG20200914',
@@ -1043,7 +1087,9 @@ class Payment extends React.Component {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
           num: ele.buyCount,
-          skuId: ele.goodsInfoId
+          skuId: ele.goodsInfoId,
+          petsId: ele.petsId,
+          petsName: ele.petsName
         };
       });
     } else if (this.isLogin) {
@@ -1051,7 +1097,8 @@ class Payment extends React.Component {
         return {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
-          petsId: ele.petsId
+          petsId: ele.petsId,
+          petsName: ele.petsName
         };
       });
     } else {
@@ -1400,7 +1447,7 @@ class Payment extends React.Component {
                   payWayObj: JSON.parse(
                     JSON.stringify(this.state.savedPayWayObj)
                   )
-                })
+                });
               }
             }
             // ****************订阅的时候隐藏oxxo支付方式end******************
@@ -1597,23 +1644,39 @@ class Payment extends React.Component {
         this.state.currentProIndex
       ].petForm = data;
     } else {
-      let loginCartData;
+      let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
         if (i === this.state.currentProIndex) {
-          loginCartData = this.loginCartData.map((loginEl) => {
-            if (loginEl.goodsInfoId === el.goodsInfoId) {
-              loginEl.petsId = data.value;
-              loginEl.petName = data.name;
-              el.petsId = data.value;
-              el.petName = data.name;
-            }
-            return loginEl;
-          });
+          if(sessionItemRoyal.get('recommend_product')) {
+            handledData = this.state.recommend_data.map(recomEl => {
+              if (recomEl.goodsInfoId === el.goodsInfoId) {
+                recomEl.petsId = data.value;
+                recomEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              console.log(el, 'ellll')
+              return recomEl;  
+            })
+          }else {
+            handledData = this.loginCartData.map((loginEl) => {
+              if (loginEl.goodsInfoId === el.goodsInfoId) {
+                loginEl.petsId = data.value;
+                loginEl.petsName = data.name;
+                el.petsId = data.value;
+                el.petName = data.name;
+              }
+              return loginEl;
+            });
+          }
         }
         return el;
       });
-      console.log(loginCartData, 'hahaha')
-      this.props.checkoutStore.setLoginCartData(loginCartData);
+      if(sessionItemRoyal.get('recommend_product')) {
+        this.setState({recommend_data: handledData})
+      }else {
+        this.props.checkoutStore.setLoginCartData(handledData);
+      }
     }
     this.closePetModal();
   }

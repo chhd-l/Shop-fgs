@@ -48,7 +48,7 @@ const de_DE = {
   "account.petsTip": "Erstellen und verwalten Sie Ihre Haustierprofile.",
   "account.preferredContactMethod": "Bevorzugte Art der Kontaktierung",
   "account.preferredMmethodsOfCommunication": "Newsletter",
-  "account.profile": "Persönliche Daten",
+  "account.profile": "Meine Information",
   "account.profileTip": "Aktualisieren Sie Ihre persönlichen Daten.",
   "account.requiredFields": "Benötigte Felder",
   "account.shippingAddressTip": "Erstellen oder bearbeiten Sie Ihre Lieferadresse.",
@@ -60,7 +60,7 @@ const de_DE = {
   "account.TheAddressBook": "Das Adressbuch",
   "account.toComeIn": "Betreten",
   "account.unknownBreed": "kein Rassetier",
-  "account.warmNotice": "Hier können Sie Ihr Profil verwalten, Haustierinformationen, Lieferadresse und Zahlungsmethode bearbeiten, den Status von Bestellungen und Abonnements überprüfen.",
+  "account.warmNotice": "Willkommen {val}. Dieser Bereich dient zur Verwaltung Ihres Kontos. Sie können ganz einfach Ihre Profilinformationen ändern, die Bedürfnisse Ihres Haustieres verwalten, den Status Ihrer Bestellungen und Ihres Autoship überprüfen.",
   "account.weight": "Welche Größe hat {val}?",
   "active": "Aktiv",
   "addNewCreditCard": "Neue Kreditkarte hinzufügen",
@@ -718,6 +718,6 @@ const de_DE = {
   "writeYourReview": "Schreibe deine Rezension",
   "yes": "Ja",
   "yourEmailNotVerified": "Deine E-Mail ist nicht verifiziert worden!",
-  "yourPasswordNotVerified": "Ihr Passwort wurde nicht verifiziert"
+  "yourPasswordNotVerified": "Ihr Passwort wurde nicht verifiziert",
 }
 export default de_DE;

@@ -772,7 +772,7 @@ class PaymentComp extends React.Component {
                               ]
                                 ? CREDIT_CARD_IMG_ENUM[
                                     el.paymentMethod
-                                      ? el.paymentMethod.vendor
+                                      ? el.paymentMethod.vendor.toUpperCase()
                                       : ''
                                   ]
                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
@@ -959,7 +959,7 @@ class PaymentComp extends React.Component {
                             alt="Card"
                             src={
                               CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                ? CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
+                                ? CREDIT_CARD_IMG_ENUM[this.state.currentVendor.toUpperCase()]
                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />

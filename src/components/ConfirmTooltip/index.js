@@ -19,20 +19,30 @@ class ConfirmTooltip extends React.Component {
       });
     }
   }
-  onBlur(e) {
+  onBlur = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     this.props.updateChildDisplay(false);
-  }
-  cancel(e) {
+  };
+  cancel = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     this.props.updateChildDisplay(false);
-  }
+  };
+  hanldeClickContainer = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
   render() {
     const { arrowDirection } = this.props;
     return this.props.display ? (
       <div
         className={`confirm-tool-container position-relative arrow-direction-${arrowDirection}`}
-        onBlur={(e) => this.onBlur(e)}
+        onBlur={this.onBlur}
+        onClick={this.hanldeClickContainer}
       >
         <div
           className="confirm-tool-content rc-bg-colour--brand4 p-3"
@@ -45,9 +55,7 @@ class ConfirmTooltip extends React.Component {
             {this.props.cancelBtnVisible ? (
               <div
                 className="rc-btn rc-btn--two rc-btn--sm mt-3"
-                onClick={(e) => {
-                  this.cancel(e);
-                }}
+                onClick={this.cancel}
               >
                 <FormattedMessage id="cancel" />
               </div>

@@ -9,7 +9,7 @@ import { toJS } from 'mobx';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('configStore', 'loginStore', 'checkoutStore')
+@inject('configStore', 'loginStore', 'checkoutStore', 'clinicStore')
 class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -54,7 +54,7 @@ class RouteFilter extends Component {
       }
     }
     if (
-      pathname === '/prescription' && (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === null)  &&
+      pathname === '/prescription' && (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined)  &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
         localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
@@ -62,6 +62,15 @@ class RouteFilter extends Component {
         (localItemRoyal.get(`rc-clinic-id-default`) &&
           localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
+      if(localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        if(this.props.clinicStore.linkClinicId) {
+          this.props.clinicStore.setSelectClinicId(this.props.clinicStore.linkClinicId)
+          this.props.clinicStore.setSelectClinicName(this.props.clinicStore.linkClinicName)
+        }
+      }else if(!this.props.clinicStore.linkClinicId && !this.props.clinicStore.selectClinicId && this.props.clinicStore.defaultClinicId) {
+        this.props.clinicStore.setSelectClinicId(this.props.clinicStore.defaultClinicId)
+        this.props.clinicStore.setSelectClinicName(this.props.clinicStore.defaultClinicName)
+      }
       history.replace('/payment/payment');
       return false;
     }
