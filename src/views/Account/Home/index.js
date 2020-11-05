@@ -99,10 +99,13 @@ class AccountHome extends React.Component {
                         to={item.link}
                       >
                         <div className="d-flex align-items-center border m-2 w-100 h-100 pl-3">
-                          {item.icon}
-                          {/* <svg className="icon" aria-hidden="true">
-                            <use xlinkHref="#icon-xxx"></use>
-                          </svg> */}
+                          {item.icon}dsdsds
+                          <svg className="icon" aria-hidden="true">
+                            <use xlinkHref="#iconaccount"></use>
+                          </svg>
+                          <svg class="icon" aria-hidden="true">
+                            <use xlinkHref="#iconaccount"></use>
+                          </svg>
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">
                               <b>
