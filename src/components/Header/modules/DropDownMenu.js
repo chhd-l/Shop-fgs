@@ -516,8 +516,8 @@ export default class DropDownMenu extends React.Component {
               <h4 className="title rc-delta">Une question ?</h4>{' '}
               <div className="desc children-nomargin">
                 {' '}
-                <p>Vous avez besoin d'aide?</p>
-                <p>N'hésitez pas à nous contacter : </p>{' '}
+                <p className="rc-text-colour--text">Vous avez besoin d'aide?</p>
+                <p className="rc-text-colour--text">N'hésitez pas à nous contacter : </p>{' '}
               </div>{' '}
             </div>{' '}
             <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">

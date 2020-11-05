@@ -338,7 +338,7 @@ const fr_FR = {
   "home.point2": "Satisfait ou remboursé",
   "home.point3": "Qualité premium",
   "home.point4": "Livraison gratuite 72h",
-  "home.point5": "POUR LA SANTÉ DES CHIENS ET DES CHATS DEPUIS 1968",
+  "home.point5": "LA SANTÉ EST NOTRE OBSESSION DEPUIS 1968",
   "home.point6": "ENSEMBLE AVEC TOI",
   "home.productsCategory": "Découvrez nos gammes d'aliments",
   'home.promotionTip': '10% de réduction sur les Abonnements | Livraison assurée pendant le confinement',
