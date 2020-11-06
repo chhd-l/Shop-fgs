@@ -39,7 +39,7 @@ const ProductFinder = ({ location, history, match }) => {
     setIsPageLoading(true);
     setTimeout(() => {
       setQuestionCfg({
-        title: 'Which of the following best describes your cart？',
+        title: 'Which of the following best describes your cat？',
         list: [
           'My cat is new in our family',
           'My cat is no longer a kitten',
@@ -199,7 +199,7 @@ const ProductFinder = ({ location, history, match }) => {
                         <FormattedMessage id="next" />
                       </button>
                     </div>
-                    <div className="col-12 col-md-6 mt-2 mb-4 mt-md-0 mb-md-0">
+                    <div className="col-12 col-md-7 mt-2 mb-4 mt-md-0 mb-md-0">
                       <div className="position-relative inlineblock">
                         <p
                           className="rc-styled-link mb-0 mt-2"
