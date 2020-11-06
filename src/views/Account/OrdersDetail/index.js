@@ -568,6 +568,8 @@ class AccountOrders extends React.Component {
                                           {item.spuName}
                                         </span>
                                         {item.specDetails}
+                                        <br/>
+                                        pet: {item.petsName}
                                         {details.subscriptionResponseVO &&
                                           item.subscriptionStatus && (
                                             <>
