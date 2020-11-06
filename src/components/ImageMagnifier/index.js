@@ -348,6 +348,10 @@ class ImageMagnifier extends Component {
         <div style={{ position: 'relative' }}>
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
+          <div className="product-item-flag">
+                    {/* <FormattedMessage id="promotion" /> */}
+                    Bundle -20%
+                  </div>
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{

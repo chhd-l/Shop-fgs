@@ -1180,7 +1180,7 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="align-left flex rc-margin-bottom--xs">
+                        {/* <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
                               <label className="availability instock">
@@ -1197,7 +1197,7 @@ class Details extends React.Component {
                               &nbsp; for pick-up at PetStores for Clinics nearby
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="specAndQuantity rc-margin-bottom--xs">
                           <div className="spec">
                             {specList.map((sItem, i) => (

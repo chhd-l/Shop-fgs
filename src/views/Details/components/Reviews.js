@@ -254,7 +254,7 @@ class Reviews extends React.Component {
                   </div>
                 )
               }
-              <div className="commentNum rc-max-width--xl rc-margin-x--sm">
+              <div className="rc-max-width--xl rc-margin-x--sm" style={{maxWidth: '1400px !important', padding: '0 2rem'}}>
                 {/* <div className="rc-column padl0">
                   <form>
                     <span className="rc-select rc-select-processed">
@@ -276,12 +276,12 @@ class Reviews extends React.Component {
                     </span>
                   </form>
                 </div> */}
-                {this.state.total} Reviews
+                <div className="commentNum">{this.state.total} Reviews</div>
               </div>
 
               <div
                 className="rc-one-column rc-max-width--lg"
-                style={{ maxWidth: '1200px' }}
+                style={{ maxWidth: '1400px', padding: '0 2rem' }}
               >
                 <div className="rc-margin-bottom--sm padl0">
                   <div className="rc-stacked">
