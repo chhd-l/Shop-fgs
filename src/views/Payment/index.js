@@ -1099,7 +1099,8 @@ class Payment extends React.Component {
           return {
             num: g.buyCount,
             skuId: g.goodsInfoId,
-            petsId: g.petsId
+            petsId: g.petsId,
+            petsName: g.petsName
           };
         });
       param.subTradeItems = loginCartData
@@ -1107,7 +1108,9 @@ class Payment extends React.Component {
         .map((g) => {
           return {
             subscribeNum: g.buyCount,
-            skuId: g.goodsInfoId
+            skuId: g.goodsInfoId,
+            petsId: g.petsId,
+            petsName: g.petsName
           };
         });
       param.cycleTypeId = subForm.frequencyId;
