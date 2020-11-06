@@ -124,6 +124,7 @@ class Payment extends React.Component {
       requiredList: [],
       AuditData: [],
       needPrescriber: false,
+      unLoginBackPets: []
     };
     this.timer = null;
   }
@@ -805,9 +806,16 @@ class Payment extends React.Component {
               storeId: process.env.REACT_APP_STOREID
             };
           });
-          await batchAddPets({
+          let res = await batchAddPets({
             batchAddItemList: param
           });
+          parameters.tradeItems.map(el => {
+            let filterItems = res.context.resultList.filter(item => item.productId === el.skuId )
+            if(filterItems.length > 0) {
+              el.petsName = filterItems[0].petsName
+              el.petsId = filterItems[0].petsId
+            }
+          })
         }
       }
 

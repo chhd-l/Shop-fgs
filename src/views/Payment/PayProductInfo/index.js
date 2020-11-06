@@ -175,10 +175,10 @@ class PayProductInfo extends React.Component {
                 <div className="item-title">
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
-                    title={el.goodsName}
+                    title={el.goodsName || el.goods.goodsName}
                     onClick={() => this.handleClickProName(el)}
                   >
-                    <span className="light">{el.goodsName}</span>
+                    <span className="light">{el.goodsName || el.goods.goodsName}</span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
