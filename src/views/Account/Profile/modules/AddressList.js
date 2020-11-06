@@ -14,7 +14,7 @@ function CardItem(props) {
   const { data } = props;
   return (
     <div
-      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure"
+      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100"
       onClick={props.handleClickCoverItem}
     >
       {props.removeBtnJSX}
