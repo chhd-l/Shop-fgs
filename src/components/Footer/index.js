@@ -29,7 +29,7 @@ class Footer extends React.Component {
     };
     return (
       <footer className="rc-bg-colour--interface-dark" id="footer">
-        <div className="rc-max-width--lg rc-scroll--y">
+        <div className="rc-max-width--lg rc-scroll--y" style={{maxWidth:'1400px'}}>
           <div className="rc-layout-container rc-md-up">
             <div className="rc-column rc-text--right">
               <span

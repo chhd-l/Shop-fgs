@@ -226,8 +226,11 @@ class AdyenCreditCardList extends React.Component {
   _renderMemberCardPanel = () => {
     const { cardList } = this.state;
     const cardListJSX = cardList.map((el, idx) => {
-      this.loadCvv(el)
-      el.isLoadCvv = true
+      if(el.adyenPaymentMethod!==null) { //判断是否是adyen支付
+        this.loadCvv(el)
+        el.isLoadCvv = true
+      }
+    
 
       return (
         <div
