@@ -60,17 +60,16 @@ function PetJSX(props) {
                   <FormattedMessage id="productFinder.rigisterMyPetProfile" />
                   <br />
                 </p>
-                <div className="row align-items-center text-center">
-                  <div className="col-12 col-md-6">
-                    <button className="rc-btn rc-btn--one mb-3">
-                      <FormattedMessage id="productFinder.createMyPetProfile" />
-                    </button>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <Link className="rc-btn rc-btn--two mb-4" to="/product-finder">
-                      <FormattedMessage id="productFinder.startAgin" />
-                    </Link>
-                  </div>
+                <div className="row justify-content-center text-center">
+                  <button className="col-12 col-md-6 rc-btn rc-btn--one mb-3">
+                    <FormattedMessage id="productFinder.createMyPetProfile" />
+                  </button>
+                  <Link
+                    className="col-12 col-md-6 rc-btn rc-btn--two mb-4"
+                    to="/product-finder"
+                  >
+                    <FormattedMessage id="productFinder.startAgin" />
+                  </Link>
                 </div>
               </div>
             </div>
