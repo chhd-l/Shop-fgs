@@ -1138,7 +1138,7 @@ class Details extends React.Component {
             <div>
               <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>/>
             </div>
-            <div
+            {/* <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
             >
@@ -1219,7 +1219,7 @@ class Details extends React.Component {
                   </button>
                 )}
               </div>
-            </div>
+            </div> */}
           </main>
         )}
         <Footer />

@@ -687,7 +687,7 @@ class UnLoginCart extends React.Component {
           </div>
         </div>
         <div className="rc-margin-bottom--sm rc-md-down">
-          <div className="product-card-footer product-card-price d-flex">
+          <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm">
             <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
               <div className="rc-quantity d-flex">
                 <span
@@ -707,85 +707,127 @@ class UnLoginCart extends React.Component {
                 ></span>
               </div>
             </div>
-            <div className="line-item-total-price d-flex justify-content-center">
-              <p className="line-item-price-info line-item-total-price-amount rc-margin-bottom--none rc-margin-right--xs flex-grow-1 text-right">
-                =
-              </p>
-              <div className="price">
-                <div className="strike-through non-adjusted-price">null</div>
-                <b className="pricing line-item-total-price-amount light">
-                  {formatMoney(
-                    pitem.quantity *
-                      pitem.sizeList.filter((el) => el.selected)[0].salePrice
-                  )}
-                </b>
-              </div>
-            </div>
           </div>
-          <div className="availability product-availability">
-            <div className="flex justify-content-between flex-wrap">
-              <div>
-                {find(pitem.sizeList, (s) => s.selected).subscriptionStatus &&
-                find(pitem.sizeList, (s) => s.selected).subscriptionPrice >
-                  0 ? (
-                  <>
-                    <span
-                      className="iconfont font-weight-bold red mr-1"
-                      style={{ fontSize: '.9em' }}
-                    >
-                      &#xe675;
-                    </span>
-                    <FormattedMessage id="details.Subscription" />
-                  </>
-                ) : null}
-              </div>
-              <div className="stock__wrapper">
-                <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
-                  <label
-                    className={[
-                      'availability',
-                      pitem.quantity <=
-                      find(pitem.sizeList, (s) => s.selected).stock
-                        ? 'instock'
-                        : 'outofstock'
-                    ].join(' ')}
-                  >
-                    <span className="title-select">
-                      <FormattedMessage id="details.availability" /> :
-                    </span>
-                  </label>
-                  <span className="availability-msg">
+                <div
+                  className="buyMethod rc-margin-bottom--xs"
+                  style={{ height: '73px', width: '100%' }}
+                >
+                  <div className="buyMethodInnerBox">
+                    <div className="radioBox">
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          height: '100%',
+                          fontWeight: '100',
+                          color: '#666',
+                          fontSize: '20px',
+                          lineHeight: '56px'
+                        }}
+                      >
+                        <img src={cartImg} />
+                        <FormattedMessage id="Single purchase" />
+                      </span>
+                    </div>
                     <div
-                      className={`${
-                        pitem.quantity <=
-                        find(pitem.sizeList, (s) => s.selected).stock
-                          ? ''
-                          : 'out-stock'
-                      }`}
+                      className="price singlePrice"
+                      style={{ fontSize: '22px' }}
                     >
-                      {pitem.addedFlag &&
-                      pitem.quantity <=
-                        find(pitem.sizeList, (s) => s.selected).stock ? (
-                        <FormattedMessage id="details.inStock" />
-                      ) : pitem.addedFlag ? (
-                        <FormattedMessage id="details.outStock" />
-                      ) : (
-                        <FormattedMessage id="details.OffShelves" />
+                      {formatMoney(
+                        pitem.quantity *
+                          pitem.sizeList.filter((el) => el.selected)[0].salePrice
                       )}
                     </div>
-                  </span>
+                  </div>
                 </div>
-                {/* <div className="promotion stock" style={{ marginTop: '7px', display: this.isPromote ? 'inline-block' : 'none' }}>
-                  <label className={['availability', pitem.addedFlag && pitem.quantity <= find(pitem.sizeList, s => s.selected).stock ? 'instock' : 'outofstock'].join(' ')} >
-                    <span><FormattedMessage id="promotion" /> :</span>
-                  </label>
-                  <span className="availability-msg">
-                    25% OFF
-                  </span>
-                </div> */}
-              </div>
-            </div>
-          </div>
+                <div className="buyMethod rc-margin-bottom--xs" style={{width: '100%'}}>
+                  <div className="buyMethodInnerBox">
+                    <div className="radioBox">
+                      <span
+                        style={{
+                          fontWeight: '400',
+                          color: '#333',
+                          display: 'inline-block',
+                          marginTop: '5px'
+                        }}
+                      >
+                        <img src={refreshImg} />
+                        <FormattedMessage id="autoship" />
+                        <span
+                          className="info-tooltip delivery-method-tooltip"
+                          onMouseEnter={() => {
+                            this.setState({
+                              toolTipVisible: true
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({
+                              toolTipVisible: false
+                            });
+                          }}
+                        >
+                          i
+                        </span>
+                        <ConfirmTooltip
+                          arrowStyle={{ left: '65%' }}
+                          display={this.state.toolTipVisible}
+                          cancelBtnVisible={false}
+                          confirmBtnVisible={false}
+                          updateChildDisplay={(status) =>
+                            this.setState({
+                              toolTipVisible: status
+                            })
+                          }
+                          content={
+                            <FormattedMessage id="subscription.promotionTip2" />
+                          }
+                        />
+                      </span>
+                      {/* </div> */}
+                      <br />
+                      Save extra{' '}
+                      <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                        10%
+                      </b>
+                    </div>
+                    <div className="price">
+                      <div
+                        style={{
+                          fontSize: '15px',
+                          textDecoration: 'line-through'
+                        }}
+                      >
+                        {formatMoney(
+                          pitem.quantity *
+                            pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                        )}
+                      </div>
+                      <div style={{ color: '#ec001a' }}>{formatMoney(
+                    pitem.quantity *
+                      pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
+                  )}</div>
+
+                      {/* {formatMoney(currentSubscriptionPrice || 0)} */}
+                    </div>
+                  </div>
+                  <div className="freqency">
+                    delivery every:
+                    <Selection
+                      customContainerStyle={{
+                        display: 'inline-block',
+                        marginLeft: '20px'
+                      }}
+                      selectedItemChange={(data) =>
+                        this.handleSelectedItemChange(data)
+                      }
+                      optionList={this.computedList}
+                      selectedItemData={{
+                        value: form.frequencyVal
+                      }}
+                      key={form.frequencyVal}
+                      customStyleType="select-one"
+                    />
+                  </div>
+                </div>
         </div>
       </div>
     ));
@@ -880,6 +922,87 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
           <div className="row">
+            <div className="col-8">
+            <span
+                  className="rc-input rc-input--inline rc-input--label mr-0"
+                  style={{ width: '150px', marginBottom: '10px' }}
+                >
+                  <FormattedMessage id="promotionCode">
+                    {(txt) => (
+                      <input
+                        className="rc-input__control"
+                        id="id-text2"
+                        type="text"
+                        name="text"
+                        placeholder={txt}
+                        value={this.state.promotionInputValue}
+                        onChange={(e) => this.handlerChange(e)}
+                      />
+                    )}
+                  </FormattedMessage>
+
+                  <label className="rc-input__label" for="id-text2"></label>
+                </span>
+            </div>
+            <div className="col-4 no-padding-left">
+              <p className="text-right sub-total">
+              <button
+                  id="promotionApply"
+                  className={[
+                    'rc-btn',
+                    'rc-btn--sm',
+                    'rc-btn--two',
+                    this.state.isClickApply &&
+                      'ui-btn-loading ui-btn-loading-border-red'
+                  ].join(' ')}
+                  style={{ marginTop: '10px', float: 'right', marginBottom: '10px', marginRight: '0' }}
+                  onClick={async () => {
+                    let result = {};
+                    if (!this.state.promotionInputValue) return;
+                    this.setState({
+                      isClickApply: true,
+                      isShowValidCode: false,
+                      lastPromotionInputValue: this.state.promotionInputValue
+                    });
+                    if (!this.isLogin) {
+                      //游客
+                      result = await checkoutStore.updateUnloginCart(
+                        '',
+                        this.state.promotionInputValue
+                      );
+                    } else {
+                      //会员
+                      result = await checkoutStore.updateLoginCart(
+                        this.state.promotionInputValue,
+                        this.props.buyWay === 'frequency'
+                      );
+                    }
+                    if (
+                      result.backCode === 'K-000000' &&
+                      result.context.promotionDiscount
+                    ) {
+                      //表示输入apply promotionCode成功
+                      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                      this.setState({ discount });
+                      this.props.sendPromotionCode(
+                        this.state.promotionInputValue
+                      );
+                    } else {
+                      this.setState({
+                        isShowValidCode: true
+                      });
+                      this.props.sendPromotionCode('');
+                    }
+                    this.setState({
+                      isClickApply: false,
+                      promotionInputValue: ''
+                    });
+                  }}
+                >
+                  <FormattedMessage id="apply" />
+                </button>
+              </p>
+            </div>
             <div className="col-8">
               <FormattedMessage id="total" />
             </div>

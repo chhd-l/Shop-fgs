@@ -11,7 +11,6 @@ import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
-import RelatedProduct from './components/RelatedProduct';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
 import {
@@ -28,8 +27,8 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
 import './index.less';
-import HeroCarousel from './components/HeroCarousel';
 import { getProductPetConfig } from '@/api/payment';
+import Carousel from './components/Carousel';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1562,103 +1561,104 @@ class Details extends React.Component {
                             </div>
                           </div>
                         )}
-                        {
-                        !/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                        {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
-                        ) && (<div
-                        // className="sticky-addtocart"
-                        // style={{ transform: 'translateY(-80px)' }}
-                        >
+                        ) && (
                           <div
-                            className="rc-max-width--xl fullHeight justify-content-center"
-                            style={{ textAlign: 'right', marginTop: '20px' }}
+                          // className="sticky-addtocart"
+                          // style={{ transform: 'translateY(-80px)' }}
                           >
-                            <button
-                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                addToCartLoading ? 'ui-btn-loading' : ''
-                              } ${
-                                !initing && instockStatus && quantity
-                                  ? ''
-                                  : 'rc-btn-solid-disabled'
-                              }`}
-                              onClick={() => this.hanldeAddToCart()}
+                            <div
+                              className="rc-max-width--xl fullHeight justify-content-center"
+                              style={{ textAlign: 'right', marginTop: '20px' }}
                             >
-                              <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
-                              <span className="default-txt">
-                                <FormattedMessage id="details.addToCart" />
-                              </span>
-                            </button>
-                            {this.isLogin ? (
                               <button
-                                className={`rc-btn rc-btn--one js-sticky-cta ${
+                                className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
                                 } ${
                                   !initing && instockStatus && quantity
                                     ? ''
                                     : 'rc-btn-solid-disabled'
                                 }`}
-                                onClick={() =>
-                                  this.hanldeAddToCart({
-                                    redirect: true,
-                                    needLogin: false
-                                  })
-                                }
+                                onClick={() => this.hanldeAddToCart()}
                               >
-                                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                                 <span className="default-txt">
-                                  <FormattedMessage id="checkout" />
+                                  <FormattedMessage id="details.addToCart" />
                                 </span>
                               </button>
-                            ) : (
-                              <LoginButton
-                                beforeLoginCallback={async () => {
-                                  try {
-                                    await this.hanldeUnloginAddToCart({
+                              {this.isLogin ? (
+                                <button
+                                  className={`rc-btn rc-btn--one js-sticky-cta ${
+                                    addToCartLoading ? 'ui-btn-loading' : ''
+                                  } ${
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
+                                  }`}
+                                  onClick={() =>
+                                    this.hanldeAddToCart({
                                       redirect: true,
-                                      needLogin: true
-                                    });
-                                    sessionItemRoyal.set(
-                                      'okta-redirectUrl',
-                                      '/cart'
-                                    );
-                                  } catch (err) {
-                                    throw new Error();
+                                      needLogin: false
+                                    })
                                   }
-                                }}
-                                btnClass={`rc-btn rc-btn--one js-sticky-cta ${
-                                  addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${
-                                  !initing && instockStatus && quantity
-                                    ? ''
-                                    : 'rc-btn-solid-disabled'
-                                }`}
-                                history={this.props.history}
-                              >
-                                <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
-                                <span className="default-txt">
-                                  <FormattedMessage id="checkout" />
-                                </span>
-                              </LoginButton>
-                            )}
-                            {!this.isLogin && (
-                              <button
-                                style={{ marginLeft: '10px' }}
-                                className={`rc-styled-link color-999 ${
-                                  addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${
-                                  !initing && instockStatus && quantity
-                                    ? ''
-                                    : 'rc-btn-disabled'
-                                }`}
-                                onClick={() =>
-                                  this.hanldeAddToCart({ redirect: true })
-                                }
-                              >
-                                <FormattedMessage id="GuestCheckout" />
-                              </button>
-                            )}
+                                >
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                  <span className="default-txt">
+                                    <FormattedMessage id="checkout" />
+                                  </span>
+                                </button>
+                              ) : (
+                                <LoginButton
+                                  beforeLoginCallback={async () => {
+                                    try {
+                                      await this.hanldeUnloginAddToCart({
+                                        redirect: true,
+                                        needLogin: true
+                                      });
+                                      sessionItemRoyal.set(
+                                        'okta-redirectUrl',
+                                        '/cart'
+                                      );
+                                    } catch (err) {
+                                      throw new Error();
+                                    }
+                                  }}
+                                  btnClass={`rc-btn rc-btn--one js-sticky-cta ${
+                                    addToCartLoading ? 'ui-btn-loading' : ''
+                                  } ${
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
+                                  }`}
+                                  history={this.props.history}
+                                >
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                  <span className="default-txt">
+                                    <FormattedMessage id="checkout" />
+                                  </span>
+                                </LoginButton>
+                              )}
+                              {!this.isLogin && (
+                                <button
+                                  style={{ marginLeft: '10px' }}
+                                  className={`rc-styled-link color-999 ${
+                                    addToCartLoading ? 'ui-btn-loading' : ''
+                                  } ${
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-disabled'
+                                  }`}
+                                  onClick={() =>
+                                    this.hanldeAddToCart({ redirect: true })
+                                  }
+                                >
+                                  <FormattedMessage id="GuestCheckout" />
+                                </button>
+                              )}
+                            </div>
                           </div>
-                        </div>)}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1833,8 +1833,8 @@ class Details extends React.Component {
             >
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
-            <div>
-              <div
+            {/* <div> */}
+              {/* <div
                 style={{
                   textAlign: 'center',
                   color: 'rgb(236, 0, 26)',
@@ -1845,14 +1845,17 @@ class Details extends React.Component {
                 }}
               >
                 Recommanded for you
-              </div>
-              <HeroCarousel
+              </div> */}
+              {/* <HeroCarousel
                 history={this.props.history}
                 goodsId={this.state.goodsId}
                 key={this.state.goodsId}
-              />
+              /> */}
               {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-            </div>
+              <div>
+                <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
+              </div>
+            {/* </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
