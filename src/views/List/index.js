@@ -319,10 +319,11 @@ class List extends React.Component {
                 case 'search_fid':
                   const tmpArr = this.fidFromSearch.split('|');
                   checkedListTemp = tmpList
-                    .filter((item) => item.propId === tmpArr[0])[0]
+                    .filter((item) => item.propId === Number(tmpArr[0]))[0]
                     .goodsPropDetails.filter(
                       (item) => item.detailId === tmpArr[1]
                     );
+
                   this.setState({
                     checkedList: checkedListTemp
                   });

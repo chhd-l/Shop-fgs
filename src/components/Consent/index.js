@@ -91,7 +91,7 @@ class Consent extends Component {
                         className="red"
                         style={{ fontSize: '.9em', fontStyle: 'normal' }}
                       >
-                        <FormattedMessage id="requiredConsentCheckedTip" />
+                        {/* <FormattedMessage id="requiredConsentCheckedTip" /> */}
                       </em>
                     </div>
                   )}

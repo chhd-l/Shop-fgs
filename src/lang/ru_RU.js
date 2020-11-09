@@ -603,6 +603,8 @@ const ru_RU = {
     'removeAllFilters': "Удалить все фильтры",
     'replyComments': "Ответить на комментарии",
     'rePurchase': "Выкуп",
+    'required.continue':'continue',
+    'required.fields':'required frields',
     'required.complete': 'Завершить процесс входа в систему',
     'required.logoTitle': "Добро пожаловать в интернет-магазин ROYALCANIN®",
     'requiredConsentCheckedTip': 'Пожалуйста, подтвердите обязательные поля, установив галочку.',

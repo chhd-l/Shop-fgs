@@ -606,6 +606,8 @@ const es_ES = {
   'replyComments': 'Reply comments',
   'rePurchase': 'Readquirir',
   'requestInvoices.title': 'Solicitar facturas',
+  'required.continue':'continue',
+  'required.fields':'required frields',
   'required.complete': 'Proceso de inicio de sesión completo',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
   requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',

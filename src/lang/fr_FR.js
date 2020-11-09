@@ -617,6 +617,8 @@ const fr_FR = {
   "removeAllFilters": "Supprimer tous les filtres",
   "replyComments": "Répondre aux commentaires",
   "rePurchase": "Racheter",
+  'required.continue':'continue',
+  'required.fields':'required frields',
   'required.complete': 'Processus de connexion complet',
   'required.logoTitle': 'Bienvenue dans la boutique en ligne ROYALCANIN®',
   requiredConsentCheckedTip: 'Veuillez confirmer les champs obligatoires en cochant la case.',
