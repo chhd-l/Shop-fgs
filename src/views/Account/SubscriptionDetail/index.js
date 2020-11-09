@@ -1078,6 +1078,14 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {el.specText}
                                     </p>
+                                    <p
+                                      style={{
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                      }}
+                                    >
+                                      pet: {el.petsName}
+                                    </p>
                                     <div>
                                       <label
                                         style={{

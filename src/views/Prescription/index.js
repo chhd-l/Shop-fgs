@@ -161,7 +161,8 @@ class Prescription extends React.Component {
   }
   async getAllPrescription() {
     let params = {
-      storeId: process.env.REACT_APP_STOREID
+      storeId: process.env.REACT_APP_STOREID,
+      auditAuthority: true,
     };
     const res = await getAllPrescription(params);
     if (res.code === 'K-000000') {
