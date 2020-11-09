@@ -569,7 +569,7 @@ class AccountOrders extends React.Component {
                                         </span>
                                         {item.specDetails}
                                         <br/>
-                                        pet: {item.petsName}
+                                        {item.petsName && `pet: ${item.petsName}`}
                                         {details.subscriptionResponseVO &&
                                           item.subscriptionStatus && (
                                             <>
