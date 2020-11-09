@@ -1111,7 +1111,8 @@ class Payment extends React.Component {
             petsName: g.petsName
           };
         });
-      param.subTradeItems = loginCartData
+      if(sessionItemRoyal.get('recommend_product')) {
+        param.subTradeItems = this.state.recommend_data
         .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
         .map((g) => {
           return {
@@ -1121,6 +1122,19 @@ class Payment extends React.Component {
             petsName: g.petsName
           };
         });
+      }else {
+        param.subTradeItems = loginCartData
+        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .map((g) => {
+          return {
+            subscribeNum: g.buyCount,
+            skuId: g.goodsInfoId,
+            petsId: g.petsId,
+            petsName: g.petsName
+          };
+        });
+      }
+      
       param.cycleTypeId = subForm.frequencyId;
       param.paymentMethodId = creditCardInfo.id;
     }
