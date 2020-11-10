@@ -698,13 +698,13 @@ class SubscriptionDetail extends React.Component {
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop subscriptionDetail"
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
-                  <div className="d-flex justify-content-between align-items-center flex-wrap">
+                  <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
                     <h4 className="rc-delta font-weight-normal mb-2">
                       {/* <FormattedMessage id="subscription" /> */}
-                      <img
+                      {subDetail.subscribeId && (<img
                         style={{ width: '20px', display: 'inline-block' }}
                         src={subscriptionIcon}
-                      />
+                      />)}
                       {subDetail.subscribeId
                         ? `${subDetail.subscribeId}`
                         : null}
@@ -768,7 +768,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="card-container">
+                      <div className="card-container" style={{marginTop: '0'}}>
                         <div className="card rc-margin-y--none ml-0">
                           <div
                             className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
@@ -779,7 +779,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div className="col-12 col-md-4"></div>
                             <div className="col-12 col-md-3 pl-4">
-                              <img
+                              {/* <img
                                 style={{
                                   display: 'inline-block',
                                   width: '20px',
@@ -789,7 +789,7 @@ class SubscriptionDetail extends React.Component {
                               />
                               <a class="rc-styled-link" href="#/">
                                 <FormattedMessage id="subscription.skip" />
-                              </a>
+                              </a> */}
                             </div>
 
                             <div className="col-12 col-md-2">
@@ -1180,7 +1180,7 @@ class SubscriptionDetail extends React.Component {
                           style={{ padding: '1rem 0' }}
                         >
                           <div className="col-4 col-md-6">
-                            <div
+                            {/* <div
                               className="footer"
                               style={{
                                 marginTop: '10px',
@@ -1261,7 +1261,7 @@ class SubscriptionDetail extends React.Component {
                               >
                                 Apply
                               </button>
-                            </div>
+                            </div> */}
                           </div>
                           <div className="col-4 col-md-1"></div>
                           <div className="col-4 col-md-5" style={{paddingLeft: '60px'}}>
@@ -2034,7 +2034,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <hr className="rc-margin-top---none" /> */}
                       {/*footer*/}
-                      <h4 style={{ color: '#e2001a', margin: '20px 0 10px' }}>
+                      <h4 style={{ color: '#e2001a', margin: '60px 0 20px' }}>
                         Transaction information
                       </h4>
                       <div
@@ -2274,14 +2274,14 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         )}
                       </div>
-                      <h4 style={{ color: '#e2001a', margin: '20px 0 10px' }}>
+                      <h4 style={{ color: '#e2001a', margin: '60px 0 20px' }}>
                         My Autoship Order
                       </h4>
 
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                           <div>
-                            <div className="rc-border-bottom rc-border-colour--interface">
+                            <div className="rc-border-bottom rc-border-colour--interface" style={{width: '70%', display: 'inline-block'}}>
                               <nav className="rc-fade--x">
                                 <ul
                                   className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
@@ -2306,6 +2306,23 @@ class SubscriptionDetail extends React.Component {
                                   ))}
                                 </ul>
                               </nav>
+                            </div>
+                            <div style={{width: '30%', display: 'inline-block', textAlign: 'right', verticalAlign: 'middle'}}>
+                              <span style={{display: 'inline-block', width: '230px', borderBottom: '1px solid #aaa', textAlign: 'left'}}>
+                            <Selection
+                                      optionList={[{name: '2020', value: '2020'}, {name: '2019', value: '2019'}]}
+                                      selectedItemData={{
+                                        value: '2020'
+                                      }}
+                                      selectedItemChange={() => {}}
+                                      customStyleType="select-one"
+                                      type="freqency"
+                                      key={subDetail.frequency || ''}
+                                      disabled={
+                                        subDetail.subscribeStatus !== '0'
+                                      }
+                                    />
+                                    </span>
                             </div>
                             <div
                               className="rc-tabs tabs-detail"
@@ -2384,13 +2401,14 @@ class SubscriptionDetail extends React.Component {
                                             className="rc-column flex-layout"
                                             style={{ width: '80%', padding: 0 }}
                                           >
-                                            <div className="img-container">
-                                              <img src={el.goodsPic} alt="" />
-                                            </div>
+                                            {/* <div className="img-container"> */}
+                                            <img style={{width: '70px', margin: '0 10px'}} src={el.goodsPic} alt="" />
+                                            {/* </div> */}
                                             <div
                                               // className="v-center"
                                               style={{
-                                                width: '200px'
+                                                width: '200px',
+                                                paddingTop: '30px'
                                               }}
                                             >
                                               <h5
@@ -2398,7 +2416,7 @@ class SubscriptionDetail extends React.Component {
                                                   overflow: 'hidden',
                                                   textOverflow: 'ellipsis',
                                                   overflowWrap: 'normal',
-                                                  color: '#e2001a'
+                                                  fontSize: '14px'
                                                 }}
                                               >
                                                 {el.goodsName}
@@ -2407,7 +2425,8 @@ class SubscriptionDetail extends React.Component {
                                                 style={{
                                                   overflow: 'hidden',
                                                   textOverflow: 'ellipsis',
-                                                  marginBottom: '8px'
+                                                  marginBottom: '8px',
+                                                  fontSize: '14px'
                                                 }}
                                               >
                                                 {el.specText}
@@ -2527,13 +2546,12 @@ class SubscriptionDetail extends React.Component {
                                             className="rc-column flex-layout"
                                             style={{ width: '80%', padding: 0 }}
                                           >
-                                            <div className="img-container">
-                                              <img src={el.goodsPic} alt="" />
-                                            </div>
+                                            <img style={{width: '70px', margin: '0 10px'}}  src={el.goodsPic} alt="" />
                                             <div
                                               // className="v-center"
                                               style={{
-                                                width: '200px'
+                                                width: '200px',
+                                                paddingTop: '30px'
                                               }}
                                             >
                                               <h5
@@ -2541,7 +2559,7 @@ class SubscriptionDetail extends React.Component {
                                                   overflow: 'hidden',
                                                   textOverflow: 'ellipsis',
                                                   overflowWrap: 'normal',
-                                                  color: '#e2001a'
+                                                  fontSize: '14px'
                                                 }}
                                               >
                                                 {el.goodsName}
@@ -2550,7 +2568,8 @@ class SubscriptionDetail extends React.Component {
                                                 style={{
                                                   overflow: 'hidden',
                                                   textOverflow: 'ellipsis',
-                                                  marginBottom: '8px'
+                                                  marginBottom: '8px',
+                                                  fontSize: '14px'
                                                 }}
                                               >
                                                 {el.specText}
@@ -2559,8 +2578,11 @@ class SubscriptionDetail extends React.Component {
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-4 col-md-6">
-                                        <p className="footer-linePrice">$137.25</p>
+                                      <div className="col-4 col-md-2">
+                                      <div style={{textAlign: 'right'}}><i className="greenCircle"></i><FormattedMessage id="Delivered" /></div>
+                                      </div>
+                                      <div className="col-4 col-md-3" style={{textAlign: 'right'}}>
+                                        $137.25
                                       </div>
                                     </div>
                                   ))}
@@ -2594,6 +2616,15 @@ class SubscriptionDetail extends React.Component {
               </div>
             </div>
           </main>
+          <div className="footerGroupButton">
+          <p>
+            <a class="rc-styled-link" href="#/">Cancel</a>
+            &nbsp;
+            or
+            &nbsp;
+            <button class="rc-btn rc-btn--one">Save Changes</button>
+          </p>
+          </div>
           <Footer />
         </div>
       </div>

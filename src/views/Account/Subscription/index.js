@@ -321,9 +321,10 @@ class Subscription extends React.Component {
                               </div>
                               <div className="col-4 col-md-2">
                               {subItem.subscribeStatus === '0' ? (
-                                  <FormattedMessage id="active" />
+                                <div><i className="greenCircle"></i><FormattedMessage id="active" /></div>
+                                  
                                 ) : (
-                                  <FormattedMessage id="inactive" />
+                                  <div><i className="yellowCircle"></i><FormattedMessage id="inactive" /></div>
                                 )}
                               </div>
                               <div className="col-4 col-md-2">

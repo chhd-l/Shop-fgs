@@ -96,3 +96,36 @@
   padding-top: 20px;
   margin-bottom: 20px;
 }
+.greenCircle {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #47B700;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.yellowCircle {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #ED8A00;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.footerGroupButton {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  background: rgb(255, 255, 255);
+  width: 100%;
+  height: 100px;
+  padding-top: 30px;
+  text-align: right;
+  padding-right: 120px;
+  z-index: 9999;
+  box-shadow: 0px -4px 3px #eee;
+}
