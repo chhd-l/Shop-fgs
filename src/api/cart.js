@@ -8,7 +8,8 @@ const api = {
   siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
   sitePurchases: '/site/purchases', // 计算价格
   mergePurchase: '/site/mergePurchase', // 合并前后台购物车
-  switchSize: '/site/updatePurchase' // 切换规格
+  switchSize: '/site/updatePurchase', // 切换规格
+  goodsRelationBatch: '/goodsRelation/batch',//购物车related product
 }
 
 export default api
@@ -100,6 +101,15 @@ export function mergePurchase (parameter) {
 export function switchSize (parameter) {
   return axios({
     url: `${api.switchSize}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+//购物车 查询related product
+export function getGoodsRelationBatch (parameter) {
+  return axios({
+    url: `${api.goodsRelationBatch}`,
     method: 'post',
     data: parameter
   })

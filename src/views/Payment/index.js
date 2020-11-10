@@ -545,6 +545,7 @@ class Payment extends React.Component {
     if(this.props.checkoutStore.AuditData.length) {
       let petFlag = true
       let data = this.props.checkoutStore.AuditData
+      console.log(toJS(this.props.checkoutStore.AuditData))
       for(let i = 0; i < data.length; i++) {
         if(this.isLogin) {
           if(!data[i].petsId) {
@@ -558,7 +559,7 @@ class Payment extends React.Component {
           }
         }
       }
-      if(!petFlag) {
+      if(!petFlag && this.props.checkoutStore.petFlag) {
         this.showErrorMsg('Please fill in pet information')
         this.endLoading()
         return
