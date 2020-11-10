@@ -13,6 +13,15 @@ import AddressComp from './components/AddressComp';
 import Selection from '@/components/Selection';
 import { getDictionary } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
+import subscriptionIcon from './images/subscription.png';
+import pauseIcon from './images/pause.png';
+import cancelIcon from './images/cancel.png';
+import skipIcon from './images/skip.png';
+import dateIcon from './images/date.png';
+import deliveryIcon from './images/deliveryAddress.png';
+import billingIcon from './images/billingAddress.png';
+import paymentIcon from './images/payment.png';
+import { Link } from 'react-router-dom';
 import {
   ORDER_STATUS_ENUM,
   CREDIT_CARD_IMG_ENUM
@@ -145,7 +154,9 @@ class SubscriptionDetail extends React.Component {
       errorMsg: '',
       successTipVisible: false,
       minDate: new Date(),
-      todaydate: new Date()
+      todaydate: new Date(),
+      tabName: ['No start', 'Completed'],
+      activeTabIdx: 0
     };
   }
   componentWillUnmount() {
@@ -193,6 +204,9 @@ class SubscriptionDetail extends React.Component {
     this.setState({
       subId: this.props.match.params.subscriptionNumber
     });
+  }
+  changeTab(e, i) {
+    this.setState({ activeTabIdx: i });
   }
   onDateChange(date) {
     let { subDetail } = this.state;
@@ -521,7 +535,7 @@ class SubscriptionDetail extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
                 {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
-                <SideMenu type="Subscription" />
+                <SideMenu type="Subscription   haha" />
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
@@ -686,9 +700,13 @@ class SubscriptionDetail extends React.Component {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap">
                     <h4 className="rc-delta font-weight-normal mb-2">
-                      <FormattedMessage id="subscription" />
+                      {/* <FormattedMessage id="subscription" /> */}
+                      <img
+                        style={{ width: '20px', display: 'inline-block' }}
+                        src={subscriptionIcon}
+                      />
                       {subDetail.subscribeId
-                        ? `(${subDetail.subscribeId})`
+                        ? `${subDetail.subscribeId}`
                         : null}
                     </h4>
                     {subDetail.subscribeStatus === '0' && (
@@ -737,7 +755,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                   </div>
-                  <hr className="rc-margin-top---none" />
+                  {/* <hr className="rc-margin-top---none" /> */}
                   <div className="content-asset">
                     {this.state.loading && (
                       <div className="mt-4">
@@ -750,7 +768,598 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="rc-layout-container rc-three-column pt-0">
+                      <div className="card-container">
+                        <div className="card rc-margin-y--none ml-0">
+                          <div
+                            className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                            style={{ background: '#f9f9f9', height: '60px' }}
+                          >
+                            <div className="col-12 col-md-3 text-center">
+                              Autoship starts at: 24/08/2020
+                            </div>
+                            <div className="col-12 col-md-4"></div>
+                            <div className="col-12 col-md-3 pl-4">
+                              <img
+                                style={{
+                                  display: 'inline-block',
+                                  width: '20px',
+                                  marginRight: '5px'
+                                }}
+                                src={pauseIcon}
+                              />
+                              <a class="rc-styled-link" href="#/">
+                                <FormattedMessage id="subscription.skip" />
+                              </a>
+                            </div>
+
+                            <div className="col-12 col-md-2">
+                              <img
+                                style={{
+                                  display: 'inline-block',
+                                  width: '20px',
+                                  marginRight: '5px'
+                                }}
+                                src={cancelIcon}
+                              />
+                              <a class="rc-styled-link" href="#/">
+                                <FormattedMessage id="subscription.cancelAll" />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        {subDetail.goodsInfo &&
+                          subDetail.goodsInfo.map((el, index) => (
+                            <div
+                              className="row rc-margin-x--none row align-items-center"
+                              style={{
+                                padding: '1rem 0',
+                                borderBottom: '1px solid #d7d7d7'
+                              }}
+                            >
+                              <div className="col-4 col-md-6">
+                                <div
+                                  className="rc-layout-container rc-five-column"
+                                  style={{
+                                    height: '160px',
+                                    paddingRight: '60px',
+                                    paddingTop: '0'
+                                  }}
+                                >
+                                  <div
+                                    className="rc-column flex-layout"
+                                    style={{ width: '80%', padding: 0 }}
+                                  >
+                                    <div className="img-container">
+                                      <img src={el.goodsPic} alt="" />
+                                    </div>
+                                    <div
+                                      className="v-center"
+                                      style={{
+                                        width: '200px'
+                                      }}
+                                    >
+                                      <h5
+                                        style={{
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          overflowWrap: 'normal',
+                                          color: '#e2001a'
+                                        }}
+                                      >
+                                        {el.goodsName}
+                                      </h5>
+                                      <p
+                                        style={{
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          marginBottom: '8px'
+                                        }}
+                                      >
+                                        {/* {el.} */}
+                                        Dog food
+                                      </p>
+                                      <p
+                                        style={{
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          marginBottom: '8px'
+                                        }}
+                                      >
+                                        {el.specText}
+                                      </p>
+                                      <div>
+                                        <div>
+                                          <span
+                                            className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                            style={{ marginLeft: '-8px' }}
+                                            onClick={() => {
+                                              let {
+                                                currentGoodsInfo
+                                              } = this.state;
+                                              if (
+                                                currentGoodsInfo[index]
+                                                  .subscribeNum > 1
+                                              ) {
+                                                currentGoodsInfo[
+                                                  index
+                                                ].subscribeNum =
+                                                  currentGoodsInfo[index]
+                                                    .subscribeNum - 1;
+                                                this.setState({
+                                                  currentGoodsInfo
+                                                });
+                                                //数量变更后
+                                                subDetail.goodsInfo[
+                                                  index
+                                                ].subscribeNum =
+                                                  currentGoodsInfo[
+                                                    index
+                                                  ].subscribeNum;
+                                                this.onQtyChange();
+                                              } else {
+                                                this.showErrMsg(
+                                                  <FormattedMessage id="cart.errorInfo" />
+                                                );
+                                              }
+                                            }}
+                                          ></span>
+                                          <input
+                                            className="rc-quantity__input"
+                                            id="quantity"
+                                            name="quantity"
+                                            min="1"
+                                            max="899"
+                                            maxLength="5"
+                                            onChange={(e) => {
+                                              this.setState({
+                                                errorShow: false
+                                              });
+                                              const val = e.target.value;
+                                              let {
+                                                currentGoodsInfo
+                                              } = this.state;
+                                              if (val === '') {
+                                                currentGoodsInfo[
+                                                  index
+                                                ].subscribeNum = 1;
+                                                this.setState({
+                                                  currentGoodsInfo
+                                                });
+                                              } else {
+                                                let tmp = parseInt(val);
+                                                if (isNaN(tmp)) {
+                                                  tmp = 1;
+                                                  this.showErrMsg(
+                                                    <FormattedMessage id="cart.errorInfo" />
+                                                  );
+                                                }
+                                                if (tmp < 1) {
+                                                  tmp = 1;
+                                                  this.showErrMsg(
+                                                    <FormattedMessage id="cart.errorInfo" />
+                                                  );
+                                                }
+                                                if (tmp > 30) {
+                                                  tmp = 30;
+                                                  this.showErrMsg(
+                                                    <FormattedMessage id="cart.errorMaxInfo" />
+                                                  );
+                                                }
+                                                currentGoodsInfo[
+                                                  index
+                                                ].subscribeNum = tmp;
+                                                this.setState({
+                                                  currentGoodsInfo
+                                                });
+                                                // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+                                              }
+                                              //数量变更后
+                                              subDetail.goodsInfo[
+                                                index
+                                              ].subscribeNum =
+                                                currentGoodsInfo[
+                                                  index
+                                                ].subscribeNum;
+                                              this.onQtyChange();
+                                            }}
+                                            value={
+                                              this.state.currentGoodsInfo
+                                                .length &&
+                                              this.state.currentGoodsInfo[index]
+                                                .subscribeNum
+                                            }
+                                          />
+                                          <span
+                                            className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                            onClick={() => {
+                                              let {
+                                                currentGoodsInfo
+                                              } = this.state;
+                                              if (
+                                                currentGoodsInfo[index]
+                                                  .subscribeNum < 30
+                                              ) {
+                                                currentGoodsInfo[
+                                                  index
+                                                ].subscribeNum =
+                                                  currentGoodsInfo[index]
+                                                    .subscribeNum + 1;
+                                                this.setState({
+                                                  currentGoodsInfo
+                                                });
+                                                //数量变更后
+                                                subDetail.goodsInfo[
+                                                  index
+                                                ].subscribeNum =
+                                                  currentGoodsInfo[
+                                                    index
+                                                  ].subscribeNum;
+                                                this.onQtyChange();
+                                              } else {
+                                                //数量不能超过30
+                                                this.showErrMsg(
+                                                  <FormattedMessage id="cart.errorMaxInfo" />
+                                                );
+                                              }
+                                            }}
+                                          ></span>
+                                          <span
+                                            style={{
+                                              display: 'inline-block',
+                                              fontSize: '22px',
+                                              lineHeight: '40px',
+                                              verticalAlign: 'middle'
+                                            }}
+                                          >
+                                            =
+                                          </span>
+                                          <span
+                                            class="price"
+                                            style={{
+                                              display: 'inline-block',
+                                              fontSize: '20px',
+                                              fontWeight: '400',
+                                              verticalAlign: 'middle',
+                                              marginLeft: '8px'
+                                            }}
+                                          >
+                                            $900
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-4 col-md-1"></div>
+                              <div className="col-4 col-md-5">
+                                <div className="rc-card-content">
+                                  <b
+                                    style={{
+                                      display: 'inline-block',
+                                      width: '200px'
+                                    }}
+                                  >
+                                    <FormattedMessage id="subscription.frequency"></FormattedMessage>
+                                    :
+                                  </b>
+                                  <h1
+                                    className="rc-card__meta order-Id text-left"
+                                    style={{
+                                      marginTop: '10px',
+                                      display: 'inline-block',
+                                      marginLeft: '10px'
+                                    }}
+                                  >
+                                    <Selection
+                                      optionList={this.state.frequencyList}
+                                      selectedItemChange={(el) => {
+                                        let param = {
+                                          subscribeId: subDetail.subscribeId,
+                                          cycleTypeId: el.id,
+                                          goodsItems: subDetail.goodsInfo.map(
+                                            (el) => {
+                                              return {
+                                                skuId: el.skuId,
+                                                subscribeNum: el.subscribeNum,
+                                                subscribeGoodsId:
+                                                  el.subscribeGoodsId
+                                              };
+                                            }
+                                          )
+                                        };
+                                        //增加返回changeField字段
+                                        Object.assign(param, {
+                                          changeField: this.props.intl.messages[
+                                            'subscription.frequency'
+                                          ]
+                                        });
+                                        this.setState({ loading: true });
+                                        updateDetail(param)
+                                          .then((res) => {
+                                            // this.setState({ loading: false });
+                                            // window.location.reload();
+                                            this.getDetail(
+                                              this.showErrMsg.bind(
+                                                this,
+                                                this.props.intl.messages
+                                                  .saveSuccessfullly,
+                                                'success'
+                                              )
+                                            );
+                                          })
+                                          .catch((err) => {
+                                            this.setState({ loading: false });
+                                          });
+                                      }}
+                                      selectedItemData={{
+                                        value: subDetail.frequency || ''
+                                      }}
+                                      customStyleType="select-one"
+                                      type="freqency"
+                                      key={subDetail.frequency || ''}
+                                      disabled={
+                                        subDetail.subscribeStatus !== '0'
+                                      }
+                                    />
+                                  </h1>
+                                </div>
+                                <div className="rc-card-content">
+                                  <b
+                                    style={{
+                                      display: 'inline-block',
+                                      width: '200px'
+                                    }}
+                                  >
+                                    Shipping Method:
+                                  </b>
+                                  <h1
+                                    className="rc-card__meta order-Id text-left"
+                                    style={{
+                                      marginTop: '10px',
+                                      display: 'inline-block',
+                                      marginLeft: '10px'
+                                    }}
+                                  >
+                                    Standard (free)
+                                  </h1>
+                                </div>
+                                <div className="rc-card-content">
+                                  <b
+                                    style={{
+                                      display: 'inline-block',
+                                      width: '200px'
+                                    }}
+                                  >
+                                    <img
+                                      src={dateIcon}
+                                      style={{
+                                        display: 'inline-block',
+                                        width: '20px',
+                                        verticalAlign: 'middle',
+                                        marginRight: '8px'
+                                      }}
+                                    />
+                                    <FormattedMessage id="Next shipment"></FormattedMessage>
+                                    :
+                                  </b>
+                                  <h1
+                                    className="rc-card__meta order-Id"
+                                    style={{
+                                      marginTop: '10px',
+                                      display: 'inline-block',
+                                      marginLeft: '10px'
+                                    }}
+                                  >
+                                    <DatePicker
+                                      className="receiveDate subs-receiveDate"
+                                      placeholder="Select Date"
+                                      dateFormat="yyyy-MM-dd"
+                                      minDate={this.state.minDate}
+                                      selected={
+                                        subDetail.nextDeliveryTime
+                                          ? new Date(subDetail.nextDeliveryTime)
+                                          : new Date()
+                                      }
+                                      disabled={
+                                        subDetail.subscribeStatus !== '0'
+                                      }
+                                      onChange={(date) =>
+                                        this.onDateChange(date)
+                                      }
+                                    />
+                                  </h1>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+
+                        <div
+                          className="row rc-margin-x--none row align-items-center"
+                          style={{ padding: '1rem 0' }}
+                        >
+                          <div className="col-4 col-md-6">
+                            <div
+                              className="footer"
+                              style={{
+                                marginTop: '10px',
+                                padding: '0 40px',
+                                display:
+                                  subDetail.subscribeStatus === '0'
+                                    ? 'block'
+                                    : 'none'
+                              }}
+                            >
+                              <span
+                                className="rc-input rc-input--inline rc-input--label"
+                                style={{
+                                  width: '180px',
+                                  verticalAlign: 'middle'
+                                }}
+                              >
+                                <input
+                                  className="rc-input__control"
+                                  id="id-text2"
+                                  type="text"
+                                  name="text"
+                                  placeholder={
+                                    this.props.intl.messages.promotionCode
+                                  }
+                                  value={this.state.promotionInputValue}
+                                  onChange={(e) => this.handlerChange(e)}
+                                />
+                                <label
+                                  className="rc-input__label"
+                                  for="id-text2"
+                                ></label>
+                              </span>
+                              <button
+                                className={[
+                                  'rc-btn',
+                                  'rc-btn--sm',
+                                  'rc-btn--two',
+                                  this.state.isClickApply &&
+                                    'ui-btn-loading ui-btn-loading-border-red'
+                                ].join(' ')}
+                                style={{ marginTop: '10px' }}
+                                onClick={async () => {
+                                  let result = {};
+                                  if (!this.state.promotionInputValue) return;
+                                  this.setState({
+                                    isClickApply: true,
+                                    isShowValidCode: false,
+                                    lastPromotionInputValue: this.state
+                                      .promotionInputValue
+                                  });
+                                  //会员
+                                  result = await this.doGetPromotionPrice(
+                                    this.state.promotionInputValue
+                                  );
+                                  if (
+                                    result.code === 'K-000000' &&
+                                    !result.context.promotionFlag
+                                  ) {
+                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
+                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                    this.setState({
+                                      discount,
+                                      promotionDesc:
+                                        result.context.promotionDesc
+                                    });
+                                  } else {
+                                    this.setState({
+                                      isShowValidCode: true
+                                    });
+                                  }
+                                  this.setState({
+                                    isClickApply: false,
+                                    promotionInputValue: '',
+                                    loading: false
+                                  });
+                                }}
+                              >
+                                Apply
+                              </button>
+                            </div>
+                          </div>
+                          <div className="col-4 col-md-1"></div>
+                          <div className="col-4 col-md-5">
+                            <div>
+                              <div className="flex-layout">
+                                <label
+                                  className=""
+                                  style={{ minWidth: '230px' }}
+                                >
+                                  <FormattedMessage id="subscription.total"></FormattedMessage>
+                                </label>
+                                <div className="text-right">
+                                  <b>{formatMoney(this.state.subTotal)}</b>
+                                </div>
+                              </div>
+                              {this.state.subDiscount ? (
+                                <div className="flex-layout">
+                                  <label
+                                    className="saveDiscount  red-text"
+                                    style={{ minWidth: '230px' }}
+                                  >
+                                    {this.state.promotionDesc}:
+                                  </label>
+                                  <div className="text-right red-text">
+                                    <b>
+                                      -{formatMoney(this.state.subDiscount)}
+                                    </b>
+                                  </div>
+                                </div>
+                              ) : null}
+                              {!this.state.isShowValidCode &&
+                                discount.map((el) => (
+                                  <div className="flex-layout">
+                                    <label className="saveDiscount  red-text">
+                                      {this.state.promotionDesc}
+                                    </label>
+                                    <div
+                                      className="text-right red-text"
+                                      style={{ position: 'relative' }}
+                                    >
+                                      <b>
+                                        -
+                                        {formatMoney(
+                                          this.state.promotionDiscount
+                                        )}
+                                      </b>
+                                      <span
+                                        style={{
+                                          position: 'absolute',
+                                          right: '-18px',
+                                          fontSize: '22px',
+                                          bottom: '5px',
+                                          cursor: 'pointer'
+                                        }}
+                                        onClick={() => {
+                                          discount.pop();
+                                          this.setState({
+                                            discount: discount
+                                          });
+                                        }}
+                                      >
+                                        x
+                                      </span>
+                                    </div>
+                                  </div>
+                                ))}
+                              <div className="flex-layout">
+                                <label
+                                  className=""
+                                  style={{ minWidth: '230px' }}
+                                >
+                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                </label>
+                                <div className="text-right red-text">
+                                  <b>{formatMoney(this.state.subShipping)}</b>
+                                </div>
+                              </div>
+                              <div className="flex-layout">
+                                <label className="saveDiscount">
+                                  <b
+                                    style={{ fontSize: '20px', color: '#333' }}
+                                  >
+                                    Total
+                                  </b>
+                                  <span style={{ fontSize: '12px' }}>
+                                    (VAT included)
+                                  </span>
+                                  {/* <FormattedMessage id="totalIncluIVA"></FormattedMessage> */}
+                                </label>
+                                <div className="text-right">
+                                  <b>{formatMoney(this.state.subTradeTotal)}</b>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className="rc-layout-container rc-three-column pt-0">
                         <div
                           className="rc-column column-contanier pb-1"
                           style={{ width: '88%' }}
@@ -894,11 +1503,6 @@ class SubscriptionDetail extends React.Component {
                                 className="rc-card__meta order-Id"
                                 style={{ marginTop: '10px' }}
                               >
-                                {/* <span className="rc-input"> */}
-                                {/* <span
-                                className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs"
-                                input-setup="true"
-                              > */}
 
                                 <DatePicker
                                   className="receiveDate subs-receiveDate"
@@ -913,13 +1517,12 @@ class SubscriptionDetail extends React.Component {
                                   disabled={subDetail.subscribeStatus !== '0'}
                                   onChange={(date) => this.onDateChange(date)}
                                 />
-                                {/* </span> */}
                               </h1>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <hr className="rc-margin-top---none" />
+                      </div> */}
+                      {/* <hr className="rc-margin-top---none" />
                       <div className="rc-layout-container rc-three-column">
                         <div
                           className="rc-padding-bottom--xs cart-error-messaging cart-error"
@@ -1088,8 +1691,6 @@ class SubscriptionDetail extends React.Component {
                                       </label>
                                       &nbsp;&nbsp;
                                       <label
-                                      // className="font-weight-bold"
-                                      // style={{color: '#ec001a'}}
                                       >
                                         {el.subscribePrice}
                                       </label>
@@ -1112,10 +1713,6 @@ class SubscriptionDetail extends React.Component {
                                       <span
                                         className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                                         onClick={() => {
-                                          // if (el.subscribeNum > 1) {
-                                          //   el.subscribeNum = el.subscribeNum - 1
-                                          //   this.setState({ subDetail })
-                                          // }
                                           let { currentGoodsInfo } = this.state;
                                           if (
                                             currentGoodsInfo[index]
@@ -1151,7 +1748,6 @@ class SubscriptionDetail extends React.Component {
                                         min="1"
                                         max="899"
                                         maxLength="5"
-                                        // value={el.subscribeNum}
                                         onChange={(e) => {
                                           this.setState({ errorShow: false });
                                           const val = e.target.value;
@@ -1256,7 +1852,6 @@ class SubscriptionDetail extends React.Component {
                         </div>
                         <div
                           className="rc-column flex-layout"
-                          // style={{ paddingLeft: "80px" }}
                         >
                           <div className="total-container">
                             <div className="border-b">
@@ -1272,7 +1867,6 @@ class SubscriptionDetail extends React.Component {
                               {this.state.subDiscount ? (
                                 <div className="flex-layout">
                                   <label className="saveDiscount  red-text">
-                                    {/* <FormattedMessage id="subscription.saveDiscount"></FormattedMessage> */}
                                     {this.state.promotionDesc}:
                                   </label>
                                   <div className="text-right red-text">
@@ -1337,7 +1931,6 @@ class SubscriptionDetail extends React.Component {
                                 <b>{formatMoney(this.state.subTradeTotal)}</b>
                               </div>
                             </div>
-                            {/* 支付新增promotionCode(选填) */}
                             <div
                               className="footer"
                               style={{
@@ -1431,153 +2024,561 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <hr className="rc-margin-top---none" />
+                      <hr className="rc-margin-top---none" /> */}
                       {/*footer*/}
-                      <div className="row ml-2 mr-2 text-left text-break">
-                        <div className="col-12 col-md-4 mb-2">
-                          <div className="d-flex align-items-center">
-                            <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
-                            <span>
-                              <FormattedMessage id="delivery2" />
-                            </span>
-                          </div>
-                          <div className="ml-1">
-                            <span className="medium">
-                              {currentDeliveryAddress.consigneeName}
-                            </span>
-                            <br />
-                            {currentDeliveryAddress.consigneeNumber}
-                            <br />
-                            {this.state.countryList.length &&
-                            this.state.countryList.filter(
-                              (el) => el.id === currentDeliveryAddress.countryId
-                            ).length
-                              ? this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentDeliveryAddress.countryId
-                                )[0].valueEn
-                              : currentDeliveryAddress.countryId}
-                            , {currentDeliveryAddress.cityName}
-                            <br />
-                            {currentDeliveryAddress.address1}
-                            <br />
-                            {subDetail.subscribeStatus === '0' && (
-                              <a
-                                className="rc-styled-link red-text"
-                                onClick={() => {
-                                  window.scrollTo(0, 0);
-                                  this.setState({
-                                    type: 'AddressComp',
-                                    addressType: 'delivery'
-                                  });
-                                }}
-                              >
-                                <FormattedMessage id="edit" />{' '}
-                                <FormattedMessage id="address" />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                        <div className="col-12 col-md-4 mb-2">
-                          <div className="d-flex align-items-center">
-                            <i className="rc-icon rc-rewind rc-billing rc-brand1 mt-1" />
-                            <span>
-                              <FormattedMessage id="billing" />
-                            </span>
-                          </div>
-                          <div className="ml-1">
-                            <span className="medium">
-                              {currentBillingAddress.consigneeName}
-                            </span>
-                            <br />
-                            {currentBillingAddress.consigneeNumber}
-                            <br />
-                            {this.state.countryList.length &&
-                            this.state.countryList.filter(
-                              (el) => el.id === currentBillingAddress.countryId
-                            ).length
-                              ? this.state.countryList.filter(
-                                  (el) =>
-                                    el.id === currentBillingAddress.countryId
-                                )[0].valueEn
-                              : currentBillingAddress.countryId}
-                            , {currentBillingAddress.cityName}
-                            <br />
-                            {currentBillingAddress.address1}
-                            <br />
-                            {subDetail.subscribeStatus === '0' && (
-                              <a
-                                className="rc-styled-link red-text"
-                                onClick={() => {
-                                  window.scrollTo(0, 0);
-                                  this.setState({
-                                    type: 'AddressComp',
-                                    addressType: 'billing'
-                                  });
-                                }}
-                              >
-                                <FormattedMessage id="edit" />{' '}
-                                <FormattedMessage id="address" />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                        {currentCardInfo && (
-                          <div className="col-12 col-md-4 mb-2">
-                            <div className="d-flex align-items-center">
-                              <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
-                              <span>
-                                <FormattedMessage id="payment.payment" />
-                              </span>
-                            </div>
-                            <div className="ml-1">
+                      <h4 style={{ color: '#e2001a', margin: '20px 0 10px' }}>
+                        Transaction information
+                      </h4>
+                      <div
+                        className="row text-left text-break editCard"
+                        style={{ marginLeft: '0', marginRight: '0' }}
+                      >
+                        <div
+                          className="col-12 col-md-4 mb-2"
+                          style={{ padding: '5px', paddingLeft: '0' }}
+                        >
+                          <div
+                            style={{
+                              border: '1px solid #d7d7d7',
+                              padding: '20px',
+                              height: '225px'
+                            }}
+                          >
+                            <div className="align-items-center">
+                              {/* <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
                               <img
-                                alt=""
-                                className="d-inline-block mr-1"
-                                style={{ width: '20%' }}
-                                src={
-                                  CREDIT_CARD_IMG_ENUM[
-                                    currentCardInfo.paymentMethod
-                                      ? currentCardInfo.paymentMethod.vendor
-                                      : currentCardInfo.vendor
-                                  ]
-                                }
+                                src={deliveryIcon}
+                                style={{
+                                  width: '30px',
+                                  marginRight: '18px',
+                                  display: 'inline-block'
+                                }}
                               />
-                              {currentCardInfo.paymentMethod &&
-                              currentCardInfo.paymentMethod.last_4_digits ? (
-                                <>
-                                  <span className="medium">
-                                    ********
-                                    {
-                                      currentCardInfo.paymentMethod
-                                        .last_4_digits
-                                    }
-                                  </span>
-                                  <br />
-                                </>
-                              ) : null}
-
-                              {currentCardInfo.paymentMethod
-                                ? currentCardInfo.paymentMethod.holder_name
-                                : ''}
-                              <br />
-                              {currentCardInfo.phoneNumber}
-                              <br />
+                              <span>
+                                <FormattedMessage id="delivery2" />
+                              </span>
                               {subDetail.subscribeStatus === '0' && (
                                 <a
                                   className="rc-styled-link red-text"
+                                  style={{ float: 'right', marginTop: '5px' }}
                                   onClick={() => {
                                     window.scrollTo(0, 0);
-                                    this.setState({ type: 'PaymentComp' });
+                                    this.setState({
+                                      type: 'AddressComp',
+                                      addressType: 'delivery'
+                                    });
                                   }}
                                 >
                                   <FormattedMessage id="edit" />{' '}
-                                  <FormattedMessage id="card" />
+                                  {/* <FormattedMessage id="address" /> */}
                                 </a>
                               )}
                             </div>
+                            <div className="ml-1">
+                              <span
+                                className="medium"
+                                style={{
+                                  fontSize: '18px',
+                                  fontWeight: '400',
+                                  color: '#333',
+                                  margin: '25px 0 10px'
+                                }}
+                              >
+                                {currentDeliveryAddress.consigneeName}
+                              </span>
+                              <br />
+                              {currentDeliveryAddress.consigneeNumber}
+                              <br />
+                              {this.state.countryList.length &&
+                              this.state.countryList.filter(
+                                (el) =>
+                                  el.id === currentDeliveryAddress.countryId
+                              ).length
+                                ? this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentDeliveryAddress.countryId
+                                  )[0].valueEn
+                                : currentDeliveryAddress.countryId}
+                              , {currentDeliveryAddress.cityName}
+                              <br />
+                              {currentDeliveryAddress.address1}
+                              <br />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="col-12 col-md-4 mb-2"
+                          style={{ padding: '5px' }}
+                        >
+                          <div
+                            style={{
+                              border: '1px solid #d7d7d7',
+                              padding: '20px',
+                              height: '225px'
+                            }}
+                          >
+                            <div className="align-items-center">
+                              <img
+                                src={billingIcon}
+                                style={{
+                                  width: '30px',
+                                  marginRight: '18px',
+                                  display: 'inline-block'
+                                }}
+                              />
+                              <span>
+                                <FormattedMessage id="billing" />
+                              </span>
+                              {subDetail.subscribeStatus === '0' && (
+                                <a
+                                  className="rc-styled-link red-text"
+                                  style={{ float: 'right', marginTop: '5px' }}
+                                  onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    this.setState({
+                                      type: 'AddressComp',
+                                      addressType: 'billing'
+                                    });
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />{' '}
+                                  {/* <FormattedMessage id="address" /> */}
+                                </a>
+                              )}
+                            </div>
+                            <div className="ml-1">
+                              <span
+                                className="medium"
+                                style={{
+                                  fontSize: '18px',
+                                  fontWeight: '400',
+                                  color: '#333',
+                                  margin: '25px 0 10px'
+                                }}
+                              >
+                                {currentBillingAddress.consigneeName}
+                              </span>
+                              <br />
+                              {currentBillingAddress.consigneeNumber}
+                              <br />
+                              {this.state.countryList.length &&
+                              this.state.countryList.filter(
+                                (el) =>
+                                  el.id === currentBillingAddress.countryId
+                              ).length
+                                ? this.state.countryList.filter(
+                                    (el) =>
+                                      el.id === currentBillingAddress.countryId
+                                  )[0].valueEn
+                                : currentBillingAddress.countryId}
+                              , {currentBillingAddress.cityName}
+                              <br />
+                              {currentBillingAddress.address1}
+                              <br />
+                            </div>
+                          </div>
+                        </div>
+                        {currentCardInfo && (
+                          <div
+                            className="col-12 col-md-4 mb-2"
+                            style={{ padding: '5px', paddingRight: '0' }}
+                          >
+                            <div
+                              style={{
+                                border: '1px solid #d7d7d7',
+                                padding: '20px',
+                                height: '225px'
+                              }}
+                            >
+                              <div className="align-items-center">
+                                <img
+                                  src={paymentIcon}
+                                  style={{
+                                    width: '30px',
+                                    marginRight: '18px',
+                                    display: 'inline-block'
+                                  }}
+                                />
+                                <span>
+                                  <FormattedMessage id="payment.payment" />
+                                </span>
+                                {subDetail.subscribeStatus === '0' && (
+                                  <a
+                                    className="rc-styled-link red-text"
+                                    style={{ float: 'right', marginTop: '5px' }}
+                                    onClick={() => {
+                                      window.scrollTo(0, 0);
+                                      this.setState({ type: 'PaymentComp' });
+                                    }}
+                                  >
+                                    <FormattedMessage id="edit" />{' '}
+                                    {/* <FormattedMessage id="card" /> */}
+                                  </a>
+                                )}
+                              </div>
+                              <div className="ml-1">
+                                {currentCardInfo.paymentMethod &&
+                                currentCardInfo.paymentMethod.last_4_digits ? (
+                                  <>
+                                    <span
+                                      className="medium"
+                                      style={{
+                                        fontSize: '18px',
+                                        fontWeight: '400',
+                                        color: '#333',
+                                        margin: '25px 0 10px',
+                                        verticalAlign: 'middle'
+                                      }}
+                                    >
+                                      **** **** ****
+                                      {
+                                        currentCardInfo.paymentMethod
+                                          .last_4_digits
+                                      }
+                                    </span>
+                                    <img
+                                      alt=""
+                                      className="d-inline-block mr-1"
+                                      style={{
+                                        width: '20%',
+                                        marginLeft: '10px'
+                                      }}
+                                      src={
+                                        CREDIT_CARD_IMG_ENUM[
+                                          currentCardInfo.paymentMethod
+                                            ? currentCardInfo.paymentMethod
+                                                .vendor
+                                            : currentCardInfo.vendor
+                                        ]
+                                      }
+                                    />
+                                  </>
+                                ) : null}
+
+                                {currentCardInfo.paymentMethod
+                                  ? currentCardInfo.paymentMethod.holder_name
+                                  : ''}
+                                <br />
+                                {currentCardInfo.phoneNumber}
+                                <br />
+                              </div>
+                            </div>
                           </div>
                         )}
+                      </div>
+                      <h4 style={{ color: '#e2001a', margin: '20px 0 10px' }}>
+                        My Autoship Order
+                      </h4>
+
+                      <div className="rc-max-width--xl">
+                        <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
+                          <div>
+                            <div className="rc-border-bottom rc-border-colour--interface">
+                              <nav className="rc-fade--x">
+                                <ul
+                                  className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
+                                  role="tablist"
+                                >
+                                  {this.state.tabName.map((ele, index) => (
+                                    <li key={index}>
+                                      <button
+                                        className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                        data-toggle={`tab__panel-${index}`}
+                                        aria-selected={
+                                          this.state.activeTabIdx === index
+                                            ? 'true'
+                                            : 'false'
+                                        }
+                                        role="tab"
+                                        onClick={(e) => this.changeTab(e, index)}
+                                      >
+                                        {ele}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </nav>
+                            </div>
+                            <div
+                              className="rc-tabs tabs-detail"
+                              style={{ marginTop: '40px' }}
+                            >
+                              {this.state.activeTabIdx === 0 && (<div className="card-container">
+                                <div className="card rc-margin-y--none ml-0">
+                                  <div
+                                    className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                    style={{
+                                      background: '#f9f9f9',
+                                      height: '60px'
+                                    }}
+                                  >
+                                    <div className="col-12 col-md-3" style={{paddingLeft: '20px'}}>
+                                      shipment on{' '}
+                                      <span
+                                        style={{
+                                          color: '#e2001a',
+                                          fontWeight: '400'
+                                        }}
+                                      >
+                                        Aug.24
+                                      </span>
+                                    </div>
+                                    <div className="col-12 col-md-5"></div>
+                                    <div className="col-12 col-md-3 pl-4">
+                                      <img
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '20px',
+                                          marginRight: '5px'
+                                        }}
+                                        src={dateIcon}
+                                      />
+                                      <a class="rc-styled-link" href="#/">
+                                        {/* <FormattedMessage id="subscription.skip" /> */}
+                                        Change shipment date
+                                      </a>
+                                    </div>
+
+                                    <div className="col-12 col-md-1">
+                                      <img
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '20px',
+                                          marginRight: '5px'
+                                        }}
+                                        src={skipIcon}
+                                      />
+                                      <a class="rc-styled-link" href="#/">
+                                        {/* <FormattedMessage id="subscription.cancelAll" /> */}
+                                        Skip
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                                {subDetail.goodsInfo &&
+                                  subDetail.goodsInfo.map((el, index) => (
+                                    <div
+                                      className="row rc-margin-x--none row align-items-center"
+                                      style={{
+                                        padding: '1rem 0',
+                                        borderBottom: '1px solid #d7d7d7'
+                                      }}
+                                    >
+                                      <div className="col-4 col-md-6">
+                                        <div
+                                          className="rc-layout-container rc-five-column"
+                                          style={{
+                                            paddingRight: '60px',
+                                            paddingTop: '0'
+                                          }}
+                                        >
+                                          <div
+                                            className="rc-column flex-layout"
+                                            style={{ width: '80%', padding: 0 }}
+                                          >
+                                            <div className="img-container">
+                                              <img src={el.goodsPic} alt="" />
+                                            </div>
+                                            <div
+                                              // className="v-center"
+                                              style={{
+                                                width: '200px'
+                                              }}
+                                            >
+                                              <h5
+                                                style={{
+                                                  overflow: 'hidden',
+                                                  textOverflow: 'ellipsis',
+                                                  overflowWrap: 'normal',
+                                                  color: '#e2001a'
+                                                }}
+                                              >
+                                                {el.goodsName}
+                                              </h5>
+                                              <p
+                                                style={{
+                                                  overflow: 'hidden',
+                                                  textOverflow: 'ellipsis',
+                                                  marginBottom: '8px'
+                                                }}
+                                              >
+                                                {el.specText}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          className="footer"
+                                          style={{
+                                            marginTop: '10px',
+                                            padding: '0 20px',
+                                            display:
+                                              subDetail.subscribeStatus === '0'
+                                                ? 'block'
+                                                : 'none'
+                                          }}
+                                        >
+                                          <span
+                                            className="rc-input rc-input--inline rc-input--label"
+                                            style={{
+                                              width: '180px',
+                                              verticalAlign: 'middle'
+                                            }}
+                                          >
+                                            <input
+                                              className="rc-input__control"
+                                              id="id-text2"
+                                              type="text"
+                                              name="text"
+                                              placeholder={
+                                                this.props.intl.messages
+                                                  .promotionCode
+                                              }
+                                              value={
+                                                this.state.promotionInputValue
+                                              }
+                                              onChange={(e) =>
+                                                this.handlerChange(e)
+                                              }
+                                            />
+                                            <label
+                                              className="rc-input__label"
+                                              for="id-text2"
+                                            ></label>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div className="col-4 col-md-6">
+                                        <p className="footer-linePrice">$137.25</p>
+                                        <p style={{textAlign: 'right', marginBottom: '0', marginRight: '60px', color: '#333', fontWeight: '400'}}>Total <span style={{fontSize: '12px', color: 'rgb(102, 102, 102)', fontWeight: '100', marginRight: '40px'}}>(VAT included)</span> $132.25</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>)}
+                              {
+                                this.state.activeTabIdx === 1 && (
+                                  <div className="card-container">
+                                <div className="card rc-margin-y--none ml-0">
+                                  <div
+                                    className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                    style={{
+                                      background: '#f9f9f9',
+                                      height: '60px'
+                                    }}
+                                  >
+                                    <div className="col-12 col-md-3" style={{paddingLeft: '20px'}}>
+                                      shipment on{' '}
+                                      <span
+                                        style={{
+                                          color: '#e2001a',
+                                          fontWeight: '400'
+                                        }}
+                                      >
+                                        Aug.24
+                                      </span>
+                                    </div>
+                                    <div className="col-12 col-md-4"></div>
+                                    <div className="col-12 col-md-3 pl-4">
+                                      Promotion: <span style={{color: '#e2001a', fontWeight: '400'}}>-$5.00</span>
+                                    </div>
+
+                                    <div className="col-12 col-md-2">
+                                    <img
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '20px',
+                                          marginRight: '5px'
+                                        }}
+                                        src={dateIcon}
+                                      />
+                                      <a class="rc-styled-link" href="#/">
+                                        {/* <FormattedMessage id="subscription.skip" /> */}
+                                        Order detail
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                                {subDetail.goodsInfo &&
+                                  subDetail.goodsInfo.map((el, index) => (
+                                    <div
+                                      className="row rc-margin-x--none row align-items-center"
+                                      style={{
+                                        padding: '1rem 0',
+                                        borderBottom: '1px solid #d7d7d7'
+                                      }}
+                                    >
+                                      <div className="col-4 col-md-6">
+                                        <div
+                                          className="rc-layout-container rc-five-column"
+                                          style={{
+                                            paddingRight: '60px',
+                                            paddingTop: '0'
+                                          }}
+                                        >
+                                          <div
+                                            className="rc-column flex-layout"
+                                            style={{ width: '80%', padding: 0 }}
+                                          >
+                                            <div className="img-container">
+                                              <img src={el.goodsPic} alt="" />
+                                            </div>
+                                            <div
+                                              // className="v-center"
+                                              style={{
+                                                width: '200px'
+                                              }}
+                                            >
+                                              <h5
+                                                style={{
+                                                  overflow: 'hidden',
+                                                  textOverflow: 'ellipsis',
+                                                  overflowWrap: 'normal',
+                                                  color: '#e2001a'
+                                                }}
+                                              >
+                                                {el.goodsName}
+                                              </h5>
+                                              <p
+                                                style={{
+                                                  overflow: 'hidden',
+                                                  textOverflow: 'ellipsis',
+                                                  marginBottom: '8px'
+                                                }}
+                                              >
+                                                {el.specText}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-4 col-md-6">
+                                        <p className="footer-linePrice">$137.25</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                                )
+                              }
+                              {/* {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                                  <div
+                                    id={`tab__panel-${i}`}
+                                    key={i}
+                                    className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
+                                    aria-expanded={
+                                      this.state.activeTabIdx === i ? 'true' : 'false'
+                                    }
+                                  >
+                                    <div className="block">
+                                      <p
+                                        className="content rc-scroll--x"
+                                        dangerouslySetInnerHTML={createMarkup(ele)}
+                                      />
+                                    </div>
+                                  </div>
+                                ))} */}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -6,6 +6,7 @@ module.exports = function (app) {
     // target:'http://192.168.2.20:8090/api',
      target: process.env.REACT_APP_BASEURL,
     //target: 'https://shopstg.royalcanin.com/api', 
+    // target: 'https://shopuat.466920.com/api',
     secure: false,
     changeOrigin: true,
     pathRewrite: {

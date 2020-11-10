@@ -38,10 +38,10 @@
   margin-top: 10px;
 }
 .subscriptionDetail .img-container {
-  width: 70px !important;
+  width: 100px !important;
   /* height: 120px; */
   margin-right: 20px;
-  margin-top: 20px;
+  margin-left: 20px;
 }
 .subscriptionDetail .img-container img {
   width: 100%;
@@ -75,4 +75,24 @@
 .btn-custom-less-size {
   padding: .3rem 1.5rem!important;
   font-size: .8rem!important;
+}
+
+.editCard .ml-1 span{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  display: inline-block;
+  word-break: break-all;
+  white-space: nowrap;
+}
+.editCard .ml-1 {
+  padding-left: 42px;
+}
+.footer-linePrice {
+  height: 120px;
+  text-align: right;
+  margin-right: 60px;
+  text-decoration: line-through;
+  padding-top: 20px;
+  margin-bottom: 20px;
 }
