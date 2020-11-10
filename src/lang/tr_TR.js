@@ -578,6 +578,8 @@ const tr_TR = {
     'removeAllFilters': "Tüm filtreleri kaldır",
     'replyComments': "Yorumları yanıtla",
     'rePurchase': "Yeniden Satın Alma",
+    'required.continue':'continue',
+    'required.fields':'required frields',
     'required.complete': 'Oturum açma işlemini tamamlayın',
     'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
     'requiredConsentCheckedTip': 'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',

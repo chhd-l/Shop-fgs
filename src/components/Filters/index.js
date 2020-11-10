@@ -65,9 +65,12 @@ class Filter extends React.Component {
     }
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.initing !== state.prevIniting) {
+    const {initing,filterList} = props
+    if (initing !== state.prevIniting) {
+      console.log('000')
       return {
-        filterListCopy: props.filterList
+        initing,
+        filterListCopy: filterList
       };
     }
     return null;

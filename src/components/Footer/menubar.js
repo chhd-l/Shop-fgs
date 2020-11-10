@@ -170,8 +170,8 @@ export const menubar = {
             url: 'https://shopstg.royalcanin.com/help',
             messageId: 'footer.contacts'
           },
-          { link: '/FAQ/catogery-0', messageId: 'footer.FAQVersand' },
-          { link: '/FAQ/catogery-1', messageId: 'footer.FAQAllgemeines' }
+          { link: '/FAQ/catogery-1', messageId: 'footer.FAQVersand' },
+          { link: '/FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
         ]
       }
     ],

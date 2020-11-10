@@ -15,6 +15,7 @@ import { formatMoney, getDictionary } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
+import moment from "moment"
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -461,10 +462,11 @@ class AccountOrders extends React.Component {
                                     <FormattedMessage id="order.orderDate" />:{' '}
                                     <br className="d-none d-md-block" />
                                     <span className="medium orderHeaderTextColor">
-                                      {order.tradeState.createTime.substr(
+                                      {/* {order.tradeState.createTime.substr(
                                         0,
                                         10
-                                      )}
+                                      )} */}
+                                      {moment(order.tradeState.createTime).format('DD-MM-YYYY')}
                                     </span>
                                   </p>
                                 </div>

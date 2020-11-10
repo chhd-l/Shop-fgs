@@ -625,6 +625,8 @@ const en_US = {
   removeAllFilters: "Remove all filters",
   replyComments: "Reply comments",
   rePurchase: "Repurchase",
+  'required.continue':'continue',
+  'required.fields':'required frields',
   'required.complete': 'Complete log-in process',
   'required.logoTitle': 'Welcome to ROYALCANIN® online store',
   requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',

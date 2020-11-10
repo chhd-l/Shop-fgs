@@ -313,7 +313,7 @@ class RegisterRequired extends Component {
             {/* Required fields */}
             <p className="pizhu">
               <span className="pl-2 pr-2 rc-text-colour--brand1">*</span>
-              Required fields
+              <FormattedMessage id="required.fields" />
             </p>
             {/* Continu按钮 */}
             <div
@@ -328,7 +328,7 @@ class RegisterRequired extends Component {
                   className="rc-btn rc-btn--lg rc-btn--one px-5"
                   onClick={this.submitLogin}
                 >
-                  Continue
+                  <FormattedMessage id="required.continue" />
                 </button>
               }
             </div>
