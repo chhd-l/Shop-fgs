@@ -707,7 +707,7 @@ const fr_FR = {
   'taxLogo': 'TVA incluse',
   "total": "total",
   "totalCost": "coût total",
-  "totalIncluIVA": "Total (TVA comprise)",
+  "totalIncluIVA": "",
   "twoPasswordsYouTypedDoNotMatch!": "Les deux mots de passe ne correspondent pas!",
   "type": "ART",
   "unfoldAddress": "Déplier l'adresse",

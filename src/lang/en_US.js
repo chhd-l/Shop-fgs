@@ -727,6 +727,7 @@ const en_US = {
   total: "Total",
   totalCost: "Total cost",
   totalIncluIVA: "Total",
+  "totalIncluMessage": "",
   "twoPasswordsYouTypedDoNotMatch!": "The two passwords you typed do not match!",
   type: "TYPE",
   unfoldAddress: "Unfold Address",

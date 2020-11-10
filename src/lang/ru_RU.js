@@ -701,6 +701,7 @@ const ru_RU = {
     'total': "Итого",
     'totalCost': "Общая стоимость",
     'totalIncluIVA': "Итого (включая НДС)",
+    "totalIncluMessage": "",
     "twoPasswordsYouTypedDoNotMatch!": "Два введенных вами пароля не совпадают!",
     'type': "ТИП",
     'unfoldAddress': "Развернуть адрес",

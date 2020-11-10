@@ -706,6 +706,7 @@ const es_ES = {
   'total': 'Total',
   'totalCost': 'Coste total',
   'totalIncluIVA': 'Total (IVA incluido)',
+  "totalIncluMessage": "",
   'twoPasswordsYouTypedDoNotMatch': '¡Las dos contraseñas que escribió no coinciden!',
   'type': 'Tipo',
   "unfoldAddress": 'Dirección desplegada',

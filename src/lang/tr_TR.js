@@ -676,6 +676,7 @@ const tr_TR = {
     'total': "Toplam",
     'totalCost': "Toplam tutar",
     'totalIncluIVA': "Toplam (KDV Dahil)",
+    "totalIncluMessage": "",
     "twoPasswordsYouTypedDoNotMatch!": "Yazdığınız iki şifre eşleşmiyor!",
     'type': "TÜR",
     'unfoldAddress': "Açılmamış Adres",

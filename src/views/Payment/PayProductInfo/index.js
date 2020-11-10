@@ -518,7 +518,7 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
-          <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+          <div className="product-summary__total grand-total row leading-lines checkout--padding border-top" style={{paddingBottom:'5px'}}>
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -530,6 +530,7 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
+           <div style={{fontSize:'12px',paddingLeft:'22px',paddingBottom:'10px',color:'#999',marginTop:'-5px'}}>{<FormattedMessage id="totalIncluMessage"/>}</div>
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 border-top pt-2">
               Promotion code({this.state.lastPromotionInputValue}) is not Valid
