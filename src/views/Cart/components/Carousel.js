@@ -34,7 +34,7 @@ class Carousel extends React.Component {
     //   windowWidth
     // })
     const { goodsId } = this.props
-    if (goodsId) {
+    if (goodsId.length) {
       getGoodsRelationBatch({goodsIds:goodsId}).then((res) => {
         console.log(333, res)
         this.setState({
