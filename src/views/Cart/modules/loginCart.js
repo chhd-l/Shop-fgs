@@ -13,6 +13,7 @@ import { formatMoney, mergeUnloginCartData } from '@/utils/utils';
 import { find } from 'lodash';
 //import { getPetList } from '@/api/pet';
 //import { getCustomerInfo } from '@/api/user';
+import Carousel from '../components/Carousel';
 import {
   updateBackendCart,
   deleteItemFromBackendCart,
@@ -41,7 +42,8 @@ class LoginCart extends React.Component {
       checkoutLoading: false,
       petModalVisible: false,
       isAdd: 0,
-      initLoading: true
+      initLoading: true,
+      goodsId:'ff808081758be7e201758bf8ea5d0000'
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -925,6 +927,7 @@ class LoginCart extends React.Component {
             )}
           </div>
         </main>
+        <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
         <Footer />
         {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
