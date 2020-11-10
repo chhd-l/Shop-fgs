@@ -15,6 +15,7 @@ import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
+import Carousel from '../components/Carousel';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -36,7 +37,8 @@ class UnLoginCart extends React.Component {
       validateAllItemsStock: true,
       isPromote: false,
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      goodsId:[]
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -76,6 +78,13 @@ class UnLoginCart extends React.Component {
   setCartData() {
     this.setState({
       productList: this.props.checkoutStore.cartData
+    },()=>{
+    const newList = toJS(this.state.productList)
+    let goodsId = []
+    for (const [prop,value] of Object.entries(newList)) {
+      goodsId.push(value.goodsId)
+    }
+    this.setState({goodsId})
     });
   }
   showErrMsg(msg) {
@@ -1015,6 +1024,7 @@ class UnLoginCart extends React.Component {
             )}
           </div>
         </main>
+        <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
         <Footer />
         {/* <PetModal visible={this.state.petModalVisible}
           isAdd={this.state.isAdd}
