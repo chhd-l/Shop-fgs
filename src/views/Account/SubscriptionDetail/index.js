@@ -1033,7 +1033,7 @@ class SubscriptionDetail extends React.Component {
                                 </div>
                               </div>
                               <div className="col-4 col-md-1"></div>
-                              <div className="col-4 col-md-5">
+                              <div className="col-4 col-md-5" style={{paddingLeft: '60px'}}>
                                 <div className="rc-card-content">
                                   <b
                                     style={{
@@ -1264,7 +1264,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                           <div className="col-4 col-md-1"></div>
-                          <div className="col-4 col-md-5">
+                          <div className="col-4 col-md-5" style={{paddingLeft: '60px'}}>
                             <div>
                               <div className="flex-layout">
                                 <label
@@ -1680,6 +1680,14 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       {el.specText}
+                                    </p>
+                                    <p
+                                      style={{
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                      }}
+                                    >
+                                      pet: {el.petsName}
                                     </p>
                                     <div>
                                       <label

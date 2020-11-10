@@ -519,7 +519,7 @@ class ShippingAddressFrom extends React.Component {
                     <label className="rc-input__label" htmlFor="address2" />
                   </span>
                 </div>
-                <div className="form-group col-6 required d-flex flex-column justify-content-between">
+                <div className="form-group col-6 required d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="phone"
@@ -567,7 +567,7 @@ class ShippingAddressFrom extends React.Component {
                       maxLength="20"
                       minLength="18"
                     />
-                    <label className="rc-input__label" htmlFor="phone"></label>
+                    <label className="rc-input__label" htmlFor="phone" />
                   </span>
                   {/* <div className="invalid-feedback">
             <FormattedMessage

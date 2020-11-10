@@ -12,6 +12,10 @@ import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
 import { getDictionary } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import subscriptionIcon from './images/subscription.png'
+import cancelIcon from './images/cancel.png';
+import autoshipIcon from './images/autoship.png';
+
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -160,12 +164,12 @@ class Subscription extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Subscription" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                <div>
                   <h4 className="rc-delta rc-margin--none pb-2">
                     <FormattedMessage id="subscription" />
                   </h4>
                 </div>
-                <div className="row justify-content-around">
+                {/* <div className="row justify-content-around">
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
                       <FormattedMessage id="subscription.number" />
@@ -187,16 +191,12 @@ class Subscription extends React.Component {
                           )}
                         </FormattedMessage>
                         <label className="rc-input__label" htmlFor="id-text8">
-                          {/* <span className="rc-input__label-text">
-                            <FormattedMessage id="subscription.subscriptionNumberTip" />
-                          </span> */}
                         </label>
                       </span>
                     </div>
                   </div>
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
-                      {/* Subscription status */}
                       <FormattedMessage id="subscription.status" />
                     </div>
                     <div className="col-md-8">
@@ -211,7 +211,7 @@ class Subscription extends React.Component {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="order__listing">
                   <div className="order-list-container">
                     {this.state.loading ? (
@@ -233,41 +233,39 @@ class Subscription extends React.Component {
                         {this.state.subList.map((subItem, i) => (
                           <div
                             className="card-container"
+                            style={{marginTop: '0', marginBottom: '20px'}}
                             key={subItem.subscribeId}
                           >
                             <div className="card rc-margin-y--none ml-0">
-                              <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
-                                <div className="col-12 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="subscription.product" />
-                                    <br className="d-none d-md-block" />
-                                  </p>
-                                </div>
-                                <div className="col-12 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="subscription.number" />
-                                    <br className="d-none d-md-block" />
+                              <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0" style={{padding: '1rem 0'}}>
+                                <div className="col-12 col-md-4">
+                                  <p style={{fontSize: '16px', fontWeight: '400', color: '#333'}}>
+                                    <img style={{display: 'inline-block', width: '20px', margin: '0 10px 0 20px'}} src={subscriptionIcon}/>
+                                    {/* <FormattedMessage id="subscription.product" /> */}
+                                    {subItem.subscribeId}
+                                    {/* <br className="d-none d-md-block" /> */}
                                   </p>
                                 </div>
                                 <div className="col-4 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="subscription.date" />
-                                  </p>
                                 </div>
                                 <div className="col-4 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="subscription.frequency" />
-                                    <br className="d-none d-md-block" />
-                                  </p>
                                 </div>
                                 <div className="col-4 col-md-2 pl-4">
-                                  <p>
-                                    <FormattedMessage id="subscription.status" />
-                                  </p>
                                 </div>
-
                                 <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                                  <Link
+                                  <img
+                                    style={{
+                                      display: 'inline-block',
+                                      width: '20px',
+                                      marginRight: '5px'
+                                    }}
+                                    src={cancelIcon}
+                                  />
+                                  <a class="rc-styled-link" href="#/">
+                                    {/* <FormattedMessage id="subscription.skip" /> */}
+                                    Cancel Autoship
+                                  </a>
+                                  {/* <Link
                                     className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
                                     onClick={() =>
                                       localItemRoyal.set('subDetail', subItem)
@@ -275,9 +273,9 @@ class Subscription extends React.Component {
                                     to={`/account/subscription-detail/${subItem.subscribeId}`}
                                   >
                                     <span className="medium pull-right--desktop rc-styled-link">
-                                      <FormattedMessage id="subscription.detail" />
+                                      Cancel Autoship
                                     </span>
-                                  </Link>
+                                  </Link> */}
                                 </div>
                               </div>
                             </div>
@@ -285,36 +283,55 @@ class Subscription extends React.Component {
                               className="row rc-margin-x--none row align-items-center"
                               style={{ padding: '1rem 0' }}
                             >
-                              <div className="col-4 col-md-2 d-flex flex-wrap">
+                              <div className="col-4 col-md-4 d-flex flex-wrap">
                                 {subItem.goodsInfo &&
                                   subItem.goodsInfo.map((item) => (
+                                    <div style={{marginLeft: '20px'}}>
+
                                     <img
-                                      className="img-fluid"
+                                      style={{width: '70px', display: 'inline-block'}}
                                       key={item.spuId}
                                       src={item.goodsPic || IMG_DEFAULT}
                                       alt={item.goodsName}
                                       title={item.goodsName}
                                     />
+                                    <span style={{display: 'inline-block', verticalAlign: 'middle', fontSize: '12px', marginLeft: '10px'}}>
+                                      <p style={{fontSize: '16px', fontWeight: '400', color: '#333', marginBottom: '5px'}}>{item.goodsName}</p>
+                                      <p>15kg - 1 product</p>
+                                      <p>Frequency: every 4 week</p>
+                                    </span>
+                                    </div>
+                                    
                                   ))}
-                              </div>
-                              <div className="col-12 col-md-2">
-                                {subItem.subscribeId}
+                                  
                               </div>
                               <div
                                 className="col-4 col-md-2"
                                 style={{ whiteSpace: 'nowrap' }}
                               >
-                                {subItem.createTime.split(' ')[0]}
+                                <img src={autoshipIcon} style={{width: '40px', display: 'inline-block'}}/>
+                                <span style={{display: 'inline-block', verticalAlign: 'middle', fontSize: '12px', marginLeft: '10px'}}>
+                                <p>Autoship started</p>
+                                <p style={{color: '#666', fontSize: '16px'}}>{subItem.createTime.split(' ')[0]}</p>
+                                </span>
+                                
                               </div>
                               <div className="col-4 col-md-2">
-                                {subItem.frequency}
+                                {/* {subItem.frequency} */}
                               </div>
-                              <div className="col-4 col-md-2 pl-4">
-                                {subItem.subscribeStatus === '0' ? (
+                              <div className="col-4 col-md-2">
+                              {subItem.subscribeStatus === '0' ? (
                                   <FormattedMessage id="active" />
                                 ) : (
                                   <FormattedMessage id="inactive" />
                                 )}
+                              </div>
+                              <div className="col-4 col-md-2">
+                                
+                                <button class="rc-btn rc-btn--two rc-btn--sm" onClick={() => {
+                                  localItemRoyal.set('subDetail', subItem)
+                                  this.props.history.push(`/account/subscription-detail/${subItem.subscribeId}`)
+                                }}>Manage</button>
                               </div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>

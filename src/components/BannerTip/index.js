@@ -19,11 +19,11 @@ class BannerTip extends React.Component {
     return this.state.noticeVisible &&
       process.env.REACT_APP_SHOW_BANNERTIP === 'true' ? (
       <div id="bannerTip" className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4">
-        <span
+        {/* <span
           className="rc-icon rc-close--xs rc-iconography searchBtnToggle rc-stick-right rc-vertical-align"
           style={{ transform: 'translateY(-40%)' }}
           onClick={this.hideNotice}
-        ></span>
+        ></span> */}
         {process.env.REACT_APP_IS_PROMOTION === 'true' && (
           <div
             className="text-center"
