@@ -530,7 +530,14 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
-           <div style={{fontSize:'12px',paddingLeft:'22px',paddingBottom:'10px',color:'#999',marginTop:'-5px'}}>{<FormattedMessage id="totalIncluMessage"/>}</div>
+          {
+            process.env.REACT_APP_LANG == 'de'
+            ?
+            <div style={{fontSize:'12px',paddingLeft:'22px',paddingBottom:'10px',color:'#999',marginTop:'-5px'}}>{<FormattedMessage id="totalIncluMessage"/>}</div>
+            :
+            null
+          }
+          
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 border-top pt-2">
               Promotion code({this.state.lastPromotionInputValue}) is not Valid

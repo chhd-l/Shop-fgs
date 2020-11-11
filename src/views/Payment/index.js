@@ -1947,7 +1947,13 @@ class Payment extends React.Component {
                     operateBtnVisible={!this.state.tid}
                   />
                 )}
-              </div>
+                {/* {
+                  process.env.REACT_APP_LANG == 'fr'?
+                  <div>123</div>
+                  :null
+                } */}
+              
+              </div>              
             </div>
           </div>
         </main>
