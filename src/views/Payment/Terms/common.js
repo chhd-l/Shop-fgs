@@ -80,6 +80,13 @@ class TermsCommon extends Component {
           key="payment"
           id={this.props.id}
         />
+        {
+          process.env.REACT_APP_LANG == 'de'
+          ?
+          <div style={{paddingLeft:'20px'}}><a href="/Widerrufsbelehrung" style={{color:'#7F6666'}}>Hier finden Sie Information zulhrem Widerrufsrecht</a></div>
+          :null
+        }
+        
       </div>
     );
   }
