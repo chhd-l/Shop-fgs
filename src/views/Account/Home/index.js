@@ -119,7 +119,7 @@ class AccountHome extends React.Component {
                     {itemList.map((item, i) => (
                       <Link
                         key={i}
-                        className="col-12 col-md-4  mb-3"
+                        className="col-12 col-md-4 mb-3"
                         to={item.link}
                       >
                         <div className="d-flex align-items-center border m-2 w-100 h-100 p-3 text-break nav_content">

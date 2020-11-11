@@ -41,8 +41,8 @@ const es_ES = {
   'account.notRegistred': '¿Usted no está registrado?',
   'account.of': 'de',
   'account.orders': 'Pedidos',
-  'account.orders.btns': 'Start Shopping',
-  'account.orders.tips': "You haven't placed any orders yet! Start shopping now for precise nutrition for your pet.",
+  'account.orders.btns': 'Empieza a comprar',
+  'account.orders.tips': "¡Aún no has realizado ningún pedido! Empiece a comprar ahora para una nutrición precisa para su mascota.",
   "account.ordersTitle": "Mis ordenes",
   'account.ordersTip': 'Verifique el estado de los pedidos actuales y vea el historial de los anteriores.',
   'account.paymentMethod': 'Método de pago',
@@ -406,6 +406,7 @@ const es_ES = {
   'order.lastXMonths': 'Últimos {val} meses',
   'order.noDataTip': 'Sin datos',
   'order.orderDate': 'Fecha de orden',
+  "order.orderPlacedOn": "La orden está puesta en",
   'order.orderDetails': 'Detalles del pedido',
   'order.orderInformation': 'Información del pedido',
   'order.orderNumber': 'Número de orden',
@@ -769,6 +770,17 @@ const es_ES = {
   ihaveADefaultClinic: 'Tengo una clínica predeterminada',
   noDefaultClinic: 'Sin clínica predeterminada',
   allOrders: 'Todas las órdenes',
-  single: 'Soltero'
+  single: 'Soltero',
+  xProduct: '{val} producto (s)',
+  transactionInfomation: 'Información de la transacción',
+  'order.completeTip': 'El paquete se entregó en mano a la dirección de entrega.',
+  IVAIncluido: '(IVA incluido)',
+  'order.toBePaidTip': 'Tu pedido se ha creado correctamente.',
+  'order.toBeDeliveredTip': 'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
+  autoShipOrderDetails: 'Detalles del pedido de envío automático',
+  comment: 'Comentario',
+  inTransit: 'En tránsito',
+  trackDelivery: 'Seguimiento de la entrega',
+  packageX: 'Paquete {val}'
 }
 export default es_ES;

@@ -46,7 +46,7 @@
   padding-left: 30px;
 }
 .choices {
-  height: 56px;
+  /* height: 56px; */
 }
 
 @media(max-width: 960px){

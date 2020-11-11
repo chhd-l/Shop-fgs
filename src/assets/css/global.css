@@ -22239,3 +22239,9 @@ height: 0;
   fill: currentColor;
   overflow: hidden;
 }
+
+@media(min-width: 769px) {
+  .p-md-2rem {
+    padding: 2rem
+  }
+}

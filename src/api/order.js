@@ -1,4 +1,4 @@
-import axios from '@/utils/request'
+import axios from '@/utils/request';
 
 const api = {
   list: '/trade/page',
@@ -13,95 +13,103 @@ const api = {
   payRecord: '/pay/record',
   returnFindByTid: '/return/findByTid',
 
-  addEvaluate: '/evaluate/addEvaluate'
-}
+  addEvaluate: '/evaluate/addEvaluate',
+  logistics: '/trade/logistics/refresh' // 查询物流信息
+};
 
-export default api
+export default api;
 
-export function getOrderList (parameter) {
+export function getOrderList(parameter) {
   return axios({
     url: api.list,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function getOrderDetails (parameter) {
+export function getOrderDetails(parameter) {
   return axios({
     url: `${api.details}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function getOrderReturnDetails (parameter) {
+export function getOrderReturnDetails(parameter) {
   return axios({
     url: `${api.returnTrade}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function getReturnDetails (parameter) {
+export function getReturnDetails(parameter) {
   return axios({
     url: `${api.return}/${parameter}`,
     method: 'post'
-  })
+  });
 }
 
-export function cancelOrder (parameter) {
+export function cancelOrder(parameter) {
   return axios({
     url: `${api.cancelOrder}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function returnAdd (parameter) {
+export function returnAdd(parameter) {
   return axios({
     url: api.returnAdd,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function getReturnReasons (parameter) {
+export function getReturnReasons(parameter) {
   return axios({
     url: `${api.returnReason}`,
     method: 'get'
-  })
+  });
 }
 
-export function getReturnWays (parameter) {
+export function getReturnWays(parameter) {
   return axios({
     url: `${api.returnWays}`,
     method: 'get'
-  })
+  });
 }
 
-export function getReturnList (parameter) {
+export function getReturnList(parameter) {
   return axios({
     url: api.returnList,
     method: 'post',
     data: parameter
-  })
+  });
 }
 
-export function getPayRecord (parameter) {
+export function getPayRecord(parameter) {
   return axios({
     url: `${api.payRecord}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function returnFindByTid (parameter) {
+export function returnFindByTid(parameter) {
   return axios({
     url: `${api.returnFindByTid}/${parameter}`,
     method: 'get'
-  })
+  });
 }
 
-export function addEvaluate (parameter) {
+export function addEvaluate(parameter) {
   return axios({
     url: api.addEvaluate,
     method: 'post',
     data: parameter
-  })
+  });
+}
+
+export function queryLogistics(parameter) {
+  return axios({
+    url: `${api.logistics}/${parameter}`,
+    method: 'get'
+  });
 }
