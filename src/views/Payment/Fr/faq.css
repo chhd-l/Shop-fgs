@@ -1,0 +1,39 @@
+.fr-faq{
+    padding: 40px 0px 0px 100px;
+}
+.fr-faq>div{
+   height: 35px;
+   line-height: 35px;
+}
+.fr-faq>div>div{
+    position: relative;
+}
+.fr-faq .icon{
+    position: absolute;
+    left:70px;
+    width: 24px;
+    height: 32px;
+    background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--iconography--xs.svg?v=8-9-1);
+    background-repeat: no-repeat;
+    transform-origin: 50% 50%;
+}
+.fr-faq .icon1{
+    background-position: 0 0;
+    
+}
+.fr-faq .icon2{
+    background-position: 27% 71%;
+}
+.fr-faq .icon3{
+    background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--breed--iconography--xs.svg?v=8-9-1);
+    background-position: 0% 75%;
+}
+.fr-faq .icon4{
+    background-position: 90.91% 42.86%;
+}
+
+.faq-title{
+    text-align: center;
+    padding: 40px 0 40px;
+    font-size: 20px;
+}

@@ -556,7 +556,8 @@ class PayProductInfo extends React.Component {
   render() {
     return (
       <div className="rc-bg-colour--brand3" id="J_sidecart_container">
-        {this.sideCart({
+        {/* 法国环境不加固定定位 */}
+        {process.env.REACT_APP_LANG !== 'fr'&&this.sideCart({
           className: 'hidden rc-md-up',
           style: {
             background: '#fff',

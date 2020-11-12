@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
+import Faq from './Fr/faq';
 import Loading from '@/components/Loading';
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
@@ -1947,11 +1948,11 @@ class Payment extends React.Component {
                     operateBtnVisible={!this.state.tid}
                   />
                 )}
-                {/* {
+                {
                   process.env.REACT_APP_LANG == 'fr'?
-                  <div>123</div>
+                  <Faq/>
                   :null
-                } */}
+                }
               
               </div>              
             </div>
