@@ -229,25 +229,22 @@ class AccountOrders extends React.Component {
         });
         // 发货运输中，查询物流信息
         if (
-          // todo
-          // tradeState.payState === 'PAID' &&
-          // tradeState.auditState === 'CHECKED' &&
-          // tradeState.deliverStatus === 'SHIPPED' &&
-          // tradeState.flowState === 'DELIVERED'
-          1
+          tradeState.payState === 'PAID' &&
+          tradeState.auditState === 'CHECKED' &&
+          tradeState.deliverStatus === 'SHIPPED' &&
+          tradeState.flowState === 'DELIVERED'
         ) {
-          queryLogistics('O202011041057213979').then((res) => {
-            // debugger;
-            // this.setState({
-            //   logisticsList: (res.context && res.context.tradeDelivers) || []
-            // });
-          });
-          queryLogistics('O202011090822133614').then((res) => {
-            // debugger;
+          queryLogistics(orderNumber).then((res) => {
             this.setState({
               logisticsList: (res.context && res.context.tradeDelivers) || []
             });
           });
+          // 'O202011041057213979'
+          // queryLogistics('O202011090822133614').then((res) => {
+          //   this.setState({
+          //     logisticsList: (res.context && res.context.tradeDelivers) || []
+          //   });
+          // });
         }
         // 开启审核时
         if (resContext.isAuditOpen) {
@@ -671,12 +668,10 @@ class AccountOrders extends React.Component {
         </>
       );
     } else if (
-      // todo
-      // tradeState.payState === 'PAID' &&
-      // tradeState.auditState === 'CHECKED' &&
-      // tradeState.deliverStatus === 'SHIPPED' &&
-      // tradeState.flowState === 'DELIVERED'
-      1
+      tradeState.payState === 'PAID' &&
+      tradeState.auditState === 'CHECKED' &&
+      tradeState.deliverStatus === 'SHIPPED' &&
+      tradeState.flowState === 'DELIVERED'
     ) {
       // 发货运输中
       ret = (
