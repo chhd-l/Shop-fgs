@@ -13,9 +13,14 @@ import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
+import wof from './images/wof.png'
 import { inject, observer } from 'mobx-react';
 import './index.css';
 
+@inject(
+  'configStore',
+)
+@observer
 @injectIntl
 class SubscriptionLanding extends React.Component {
   render(h) {
@@ -37,22 +42,6 @@ class SubscriptionLanding extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <div
-            className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-            style={{
-              width: '50%',
-              margin: '20px auto 0'
-            }}
-          >
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close"
-              role="alert"
-            >
-              {this.state.errorMsg}
-            </aside>
-          </div>
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
           >
@@ -78,10 +67,18 @@ class SubscriptionLanding extends React.Component {
             >
               <div>
                 <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <FormattedMessage id="subscriptionLanding.description1" />
+                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description1" /></span>
                 </div>
                 <div>
+                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description2" /></span>
+                </div>
+                <div>
+                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description3" /></span>
+                </div>
+                <div>
+                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description4" /></span>
+                </div>
+                {/* <div>
                   <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
                   <FormattedMessage id="subscriptionLanding.description2" />
                 </div>
@@ -92,7 +89,7 @@ class SubscriptionLanding extends React.Component {
                 <div>
                   <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
                   <FormattedMessage id="subscriptionLanding.description4" />
-                </div>
+                </div> */}
                 <div style={{ marginTop: '20px' }}>
                   <button
                     className="rc-btn rc-btn--one"

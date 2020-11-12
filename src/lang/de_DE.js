@@ -102,7 +102,7 @@ const de_DE = {
   "cart.errorInfo": "Die Zahl darf nicht kleiner als 1 sein",
   "cart.errorInfo2": "Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produkt:{val}",
   "cart.errorInfo3": "* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})",
-  "cart.errorInfo4": "Sie können Ihre Bestellung nicht aufgeben: {val}",
+  "cart.errorInfo4": "Folgendes Produkt kann leider aktuell nicht bestellt warden: {val}",
   "cart.errorMaxCate": "Der Warenkorb darf 30 Artikel nicht überschreiten",
   "cart.errorMaxInfo": "Die Anzahl darf 30 nicht überschreiten",
   "cart.fullPrice": "Suchen Sie die passende Nahrung für Ihr Tier",
