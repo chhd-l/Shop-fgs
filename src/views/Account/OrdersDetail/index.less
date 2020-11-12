@@ -100,6 +100,7 @@
     }
   }
   .logi-text {
+    flex: 1;
     &::before {
       content: '';
       position: absolute;
@@ -107,6 +108,9 @@
       height: 100%;
       border-left: 1px dashed #ccc;
     }
+  }
+  .logi-time {
+    width: 24%;
   }
   &:nth-child(1) {
     .logi-text {
@@ -231,6 +235,11 @@
   }
   .orderDetailsPage.card .order-details-img-fluid {
     max-width: 70%;
+  }
+  .logi-item {
+    .logi-time {
+      width: 17%;
+    }
   }
 }
 @media (min-width: 1292px) {

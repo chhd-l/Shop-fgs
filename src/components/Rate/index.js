@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './index.less';
 import Tooltip from '@/components/Tooltip';
-import redStar from './images/redStar.svg'
-import grayStar from './images/grayStar.svg'
-import oraStar from './images/oraStar.svg'
-import oraStar_active from './images/oraStar_active.svg'
+import redStar from './images/redStar.svg';
+import grayStar from './images/grayStar.svg';
+import oraStar from './images/oraStar.svg';
+import oraStar_active from './images/oraStar_active.svg';
 export default class Rate extends Component {
   state = {
     count: this.props.number || 5,
@@ -15,14 +15,14 @@ export default class Rate extends Component {
     state: ['不满意', '满意', '超满意'],
     tooltipStatus: false,
     inActiveStar: grayStar,
-    activeStar: redStar,
+    activeStar: redStar
   };
   /** 页面渲染前 */
   /*componentWillMount = () => {};*/
   /** 页面渲染后 */
   componentDidMount = () => {
-    if(this.props.color === 'yellow') {
-      this.setState({inActiveStar: oraStar, activeStar: oraStar_active})
+    if (this.props.color === 'yellow') {
+      this.setState({ inActiveStar: oraStar, activeStar: oraStar_active });
     }
   };
   /** 数据更新前 */
@@ -36,7 +36,10 @@ export default class Rate extends Component {
       return '';
     } else if (num < f && enter < f) {
       return state[0];
-    } else if (Number(num) === Number(count) || Number(enter) === Number(count)) {
+    } else if (
+      Number(num) === Number(count) ||
+      Number(enter) === Number(count)
+    ) {
       return state[2];
     } else {
       return state[1];
@@ -91,22 +94,22 @@ export default class Rate extends Component {
                 //   disabled={this.state.disabled}
                 //   // style={{marginRight:this.props.marginSize}}
                 // ></span>
-                
-                <img src={this.state.activeStar}/>
+
+                <img src={this.state.activeStar} alt="" />
               ) : flag && index === numInt ? (
                 <span
                   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
                   disabled={this.state.disabled}
                   // style={{marginRight:this.props.marginSize}}
-                ></span>
-                // <img src={redStar}/>
+                />
               ) : (
+                // <img src={redStar}/>
                 // <span
                 //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs rc-iconography--xs  ${this.props.marginSize}`}
                 //   style={{ opacity: '.5' }}
                 //   disabled={this.state.disabled}
                 // ></span>
-                <img src={this.state.inActiveStar}/>
+                <img src={this.state.inActiveStar} alt="" />
               )}
             </span>
           ))}

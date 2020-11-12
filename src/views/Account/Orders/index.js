@@ -499,7 +499,7 @@ class AccountOrders extends React.Component {
                   </div>
                 ) : errMsg ? (
                   <div className="text-center mt-5">
-                    <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                    <span className="rc-icon rc-incompatible--xs rc-iconography" />
                     {errMsg}
                   </div>
                 ) : everHaveNoOrders ? (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
@@ -40,13 +41,7 @@ function HeadTip(props) {
           <br />
           {props.tip}
         </div>
-        {props.moreTip ? (
-          <>
-            <div className="col-12 mt-4 border rounded mb-4 pl-0 pr-0">
-              {props.moreTip}
-            </div>
-          </>
-        ) : null}
+        {props.moreTip ? <>{props.moreTip}</> : null}
         {props.operation ? (
           <div className="col-12 col-md-4 text-md-right text-center">
             <span className="sticky-operation-btn rc-md-down">
@@ -57,6 +52,53 @@ function HeadTip(props) {
         ) : null}
       </div>
     </>
+  );
+}
+
+function LogisticsProgress(props) {
+  const {
+    hasMoreLessOperation = false,
+    moreLogistics,
+    handleToggleMoreLess,
+    customDateCls = ''
+  } = props;
+  return (
+    <ul className="text-break">
+      {(props.list || []).map((item, i) => (
+        <li
+          className={`logi-item align-items-center ${
+            item.active ? 'active' : ''
+          } ${
+            !hasMoreLessOperation || !i || moreLogistics ? 'd-flex' : 'hidden'
+          }`}
+          key={i}
+        >
+          <span className={`logi-time text-right ${customDateCls}`}>
+            {item.date}
+          </span>
+          <div className="logi-text pl-4 pr-4 pt-3 pb-3">
+            <svg className="svg-icon logi-icon" aria-hidden="true">
+              <use
+                xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
+              />
+            </svg>
+
+            <span className="ml-4 ui-text-overflow-line2">
+              {item.details}
+              {item.statusDescription}
+            </span>
+          </div>
+          {hasMoreLessOperation && !i ? (
+            <span
+              className={`iconfont ui-cursor-pointer ${!i ? 'red' : ''}`}
+              onClick={handleToggleMoreLess}
+            >
+              {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
+            </span>
+          ) : null}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -133,9 +175,12 @@ class AccountOrders extends React.Component {
       canPayNow: false,
       moreLogistics: false,
       logisticsList: [],
-      activeTabIdx: 0
+      activeTabIdx: 0,
+      showLogisticsDetail: false,
+      curLogisticInfo: null
     };
     this.changeTab = this.changeTab.bind(this);
+    this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
@@ -184,10 +229,12 @@ class AccountOrders extends React.Component {
         });
         // 发货运输中，查询物流信息
         if (
-          tradeState.payState === 'PAID' &&
-          tradeState.auditState === 'CHECKED' &&
-          tradeState.deliverStatus === 'SHIPPED' &&
-          tradeState.flowState === 'DELIVERED'
+          // todo
+          // tradeState.payState === 'PAID' &&
+          // tradeState.auditState === 'CHECKED' &&
+          // tradeState.deliverStatus === 'SHIPPED' &&
+          // tradeState.flowState === 'DELIVERED'
+          1
         ) {
           queryLogistics('O202011041057213979').then((res) => {
             // debugger;
@@ -522,6 +569,12 @@ class AccountOrders extends React.Component {
       moreLogistics: !currentState.moreLogistics
     }));
   };
+  handleClickLogisticsCard(item) {
+    this.setState({ showLogisticsDetail: true, curLogisticInfo: item });
+  }
+  handleClickBackToIndex = () => {
+    this.setState({ showLogisticsDetail: false });
+  };
   renderHeadTip = () => {
     const {
       details,
@@ -536,6 +589,15 @@ class AccountOrders extends React.Component {
     } = this.state;
     const tradeState = details.tradeState;
     let ret = null;
+    const filteredLogisticsList = logisticsList
+      .map((ele) =>
+        ele.syncLogisticsInfo &&
+        ele.syncLogisticsInfo.originInfo &&
+        ele.syncLogisticsInfo.originInfo.trackInfo
+          ? ele
+          : null
+      )
+      .filter((ele) => ele);
     if (
       ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
         (details.isAuditOpen &&
@@ -609,10 +671,12 @@ class AccountOrders extends React.Component {
         </>
       );
     } else if (
-      tradeState.payState === 'PAID' &&
-      tradeState.auditState === 'CHECKED' &&
-      tradeState.deliverStatus === 'SHIPPED' &&
-      tradeState.flowState === 'DELIVERED'
+      // todo
+      // tradeState.payState === 'PAID' &&
+      // tradeState.auditState === 'CHECKED' &&
+      // tradeState.deliverStatus === 'SHIPPED' &&
+      // tradeState.flowState === 'DELIVERED'
+      1
     ) {
       // 发货运输中
       ret = (
@@ -623,146 +687,149 @@ class AccountOrders extends React.Component {
               aria-hidden="true"
               style={{ width: '3.5em', height: '3.5em' }}
             >
-              <use xlinkHref="#iconTobedelivered" />
+              <use xlinkHref="#iconIntransit" />
             </svg>
           }
           title={<FormattedMessage id="inTransit" />}
           titleColor="text-success"
           moreTip={
             <>
-              {logisticsList.length > 1 ? (
-                <nav className="rc-bg-colour--brand4 p-3">
-                  {logisticsList.map((item, i) => (
-                    <span
-                      className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
-                        activeTabIdx === i
-                          ? 'active red rc-bg-colour--brand3'
-                          : ''
-                      }`}
-                      onClick={this.changeTab.bind(this, i)}
-                      key={i}
-                    >
-                      <FormattedMessage id="packageX" values={{ val: i + 1 }} />
-                    </span>
-                  ))}
-                </nav>
-              ) : null}
-
-              {logisticsList.map((item, i) => (
-                <div
-                  key={i}
-                  className={`ml-3 mr-3 ${i === activeTabIdx ? '' : 'hidden'}`}
-                >
-                  <ul className="text-break mt-3">
-                    {[
-                      {
-                        time: <>2020-10-15 13:40:30</>,
-                        text: 'dfsadfoasjfodisafdisoafjidsaiofjoi',
-                        active: true
-                      },
-                      {
-                        time: <>2020-10-15 13:40:30</>,
-                        text: 'dfsadfoasjfodisafdisoafjidsaiofjoi'
-                      },
-                      {
-                        time: <>2020-10-15 13:40:30</>,
-                        text: 'dfsadfoasjfodisafdisoafjidsaiofjoi'
-                      }
-                    ].map((item, i) => (
-                      <li
-                        className={`logi-item align-items-center ${
-                          item.active ? 'active' : ''
-                        } ${!i || moreLogistics ? 'd-flex' : 'hidden'}`}
+              <div className="col-12 mt-4 border rounded mb-4 pl-0 pr-0 rc-md-up">
+                {logisticsList.length > 1 ? (
+                  <nav className="rc-bg-colour--brand4 p-3">
+                    {logisticsList.map((item, i) => (
+                      <span
+                        className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                          activeTabIdx === i
+                            ? 'active red rc-bg-colour--brand3'
+                            : ''
+                        }`}
+                        onClick={this.changeTab.bind(this, i)}
                         key={i}
                       >
-                        <span className="text-right text-nowrap">
-                          {item.time}
-                        </span>
-                        <div className="logi-text pl-4 pr-4 pt-3 pb-3">
-                          <svg
-                            className="svg-icon logi-icon"
-                            aria-hidden="true"
-                          >
-                            <use
-                              xlinkHref={`#${
-                                item.active
-                                  ? 'iconjinhangzhong'
-                                  : 'iconyiwancheng'
-                              }`}
-                            />
-                          </svg>
-
-                          <span className="ml-4 ui-text-overflow-line1">
-                            {item.text}
-                          </span>
-                        </div>
-                        {!i ? (
-                          <span
-                            className={`iconfont ui-cursor-pointer ${
-                              item.active ? 'red' : ''
-                            }`}
-                            onClick={this.handleToggleMoreLess}
-                          >
-                            {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
-                          </span>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="row">
-                    {(item.shippingItems || []).map((ele) => (
-                      <div className="text-center col-2" key={ele.skuId}>
-                        <img
-                          src={ele.pic || IMG_DEFAULT}
-                          alt={ele.itemName}
-                          title={ele.itemName}
-                          style={{ width: '70%', margin: '0 auto' }}
+                        <FormattedMessage
+                          id="packageX"
+                          values={{ val: i + 1 }}
                         />
-                        <p className="font-weight-normal ui-text-overflow-line1">
-                          {ele.itemName} X {ele.itemNum}
-                        </p>
-                      </div>
+                      </span>
                     ))}
+                  </nav>
+                ) : null}
+
+                {logisticsList.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`ml-3 mr-3 ${
+                      i === activeTabIdx ? '' : 'hidden'
+                    }`}
+                  >
+                    <LogisticsProgress
+                      list={
+                        (item.syncLogisticsInfo &&
+                          item.syncLogisticsInfo.originInfo &&
+                          item.syncLogisticsInfo.originInfo.trackInfo) ||
+                        []
+                      }
+                      hasMoreLessOperation={true}
+                      moreLogistics={moreLogistics}
+                      handleToggleMoreLess={this.handleToggleMoreLess}
+                      customDateCls="text-nowrap"
+                    />
+
+                    <div className="row">
+                      {(item.shippingItems || []).map((ele) => (
+                        <div className="text-center col-2" key={ele.skuId}>
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                            style={{ width: '70%', margin: '0 auto' }}
+                          />
+                          <p className="font-weight-normal ui-text-overflow-line1">
+                            {ele.itemName} X {ele.itemNum}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="row border-top m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <FormattedMessage id="deliveryDate" />:{' '}
+                        <span className="medium">
+                          {(item.deliverTime || '').substr(0, 10)}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <FormattedMessage id="logisticsCompany" />:{' '}
+                        <span className="medium">
+                          {item.logistics
+                            ? item.logistics.logisticCompanyName
+                            : ''}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                        <span className="medium">
+                          {item.logistics ? item.logistics.logisticNo : ''}
+                        </span>
+                        <CopyToClipboard
+                          text={item.logistics ? item.logistics.logisticNo : ''}
+                        >
+                          <span className="iconfont ui-cursor-pointer ml-2">
+                            &#xe6c0;
+                          </span>
+                        </CopyToClipboard>
+                      </div>
+                    </div>
                   </div>
-                  <div className="row border-top m-0 pt-2 pb-2">
-                    <div className="col-12 col-md-3">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconDeliverydate" />
-                      </svg>
-                      <FormattedMessage id="deliveryDate" />:{' '}
-                      <span className="medium">
-                        {(item.deliverTime || '').substr(0, 10)}
+                ))}
+              </div>
+              <div className="ml-4 mr-4 rc-md-down">
+                {filteredLogisticsList.map((item, i) => (
+                  <div
+                    className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+                    onClick={this.handleClickLogisticsCard.bind(this, item)}
+                    key={i}
+                  >
+                    <div className="col-10 medium color-444 d-flex align-items-center">
+                      <span>
+                        {item.syncLogisticsInfo.originInfo.trackInfo[0].date}
                       </span>
                     </div>
-                    <div className="col-12 col-md-3">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconLogisticscompany" />
-                      </svg>
-                      <FormattedMessage id="logisticsCompany" />:{' '}
-                      <span className="medium">
-                        {item.logistics
-                          ? item.logistics.logisticCompanyName
-                          : ''}
-                      </span>
+                    <div className="col-2">
+                      <span
+                        className="rc-icon rc-right rc-iconography rc-md-down"
+                        style={{ transform: 'scale(.85)' }}
+                      />
                     </div>
-                    <div className="col-12 col-md-6">
-                      <svg className="svg-icon mr-1" aria-hidden="true">
-                        <use xlinkHref="#iconLogisticssinglenumber" />
-                      </svg>
-                      <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                      <span className="medium">
-                        {item.logistics ? item.logistics.logisticNo : ''}
-                      </span>
-                      <svg
-                        className="svg-icon ui-cursor-pointer ml-2"
-                        aria-hidden="true"
-                      >
-                        <use xlinkHref="#iconDeliverydate" />
-                      </svg>
+                    <div className="col-12 mt-2">
+                      {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
+                      {
+                        item.syncLogisticsInfo.originInfo.trackInfo[0]
+                          .statusDescription
+                      }
+                    </div>
+                    <div className="col-12 row mt-2">
+                      {item.shippingItems.map((sItem) => (
+                        <div className="col-3" key={sItem.skuId}>
+                          <img
+                            className="rc-bg-colour--brand4"
+                            src={sItem.pic}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </>
           }
         />
@@ -841,7 +908,9 @@ class AccountOrders extends React.Component {
       payRecord,
       currentProgerssIndex,
       orderNumber,
-      progressList
+      progressList,
+      showLogisticsDetail,
+      curLogisticInfo
     } = this.state;
     return (
       <div>
@@ -859,13 +928,27 @@ class AccountOrders extends React.Component {
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Orders" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width">
-                <Link to="/account" className="rc-md-down">
-                  <span className="red">&lt;</span>
-                  <span className="rc-styled-link rc-progress__breadcrumb ml-2">
-                    <FormattedMessage id="account.ordersTitle" />
+                {showLogisticsDetail ? (
+                  <span onClick={this.handleClickBackToIndex}>
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                      <FormattedMessage id="order.orderDetails" />
+                    </span>
                   </span>
-                </Link>
-                <div className="row justify-content-center mt-3 mt-md-0">
+                ) : (
+                  <Link to="/account" className="rc-md-down">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="account.ordersTitle" />
+                    </span>
+                  </Link>
+                )}
+
+                <div
+                  className={`row justify-content-center mt-3 mt-md-0 ${
+                    showLogisticsDetail ? 'hidden' : ''
+                  }`}
+                >
                   <div className="order_listing_details col-12 no-padding">
                     <div className="card confirm-details orderDetailsPage ml-0 mr-0">
                       {this.state.loading ? (
@@ -1346,6 +1429,106 @@ class AccountOrders extends React.Component {
                     </div>
                   </div>
                 </div>
+
+                {/* one order details for mobile */}
+                {showLogisticsDetail ? (
+                  <div className="row">
+                    <LogisticsProgress
+                      list={
+                        (curLogisticInfo.syncLogisticsInfo &&
+                          curLogisticInfo.syncLogisticsInfo.originInfo &&
+                          curLogisticInfo.syncLogisticsInfo.originInfo
+                            .trackInfo) ||
+                        []
+                      }
+                    />
+                    <div
+                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
+                      style={{ height: '.8rem' }}
+                    />
+                    {(curLogisticInfo.shippingItems || []).map((ele) => (
+                      <div className="row col-12" key={ele.skuId}>
+                        <div className="col-6">
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                          />
+                        </div>
+
+                        <div className="col-6 d-flex align-items-center">
+                          <div>
+                            <div className="font-weight-normal ui-text-overflow-line2">
+                              {ele.itemName}
+                            </div>
+                            {ele.specDetails} -{' '}
+                            <FormattedMessage
+                              id="xProduct"
+                              values={{ val: ele.itemNum }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div
+                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
+                      style={{ height: '.8rem' }}
+                    />
+                    <div className="row m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="deliveryDate" />
+                          <br />
+                          <span className="medium color-444">
+                            {(curLogisticInfo.deliverTime || '').substr(0, 10)}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="col-12 col-md-3 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="logisticsCompany" />
+                          <br />
+                          <span className="medium color-444">
+                            {curLogisticInfo.logistics
+                              ? curLogisticInfo.logistics.logisticCompanyName
+                              : ''}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="col-12 col-md-6 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="logisticsSingleNumber" />
+                          <br />
+                          <span className="medium color-444">
+                            {curLogisticInfo.logistics
+                              ? curLogisticInfo.logistics.logisticNo
+                              : ''}
+                          </span>
+                          <CopyToClipboard
+                            text={
+                              curLogisticInfo.logistics
+                                ? curLogisticInfo.logistics.logisticNo
+                                : ''
+                            }
+                          >
+                            <span className="iconfont ui-cursor-pointer ml-2">
+                              &#xe6c0;
+                            </span>
+                          </CopyToClipboard>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
