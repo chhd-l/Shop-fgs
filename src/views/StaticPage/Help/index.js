@@ -201,7 +201,8 @@ class Help extends React.Component {
                                           <p
                                             className="rc-numeric rc-md-up"
                                             style={{
-                                              color: 'rgb(0, 135, 189)'
+                                              color: 'rgb(0, 135, 189)',
+                                              whiteSpace:'nowrap'
                                             }}
                                           >
                                             <a
