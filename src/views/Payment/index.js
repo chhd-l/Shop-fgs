@@ -1444,12 +1444,26 @@ class Payment extends React.Component {
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
+                console.log(this.state.payWayObj)
+                
+                //adyen如果选订阅，只保留creditcard/klarnapaylater
+                const adyenMethods = this.state.payWayObj.filter((item,index)=>{
+                  return item.name === 'adyen_credit_card' || item.name === 'adyen_klarna_pay_lat'
+                })
+                if(adyenMethods.length !== 0){
+                   this.setState({payWayObj:adyenMethods})
+                }
+
+
+                //payu
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
                   return o.name === 'payuoxxo';
                 }); //找到oxxo在数组中的下标
                 if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
-                }
+                }  
+                
+                
               } else {
                 //为后台提供的初始支付方式
                 this.setState({
