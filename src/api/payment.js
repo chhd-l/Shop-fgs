@@ -15,7 +15,7 @@ const api = {
   getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays:'/PayGateway/gateways',
   adyenPaymentsDetails:'/adyenPay/payments/details',
-  getProductPetConfig: '/system/config/findPet'
+  getProductPetConfig: '/order/config/findPet'
 }
 
 export default api

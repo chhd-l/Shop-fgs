@@ -47,7 +47,12 @@ class UnLoginCart extends React.Component {
         frequencyName: '',
         frequencyId: -1
       },
-      frequencyList: []
+      frequencyList: [],
+      discount: [], //促销码的折扣信息汇总
+      promotionInputValue: '', //输入的促销码
+      lastPromotionInputValue: '', //上一次输入的促销码
+      isClickApply: false, //是否点击apply按钮
+      isShowValidCode: false //是否显示无效promotionCode
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -903,6 +908,12 @@ class UnLoginCart extends React.Component {
     item.confirmTooltipVisible = status;
     this.setState({
       productList: productList
+    });
+  }
+  handlerChange(e) {
+    let promotionInputValue = e.target.value;
+    this.setState({
+      promotionInputValue
     });
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {

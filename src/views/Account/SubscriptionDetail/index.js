@@ -724,7 +724,7 @@ class SubscriptionDetail extends React.Component {
                           className="rc-btn rc-btn--one btn-custom-less-size">
                           <FormattedMessage id="subscription.orderNow" />
                         </button> */}
-                        <button
+                        {/* <button
                           onClick={() => {
                             this.setState({
                               modalType: 'skipNext',
@@ -751,7 +751,7 @@ class SubscriptionDetail extends React.Component {
                           className="rc-btn rc-btn--one btn-custom-less-size"
                         >
                           <FormattedMessage id="subscription.cancelAll" />
-                        </button>
+                        </button> */}
                       </div>
                     )}
                   </div>

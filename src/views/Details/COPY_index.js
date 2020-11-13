@@ -134,7 +134,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 'once', // once/frequency
+        buyWay: 0, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -601,19 +601,24 @@ class Details extends React.Component {
   }
   async hanldeLoginAddToCart({ redirect }) {
     this.setState({ addToCartLoading: true });
-    const { quantity } = this.state;
+    const { quantity, form } = this.state;
     const { sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     try {
-      await sitePurchase({
+      let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
         goodsCategory: [
           this.specie,
           this.productRange,
           this.format.join('&')
-        ].join('/')
-      });
+        ].join('/'),
+        goodsInfoFlag: parseInt(form.buyWay)
+      }
+      if(parseInt(form.buyWay)) {
+        param.periodTypeId = form.frequencyId
+      }
+      await sitePurchase(param);
       await this.checkoutStore.updateLoginCart();
       this.props.headerCartStore.show();
       setTimeout(() => {
@@ -870,6 +875,12 @@ class Details extends React.Component {
     setTimeout(() => {
       this.props.headerCartStore.hide();
     }, 1000);
+  }
+
+  handleInputChange (e) {
+    let { form } = this.state
+    form.buyWay = parseInt(e.currentTarget.value)
+    this.setState({form})
   }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
@@ -1274,7 +1285,7 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs">
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1286,9 +1297,9 @@ class Details extends React.Component {
                                         type="radio"
                                         alt={txt}
                                         name="buyWay"
-                                        value="once"
+                                        value="0"
                                         key="1"
-                                        // onChange={(event) => this.handleInputChange(event)}
+                                        onChange={(event) => this.handleInputChange(event)}
                                         checked
                                       />
                                     )}
@@ -1332,27 +1343,28 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs">
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
                                     <input
                                       className="rc-input__radio"
-                                      id="optsemail"
+                                      id="type_once"
                                       type="radio"
                                       alt={txt}
                                       name="buyWay"
-                                      value="once"
-                                      key="1"
-                                      // onChange={(event) => this.handleInputChange(event)}
-                                      checked
+                                      value="0"
+                                      key="0"
+                                      onChange={(event) => this.handleInputChange(event)}
+                                      // checked
+                                      defaultChecked
                                     />
                                   )}
                                 </FormattedMessage>
                                 <label
                                   className="rc-input__label--inline"
-                                  htmlFor="optsemail"
+                                  htmlFor="type_once"
                                 >
                                   <span
                                     style={{ fontWeight: '400', color: '#333' }}
@@ -1382,7 +1394,7 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs">
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1394,9 +1406,9 @@ class Details extends React.Component {
                                         type="radio"
                                         alt={txt}
                                         name="buyWay"
-                                        value="once"
+                                        value="1"
                                         key="1"
-                                        // onChange={(event) => this.handleInputChange(event)}
+                                        onChange={(event) => this.handleInputChange(event)}
                                         checked
                                       />
                                     )}
@@ -1474,27 +1486,27 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs">
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
                                     <input
                                       className="rc-input__radio"
-                                      id="optsemail"
+                                      id="type_frequency"
                                       type="radio"
                                       alt={txt}
                                       name="buyWay"
-                                      value="once"
+                                      value="1"
                                       key="1"
-                                      // onChange={(event) => this.handleInputChange(event)}
-                                      checked
+                                      onChange={(event) => this.handleInputChange(event)}
+                                      // checked
                                     />
                                   )}
                                 </FormattedMessage>
                                 <label
                                   className="rc-input__label--inline"
-                                  htmlFor="optsemail"
+                                  htmlFor="type_frequency"
                                 >
                                   <span
                                     style={{ fontWeight: '400', color: '#333' }}
@@ -1639,7 +1651,7 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )}
-                              {!this.isLogin && (
+                              {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
                                 <button
                                   style={{ marginLeft: '10px' }}
                                   className={`rc-styled-link color-999 ${
@@ -1654,7 +1666,7 @@ class Details extends React.Component {
                                   }
                                 >
                                   <FormattedMessage id="GuestCheckout" />
-                                </button>
+                                </button>)
                               )}
                             </div>
                           </div>
@@ -1922,7 +1934,7 @@ class Details extends React.Component {
                     </span>
                   </LoginButton>
                 )}
-                {!this.isLogin && (
+                {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
                   <button
                     className={`rc-styled-link color-999 ${
                       addToCartLoading ? 'ui-btn-loading' : ''
@@ -1934,7 +1946,7 @@ class Details extends React.Component {
                     onClick={() => this.hanldeAddToCart({ redirect: true })}
                   >
                     <FormattedMessage id="GuestCheckout" />
-                  </button>
+                  </button>)
                 )}
               </div>
             </div>

@@ -252,7 +252,7 @@ class Subscription extends React.Component {
                                 </div>
                                 <div className="col-4 col-md-2 pl-4">
                                 </div>
-                                <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <img
                                     style={{
                                       display: 'inline-block',
@@ -262,21 +262,9 @@ class Subscription extends React.Component {
                                     src={cancelIcon}
                                   />
                                   <a class="rc-styled-link" href="#/">
-                                    {/* <FormattedMessage id="subscription.skip" /> */}
                                     Cancel Autoship
                                   </a>
-                                  {/* <Link
-                                    className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                    onClick={() =>
-                                      localItemRoyal.set('subDetail', subItem)
-                                    }
-                                    to={`/account/subscription-detail/${subItem.subscribeId}`}
-                                  >
-                                    <span className="medium pull-right--desktop rc-styled-link">
-                                      Cancel Autoship
-                                    </span>
-                                  </Link> */}
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                             <div

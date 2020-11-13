@@ -1,8 +1,9 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import UnloginCart from './modules/COPY_unLoginCart';
+import LoginCart from './modules/COPY_loginCart';
 // import UnloginCart from './modules/COPY_unLoginCart';
-import LoginCart from './modules/loginCart';
+// import LoginCart from './modules/loginCart';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;

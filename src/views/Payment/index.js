@@ -1778,7 +1778,7 @@ class Payment extends React.Component {
                         {this._renderAddressPanel()}
                       </div>
                     </div>
-                    {this._renderSubSelect()}
+                    {/* {this._renderSubSelect()} */}
                   </>
                 )}
                 {this.props.checkoutStore.petFlag &&
