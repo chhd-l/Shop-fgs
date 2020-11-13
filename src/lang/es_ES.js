@@ -781,6 +781,14 @@ const es_ES = {
   comment: 'Comentario',
   inTransit: 'En tránsito',
   trackDelivery: 'Seguimiento de la entrega',
-  packageX: 'Paquete {val}'
+  packageX: 'Paquete {val}',
+  xYears: '{val} años',
+  xMonths: '{val} meses',
+  month: 'Mes',
+  year: 'Año',
+  emailUs: 'Envíenos un correo electrónico',
+  callUs: 'Llámanos',
+  sendUsAnEmail: 'Envianos un email',
+  weight: 'Peso'
 }
 export default es_ES;

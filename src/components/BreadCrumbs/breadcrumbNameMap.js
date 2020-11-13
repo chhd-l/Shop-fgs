@@ -117,19 +117,19 @@ const breadcrumbNameMap = {
       name: 'ShipmentConditions'
     }
   ],
-  '/product-finder': [
+  '/product-finder/:type': [
     {
       name: 'productFinder.index'
     }
   ],
-  '/product-finder/result': [
+  '/product-finder/result/:type': [
     {
       name: 'productFinder.index',
       href: '/product-finder'
     },
     { name: 'productFinder.resultPage' }
   ],
-  '/product-finder/noresult': [{ name: 'viewResults' }]
+  '/product-finder/noresult/:type': [{ name: 'viewResults' }]
 };
 
 export default breadcrumbNameMap;

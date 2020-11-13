@@ -312,7 +312,11 @@ const App = () => (
                 }
               /> */}
 
-              <Route path="/conoce-mas-de-evet" exact component={ConoceMasDeEvet} />
+              <Route
+                path="/conoce-mas-de-evet"
+                exact
+                component={ConoceMasDeEvet}
+              />
               <Route path="/product-finder" exact component={ProductFinder} />
               <Route
                 exact
@@ -321,12 +325,12 @@ const App = () => (
               />
               <Route
                 exact
-                path="/product-finder/result"
+                path="/product-finder/result/:type"
                 component={ProductFinderResult}
               />
               <Route
                 exact
-                path="/product-finder/noresult"
+                path="/product-finder/noresult/:type"
                 component={ProductFinderNoResult}
               />
 

@@ -556,6 +556,7 @@ class List extends React.Component {
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
                         filterList={this.state.filterList}
+                        key={this.state.filterList.length}
                         checkedList={checkedList}
                       />
                     </aside>
@@ -612,11 +613,11 @@ class List extends React.Component {
                     {!productList.length ? (
                       <>
                         <div className="ui-font-nothing rc-md-up">
-                          <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                          <i className="rc-icon rc-incompatible--sm rc-iconography" />
                           <FormattedMessage id="list.errMsg" />
                         </div>
                         <div className="ui-font-nothing rc-md-down d-flex">
-                          <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                          <i className="rc-icon rc-incompatible--xs rc-iconography" />
                           <FormattedMessage id="list.errMsg" />
                         </div>
                       </>

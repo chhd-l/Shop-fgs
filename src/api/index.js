@@ -7,7 +7,8 @@ const api = {
   queryCityNameById: '/system-city/query-system-city-by-id',
   queryCityByName: '/system-city/query-system-city-by-name',
   buryPoint: '/wm.gif',
-  getConfig: '/initConfig/getConfig'
+  getConfig: '/initConfig/getConfig',
+  navigations: '/navigations' //  查询二级菜单
 };
 
 export default api;
@@ -66,5 +67,11 @@ export function getConfig() {
     url: `${api.getConfig}`,
     method: 'post',
     data: { storeId: process.env.REACT_APP_STOREID }
+  });
+}
+export function queryHeaderNavigations() {
+  return axios({
+    url: `${api.navigations}`,
+    method: 'get'
   });
 }

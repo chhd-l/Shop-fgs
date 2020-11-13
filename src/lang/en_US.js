@@ -780,6 +780,14 @@ FAQdesc: "If you have any question. Look below to see if there is an answer. If 
   comment: 'Comment',
   inTransit: 'In transit',
   trackDelivery: 'Track delivery',
-  packageX: 'Package {val}'
+  packageX: 'Package {val}',
+  xYears: '{val} year(s)',
+  xMonths: '{val} month(s)',
+  month: 'Month',
+  year: 'Year',
+  emailUs: 'Email us',
+  callUs: 'Call us',
+  sendUsAnEmail: 'Send us an Email',
+  weight: 'Weight'
 }
 export default en_US;

@@ -7,20 +7,18 @@ import './index.css';
 
 class Filter extends React.Component {
   static defaultProps = {
-    initing: true,
-    filterList: []
+    initing: true
   };
   constructor(props) {
     super(props);
     this.state = {
-      initing: props.initing,
-      prevIniting: props.initing,
+      // initing: props.initing,
+      // prevIniting: props.initing,
       filterListCopy: props.filterList
     };
     this.matchParentCatogery = this.matchParentCatogery.bind(this);
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeRemove = this.hanldeRemove.bind(this);
-    this.contentRef = React.createRef();
   }
   get computedCheckList() {
     return this.props.checkedList.map((v) => {
@@ -50,7 +48,7 @@ class Filter extends React.Component {
       return f;
     });
     this.setState({
-      filterListCopy: filterListCopy
+      filterListCopy
     });
   }
   hanldeRemove(data) {
@@ -59,18 +57,18 @@ class Filter extends React.Component {
       let { filterListCopy } = this.state;
       filterListCopy.map((f) => (f.expand = false));
       this.setState({
-        filterListCopy: filterListCopy
+        filterListCopy
       });
       this.props.onToggleFilterModal(false);
     }
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.initing !== state.prevIniting) {
-      return {
-        filterListCopy: props.filterList
-      };
-    }
-    return null;
+    // if (props.initing !== state.prevIniting) {
+    //   return {
+    //     filterListCopy: props.filterList
+    //   };
+    // }
+    // return null;
   }
   render() {
     const { computedCheckList } = this;
@@ -83,7 +81,7 @@ class Filter extends React.Component {
             <Skeleton color="#f5f5f5" width="100%" height="100%" count={7} />
           </div>
         ) : (
-          <React.Fragment>
+          <>
             <header className="rc-filters__header">
               <button
                 className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
@@ -129,7 +127,7 @@ class Filter extends React.Component {
               )}
             </header>
 
-            <div className="rc-margin--none" ref={this.contentRef}>
+            <div className="rc-margin--none">
               {filterListCopy.length ? (
                 filterListCopy.map((f, index) => (
                   <React.Fragment key={index}>
@@ -194,7 +192,7 @@ class Filter extends React.Component {
                 </div>
               )}
             </div>
-          </React.Fragment>
+          </>
         )}
       </div>
     );

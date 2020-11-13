@@ -14,7 +14,7 @@ import {
   getPrescriberByEncryptCode,
   getPrescriberByPrescriberIdAndStoreId
 } from '@/api/clinic';
-import { setBuryPoint } from '@/api';
+import { setBuryPoint, queryHeaderNavigations } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
@@ -309,6 +309,11 @@ class Header extends React.Component {
               '/confirmation': '4'
             }[this.props.match && this.props.match.path] || ''
     });
+
+    // 查询二级导航
+    queryHeaderNavigations().then(res => {
+      // debugger
+    })
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
