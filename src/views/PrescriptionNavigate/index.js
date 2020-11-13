@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
+import SimpleMap from '@/components/GoogleMap/demo'
 import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
@@ -130,7 +131,6 @@ class Prescription extends React.Component {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
-      debugger
       this.handldKey(this.state.mapKey);
       params.latitude = position.coords.latitude.toString();
       params.longitude = position.coords.longitude.toString();
@@ -437,6 +437,7 @@ class Prescription extends React.Component {
                   flags={flags}
                   key={this.state.mapKey}
                 ></GoogleMap>
+                {/* <SimpleMap></SimpleMap> */}
               </div>
             </div>
           </div>
