@@ -7,18 +7,20 @@ import './index.css';
 
 class Filter extends React.Component {
   static defaultProps = {
-    initing: true
+    initing: true,
+    filterList: []
   };
   constructor(props) {
     super(props);
     this.state = {
-      // initing: props.initing,
-      // prevIniting: props.initing,
+      initing: props.initing,
+      prevIniting: props.initing,
       filterListCopy: props.filterList
     };
     this.matchParentCatogery = this.matchParentCatogery.bind(this);
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeRemove = this.hanldeRemove.bind(this);
+    this.contentRef = React.createRef();
   }
   get computedCheckList() {
     return this.props.checkedList.map((v) => {
@@ -48,7 +50,7 @@ class Filter extends React.Component {
       return f;
     });
     this.setState({
-      filterListCopy
+      filterListCopy: filterListCopy
     });
   }
   hanldeRemove(data) {
@@ -57,18 +59,21 @@ class Filter extends React.Component {
       let { filterListCopy } = this.state;
       filterListCopy.map((f) => (f.expand = false));
       this.setState({
-        filterListCopy
+        filterListCopy: filterListCopy
       });
       this.props.onToggleFilterModal(false);
     }
   }
   static getDerivedStateFromProps(props, state) {
-    // if (props.initing !== state.prevIniting) {
-    //   return {
-    //     filterListCopy: props.filterList
-    //   };
-    // }
-    // return null;
+    const { initing, filterList } = props;
+    if (initing !== state.prevIniting) {
+      console.log('000');
+      return {
+        initing,
+        filterListCopy: filterList
+      };
+    }
+    return null;
   }
   render() {
     const { computedCheckList } = this;

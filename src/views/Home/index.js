@@ -8,8 +8,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel2';
 import FooterImage from './modules/FooterImage';
-import {Ads} from "./ad"
-import {Advantage} from "./advantage"
+import { Ads } from './ad';
+import { Advantage } from './advantage';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -360,7 +360,9 @@ class Home extends React.Component {
 
     const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
       <div
-        className={`${curNum === 6 ? 'col-md-4' : 'col-md-3'} col-6`}
+        className={`col-6 ${
+          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
+        }`}
         key={i}
       >
         <FormattedMessage id={ele.textLangKey}>
@@ -410,19 +412,19 @@ class Home extends React.Component {
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div
                   className={`${
-                    curNum === 6 ? '' : 'row'
+                    curNum >= 6 ? '' : 'row'
                   } rc-match-heights text-center text-md-left`}
                 >
                   <div
                     className={`${
-                      curNum === 6 ? 'DeCenter' : ''
+                      curNum >= 6 ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
-                  <div className={`${curNum === 6 ? 'DeCenter' : ''} col-lg-9`}>
+                  <div className={`${curNum >= 6 ? 'DeCenter' : ''} col-lg-9`}>
                     <div className="row custom-gutter">{_catogeryJXS}</div>
                   </div>
                 </div>

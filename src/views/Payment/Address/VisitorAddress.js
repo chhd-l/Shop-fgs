@@ -8,6 +8,7 @@ import { find } from 'lodash';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
+import "./VisitorAddress.css"
 
 /**
  * delivery/billing adress module - visitor
@@ -100,7 +101,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? (
       <>
         <i
-          className={`11 rc-icon rc-health--xs ${
+          className={`qhx 11 rc-icon rc-health--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}

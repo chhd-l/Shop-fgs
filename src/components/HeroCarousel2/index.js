@@ -12,14 +12,16 @@ function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
-      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography`}
+      // className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography`}
+      className="rc-icon rc-right rc-iconography"
       style={{
         ...style,
         right: '3%',
         zIndex: 1,
         top: '50%',
         position: 'absolute',
-        transform: 'translateY(-50%)'
+        transform: 'translateY(-50%)',
+        cursor:'pointer'
       }}
       onClick={onClick}
     />
@@ -30,14 +32,16 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
-      className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev rc-btn rc-btn--icon rc-icon rc-interactive rc-left rc-iconography`}
+      // className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev rc-btn rc-btn--icon rc-icon rc-interactive rc-left rc-iconography`}
+      className="rc-icon rc-left rc-iconography" 
       style={{
         ...style,
         left: '3%',
         zIndex: 1,
         top: '50%',
         position: 'absolute',
-        transform: 'translateY(-50%)'
+        transform: 'translateY(-50%)',
+        cursor:'pointer'
       }}
       onClick={onClick}
     />

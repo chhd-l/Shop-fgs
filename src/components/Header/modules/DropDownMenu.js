@@ -35,7 +35,7 @@ const defaultSubMenuCfg = [
             linkObj: { pathname: '/list/dogs' }
           },
           {
-            name: 'Mini (1-10 KG)',
+            name: 'Mini (5-10 KG)',
             linkObj: { pathname: '/list/dogs' }
           },
           {
@@ -164,7 +164,7 @@ const subMenuCfgENUM = {
               linkObj: { pathname: '/list/dogs' }
             },
             {
-              name: 'Mini (1-10 KG)',
+              name: 'Mini (5-10 KG)',
               linkObj: { pathname: '/list/dogs' }
             },
             {

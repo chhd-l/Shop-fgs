@@ -3,7 +3,7 @@ import axios from '@/utils/request'
 const api = {
   details: '/goods/unLogin/spu',
   loginDetails: '/goods/spu',
-  goodsRelation: '/goodsRelation'
+  goodsRelation: '/goodsRelation',
 }
 
 export default api
@@ -46,4 +46,3 @@ export function getGoodsRelation (parameter) {
     method: 'get'
   })
 }
-

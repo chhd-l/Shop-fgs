@@ -18,12 +18,21 @@ import DIETDOG from '@/assets/images/MX-L-VET-DIET-DOG.jpg';
 import Bundles_Breed_Cat from '@/assets/images/home-catogery-mx/Bundles_Breed_Cat.jpg';
 import Bundles_Breed_Dog from '@/assets/images/home-catogery-mx/Bundles_Breed_Dog.jpg';
 
-import Urinary from '@/assets/images/home-catogery/Urinary.jpg';
-import Dermatology from '@/assets/images/home-catogery/Dermatology.jpg';
-import WeightManagement from '@/assets/images/home-catogery/Weight-Management.jpg';
-import Gastrointestinal from '@/assets/images/home-catogery/Gastrointestinal.jpg';
-import VitalSupport from '@/assets/images/home-catogery/Vital-Support.jpg';
-import HealthManagement from '@/assets/images/home-catogery/Health-Management.jpg';
+import untereHarnwege from '@/assets/images/home-catogery-de/01_UntereHarnwege.jpg';
+import hautFell from '@/assets/images/home-catogery-de/02_HautFell.jpg';
+import ubergewicht from '@/assets/images/home-catogery-de/03_Ubergewicht.jpg';
+import diabetesMellitus from '@/assets/images/home-catogery-de/04_Diabetes_mellitus.jpg';
+import magenDarmTrakt from '@/assets/images/home-catogery-de/05_Magen-Darm-Trakt.jpg';
+import leber from '@/assets/images/home-catogery-de/06_Leber.jpg';
+import niere from '@/assets/images/home-catogery-de/07_Niere.jpg';
+import gelenke from '@/assets/images/home-catogery-de/08_Gelenke.jpg';
+import herz from '@/assets/images/home-catogery-de/09_Herz.jpg';
+import kastration from '@/assets/images/home-catogery-de/10_Kastration.jpg';
+import maulhohle from '@/assets/images/home-catogery-de/11_Maulhohle.jpg';
+import verhalten from '@/assets/images/home-catogery-de/12_Verhalten.jpg';
+import aufzuchtWachstum from '@/assets/images/home-catogery-de/13_AufzuchtWachstum.jpg';
+import prophylaxe from '@/assets/images/home-catogery-de/14_Prophylaxe.jpg';
+import pillAssist from '@/assets/images/home-catogery-de/15_PillAssist.jpg';
 
 import puppyRuImg from '@/assets/images/banner-list/puppy-ru.png';
 import kittenRuImg from '@/assets/images/banner-list/kitten-ru.png';
@@ -212,71 +221,239 @@ export const STORE_CATOGERY_ENUM = {
   ],
   de: [
     {
-      url: '/list/urinary',
-      category: 'urinary',
-      cateName: ['Urinary'],
+      url: '/list/untere-harnwege',
+      category: 'untere-harnwege',
+      cateName: ['Untere Harnwege'],
       textLangKey: 'product.de.catogery1.name',
       text: CURRENT_LANGFILE['product.de.catogery1.name'],
       title: CURRENT_LANGFILE['product.de.catogery1.title'],
       desc: CURRENT_LANGFILE['product.de.catogery1.desc'],
       img: dogsImg,
-      homeImg: Urinary
+      homeImg: untereHarnwege
     },
     {
-      url: '/list/dermatology',
-      category: 'dermatology',
-      cateName: ['Dermatology'],
+      url: '/list/haut-fell',
+      category: 'haut-fell',
+      cateName: ['Haut & Fell'],
       textLangKey: 'product.de.catogery2.name',
       text: CURRENT_LANGFILE['product.de.catogery2.name'],
       title: CURRENT_LANGFILE['product.de.catogery2.title'],
       desc: CURRENT_LANGFILE['product.de.catogery2.desc'],
       img: dogsImg,
-      homeImg: Dermatology
+      homeImg: hautFell
     },
     {
-      url: '/list/weight-management',
-      category: 'weight-management',
-      cateName: ['Weight Management'],
+      url: '/list/ubergewicht',
+      category: 'ubergewicht',
+      cateName: ['Übergewicht'],
       textLangKey: 'product.de.catogery3.name',
       text: CURRENT_LANGFILE['product.de.catogery3.name'],
       title: CURRENT_LANGFILE['product.de.catogery3.title'],
       desc: CURRENT_LANGFILE['product.de.catogery3.desc'],
       img: dogsImg,
-      homeImg: WeightManagement
+      homeImg: ubergewicht
     },
     {
-      url: '/list/gastrointestinal-tract',
-      category: 'gastrointestinal-tract',
-      cateName: ['Gastrointestinal Tract'],
+      url: '/list/diabetesMellitus',
+      category: 'diabetesMellitus',
+      cateName: ['Diabetes mellitus'],
       textLangKey: 'product.de.catogery4.name',
       text: CURRENT_LANGFILE['product.de.catogery4.name'],
       title: CURRENT_LANGFILE['product.de.catogery4.title'],
       desc: CURRENT_LANGFILE['product.de.catogery4.desc'],
       img: dogsImg,
-      homeImg: Gastrointestinal
+      homeImg: diabetesMellitus
     },
     {
-      url: '/list/vital-support',
-      category: 'vital-support',
-      cateName: ['Vital Support'],
+      url: '/list/magen-darm-trakt',
+      category: 'magen-darm-trakt',
+      cateName: ['Magen-Darm-Trakt'],
       textLangKey: 'product.de.catogery5.name',
       text: CURRENT_LANGFILE['product.de.catogery5.name'],
       title: CURRENT_LANGFILE['product.de.catogery5.title'],
       desc: CURRENT_LANGFILE['product.de.catogery5.desc'],
       img: dogsImg,
-      homeImg: VitalSupport
+      homeImg: magenDarmTrakt
     },
     {
-      url: '/list/health-management',
-      category: 'health-management',
-      cateName: ['Health Management'],
+      url: '/list/leber',
+      category: 'leber',
+      cateName: ['Leber'],
       textLangKey: 'product.de.catogery6.name',
       text: CURRENT_LANGFILE['product.de.catogery6.name'],
       title: CURRENT_LANGFILE['product.de.catogery6.title'],
       desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
       img: dogsImg,
-      homeImg: HealthManagement
-    }
+      homeImg: leber
+    },
+    {
+      url: '/list/niere',
+      category: 'niere',
+      cateName: ['Niere'],
+      textLangKey: 'product.de.catogery7.name',
+      text: CURRENT_LANGFILE['product.de.catogery7.name'],
+      title: CURRENT_LANGFILE['product.de.catogery7.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery7.desc'],
+      img: dogsImg,
+      homeImg: niere
+    },
+    {
+      url: '/list/gelenke',
+      category: 'gelenke',
+      cateName: ['Gelenke'],
+      textLangKey: 'product.de.catogery8.name',
+      text: CURRENT_LANGFILE['product.de.catogery8.name'],
+      title: CURRENT_LANGFILE['product.de.catogery8.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery8.desc'],
+      img: dogsImg,
+      homeImg: gelenke
+    },
+    {
+      url: '/list/herz',
+      category: 'herz',
+      cateName: ['Herz'],
+      textLangKey: 'product.de.catogery9.name',
+      text: CURRENT_LANGFILE['product.de.catogery9.name'],
+      title: CURRENT_LANGFILE['product.de.catogery9.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery9.desc'],
+      img: dogsImg,
+      homeImg: herz
+    },
+    {
+      url: '/list/kastration',
+      category: 'kastration',
+      cateName: ['Kastration'],
+      textLangKey: 'product.de.catogery10.name',
+      text: CURRENT_LANGFILE['product.de.catogery10.name'],
+      title: CURRENT_LANGFILE['product.de.catogery10.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery10.desc'],
+      img: dogsImg,
+      homeImg: kastration
+    },
+    {
+      url: '/list/maulhohle',
+      category: 'maulhohle',
+      cateName: ['Maulhöhle'],
+      textLangKey: 'product.de.catogery11.name',
+      text: CURRENT_LANGFILE['product.de.catogery11.name'],
+      title: CURRENT_LANGFILE['product.de.catogery11.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery11.desc'],
+      img: dogsImg,
+      homeImg: maulhohle
+    },
+    {
+      url: '/list/verhalten',
+      category: 'verhalten',
+      cateName: ['Verhalten'],
+      textLangKey: 'product.de.catogery12.name',
+      text: CURRENT_LANGFILE['product.de.catogery12.name'],
+      title: CURRENT_LANGFILE['product.de.catogery12.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery12.desc'],
+      img: dogsImg,
+      homeImg: verhalten
+    },
+    {
+      url: '/list/aufzuchtWachstum',
+      category: 'aufzuchtWachstum',
+      cateName: ['Aufzucht & Wachstum'],
+      textLangKey: 'product.de.catogery13.name',
+      text: CURRENT_LANGFILE['product.de.catogery13.name'],
+      title: CURRENT_LANGFILE['product.de.catogery13.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery13.desc'],
+      img: dogsImg,
+      homeImg: aufzuchtWachstum
+    },
+    {
+      url: '/list/prophylaxe',
+      category: 'prophylaxe',
+      cateName: ['Prophylaxe'],
+      textLangKey: 'product.de.catogery14.name',
+      text: CURRENT_LANGFILE['product.de.catogery14.name'],
+      title: CURRENT_LANGFILE['product.de.catogery14.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery14.desc'],
+      img: dogsImg,
+      homeImg: prophylaxe
+    },
+    {
+      url: '/list/pill-assist',
+      category: 'pill-assist',
+      cateName: ['Pill Assist'],
+      textLangKey: 'product.de.catogery15.name',
+      text: CURRENT_LANGFILE['product.de.catogery15.name'],
+      title: CURRENT_LANGFILE['product.de.catogery15.title'],
+      desc: CURRENT_LANGFILE['product.de.catogery15.desc'],
+      img: dogsImg,
+      homeImg: pillAssist
+    },
+
+
+
+    // {
+    //   url: '/list/urinary',
+    //   category: 'urinary',
+    //   cateName: ['Urinary'],
+    //   textLangKey: 'product.de.catogery1.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery1.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery1.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery1.desc'],
+    //   img: dogsImg,
+    //   homeImg: Urinary
+    // },
+    // {
+    //   url: '/list/dermatology',
+    //   category: 'dermatology',
+    //   cateName: ['Dermatology'],
+    //   textLangKey: 'product.de.catogery2.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery2.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery2.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery2.desc'],
+    //   img: dogsImg,
+    //   homeImg: Dermatology
+    // },
+    // {
+    //   url: '/list/weight-management',
+    //   category: 'weight-management',
+    //   cateName: ['Weight Management'],
+    //   textLangKey: 'product.de.catogery3.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery3.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery3.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery3.desc'],
+    //   img: dogsImg,
+    //   homeImg: WeightManagement
+    // },
+    // {
+    //   url: '/list/gastrointestinal-tract',
+    //   category: 'gastrointestinal-tract',
+    //   cateName: ['Gastrointestinal Tract'],
+    //   textLangKey: 'product.de.catogery4.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery4.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery4.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery4.desc'],
+    //   img: dogsImg,
+    //   homeImg: Gastrointestinal
+    // },
+    // {
+    //   url: '/list/vital-support',
+    //   category: 'vital-support',
+    //   cateName: ['Vital Support'],
+    //   textLangKey: 'product.de.catogery5.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery5.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery5.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery5.desc'],
+    //   img: dogsImg,
+    //   homeImg: VitalSupport
+    // },
+    // {
+    //   url: '/list/health-management',
+    //   category: 'health-management',
+    //   cateName: ['Health Management'],
+    //   textLangKey: 'product.de.catogery6.name',
+    //   text: CURRENT_LANGFILE['product.de.catogery6.name'],
+    //   title: CURRENT_LANGFILE['product.de.catogery6.title'],
+    //   desc: CURRENT_LANGFILE['product.de.catogery6.desc'],
+    //   img: dogsImg,
+    //   homeImg: HealthManagement
+    // }
   ],
   fr: [
     {

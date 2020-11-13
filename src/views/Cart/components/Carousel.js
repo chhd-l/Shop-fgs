@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Carousel.css"
 import { animate } from "@/assets/js/animate"
-import { getGoodsRelation } from '@/api/details';
+import { getGoodsRelationBatch } from '@/api/cart';
 import { chunk } from 'lodash';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
@@ -34,8 +34,8 @@ class Carousel extends React.Component {
     //   windowWidth
     // })
     const { goodsId } = this.props
-    if (goodsId) {
-      getGoodsRelation(goodsId).then((res) => {
+    if (goodsId.length) {
+      getGoodsRelationBatch({goodsIds:goodsId}).then((res) => {
         console.log(333, res)
         this.setState({
           goodsList: chunk(res.context.goods, 4)
