@@ -1,13 +1,15 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
-import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { formatMoney, getDictionary } from '@/utils/utils';
 import { find, findIndex } from 'lodash';
@@ -16,19 +18,93 @@ import {
   getOrderDetails,
   cancelOrder,
   getPayRecord,
-  returnFindByTid
+  returnFindByTid,
+  queryLogistics
 } from '@/api/order';
-import {
-  IMG_DEFAULT,
-  ORDER_STATUS_ENUM,
-  CREDIT_CARD_IMG_ENUM
-} from '@/utils/constant';
-import './index.css';
+import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function HeadTip(props) {
+  return (
+    <>
+      <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
+        <div className="col-3 col-md-1">{props.icon}</div>
+        <div className={`col-9 ${props.operation ? 'col-md-7' : 'col-md-11'}`}>
+          <span
+            className={`font-weight-normal color-444 ${props.titleColor || ''}`}
+          >
+            {props.title}
+          </span>
+          <br />
+          {props.tip}
+        </div>
+        {props.moreTip ? <>{props.moreTip}</> : null}
+        {props.operation ? (
+          <div className="col-12 col-md-4 text-md-right text-center">
+            <span className="sticky-operation-btn rc-md-down">
+              {props.operation}
+            </span>
+            <span className="rc-md-up">{props.operation}</span>
+          </div>
+        ) : null}
+      </div>
+    </>
+  );
+}
+
+function LogisticsProgress(props) {
+  const {
+    hasMoreLessOperation = false,
+    moreLogistics,
+    handleToggleMoreLess,
+    customDateCls = ''
+  } = props;
+  return (
+    <ul className="text-break">
+      {(props.list || []).map((item, i) => (
+        <li
+          className={`logi-item align-items-center ${
+            item.active ? 'active' : ''
+          } ${
+            !hasMoreLessOperation || !i || moreLogistics ? 'd-flex' : 'hidden'
+          }`}
+          key={i}
+        >
+          <span className={`logi-time text-right ${customDateCls}`}>
+            {item.date}
+          </span>
+          <div className="logi-text pl-4 pr-4 pt-3 pb-3">
+            <svg className="svg-icon logi-icon" aria-hidden="true">
+              <use
+                xlinkHref={`#${!i ? 'iconjinhangzhong' : 'iconyiwancheng'}`}
+              />
+            </svg>
+
+            <span className="ml-4 ui-text-overflow-line2">
+              {item.details}
+              {item.statusDescription}
+            </span>
+          </div>
+          {hasMoreLessOperation && !i ? (
+            <span
+              className={`iconfont ui-cursor-pointer ${!i ? 'red' : ''}`}
+              onClick={handleToggleMoreLess}
+            >
+              {moreLogistics ? <>&#xe6b1;</> : <>&#xe6b0;</>}
+            </span>
+          ) : null}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+@inject('checkoutStore')
 @injectIntl
+@observer
 class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
@@ -94,8 +170,17 @@ class AccountOrders extends React.Component {
       isAuditOpen: false,
       processMore: false,
       confirmTooltipVisible: true,
-      auditRejectReason: ''
+      auditRejectReason: '',
+      payNowLoading: false,
+      canPayNow: false,
+      moreLogistics: false,
+      logisticsList: [],
+      activeTabIdx: 0,
+      showLogisticsDetail: false,
+      curLogisticInfo: null
     };
+    this.changeTab = this.changeTab.bind(this);
+    this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
@@ -134,14 +219,33 @@ class AccountOrders extends React.Component {
         let resContext = res.context;
         const tradeState = resContext.tradeState;
         let tmpIndex = -1;
+        // 查询支付卡信息
         this.setState({ totalTid: resContext.totalTid }, () => {
-          // 查询支付卡信息
           getPayRecord(this.state.totalTid).then((res) => {
             this.setState({
               payRecord: res.context
             });
           });
         });
+        // 发货运输中，查询物流信息
+        if (
+          tradeState.payState === 'PAID' &&
+          tradeState.auditState === 'CHECKED' &&
+          tradeState.deliverStatus === 'SHIPPED' &&
+          tradeState.flowState === 'DELIVERED'
+        ) {
+          queryLogistics(orderNumber).then((res) => {
+            this.setState({
+              logisticsList: (res.context && res.context.tradeDelivers) || []
+            });
+          });
+          // 'O202011041057213979'
+          // queryLogistics('O202011090822133614').then((res) => {
+          //   this.setState({
+          //     logisticsList: (res.context && res.context.tradeDelivers) || []
+          //   });
+          // });
+        }
         // 开启审核时
         if (resContext.isAuditOpen) {
           this.setState({ isAuditOpen: true });
@@ -233,13 +337,6 @@ class AccountOrders extends React.Component {
           errMsg: err.message.toString()
         });
       });
-
-    // 查询支付卡信息
-    // getPayRecord(orderNumber).then((res) => {
-    //   this.setState({
-    //     payRecord: res.context
-    //   });
-    // });
   }
   matchCityName(dict, cityId) {
     return dict.filter((c) => c.id === cityId).length
@@ -372,6 +469,427 @@ class AccountOrders extends React.Component {
     }
     return ret;
   }
+  changeTab(i) {
+    this.setState({
+      activeTabIdx: i
+    });
+  }
+  handleClickPayNow = async () => {
+    const { details } = this.state;
+    const { consignee, invoice, tradePrice } = details;
+    this.setState({ payNowLoading: true });
+    const tradeItems = details.tradeItems.map((ele) => {
+      return {
+        goodsInfoImg: ele.pic,
+        goodsName: ele.spuName,
+        specText: ele.specDetails,
+        buyCount: ele.num,
+        salePrice: ele.price,
+        goodsInfoId: ele.skuId,
+        subscriptionPrice: ele.subscriptionPrice,
+        subscriptionStatus: ele.subscriptionStatus
+      };
+    });
+    const tmpDeliveryAddress = {
+      firstName: consignee.firstName,
+      lastName: consignee.lastName,
+      address1: consignee.detailAddress1,
+      address2: consignee.detailAddress2,
+      rfc: consignee.rfc,
+      country: consignee.countryId ? consignee.countryId.toString() : '',
+      city: consignee.cityId ? consignee.cityId.toString() : '',
+      postCode: consignee.postCode,
+      phoneNumber: consignee.phone,
+      addressId: consignee.id
+    };
+    const tmpBillingAddress = {
+      firstName: invoice.firstName,
+      lastName: invoice.lastName,
+      address1: invoice.address1,
+      address2: invoice.address2,
+      rfc: invoice.rfc,
+      country: invoice.countryId ? invoice.countryId.toString() : '',
+      city: invoice.cityId ? invoice.cityId.toString() : '',
+      postCode: invoice.postCode,
+      phoneNumber: invoice.phone,
+      addressId: invoice.addressId
+    };
+    localItemRoyal.set('loginDeliveryInfo', {
+      deliveryAddress: tmpDeliveryAddress,
+      billingAddress: tmpBillingAddress,
+      commentOnDelivery: detailResCt.buyerRemark
+    });
+    this.props.checkoutStore.setLoginCartData(tradeItems);
+    if (details.subscriptionResponseVO) {
+      const cycleTypeId = details.subscriptionResponseVO.cycleTypeId;
+
+      let dictList = await Promise.all([
+        getDictionary({ type: 'Frequency_week' }),
+        getDictionary({ type: 'Frequency_month' })
+      ]);
+      sessionItemRoyal.set(
+        'rc-subform',
+        JSON.stringify({
+          buyWay: 'frequency',
+          frequencyName: [...dictList[0], ...dictList[1]].filter(
+            (el) => el.id === cycleTypeId
+          )[0].name,
+          frequencyId: cycleTypeId
+        })
+      );
+      sessionItemRoyal.set(
+        'rc-rePaySubscribeId',
+        details.subscriptionResponseVO.subscribeId
+      );
+    }
+    sessionItemRoyal.set('rc-tid', details.id);
+
+    sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
+    this.props.checkoutStore.setCartPrice({
+      totalPrice: tradePrice.totalPrice,
+      tradePrice: tradePrice.originPrice,
+      discountPrice: tradePrice.discountsPrice,
+      deliveryPrice: tradePrice.deliveryPrice,
+      promotionDesc: tradePrice.promotionDesc,
+      promotionDiscount: tradePrice.deliveryPrice,
+      subscriptionPrice: tradePrice.subscriptionPrice
+    });
+
+    this.props.history.push('/payment/payment');
+    this.setState({ payNowLoading: false });
+  };
+  handlePayNowTimeEnd = () => {
+    this.setState({ canPayNow: false });
+  };
+  handleToggleMoreLess = () => {
+    this.setState((currentState) => ({
+      moreLogistics: !currentState.moreLogistics
+    }));
+  };
+  handleClickLogisticsCard(item) {
+    this.setState({ showLogisticsDetail: true, curLogisticInfo: item });
+  }
+  handleClickBackToIndex = () => {
+    this.setState({ showLogisticsDetail: false });
+  };
+  renderHeadTip = () => {
+    const {
+      details,
+      auditRejectReason,
+      canPayNow,
+      payNowLoading,
+      defaultLocalDateTime,
+      orderNumber,
+      moreLogistics,
+      logisticsList,
+      activeTabIdx
+    } = this.state;
+    const tradeState = details.tradeState;
+    let ret = null;
+    const filteredLogisticsList = logisticsList
+      .map((ele) =>
+        ele.syncLogisticsInfo &&
+        ele.syncLogisticsInfo.originInfo &&
+        ele.syncLogisticsInfo.originInfo.trackInfo
+          ? ele
+          : null
+      )
+      .filter((ele) => ele);
+    if (
+      ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+        (details.isAuditOpen &&
+          tradeState.flowState === 'INIT' &&
+          tradeState.auditState === 'NON_CHECKED')) &&
+      tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+      tradeState.payState === 'NOT_PAID'
+    ) {
+      // 订单创建
+      ret = (
+        <>
+          <HeadTip
+            icon={
+              <svg
+                className="svg-icon"
+                aria-hidden="true"
+                style={{ width: '3.5em', height: '3.5em' }}
+              >
+                <use xlinkHref="#iconTobepaid" />
+              </svg>
+            }
+            title={<FormattedMessage id="orderStatus.INIT" />}
+            titleColor="text-info"
+            tip={<FormattedMessage id="order.toBePaidTip" />}
+            operation={
+              canPayNow ? (
+                <>
+                  <TimeCount
+                    startTime={defaultLocalDateTime}
+                    endTime={details.orderTimeOut}
+                    onTimeEnd={this.handlePayNowTimeEnd}
+                  />
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      payNowLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    onClick={this.handleClickPayNow}
+                  >
+                    <FormattedMessage id="order.payNow" />
+                  </button>
+                </>
+              ) : null
+            }
+          />
+          <hr />
+        </>
+      );
+    } else if (
+      tradeState.payState === 'PAID' &&
+      tradeState.auditState === 'CHECKED' &&
+      tradeState.deliverStatus === 'NOT_YET_SHIPPED'
+    ) {
+      // 等待发货
+      ret = (
+        <>
+          <HeadTip
+            icon={
+              <svg
+                className="svg-icon"
+                aria-hidden="true"
+                style={{ width: '3.5em', height: '3.5em' }}
+              >
+                <use xlinkHref="#iconPrescriptionDeclined" />
+              </svg>
+            }
+            title={<FormattedMessage id="subscription.toBeDelivered" />}
+            titleColor="text-warning"
+            tip={<FormattedMessage id="order.toBeDeliveredTip" />}
+          />
+          <hr />
+        </>
+      );
+    } else if (
+      tradeState.payState === 'PAID' &&
+      tradeState.auditState === 'CHECKED' &&
+      tradeState.deliverStatus === 'SHIPPED' &&
+      tradeState.flowState === 'DELIVERED'
+    ) {
+      // 发货运输中
+      ret = (
+        <HeadTip
+          icon={
+            <svg
+              className="svg-icon"
+              aria-hidden="true"
+              style={{ width: '3.5em', height: '3.5em' }}
+            >
+              <use xlinkHref="#iconIntransit" />
+            </svg>
+          }
+          title={<FormattedMessage id="inTransit" />}
+          titleColor="text-success"
+          moreTip={
+            <>
+              <div className="col-12 mt-4 border rounded mb-4 pl-0 pr-0 rc-md-up">
+                {logisticsList.length > 1 ? (
+                  <nav className="rc-bg-colour--brand4 p-3">
+                    {logisticsList.map((item, i) => (
+                      <span
+                        className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                          activeTabIdx === i
+                            ? 'active red rc-bg-colour--brand3'
+                            : ''
+                        }`}
+                        onClick={this.changeTab.bind(this, i)}
+                        key={i}
+                      >
+                        <FormattedMessage
+                          id="packageX"
+                          values={{ val: i + 1 }}
+                        />
+                      </span>
+                    ))}
+                  </nav>
+                ) : null}
+
+                {logisticsList.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`ml-3 mr-3 ${
+                      i === activeTabIdx ? '' : 'hidden'
+                    }`}
+                  >
+                    <LogisticsProgress
+                      list={
+                        (item.syncLogisticsInfo &&
+                          item.syncLogisticsInfo.originInfo &&
+                          item.syncLogisticsInfo.originInfo.trackInfo) ||
+                        []
+                      }
+                      hasMoreLessOperation={true}
+                      moreLogistics={moreLogistics}
+                      handleToggleMoreLess={this.handleToggleMoreLess}
+                      customDateCls="text-nowrap"
+                    />
+
+                    <div className="row">
+                      {(item.shippingItems || []).map((ele) => (
+                        <div className="text-center col-2" key={ele.skuId}>
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                            style={{ width: '70%', margin: '0 auto' }}
+                          />
+                          <p className="font-weight-normal ui-text-overflow-line1">
+                            {ele.itemName} X {ele.itemNum}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="row border-top m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <FormattedMessage id="deliveryDate" />:{' '}
+                        <span className="medium">
+                          {(item.deliverTime || '').substr(0, 10)}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-3">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <FormattedMessage id="logisticsCompany" />:{' '}
+                        <span className="medium">
+                          {item.logistics
+                            ? item.logistics.logisticCompanyName
+                            : ''}
+                        </span>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                        <span className="medium">
+                          {item.logistics ? item.logistics.logisticNo : ''}
+                        </span>
+                        <CopyToClipboard
+                          text={item.logistics ? item.logistics.logisticNo : ''}
+                        >
+                          <span className="iconfont ui-cursor-pointer ml-2">
+                            &#xe6c0;
+                          </span>
+                        </CopyToClipboard>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="ml-4 mr-4 rc-md-down">
+                {filteredLogisticsList.map((item, i) => (
+                  <div
+                    className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+                    onClick={this.handleClickLogisticsCard.bind(this, item)}
+                    key={i}
+                  >
+                    <div className="col-10 medium color-444 d-flex align-items-center">
+                      <span>
+                        {item.syncLogisticsInfo.originInfo.trackInfo[0].date}
+                      </span>
+                    </div>
+                    <div className="col-2">
+                      <span
+                        className="rc-icon rc-right rc-iconography rc-md-down"
+                        style={{ transform: 'scale(.85)' }}
+                      />
+                    </div>
+                    <div className="col-12 mt-2">
+                      {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
+                      {
+                        item.syncLogisticsInfo.originInfo.trackInfo[0]
+                          .statusDescription
+                      }
+                    </div>
+                    <div className="col-12 row mt-2">
+                      {item.shippingItems.map((sItem) => (
+                        <div className="col-3" key={sItem.skuId}>
+                          <img
+                            className="rc-bg-colour--brand4"
+                            src={sItem.pic}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          }
+        />
+      );
+    } else if (auditRejectReason) {
+      // 审核拒绝
+      ret = (
+        <>
+          <HeadTip
+            icon={
+              <svg
+                className="svg-icon"
+                aria-hidden="true"
+                style={{ width: '3.5em', height: '3.5em' }}
+              >
+                <use xlinkHref="#iconPrescriptionDeclined" />
+              </svg>
+            }
+            title={<FormattedMessage id="prescriptionDeclined" />}
+            titleColor="red"
+            tip={auditRejectReason}
+          />
+          <hr />
+        </>
+      );
+    } else if (
+      details.tradeState.flowState === 'COMPLETED' &&
+      !details.storeEvaluateVO
+    ) {
+      // 完成订单
+      ret = (
+        <>
+          <HeadTip
+            icon={
+              <svg
+                className="svg-icon"
+                aria-hidden="true"
+                style={{ width: '3.5em', height: '3.5em' }}
+              >
+                <use xlinkHref="#iconCompleted" />
+              </svg>
+            }
+            title={<FormattedMessage id="orderStatus.COMPLETED" />}
+            tip={<FormattedMessage id="order.completeTip" />}
+            operation={
+              <FormattedMessage id="comment">
+                {(txt) => (
+                  <Link
+                    className="rc-btn rc-btn--sm rc-btn--one"
+                    to={`/account/productReview/${orderNumber}`}
+                    title={txt}
+                    alt={txt}
+                  >
+                    {txt}
+                  </Link>
+                )}
+              </FormattedMessage>
+            }
+          />
+          <hr />
+        </>
+      );
+    }
+    return ret;
+  };
   render() {
     const event = {
       page: {
@@ -380,7 +898,15 @@ class AccountOrders extends React.Component {
       }
     };
 
-    const { details, payRecord, currentProgerssIndex } = this.state;
+    const {
+      details,
+      payRecord,
+      currentProgerssIndex,
+      orderNumber,
+      progressList,
+      showLogisticsDetail,
+      curLogisticInfo
+    } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -391,13 +917,33 @@ class AccountOrders extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div className="p-md-2rem rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Orders" />
+              <SideMenu type="Orders" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width">
-                <div className="row justify-content-center">
+                {showLogisticsDetail ? (
+                  <span onClick={this.handleClickBackToIndex}>
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                      <FormattedMessage id="order.orderDetails" />
+                    </span>
+                  </span>
+                ) : (
+                  <Link to="/account" className="rc-md-down">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2">
+                      <FormattedMessage id="account.ordersTitle" />
+                    </span>
+                  </Link>
+                )}
+
+                <div
+                  className={`row justify-content-center mt-3 mt-md-0 ${
+                    showLogisticsDetail ? 'hidden' : ''
+                  }`}
+                >
                   <div className="order_listing_details col-12 no-padding">
                     <div className="card confirm-details orderDetailsPage ml-0 mr-0">
                       {this.state.loading ? (
@@ -409,9 +955,10 @@ class AccountOrders extends React.Component {
                         />
                       ) : details ? (
                         <div className="card-body p-0">
-                          {currentProgerssIndex > -1 ? (
+                          {this.renderHeadTip()}
+                          {/* {currentProgerssIndex > -1 ? (
                             <>
-                              <div className="rc-progress-stepped order-progress">
+                              <div className="rc-progress-stepped order-progress mb-4">
                                 <ol className="rc-list d-flex order-progress-mb">
                                   {this.state.progressList.map((item, i) => (
                                     <li
@@ -448,328 +995,424 @@ class AccountOrders extends React.Component {
                                   ))}
                                 </ol>
                               </div>
-                              {/* audit reject reason */}
-                              {this.state.auditRejectReason && (
-                                <div
-                                  className="d-flex justify-content-end"
-                                  style={{ marginRight: '8%' }}
-                                >
-                                  <div
-                                    className="d-flex"
-                                    onClick={() => {
-                                      this.setState((curState) => ({
-                                        confirmTooltipVisible: !curState.confirmTooltipVisible
-                                      }));
-                                    }}
-                                  >
-                                    <i className="rc-icon rc-incompatible--xs rc-iconography1 rc-brand1" />
-                                    <div className="mt-1">
-                                      <FormattedMessage id="prescriptionDeclined" />
-                                      :
-                                    </div>
-                                  </div>
-                                  <ConfirmTooltip
-                                    containerStyle={{
-                                      transform: 'translate(-89%, 105%)'
-                                    }}
-                                    arrowStyle={{ left: '89%' }}
-                                    cancelBtnVisible={false}
-                                    display={this.state.confirmTooltipVisible}
-                                    confirm={(e) => {
-                                      this.setState({
-                                        confirmTooltipVisible: false
-                                      });
-                                    }}
-                                    updateChildDisplay={(status) => {
-                                      this.setState({
-                                        confirmTooltipVisible: status
-                                      });
-                                    }}
-                                    content={this.state.auditRejectReason}
-                                  />
-                                </div>
-                              )}
-                              <hr className="rc-margin-top---none" />
                             </>
-                          ) : null}
-                          <div className="d-flex justify-content-between align-items-center flex-wrap ml-4 mr-4">
-                            {details.subscriptionResponseVO ? (
-                              <div>
-                                <FormattedMessage id="subscription.numberFirstWordUpperCase" />
-                                :<br />
-                                <Link
-                                  to={`/account/subscription-detail/${this.state.subNumber}`}
-                                  className="rc-meta rc-styled-link medium mb-0"
-                                >
-                                  {this.state.subNumber}
-                                </Link>
-                              </div>
-                            ) : null}
-                            <div>
-                              <FormattedMessage id="order.orderNumber" />:<br />
-                              <span className="medium">
-                                {this.state.orderNumber}
-                              </span>
-                            </div>
-                            <div>
-                              <FormattedMessage id="order.orderDate" />:<br />
-                              <span className="medium">
-                                {details.tradeState.createTime.substr(0, 10)}
-                              </span>
-                            </div>
-                            <div className="text-center">
-                              <FormattedMessage id="order.orderStatus" />:<br />
-                              <span className="medium">
-                                {ORDER_STATUS_ENUM[
-                                  details.tradeState.flowState
-                                ] || details.tradeState.flowState}
-                              </span>
-                            </div>
-                            {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
-                              'true' && (
-                              <div className="text-center">
-                                <FormattedMessage id="payment.clinicTitle3" />:
-                                <br />
-                                <span className="medium">
-                                  {details.clinicsName}
-                                </span>
-                              </div>
-                            )}
-                            {/* {this.returnOrExchangeBtnJSX()} */}
-                            {/* {this.cancelOrderBtnJSX()} */}
-                          </div>
-                          <hr className="rc-margin-top---none" />
-                          <div className="order__listing text-left">
-                            <div className="order-list-container">
-                              <div className="card-container mt-0 border-0 pl-2 pr-2">
-                                {details.tradeItems.map((item, i) => (
-                                  <div
-                                    className={`row align-items-center ${
-                                      i ? 'pt-3' : ''
-                                    } ${
-                                      i !== details.tradeItems.length - 1
-                                        ? 'pb-3'
-                                        : ''
-                                    }`}
-                                    key={i}
-                                  >
-                                    <div className="col-12 col-md-4 d-flex align-items-start">
-                                      <img
-                                        className="img-fluid"
-                                        src={item.pic || IMG_DEFAULT}
-                                        alt={item.spuName}
-                                        title={item.spuName}
-                                      />
-                                      <span className="ml-1">
-                                        <span
-                                          className="medium ui-text-overflow-line2 text-break"
-                                          title={item.spuName}
+                          ) : null} */}
+                          {currentProgerssIndex > -1 ? (
+                            <div className="od-prg-container ml-2 mr-2 ml-md-4 mr-md-4">
+                              <div className="od-prg d-flex align-items-center">
+                                {progressList.map((item, i) => (
+                                  <>
+                                    <span
+                                      className={`od-prg-text position-relative ${
+                                        !i ? 'ml-3' : ''
+                                      } ${
+                                        i <= currentProgerssIndex
+                                          ? 'compelete red'
+                                          : ''
+                                      }`}
+                                    >
+                                      {i <= currentProgerssIndex ? (
+                                        <svg
+                                          className="svg-icon align-middle"
+                                          aria-hidden="true"
+                                          style={{
+                                            width: '1.5em',
+                                            height: '1.5em'
+                                          }}
                                         >
-                                          {item.spuName}
-                                        </span>
-                                        {item.specDetails}
-                                        <br/>
-                                        pet: {item.petsName}
-                                        {details.subscriptionResponseVO &&
-                                          item.subscriptionStatus && (
-                                            <>
-                                              <br />
-                                              <span
-                                                className="iconfont font-weight-bold red mr-1"
-                                                style={{ fontSize: '.8em' }}
-                                              >
-                                                &#xe675;
-                                              </span>
-                                              <FormattedMessage id="details.Subscription" />
-                                            </>
-                                          )}
-                                      </span>
-                                    </div>
-                                    <div className="col-9 col-md-3 text-right text-md-left">
-                                      x {item.num}
-                                    </div>
-                                    <div className="col-3 col-md-4 text-right text-md-left">
-                                      {details.subscriptionResponseVO &&
-                                      item.subscriptionStatus ? (
-                                        <>
-                                          <span
-                                            style={{
-                                              textDecoration: 'line-through'
-                                            }}
-                                          >
-                                            {formatMoney(item.price)}
-                                          </span>
-                                          <br />
-                                          {formatMoney(item.subscriptionPrice)}
-                                        </>
+                                          <use xlinkHref="#iconwancheng" />
+                                        </svg>
                                       ) : (
-                                        formatMoney(item.price)
+                                        <span className="od-prg-icon inlineblock text-white">
+                                          {i + 1}
+                                        </span>
                                       )}
-                                    </div>
-                                    <div className="col-12 col-md-1 text-right text-md-left text-nowrap">
-                                      {details.subscriptionResponseVO &&
-                                      item.subscriptionStatus
-                                        ? formatMoney(
-                                            item.subscriptionPrice * item.num
-                                          )
-                                        : formatMoney(item.price * item.num)}
-                                    </div>
-                                  </div>
+                                      <span className="ml-1 rc-md-up">
+                                        {item.displayName}
+                                      </span>
+                                      <span className="od-prg-name position-absolute rc-md-down">
+                                        {item.displayName}
+                                      </span>
+                                      <span className="od-prg-time position-absolute">
+                                        <span className="rc-md-up">
+                                          {item.time1} {item.time2}
+                                        </span>
+                                        <span className="rc-md-down">
+                                          {item.time1}
+                                          <br />
+                                          {item.time2}
+                                        </span>
+                                      </span>
+                                    </span>
+                                    {i !== progressList.length - 1 ? (
+                                      <span
+                                        className={`od-prg-line position-relative flex-fill ml-2 mr-2 ${
+                                          i < currentProgerssIndex
+                                            ? 'complete'
+                                            : i == currentProgerssIndex
+                                            ? 'ing'
+                                            : ''
+                                        }`}
+                                      />
+                                    ) : null}
+                                  </>
                                 ))}
                               </div>
                             </div>
-                          </div>
-                          <hr className="rc-margin-top---none" />
+                          ) : null}
+
                           <div
-                            className="row pt-2 pb-2"
-                            style={{ lineHeight: 1.7 }}
-                          >
-                            <div className="col-9 col-xxl-11 text-right color-999">
-                              <FormattedMessage id="total" />
-                            </div>
-                            <div className="col-3 col-xxl-1 medium text-nowrap">
-                              {formatMoney(details.tradePrice.goodsPrice)}
-                            </div>
-                            {details.tradePrice.discountsPrice ? (
-                              <>
-                                <div className="col-9 col-xxl-11 text-right color-999 red">
-                                  {details.tradePrice.promotionDesc || (
-                                    <FormattedMessage id="promotion" />
-                                  )}
+                            className="rc-bg-colour--brand4 rc-md-down mt-3"
+                            style={{ height: '.8rem' }}
+                          />
+                          <div className="row m-0 ml-2 mr-2 ml-md-0 mr-md-0">
+                            <div class="col-12 border table-header rounded order-1 order-md-0">
+                              <div className="row align-items-center pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
+                                <div className="col-12 col-md-4 text-left mb-2">
+                                  <FormattedMessage id="order.orderNumber" />:
+                                  <br />
+                                  <span className="medium">{orderNumber}</span>
                                 </div>
-                                <div className="col-3 col-xxl-1 red medium text-nowrap">
-                                  -
-                                  {formatMoney(
-                                    details.tradePrice.discountsPrice
-                                  )}
+                                {details.subscriptionResponseVO ? (
+                                  <div className="col-12 col-md-4 text-left mb-2">
+                                    <FormattedMessage id="subscription.numberFirstWordUpperCase" />
+                                    :<br />
+                                    <Link
+                                      to={`/account/subscription-detail/${this.state.subNumber}`}
+                                      className="rc-styled-link medium mb-0"
+                                    >
+                                      {this.state.subNumber}
+                                    </Link>
+                                  </div>
+                                ) : null}
+
+                                {process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
+                                  'true' && (
+                                  <div className="col-12 col-md-4 text-left mb-2">
+                                    <FormattedMessage id="payment.clinicTitle3" />
+                                    <br />
+                                    <span className="medium">
+                                      {details.clinicsName}
+                                    </span>
+                                  </div>
+                                )}
+                                {/* {this.returnOrExchangeBtnJSX()} */}
+                                {/* {this.cancelOrderBtnJSX()} */}
+                              </div>
+                            </div>
+                            <div className="col-12 table-body rounded mt-md-3 mb-2 order-0 order-md-1 pl-0 pr-0">
+                              <div className="order__listing text-left">
+                                <div className="order-list-container">
+                                  {details.tradeItems.map((item, i) => (
+                                    <div className="border-bottom p-2" key={i}>
+                                      <div
+                                        className={`row align-items-center pl-2 pr-2 pl-md-0 pr-md-0 ${
+                                          i ? 'pt-3' : ''
+                                        } ${
+                                          i !== details.tradeItems.length - 1
+                                            ? 'pb-3'
+                                            : ''
+                                        }`}
+                                      >
+                                        <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                          <img
+                                            className="order-details-img-fluid"
+                                            src={item.pic || IMG_DEFAULT}
+                                            alt={item.spuName}
+                                            title={item.spuName}
+                                          />
+                                        </div>
+                                        <div className="col-8 col-md-3">
+                                          <span className="">
+                                            <span
+                                              className="medium ui-text-overflow-line2 text-break color-444"
+                                              title={item.spuName}
+                                            >
+                                              {item.spuName}
+                                            </span>
+                                            <span className="ui-text-overflow-line2">
+                                              {item.specDetails}
+                                              <span className="rc-md-down">
+                                                -{' '}
+                                                <FormattedMessage
+                                                  id="xProduct"
+                                                  values={{ val: item.num }}
+                                                />
+                                              </span>
+                                            </span>
+
+                                            <span className="rc-md-down">
+                                              {details.subscriptionResponseVO &&
+                                              item.subscriptionStatus ? (
+                                                <>
+                                                  <span className="red font-weight-normal">
+                                                    {formatMoney(
+                                                      item.subscriptionPrice
+                                                    )}
+                                                  </span>
+
+                                                  <span className="text-line-through ml-2">
+                                                    {formatMoney(item.price)}
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                formatMoney(item.price)
+                                              )}
+                                            </span>
+                                            {/* {details.subscriptionResponseVO &&
+                                              item.subscriptionStatus && (
+                                                <>
+                                                  <br />
+                                                  <span
+                                                    className="iconfont font-weight-bold red mr-1"
+                                                    style={{ fontSize: '.8em' }}
+                                                  >
+                                                    &#xe675;
+                                                  </span>
+                                                  <FormattedMessage id="details.Subscription" />
+                                                </>
+                                              )} */}
+                                          </span>
+                                        </div>
+                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                          <FormattedMessage
+                                            id="xProduct"
+                                            values={{ val: item.num }}
+                                          />
+                                        </div>
+                                        <div className="col-6 col-md-3 text-right text-md-left rc-md-up">
+                                          {details.subscriptionResponseVO &&
+                                          item.subscriptionStatus ? (
+                                            <>
+                                              <span className="red font-weight-normal">
+                                                {formatMoney(
+                                                  item.subscriptionPrice
+                                                )}
+                                              </span>
+
+                                              <span className="text-line-through ml-2">
+                                                {formatMoney(item.price)}
+                                              </span>
+                                            </>
+                                          ) : (
+                                            formatMoney(item.price)
+                                          )}
+                                        </div>
+                                        <div className="col-12 col-md-1 text-right text-md-left text-nowrap rc-md-up">
+                                          {details.subscriptionResponseVO &&
+                                          item.subscriptionStatus
+                                            ? formatMoney(
+                                                item.subscriptionPrice *
+                                                  item.num
+                                              )
+                                            : formatMoney(
+                                                item.price * item.num
+                                              )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                              </>
-                            ) : null}
-                            <div className="col-9 col-xxl-11 text-right color-999">
-                              <FormattedMessage id="shipping" />
-                            </div>
-                            <div className="col-3 col-xxl-1 medium text-nowrap">
-                              {formatMoney(details.tradePrice.deliveryPrice)}
-                            </div>
-                            <div className="col-9 col-xxl-11 text-right color-999">
-                              <FormattedMessage id="totalIncluIVA" />
-                            </div>
-                            <div className="col-3 col-xxl-1 medium text-nowrap">
-                              {formatMoney(details.tradePrice.totalPrice)}
+                              </div>
+                              <div className="pt-2 pb-2 pl-md-4 pr-md-4">
+                                <div className="row mt-2 text-left">
+                                  <div class="col-2 col-xxl-7 mb-2 rc-md-up">
+                                    &nbsp;
+                                  </div>
+                                  <div className="col-6 col-xxl-2 mb-2">
+                                    <FormattedMessage id="total" />
+                                  </div>
+                                  <div className="col-6 col-xxl-3 text-right text-nowrap">
+                                    {formatMoney(details.tradePrice.goodsPrice)}
+                                  </div>
+                                  {details.tradePrice.discountsPrice ? (
+                                    <>
+                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-xxl-2 mb-2 red">
+                                        {details.tradePrice.promotionDesc || (
+                                          <FormattedMessage id="promotion" />
+                                        )}
+                                      </div>
+                                      <div className="col-6 col-xxl-3 text-right red text-nowrap">
+                                        -
+                                        {formatMoney(
+                                          details.tradePrice.discountsPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
+                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                    &nbsp;
+                                  </div>
+                                  <div className="col-6 col-xxl-2 mb-2">
+                                    <FormattedMessage id="shipping" />
+                                  </div>
+                                  <div className="col-6 col-xxl-3 text-right text-nowrap">
+                                    {formatMoney(
+                                      details.tradePrice.deliveryPrice
+                                    )}
+                                  </div>
+                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                    &nbsp;
+                                  </div>
+                                  <div className="col-6 col-xxl-2 mb-2">
+                                    <span className="medium color-444">
+                                      <FormattedMessage id="total" />
+                                    </span>{' '}
+                                    <span style={{ fontSize: '.8em' }}>
+                                      <FormattedMessage id="IVAIncluido" />
+                                    </span>
+                                  </div>
+                                  <div className="col-6 col-xxl-3 text-right medium text-nowrap color-444">
+                                    {formatMoney(details.tradePrice.totalPrice)}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <hr className="rc-margin-top---none" />
-                          <div className="row ml-2 mr-2 text-left">
-                            <div className="col-12 col-md-4 mb-2">
-                              <div className="d-flex align-items-center">
-                                <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" />
-                                <span>
-                                  <FormattedMessage id="delivery2" />
-                                </span>
-                              </div>
-                              <div className="ml-1">
-                                <span className="medium">
-                                  {details.consignee.name}
-                                </span>
-                                <br />
-                                {details.consignee.postCode},{' '}
-                                {details.consignee.phone}
-                                <br />
-                                {this.matchNamefromDict(
-                                  this.state.countryList,
-                                  details.consignee.countryId
-                                )}{' '}
-                                {details.consignee.cityName}
-                                <br />
-                                {details.consignee.detailAddress1}
-                                <br />
-                                {details.consignee.detailAddress2}
-                                {details.consignee.detailAddress2 ? (
-                                  <br />
-                                ) : null}
-                                {details.consignee.rfc}
-                                {details.consignee.rfc ? <br /> : null}
-                                {details.buyerRemark}
-                              </div>
-                            </div>
-                            <div className="col-12 col-md-4 mb-2">
-                              <div className="d-flex align-items-center">
-                                <i className="rc-icon rc-rewind rc-billing rc-brand1 mt-1" />
-                                <span>
-                                  <FormattedMessage id="billing" />
-                                </span>
-                              </div>
-                              <div className="ml-1">
-                                <span className="medium">
-                                  {details.invoice.contacts}
-                                </span>
-                                <br />
-                                {details.invoice.postCode},{' '}
-                                {details.invoice.phone}
-                                <br />
-                                {this.matchNamefromDict(
-                                  this.state.countryList,
-                                  details.invoice.countryId
-                                )}{' '}
-                                {details.invoice.cityName}
-                                <br />
-                                {details.invoice.address1}
-                                <br />
-                                {details.invoice.address2}
-                                {details.invoice.address2 ? <br /> : null}
-                                {details.invoice.rfc}
-                                {details.invoice.rfc ? <br /> : null}
-                              </div>
-                            </div>
-                            {payRecord ? (
+
+                          {/* 地址/支付信息 */}
+                          <div className="ml-2 mr-2 mr-md-0 ml-md-0">
+                            <p className="mt-4 mb-2 red text-left">
+                              <FormattedMessage id="transactionInfomation" />
+                            </p>
+                            <div className="row text-left text-break">
                               <div className="col-12 col-md-4 mb-2">
-                                {payRecord.last4Digits ? (
-                                  <>
-                                    <div className="d-flex align-items-center">
-                                      <i className="rc-icon rc-payment--sm rc-brand1 ml-1 mr-1 mt-1" />
-                                      <span>
-                                        <FormattedMessage id="payment.payment" />
-                                      </span>
+                                <div className="border rounded">
+                                  <div className="d-flex p-3 h-100">
+                                    <svg
+                                      className="svg-icon align-middle mr-3 ml-1"
+                                      aria-hidden="true"
+                                      style={{ width: '2em', height: '2em' }}
+                                    >
+                                      <use xlinkHref="#iconaddresses" />
+                                    </svg>
+                                    <div>
+                                      <p className="medium mb-3">
+                                        <FormattedMessage id="delivery2" />
+                                      </p>
+                                      <p className="medium mb-2">
+                                        {details.consignee.name}
+                                      </p>
+                                      {details.consignee.postCode},{' '}
+                                      {details.consignee.phone}
+                                      <br />
+                                      {this.matchNamefromDict(
+                                        this.state.countryList,
+                                        details.consignee.countryId
+                                      )}{' '}
+                                      {details.consignee.cityName}
+                                      <br />
+                                      {details.consignee.detailAddress1}
+                                      <br />
+                                      {details.consignee.detailAddress2}
+                                      {details.consignee.detailAddress2 ? (
+                                        <br />
+                                      ) : null}
+                                      {details.consignee.rfc}
+                                      {details.consignee.rfc ? <br /> : null}
+                                      {details.buyerRemark}
                                     </div>
-                                    <div className="ml-1">
-                                      <img
-                                        alt=""
-                                        className="d-inline-block mr-1"
-                                        style={{ width: '20%' }}
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[payRecord.vendor]
-                                            ? CREDIT_CARD_IMG_ENUM[
-                                                payRecord.vendor
-                                              ]
-                                            : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                        }
-                                      />
-                                      {payRecord.last4Digits ? (
-                                        <>
-                                          <span className="medium">
-                                            ********{payRecord.last4Digits}
-                                          </span>
-                                          <br />
-                                        </>
-                                      ) : null}
-                                      {payRecord.accountName ? (
-                                        <>
-                                          {payRecord.accountName}
-                                          <br />
-                                        </>
-                                      ) : null}
-                                      {payRecord.phone ? (
-                                        <>
-                                          {payRecord.phone}
-                                          <br />
-                                        </>
-                                      ) : null}
-                                      {payRecord.email}
-                                    </div>
-                                  </>
-                                ) : null}
+                                  </div>
+                                </div>
                               </div>
-                            ) : null}
+                              <div className="col-12 col-md-4 mb-2">
+                                <div className="border rounded p-3 h-100">
+                                  <div className="d-flex">
+                                    <svg
+                                      className="svg-icon align-middle mr-3 ml-1"
+                                      aria-hidden="true"
+                                      style={{ width: '2em', height: '2em' }}
+                                    >
+                                      <use xlinkHref="#iconBillingAddress1" />
+                                    </svg>
+                                    <div>
+                                      <p className="medium mb-3">
+                                        <FormattedMessage id="billing" />
+                                      </p>
+                                      <p className="medium mb-2">
+                                        {details.invoice.contacts}
+                                      </p>
+                                      {details.invoice.postCode},{' '}
+                                      {details.invoice.phone}
+                                      <br />
+                                      {this.matchNamefromDict(
+                                        this.state.countryList,
+                                        details.invoice.countryId
+                                      )}{' '}
+                                      {details.invoice.cityName}
+                                      <br />
+                                      {details.invoice.address1}
+                                      <br />
+                                      {details.invoice.address2}
+                                      {details.invoice.address2 ? <br /> : null}
+                                      {details.invoice.rfc}
+                                      {details.invoice.rfc ? <br /> : null}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {payRecord && payRecord.last4Digits ? (
+                                <div className="col-12 col-md-4 mb-2">
+                                  <div className="border rounded p-3 h-100">
+                                    <div className="d-flex">
+                                      <svg
+                                        className="svg-icon align-middle mr-3 ml-1"
+                                        aria-hidden="true"
+                                        style={{ width: '2em', height: '2em' }}
+                                      >
+                                        <use xlinkHref="#iconpayments" />
+                                      </svg>
+                                      <div>
+                                        <p className="medium mb-3">
+                                          <FormattedMessage id="payment.payment" />
+                                        </p>
+                                        <p className="medium mb-2">
+                                          <img
+                                            alt=""
+                                            className="d-inline-block mr-1"
+                                            style={{ width: '20%' }}
+                                            src={
+                                              CREDIT_CARD_IMG_ENUM[
+                                                payRecord.vendor.toUpperCase()
+                                              ]
+                                                ? CREDIT_CARD_IMG_ENUM[
+                                                    payRecord.vendor.toUpperCase()
+                                                  ]
+                                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                            }
+                                          />
+                                          {payRecord.last4Digits ? (
+                                            <>
+                                              <span className="medium">
+                                                ********{payRecord.last4Digits}
+                                              </span>
+                                              <br />
+                                            </>
+                                          ) : null}
+                                        </p>
+
+                                        {payRecord.accountName ? (
+                                          <>
+                                            {payRecord.accountName}
+                                            <br />
+                                          </>
+                                        ) : null}
+                                        {payRecord.phone ? (
+                                          <>
+                                            {payRecord.phone}
+                                            <br />
+                                          </>
+                                        ) : null}
+                                        {payRecord.email}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </div>
                           </div>
                         </div>
                       ) : this.state.errMsg ? (
@@ -781,6 +1424,106 @@ class AccountOrders extends React.Component {
                     </div>
                   </div>
                 </div>
+
+                {/* one order details for mobile */}
+                {showLogisticsDetail ? (
+                  <div className="row">
+                    <LogisticsProgress
+                      list={
+                        (curLogisticInfo.syncLogisticsInfo &&
+                          curLogisticInfo.syncLogisticsInfo.originInfo &&
+                          curLogisticInfo.syncLogisticsInfo.originInfo
+                            .trackInfo) ||
+                        []
+                      }
+                    />
+                    <div
+                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
+                      style={{ height: '.8rem' }}
+                    />
+                    {(curLogisticInfo.shippingItems || []).map((ele) => (
+                      <div className="row col-12" key={ele.skuId}>
+                        <div className="col-6">
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                          />
+                        </div>
+
+                        <div className="col-6 d-flex align-items-center">
+                          <div>
+                            <div className="font-weight-normal ui-text-overflow-line2">
+                              {ele.itemName}
+                            </div>
+                            {ele.specDetails} -{' '}
+                            <FormattedMessage
+                              id="xProduct"
+                              values={{ val: ele.itemNum }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div
+                      className="col-12 rc-bg-colour--brand4 rc-md-down mb-3"
+                      style={{ height: '.8rem' }}
+                    />
+                    <div className="row m-0 pt-2 pb-2">
+                      <div className="col-12 col-md-3 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconDeliverydate" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="deliveryDate" />
+                          <br />
+                          <span className="medium color-444">
+                            {(curLogisticInfo.deliverTime || '').substr(0, 10)}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="col-12 col-md-3 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticscompany" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="logisticsCompany" />
+                          <br />
+                          <span className="medium color-444">
+                            {curLogisticInfo.logistics
+                              ? curLogisticInfo.logistics.logisticCompanyName
+                              : ''}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="col-12 col-md-6 d-flex">
+                        <svg className="svg-icon mr-1" aria-hidden="true">
+                          <use xlinkHref="#iconLogisticssinglenumber" />
+                        </svg>
+                        <p>
+                          <FormattedMessage id="logisticsSingleNumber" />
+                          <br />
+                          <span className="medium color-444">
+                            {curLogisticInfo.logistics
+                              ? curLogisticInfo.logistics.logisticNo
+                              : ''}
+                          </span>
+                          <CopyToClipboard
+                            text={
+                              curLogisticInfo.logistics
+                                ? curLogisticInfo.logistics.logisticNo
+                                : ''
+                            }
+                          >
+                            <span className="iconfont ui-cursor-pointer ml-2">
+                              &#xe6c0;
+                            </span>
+                          </CopyToClipboard>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

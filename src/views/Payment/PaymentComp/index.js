@@ -894,9 +894,9 @@ class PaymentComp extends React.Component {
                   this.initCardInfo();
                 }}
               >
-                <a className="rc-styled-link">
+                <span className="rc-styled-link">
                   <FormattedMessage id="addNewCreditCard" />
-                </a>
+                </span>
               </div>
             </>
           )
@@ -959,7 +959,9 @@ class PaymentComp extends React.Component {
                             alt="Card"
                             src={
                               CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                ? CREDIT_CARD_IMG_ENUM[this.state.currentVendor.toUpperCase()]
+                                ? CREDIT_CARD_IMG_ENUM[
+                                    this.state.currentVendor.toUpperCase()
+                                  ]
                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />

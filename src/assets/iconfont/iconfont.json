@@ -6,6 +6,167 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18150424",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "18080678",
+      "name": "data",
+      "font_class": "data",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "18080486",
+      "name": "箭头左",
+      "font_class": "jiantouzuo",
+      "unicode": "e6ad",
+      "unicode_decimal": 59053
+    },
+    {
+      "icon_id": "18080487",
+      "name": "箭头右",
+      "font_class": "jiantouyou",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "18080488",
+      "name": "完成",
+      "font_class": "wancheng",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "18080489",
+      "name": "展开",
+      "font_class": "zhankai",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "18080490",
+      "name": "收起",
+      "font_class": "shouqi",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "18080491",
+      "name": "Cancel Autoship",
+      "font_class": "CancelAutoship",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "18080493",
+      "name": "Delivery date",
+      "font_class": "Deliverydate",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "18080494",
+      "name": "Logistics single number",
+      "font_class": "Logisticssinglenumber",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "18080495",
+      "name": "Pause Autoship",
+      "font_class": "PauseAutoship",
+      "unicode": "e6b6",
+      "unicode_decimal": 59062
+    },
+    {
+      "icon_id": "18080496",
+      "name": "Completed",
+      "font_class": "Completed",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "18080497",
+      "name": "Logistics company",
+      "font_class": "Logisticscompany",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "18080498",
+      "name": "进行中",
+      "font_class": "jinhangzhong",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "18080499",
+      "name": "skip",
+      "font_class": "skip",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "18080500",
+      "name": "In transit",
+      "font_class": "Intransit",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "18080501",
+      "name": "已完成",
+      "font_class": "yiwancheng",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "18080502",
+      "name": "To be delivered",
+      "font_class": "Tobedelivered",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "18080503",
+      "name": "Prescription Declined",
+      "font_class": "PrescriptionDeclined",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "18080504",
+      "name": "To be paid",
+      "font_class": "Tobepaid",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "18079909",
+      "name": "Autoship",
+      "font_class": "Autoship",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "18079717",
+      "name": "BillingAddress1",
+      "font_class": "BillingAddress1",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "18079643",
+      "name": "Subscription",
+      "font_class": "Subscription",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
       "icon_id": "18006132",
       "name": "account",
       "font_class": "account",

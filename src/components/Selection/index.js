@@ -7,7 +7,8 @@ export default class Selection extends React.Component {
     optionList: [],
     customStyleType: '', // eg: select-one
     customContainerStyle: null,
-    placeholder: ''
+    placeholder: '',
+    customInnerStyle: {}
   };
   constructor(props) {
     super(props);
@@ -95,7 +96,10 @@ export default class Selection extends React.Component {
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
           onClick={(e) => this.toggleShowOptions(e)}
         >
-          <div className="choices__inner">
+          <div
+            className="choices__inner"
+            style={{ ...this.props.customInnerStyle }}
+          >
             <div className="choices__list choices__list--single">
               <div
                 className="choices__item choices__item--selectable"

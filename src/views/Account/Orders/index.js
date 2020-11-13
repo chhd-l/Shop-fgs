@@ -11,17 +11,12 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney, getDictionary } from '@/utils/utils';
+import { formatMoney, getDictionary, getDeviceType } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import {
-  IMG_DEFAULT,
-  DELIVER_STATUS_ENUM,
-  ORDER_STATUS_ENUM,
-  PAY_STATUS_ENUM
-} from '@/utils/constant';
-import './index.css';
+import { IMG_DEFAULT } from '@/utils/constant';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -36,21 +31,33 @@ class AccountOrders extends React.Component {
       orderList: [],
       form: {
         orderNumber: '',
-        period: 7
+        period: 7,
+        orderCategory: '' // 订单类型
       },
       loading: true,
+      initLoading: true,
       currentPage: 1,
       totalPage: 1,
       initing: true,
       errMsg: '',
+      tabErrMsg: '',
       duringTimeOptions: [],
       defaultLocalDateTime: '',
-      haveList: true,
-      haveOrder:true,
-      isFirstComeIn: true,
+      everHaveNoOrders: true,
+      tabNames: [
+        <FormattedMessage id="allOrders" />,
+        <FormattedMessage id="single" />,
+        <FormattedMessage id="autoship" />
+      ],
+      activeTabIdx: 0,
+      showOneOrderDetail: false,
+      curOneOrderDetails: null
     };
 
     this.pageSize = 6;
+    this.deviceType = getDeviceType();
+    this.changeTab = this.changeTab.bind(this);
+    this.handleClickCardItem = this.handleClickCardItem.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -141,17 +148,16 @@ class AccountOrders extends React.Component {
         });
       }, 0);
     }
-    let createdFrom = '';
     this.setState({ loading: true });
     let param = {
       keywords: form.orderNumber,
       pageNum: currentPage - 1,
       pageSize: this.pageSize,
-      period: form.period
+      period: form.period,
+      orderCategory: form.orderCategory
     };
     getOrderList(param)
       .then((res) => {
-        console.log('paramas:', param);
         let tmpList = Array.from(res.context.content, (ele) => {
           const tradeState = ele.tradeState;
           return Object.assign(ele, {
@@ -178,16 +184,16 @@ class AccountOrders extends React.Component {
               tradeState.flowState === 'COMPLETED' ||
               tradeState.flowState === 'VOID',
             canReview:
-              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO
+              tradeState.flowState === 'COMPLETED' && !ele.storeEvaluateVO,
+            canViewTrackInfo:
+              tradeState.payState === 'PAID' &&
+              tradeState.auditState === 'CHECKED' &&
+              tradeState.deliverStatus === 'SHIPPED' &&
+              tradeState.flowState === 'DELIVERED'
           });
         });
-        if (!tmpList.length) {
-          this.setState({ haveList: false });
-        } else {
-          if(this.state.isFirstComeIn) {
-            this.setState({haveOrder: true, isFirstComeIn: false})
-          }
-          this.setState({ haveList: true });
+        if (this.state.initing) {
+          this.setState({ everHaveNoOrders: !tmpList.length });
         }
         this.setState({
           orderList: tmpList,
@@ -195,25 +201,28 @@ class AccountOrders extends React.Component {
           totalPage: res.context.totalPages,
           defaultLocalDateTime: res.defaultLocalDateTime,
           loading: false,
-          initing: false
+          initing: false,
+          initLoading: false
         });
       })
       .catch((err) => {
         this.setState({
           loading: false,
           errMsg: err.message.toString(),
-          initing: false
+          tabErrMsg: err.message.toString(),
+          initing: false,
+          initLoading: false
         });
       });
   }
-  hanldePageNumChange(params) {
+  hanldePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
       },
       () => this.queryOrderList()
     );
-  }
+  };
   updateFilterData(form) {
     this.setState(
       {
@@ -354,6 +363,95 @@ class AccountOrders extends React.Component {
     await this.props.checkoutStore.updateLoginCart();
     this.props.history.push('/cart');
   }
+  changeTab(i) {
+    this.setState(
+      {
+        activeTabIdx: i,
+        form: Object.assign(this.state.form, {
+          orderCategory: { 0: '', 1: 'SINGLE', 2: 'FIRST_AUTOSHIP' }[i]
+        }),
+        currentPage: 1
+      },
+      () => this.queryOrderList()
+    );
+  }
+  handleClickCardItem(item) {
+    if (this.deviceType === 'PC') return false;
+    this.setState({ curOneOrderDetails: item });
+    setTimeout(() => {
+      this.setState({ showOneOrderDetail: true });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+  handleClickBackToIndex = () => {
+    this.setState({ showOneOrderDetail: false });
+  };
+  renderOperationBtns = (order) => {
+    return (
+      <>
+        {order.canPayNow ? (
+          <>
+            <TimeCount
+              startTime={this.state.defaultLocalDateTime}
+              endTime={order.orderTimeOut}
+              onTimeEnd={() => this.handlePayNowTimeEnd(order)}
+            />
+            <button
+              className={`rc-btn rc-btn--one ord-list-operation-btn ${
+                order.payNowLoading ? 'ui-btn-loading' : ''
+              }`}
+              onClick={() => this.handleClickPayNow(order)}
+            >
+              <FormattedMessage id="order.payNow" />
+            </button>
+          </>
+        ) : null}
+        {order.canReview ? (
+          <button className="rc-btn rc-btn--sm rc-btn--two ord-list-operation-btn">
+            <FormattedMessage id="writeReview">
+              {(txt) => (
+                <Link
+                  className="red-text"
+                  to={`/account/productReview/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+        {order.canRePurchase ? (
+          <button
+            className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn ord-list-operation-btn"
+            onClick={() => this.rePurchase(order)}
+          >
+            <FormattedMessage id="rePurchase" />
+          </button>
+        ) : null}
+        {order.canViewTrackInfo ? (
+          <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
+            <FormattedMessage id="trackDelivery">
+              {(txt) => (
+                <Link
+                  className="text-white"
+                  to={`/account/orders-detail/${order.id}`}
+                  title={txt}
+                  alt={txt}
+                >
+                  {txt}
+                </Link>
+              )}
+            </FormattedMessage>
+          </button>
+        ) : null}
+      </>
+    );
+  };
   render() {
     const event = {
       page: {
@@ -361,7 +459,15 @@ class AccountOrders extends React.Component {
         theme: ''
       }
     };
-    let { haveList, haveOrder } = this.state;
+    const {
+      errMsg,
+      everHaveNoOrders,
+      activeTabIdx,
+      orderList,
+      tabErrMsg,
+      showOneOrderDetail,
+      curOneOrderDetails
+    } = this.state;
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -374,309 +480,348 @@ class AccountOrders extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
-          <div className="rc-padding--sm rc-max-width--xl">
+          <div className="p-md-2rem rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Orders" />
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
-                  <h4 className="rc-delta rc-margin--none pb-2">
-                    <FormattedMessage id="order.historyOfOrders" />
-                  </h4>
-                </div>
-                <div
-                  className="row justify-content-around"
-                  style={{ display: haveOrder? 'flex' : 'none' }}
-                >
-                  <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
-                    <div className="col-md-4">
-                      <FormattedMessage id="order.orderNumber" />
+              <SideMenu type="Orders" customCls="rc-md-up" />
+              <div
+                className={`my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop pl-0 pr-0 pr-md-3 pl-md-3 ${
+                  showOneOrderDetail ? 'hidden' : ''
+                }`}
+              >
+                {this.state.initLoading ? (
+                  <div className="mt-4">
+                    <Skeleton
+                      color="#f5f5f5"
+                      width="100%"
+                      height="50%"
+                      count={4}
+                    />
+                  </div>
+                ) : errMsg ? (
+                  <div className="text-center mt-5">
+                    <span className="rc-icon rc-incompatible--xs rc-iconography" />
+                    {errMsg}
+                  </div>
+                ) : everHaveNoOrders ? (
+                  <>
+                    {/* 无任何订单 */}
+                    <div className={`content-asset`}>
+                      <div className="rc-layout-container rc-two-column">
+                        <div className="rc-column">
+                          <img src={orderImg} className="w-100" alt="" />
+                        </div>
+                        <div className="rc-column d-flex align-items-center justify-content-center">
+                          <div>
+                            <p>
+                              <FormattedMessage id="account.orders.tips" />
+                            </p>
+                            <button
+                              className="rc-btn rc-btn--one"
+                              onClick={() => this.props.history.push('/')}
+                            >
+                              <FormattedMessage id="account.orders.btns" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-md-8">
-                      <span className="rc-input rc-input--inline rc-full-width">
-                        <input
-                          className="rc-input__control"
-                          id="id-text8"
-                          type="text"
-                          name="orderNumber"
-                          maxLength="21"
-                          // placeholder={this.props.intl.message.order.inputOrderNumberTip}
-                          value={this.state.form.orderNumber}
-                          onChange={(e) => this.handleInputChange(e)}
-                        />
-                        {this.state.form.orderNumber ? null : (
-                          <label className="rc-input__label" htmlFor="id-text8">
-                            <span className="rc-input__label-text">
-                              <FormattedMessage id="order.inputOrderNumberTip" />
-                            </span>
-                          </label>
+                  </>
+                ) : (
+                  <>
+                    <div className="row mb-3 ml-2 m-md-0">
+                      <div className="col-12 rc-md-down">
+                        <Link to="/account">
+                          <span className="red">&lt;</span>
+                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                            <FormattedMessage id="home" />
+                          </span>
+                        </Link>
+                      </div>
+                      <div className="col-12 order-1 order-md-0 col-md-8 rc-fade--x">
+                        <ul
+                          className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank rc-border-bottom rc-border-colour--interface"
+                          role="tablist"
+                        >
+                          {this.state.tabNames.map((ele, index) => (
+                            <li key={index}>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0 font-weight-normal"
+                                data-toggle={`tab__panel-${index}`}
+                                aria-selected={
+                                  activeTabIdx === index ? 'true' : 'false'
+                                }
+                                role="tab"
+                                onClick={this.changeTab.bind(this, index)}
+                              >
+                                {ele}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="col-10 order-0 order-md-1 col-md-4">
+                        <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
+                          <Selection
+                            optionList={this.state.duringTimeOptions}
+                            selectedItemChange={(data) =>
+                              this.handleDuringTimeChange(data)
+                            }
+                            selectedItemData={{
+                              value: this.state.form.period
+                            }}
+                            key={this.state.form.period}
+                            // customStyleType="select-one"
+                            customInnerStyle={{
+                              paddingTop: '.7em',
+                              paddingBottom: '.7em'
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="order__listing">
+                      <div className="order-list-container">
+                        {this.state.loading ? (
+                          <div className="mt-4">
+                            <Skeleton
+                              color="#f5f5f5"
+                              width="100%"
+                              height="50%"
+                              count={4}
+                            />
+                          </div>
+                        ) : this.state.tabErrMsg ? (
+                          <div className="text-center mt-5">
+                            <span className="rc-icon rc-incompatible--xs rc-iconography" />
+                            {this.state.tabErrMsg}
+                          </div>
+                        ) : orderList.length ? (
+                          <>
+                            {orderList.map((order) => (
+                              <div
+                                className="card-container"
+                                key={order.id}
+                                onClick={this.handleClickCardItem.bind(
+                                  this,
+                                  order
+                                )}
+                              >
+                                <div className="card rc-margin-y--none ml-0">
+                                  <div className="card-header border-color-d7d7d7 row rc-margin-x--none align-items-center pl-0 pr-0 rc-md-up">
+                                    <div className="col-12 col-md-3">
+                                      <p>
+                                        <FormattedMessage id="order.orderPlacedOn" />
+                                        <br className="d-none d-md-block" />
+                                        <span className="medium orderHeaderTextColor">
+                                          {order.tradeState.createTime.substr(
+                                            0,
+                                            10
+                                          )}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-12 col-md-3 mb-2 mb-md-0">
+                                      <p className="text-nowrap">
+                                        <FormattedMessage id="order.orderNumber" />
+                                        <br className="d-none d-md-block" />
+                                        <span className="medium orderHeaderTextColor">
+                                          {order.id}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-12 col-md-3">
+                                      <p>
+                                        <FormattedMessage id="total" />
+                                        <br className="d-none d-md-block" />
+                                        <span className="medium orderHeaderTextColor">
+                                          {formatMoney(
+                                            order.tradePrice.totalPrice
+                                          )}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                      <Link
+                                        className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+                                        to={`/account/orders-detail/${order.id}`}
+                                      >
+                                        <span className="medium pull-right--desktop rc-styled-link">
+                                          <FormattedMessage id="order.orderDetails" />
+                                        </span>
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row mb-3 mt-3 align-items-center m-0">
+                                  {/* 订单完成tip */}
+                                  {order.tradeState.flowState === 'COMPLETED' &&
+                                  !order.storeEvaluateVO &&
+                                  order.tradeEventLogs[0].eventType ===
+                                    'COMPLETED' ? (
+                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <p className="medium mb-0 color-444">
+                                        <FormattedMessage id="orderStatus.COMPLETED" />
+                                        :{' '}
+                                        {order.tradeEventLogs[0].eventTime.substr(
+                                          0,
+                                          10
+                                        )}
+                                      </p>
+                                      <p>
+                                        <FormattedMessage id="order.completeTip" />
+                                      </p>
+                                    </div>
+                                  ) : null}
+                                  <div className="col-10 col-md-9">
+                                    {order.tradeItems.map((item, idx) => (
+                                      <div
+                                        className={`row rc-margin-x--none align-items-center ${
+                                          idx ? 'mt-2' : ''
+                                        }`}
+                                        key={item.oid}
+                                      >
+                                        <div className="col-4 col-md-2 d-flex justify-content-md-center">
+                                          <img
+                                            className="ord-list-img-fluid"
+                                            src={item.pic || IMG_DEFAULT}
+                                            alt={item.spuName}
+                                            title={item.spuName}
+                                          />
+                                        </div>
+                                        <div className="col-8 col-md-4">
+                                          <span className="medium color-444 ui-text-overflow-line2">
+                                            {item.spuName}
+                                          </span>
+                                          {item.specDetails} -{' '}
+                                          <FormattedMessage
+                                            id="xProduct"
+                                            values={{ val: item.num }}
+                                          />
+                                        </div>
+                                        <div className="col-2 col-md-2 rc-md-up">
+                                          {formatMoney(item.price)}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <div className="col-2 col-md-3 text-center pl-md-0 pr-md-0">
+                                    <div className="rc-md-up">
+                                      {this.renderOperationBtns(order)}
+                                    </div>
+                                    <span className="rc-icon rc-right rc-iconography rc-md-down ord-list-operation-btn" />
+                                  </div>
+                                  {order.subscribeId ? (
+                                    <div className="col-12 text-right rc-md-up">
+                                      <Link
+                                        to={`/account/subscription-detail/${order.subscribeId}`}
+                                      >
+                                        <span
+                                          className="iconfont font-weight-bold red mr-1"
+                                          style={{ fontSize: '.8em' }}
+                                        >
+                                          &#xe675;
+                                        </span>
+                                        <span className="rc-styled-link">
+                                          <FormattedMessage id="autoShipOrderDetails" />
+                                        </span>
+                                      </Link>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <div
+                            style={{
+                              margin: '50px auto'
+                            }}
+                            className="text-center"
+                          >
+                            <FormattedMessage id="order.noDataTip" />
+                          </div>
                         )}
+                        {tabErrMsg || !orderList.length ? null : (
+                          <div className="grid-footer rc-full-width mt-4 mt-md-2">
+                            <Pagination
+                              loading={this.state.loading}
+                              totalPage={this.state.totalPage}
+                              defaultCurrentPage={this.state.currentPage}
+                              key={this.state.currentPage}
+                              onPageNumChange={this.hanldePageNumChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* one order details for mobile */}
+              {showOneOrderDetail && (
+                <div className={`pl-4 pr-4 rc-md-down`}>
+                  <div className="row">
+                    <div className="col-12 mb-3">
+                      <span onClick={this.handleClickBackToIndex}>
+                        <span className="red">&lt;</span>
+                        <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                          <FormattedMessage id="order" />
+                        </span>
                       </span>
                     </div>
-                  </div>
-                  <div className="col-12 col-md-4 row align-items-center mt-2 mt-md-0">
-                    <div className="col-12">
-                      <div className="rc-full-width rc-select-processed">
-                        <Selection
-                          optionList={this.state.duringTimeOptions}
-                          selectedItemChange={(data) =>
-                            this.handleDuringTimeChange(data)
-                          }
-                          selectedItemData={{
-                            value: this.state.form.period
-                          }}
-                          key={this.state.form.period}
-                          customStyleType="select-one"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="order__listing"
-                  style={{ display: haveOrder? 'block' : 'none' }}
-                >
-                  <div className="order-list-container">
-                    {this.state.loading ? (
-                      <div className="mt-4">
-                        <Skeleton
-                          color="#f5f5f5"
-                          width="100%"
-                          height="50%"
-                          count={4}
-                        />
-                      </div>
-                    ) : this.state.errMsg ? (
-                      <div className="text-center mt-5">
-                        <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                        {this.state.errMsg}
-                      </div>
-                    ) : this.state.orderList.length ? (
-                      <>
-                        {this.state.orderList.map((order) => (
-                          <div className="card-container" key={order.id}>
-                            <div className="card rc-margin-y--none ml-0">
-                              <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0">
-                                <div className="col-12 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="order.orderDate" />:{' '}
-                                    <br className="d-none d-md-block" />
-                                    <span className="medium orderHeaderTextColor">
-                                      {order.tradeState.createTime.substr(
-                                        0,
-                                        10
-                                      )}
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="col-12 col-md-2 mb-2 mb-md-0">
-                                  <p className="text-nowrap">
-                                    <FormattedMessage id="order.orderNumber" />:{' '}
-                                    <br className="d-none d-md-block" />
-                                    <span className="medium orderHeaderTextColor">
-                                      {order.id}
-                                    </span>
-                                    {order.isAutoSub ? (
-                                      <span
-                                        className="iconfont font-weight-bold red ml-1"
-                                        style={{ fontSize: '.8em' }}
-                                      >
-                                        &#xe675;
-                                      </span>
-                                    ) : null}
-                                  </p>
-                                </div>
-                                <div className="col-4 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="order.orderStatus" />
-                                  </p>
-                                </div>
-                                <div className="col-4 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="order.shippingStatus" />
-                                  </p>
-                                </div>
-                                <div className="col-4 col-md-2">
-                                  <p>
-                                    <FormattedMessage id="order.paymentStatus" />
-                                  </p>
-                                </div>
-                                <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                                  <Link
-                                    className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
-                                    to={`/account/orders-detail/${order.id}`}
-                                  >
-                                    <span className="medium pull-right--desktop rc-styled-link">
-                                      <FormattedMessage id="order.orderDetails" />
-                                    </span>
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              className="row rc-margin-x--none row align-items-center"
-                              style={{ padding: '1rem 0' }}
-                            >
-                              <div className="col-8 col-md-2 d-flex flex-wrap align-items-center mb-2 mb-md-0">
-                                {order.tradeItems.slice(0, 2).map((item) => (
-                                  <img
-                                    className="img-fluid"
-                                    key={item.oid}
-                                    src={item.pic || IMG_DEFAULT}
-                                    alt={item.spuName}
-                                    title={item.spuName}
-                                  />
-                                ))}
-                                {order.tradeItems.length > 2 ? (
-                                  <span
-                                    className="font-weight-bold"
-                                    style={{ alignSelf: 'flex-end' }}
-                                  >
-                                    ...
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-4 col-md-2 text-right text-md-left">
-                                {formatMoney(order.tradePrice.totalPrice)}
-                              </div>
-                              <div className="col-4 col-md-2">
-                                {ORDER_STATUS_ENUM[
-                                  order.tradeState.flowState
-                                ] || order.tradeState.flowState}
-                              </div>
-                              <div className="col-4 col-md-2">
-                                {DELIVER_STATUS_ENUM[
-                                  order.tradeState.deliverStatus
-                                ] || order.tradeState.deliverStatus}
-                              </div>
-                              <div className="col-4 col-md-2">
-                                {PAY_STATUS_ENUM[order.tradeState.payState] ||
-                                  order.tradeState.payState}
-                              </div>
-                              <div className="col-4 col-md-2 text-center pl-md-0 pr-md-0">
-                                {order.canPayNow ? (
-                                  <>
-                                    <TimeCount
-                                      startTime={
-                                        this.state.defaultLocalDateTime
-                                      }
-                                      endTime={order.orderTimeOut}
-                                      onTimeEnd={() =>
-                                        this.handlePayNowTimeEnd(order)
-                                      }
-                                    />
-                                    <button
-                                      className={`rc-btn rc-btn--one ${
-                                        order.payNowLoading
-                                          ? 'ui-btn-loading'
-                                          : ''
-                                      }`}
-                                      style={{
-                                        transform: 'scale(.85)',
-                                        transformOrigin: 0
-                                      }}
-                                      onClick={() =>
-                                        this.handleClickPayNow(order)
-                                      }
-                                    >
-                                      <FormattedMessage id="order.payNow" />
-                                    </button>
-                                  </>
-                                ) : null}
-                                {/* {order.showOXXOExpireTime && (
-                                  <span className="red">
-                                    <FormattedMessage id="order.expireTime" />:{" "}
-                                    <br />
-                                    {order.orderTimeOut.substr(0, 19)}
-                                  </span>
-                                )} */}
-                                {order.canReview ? (
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--two"
-                                    style={{
-                                      transform: 'scale(.85)',
-                                      transformOrigin: 0,
-                                      maxWidth: '199px'
-                                    }}
-                                  >
-                                    <FormattedMessage id="writeReview">
-                                      {(txt) => (
-                                        <Link
-                                          className="red-text"
-                                          to={`/account/productReview/${order.id}`}
-                                          title={txt}
-                                          alt={txt}
-                                        >
-                                          {txt}
-                                        </Link>
-                                      )}
-                                    </FormattedMessage>
-                                  </button>
-                                ) : null}
-                                {order.canRePurchase ? (
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--two rePurchase-btn"
-                                    style={{
-                                      transform: 'scale(.85)',
-                                      transformOrigin: 0
-                                    }}
-                                    onClick={() => this.rePurchase(order)}
-                                  >
-                                    <FormattedMessage id="rePurchase"></FormattedMessage>
-                                  </button>
-                                ) : null}
-                              </div>
-                            </div>
+                    {curOneOrderDetails.tradeItems.map((item, idx) => (
+                      <div className="row col-12 mb-2" key={idx}>
+                        <div className="col-6 d-flex">
+                          <img
+                            className="ord-list-img-fluid"
+                            src={item.pic || IMG_DEFAULT}
+                            alt={item.spuName}
+                            title={item.spuName}
+                          />
+                        </div>
+                        <div className="col-6 d-flex align-items-center">
+                          <div>
+                            <span className="medium color-444 ui-text-overflow-line2">
+                              {item.spuName}
+                            </span>
+                            <span>
+                              {item.specDetails} -{' '}
+                              <FormattedMessage
+                                id="xProduct"
+                                values={{ val: item.num }}
+                              />
+                            </span>
+                            <br />
+                            <span style={{ fontSize: '1.1em' }}>
+                              {formatMoney(item.price)}
+                            </span>
                           </div>
-                        ))}
-                      </>
-                    ) : <div style={{margin: '50px auto', textAlign: 'center'}}><FormattedMessage id="order.noDataTip" /></div>}
-                    {this.state.errMsg ||
-                    !this.state.orderList.length ? null : (
-                      <div className="grid-footer rc-full-width mt-2">
-                        <Pagination
-                          loading={this.state.loading}
-                          totalPage={this.state.totalPage}
-                          defaultCurrentPage={this.state.currentPage}
-                          key={this.state.currentPage}
-                          onPageNumChange={(params) =>
-                            this.hanldePageNumChange(params)
-                          }
-                        />
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </div>
-                <div
-                  className="content-asset"
-                  style={{ display: haveOrder? 'none' : 'block' }}
-                >
-                  <div className="rc-layout-container rc-two-column">
-                    <div className="rc-column">
-                      <img src={orderImg} style={{ width: '100%' }} alt="" />
-                    </div>
-                    <div
-                      className="rc-column"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <div>
-                        <p>
-                          <FormattedMessage id="account.orders.tips" />
-                        </p>
-                        <button
-                          className="rc-btn rc-btn--one"
-                          onClick={() => this.props.history.push('/')}
+                    ))}
+                    <div className="col-12 d-flex justify-content-center flex-column align-items-center mt-4 mb-4 ord-operation-btns">
+                      {this.renderOperationBtns(curOneOrderDetails)}
+                      {curOneOrderDetails.subscribeId ? (
+                        <Link
+                          to={`/account/subscription-detail/${curOneOrderDetails.subscribeId}`}
                         >
-                          <FormattedMessage id="account.orders.btns" />
-                        </button>
-                      </div>
+                          <span
+                            className="iconfont font-weight-bold red mr-1"
+                            style={{ fontSize: '.8em' }}
+                          >
+                            &#xe675;
+                          </span>
+                          <span className="rc-styled-link">
+                            <FormattedMessage id="autoShipOrderDetails" />
+                          </span>
+                        </Link>
+                      ) : null}
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </main>
