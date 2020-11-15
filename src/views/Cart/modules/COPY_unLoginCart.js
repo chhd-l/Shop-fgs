@@ -23,7 +23,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @injectIntl
-@inject('checkoutStore')
+@inject('checkoutStore', 'loginStore')
 @observer
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -65,6 +65,10 @@ class UnLoginCart extends React.Component {
         return pre + cur.quantity;
       }, 0);
   }
+  get subscriptionPrice() {
+    return this.props.checkoutStore.subscriptionPrice;
+  }
+
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
   }
@@ -94,9 +98,8 @@ class UnLoginCart extends React.Component {
       };
     });
   }
-  componentDidMount() {
-    this.setCartData();
-    Promise.all([
+  async componentDidMount() {
+    await Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
     ]).then((dictList) => {
@@ -114,10 +117,20 @@ class UnLoginCart extends React.Component {
         }
       );
     });
+    this.setCartData();
   }
   setCartData() {
+    let productList = this.props.checkoutStore.cartData.map(el => {
+      let filterData = this.computedList.filter(item => item.id === el.periodTypeId)[0] || this.computedList[0]
+      el.form = {
+        frequencyVal: filterData.valueEn,
+        frequencyName: filterData.name,
+        frequencyId: filterData.id
+      }
+      return el
+    })
     this.setState({
-      productList: this.props.checkoutStore.cartData
+      productList: productList
     });
   }
   showErrMsg(msg) {
@@ -132,15 +145,20 @@ class UnLoginCart extends React.Component {
       });
     }, 3000);
   }
-  handleSelectedItemChange(data) {
-    console.log(data);
-    const { form } = this.state;
-    form.frequencyVal = data.value;
-    form.frequencyName = data.name;
-    form.frequencyId = data.id;
-    this.setState({ form: form }, () => {
-      // this.props.updateSelectedData(this.state.form);
-    });
+  handleSelectedItemChange(pitem, data) {
+    pitem.form.frequencyVal = data.value;
+    pitem.form.frequencyName = data.name;
+    pitem.form.frequencyId = data.id;
+    pitem.periodTypeId = data.id
+    this.changeFrequencyType(pitem)
+    // console.log(data);
+    // const { form } = this.state;
+    // form.frequencyVal = data.value;
+    // form.frequencyName = data.name;
+    // form.frequencyId = data.id;
+    // this.setState({ form: form }, () => {
+    //   // this.props.updateSelectedData(this.state.form);
+    // });
   }
   async handleCheckout({ needLogin = false } = {}) {
     sessionItemRoyal.set('okta-redirectUrl', '/cart');
@@ -191,7 +209,7 @@ class UnLoginCart extends React.Component {
       } else {
         // this.openPetModal()
         let autoAuditFlag = false;
-        if (this.isLogin) {
+        if (this.props.loginStore.isLogin) {
           let res = await getProductPetConfig({
             goodsInfos: this.props.checkoutStore.loginCartData
           });
@@ -479,7 +497,7 @@ class UnLoginCart extends React.Component {
             </span>
 
             <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-              <div style={{maxWidth: '250px'}}>
+              <div style={{ maxWidth: '250px' }}>
                 <div>{pitem.goodsSubtitle}</div>
                 <div className="align-left flex rc-margin-bottom--xs">
                   <div className="stock__wrapper">
@@ -569,7 +587,14 @@ class UnLoginCart extends React.Component {
               <div className="flex justify-content-between rc-md-up">
                 <div
                   className="buyMethod rc-margin-bottom--xs"
-                  style={{ height: '73px' }}
+                  style={{ height: '73px', borderColor: !parseInt(pitem.goodsInfoFlag)?'#e2001a': '#d7d7d7', cursor: 'pointer' }}
+                  onClick={() => {
+                    if(pitem.goodsInfoFlag) {
+                      pitem.goodsInfoFlag = 0
+                      pitem.periodTypeId = null
+                      this.changeFrequencyType(pitem)
+                    }
+                  }}
                 >
                   <div className="buyMethodInnerBox">
                     <div className="radioBox">
@@ -593,12 +618,20 @@ class UnLoginCart extends React.Component {
                     >
                       {formatMoney(
                         pitem.quantity *
-                          pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                          pitem.sizeList.filter((el) => el.selected)[0]
+                            .salePrice
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="buyMethod rc-margin-bottom--xs rc-margin-left--xs">
+                <div className="buyMethod rc-margin-bottom--xs rc-margin-left--xs" style={{borderColor: parseInt(pitem.goodsInfoFlag)?'#e2001a': '#d7d7d7', cursor: 'pointer'}}
+                onClick={() => {
+                  if(!pitem.goodsInfoFlag) {
+                    pitem.goodsInfoFlag = 1
+                    pitem.periodTypeId = pitem.form.frequencyId
+                    this.changeFrequencyType(pitem)
+                  }
+                }}>
                   <div className="buyMethodInnerBox">
                     <div className="radioBox">
                       <span
@@ -657,13 +690,17 @@ class UnLoginCart extends React.Component {
                       >
                         {formatMoney(
                           pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                            pitem.sizeList.filter((el) => el.selected)[0]
+                              .salePrice
                         )}
                       </div>
-                      <div style={{ color: '#ec001a' }}>{formatMoney(
-                    pitem.quantity *
-                      pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
-                  )}</div>
+                      <div style={{ color: '#ec001a' }}>
+                        {formatMoney(
+                          pitem.quantity *
+                            pitem.sizeList.filter((el) => el.selected)[0]
+                              .subscriptionPrice
+                        )}
+                      </div>
 
                       {/* {formatMoney(currentSubscriptionPrice || 0)} */}
                     </div>
@@ -676,13 +713,12 @@ class UnLoginCart extends React.Component {
                         marginLeft: '100px'
                       }}
                       selectedItemChange={(data) =>
-                        this.handleSelectedItemChange(data)
+                        this.handleSelectedItemChange(pitem, data)
                       }
                       optionList={this.computedList}
                       selectedItemData={{
-                        value: form.frequencyVal
+                        value: pitem.form.frequencyVal
                       }}
-                      key={form.frequencyVal}
                       customStyleType="select-one"
                     />
                   </div>
@@ -713,126 +749,143 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           </div>
-                <div
-                  className="buyMethod rc-margin-bottom--xs"
-                  style={{ height: '73px', width: '100%' }}
+          <div
+            className="buyMethod rc-margin-bottom--xs"
+            style={{ height: '73px', width: '100%', borderColor: !parseInt(pitem.goodsInfoFlag)?'#e2001a': '#d7d7d7', cursor: 'pointer' }}
+            onClick={() => {
+              if(pitem.goodsInfoFlag) {
+                pitem.goodsInfoFlag = 0
+                pitem.periodTypeId = null
+                this.changeFrequencyType(pitem)
+              }
+            }}
+          >
+            <div className="buyMethodInnerBox">
+              <div className="radioBox">
+                <span
+                  style={{
+                    display: 'inline-block',
+                    height: '100%',
+                    fontWeight: '100',
+                    color: '#666',
+                    fontSize: '20px',
+                    lineHeight: '56px'
+                  }}
                 >
-                  <div className="buyMethodInnerBox">
-                    <div className="radioBox">
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          height: '100%',
-                          fontWeight: '100',
-                          color: '#666',
-                          fontSize: '20px',
-                          lineHeight: '56px'
-                        }}
-                      >
-                        <img src={cartImg} />
-                        <FormattedMessage id="Single purchase" />
-                      </span>
-                    </div>
-                    <div
-                      className="price singlePrice"
-                      style={{ fontSize: '22px' }}
-                    >
-                      {formatMoney(
-                        pitem.quantity *
-                          pitem.sizeList.filter((el) => el.selected)[0].salePrice
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="buyMethod rc-margin-bottom--xs" style={{width: '100%'}}>
-                  <div className="buyMethodInnerBox">
-                    <div className="radioBox">
-                      <span
-                        style={{
-                          fontWeight: '400',
-                          color: '#333',
-                          display: 'inline-block',
-                          marginTop: '5px'
-                        }}
-                      >
-                        <img src={refreshImg} />
-                        <FormattedMessage id="autoship" />
-                        <span
-                          className="info-tooltip delivery-method-tooltip"
-                          onMouseEnter={() => {
-                            this.setState({
-                              toolTipVisible: true
-                            });
-                          }}
-                          onMouseLeave={() => {
-                            this.setState({
-                              toolTipVisible: false
-                            });
-                          }}
-                        >
-                          i
-                        </span>
-                        <ConfirmTooltip
-                          arrowStyle={{ left: '65%' }}
-                          display={this.state.toolTipVisible}
-                          cancelBtnVisible={false}
-                          confirmBtnVisible={false}
-                          updateChildDisplay={(status) =>
-                            this.setState({
-                              toolTipVisible: status
-                            })
-                          }
-                          content={
-                            <FormattedMessage id="subscription.promotionTip2" />
-                          }
-                        />
-                      </span>
-                      {/* </div> */}
-                      <br />
-                      Save extra{' '}
-                      <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                        10%
-                      </b>
-                    </div>
-                    <div className="price">
-                      <div
-                        style={{
-                          fontSize: '15px',
-                          textDecoration: 'line-through'
-                        }}
-                      >
-                        {formatMoney(
-                          pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0].salePrice
-                        )}
-                      </div>
-                      <div style={{ color: '#ec001a' }}>{formatMoney(
+                  <img src={cartImg} />
+                  <FormattedMessage id="Single purchase" />
+                </span>
+              </div>
+              <div className="price singlePrice" style={{ fontSize: '22px' }}>
+                {formatMoney(
+                  pitem.quantity *
+                    pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                )}
+              </div>
+            </div>
+          </div>
+          <div
+            className="buyMethod rc-margin-bottom--xs"
+            style={{ width: '100%', borderColor: parseInt(pitem.goodsInfoFlag)?'#e2001a': '#d7d7d7', cursor: 'pointer' }}
+            onClick={() => {
+              if(!pitem.goodsInfoFlag) {
+                pitem.goodsInfoFlag = 1
+                pitem.periodTypeId = pitem.form.frequencyId
+                this.changeFrequencyType(pitem)
+              }
+            }}
+          >
+            <div className="buyMethodInnerBox">
+              <div className="radioBox">
+                <span
+                  style={{
+                    fontWeight: '400',
+                    color: '#333',
+                    display: 'inline-block',
+                    marginTop: '5px'
+                  }}
+                >
+                  <img src={refreshImg} />
+                  <FormattedMessage id="autoship" />
+                  <span
+                    className="info-tooltip delivery-method-tooltip"
+                    onMouseEnter={() => {
+                      this.setState({
+                        toolTipVisible: true
+                      });
+                    }}
+                    onMouseLeave={() => {
+                      this.setState({
+                        toolTipVisible: false
+                      });
+                    }}
+                  >
+                    i
+                  </span>
+                  <ConfirmTooltip
+                    arrowStyle={{ left: '65%' }}
+                    display={this.state.toolTipVisible}
+                    cancelBtnVisible={false}
+                    confirmBtnVisible={false}
+                    updateChildDisplay={(status) =>
+                      this.setState({
+                        toolTipVisible: status
+                      })
+                    }
+                    content={
+                      <FormattedMessage id="subscription.promotionTip2" />
+                    }
+                  />
+                </span>
+                {/* </div> */}
+                <br />
+                Save extra{' '}
+                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                  10%
+                </b>
+              </div>
+              <div className="price">
+                <div
+                  style={{
+                    fontSize: '15px',
+                    textDecoration: 'line-through'
+                  }}
+                >
+                  {formatMoney(
                     pitem.quantity *
-                      pitem.sizeList.filter((el) => el.selected)[0].subscriptionPrice
-                  )}</div>
-
-                      {/* {formatMoney(currentSubscriptionPrice || 0)} */}
-                    </div>
-                  </div>
-                  <div className="freqency">
-                    delivery every:
-                    <Selection
-                      customContainerStyle={{
-                        display: 'inline-block',
-                        marginLeft: '20px'
-                      }}
-                      selectedItemChange={(data) =>
-                        this.handleSelectedItemChange(data)
-                      }
-                      optionList={this.computedList}
-                      selectedItemData={{
-                        value: form.frequencyVal
-                      }}
-                      key={form.frequencyVal}
-                      customStyleType="select-one"
-                    />
-                  </div>
+                      pitem.sizeList.filter((el) => el.selected)[0].salePrice
+                  )}
                 </div>
+                <div style={{ color: '#ec001a' }}>
+                  {formatMoney(
+                    pitem.quantity *
+                      pitem.sizeList.filter((el) => el.selected)[0]
+                        .subscriptionPrice
+                  )}
+                </div>
+
+                {/* {formatMoney(currentSubscriptionPrice || 0)} */}
+              </div>
+            </div>
+            <div className="freqency">
+              delivery every:
+              <Selection
+                customContainerStyle={{
+                  display: 'inline-block',
+                  marginLeft: '20px'
+                }}
+                selectedItemChange={(data) =>
+                  this.handleSelectedItemChange(pitem, data)
+                }
+                optionList={this.computedList}
+                selectedItemData={{
+                  value: form.frequencyVal
+                }}
+                key={form.frequencyVal}
+                customStyleType="select-one"
+              />
+            </div>
+          </div>
         </div>
       </div>
     ));
@@ -917,7 +970,8 @@ class UnLoginCart extends React.Component {
     });
   }
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading } = this.state;
+    const { checkoutLoading, discount } = this.state;
+    const { checkoutStore } = this.props;
     return (
       <div className={`${className}`} style={{ ...style }} id={id}>
         <div
@@ -934,30 +988,30 @@ class UnLoginCart extends React.Component {
           </div>
           <div className="row">
             <div className="col-8">
-            <span
-                  className="rc-input rc-input--inline rc-input--label mr-0"
-                  style={{ width: '150px', marginBottom: '10px' }}
-                >
-                  <FormattedMessage id="promotionCode">
-                    {(txt) => (
-                      <input
-                        className="rc-input__control"
-                        id="id-text2"
-                        type="text"
-                        name="text"
-                        placeholder={txt}
-                        value={this.state.promotionInputValue}
-                        onChange={(e) => this.handlerChange(e)}
-                      />
-                    )}
-                  </FormattedMessage>
+              <span
+                className="rc-input rc-input--inline rc-input--label mr-0"
+                style={{ width: '150px', marginBottom: '10px' }}
+              >
+                <FormattedMessage id="promotionCode">
+                  {(txt) => (
+                    <input
+                      className="rc-input__control"
+                      id="id-text2"
+                      type="text"
+                      name="text"
+                      placeholder={txt}
+                      value={this.state.promotionInputValue}
+                      onChange={(e) => this.handlerChange(e)}
+                    />
+                  )}
+                </FormattedMessage>
 
-                  <label className="rc-input__label" for="id-text2"></label>
-                </span>
+                <label className="rc-input__label" for="id-text2"></label>
+              </span>
             </div>
             <div className="col-4 no-padding-left">
               <p className="text-right sub-total">
-              <button
+                <button
                   id="promotionApply"
                   className={[
                     'rc-btn',
@@ -966,7 +1020,12 @@ class UnLoginCart extends React.Component {
                     this.state.isClickApply &&
                       'ui-btn-loading ui-btn-loading-border-red'
                   ].join(' ')}
-                  style={{ marginTop: '10px', float: 'right', marginBottom: '10px', marginRight: '0' }}
+                  style={{
+                    marginTop: '10px',
+                    float: 'right',
+                    marginBottom: '10px',
+                    marginRight: '0'
+                  }}
                   onClick={async () => {
                     let result = {};
                     if (!this.state.promotionInputValue) return;
@@ -975,7 +1034,7 @@ class UnLoginCart extends React.Component {
                       isShowValidCode: false,
                       lastPromotionInputValue: this.state.promotionInputValue
                     });
-                    if (!this.isLogin) {
+                    if (!this.props.loginStore.isLogin) {
                       //游客
                       result = await checkoutStore.updateUnloginCart(
                         '',
@@ -995,14 +1054,14 @@ class UnLoginCart extends React.Component {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
                       this.setState({ discount });
-                      this.props.sendPromotionCode(
-                        this.state.promotionInputValue
-                      );
+                      // this.props.sendPromotionCode(
+                      //   this.state.promotionInputValue
+                      // );
                     } else {
                       this.setState({
                         isShowValidCode: true
                       });
-                      this.props.sendPromotionCode('');
+                      // this.props.sendPromotionCode('');
                     }
                     this.setState({
                       isClickApply: false,
@@ -1023,7 +1082,7 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
-          <div
+          {/* <div
             className={`row red ${
               parseInt(this.discountPrice) > 0 ? 'd-flex' : 'hidden'
             }`}
@@ -1038,6 +1097,92 @@ class UnLoginCart extends React.Component {
                 - {formatMoney(this.discountPrice)}
               </p>
             </div>
+          </div> */}
+          {/* 显示订阅折扣 */}
+          <div
+            className={`row leading-lines shipping-item red ${
+              parseInt(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+            }`}
+          >
+            <div className="col-8">
+              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+            </div>
+            <div className="col-4">
+              <p className="text-right shipping-cost">
+                - {formatMoney(this.subscriptionPrice)}
+              </p>
+            </div>
+          </div>
+          {/* 显示 默认折扣 */}
+          <div
+            className={`row leading-lines shipping-item red ${
+              parseInt(this.discountPrice) > 0 &&
+              this.state.discount.length === 0
+                ? 'd-flex'
+                : 'hidden'
+            }`}
+          >
+            <div className="col-8">
+              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+            </div>
+            <div className="col-4">
+              <p className="text-right shipping-cost">
+                - {formatMoney(this.discountPrice)}
+              </p>
+            </div>
+          </div>
+          {/* 显示 promotionCode */}
+          <div style={{ marginTop: '10px' }}>
+            {!this.state.isShowValidCode &&
+              this.state.discount.map((el) => (
+                <div
+                  className={`row leading-lines shipping-item red d-flex`}
+                >
+                  <div className="col-6">
+                    <p>
+                      {this.promotionDesc || (
+                        <FormattedMessage id="NoPromotionDesc" />
+                      )}
+                    </p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-right shipping-cost">
+                      {/* - {formatMoney(this.discountPrice)} */}
+                      <b>-{formatMoney(this.discountPrice)}</b>
+                    <span
+                      style={{
+                        fontSize: '18px',
+                        marginLeft: '10px',
+                        lineHeight: '20px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={async () => {
+                        let result = {};
+                        if (!this.props.loginStore.isLogin) {
+                          //游客
+                          result = await checkoutStore.updateUnloginCart();
+                        } else {
+                          //会员
+                          result = await checkoutStore.updateLoginCart(
+                            '',
+                            this.props.buyWay === 'frequency'
+                          );
+                        }
+                        if (result.backCode === 'K-000000') {
+                          discount.pop();
+                          this.setState({
+                            discount: discount,
+                            isShowValidCode: false
+                          });
+                        }
+                      }}
+                    >
+                      x
+                    </span>
+                    </p>
+                  </div>
+                </div>
+              ))}
           </div>
           <div className="row">
             <div className="col-8">
@@ -1085,7 +1230,9 @@ class UnLoginCart extends React.Component {
                     )}
                   </div>
                   <div className="rc-padding-y--xs rc-column">
-                    {this.totalNum > 0 ? (
+                    {this.totalNum > 0 ? (this.props.checkoutStore.cartData.filter(el => el.goodsInfoFlag).length > 0?(<div className="text-center" style={{ fontSize: '15px' }}>
+                        <FormattedMessage id="unLoginSubscriptionTips" />
+                      </div>):(
                       <div
                         className="text-center"
                         onClick={() => this.handleCheckout()}
@@ -1097,7 +1244,7 @@ class UnLoginCart extends React.Component {
                           <FormattedMessage id="GuestCheckout" />
                         </div>
                       </div>
-                    ) : (
+                    )) : (
                       <div className="text-center">
                         <div className="rc-styled-link color-999 rc-btn-disabled">
                           <FormattedMessage id="GuestCheckout" />
@@ -1111,6 +1258,17 @@ class UnLoginCart extends React.Component {
           </div>
         </div>
       </div>
+    );
+  }
+  async changeFrequencyType(pitem) {
+    this.setState({ errorShow: false });
+    this.setState(
+      {
+        productList: this.state.productList
+      },
+      () => {
+        this.updateStock();
+      }
     );
   }
   render() {
@@ -1203,7 +1361,7 @@ class UnLoginCart extends React.Component {
                       })}
                       {this.sideCart()}
                     </div>
-                    {this.state.productList.some((el) => {
+                    {/* {this.state.productList.some((el) => {
                       const selectedItem = el.sizeList.filter(
                         (s) => s.selected
                       )[0];
@@ -1215,7 +1373,7 @@ class UnLoginCart extends React.Component {
                       <div className="text-center" style={{ fontSize: '15px' }}>
                         <FormattedMessage id="unLoginSubscriptionTips" />
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </div>
               </>

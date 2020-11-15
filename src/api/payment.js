@@ -3,7 +3,7 @@ import axios from '@/utils/request'
 const api = {
   visitorRegisterAndLogin: '/visitorRegisterAndLogin',
   batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmcommitAndPay',
+  confirmAndCommit: '/tradeCustom/confirmCommitAndPay',
   addOrUpdatePaymentMethod: '/payment-method/updata',
   getPaymentMethod: '/payment-method/query-by-customer-id',
   deleteCard: '/payment-method/delete-by-id',

@@ -702,7 +702,7 @@ class Details extends React.Component {
       throw new Error();
     }
     const { history } = this.props;
-    const { currentUnitPrice, quantity, instockStatus } = this.state;
+    const { currentUnitPrice, quantity, instockStatus, form } = this.state;
     const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
@@ -736,7 +736,10 @@ class Details extends React.Component {
           this.setState({ addToCartLoading: false });
           return;
         }
-        tmpData = Object.assign(tmpData, { quantity: quantityNew });
+        tmpData = Object.assign(tmpData, { quantity: quantityNew, goodsInfoFlag: parseInt(form.buyWay) })
+        if(parseInt(form.buyWay)) {
+          tmpData.periodTypeId = form.frequencyId
+        }
       }
     }
 
@@ -774,8 +777,12 @@ class Details extends React.Component {
     );
     tmpData = Object.assign(tmpData, {
       currentAmount: currentUnitPrice * quantityNew,
-      selected: true
+      selected: true,
+      goodsInfoFlag: parseInt(form.buyWay)
     });
+    if(parseInt(form.buyWay)) {
+      tmpData.periodTypeId = form.frequencyId
+    }
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {

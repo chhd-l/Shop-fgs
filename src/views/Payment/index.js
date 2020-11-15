@@ -130,6 +130,13 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     if (this.isLogin) {
+      if(this.loginCartData.filter(el => el.goodsInfoFlag).length) {
+        this.setState({subForm: {
+          buyWay: 'frequency',
+          frequencyName: '',
+          frequencyId: ''
+        }})
+      }
       if (this.props.checkoutStore.autoAuditFlag) {
         this.setState({
           needPrescriber:
@@ -141,6 +148,13 @@ class Payment extends React.Component {
         });
       }
     } else {
+      if(this.cartData.filter(el => el.goodsInfoFlag).length) {
+        this.setState({subForm: {
+          buyWay: 'frequency',
+          frequencyName: '',
+          frequencyId: ''
+        }})
+      }
       if (this.props.checkoutStore.autoAuditFlag) {
         this.setState({
           needPrescriber:
@@ -1106,14 +1120,16 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
-          petsName: ele.petsName
+          petsName: ele.petsName,
+          goodsInfoFlag: ele.goodsInfoFlag
         };
       });
     } else {
       param.tradeItems = cartData.map((ele) => {
         return {
           num: ele.quantity,
-          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId
+          skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
+          goodsInfoFlag: ele.goodsInfoFlag
         };
       });
     }
@@ -1126,7 +1142,9 @@ class Payment extends React.Component {
             num: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
-            petsName: g.petsName
+            petsName: g.petsName,
+            goodsInfoFlag: g.goodsInfoFlag,
+            periodTypeId: g.periodTypeId
           };
         });
       if(sessionItemRoyal.get('recommend_product')) {
@@ -1148,7 +1166,9 @@ class Payment extends React.Component {
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
-            petsName: g.petsName
+            petsName: g.petsName,
+            goodsInfoFlag: g.goodsInfoFlag,
+            periodTypeId: g.periodTypeId
           };
         });
       }
