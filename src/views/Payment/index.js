@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
 import PayProductInfo from './PayProductInfo';
 import RePayProductInfo from '@/components/PayProductInfo';
+import Faq from './Fr/faq';
 import Loading from '@/components/Loading';
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
@@ -570,6 +571,7 @@ class Payment extends React.Component {
     if(this.props.checkoutStore.AuditData.length) {
       let petFlag = true
       let data = this.props.checkoutStore.AuditData
+      console.log(toJS(this.props.checkoutStore.AuditData))
       for(let i = 0; i < data.length; i++) {
         if(this.isLogin) {
           if(!data[i].petsId) {
@@ -583,7 +585,7 @@ class Payment extends React.Component {
           }
         }
       }
-      if(!petFlag) {
+      if(!petFlag && this.props.checkoutStore.petFlag) {
         this.showErrorMsg('Please fill in pet information')
         this.endLoading()
         return
@@ -1480,12 +1482,26 @@ class Payment extends React.Component {
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
+                console.log(this.state.payWayObj)
+                
+                //adyen如果选订阅，只保留creditcard/klarnapaylater
+                const adyenMethods = this.state.payWayObj.filter((item,index)=>{
+                  return item.name === 'adyen_credit_card' || item.name === 'adyen_klarna_pay_lat'
+                })
+                if(adyenMethods.length !== 0){
+                   this.setState({payWayObj:adyenMethods})
+                }
+
+
+                //payu
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
                   return o.name === 'payuoxxo';
                 }); //找到oxxo在数组中的下标
                 if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
-                }
+                }  
+                
+                
               } else {
                 //为后台提供的初始支付方式
                 this.setState({
@@ -1984,7 +2000,13 @@ class Payment extends React.Component {
                     operateBtnVisible={!this.state.tid}
                   />
                 )}
-              </div>
+                {
+                  process.env.REACT_APP_LANG == 'fr'?
+                  <Faq/>
+                  :null
+                }
+              
+              </div>              
             </div>
           </div>
         </main>

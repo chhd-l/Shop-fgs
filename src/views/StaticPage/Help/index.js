@@ -201,7 +201,8 @@ class Help extends React.Component {
                                           <p
                                             className="rc-numeric rc-md-up"
                                             style={{
-                                              color: 'rgb(0, 135, 189)'
+                                              color: 'rgb(0, 135, 189)',
+                                              whiteSpace:'nowrap'
                                             }}
                                           >
                                             <a
@@ -210,7 +211,7 @@ class Help extends React.Component {
                                                 color: 'rgb(0, 135, 189)'
                                               }}
                                             >
-                                              <FormattedMessage id="help.email" />
+                                              {/* <FormattedMessage id="help.email" /> */}
                                               {
                                                 this.props.configStore
                                                   .storeContactEmail

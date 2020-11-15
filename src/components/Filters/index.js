@@ -65,9 +65,12 @@ class Filter extends React.Component {
     }
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.initing !== state.prevIniting) {
+    const { initing, filterList } = props;
+    if (initing !== state.prevIniting) {
+      console.log('000');
       return {
-        filterListCopy: props.filterList
+        initing,
+        filterListCopy: filterList
       };
     }
     return null;
@@ -83,7 +86,7 @@ class Filter extends React.Component {
             <Skeleton color="#f5f5f5" width="100%" height="100%" count={7} />
           </div>
         ) : (
-          <React.Fragment>
+          <>
             <header className="rc-filters__header">
               <button
                 className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
@@ -129,7 +132,7 @@ class Filter extends React.Component {
               )}
             </header>
 
-            <div className="rc-margin--none" ref={this.contentRef}>
+            <div className="rc-margin--none">
               {filterListCopy.length ? (
                 filterListCopy.map((f, index) => (
                   <React.Fragment key={index}>
@@ -194,7 +197,7 @@ class Filter extends React.Component {
                 </div>
               )}
             </div>
-          </React.Fragment>
+          </>
         )}
       </div>
     );

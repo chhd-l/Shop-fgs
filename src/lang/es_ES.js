@@ -643,6 +643,8 @@ const es_ES = {
   'replyComments': 'Reply comments',
   'rePurchase': 'Readquirir',
   'requestInvoices.title': 'Solicitar facturas',
+  'required.continue':'continue',
+  'required.fields':'required frields',
   'required.complete': 'Proceso de inicio de sesión completo',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
   requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',
@@ -744,6 +746,7 @@ const es_ES = {
   'total': 'Total',
   'totalCost': 'Coste total',
   'totalIncluIVA': 'Total (IVA incluido)',
+  "totalIncluMessage": "",
   'twoPasswordsYouTypedDoNotMatch': '¡Las dos contraseñas que escribió no coinciden!',
   'type': 'Tipo',
   "unfoldAddress": 'Dirección desplegada',
@@ -781,6 +784,14 @@ const es_ES = {
   comment: 'Comentario',
   inTransit: 'En tránsito',
   trackDelivery: 'Seguimiento de la entrega',
-  packageX: 'Paquete {val}'
+  packageX: 'Paquete {val}',
+  xYears: '{val} años',
+  xMonths: '{val} meses',
+  month: 'Mes',
+  year: 'Año',
+  emailUs: 'Envíenos un correo electrónico',
+  callUs: 'Llámanos',
+  sendUsAnEmail: 'Envianos un email',
+  weight: 'Peso'
 }
 export default es_ES;

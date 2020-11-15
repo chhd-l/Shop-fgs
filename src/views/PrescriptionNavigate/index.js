@@ -130,6 +130,7 @@ class Prescription extends React.Component {
     const { params } = this.state;
     //获取当前地理位置信息
     navigator.geolocation.getCurrentPosition((position) => {
+      debugger
       this.handldKey(this.state.mapKey);
       params.latitude = position.coords.latitude.toString();
       params.longitude = position.coords.longitude.toString();

@@ -495,7 +495,7 @@ class ShippingAddressFrom extends React.Component {
                   </div>
                 </div>
 
-                <div className="form-group col-6 d-flex flex-column justify-content-between">
+                <div className="form-group col-6 d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="reference"
@@ -633,7 +633,7 @@ class ShippingAddressFrom extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="form-group col-6 d-flex flex-column justify-content-between">
+                <div className="form-group col-6 d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="reference"

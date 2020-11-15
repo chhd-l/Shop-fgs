@@ -100,6 +100,7 @@ class Footer extends React.Component {
                                           ]) ||
                                         listItem.url
                                       }
+                                      target="_blank"
                                       role="menuitem"
                                     >
                                       <FormattedMessage

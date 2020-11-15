@@ -43,6 +43,7 @@ import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
 import FAQ from '@/views/FAQ';
+import Widerrufsbelehrung from '@/views/Widerrufsbelehrung';
 import AccountHome from '@/views/Account/Home';
 import AccountProfile from '@/views/Account/Profile';
 import AccountPets from '@/views/Account/Pet';
@@ -201,6 +202,7 @@ const App = () => (
                   <FAQ key={props.match.params.catogery} {...props} />
                 )}
               />
+              <Route exact path="/Widerrufsbelehrung" component={Widerrufsbelehrung} />
               <Route
                 exact
                 path="/recommendation/:id"
@@ -312,7 +314,11 @@ const App = () => (
                 }
               /> */}
 
-              <Route path="/conoce-mas-de-evet" exact component={ConoceMasDeEvet} />
+              <Route
+                path="/conoce-mas-de-evet"
+                exact
+                component={ConoceMasDeEvet}
+              />
               <Route path="/product-finder" exact component={ProductFinder} />
               <Route
                 exact
@@ -321,12 +327,12 @@ const App = () => (
               />
               <Route
                 exact
-                path="/product-finder/result"
+                path="/product-finder/result/:type"
                 component={ProductFinderResult}
               />
               <Route
                 exact
-                path="/product-finder/noresult"
+                path="/product-finder/noresult/:type"
                 component={ProductFinderNoResult}
               />
 

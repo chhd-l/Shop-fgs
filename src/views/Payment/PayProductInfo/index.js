@@ -176,7 +176,6 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName || el.goods.goodsName}
-                    onClick={() => this.handleClickProName(el)}
                   >
                     <span className="light">{el.goodsName || el.goods.goodsName}</span>
                   </div>
@@ -518,7 +517,7 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
-          <div className="product-summary__total grand-total row leading-lines checkout--padding border-top">
+          <div className="product-summary__total grand-total row leading-lines checkout--padding border-top" style={{paddingBottom:'5px'}}>
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -530,6 +529,14 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
+          {
+            process.env.REACT_APP_LANG == 'de'
+            ?
+            <div style={{fontSize:'12px',paddingLeft:'22px',paddingBottom:'10px',color:'#999',marginTop:'-5px'}}>{<FormattedMessage id="totalIncluMessage"/>}</div>
+            :
+            null
+          }
+          
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 border-top pt-2">
               Promotion code({this.state.lastPromotionInputValue}) is not Valid
@@ -548,7 +555,8 @@ class PayProductInfo extends React.Component {
   render() {
     return (
       <div className="rc-bg-colour--brand3" id="J_sidecart_container">
-        {this.sideCart({
+        {/* 法国环境不加固定定位 */}
+        {process.env.REACT_APP_LANG !== 'fr'&&this.sideCart({
           className: 'hidden rc-md-up',
           style: {
             background: '#fff',

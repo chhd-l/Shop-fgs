@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Carousel.css"
-import { animate } from "./js/animate-2.0.1"
+import { animate } from "@/assets/js/animate"
 import { getGoodsRelation } from '@/api/details';
 import { chunk } from 'lodash';
 import Rate from '@/components/Rate';

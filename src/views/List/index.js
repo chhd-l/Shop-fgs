@@ -319,10 +319,11 @@ class List extends React.Component {
                 case 'search_fid':
                   const tmpArr = this.fidFromSearch.split('|');
                   checkedListTemp = tmpList
-                    .filter((item) => item.propId === tmpArr[0])[0]
+                    .filter((item) => item.propId === Number(tmpArr[0]))[0]
                     .goodsPropDetails.filter(
                       (item) => item.detailId === tmpArr[1]
                     );
+
                   this.setState({
                     checkedList: checkedListTemp
                   });
@@ -556,6 +557,7 @@ class List extends React.Component {
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
                         filterList={this.state.filterList}
+                        key={this.state.filterList.length}
                         checkedList={checkedList}
                       />
                     </aside>
@@ -612,11 +614,11 @@ class List extends React.Component {
                     {!productList.length ? (
                       <>
                         <div className="ui-font-nothing rc-md-up">
-                          <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                          <i className="rc-icon rc-incompatible--sm rc-iconography" />
                           <FormattedMessage id="list.errMsg" />
                         </div>
                         <div className="ui-font-nothing rc-md-down d-flex">
-                          <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                          <i className="rc-icon rc-incompatible--xs rc-iconography" />
                           <FormattedMessage id="list.errMsg" />
                         </div>
                       </>
