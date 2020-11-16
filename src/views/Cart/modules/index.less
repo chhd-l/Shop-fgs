@@ -6,6 +6,20 @@
     background-color: #f9f9f9;
     padding-left: 15px;
     margin-top: 10px;
+    display: flex;
+    > span {
+      flex: 1;
+      line-height: 57px;
+    }
+    > div {
+      flex: 2;
+      padding-right: 20px;
+      padding-top: 3px;
+
+      .choices[data-type*=select-one]:after {
+        margin-top: 0.5px;
+      }
+    }
   }
   .choices {
     background-color: #f9f9f9;

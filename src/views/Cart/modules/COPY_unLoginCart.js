@@ -70,10 +70,21 @@ class UnLoginCart extends React.Component {
   }
 
   get totalPrice() {
-    return this.props.checkoutStore.totalPrice;
+    let totalPrice = 0
+    this.props.checkoutStore.cartData.map(el => {
+      let skuItem = el.sizeList.filter(el => el.selected)[0]
+      if(el.goodsInfoFlag) {
+        totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice
+      }else {
+        totalPrice = totalPrice + el.quantity * skuItem.salePrice
+      }
+    })
+    return totalPrice
+    // return this.props.checkoutStore.totalPrice;
   }
   get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
+    return this.totalPrice - this.discountPrice + this.deliveryPrice
+    // return this.props.checkoutStore.tradePrice;
   }
   get discountPrice() {
     return this.props.checkoutStore.discountPrice;
@@ -706,11 +717,11 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                   <div className="freqency">
-                    delivery every:
+                    <span>delivery every:</span>
                     <Selection
                       customContainerStyle={{
                         display: 'inline-block',
-                        marginLeft: '100px'
+                        textAlign: 'right'
                       }}
                       selectedItemChange={(data) =>
                         this.handleSelectedItemChange(pitem, data)
@@ -868,11 +879,11 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
             <div className="freqency">
-              delivery every:
+              <span>delivery every:</span>
               <Selection
                 customContainerStyle={{
                   display: 'inline-block',
-                  marginLeft: '20px'
+                  textAlign: 'right'
                 }}
                 selectedItemChange={(data) =>
                   this.handleSelectedItemChange(pitem, data)

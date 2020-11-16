@@ -1474,7 +1474,7 @@ class Details extends React.Component {
                               </div>
                             </div>
                             <div className="freqency">
-                              Delivery every:
+                              <span>Delivery every:</span> 
                               <Selection
                                 customContainerStyle={{
                                   display: 'inline-block',
@@ -1558,7 +1558,7 @@ class Details extends React.Component {
                               </b>
                             </div>
                             <div className="freqency">
-                              Delivery every:
+                              <span>Delivery every:</span>
                               <Selection
                                 customContainerStyle={{
                                   display: 'inline-block',

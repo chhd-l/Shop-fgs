@@ -651,11 +651,11 @@ class LoginCart extends React.Component {
                     </div>
                   </div>
                   <div className="freqency">
-                    delivery every:
+                    <span>delivery every:</span>
                     <Selection
                       customContainerStyle={{
                         display: 'inline-block',
-                        marginLeft: '100px'
+                        textAlign: 'right'
                       }}
                       selectedItemChange={(data) =>
                         this.handleSelectedItemChange(pitem, data)
