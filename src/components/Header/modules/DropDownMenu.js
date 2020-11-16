@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import "./DropDownMenu.css"
 
 const defaultSubMenuCfg = [
   {
@@ -54,17 +55,39 @@ const defaultSubMenuCfg = [
       },
       {
         name: 'Gamme',
+        // children: [
+        //   {
+        //     name: 'Aliments secs',
+        //     linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
+        //   },
+        //   {
+        //     name: 'Bouchées en sauce',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   },
+        //   {
+        //     name: 'Aliment pour Chien de Race',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   }
+        // ],
         children: [
           {
-            name: 'Aliments secs',
-            linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
-          },
-          {
-            name: 'Bouchées en sauce',
+            name: 'Breed Health Nutrition',
             linkObj: { pathname: '/list/dogs' }
           },
           {
-            name: 'Aliment pour Chien de Race',
+            name: 'Canin Care Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Size Health Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Aliments secs',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Bouchées en sauce',
             linkObj: { pathname: '/list/dogs' }
           }
         ]
@@ -516,7 +539,7 @@ export default class DropDownMenu extends React.Component {
               <h4 className="title rc-delta">Une question ?</h4>{' '}
               <div className="desc children-nomargin">
                 {' '}
-                <p className="rc-text-colour--text">Vous avez besoin d'aide?</p>
+                <p className="rc-text-colour--text" style={{marginLeft:'-55px'}}>Vous avez besoin d'aide?</p>
                 <p className="rc-text-colour--text">N'hésitez pas à nous contacter : </p>{' '}
               </div>{' '}
             </div>{' '}
@@ -527,7 +550,7 @@ export default class DropDownMenu extends React.Component {
                 <b>Par téléphone</b>{' '}
                 <div className="children-nomargin">
                   {' '}
-                  <p>De 8h00 à 20h00</p>{' '}
+                  <p>8h30-12h30/14h-17h</p>{' '}
                 </div>{' '}
                 <div>
                   <a href="tel:+0 800 005 360" className="rc-large-body tel">

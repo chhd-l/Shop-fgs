@@ -44,3 +44,7 @@
     top: 4em !important;
   }
 }
+
+.rc-header-with-icon .rc-icon:after{
+  transform:scale(.438)
+}
