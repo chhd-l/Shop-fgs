@@ -11,7 +11,7 @@ import RadioAnswer from './RadioAnswer';
 import SelectAnswer from './SelectAnswer';
 import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
-import { query, submit, matchProducts } from '@/api/productFinder';
+import { query, edit, matchProducts } from '@/api/productFinder';
 
 import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
@@ -37,20 +37,58 @@ class Question extends React.Component {
       currentStepName: '',
       answerdQuestionList: [],
       placeholderList: [],
-      valid: false
+      valid: false,
+      isEdit: false // 是否处于编辑状态
     };
     this.setIconToolTipVisible = this.setIconToolTipVisible.bind(this);
     this.setBtnToolTipVisible = this.setBtnToolTipVisible.bind(this);
   }
   componentDidMount() {
     const { match } = this.props;
+    const tmpOrder = sessionItemRoyal.get('product-finder-edit-order');
     this.setState(
       {
         type: match.params.type,
         questionParams: { speciesCode: match.params.type }
       },
       () => {
-        this.queryAnswers();
+        debugger;
+        // 编辑状态下无须重新请求接口，从其他地方带初始值过来
+        if (tmpOrder && Number(tmpOrder) > 1) {
+          const editStopOrder = Number(tmpOrder);
+          const tmpList = JSON.parse(
+            sessionItemRoyal.get('product-finder-questionlist')
+          );
+          const targetItem = tmpList.filter(
+            (ele) => ele.stepOrder === editStopOrder
+          )[0];
+          const qRes = this.handleQuestionConfigLogic({
+            stepName: targetItem.questionName,
+            metadataQuestionDisplayType: targetItem.selectType,
+            defaultListData: targetItem.answerList
+          });
+          this.setState({
+            progress: 100,
+            stepOrder: editStopOrder,
+            finderNumber: targetItem.finderNumber,
+            answerdQuestionList: tmpList,
+            currentStepName: targetItem.questionName,
+            questionParams: tmpList
+              .filter((ele) => ele.stepOrder <= editStopOrder)
+              .reduce((prev, cur) => {
+                return Object.assign(prev, { [cur.questionName]: cur.answer });
+              }, this.state.questionParams),
+            questionCfg: {
+              title: targetItem.question,
+              list: qRes.questionList,
+              placeholderList: qRes.holderList
+            },
+            questionType: qRes.questionType,
+            isEdit: true
+          });
+        } else {
+          this.queryAnswers();
+        }
       }
     );
   }
@@ -61,9 +99,9 @@ class Question extends React.Component {
     this.setState({ iconToolTipVisible: status });
   }
   setBtnToolTipVisible(status) {
-    this.setState({ iconToolTipVisible: status });
+    this.setState({ btnToolTipVisible: status });
   }
-  updateFromData = (data) => {
+  updateFormData = (data) => {
     this.setState({ form: data });
   };
   updateSaveBtnStatus = (status) => {
@@ -113,7 +151,7 @@ class Question extends React.Component {
         });
         this.setState({ questionParams: tmpQuestionParams });
       }
-      const res = await query({
+      const res = await (this.state.isEdit ? edit : query)({
         finderNumber,
         questionParams: tmpQuestionParams,
         stepOrder
@@ -122,60 +160,19 @@ class Question extends React.Component {
       const statistics = res.context.statistics;
       debugger;
       if (!resContext.isEndOfTree) {
-        const metadataQuestionDisplayType =
-          resContext.step.metadataQuestionDisplayType;
-        let tmpList = resContext.step.answers;
-        let tmpPlaceHolderList = [];
-        // 前端定义年龄候选项
-        switch (metadataQuestionDisplayType) {
-          case 'ageSelect':
-            tmpList = [
-              Array.from({ length: 26 }).map((item, i) => {
-                return {
-                  label: <FormattedMessage id="xYears" values={{ val: i }} />,
-                  key: 12 * i
-                };
-              }),
-              Array.from({ length: 12 }).map((item, i) => {
-                return {
-                  label: <FormattedMessage id="xMonths" values={{ val: i }} />,
-                  key: 12 * i
-                };
-              })
-            ];
-            tmpPlaceHolderList = [
-              <FormattedMessage id="year" />,
-              <FormattedMessage id="month" />
-            ];
-            break;
-          case 'weightSelect':
-            tmpList = [
-              Array.from({ length: 49 }).map((item, i) => {
-                return {
-                  label: `${i + 1} Kg`,
-                  key: i + i
-                };
-              })
-            ];
-            tmpPlaceHolderList = [<FormattedMessage id="weight" />];
-            break;
-          default:
-            break;
-        }
+        const qRes = this.handleQuestionConfigLogic({
+          stepName: resContext.step.name,
+          metadataQuestionDisplayType:
+            resContext.step.metadataQuestionDisplayType,
+          defaultListData: resContext.step.answers
+        });
         this.setState({
           questionCfg: {
             title: resContext.step.label,
-            list: tmpList,
-            placeholderList: tmpPlaceHolderList
-          },
-          questionType:
-            {
-              singleSelect: 'radio',
-              ageSelect: 'select',
-              weightSelect: 'select',
-              breedSelect: 'search',
-              freeTextSkippable: 'text'
-            }[metadataQuestionDisplayType] || '',
+            list: qRes.questionList,
+            placeholderList: qRes.holderList
+          }, // 不要更新这个值
+          questionType: qRes.questionType,
           progress: Math.round(
             (statistics.nbStepPassed /
               (statistics.nbStepPassed + statistics.maximumNbOfStepRemaining)) *
@@ -184,7 +181,8 @@ class Question extends React.Component {
           currentStepName: resContext.step.name,
           stepOrder: resContext.stepOrder,
           finderNumber: resContext.finderNumber,
-          answerdQuestionList: resContext.answerdQuestionList
+          answerdQuestionList: resContext.answerdQuestionList || [],
+          isEdit: false // 编辑一次问题后，剩余问题使用正常回答流程
         });
       } else {
         // 所有问题回答结束，进行查找产品
@@ -217,13 +215,78 @@ class Question extends React.Component {
       });
     }
   };
+  handleQuestionConfigLogic({
+    stepName,
+    metadataQuestionDisplayType,
+    defaultListData
+  }) {
+    let tmpList = defaultListData;
+    let tmpPlaceHolderList = [];
+    switch (metadataQuestionDisplayType) {
+      case 'ageSelect':
+        tmpList = [
+          Array.from({ length: 26 }).map((item, i) => {
+            return {
+              label: <FormattedMessage id="xYears" values={{ val: i }} />,
+              key: 12 * i
+            };
+          }),
+          Array.from({ length: 12 }).map((item, i) => {
+            return {
+              label: <FormattedMessage id="xMonths" values={{ val: i }} />,
+              key: 12 * i
+            };
+          })
+        ];
+        tmpPlaceHolderList = [
+          <FormattedMessage id="year" />,
+          <FormattedMessage id="month" />
+        ];
+        break;
+      case 'weightSelect':
+        tmpList = [
+          Array.from({ length: 49 }).map((item, i) => {
+            return {
+              label: `${i + 1} Kg`,
+              key: i + i
+            };
+          })
+        ];
+        tmpPlaceHolderList = [<FormattedMessage id="weight" />];
+        break;
+      default:
+        break;
+    }
+    switch (stepName) {
+      case 'reasonForDiet':
+        tmpList.sort((a) => {
+          return a.key === 'none' ? 1 : a.key === 'healthIssues' ? 1 : -1;
+        });
+        break;
+      default:
+        break;
+    }
+    let questionType =
+      {
+        singleSelect: 'radio',
+        ageSelect: 'select',
+        weightSelect: 'select',
+        breedSelect: 'search',
+        freeTextSkippable: 'text'
+      }[metadataQuestionDisplayType] || '';
+    return {
+      questionList: tmpList,
+      holderList: tmpPlaceHolderList,
+      questionType
+    };
+  }
   render() {
     const { match, history, location } = this.props;
     const {
       type,
       progress,
-      form,
       questionCfg,
+      questionCfgAttach,
       btnToolTipVisible,
       isPageLoading,
       qListVisible,
@@ -285,7 +348,11 @@ class Question extends React.Component {
                         }
                       }}
                     >
-                      {ele.answer}
+                      {ele.productFinderAnswerDetailsVO.prefix}
+                      {ele.productFinderAnswerDetailsVO.prefix ? ' ' : null}
+                      <span className="red">
+                        {ele.productFinderAnswerDetailsVO.suffix}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -332,28 +399,30 @@ class Question extends React.Component {
                   {questionType === 'radio' && (
                     <RadioAnswer
                       config={questionCfg}
-                      updateFromData={this.updateFromData}
+                      updateFormData={this.updateFormData}
                       updateSaveBtnStatus={this.updateSaveBtnStatus}
                     />
                   )}
                   {questionType === 'select' && (
                     <SelectAnswer
                       config={questionCfg}
-                      updateFromData={this.updateFromData}
+                      updateFormData={this.updateFormData}
                       updateSaveBtnStatus={this.updateSaveBtnStatus}
                     />
                   )}
                   {questionType === 'search' && (
                     <SearchAnswer
                       config={questionCfg}
-                      updateFromData={this.updateFromData}
+                      updateFormData={this.updateFormData}
                       updateSaveBtnStatus={this.updateSaveBtnStatus}
+                      queryAnswers={this.queryAnswers}
+                      configAttach={questionCfgAttach}
                     />
                   )}
                   {questionType === 'text' && (
                     <TextAnswer
                       config={questionCfg}
-                      updateFromData={this.updateFromData}
+                      updateFormData={this.updateFormData}
                       updateSaveBtnStatus={this.updateSaveBtnStatus}
                     />
                   )}

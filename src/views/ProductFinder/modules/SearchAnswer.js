@@ -1,12 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SearchSelection from '@/components/SearchSelection';
+import RadioAnswer from './RadioAnswer';
 
-class RadioAnswer extends React.Component {
+class SearchAnswer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: ''
+      form: '',
+      radioQuestionCfg: []
     };
   }
   componentDidMount() {
@@ -15,23 +17,28 @@ class RadioAnswer extends React.Component {
   }
   handleSelectChange = (data) => {
     this.setState({ form: data }, () => {
-      this.props.updateFromData(this.state.form);
+      const { form } = this.state;
+      this.props.updateFormData(form);
+      this.props.updateSaveBtnStatus(form && form.key);
     });
   };
   setUnknown = () => {
     this.setState({ form: { key: 'unknown' } }, () => {
       const { form } = this.state;
       this.props.updateSaveBtnStatus(form && form.key);
-      this.props.updateFromData(form);
+      this.props.updateFormData(form);
     });
   };
   setMixBreed = () => {
     this.setState({ form: { key: 'mix breed' } }, () => {
-      this.props.updateFromData(this.state.form);
+      this.props.updateFormData(this.state.form);
     });
+    // 调取下一题 设置radioQuestionCfg
+    // todo
+    
   };
   render() {
-    const { form } = this.state;
+    const { form, radioQuestionCfg } = this.state;
     const { config } = this.props;
     return (
       <>
@@ -100,10 +107,18 @@ class RadioAnswer extends React.Component {
               </div>
             </div>
           </div>
+          {/*  */}
+          <div className="content-section">
+            <RadioAnswer
+              config={radioQuestionCfg}
+              // updateFormData={this.updateFormData}
+              // updateSaveBtnStatus={this.updateSaveBtnStatus}
+            />
+          </div>
         </div>
       </>
     );
   }
 }
 
-export default RadioAnswer;
+export default SearchAnswer;

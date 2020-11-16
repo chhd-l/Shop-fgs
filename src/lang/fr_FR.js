@@ -730,5 +730,6 @@ const fr_FR = {
   'aQuestion': 'Une question ?',
   uNeedHelp: 'Vous avez besoin d\'aide?',
   dontHesitateToContactUs: 'N\'hésitez pas à nous contacter',
+  'productFinder.helpTip3': 'Obtenez de l\'aide de notre conseiller en animaux 123-456-789',
 }
 export default fr_FR;

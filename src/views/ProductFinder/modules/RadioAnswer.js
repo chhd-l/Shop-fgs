@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import Modal from '@/components/Modal';
 
@@ -26,7 +27,7 @@ class RadioAnswer extends React.Component {
     this.setState({ form: item }, () => {
       const { form } = this.state;
       this.props.updateSaveBtnStatus(form && form.key);
-      this.props.updateFromData(form);
+      this.props.updateFormData(form);
     });
   }
   setSickModalVisible(status) {
@@ -77,12 +78,20 @@ class RadioAnswer extends React.Component {
                   <FormattedMessage id="productFinder.healthTip2" />
                 </p>
                 <div className="rc-btn-group mb-3">
-                  <button className="rc-btn rc-btn--one">
+                  <a
+                    className="rc-btn rc-btn--one"
+                    href="https://shop.royalcanin.fr/dog-range/veterinary-care-nutrition/"
+                    target="_blank"
+                  >
                     <FormattedMessage id="learnMore" />
-                  </button>
-                  <button className="rc-btn rc-btn--two">
+                  </a>
+                  <Link
+                    className="rc-btn rc-btn--two"
+                    to="/help"
+                    target="_blank"
+                  >
                     <FormattedMessage id="contactUs" />
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className="col-12 col-md-6">

@@ -16,6 +16,7 @@ import dogImg from '@/assets/images/product-finder-dog.png';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function QListAndPetJSX(props) {
+  const { questionlist } = props;
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
@@ -35,14 +36,24 @@ function QListAndPetJSX(props) {
               alt=""
             />
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
-              {['My dsfa', 'dsfahofiads', 'ddsadsadsfdsa'].map((ele, i) => (
+              {questionlist.map((ele, i) => (
                 <li
                   className={`d-flex justify-content-between align-items-center pt-1 pb-1 ${
                     i ? 'border-top' : ''
                   }`}
+                  key={i}
                 >
-                  <span>{ele}</span>
-                  <p className="rc-styled-link mb-1">
+                  <span style={{ flex: 1 }}>
+                    {ele.productFinderAnswerDetailsVO.prefix}
+                    {ele.productFinderAnswerDetailsVO.prefix ? ' ' : null}
+                    <span className="red">
+                      {ele.productFinderAnswerDetailsVO.suffix}
+                    </span>
+                  </span>
+                  <p
+                    className="rc-styled-link mb-1 ml-2"
+                    onClick={props.handleClickEditBtn.bind(this, ele)}
+                  >
                     <FormattedMessage id="edit" />
                   </p>
                 </li>
@@ -132,14 +143,20 @@ class ProductFinderResult extends React.Component {
       type: '',
       qListVisible: false,
       productDetail: null,
-      isLoading: true
+      isLoading: true,
+      questionlist: []
     };
   }
   componentDidMount() {
     this.setState({ type: this.props.match.params.type });
     const res = sessionItemRoyal.get('product-finder-result');
+    const questionlist = sessionItemRoyal.get('product-finder-questionlist');
     if (res) {
-      this.setState({ productDetail: JSON.parse(res), isLoading: false });
+      this.setState({
+        productDetail: JSON.parse(res),
+        questionlist: questionlist ? JSON.parse(questionlist) : null,
+        isLoading: false
+      });
     } else {
       this.props.history.push('/product-finder');
     }
@@ -150,9 +167,21 @@ class ProductFinderResult extends React.Component {
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
   };
+  handleClickEditBtn = (ele) => {
+    const { type } = this.state;
+    debugger;
+    sessionItemRoyal.set('product-finder-edit-order', ele.stepOrder);
+    this.props.history.push(`/product-finder/question/${type}`);
+  };
   render() {
     const { location, history, match } = this.props;
-    const { productDetail, qListVisible, isLoading, type } = this.state;
+    const {
+      productDetail,
+      qListVisible,
+      isLoading,
+      type,
+      questionlist
+    } = this.state;
     return (
       <div>
         <Header
@@ -196,6 +225,8 @@ class ProductFinderResult extends React.Component {
                       toggleShowQList={this.toggleShowQList}
                       history={history}
                       isLogin={this.isLogin}
+                      questionlist={questionlist}
+                      handleClickEditBtn={this.handleClickEditBtn}
                     />
                   </div>
                 )}
@@ -334,6 +365,8 @@ class ProductFinderResult extends React.Component {
                     toggleShowQList={this.toggleShowQList}
                     history={history}
                     isLogin={this.isLogin}
+                    questionlist={questionlist}
+                    handleClickEditBtn={this.handleClickEditBtn}
                   />
                 </div>
                 <hr />
