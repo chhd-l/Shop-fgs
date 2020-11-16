@@ -11,6 +11,7 @@ import RadioAnswer from './RadioAnswer';
 import SelectAnswer from './SelectAnswer';
 import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
+import BreadCrumbs from '@/components/BreadCrumbs';
 import { query, edit, matchProducts } from '@/api/productFinder';
 
 import catImg from '@/assets/images/product-finder-cat.png';
@@ -315,191 +316,194 @@ class Question extends React.Component {
           history={history}
           match={match}
         />
-        <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
-          <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
-          <div className="row justify-content-center justify-content-md-between mb-4">
-            <div className="col-8 col-md-4 mt-2">
-              {answerdQuestionList.length > 0 && (
-                <div
-                  className="pt-2 pb-2 rc-bg-colour--brand4 text-center rounded ui-cursor-pointer-pure"
-                  onClick={this.toggleShowQList}
-                >
-                  {qListVisible ? (
-                    <span className="rc-icon rc-down--xs rc-iconography" />
-                  ) : (
-                    <span className="rc-icon rc-right--xs rc-iconography" />
-                  )}
-                  <FormattedMessage id="answeredQuestions" />
-                </div>
-              )}
-              {qListVisible && (
-                <div className="mt-2 rc-bg-colour--brand4 rounded text-center">
-                  {answerdQuestionList.map((ele) => (
-                    <div
-                      className="ml-2 mr-2 pt-2 pb-2 border-bottom"
-                      key={ele.id}
-                      ref={(node) => {
-                        if (node) {
-                          node.style.setProperty(
-                            'border-bottom',
-                            '2px solid #fff',
-                            'important'
-                          );
-                        }
-                      }}
-                    >
-                      {ele.productFinderAnswerDetailsVO.prefix}
-                      {ele.productFinderAnswerDetailsVO.prefix ? ' ' : null}
-                      <span className="red">
-                        {ele.productFinderAnswerDetailsVO.suffix}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="col-2 col-md-1 rc-md-up">
-              <img
-                className="ui-cursor-pointer"
-                src={helpImg}
-                onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
-                onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
-                alt=""
-              />
-              <ConfirmTooltip
-                arrowDirection="right"
-                arrowStyle={{ top: '25%' }}
-                display={iconToolTipVisible}
-                cancelBtnVisible={false}
-                confirmBtnVisible={false}
-                updateChildDisplay={this.setIconToolTipVisible}
-                content={<FormattedMessage id="productFinder.helpTip3" />}
-                key="1"
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0">
-              {isPageLoading ? (
-                <span className="mt-4">
-                  <Skeleton
-                    color="#f5f5f5"
-                    width="100%"
-                    height="3%"
-                    count={5}
-                  />
-                </span>
-              ) : errMsg ? (
-                <>
-                  <i className="rc-icon rc-incompatible--sm rc-iconography" />
-                  {errMsg}
-                </>
-              ) : (
-                <>
-                  {questionType === 'radio' && (
-                    <RadioAnswer
-                      config={questionCfg}
-                      updateFormData={this.updateFormData}
-                      updateSaveBtnStatus={this.updateSaveBtnStatus}
-                    />
-                  )}
-                  {questionType === 'select' && (
-                    <SelectAnswer
-                      config={questionCfg}
-                      updateFormData={this.updateFormData}
-                      updateSaveBtnStatus={this.updateSaveBtnStatus}
-                    />
-                  )}
-                  {questionType === 'search' && (
-                    <SearchAnswer
-                      config={questionCfg}
-                      updateFormData={this.updateFormData}
-                      updateSaveBtnStatus={this.updateSaveBtnStatus}
-                      queryAnswers={this.queryAnswers}
-                      configAttach={questionCfgAttach}
-                    />
-                  )}
-                  {questionType === 'text' && (
-                    <TextAnswer
-                      config={questionCfg}
-                      updateFormData={this.updateFormData}
-                      updateSaveBtnStatus={this.updateSaveBtnStatus}
-                    />
-                  )}
-
-                  {questionType ? (
-                    <div className="row text-center text-md-left">
-                      <div className="col-12 col-md-3">
-                        <button
-                          className="rc-btn rc-btn--one rc-btn--sm"
-                          disabled={!this.state.valid}
-                          onClick={this.handleClickNext}
-                        >
-                          <FormattedMessage id="next" />
-                        </button>
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BreadCrumbs />
+          <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
+            <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
+            <div className="row justify-content-center justify-content-md-between mb-4">
+              <div className="col-8 col-md-4 mt-2">
+                {answerdQuestionList.length > 0 && (
+                  <div
+                    className="pt-2 pb-2 rc-bg-colour--brand4 text-center rounded ui-cursor-pointer-pure"
+                    onClick={this.toggleShowQList}
+                  >
+                    {qListVisible ? (
+                      <span className="rc-icon rc-down--xs rc-iconography" />
+                    ) : (
+                      <span className="rc-icon rc-right--xs rc-iconography" />
+                    )}
+                    <FormattedMessage id="answeredQuestions" />
+                  </div>
+                )}
+                {qListVisible && (
+                  <div className="mt-2 rc-bg-colour--brand4 rounded text-center">
+                    {answerdQuestionList.map((ele) => (
+                      <div
+                        className="ml-2 mr-2 pt-2 pb-2 border-bottom"
+                        key={ele.id}
+                        ref={(node) => {
+                          if (node) {
+                            node.style.setProperty(
+                              'border-bottom',
+                              '2px solid #fff',
+                              'important'
+                            );
+                          }
+                        }}
+                      >
+                        {ele.productFinderAnswerDetailsVO.prefix}
+                        {ele.productFinderAnswerDetailsVO.prefix ? ' ' : null}
+                        <span className="red">
+                          {ele.productFinderAnswerDetailsVO.suffix}
+                        </span>
                       </div>
-                      <div className="col-12 col-md-7 mt-2 mb-4 mt-md-0 mb-md-0">
-                        <div className="position-relative inlineblock">
-                          <p
-                            className="rc-styled-link mb-0 mt-2"
-                            onMouseEnter={this.setBtnToolTipVisible.bind(
-                              this,
-                              true
-                            )}
-                            onMouseLeave={this.setBtnToolTipVisible.bind(
-                              this,
-                              false
-                            )}
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="col-2 col-md-1 rc-md-up">
+                <img
+                  className="ui-cursor-pointer"
+                  src={helpImg}
+                  onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
+                  onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
+                  alt=""
+                />
+                <ConfirmTooltip
+                  arrowDirection="right"
+                  arrowStyle={{ top: '25%' }}
+                  display={iconToolTipVisible}
+                  cancelBtnVisible={false}
+                  confirmBtnVisible={false}
+                  updateChildDisplay={this.setIconToolTipVisible}
+                  content={<FormattedMessage id="productFinder.helpTip3" />}
+                  key="1"
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0">
+                {isPageLoading ? (
+                  <span className="mt-4">
+                    <Skeleton
+                      color="#f5f5f5"
+                      width="100%"
+                      height="3%"
+                      count={5}
+                    />
+                  </span>
+                ) : errMsg ? (
+                  <>
+                    <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                    {errMsg}
+                  </>
+                ) : (
+                  <>
+                    {questionType === 'radio' && (
+                      <RadioAnswer
+                        config={questionCfg}
+                        updateFormData={this.updateFormData}
+                        updateSaveBtnStatus={this.updateSaveBtnStatus}
+                      />
+                    )}
+                    {questionType === 'select' && (
+                      <SelectAnswer
+                        config={questionCfg}
+                        updateFormData={this.updateFormData}
+                        updateSaveBtnStatus={this.updateSaveBtnStatus}
+                      />
+                    )}
+                    {questionType === 'search' && (
+                      <SearchAnswer
+                        config={questionCfg}
+                        updateFormData={this.updateFormData}
+                        updateSaveBtnStatus={this.updateSaveBtnStatus}
+                        queryAnswers={this.queryAnswers}
+                        configAttach={questionCfgAttach}
+                      />
+                    )}
+                    {questionType === 'text' && (
+                      <TextAnswer
+                        config={questionCfg}
+                        updateFormData={this.updateFormData}
+                        updateSaveBtnStatus={this.updateSaveBtnStatus}
+                      />
+                    )}
+
+                    {questionType ? (
+                      <div className="row text-center text-md-left">
+                        <div className="col-12 col-md-3">
+                          <button
+                            className="rc-btn rc-btn--one rc-btn--sm"
+                            disabled={!this.state.valid}
+                            onClick={this.handleClickNext}
                           >
-                            <FormattedMessage id="productFinder.whyAreWeAskingThis" />
-                          </p>
-                          <div className="rc-md-up">
-                            <ConfirmTooltip
-                              arrowDirection="left"
-                              arrowStyle={{ top: '50%' }}
-                              display={btnToolTipVisible}
-                              cancelBtnVisible={false}
-                              confirmBtnVisible={false}
-                              updateChildDisplay={this.setBtnToolTipVisible}
-                              content={
-                                <FormattedMessage id="productFinder.helpTip3" />
-                              }
-                              key="2"
-                            />
-                          </div>
-                          <div className="rc-md-down">
-                            <ConfirmTooltip
-                              arrowDirection="bottom"
-                              arrowStyle={{ top: '-14%' }}
-                              containerStyle={{
-                                transform: 'translate(-50%, 120%)'
-                              }}
-                              display={btnToolTipVisible}
-                              cancelBtnVisible={false}
-                              confirmBtnVisible={false}
-                              updateChildDisplay={this.setBtnToolTipVisible}
-                              content={
-                                <FormattedMessage id="productFinder.helpTip3" />
-                              }
-                              key="3"
-                            />
+                            <FormattedMessage id="next" />
+                          </button>
+                        </div>
+                        <div className="col-12 col-md-7 mt-2 mb-4 mt-md-0 mb-md-0">
+                          <div className="position-relative inlineblock">
+                            <p
+                              className="rc-styled-link mb-0 mt-2"
+                              onMouseEnter={this.setBtnToolTipVisible.bind(
+                                this,
+                                true
+                              )}
+                              onMouseLeave={this.setBtnToolTipVisible.bind(
+                                this,
+                                false
+                              )}
+                            >
+                              <FormattedMessage id="productFinder.whyAreWeAskingThis" />
+                            </p>
+                            <div className="rc-md-up">
+                              <ConfirmTooltip
+                                arrowDirection="left"
+                                arrowStyle={{ top: '50%' }}
+                                display={btnToolTipVisible}
+                                cancelBtnVisible={false}
+                                confirmBtnVisible={false}
+                                updateChildDisplay={this.setBtnToolTipVisible}
+                                content={
+                                  <FormattedMessage id="productFinder.helpTip3" />
+                                }
+                                key="2"
+                              />
+                            </div>
+                            <div className="rc-md-down">
+                              <ConfirmTooltip
+                                arrowDirection="bottom"
+                                arrowStyle={{ top: '-14%' }}
+                                containerStyle={{
+                                  transform: 'translate(-50%, 120%)'
+                                }}
+                                display={btnToolTipVisible}
+                                cancelBtnVisible={false}
+                                confirmBtnVisible={false}
+                                updateChildDisplay={this.setBtnToolTipVisible}
+                                content={
+                                  <FormattedMessage id="productFinder.helpTip3" />
+                                }
+                                key="3"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ) : null}
-                </>
-              )}
-            </div>
-            <div className="col-12 col-md-6 order-0 order-md-1">
-              <img
-                src={{ cat: catImg, dog: dogImg }[type]}
-                className="p-f-q-avatar"
-                alt=""
-              />
+                    ) : null}
+                  </>
+                )}
+              </div>
+              <div className="col-12 col-md-6 order-0 order-md-1">
+                <img
+                  src={{ cat: catImg, dog: dogImg }[type]}
+                  className="p-f-q-avatar"
+                  alt=""
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </main>
         <Footer />
       </div>
     );
