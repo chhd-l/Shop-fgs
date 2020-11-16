@@ -726,6 +726,14 @@ const fr_FR = {
   "writeYourReview": "Donnez votre avis",
   "yes": "Et",
   "yourEmailNotVerified": "Votre email n'a pas été vérifié!",
-  "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié"
+  "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié",
+  "subscriptionLanding.title1":"Avec l'Abonnement, ils auront toujours ce dont ils ont besoin",
+  "subscriptionLanding.content1": "Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.",
+  "subscriptionLanding.description1":"10% de réduction sur toutes les commandes en Abonnement",
+  "subscriptionLanding.description2": "Suspendre, modifier ou annuler à tout moment",
+  "subscriptionLanding.description3": "Livraison offerte",
+  "subscriptionLanding.description4": "Ligne d'assistance téléphonique gratuite sur la nutrition",
+  "subscriptionLanding.catButton": "Voir les formules pour chat",
+  "subscriptionLanding.dogButton": "Voir les formules pour chien"
 }
 export default fr_FR;
