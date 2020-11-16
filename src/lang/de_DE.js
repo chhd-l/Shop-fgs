@@ -297,7 +297,7 @@ const de_DE = {
   "header.carouselInfo9": "Ihr persönlicher Berater ist täglich von 9.00 bis 21.00 Uhr in Kontakt",
   "header.carouselInfo10": "Persönlicher Berater ROYAL CANIN® CLUB",
   "header.carouselInfo11": "ROYAL CANIN® CLUB für Kätzchen",
-  "header.startTypingToSearch": "Beginnen Sie mit der Eingabe, Suchbegriff eingeben",
+  "header.startTypingToSearch": "Suchbegriff eingeben...",
   "header.toBegin": "Auswählen",
   "header.toLearnMore": "Um mehr zu lernen",
   "header.VCN": "VCN",

@@ -484,7 +484,7 @@ class AddressList extends React.Component {
           className="mb-0"
           style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
         >
-          <i className="rc-icon rc-home--xs rc-iconography"></i>{' '}
+          <i className="rc-icon rc-indoors--xs rc-iconography"></i>{' '}
           <FormattedMessage id="payment.deliveryTitle" />
         </h5>
         <p
