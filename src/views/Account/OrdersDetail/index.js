@@ -41,7 +41,6 @@ function HeadTip(props) {
           <br />
           {props.tip}
         </div>
-        {props.moreTip ? <>{props.moreTip}</> : null}
         {props.operation ? (
           <div className="col-12 col-md-4 text-md-right text-center">
             <span className="sticky-operation-btn rc-md-down">
@@ -50,6 +49,7 @@ function HeadTip(props) {
             <span className="rc-md-up">{props.operation}</span>
           </div>
         ) : null}
+        {props.moreTip ? <>{props.moreTip}</> : null}
       </div>
     </>
   );
@@ -231,8 +231,7 @@ class AccountOrders extends React.Component {
         if (
           tradeState.payState === 'PAID' &&
           tradeState.auditState === 'CHECKED' &&
-          tradeState.deliverStatus === 'SHIPPED' &&
-          tradeState.flowState === 'DELIVERED'
+          tradeState.deliverStatus === 'SHIPPED'
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
@@ -572,20 +571,8 @@ class AccountOrders extends React.Component {
   handleClickBackToIndex = () => {
     this.setState({ showLogisticsDetail: false });
   };
-  renderHeadTip = () => {
-    const {
-      details,
-      auditRejectReason,
-      canPayNow,
-      payNowLoading,
-      defaultLocalDateTime,
-      orderNumber,
-      moreLogistics,
-      logisticsList,
-      activeTabIdx
-    } = this.state;
-    const tradeState = details.tradeState;
-    let ret = null;
+  renderLogitiscsJSX = () => {
+    const { moreLogistics, logisticsList, activeTabIdx } = this.state;
     const filteredLogisticsList = logisticsList
       .map((ele) =>
         ele.syncLogisticsInfo &&
@@ -595,6 +582,147 @@ class AccountOrders extends React.Component {
           : null
       )
       .filter((ele) => ele);
+    return (
+      <>
+        <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
+          {logisticsList.length > 1 ? (
+            <nav className="rc-bg-colour--brand4 p-3">
+              {logisticsList.map((item, i) => (
+                <span
+                  className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                    activeTabIdx === i ? 'active red rc-bg-colour--brand3' : ''
+                  }`}
+                  onClick={this.changeTab.bind(this, i)}
+                  key={i}
+                >
+                  <FormattedMessage id="packageX" values={{ val: i + 1 }} />
+                </span>
+              ))}
+            </nav>
+          ) : null}
+
+          {logisticsList.map((item, i) => (
+            <div
+              key={i}
+              className={`ml-3 mr-3 ${i === activeTabIdx ? '' : 'hidden'}`}
+            >
+              <LogisticsProgress
+                list={
+                  (item.syncLogisticsInfo &&
+                    item.syncLogisticsInfo.originInfo &&
+                    item.syncLogisticsInfo.originInfo.trackInfo) ||
+                  []
+                }
+                hasMoreLessOperation={true}
+                moreLogistics={moreLogistics}
+                handleToggleMoreLess={this.handleToggleMoreLess}
+                customDateCls="text-nowrap"
+              />
+
+              <div className="row">
+                {(item.shippingItems || []).map((ele) => (
+                  <div className="text-center col-2" key={ele.skuId}>
+                    <img
+                      src={ele.pic || IMG_DEFAULT}
+                      alt={ele.itemName}
+                      title={ele.itemName}
+                      style={{ width: '70%', margin: '0 auto' }}
+                    />
+                    <p className="font-weight-normal ui-text-overflow-line1">
+                      {ele.itemName} X {ele.itemNum}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="row border-top m-0 pt-2 pb-2">
+                <div className="col-12 col-md-3">
+                  <svg className="svg-icon mr-1" aria-hidden="true">
+                    <use xlinkHref="#iconDeliverydate" />
+                  </svg>
+                  <FormattedMessage id="deliveryDate" />:{' '}
+                  <span className="medium">
+                    {(item.deliverTime || '').substr(0, 10)}
+                  </span>
+                </div>
+                <div className="col-12 col-md-3">
+                  <svg className="svg-icon mr-1" aria-hidden="true">
+                    <use xlinkHref="#iconLogisticscompany" />
+                  </svg>
+                  <FormattedMessage id="logisticsCompany" />:{' '}
+                  <span className="medium">
+                    {item.logistics ? item.logistics.logisticCompanyName : ''}
+                  </span>
+                </div>
+                <div className="col-12 col-md-6">
+                  <svg className="svg-icon mr-1" aria-hidden="true">
+                    <use xlinkHref="#iconLogisticssinglenumber" />
+                  </svg>
+                  <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                  <span className="medium">
+                    {item.logistics ? item.logistics.logisticNo : ''}
+                  </span>
+                  <CopyToClipboard
+                    text={item.logistics ? item.logistics.logisticNo : ''}
+                  >
+                    <span className="iconfont ui-cursor-pointer ml-2">
+                      &#xe6c0;
+                    </span>
+                  </CopyToClipboard>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
+          {filteredLogisticsList.map((item, i) => (
+            <div
+              className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+              onClick={this.handleClickLogisticsCard.bind(this, item)}
+              key={i}
+            >
+              <div className="col-10 medium color-444 d-flex align-items-center">
+                <span>
+                  {item.syncLogisticsInfo.originInfo.trackInfo[0].date}
+                </span>
+              </div>
+              <div className="col-2">
+                <span
+                  className="rc-icon rc-right rc-iconography rc-md-down"
+                  style={{ transform: 'scale(.85)' }}
+                />
+              </div>
+              <div className="col-12 mt-2">
+                {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
+                {
+                  item.syncLogisticsInfo.originInfo.trackInfo[0]
+                    .statusDescription
+                }
+              </div>
+              <div className="col-12 row mt-2">
+                {item.shippingItems.map((sItem) => (
+                  <div className="col-3" key={sItem.skuId}>
+                    <img className="rc-bg-colour--brand4" src={sItem.pic} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+  renderHeadTip = () => {
+    const {
+      details,
+      auditRejectReason,
+      canPayNow,
+      payNowLoading,
+      defaultLocalDateTime,
+      orderNumber,
+      logisticsList
+    } = this.state;
+    const tradeState = details.tradeState;
+    let ret = null;
     if (
       ((!details.isAuditOpen && tradeState.flowState === 'AUDIT') ||
         (details.isAuditOpen &&
@@ -687,146 +815,7 @@ class AccountOrders extends React.Component {
           }
           title={<FormattedMessage id="inTransit" />}
           titleColor="text-success"
-          moreTip={
-            <>
-              <div className="col-12 mt-4 border rounded mb-4 pl-0 pr-0 rc-md-up">
-                {logisticsList.length > 1 ? (
-                  <nav className="rc-bg-colour--brand4 p-3">
-                    {logisticsList.map((item, i) => (
-                      <span
-                        className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
-                          activeTabIdx === i
-                            ? 'active red rc-bg-colour--brand3'
-                            : ''
-                        }`}
-                        onClick={this.changeTab.bind(this, i)}
-                        key={i}
-                      >
-                        <FormattedMessage
-                          id="packageX"
-                          values={{ val: i + 1 }}
-                        />
-                      </span>
-                    ))}
-                  </nav>
-                ) : null}
-
-                {logisticsList.map((item, i) => (
-                  <div
-                    key={i}
-                    className={`ml-3 mr-3 ${
-                      i === activeTabIdx ? '' : 'hidden'
-                    }`}
-                  >
-                    <LogisticsProgress
-                      list={
-                        (item.syncLogisticsInfo &&
-                          item.syncLogisticsInfo.originInfo &&
-                          item.syncLogisticsInfo.originInfo.trackInfo) ||
-                        []
-                      }
-                      hasMoreLessOperation={true}
-                      moreLogistics={moreLogistics}
-                      handleToggleMoreLess={this.handleToggleMoreLess}
-                      customDateCls="text-nowrap"
-                    />
-
-                    <div className="row">
-                      {(item.shippingItems || []).map((ele) => (
-                        <div className="text-center col-2" key={ele.skuId}>
-                          <img
-                            src={ele.pic || IMG_DEFAULT}
-                            alt={ele.itemName}
-                            title={ele.itemName}
-                            style={{ width: '70%', margin: '0 auto' }}
-                          />
-                          <p className="font-weight-normal ui-text-overflow-line1">
-                            {ele.itemName} X {ele.itemNum}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="row border-top m-0 pt-2 pb-2">
-                      <div className="col-12 col-md-3">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconDeliverydate" />
-                        </svg>
-                        <FormattedMessage id="deliveryDate" />:{' '}
-                        <span className="medium">
-                          {(item.deliverTime || '').substr(0, 10)}
-                        </span>
-                      </div>
-                      <div className="col-12 col-md-3">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticscompany" />
-                        </svg>
-                        <FormattedMessage id="logisticsCompany" />:{' '}
-                        <span className="medium">
-                          {item.logistics
-                            ? item.logistics.logisticCompanyName
-                            : ''}
-                        </span>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <svg className="svg-icon mr-1" aria-hidden="true">
-                          <use xlinkHref="#iconLogisticssinglenumber" />
-                        </svg>
-                        <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                        <span className="medium">
-                          {item.logistics ? item.logistics.logisticNo : ''}
-                        </span>
-                        <CopyToClipboard
-                          text={item.logistics ? item.logistics.logisticNo : ''}
-                        >
-                          <span className="iconfont ui-cursor-pointer ml-2">
-                            &#xe6c0;
-                          </span>
-                        </CopyToClipboard>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="ml-4 mr-4 rc-md-down">
-                {filteredLogisticsList.map((item, i) => (
-                  <div
-                    className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
-                    onClick={this.handleClickLogisticsCard.bind(this, item)}
-                    key={i}
-                  >
-                    <div className="col-10 medium color-444 d-flex align-items-center">
-                      <span>
-                        {item.syncLogisticsInfo.originInfo.trackInfo[0].date}
-                      </span>
-                    </div>
-                    <div className="col-2">
-                      <span
-                        className="rc-icon rc-right rc-iconography rc-md-down"
-                        style={{ transform: 'scale(.85)' }}
-                      />
-                    </div>
-                    <div className="col-12 mt-2">
-                      {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
-                      {
-                        item.syncLogisticsInfo.originInfo.trackInfo[0]
-                          .statusDescription
-                      }
-                    </div>
-                    <div className="col-12 row mt-2">
-                      {item.shippingItems.map((sItem) => (
-                        <div className="col-3" key={sItem.skuId}>
-                          <img
-                            className="rc-bg-colour--brand4"
-                            src={sItem.pic}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          }
+          moreTip={this.renderLogitiscsJSX()}
         />
       );
     } else if (auditRejectReason) {
@@ -883,6 +872,7 @@ class AccountOrders extends React.Component {
                 )}
               </FormattedMessage>
             }
+            moreTip={this.renderLogitiscsJSX()}
           />
           <hr />
         </>

@@ -790,6 +790,9 @@ FAQdesc: "If you have any question. Look below to see if there is an answer. If 
   emailUs: 'Email us',
   callUs: 'Call us',
   sendUsAnEmail: 'Send us an Email',
-  weight: 'Weight'
+  weight: 'Weight',
+  'aQuestion': 'A question ?',
+  uNeedHelp: 'You need help?',
+  dontHesitateToContactUs: 'Do not hesitate to contact us',
 }
 export default en_US;

@@ -792,6 +792,9 @@ const es_ES = {
   emailUs: 'Envíenos un correo electrónico',
   callUs: 'Llámanos',
   sendUsAnEmail: 'Envianos un email',
-  weight: 'Peso'
+  weight: 'Peso',
+  'aQuestion': 'Una pregunta ?',
+  uNeedHelp: '¿Necesitas ayuda?',
+  dontHesitateToContactUs: 'No dude en contactar con nosotros',
 }
 export default es_ES;
