@@ -726,6 +726,9 @@ const fr_FR = {
   "writeYourReview": "Donnez votre avis",
   "yes": "Et",
   "yourEmailNotVerified": "Votre email n'a pas été vérifié!",
-  "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié"
+  "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié",
+  'aQuestion': 'Une question ?',
+  uNeedHelp: 'Vous avez besoin d\'aide?',
+  dontHesitateToContactUs: 'N\'hésitez pas à nous contacter',
 }
 export default fr_FR;

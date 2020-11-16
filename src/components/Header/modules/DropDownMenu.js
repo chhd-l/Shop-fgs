@@ -74,8 +74,8 @@ const defaultSubMenuCfg = [
       text: 'Chaque animal est unique, tout comme ses besoins nutritionnels.',
       img:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw89994f07/CMS/header-dog.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
-    },
-    mainLink: '/list/dogs'
+    }, // 图片及描述文字
+    mainLink: '/list/dogs' // 图片旁边按钮链接
   },
   {
     key: 'cats',
@@ -403,21 +403,58 @@ const subMenuCfgENUM = {
 const subMenuCfg = subMenuCfgENUM[process.env.REACT_APP_LANG] || [];
 
 export default class DropDownMenu extends React.Component {
-  hanldeListItemMouseOver = (type) => {
-    this.props.updateVisibleType(type);
+  static defaultProps = {
+    data: [],
+    headerNavigationList: [],
+    activeTopParentId: -1
   };
+  constructor(props) {
+    super(props);
+    this.state = { currentDesc: null };
+    this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
+    this.handleNavChildrenMouseOver = this.handleNavChildrenMouseOver.bind(
+      this
+    );
+  }
+  handleNavChildrenMouseOver(item, childrenItem, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.setState({
+      currentDesc: {
+        text: childrenItem.navigationDesc,
+        imageLink: childrenItem.imageLink
+      }
+    });
+    this.props.updateActiveTopParentId(item.id);
+  }
+  handleNavChildrenMouseOut = () => {
+    this.setState({
+      currentDesc: null
+    });
+  };
+  hanldeListItemMouseOver(item) {
+    this.props.updateActiveTopParentId(item.id);
+  }
   hanldeListItemMouseOut = () => {
-    this.props.updateVisibleType('');
+    this.props.updateActiveTopParentId(-1);
   };
   _renderDogOrCatMenu = (item, i) => {
-    const { visibleType } = this.props;
+    const { activeTopParentId } = this.props;
+    const { currentDesc } = this.state;
+    let descObj = null;
+    if (currentDesc && currentDesc.text && currentDesc.imageLink) {
+      descObj = { text: currentDesc.text, imageLink: currentDesc.imageLink };
+    } else if (item.navigationDesc && item.imageLink) {
+      descObj = { text: item.navigationDesc, imageLink: item.imageLink };
+    }
     return (
       <div
         className={`dropdown-nav d-flex ${
-          visibleType === item.key ? 'show' : ''
+          activeTopParentId === item.id ? 'show' : ''
         }`}
-        aria-hidden={visibleType === item.key}
-        onMouseOver={() => this.hanldeListItemMouseOver(item.key)}
+        aria-hidden={activeTopParentId === item.id}
+        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
@@ -426,31 +463,43 @@ export default class DropDownMenu extends React.Component {
             className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
             role="menu"
           >
-            {item.menus.map((mitem, mIndx) => (
+            {(item.children || []).map((mitem, mIndx) => (
               <li
                 className="dropdown-nav__item rc-padding-top--xs relative"
                 role="menuitem"
                 key={mIndx}
+                onMouseOver={this.handleNavChildrenMouseOver.bind(
+                  this,
+                  item,
+                  mitem
+                )}
+                onMouseOut={this.handleNavChildrenMouseOut}
               >
                 <div className="dropdown-nav__title rc-margin-bottom--xs">
-                  <span id="dog-age" className="dropdown-nav__item">
-                    <small></small>
-                    <b>{mitem.name}</b>
+                  <span className="dropdown-nav__item">
+                    <small />
+                    <b>{mitem.navigationName}</b>
                   </span>
                 </div>
                 <ul className="rc-padding--none" role="menu" aria-hidden="true">
-                  {mitem.children.map((citem, cIndex) => (
+                  {(mitem.children || []).map((citem, cIndex) => (
                     <li
                       className="dropdown-nav__item"
                       role="menuitem"
                       key={cIndex}
+                      onMouseOver={this.handleNavChildrenMouseOver.bind(
+                        this,
+                        item,
+                        citem
+                      )}
+                      onMouseOut={this.handleNavChildrenMouseOut}
                     >
                       <Link
                         to={citem.linkObj}
                         role="button"
                         className="dropdown-nav__link"
                       >
-                        {citem.name}
+                        {citem.navigationName}
                       </Link>
                     </li>
                   ))}
@@ -466,166 +515,169 @@ export default class DropDownMenu extends React.Component {
             ))}
           </ul>
         </div>
-        <div className="content-asset">
-          <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
-            <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
-              <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
-                <p>{item.desc && item.desc.text}</p>
+        {descObj ? (
+          <div className={`content-asset`}>
+            <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
+              <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
+                <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
+                  <p>{descObj.text}</p>
+                </div>
+                <Link to={item.mainLink}>
+                  <button className="rc-btn rc-btn--one">
+                    <FormattedMessage id="findTheRightDiet" />
+                  </button>
+                </Link>
               </div>
-              <Link to={item.mainLink}>
-                <button className="rc-btn rc-btn--one">
-                  <FormattedMessage id="findTheRightDiet" />
-                </button>
-              </Link>
-            </div>
-            <div className="mt-auto">
-              <img
-                className="pull-right rc-lg-up ls-is-cached lazyloaded"
-                data-src={item.desc && item.desc.img}
-                src={item.desc && item.desc.img}
-                alt=""
-              />
-              <img
-                className="pull-right rc-md-down lazyload"
-                data-src={item.desc && item.desc.img}
-                alt=""
-              />
+              <div className="mt-auto">
+                <img
+                  className="pull-right rc-lg-up ls-is-cached lazyloaded"
+                  src={descObj.imageLink}
+                  alt=""
+                />
+                <img
+                  className="pull-right rc-md-down lazyload"
+                  src={descObj.imageLink}
+                  alt=""
+                />
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     );
   };
   _renderHelpMenu = (item, i) => {
-    const { visibleType } = this.props;
+    const { configStore, activeTopParentId } = this.props;
     return (
       <div
         className={`dropdown-nav d-flex full-width-asset justify-content-center ${
-          visibleType === item.key ? 'show' : ''
+          activeTopParentId === item.id ? 'show' : ''
         }`}
-        aria-hidden={visibleType === item.key}
-        onMouseOver={() => this.hanldeListItemMouseOver(item.key)}
+        aria-hidden={activeTopParentId === item.id}
+        onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
         <div className="content-asset">
           <div className="dropdown-nav__help d-md-flex">
-            {' '}
             <div className="dropdown-nav__help__text align-self-center">
-              {' '}
-              <h4 className="title rc-delta">Une question ?</h4>{' '}
-              <div className="desc children-nomargin">
-                {' '}
-                <p className="rc-text-colour--text">Vous avez besoin d'aide?</p>
-                <p className="rc-text-colour--text">N'hésitez pas à nous contacter : </p>{' '}
-              </div>{' '}
-            </div>{' '}
+              <h4 className="title rc-delta">
+                <FormattedMessage id="aQuestion" />
+              </h4>
+              <div className="desc children-nomargin text-left">
+                <p className="rc-text-colour--text">
+                  <FormattedMessage id="uNeedHelp" />
+                </p>
+                <p className="rc-text-colour--text">
+                  <FormattedMessage id="dontHesitateToContactUs" /> :
+                </p>
+              </div>
+            </div>
             <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
-              {' '}
               <div className="rc-margin-right--xs flex-grow-1">
-                {' '}
-                <b>Par téléphone</b>{' '}
+                <b>
+                  <FormattedMessage id="help.byTelephone" />
+                </b>
                 <div className="children-nomargin">
-                  {' '}
-                  <p>De 8h00 à 20h00</p>{' '}
-                </div>{' '}
+                  <p>{configStore.contactTimePeriod}</p>
+                </div>
                 <div>
-                  <a href="tel:+0 800 005 360" className="rc-large-body tel">
-                    0 800 005 360
+                  <a
+                    href={`tel:${configStore.storeContactPhoneNumber}`}
+                    className="rc-large-body tel"
+                  >
+                    {configStore.storeContactPhoneNumber}
                   </a>
-                </div>{' '}
-              </div>{' '}
+                </div>
+              </div>
               <div className="rc-padding-left--xs rc-lg-up">
-                {' '}
                 <img
                   className=" ls-is-cached lazyloaded"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="Par téléphone icon"
                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                />{' '}
-              </div>{' '}
+                />
+              </div>
               <div className="rc-padding-left--xs rc-md-down">
-                {' '}
                 <img
                   className="lazyload"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="Par téléphone icon"
-                />{' '}
-              </div>{' '}
-            </div>{' '}
+                />
+              </div>
+            </div>
             <Link
               className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
               to="/help"
             >
-              {' '}
               <div className="rc-margin-right--xs flex-grow-1">
-                {' '}
                 <b>
                   <FormattedMessage id="help.byEmail" />
-                </b>{' '}
-                <div className="children-nomargin" />{' '}
-              </div>{' '}
+                </b>
+                <div className="children-nomargin" />
+              </div>
               <div className="rc-padding-left--xs rc-lg-up">
-                {' '}
                 <img
                   className=" ls-is-cached lazyloaded"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="Par e-mail icon"
                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                />{' '}
-              </div>{' '}
+                />
+              </div>
               <div className="rc-padding-left--xs rc-md-down">
-                {' '}
                 <img
                   className="lazyload"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="Par e-mail icon"
-                />{' '}
-              </div>{' '}
-            </Link>{' '}
+                />
+              </div>
+            </Link>
             <Link
               className="dropdown-nav__help__card faq rc-border-all rc-border-colour--interface d-flex align-items-center"
               to="/FAQ/all"
             >
-              {' '}
               <div className="rc-margin-right--xs flex-grow-1">
-                {' '}
                 <b>
                   <FormattedMessage id="footer.FAQ" />
-                </b>{' '}
-                <div className="children-nomargin" />{' '}
-              </div>{' '}
+                </b>
+                <div className="children-nomargin" />
+              </div>
               <div className="rc-padding-left--xs rc-lg-up">
-                {' '}
                 <img
                   className=" ls-is-cached lazyloaded"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="FAQ icon"
                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                />{' '}
-              </div>{' '}
+                />
+              </div>
               <div className="rc-padding-left--xs rc-md-down">
-                {' '}
                 <img
                   className="lazyload"
                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                   alt="FAQ icon"
-                />{' '}
-              </div>{' '}
-            </Link>{' '}
+                />
+              </div>
+            </Link>
           </div>
         </div>
       </div>
     );
   };
   render() {
+    console.log(1111, this.props.headerNavigationList);
     return (
       <div className="rc-md-up">
-        {subMenuCfg.map((item, i) =>
-          item.key !== 'help'
-            ? this._renderDogOrCatMenu(item, i)
-            : this._renderHelpMenu(item, i)
-        )}
+        {this.props.headerNavigationList
+          .filter(
+            (ele) =>
+              (ele.expanded && ele.children && ele.children.length) ||
+              (ele.navigationLink && ele.navigationLink.includes('/help'))
+          )
+          .map((item, i) =>
+            item.navigationLink && item.navigationLink.includes('/help')
+              ? this._renderHelpMenu(item, i)
+              : this._renderDogOrCatMenu(item, i)
+          )}
       </div>
     );
   }

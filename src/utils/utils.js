@@ -254,3 +254,43 @@ export function dynamicLoadCss(url) {
   link.href = url;
   head.appendChild(link);
 }
+
+/**
+ * 递归生成树形结构，依赖关系为id和parentId
+ * @param {Array} params - 需要递归的源数据
+ */
+export function generateOptions(params) {
+  let result = [];
+  for (let param of params) {
+    if (!param.parentId) {
+      //判断是否为顶层节点
+      let parent = {
+        //转换成el-Cascader可以识别的数据结构
+        ...param
+      };
+      parent.children = getchilds(param.id, params); //获取子节点
+      result.push(parent);
+    }
+  }
+  return result;
+}
+
+function getchilds(id, array) {
+  let childs = new Array();
+  for (let arr of array) {
+    //循环获取子节点
+    if (arr.parentId == id) {
+      childs.push({
+        ...arr
+      });
+    }
+  }
+  for (let child of childs) {
+    //获取子节点的子节点
+    let childscopy = getchilds(child.id, array); //递归获取子节点
+    if (childscopy.length) {
+      child.children = childscopy;
+    }
+  }
+  return childs;
+}

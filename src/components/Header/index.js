@@ -4,7 +4,7 @@ import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import MegaMenu from '@/components/MegaMenu';
-import { getParaByName, getDeviceType } from '@/utils/utils';
+import { getParaByName, getDeviceType, generateOptions } from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList } from '@/api/list';
@@ -75,7 +75,7 @@ const _catogryCfg = function (lang, props) {
         {
           linkObj: { pathname: '/list/dogs' },
           langKey: 'dogs',
-          subMenuKey: 'dogs',
+          subMenuKey: 'dogs', // 存在subMenuKey则显示下拉
           type: 'dogs'
         },
         {
@@ -190,7 +190,8 @@ class Header extends React.Component {
       result: null,
       showMegaMenu: false,
       isScrollToTop: true,
-      visibleType: ''
+      headerNavigationList: [],
+      activeTopParentId: -1
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -214,6 +215,8 @@ class Header extends React.Component {
     this.handleMenuMouseOver = this.handleMenuMouseOver.bind(this);
     this.handleMenuMouseOut = this.handleMenuMouseOut.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
+    this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
+    this.hanldeListItemMouseOut = this.hanldeListItemMouseOut.bind(this);
 
     this.preTop = 0;
   }
@@ -310,10 +313,7 @@ class Header extends React.Component {
             }[this.props.match && this.props.match.path] || ''
     });
 
-    // 查询二级导航
-    queryHeaderNavigations().then(res => {
-      // debugger
-    })
+    this.initNavigations();
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
@@ -333,6 +333,29 @@ class Header extends React.Component {
       })()
     );
   }
+  initNavigations = async () => {
+    let res = await this.queryHeaderNavigations();
+    if (res) {
+      this.setState({
+        headerNavigationList: generateOptions(res)
+      });
+    }
+  };
+  // 查询二级导航
+  queryHeaderNavigations = async () => {
+    let ret = sessionItemRoyal.get('header-navigations');
+    if (ret) {
+      ret = JSON.parse(ret);
+    } else {
+      const res = await queryHeaderNavigations();
+      if (res.context) {
+        ret = res.context;
+        sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
+      }
+    }
+    return ret;
+  };
+
   /**
    * token过期时，主动登出
    */
@@ -361,7 +384,7 @@ class Header extends React.Component {
     }
     const footerEl = document.querySelector('#footer');
     let targetEl = document.querySelector('#J_sidecart_fix');
- 
+
     let scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
     let isScrollToTop = this.preTop > scrollTop;
@@ -374,7 +397,7 @@ class Header extends React.Component {
       scrollTop +
       baseEl.offsetHeight;
 
-    if(targetEl == null) return
+    if (targetEl == null) return;
     if (scrollTop >= footerTop) {
       targetEl.style.top = 'auto';
       targetEl.style.bottom = '40px';
@@ -648,7 +671,7 @@ class Header extends React.Component {
             </div>
           </div>
           <span className="d-sm-none_ more-below">
-            <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
+            <i className="fa fa-long-arrow-down" aria-hidden="true" />
           </span>
         </div>
       </div>
@@ -663,40 +686,49 @@ class Header extends React.Component {
     ) : null;
   }
   _renderDropDownText = (item) => {
-    return item.subMenuKey ? (
+    return item.expanded ? (
       <span className="rc-header-with-icon">
-        <FormattedMessage id={item.langKey} />
+        {item.navigationName}
         <span
           className={`rc-icon rc-iconography ${
-            item.type === this.state.visibleType ? 'rc-up rc-brand1' : 'rc-down'
+            item.id === this.state.activeTopParentId
+              ? 'rc-up rc-brand1'
+              : 'rc-down'
           }`}
-        ></span>
+        />
       </span>
     ) : (
-      <FormattedMessage id={item.langKey} />
+      item.navigationName
     );
   };
-  hanldeListItemMouseOver = (e, item) => {
-    if (!item.subMenuKey) {
+  hanldeListItemMouseOver(item) {
+    if (!item.expanded) {
       return false;
     }
     this.setState({
-      visibleType: item.type
+      activeTopParentId: item.id
     });
-  };
-  hanldeListItemMouseOut = (e, item) => {
-    if (!item.subMenuKey) {
+  }
+  hanldeListItemMouseOut(item) {
+    if (!item.expanded) {
       return false;
     }
     this.setState({
-      visibleType: ''
+      activeTopParentId: -1
     });
-  };
+  }
   render() {
+    const { showMiniIcons, loginStore } = this.props;
+    const {
+      headerNavigationList,
+      showSearchInput,
+      keywords,
+      activeTopParentId
+    } = this.state;
     return (
       <>
-        <div id="page-top" name="page-top"></div>
-        {this.props.loginStore.loginModal ? <Loading /> : null}
+        <div id="page-top" name="page-top" />
+        {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
@@ -704,7 +736,7 @@ class Header extends React.Component {
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
               role="menubar"
             >
-              {this.props.showMiniIcons ? (
+              {showMiniIcons ? (
                 <li className="rc-list__item">
                   <MegaMenu
                     showMegaMenu={this.state.showMegaMenu}
@@ -721,7 +753,7 @@ class Header extends React.Component {
             </ul>
 
             <Link to="/" className="header__nav__brand logo-home">
-              <span className="rc-screen-reader-text"></span>
+              <span className="rc-screen-reader-text" />
               <object
                 id="header__logo"
                 className="rc-header__logo"
@@ -743,20 +775,14 @@ class Header extends React.Component {
               role="menubar"
             >
               <li className="rc-list__item d-flex align-items-center">
-                {this.props.showMiniIcons ? (
+                {showMiniIcons ? (
                   <>
                     <div className="inlineblock">
                       <button
                         id="mainSearch"
-                        className={[
-                          'rc-btn',
-                          'less-width-xs',
-                          'rc-btn--icon',
-                          'rc-icon',
-                          'rc-search--xs',
-                          'rc-iconography',
-                          this.state.showSearchInput ? 'rc-hidden' : ''
-                        ].join(' ')}
+                        className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography ${
+                          showSearchInput ? 'rc-hidden' : ''
+                        }`}
                         aria-label="Search"
                         onClick={this.hanldeSearchClick}
                       >
@@ -771,7 +797,7 @@ class Header extends React.Component {
                             'headerSearch',
                             'headerSearchDesktop',
                             'relative',
-                            this.state.showSearchInput ? '' : 'rc-hidden'
+                            showSearchInput ? '' : 'rc-hidden'
                           ].join(' ')}
                           role="search"
                           name="simpleSearch"
@@ -787,7 +813,7 @@ class Header extends React.Component {
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
                             >
-                              <span className="rc-screen-reader-text"></span>
+                              <span className="rc-screen-reader-text" />
                             </button>
                             <FormattedMessage id="header.startTypingToSearch">
                               {(txt) => (
@@ -798,7 +824,7 @@ class Header extends React.Component {
                                   type="search"
                                   autoComplete="off"
                                   placeholder={txt}
-                                  value={this.state.keywords}
+                                  value={keywords}
                                   onChange={this.handleSearchInputChange}
                                 />
                               )}
@@ -807,14 +833,14 @@ class Header extends React.Component {
                               className="rc-input__label"
                               htmlFor="id-submit-2"
                             >
-                              <span className="rc-input__label-text"></span>
+                              <span className="rc-input__label-text" />
                             </label>
                           </span>
                           <span
                             className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle"
                             aria-label="Close"
                             onClick={this.hanldeSearchCloseClick}
-                          ></span>
+                          />
                           <div className="suggestions-wrapper">
                             {this.renderResultJsx()}
                           </div>
@@ -852,7 +878,7 @@ class Header extends React.Component {
                             data-loc="miniCartOrderBtn"
                             title={txt}
                           >
-                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
                           </Link>
                         )}
                       </FormattedMessage>
@@ -864,7 +890,7 @@ class Header extends React.Component {
                             data-loc="miniCartOrderBtn"
                             title={txt}
                           >
-                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography"></i>
+                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
                           </div>
                         )}
                       </FormattedMessage>
@@ -1010,39 +1036,42 @@ class Header extends React.Component {
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
             <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-              {_catogryCfg(process.env.REACT_APP_LANG, this.props).map(
-                (item, i) => (
-                  <li
-                    className={`rc-list__item ${
-                      item.subMenuKey ? 'dropdown' : ''
-                    } ${this.state.visibleType === item.type ? 'active' : ''}`}
-                    key={i}
-                    onMouseOver={(e) => this.hanldeListItemMouseOver(e, item)}
-                    onMouseOut={(e) => this.hanldeListItemMouseOut(e, item)}
-                  >
-                    <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                      <li className="rc-list__item">
-                        {item.url ? (
-                          <a href={item.url} className="rc-list__header">
-                            {this._renderDropDownText(item)}
-                          </a>
-                        ) : (
-                          <Link to={item.linkObj} className="rc-list__header">
-                            {this._renderDropDownText(item)}
-                          </Link>
-                        )}
-                      </li>
-                    </ul>
-                  </li>
-                )
-              )}
+              {headerNavigationList.map((item, i) => (
+                <li
+                  className={`rc-list__item ${
+                    item.expanded ? 'dropdown' : ''
+                  } ${activeTopParentId === item.id ? 'active' : ''}`}
+                  key={i}
+                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+                >
+                  <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                    <li className="rc-list__item">
+                      {item.url ? (
+                        <a href={item.url} className="rc-list__header">
+                          {this._renderDropDownText(item)}
+                        </a>
+                      ) : (
+                        <Link to={item.linkObj} className="rc-list__header">
+                          {this._renderDropDownText(item)}
+                        </Link>
+                      )}
+                    </li>
+                  </ul>
+                </li>
+              ))}
             </ul>
           </nav>
           <DropDownMenu
-            visibleType={this.state.visibleType}
-            updateVisibleType={(val) => {
-              this.setState({ visibleType: val });
+            activeTopParentId={this.state.activeTopParentId}
+            updateActiveTopParentId={(id) => {
+              this.setState({ activeTopParentId: id });
             }}
+            headerNavigationList={headerNavigationList}
+            data={headerNavigationList.filter(
+              (ele) => ele.id === activeTopParentId
+            )} // 下拉菜单数据源
+            configStore={this.props.configStore}
           />
           <div className="search">
             <div className="rc-sm-down">
