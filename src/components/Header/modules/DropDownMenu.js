@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import "./DropDownMenu.css"
 
 const defaultSubMenuCfg = [
   {
@@ -54,17 +55,39 @@ const defaultSubMenuCfg = [
       },
       {
         name: 'Gamme',
+        // children: [
+        //   {
+        //     name: 'Aliments secs',
+        //     linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
+        //   },
+        //   {
+        //     name: 'Bouchées en sauce',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   },
+        //   {
+        //     name: 'Aliment pour Chien de Race',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   }
+        // ],
         children: [
           {
-            name: 'Aliments secs',
-            linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
-          },
-          {
-            name: 'Bouchées en sauce',
+            name: 'Breed Health Nutrition',
             linkObj: { pathname: '/list/dogs' }
           },
           {
-            name: 'Aliment pour Chien de Race',
+            name: 'Canin Care Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Size Health Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Aliments secs',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Bouchées en sauce',
             linkObj: { pathname: '/list/dogs' }
           }
         ]

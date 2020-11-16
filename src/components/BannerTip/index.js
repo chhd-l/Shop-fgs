@@ -28,12 +28,12 @@ class BannerTip extends React.Component {
           <div
             className="text-center"
             style={{
-              fontSize: '1.15em',
+              fontSize: '1em',
               fontWeight: '300',
               marginBottom: '-.4rem'
             }}
           >
-            <span className="iconfont mr-2" style={{ fontSize: '1.3em' }}>
+            <span className="iconfont mr-2" style={{ fontSize: '1.4em',color:'#E41E35',fontWeight:'bold' }}>
               &#xe675;
             </span>
             <FormattedMessage id="home.promotionTip" />

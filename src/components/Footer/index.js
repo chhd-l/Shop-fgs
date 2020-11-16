@@ -29,7 +29,7 @@ class Footer extends React.Component {
     };
     return (
       <footer className="rc-bg-colour--interface-dark" id="footer">
-        <div className="rc-max-width--lg rc-scroll--y" style={{maxWidth:'1400px'}}>
+        <div className="rc-max-width--lg rc-scroll--y" style={{ maxWidth: '1400px' }}>
           <div className="rc-layout-container rc-md-up">
             <div className="rc-column rc-text--right">
               <span
@@ -91,23 +91,23 @@ class Footer extends React.Component {
                                       />
                                     </Link>
                                   ) : (
-                                    <a
-                                      className="rc-list__link text-decoration-none color-f6f6f6"
-                                      href={
-                                        (!!listItem.prop &&
-                                          this.props.configStore[
+                                      <a
+                                        className="rc-list__link text-decoration-none color-f6f6f6"
+                                        href={
+                                          (!!listItem.prop &&
+                                            this.props.configStore[
                                             listItem.prop
-                                          ]) ||
-                                        listItem.url
-                                      }
-                                      target="_blank"
-                                      role="menuitem"
-                                    >
-                                      <FormattedMessage
-                                        id={listItem.messageId}
-                                      />
-                                    </a>
-                                  )}
+                                            ]) ||
+                                          listItem.url
+                                        }
+                                        target="_blank"
+                                        role="menuitem"
+                                      >
+                                        <FormattedMessage
+                                          id={listItem.messageId}
+                                        />
+                                      </a>
+                                    )}
                                 </li>
                               );
                             })}
@@ -127,7 +127,7 @@ class Footer extends React.Component {
                 <FormattedMessage id="footer.contactRoyalCanin" />
               </p>
               <div className="rc-text--inverse">
-                <p>{this.props.configStore.contactTimePeriod}</p>
+                <p>{process.env.REACT_APP_LANG == 'fr' ? 'Nos spécialistes sont disponibles de 8h30 à 12h30 et de 14h à 17h du lundi au vendredi.' : this.props.configStore.contactTimePeriod}</p>
                 <p>
                   <FormattedMessage
                     id="contactUsViaPhone"
@@ -141,17 +141,17 @@ class Footer extends React.Component {
             {this.state.cur_contactInfo && (
               <div className="rc-column  rc-padding-x--none rc-padding-top--xs--desktop rc-padding-y--md--mobile rc-text--center--sm-down">
                 <a
+                  style={{ display: process.env.REACT_APP_LANG == 'fr' ? 'none' : 'inline-block' }}
                   className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-mobile--xs rc-brand3"
                   role="menuitem"
-                  href={`tel:${
-                    this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
+                  href={`tel:${this.props.configStore[
+                    this.state.cur_contactInfo.phoneNumber.prop
                     ]
-                  }`}
+                    }`}
                 >
                   {
                     this.props.configStore[
-                      this.state.cur_contactInfo.phoneNumber.prop
+                    this.state.cur_contactInfo.phoneNumber.prop
                     ]
                   }
                 </a>
@@ -164,15 +164,16 @@ class Footer extends React.Component {
                     <FormattedMessage id="footer.contactUs" />
                   </Link>
                 ) : (
-                  <a
-                    className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
-                    role="menuitem"
-                    href={this.state.cur_contactInfo.email.url}
-                    style={{ color: '#fff' }}
-                  >
-                    <FormattedMessage id="footer.email" />
-                  </a>
-                )}
+                    <a
+                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                      role="menuitem"
+                      href={this.state.cur_contactInfo.email.url}
+                      style={{ color: '#fff' }}
+                    >
+                      <FormattedMessage id="footer.email" />
+                    </a>
+
+                  )}
               </div>
             )}
           </div>

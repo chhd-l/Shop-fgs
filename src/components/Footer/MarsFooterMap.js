@@ -204,7 +204,7 @@ class MarsFooterMap extends React.Component {
               className="mars-footer-legal text-center"
               style={{ fontSize: '10px' }}
             >
-              <p>
+              <p style={{color:'rgb(102,102,102)'}}>
                 <FormattedMessage id="footer.copyrightInfo2" />
                 <br />
                 <FormattedMessage id="footer.copyrightInfo2_1" />

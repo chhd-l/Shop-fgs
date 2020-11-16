@@ -79,7 +79,7 @@ class HeroCarousel extends React.Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: true,
+      autoplay: false,
       pauseOnHover: true,
       lazyLoad: true,
       adaptiveHeight: true,

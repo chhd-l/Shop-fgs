@@ -7,6 +7,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
+import ListBanner from './Fr/listBanner'
 import Filters from '@/components/Filters';
 import Pagination from '@/components/Pagination';
 import { cloneDeep, find, findIndex } from 'lodash';
@@ -486,6 +487,9 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
+          {
+            process.env.REACT_APP_LANG == 'fr'?<ListBanner/>:null
+          }
           {titleData ? (
             <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">

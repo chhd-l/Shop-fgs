@@ -95,15 +95,15 @@ const _catogryCfg = function (lang, props) {
           type: 'healthAndWellbeing'
         },
         {
+          linkObj: { pathname: '/aboutUs' },
+          langKey: 'aboutUs'
+        },
+        {
           linkObj: { pathname: '/help' },
           langKey: 'contactUs',
           subMenuKey: 'help',
           type: 'help'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
+        },   
       ],
       ru: [
         {
