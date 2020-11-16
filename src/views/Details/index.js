@@ -1229,7 +1229,7 @@ class Details extends React.Component {
                                         id="taxLogo"
                                         values={{
                                           val: (
-                                            <a href="https://shopstg.royalcanin.com/FAQ-Shipping">
+                                            <a href={`${process.env.REACT_APP_ACCESS_PATH}FAQ/catogery-1`} target="_blank">
                                               Versandkosten
                                             </a>
                                           )
