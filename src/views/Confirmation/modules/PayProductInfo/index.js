@@ -34,6 +34,7 @@ class PayProductInfo extends React.Component {
   }
   getProductList(plist) {
     const { details } = this.props;
+    console.log(details, details)
     const List = plist.map((item, i) => {
       return (
         <div className="product-summary__products__item" key={i}>

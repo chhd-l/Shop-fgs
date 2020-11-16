@@ -221,7 +221,8 @@ class Help extends React.Component {
           await sitePurchase({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
+            goodsCategory: '',
+            goodsInfoFlag: 0
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -274,7 +275,9 @@ class Help extends React.Component {
       tmpData = Object.assign(tmpData, {
         currentAmount: product.goodsInfo.marketPrice * quantityNew,
         selected: true,
-        quantity: quantityNew
+        quantity: quantityNew,
+        goodsInfoFlag: 0,
+        periodTypeId: null
       });
       console.log(idx, 'idx');
       if (idx > -1) {
@@ -349,7 +352,8 @@ class Help extends React.Component {
           await sitePurchase({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
+            goodsCategory: '',
+            goodsInfoFlag: 0
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {
@@ -397,7 +401,8 @@ class Help extends React.Component {
           await sitePurchase({
             goodsInfoId: inStockProducts[i].goodsInfo.goodsInfoId,
             goodsNum: inStockProducts[i].recommendationNumber,
-            goodsCategory: ''
+            goodsCategory: '',
+            goodsInfoFlag: 0
           });
           await this.props.checkoutStore.updateLoginCart();
         } catch (e) {

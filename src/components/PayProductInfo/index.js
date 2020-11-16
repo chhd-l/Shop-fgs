@@ -49,6 +49,7 @@ class PayProductInfo extends React.Component {
   };
   getProductList(plist) {
     const { details } = this.props;
+    console.log(plist, details, 'hahaha')
     const List = plist.map((item, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -85,15 +86,15 @@ class PayProductInfo extends React.Component {
                     )}
                     <br />
                     {details.subscriptionResponseVO &&
-                    item.subscriptionStatus ? (
+                    item.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :
                         {this.matchNamefromDict(
                           this.state.frequencyList,
-                          details.subscriptionResponseVO.cycleTypeId
+                          item.periodTypeId
                         )}{' '}
                         <span
-                          className="iconfont font-weight-bold red"
+                          className="iconfont font-weight-bold green"
                           style={{ fontSize: '.8em' }}
                         >
                           &#xe675;

@@ -1113,7 +1113,8 @@ class Payment extends React.Component {
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
-          petsName: ele.petsName
+          petsName: ele.petsName,
+          goodsInfoFlag: 0
         };
       });
     } else if (this.isLogin) {
@@ -1138,7 +1139,8 @@ class Payment extends React.Component {
 
     if (subForm.buyWay === 'frequency') {
       param.tradeItems = loginCartData
-        .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
+        // .filter((ele) => !ele.subscriptionStatus || !ele.subscriptionPrice)
+        .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
           return {
             num: g.buyCount,
@@ -1149,20 +1151,20 @@ class Payment extends React.Component {
             periodTypeId: g.periodTypeId
           };
         });
-      if(sessionItemRoyal.get('recommend_product')) {
-        param.subTradeItems = this.state.recommend_data
-        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
-        .map((g) => {
-          return {
-            subscribeNum: g.buyCount,
-            skuId: g.goodsInfoId,
-            petsId: g.petsId,
-            petsName: g.petsName
-          };
-        });
-      }else {
+      // if(sessionItemRoyal.get('recommend_product')) {
+      //   param.subTradeItems = this.state.recommend_data
+      //   .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+      //   .map((g) => {
+      //     return {
+      //       subscribeNum: g.buyCount,
+      //       skuId: g.goodsInfoId,
+      //       petsId: g.petsId,
+      //       petsName: g.petsName
+      //     };
+      //   });
+      // }else {
         param.subTradeItems = loginCartData
-        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0)
+        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0 && ele.goodsInfoFlag)
         .map((g) => {
           return {
             subscribeNum: g.buyCount,
@@ -1173,7 +1175,7 @@ class Payment extends React.Component {
             periodTypeId: g.periodTypeId
           };
         });
-      }
+      // }
       
       param.cycleTypeId = subForm.frequencyId;
       param.paymentMethodId = creditCardInfo.id;

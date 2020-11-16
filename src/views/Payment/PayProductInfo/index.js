@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import { find } from 'lodash';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getDictionary } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
@@ -20,7 +21,8 @@ class PayProductInfo extends React.Component {
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false //是否显示无效promotionCode
+      isShowValidCode: false, //是否显示无效promotionCode
+      frequencyList: []
     };
   }
   get isLogin() {
@@ -64,6 +66,14 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
+    Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
+      this.setState({
+        frequencyList: [...dictList[0], ...dictList[1]]
+      });
+    });
     this.setState(
       Object.assign({
         productList: productList || []
@@ -87,6 +97,11 @@ class PayProductInfo extends React.Component {
   }
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
+  }
+  matchNamefromDict(dictList, id) {
+    return find(dictList, (ele) => ele.id.toString() === id.toString())
+      ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
+      : id;
   }
   getProducts(plist) {
     const List = plist.map((el, i) => {
@@ -163,6 +178,7 @@ class PayProductInfo extends React.Component {
     );
   };
   getProductsForLogin(plist) {
+    console.log(toJS(plist), 'plist')
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -198,16 +214,14 @@ class PayProductInfo extends React.Component {
                       />
                     )}
                     <br />
-                    {this.isSubscription(el) ? (
+                    {el.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {this.props.frequencyName}{' '}
-                        <span
-                          className="iconfont font-weight-bold red"
-                          style={{ fontSize: '.8em' }}
-                        >
-                          &#xe675;
-                        </span>
+                        {/* {this.props.frequencyName}{' '} */}
+                        {this.matchNamefromDict(
+                          this.state.frequencyList,
+                          el.periodTypeId
+                        )}{' '}
                       </>
                     ) : null}
                   </div>
@@ -232,6 +246,19 @@ class PayProductInfo extends React.Component {
                     </span>
                   </div>
                 </div>
+                {
+                  el.goodsInfoFlag? (
+                    <div>
+                  <span
+                          className="iconfont font-weight-bold green"
+                          style={{ fontSize: '.8em' }}
+                        >
+                          &#xe675;
+                        </span>
+                        &nbsp; Vous avez économisé <span className="green">{formatMoney(el.buyCount * el.salePrice - el.buyCount * el.subscriptionPrice)}</span> avec labonnement
+                  </div>
+                  ): null
+                }
               </div>
             </div>
             <div className="item-options"></div>
