@@ -19,7 +19,7 @@ class Help extends Component {
                                         <b style={{color:"#00A4A6"}}>Par téléphone</b>
                                         <p>Appel Gratuit (depuis un poste fixe) De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi</p>
                                         <div className="rc-margin-top--xs">
-                                            <a className='rc-numeric nowrap' style={{color:"#00A4A6"}}>0800-005-360</a>
+                                            <a className='rc-numeric nowrap' style={{color:"#00A4A6"}} href="tel:0800-005-360">0800-005-360</a>
                                         </div>
                                     </div>
                                 </div>
@@ -36,12 +36,15 @@ class Help extends Component {
                             <div className='rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight'>
                                 <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                                     <div>
-                                        <b style={{color:"#00A4A6"}}>Par téléphone</b>
-                                        <p>Appel Gratuit (depuis un poste fixe) De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi</p>
+                                        <b style={{color:"#0087BD"}}>Par téléphone</b>
+                                        <p>Nous vous répondons sous deux jours ouvrés.</p>
                                         <div className="rc-margin-top--xs">
-                                            <a className='rc-numeric nowrap' style={{color:"#00A4A6"}}>0800-005-360</a>
+                                            <a className='rc-numeric nowrap' style={{color:"#0087BD"}}>Envoyer un email</a>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                                    <img className="align-self-center widthAuto lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=100&sh=100&sm=cut&sfrm=png"></img>
                                 </div>
                             </div>
                         </div>
@@ -53,12 +56,15 @@ class Help extends Component {
                             <div className='rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight'>
                                 <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                                     <div>
-                                        <b style={{color:"#00A4A6"}}>Par téléphone</b>
-                                        <p>Appel Gratuit (depuis un poste fixe) De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi</p>
-                                        <div className="rc-margin-top--xs">
-                                            <a className='rc-numeric nowrap' style={{color:"#00A4A6"}}>0800-005-360</a>
-                                        </div>
+                                        <b>Des questions?</b>
+                                        <p>Vous pouvez également consulter notre rubrique 
+                                            <a style={{color:'rgb(236,0,26)',backgroundColor:'rgb(255,255,255)',padding:'0 3px'}} href={`${process.env.REACT_APP_ACCESS_PATH}FAQ/all`}>FAQ</a> 
+                                            qui vous apportera de nombreuses réponses
+                                        </p>
                                     </div>
+                                </div>
+                                <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                                    <img className="align-self-center widthAuto lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=100&sh=100&sm=cut&sfrm=png"></img>
                                 </div>
                             </div>
                         </div>

@@ -183,7 +183,7 @@ class Tailorednutrition extends React.Component {
             </p>
           </section>
           <section
-            style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}
+            style={{ textAlign: 'left', width: '100%', margin: '0 auto',display:process.env.REACT_APP_LANG==='fr'?'none':'inline-block' }}
           >
             <h2
               style={{

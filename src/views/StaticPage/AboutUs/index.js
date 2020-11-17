@@ -141,7 +141,7 @@ class AboutUs extends React.Component {
                 {this.props.intl.messages['aboutUs.learnMore'] ? (
                   <a
                     className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    href="/tailorednutrition"
+                    href={process.env.REACT_APP_LANG == 'fr'?"/values-fr":'/tailorednutrition'}
                   >
                     <FormattedMessage
                       id="aboutUs.learnMore"
@@ -207,7 +207,7 @@ class AboutUs extends React.Component {
             ></iframe>
           </section>
           <section
-            style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}
+            style={{ textAlign: 'left', width: '100%', margin: '0 auto',display:process.env.REACT_APP_LANG === 'fr'?'none':'block' }}
           >
             <h2
               style={{
