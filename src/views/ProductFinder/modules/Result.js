@@ -16,7 +16,7 @@ import dogImg from '@/assets/images/product-finder-dog.png';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function QListAndPetJSX(props) {
-  const { questionlist } = props;
+  const { questionlist, petBaseInfo } = props;
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
@@ -81,22 +81,30 @@ function QListAndPetJSX(props) {
                   <div className="col-6 mb-2 mb-md-0">
                     Age
                     <br />
-                    <span className="font-weight-normal">2 years old</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.age) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Breed
                     <br />
-                    <span className="font-weight-normal">Mix Breed</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.breed) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Gender
                     <br />
-                    <span className="font-weight-normal">Female</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.gender) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Sterilized
                     <br />
-                    <span className="font-weight-normal">Yes</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -144,17 +152,40 @@ class ProductFinderResult extends React.Component {
       qListVisible: false,
       productDetail: null,
       isLoading: true,
-      questionlist: []
+      questionlist: [],
+      petBaseInfo: null
     };
   }
   componentDidMount() {
     this.setState({ type: this.props.match.params.type });
-    const res = sessionItemRoyal.get('product-finder-result');
-    const questionlist = sessionItemRoyal.get('product-finder-questionlist');
+    const res = sessionItemRoyal.get('pf-result');
+    const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (res) {
+      const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
+      const ageItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'age'
+      );
+      const breedItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'breedCode'
+      );
+      const genderItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'genderCode'
+      );
       this.setState({
         productDetail: JSON.parse(res),
-        questionlist: questionlist ? JSON.parse(questionlist) : null,
+        questionlist: parsedQuestionlist,
+        petBaseInfo: {
+          age: ageItem.length
+            ? ageItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          breed: breedItem.length
+            ? breedItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          gender: genderItem.length
+            ? genderItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          sterilized: ''
+        },
         isLoading: false
       });
     } else {
@@ -169,8 +200,7 @@ class ProductFinderResult extends React.Component {
   };
   handleClickEditBtn = (ele) => {
     const { type } = this.state;
-    debugger;
-    sessionItemRoyal.set('product-finder-edit-order', ele.stepOrder);
+    sessionItemRoyal.set('pf-edit-order', ele.stepOrder);
     this.props.history.push(`/product-finder/question/${type}`);
   };
   render() {
@@ -180,7 +210,8 @@ class ProductFinderResult extends React.Component {
       qListVisible,
       isLoading,
       type,
-      questionlist
+      questionlist,
+      petBaseInfo
     } = this.state;
     return (
       <div>
@@ -227,6 +258,7 @@ class ProductFinderResult extends React.Component {
                       isLogin={this.isLogin}
                       questionlist={questionlist}
                       handleClickEditBtn={this.handleClickEditBtn}
+                      petBaseInfo={petBaseInfo}
                     />
                   </div>
                 )}
@@ -367,6 +399,7 @@ class ProductFinderResult extends React.Component {
                     isLogin={this.isLogin}
                     questionlist={questionlist}
                     handleClickEditBtn={this.handleClickEditBtn}
+                    petBaseInfo={petBaseInfo}
                   />
                 </div>
                 <hr />

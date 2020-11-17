@@ -1,11 +1,14 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import Modal from '@/components/Modal';
 import Skeleton from 'react-skeleton-loader';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
+import PriceSlider from '@/components/PriceSlider';
 import helpImg from '@/assets/images/product-finder-help.png';
 import RadioAnswer from './RadioAnswer';
 import SelectAnswer from './SelectAnswer';
@@ -16,19 +19,22 @@ import { query, edit, matchProducts } from '@/api/productFinder';
 
 import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
+import veterinaryImg from '@/assets/images/veterinary.png';
+import veterinaryProductImg from '@/assets/images/veterinary_product.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
+const localItemRoyal = window.__.localItemRoyal;
 class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
+      type: '', // cat dog
       progress: 0,
       questionCfg: null,
       isPageLoading: false,
       form: null,
-      stepOrder: 1,
+      breedSizeform: null,
+      stepOrder: -1,
       finderNumber: '',
       questionParams: null,
       qListVisible: false,
@@ -39,56 +45,79 @@ class Question extends React.Component {
       answerdQuestionList: [],
       placeholderList: [],
       valid: false,
-      isEdit: false // 是否处于编辑状态
+      isEdit: false, // 是否处于编辑状态
+      initDataFromFreshPage: false,
+      configSizeAttach: null // when breed，attached size data
     };
     this.setIconToolTipVisible = this.setIconToolTipVisible.bind(this);
     this.setBtnToolTipVisible = this.setBtnToolTipVisible.bind(this);
+    this.setSickModalVisible = this.setSickModalVisible.bind(this);
   }
   componentDidMount() {
     const { match } = this.props;
-    const tmpOrder = sessionItemRoyal.get('product-finder-edit-order');
+    const { type } = match.params;
+    const tmpOrder = sessionItemRoyal.get('pf-edit-order');
+    const cachedQuestionData = localItemRoyal.get(`pf-cache-${type}-question`);
     this.setState(
       {
-        type: match.params.type,
-        questionParams: { speciesCode: match.params.type }
+        type,
+        questionParams: { speciesCode: type }
       },
       () => {
-        debugger;
-        // 编辑状态下无须重新请求接口，从其他地方带初始值过来
-        if (tmpOrder && Number(tmpOrder) > 1) {
-          const editStopOrder = Number(tmpOrder);
-          const tmpList = JSON.parse(
-            sessionItemRoyal.get('product-finder-questionlist')
-          );
-          const targetItem = tmpList.filter(
-            (ele) => ele.stepOrder === editStopOrder
-          )[0];
-          const qRes = this.handleQuestionConfigLogic({
-            stepName: targetItem.questionName,
-            metadataQuestionDisplayType: targetItem.selectType,
-            defaultListData: targetItem.answerList
-          });
-          this.setState({
-            progress: 100,
-            stepOrder: editStopOrder,
-            finderNumber: targetItem.finderNumber,
-            answerdQuestionList: tmpList,
-            currentStepName: targetItem.questionName,
-            questionParams: tmpList
-              .filter((ele) => ele.stepOrder <= editStopOrder)
-              .reduce((prev, cur) => {
-                return Object.assign(prev, { [cur.questionName]: cur.answer });
-              }, this.state.questionParams),
-            questionCfg: {
-              title: targetItem.question,
-              list: qRes.questionList,
-              placeholderList: qRes.holderList
+        // 从缓存中读取上次答题进度缓存
+        if (cachedQuestionData) {
+          const {
+            finderNumber,
+            stepOrder,
+            questionParams
+          } = cachedQuestionData;
+          this.setState(
+            {
+              finderNumber,
+              stepOrder,
+              questionParams,
+              initDataFromFreshPage: true
             },
-            questionType: qRes.questionType,
-            isEdit: true
-          });
+            () => this.queryAnswers()
+          );
         } else {
-          this.queryAnswers();
+          // 编辑状态下无须重新请求接口，从其他地方带初始值过来
+          if (tmpOrder && Number(tmpOrder) > 1) {
+            const editStopOrder = Number(tmpOrder);
+            const tmpList = JSON.parse(sessionItemRoyal.get('pf-questionlist'));
+            const targetItem = tmpList.filter(
+              (ele) => ele.stepOrder === editStopOrder
+            )[0];
+            const qRes = this.handleQuestionConfigLogic({
+              stepName: targetItem.questionName,
+              metadataQuestionDisplayType: targetItem.selectType,
+              defaultListData: targetItem.answerList
+            });
+            this.setState({
+              progress: 100,
+              stepOrder: editStopOrder,
+              finderNumber: targetItem.finderNumber,
+              answerdQuestionList: tmpList,
+              currentStepName: targetItem.questionName,
+              questionParams: tmpList
+                .filter((ele) => ele.stepOrder <= editStopOrder)
+                .reduce((prev, cur) => {
+                  return Object.assign(prev, {
+                    [cur.questionName]: cur.answer
+                  });
+                }, this.state.questionParams),
+              questionCfg: {
+                title: targetItem.question,
+                list: qRes.questionList,
+                placeholderList: qRes.holderList
+              },
+              questionType: qRes.questionType,
+              isEdit: true
+            });
+          } else {
+            // 正常第一次答题
+            this.queryAnswers();
+          }
         }
       }
     );
@@ -105,10 +134,19 @@ class Question extends React.Component {
   updateFormData = (data) => {
     this.setState({ form: data });
   };
+  updateBreedSizeFormData = (data) => {
+    this.setState({ breedSizeform: data });
+  };
   updateSaveBtnStatus = (status) => {
     this.setState({ valid: status });
   };
   handleClickNext = () => {
+    // 当选择我的宠物生病了 不能进行下一步，需要弹出弹框
+    const { form } = this.state;
+    if (form && form.key === 'healthIssues') {
+      this.setSickModalVisible(true);
+      return false;
+    }
     // 根据当前answer，请求题目
     this.queryAnswers();
     window.scrollTo({
@@ -122,16 +160,17 @@ class Question extends React.Component {
         stepOrder,
         currentStepName,
         form,
+        breedSizeform,
         questionType,
         questionParams,
         finderNumber,
-        type
+        type,
+        initDataFromFreshPage,
+        configSizeAttach
       } = this.state;
       this.setState({ isPageLoading: true });
-      debugger;
       let tmpQuestionParams = Object.assign({}, questionParams);
       if (currentStepName) {
-        debugger;
         let tmpFormParam;
         switch (questionType) {
           case 'text':
@@ -150,56 +189,89 @@ class Question extends React.Component {
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
+        // 特殊处理breed size
+        if (breedSizeform) {
+          tmpQuestionParams = Object.assign(tmpQuestionParams, {
+            [configSizeAttach.name]: encodeURI(breedSizeform.key)
+          });
+        }
         this.setState({ questionParams: tmpQuestionParams });
       }
-      const res = await (this.state.isEdit ? edit : query)({
+      let params = {
         finderNumber,
-        questionParams: tmpQuestionParams,
-        stepOrder
-      });
+        questionParams: tmpQuestionParams
+      };
+      if (stepOrder > 0) {
+        params.stepOrder = stepOrder;
+      }
+      if (initDataFromFreshPage) {
+        params.freshPage = 1;
+      }
+
+      const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
       const statistics = res.context.statistics;
-      debugger;
       if (!resContext.isEndOfTree) {
+        const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({
-          stepName: resContext.step.name,
-          metadataQuestionDisplayType:
-            resContext.step.metadataQuestionDisplayType,
-          defaultListData: resContext.step.answers
+          stepName: tmpStep.name,
+          metadataQuestionDisplayType: tmpStep.metadataQuestionDisplayType
+            ? tmpStep.metadataQuestionDisplayType
+            : tmpStep.name === 'lifestagesCat'
+            ? 'singleSelect'
+            : '',
+          defaultListData: tmpStep.answers
         });
-        this.setState({
-          questionCfg: {
-            title: resContext.step.label,
-            list: qRes.questionList,
-            placeholderList: qRes.holderList
-          }, // 不要更新这个值
-          questionType: qRes.questionType,
-          progress: Math.round(
-            (statistics.nbStepPassed /
-              (statistics.nbStepPassed + statistics.maximumNbOfStepRemaining)) *
-              100
-          ),
-          currentStepName: resContext.step.name,
-          stepOrder: resContext.stepOrder,
-          finderNumber: resContext.finderNumber,
-          answerdQuestionList: resContext.answerdQuestionList || [],
-          isEdit: false // 编辑一次问题后，剩余问题使用正常回答流程
-        });
+        if (resContext.sizeStep) {
+          this.setState({
+            configSizeAttach: resContext.sizeStep
+          });
+        }
+        this.setState(
+          {
+            questionCfg: {
+              title: resContext.step.label,
+              list: qRes.questionList,
+              placeholderList: qRes.holderList
+            },
+            questionType: qRes.questionType,
+
+            progress: Math.round(
+              (statistics.nbStepPassed /
+                (statistics.nbStepPassed +
+                  statistics.maximumNbOfStepRemaining)) *
+                100
+            ),
+            currentStepName: resContext.step.name,
+            stepOrder: resContext.stepOrder,
+            finderNumber: resContext.finderNumber,
+            answerdQuestionList: resContext.answerdQuestionList || [],
+            isEdit: false // 编辑一次问题后，剩余问题使用正常回答流程
+          },
+          () => {
+            const { finderNumber, stepOrder, questionParams } = this.state;
+            if (stepOrder - 1 > 0) {
+              localItemRoyal.set(`pf-cache-${type}-question`, {
+                finderNumber,
+                stepOrder: stepOrder - 1,
+                questionParams
+              });
+            }
+          }
+        );
       } else {
         // 所有问题回答结束，进行查找产品
         const proRes = await matchProducts({
           finderNumber,
           questionParams: tmpQuestionParams
         });
+        localItemRoyal.remove(`pf-cache-${type}-question`);
 
         let tmpUrl;
         if (proRes.context && proRes.context.mainProduct) {
+          sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
           sessionItemRoyal.set(
-            'product-finder-result',
-            JSON.stringify(proRes.context)
-          );
-          sessionItemRoyal.set(
-            'product-finder-questionlist',
+            'pf-questionlist',
             JSON.stringify(this.state.answerdQuestionList)
           );
           tmpUrl = `/product-finder/result/${type}`;
@@ -281,21 +353,32 @@ class Question extends React.Component {
       questionType
     };
   }
+  setSickModalVisible(status) {
+    this.setState({ sickModalVisible: status });
+  }
   render() {
     const { match, history, location } = this.props;
     const {
       type,
       progress,
       questionCfg,
-      questionCfgAttach,
       btnToolTipVisible,
       isPageLoading,
       qListVisible,
       iconToolTipVisible,
       questionType,
       errMsg,
-      answerdQuestionList
+      answerdQuestionList,
+      sickModalVisible,
+      configSizeAttach
     } = this.state;
+    let computedConfigSizeAttach = null;
+    if (configSizeAttach) {
+      computedConfigSizeAttach = {
+        title: configSizeAttach.label,
+        list: configSizeAttach.answers
+      };
+    }
     let event;
     if (type) {
       event = {
@@ -316,8 +399,14 @@ class Question extends React.Component {
           history={history}
           match={match}
         />
+
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
+          {/* <PriceSlider
+            onChange={(val) => {
+              console.log(333, val);
+            }}
+          /> */}
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
             <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
             <div className="row justify-content-center justify-content-md-between mb-4">
@@ -382,7 +471,7 @@ class Question extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0">
+              <div className="col-12 col-md-6 order-1 order-md-0 mt-4 mt-md-0 mb-4">
                 {isPageLoading ? (
                   <span className="mt-4">
                     <Skeleton
@@ -417,9 +506,10 @@ class Question extends React.Component {
                       <SearchAnswer
                         config={questionCfg}
                         updateFormData={this.updateFormData}
+                        updateBreedSizeFormData={this.updateBreedSizeFormData}
                         updateSaveBtnStatus={this.updateSaveBtnStatus}
                         queryAnswers={this.queryAnswers}
-                        configAttach={questionCfgAttach}
+                        configSizeAttach={computedConfigSizeAttach}
                       />
                     )}
                     {questionType === 'text' && (
@@ -503,6 +593,58 @@ class Question extends React.Component {
               </div>
             </div>
           </div>
+
+          <Modal
+            footerVisible={false}
+            visible={sickModalVisible}
+            modalTitle={''}
+            modalText={
+              <div className="row ml-3 mr-3">
+                <div className="col-12 col-md-6">
+                  <h2 className="rc-beta markup-text">
+                    <FormattedMessage id="productFinder.healthTitle" />
+                  </h2>
+                  <p>
+                    <FormattedMessage id="productFinder.healthTip1" />
+                  </p>
+                  <p>
+                    <FormattedMessage id="productFinder.healthTip2" />
+                  </p>
+                  <div className="rc-btn-group mb-3">
+                    <a
+                      className="rc-btn rc-btn--one"
+                      href="https://shop.royalcanin.fr/dog-range/veterinary-care-nutrition/"
+                      target="_blank"
+                    >
+                      <FormattedMessage id="learnMore" />
+                    </a>
+                    <Link
+                      className="rc-btn rc-btn--two"
+                      to="/help"
+                      target="_blank"
+                    >
+                      <FormattedMessage id="contactUs" />
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <img
+                    src={veterinaryImg}
+                    className="rc-md-up"
+                    style={{ width: '20%', margin: '0 auto' }}
+                    alt=""
+                  />
+                  <img
+                    className="mt-3 rc-full-width"
+                    src={veterinaryProductImg}
+                    alt=""
+                  />
+                </div>
+              </div>
+            }
+            close={this.setSickModalVisible.bind(this, false)}
+            hanldeClickConfirm={this.setSickModalVisible.bind(this, false)}
+          />
         </main>
         <Footer />
       </div>
