@@ -431,7 +431,7 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-
+          <Divider />
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
