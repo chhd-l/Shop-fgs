@@ -220,6 +220,10 @@ export const menubar = {
           {
             link: '/tailorednutrition',
             messageId: 'tailorednutrition'
+          },
+          {
+            link: '/',
+            messageId: 'product-finder'
           }
         ]
       }

@@ -6,7 +6,7 @@ import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel2';
+import HeroCarousel from '@/components/HeroCarousel3';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
@@ -432,10 +432,6 @@ class Home extends React.Component {
             </div>
           </section>
 
-          {<Ads />}
-
-          <Divider />
-
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
@@ -452,6 +448,10 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
+
+          {<Ads />}
+          <Divider />
+
           <HealthNutrition />
           <Share />
 

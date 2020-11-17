@@ -165,7 +165,7 @@ class Footer extends React.Component {
                   </Link>
                 ) : (
                     <a
-                      className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
+                      className="qhx rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-email--xs rc-brand3"
                       role="menuitem"
                       href={this.state.cur_contactInfo.email.url}
                       style={{ color: '#fff' }}

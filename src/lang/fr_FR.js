@@ -734,6 +734,7 @@ const fr_FR = {
   "subscriptionLanding.description3": "Livraison offerte",
   "subscriptionLanding.description4": "Ligne d'assistance téléphonique gratuite sur la nutrition",
   "subscriptionLanding.catButton": "Voir les formules pour chat",
-  "subscriptionLanding.dogButton": "Voir les formules pour chien"
+  "subscriptionLanding.dogButton": "Voir les formules pour chien",
+  "product-finder":'Aide aux choix'
 }
 export default fr_FR;
