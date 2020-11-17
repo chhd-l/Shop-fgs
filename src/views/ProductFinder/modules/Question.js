@@ -246,7 +246,8 @@ class Question extends React.Component {
             stepOrder: resContext.stepOrder,
             finderNumber: resContext.finderNumber,
             answerdQuestionList: resContext.answerdQuestionList || [],
-            isEdit: false // 编辑一次问题后，剩余问题使用正常回答流程
+            isEdit: false, // 编辑一次问题后，剩余问题使用正常回答流程
+            initDataFromFreshPage: false
           },
           () => {
             const { finderNumber, stepOrder, questionParams } = this.state;
