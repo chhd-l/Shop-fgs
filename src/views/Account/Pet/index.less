@@ -1,0 +1,46 @@
+#Pets {
+  .petItem {
+    display: flex;
+    height: 140px;
+    line-height: 140px;
+    border: 1px solid #d7d7d7;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    > .photo {
+      // flex: 1;
+      width: 140px;
+      text-align: center;
+    }
+    > .content {
+      flex: 3;
+      padding-top: 15px;
+      .key, .value {
+        width: 400px;
+        min-height: 20px;
+        line-height: 20px;
+        display: flex;
+        margin-bottom: 5px;
+        text-align: left;
+        >span:nth-child(1) {
+          width: 100px;
+          // flex: 1;
+        }
+      }
+      .value {
+        font-weight: 400;
+      }
+    }
+    > .operation {
+      flex: 1;
+      position: relative;
+      .edit {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+    }
+  }
+  img {
+    display: inline-block;
+  }
+}
