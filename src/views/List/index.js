@@ -58,13 +58,20 @@ class List extends React.Component {
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
-      checkedList: [],
+
+      checkedListForAttr: [], // goodsAttributesValueRelVOList 属性
+      checkedListForFilter: [], // goodsFilterRelList 自定义
+
+      checkedObjForAttr: null,
+      checkedObjForFilter: null,
+
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-      pageSize: 12,
+
       keywords: '',
       filterList: [],
+      filterList2: [],
       initingFilter: true,
       initingList: true,
       filterModalVisible: false,
@@ -73,6 +80,7 @@ class List extends React.Component {
       sortList: [], // 排序信息
       selectedSortParam: null
     };
+    this.pageSize = 12;
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -165,8 +173,11 @@ class List extends React.Component {
     });
     findFilterList()
       .then((res) => {
-        debugger;
-        this.setState({ initingFilter: false });
+        let tmpList = (res.context || [])
+          .filter((ele) => +ele.filterStatus)
+          .sort((a) => (a.filterType === '0' ? -1 : 1));
+        console.log(1212, tmpList);
+        this.setState({ filterList2: tmpList, initingFilter: false });
       })
       .catch(() => {
         this.setState({ initingFilter: false });
@@ -174,9 +185,9 @@ class List extends React.Component {
   }
   async getProductList(type) {
     let {
-      checkedList,
+      checkedListForAttr,
+      checkedListForFilter,
       currentPage,
-      pageSize,
       storeCateIds,
       keywords,
       initingList,
@@ -206,7 +217,7 @@ class List extends React.Component {
       pageNum: currentPage - 1,
       brandIds: [],
       sortFlag: 10, // todo 最终为11
-      pageSize,
+      pageSize: this.pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
       keywords,
@@ -234,7 +245,7 @@ class List extends React.Component {
         params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
         break;
       default:
-        for (let item of checkedList) {
+        for (let item of []) {
           let tmp = find(params.propDetails, (p) => p.propId === item.propId);
           if (tmp) {
             tmp.detailIds.push(item.detailId);
@@ -372,16 +383,15 @@ class List extends React.Component {
                       (item) => item.detailId === tmpArr[1]
                     );
 
-                  this.setState({
-                    checkedList: checkedListTemp
-                  });
+                  // this.setState({
+                  //   checkedList: checkedListTemp
+                  // });
                   break;
                 default:
                   break;
               }
 
               this.setState({
-                filterList: tmpList,
                 filterList: tmpList,
                 initingFilter: false
               });
@@ -395,17 +405,71 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [] });
       });
   }
-  handleFilterChange(item) {
-    const { checkedList } = this.state;
+  handleFilterChange(parentItem, item) {
+    let { checkedObjForAttr, checkedObjForFilter } = this.state;
+    if (parentItem.filterType === '0') {
+      checkedObjForAttr = checkedObjForAttr || {};
+      let valueList = (checkedObjForAttr[item.attributeId] =
+        checkedObjForAttr[item.attributeId] || []);
+
+      // 判断删除或新增
+      // 该孩子id是否存在于list中，
+      const index = findIndex(valueList, (c) => c.id === item.id);
+      if (index > -1) {
+        valueList.splice(index, 1); // 删除
+      } else {
+        valueList.push(item);
+      }
+
+      debugger;
+      this.setState({ checkedObjForAttr });
+    } else {
+      checkedObjForFilter = checkedObjForFilter || {};
+      let valueList = (checkedObjForFilter[item.filterId] =
+        checkedObjForFilter[item.filterId] || []);
+
+      // 判断删除或新增
+      // 该孩子id是否存在于list中，
+      const index = findIndex(valueList, (c) => c.id === item.id);
+      if (index > -1) {
+        valueList.splice(index, 1); // 删除
+      } else {
+        valueList.push(item);
+      }
+
+      debugger;
+      this.setState({ checkedObjForFilter });
+    }
+  }
+  handleFilterChange2(parentItem, item) {
+    debugger;
+    const { checkedListForAttr, checkedListForFilter } = this.state;
+    const { checkedObjForAttr, checkedObjForFilter } = this.state;
+    let checkedListForAttrCopy = cloneDeep(checkedListForAttr);
+    let checkedListForFilterCopy = cloneDeep(checkedListForFilter);
+
+    if (parentItem.filterType === '0') {
+      // 判断删除或者添加数据
+      checkedListForAttrCopy.push({
+        attributeId: item.attributeId,
+        attributeValueIdList: [item.id]
+      });
+    } else {
+      checkedListForFilterCopy.push({
+        filterId: item.filterId,
+        filterValueIdList: [item.id]
+      });
+    }
+
     let checkedListCopy = cloneDeep(checkedList);
     let index = findIndex(
       checkedListCopy,
       (c) => c.detailId === item.detailId && c.propId === item.propId
     );
     if (index > -1) {
-      checkedListCopy.splice(index, 1);
+      checkedListCopy.splice(index, 1); // 删除
     } else {
-      checkedListCopy.push(item);
+      checkedListCopy.push(item); // 添加
     }
 
     this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () =>
@@ -464,10 +528,13 @@ class List extends React.Component {
       results,
       productList,
       loading,
-      checkedList,
+      checkedObjForAttr,
+      checkedObjForFilter,
       titleData,
       initingList,
-      sortList
+      sortList,
+      filterList2,
+      initingFilter
     } = this.state;
     let event;
     let eEvents;
@@ -601,13 +668,12 @@ class List extends React.Component {
                       }`}
                     >
                       <Filters
-                        initing={this.state.initingFilter}
+                        initing={initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
-                        filterList={this.state.filterList}
-                        key={this.state.filterList.length}
-                        checkedList={checkedList}
+                        filterList={filterList2}
+                        key={filterList2.length}
                       />
                     </aside>
                   </div>
@@ -629,12 +695,12 @@ class List extends React.Component {
                       ].join(' ')}
                     >
                       <Filters
-                        initing={this.state.initingFilter}
+                        initing={initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
-                        filterList={this.state.filterList}
-                        checkedList={checkedList}
+                        filterList={filterList2}
+                        key={filterList2.length}
                       />
                     </aside>
                   </div>
