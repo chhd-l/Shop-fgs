@@ -8,7 +8,6 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProgressWithTooptip from '@/components/ProgressWithTooptip';
-import PriceSlider from '@/components/PriceSlider';
 import helpImg from '@/assets/images/product-finder-help.png';
 import RadioAnswer from './RadioAnswer';
 import SelectAnswer from './SelectAnswer';
@@ -403,11 +402,6 @@ class Question extends React.Component {
 
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
-          {/* <PriceSlider
-            onChange={(val) => {
-              console.log(333, val);
-            }}
-          /> */}
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
             <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
             <div className="row justify-content-center justify-content-md-between mb-4">
