@@ -1,4 +1,4 @@
-import { getStoreCate, getProps } from '@/api';
+import { getStoreCate, getProps ,getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { find } from 'lodash';
@@ -293,4 +293,106 @@ function getchilds(id, array) {
     }
   }
   return childs;
+}
+
+export function setSeoConfig(goodsId,categoryId,pageName){
+  if(!sessionStorage.getItem('seoInfo')){
+    let params ={
+      type:4,
+      storeId : process.env.REACT_APP_STOREID
+    }
+    getSeoConfig(params).then(res=>{
+      if(res.code === 'K-000000'){
+        let seoInfo = res.context.seoSettingVO;
+        sessionStorage.setItem('seoInfo',seoInfo)
+        changeTitleAndMeta(seoInfo)
+        if(pageName){}
+        else if(categoryId){}
+        else if(goodsId){}
+      }
+    })
+  }else{
+    let seoInfo = sessionStorage.getItem('seoInfo')
+    changeTitleAndMeta(seoInfo)
+    if(pageName){
+      getPageSeo(goodsId,categoryId,pageName)
+    }
+    else if(categoryId){
+      getCateSeo(goodsId,categoryId)
+    }
+    else if(goodsId){
+      getGoodsSeo(goodsId)
+    }
+  }
+}
+function getPageSeo(goodsId,categoryId,pageName) {
+  let params ={
+    type:3,
+    pageName:pageName,
+    storeId : process.env.REACT_APP_STOREID
+  }
+  getSeoConfig(params).then(res=>{
+    if(res.code === 'K-000000'){
+      let seoInfo = res.context.seoSettingVO;
+      changeTitleAndMeta(seoInfo)
+      if(categoryId){
+        getCateSeo(goodsId,categoryId)
+      }
+      else if(goodsId){
+        getGoodsSeo(goodsId)
+      }
+    }
+  })
+}
+function getCateSeo(goodsId,categoryId) {
+  let params ={
+    type:2,
+    storeCateId:categoryId,
+    storeId : process.env.REACT_APP_STOREID
+  }
+  getSeoConfig(params).then(res=>{
+    if(res.code === 'K-000000'){
+      let seoInfo = res.context.seoSettingVO;
+      changeTitleAndMeta(seoInfo)
+      if(goodsId){
+        getGoodsSeo(goodsId)
+      }
+    }
+  })
+}
+function getGoodsSeo(goodsId) {
+  let params ={
+    type:1,
+    goodsId:goodsId,
+    storeId : process.env.REACT_APP_STOREID
+  }
+  getSeoConfig(params).then(res=>{
+    if(res.code === 'K-000000'){
+      let seoInfo = res.context.seoSettingVO;
+      changeTitleAndMeta(seoInfo)
+    }
+  })
+}
+
+
+//修改title和meta
+function changeTitleAndMeta(seoInfo) {
+  if(seoInfo.title){
+    document.title = seoInfo.title
+  }
+  let metaList = document.getElementsByTagName("meta");
+  if(seoInfo.metaKeywords){
+    for (let i = 0; i < metaList.length; i++) {
+      if (metaList[i].getAttribute("name") === "keysword") {
+        metaList[i].content = seoInfo.metaKeywords;
+      }
+    }
+  }
+  if(seoInfo.metaDescription){
+    for (let i = 0; i < metaList.length; i++) {
+      if (metaList[i].getAttribute("name") === "description") {
+        metaList[i].content = seoInfo.metaDescription;
+      }
+    }
+  }
 }

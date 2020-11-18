@@ -8,7 +8,8 @@ const api = {
   queryCityByName: '/system-city/query-system-city-by-name',
   buryPoint: '/wm.gif',
   getConfig: '/initConfig/getConfig',
-  navigations: '/navigations' //  查询二级菜单
+  navigations: '/navigations', //  查询二级菜单
+  seo:'/setting'
 };
 
 export default api;
@@ -73,5 +74,12 @@ export function queryHeaderNavigations() {
   return axios({
     url: `${api.navigations}`,
     method: 'get'
+  });
+}
+export function getSeoConfig(parameter) {
+  return axios({
+    url: `${api.seo}`,
+    method: 'get',
+    params: parameter
   });
 }

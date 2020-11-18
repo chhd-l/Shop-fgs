@@ -9,6 +9,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import './index.less';
 
+
 const itemList = [
   {
     icon: (
@@ -84,6 +85,7 @@ class AccountHome extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+
   render() {
     const event = {
       page: {
