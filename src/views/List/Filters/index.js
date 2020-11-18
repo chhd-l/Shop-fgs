@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import '@/assets/css/search.css';
-import './index.css';
+import './index.less';
 
 class Filter extends React.Component {
   static defaultProps = {
@@ -13,14 +13,11 @@ class Filter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      initing: props.initing,
-      prevIniting: props.initing,
-      filterListCopy: props.filterList
+      filterList: props.filterList
     };
     this.matchParentCatogery = this.matchParentCatogery.bind(this);
     this.toggleContent = this.toggleContent.bind(this);
     this.hanldeRemove = this.hanldeRemove.bind(this);
-    this.contentRef = React.createRef();
   }
   get computedCheckList() {
     return this.props.checkedList.map((v) => {
@@ -33,15 +30,15 @@ class Filter extends React.Component {
   }
   matchParentCatogery(data) {
     let res = '';
-    let tmp = find(this.state.filterListCopy, (l) => l.propId === data.propId);
+    let tmp = find(this.state.filterList, (l) => l.propId === data.propId);
     if (tmp) {
       res = tmp.propName.toLocaleLowerCase();
     }
     return res;
   }
   toggleContent(idx) {
-    let { filterListCopy } = this.state;
-    filterListCopy.map((f, i) => {
+    let { filterList } = this.state;
+    filterList.map((f, i) => {
       if (i === idx) {
         f.expand = !f.expand;
       } else {
@@ -50,34 +47,23 @@ class Filter extends React.Component {
       return f;
     });
     this.setState({
-      filterListCopy: filterListCopy
+      filterList
     });
   }
   hanldeRemove(data) {
     this.props.onRemove(data);
     if (data === 'all') {
-      let { filterListCopy } = this.state;
-      filterListCopy.map((f) => (f.expand = false));
+      let { filterList } = this.state;
+      filterList.map((f) => (f.expand = false));
       this.setState({
-        filterListCopy: filterListCopy
+        filterList
       });
       this.props.onToggleFilterModal(false);
     }
   }
-  static getDerivedStateFromProps(props, state) {
-    const { initing, filterList } = props;
-    if (initing !== state.prevIniting) {
-      console.log('000');
-      return {
-        initing,
-        filterListCopy: filterList
-      };
-    }
-    return null;
-  }
   render() {
     const { computedCheckList } = this;
-    const { filterListCopy } = this.state;
+    const { filterList } = this.state;
     const { onChange, checkedList, initing } = this.props;
     return (
       <div className="rc-filters__form" name="example-filter">
@@ -133,8 +119,8 @@ class Filter extends React.Component {
             </header>
 
             <div className="rc-margin--none">
-              {filterListCopy.length ? (
-                filterListCopy.map((f, index) => (
+              {filterList.length ? (
+                filterList.map((f, index) => (
                   <React.Fragment key={index}>
                     <div role="heading">
                       <div
@@ -192,7 +178,7 @@ class Filter extends React.Component {
                 ))
               ) : (
                 <div className="ui-font-nothing mt-2">
-                  <i className="rc-icon rc-incompatible--sm rc-iconography"></i>
+                  <i className="rc-icon rc-incompatible--sm rc-iconography" />
                   <FormattedMessage id="list.errMsg3" />
                 </div>
               )}

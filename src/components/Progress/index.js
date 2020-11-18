@@ -5,7 +5,10 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 let storeInfo = JSON.parse(sessionItemRoyal.get('storeContentInfo'));
-let isPrescriberMap = storeInfo ? storeInfo.prescriberMap : '1';
+let isPrescriberMap =
+  storeInfo && storeInfo.storeVO
+    ? storeInfo.prescriberMap && storeInfo.storeVO
+    : '1';
 
 function Progress(props) {
   return (

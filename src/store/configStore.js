@@ -8,48 +8,66 @@ class ConfigStore {
     ? JSON.parse(sessionItemRoyal.get('storeContentInfo'))
     : null;
 
+  @computed get maxGoodsPrice() {
+    return this.info ? this.info.maxGoodsPrice : 0;
+  }
+
   @computed get storeContactPhoneNumber() {
-    return this.info ? this.info.storeContactPhoneNumber : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.storeContactPhoneNumber
+      : '';
   }
 
   @computed get privacyPolicyUrl() {
-    return this.info ? this.info.privacyPolicyUrl : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.privacyPolicyUrl
+      : '';
   }
 
   @computed get legalTerms() {
-    return this.info ? this.info.legalTerms : '';
+    return this.info && this.info.storeVO ? this.info.storeVO.legalTerms : '';
   }
 
   @computed get contactTimePeriod() {
-    return this.info ? this.info.contactTimePeriod : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.contactTimePeriod
+      : '';
   }
 
   @computed get contactUsUrl() {
-    return this.info ? this.info.contactUsUrl : '';
+    return this.info && this.info.storeVO ? this.info.storeVO.contactUsUrl : '';
   }
 
   @computed get storeContactEmail() {
-    return this.info ? this.info.storeContactEmail : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.storeContactEmail
+      : '';
   }
 
   @computed get ourValues() {
-    return this.info ? this.info.ourValues : '';
+    return this.info && this.info.storeVO ? this.info.storeVO.ourValues : '';
   }
 
   @computed get qualityAndSafety() {
-    return this.info ? this.info.qualityAndSafety : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.qualityAndSafety
+      : '';
   }
 
   @computed get specificNutrition() {
-    return this.info ? this.info.specificNutrition : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.specificNutrition
+      : '';
   }
 
   @computed get informationForParents() {
-    return this.info ? this.info.informationForParents : '';
+    return this.info && this.info.storeVO
+      ? this.info.storeVO.informationForParents
+      : '';
   }
 
   @computed get cookiesUrl() {
-    return this.info ? this.info.cookiesUrl : '';
+    return this.info && this.info.storeVO ? this.info.storeVO.cookiesUrl : '';
   }
 
   // 显示profile payment method开关
@@ -59,18 +77,22 @@ class ConfigStore {
 
   // 显示prescriber map开关
   @computed get prescriberMap() {
-    return this.info && this.info.prescriberMap === '1';
+    return this.info && this.info.storeVO && this.info.prescriberMap === '1';
   }
 
   // 显示onePageCheckout样式
   @computed get isOnePageCheckout() {
-    return this.info && this.info.onePageCheckout === '1';
+    return (
+      this.info &&
+      this.info.storeVO &&
+      this.info.storeVO.onePageCheckout === '1'
+    );
   }
 
   @action.bound
   async queryConfig() {
     let res = await getConfig();
-    this.info = res.context.storeVO;
+    this.info = res.context;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
   }
 }

@@ -4,10 +4,15 @@ import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import MegaMenu from '@/components/MegaMenu';
-import { getParaByName, getDeviceType, generateOptions } from '@/utils/utils';
+import {
+  getParaByName,
+  getDeviceType,
+  generateOptions,
+  getDictionary
+} from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
-import { getList } from '@/api/list';
+import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
@@ -103,7 +108,7 @@ const _catogryCfg = function (lang, props) {
           langKey: 'contactUs',
           subMenuKey: 'help',
           type: 'help'
-        },   
+        }
       ],
       ru: [
         {
@@ -217,6 +222,7 @@ class Header extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
     this.hanldeListItemMouseOut = this.hanldeListItemMouseOut.bind(this);
+    this.handleClickNavItem = this.handleClickNavItem.bind(this);
 
     this.preTop = 0;
   }
@@ -685,6 +691,64 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
+  async handleClickNavItem(item) {
+    let res = await getDictionary({ type: 'pageType' });
+    const targetRes = res.filter((ele) => ele.id === item.pageId);
+    debugger;
+    // 某些页面直接跳转link，无需拼接参数
+    // 1 无pageId是跳转哪个页面 -
+    // 2 无navigationLink，怎么办
+    // 3 pageId和字段id对应不起
+    // todo
+    // interaction 0-page 1-External URL 2-text
+    if (item.interaction === 2) {
+      return false;
+    } else if (item.interaction === 0 && targetRes.length) {
+      let link = '';
+      let sortParam = null;
+      switch (targetRes[0].valueEn) {
+        case 'PLP':
+          break;
+        case 'SRP':
+          // 获取sort参数
+          let sortRes = await findSortList();
+          const targetSortRes = (sortRes.context || []).filter(
+            (ele) => ele.id === item.searchSort
+          );
+          if (targetSortRes.length) {
+            sortParam = {
+              field: targetSortRes[0].field,
+              sortType: targetSortRes[0].sortType
+            };
+          }
+          link = `/list/keywords/${item.keywords}`;
+          break;
+        case 'PDP':
+          link = `/details/${item.paramsField}`;
+          break;
+        case 'HP':
+          link = '/';
+          break;
+        case 'SP':
+          link = `${
+            {
+              en: '/subscription-landing-us',
+              ru: '/subscription-landing-ru',
+              tr: '/subscription-landing-tr'
+            }[process.env.REACT_APP_LANG] || '/subscription-landing'
+          }`;
+          break;
+        case 'CUP':
+          link = '/help';
+          break;
+        default:
+          break;
+      }
+      if (link) {
+        this.props.history.push({ pathname: link, state: { sortParam } });
+      }
+    }
+  }
   _renderDropDownText = (item) => {
     return item.expanded ? (
       <span className="rc-header-with-icon">
@@ -1047,15 +1111,24 @@ class Header extends React.Component {
                 >
                   <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                     <li className="rc-list__item">
-                      {item.url ? (
-                        <a href={item.url} className="rc-list__header">
-                          {this._renderDropDownText(item)}
-                        </a>
-                      ) : (
-                        <Link to={item.linkObj} className="rc-list__header">
-                          {this._renderDropDownText(item)}
-                        </Link>
-                      )}
+                      <span className="rc-list__header">
+                        {item.interaction === 1 ? (
+                          <a
+                            href={item.navigationLink}
+                            target={item.target}
+                            className="rc-list__header"
+                          >
+                            {this._renderDropDownText(item)}
+                          </a>
+                        ) : (
+                          <span
+                            onClick={this.handleClickNavItem.bind(this, item)}
+                            className="rc-list__header"
+                          >
+                            {this._renderDropDownText(item)}
+                          </span>
+                        )}
+                      </span>
                     </li>
                   </ul>
                 </li>

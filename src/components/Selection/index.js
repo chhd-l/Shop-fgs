@@ -31,7 +31,7 @@ export default class Selection extends React.Component {
       optionsVisible: false
     });
   };
-  handleClickOption(value, item) {debugger
+  handleClickOption(value, item) {
     this.setState(
       {
         selectedItem: { value, ...item }

@@ -56,7 +56,7 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
-const timeVersion = new Date().getTime()
+const timeVersion = new Date().getTime();
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -269,19 +269,54 @@ module.exports = function (webpackEnv) {
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+      // splitChunks: {
+      //   chunks: 'all',
+      //   // name: false,
+      //   cacheGroups: {
+      //     vendor: {
+      //       chunks: 'async',
+      //       minChunks: 2,
+      //       name: 'vendor',
+      //       test: /node_modules/
+      //     },
+      //     common: {
+      //       chunks: 'async',
+      //       minChunks: 2,
+      //       name: 'common',
+      //       reuseExistingChunk: true,
+      //       enforce: true // 我们的公用代码小于 30kb，这里强制分离
+      //     },
+      //     reactBase: {
+      //       test: (module) => {
+      //         return /react|redux|prop-types/.test(module.context);
+      //       }, // 直接使用 test 来做路径匹配，抽离react相关代码
+      //       chunks: 'initial',
+      //       name: 'reactBase',
+      //       priority: 10
+      //     }
+      //   }
+      // },
       splitChunks: {
-        chunks: 'async',
-        minSize: 20000,
-        maxSize: 30000,
+        chunks: 'all',
+        minSize: 30000, // 比特
+        maxSize: 102400,
         minChunks: 1,
-        maxAsyncRequests: 5,
+        maxAsyncRequests: 5, // cpu拼合率 8 10
         maxInitialRequests: 5,
         automaticNameDelimiter: '~',
         name: true,
         cacheGroups: {
+          reactBase: {
+            test: (module) => {
+              return /react|redux|prop-types/.test(module.context);
+            }, // 直接使用 test 来做路径匹配，抽离react相关代码
+            chunks: 'initial',
+            name: 'reactBase',
+            priority: 10
+          },
           default: {
             test: function (module, chunks) {
-              return true
+              return true;
             },
             priority: -20,
             reuseExistingChunk: true
@@ -562,14 +597,12 @@ module.exports = function (webpackEnv) {
     // },
     plugins: [
       // 添加 进度条
-      new WebpackBar(
-        {
-          name: 'Royal Canin Shop',
-          color: '#e2001a'
-        }
-      ),
+      new WebpackBar({
+        name: 'Royal Canin Shop',
+        color: '#e2001a'
+      }),
       // compression-webpack-plugin 因为版本问题，2.x将 asset 改为了 filename
-     /* new CompressionPlugin({
+      /* new CompressionPlugin({
         filename: '[path].gz[query]', // 目标资源名称。[file] 会被替换成原资源。[path] 会被替换成原资源路径，[query] 替换成原查询字符串
         algorithm: 'gzip', // 算法
         test: new RegExp('\\.(js|css)$'), // 压缩 js 与 css
