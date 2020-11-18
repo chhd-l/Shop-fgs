@@ -7,7 +7,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import ListBanner from './Fr/listBanner'
 import Filters from '@/components/Filters';
 import Pagination from '@/components/Pagination';
 import { cloneDeep, find, findIndex } from 'lodash';
@@ -487,26 +486,20 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
-          {
-            process.env.REACT_APP_LANG == 'fr'?<ListBanner/>:null
-          }
           {titleData ? (
-            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
-              <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
-                <div className="rc-column pt-0 pb-0">
-                  <div className="rc-full-width rc-text--left rc-padding-x--sm">
-                    <h1 className="rc-alpha">{titleData.title}</h1>
-                    <p>{titleData.description}</p>
+            <div className="rc-max-width--lg rc-padding-x--sm">
+              <div className="rc-layout-container rc-three-column">
+                  <div className="rc-column rc-double-width">
+                      <h1 className="rc-gamma rc-margin--none">
+                        {titleData.title}
+                      </h1>
+                      <div>
+                        {titleData.description}
+                      </div>
                   </div>
-                </div>
-                <div className="rc-column pt-0 pb-0">
-                  <img
-                    alt=""
-                    className="mw-100"
-                    src={titleData.img}
-                    style={{ width: '63%', margin: '0 auto' }}
-                  />
-                </div>
+                  <div className="rc-column">
+                      <img className="mx-auto"  src={titleData.img}></img>
+                  </div>
               </div>
             </div>
           ) : (

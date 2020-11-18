@@ -94,7 +94,7 @@ const defaultSubMenuCfg = [
       }
     ],
     desc: {
-      text: 'Chaque animal est unique, tout comme ses besoins nutritionnels.',
+      text: 'Chaque animal est unique. Il en va de même pour ses besoins nutritionnels',
       img:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw89994f07/CMS/header-dog.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
     }, // 图片及描述文字
@@ -143,7 +143,7 @@ const defaultSubMenuCfg = [
       }
     ],
     desc: {
-      text: 'Chaque animal est unique, tout comme ses besoins nutritionnels.',
+      text: 'Chaque animal est unique. Il en va de même pour ses besoins nutritionnels',
       img:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw73b132cd/CMS/header-cat.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
     },

@@ -1,6 +1,8 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
+import FrTips from './fr/frTips'
+import FrFaq from './fr/frFaq'
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
@@ -94,7 +96,7 @@ class Help extends React.Component {
                             </div>
                             <div style={{ width: '60%' }}>
                               <div className="rc-large-body inherit-fontsize children-nomargin">
-                                <p>
+                                <p style={{marginLeft:'150px'}}>
                                   <FormattedMessage id="help.tip1" />
                                   <br />
                                 </p>
@@ -261,6 +263,15 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
+          {
+            process.env.REACT_APP_LANG == 'fr'?
+            <div>
+              <FrTips/>
+              <FrFaq/>
+            </div>
+            :null
+          }
+          
         </main>
 
         <Footer />
