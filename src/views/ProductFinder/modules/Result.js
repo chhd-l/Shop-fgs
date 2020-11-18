@@ -16,6 +16,7 @@ import dogImg from '@/assets/images/product-finder-dog.png';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function QListAndPetJSX(props) {
+  const { questionlist, petBaseInfo } = props;
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
@@ -35,14 +36,24 @@ function QListAndPetJSX(props) {
               alt=""
             />
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
-              {['My dsfa', 'dsfahofiads', 'ddsadsadsfdsa'].map((ele, i) => (
+              {questionlist.map((ele, i) => (
                 <li
                   className={`d-flex justify-content-between align-items-center pt-1 pb-1 ${
                     i ? 'border-top' : ''
                   }`}
+                  key={i}
                 >
-                  <span>{ele}</span>
-                  <p className="rc-styled-link mb-1">
+                  <span style={{ flex: 1 }}>
+                    {ele.productFinderAnswerDetailsVO.prefix}
+                    {ele.productFinderAnswerDetailsVO.prefix ? ' ' : null}
+                    <span className="red">
+                      {ele.productFinderAnswerDetailsVO.suffix}
+                    </span>
+                  </span>
+                  <p
+                    className="rc-styled-link mb-1 ml-2"
+                    onClick={props.handleClickEditBtn.bind(this, ele)}
+                  >
                     <FormattedMessage id="edit" />
                   </p>
                 </li>
@@ -70,22 +81,30 @@ function QListAndPetJSX(props) {
                   <div className="col-6 mb-2 mb-md-0">
                     Age
                     <br />
-                    <span className="font-weight-normal">2 years old</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.age) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Breed
                     <br />
-                    <span className="font-weight-normal">Mix Breed</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.breed) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Gender
                     <br />
-                    <span className="font-weight-normal">Female</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.gender) || '...'}
+                    </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
                     Sterilized
                     <br />
-                    <span className="font-weight-normal">Yes</span>
+                    <span className="font-weight-normal">
+                      {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -132,14 +151,43 @@ class ProductFinderResult extends React.Component {
       type: '',
       qListVisible: false,
       productDetail: null,
-      isLoading: true
+      isLoading: true,
+      questionlist: [],
+      petBaseInfo: null
     };
   }
   componentDidMount() {
     this.setState({ type: this.props.match.params.type });
-    const res = sessionItemRoyal.get('product-finder-result');
+    const res = sessionItemRoyal.get('pf-result');
+    const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (res) {
-      this.setState({ productDetail: JSON.parse(res), isLoading: false });
+      const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
+      const ageItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'age'
+      );
+      const breedItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'breedCode'
+      );
+      const genderItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'genderCode'
+      );
+      this.setState({
+        productDetail: JSON.parse(res),
+        questionlist: parsedQuestionlist,
+        petBaseInfo: {
+          age: ageItem.length
+            ? ageItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          breed: breedItem.length
+            ? breedItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          gender: genderItem.length
+            ? genderItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          sterilized: ''
+        },
+        isLoading: false
+      });
     } else {
       this.props.history.push('/product-finder');
     }
@@ -150,9 +198,21 @@ class ProductFinderResult extends React.Component {
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
   };
+  handleClickEditBtn = (ele) => {
+    const { type } = this.state;
+    sessionItemRoyal.set('pf-edit-order', ele.stepOrder);
+    this.props.history.push(`/product-finder/question/${type}`);
+  };
   render() {
     const { location, history, match } = this.props;
-    const { productDetail, qListVisible, isLoading, type } = this.state;
+    const {
+      productDetail,
+      qListVisible,
+      isLoading,
+      type,
+      questionlist,
+      petBaseInfo
+    } = this.state;
     return (
       <div>
         <Header
@@ -196,6 +256,9 @@ class ProductFinderResult extends React.Component {
                       toggleShowQList={this.toggleShowQList}
                       history={history}
                       isLogin={this.isLogin}
+                      questionlist={questionlist}
+                      handleClickEditBtn={this.handleClickEditBtn}
+                      petBaseInfo={petBaseInfo}
                     />
                   </div>
                 )}
@@ -334,6 +397,9 @@ class ProductFinderResult extends React.Component {
                     toggleShowQList={this.toggleShowQList}
                     history={history}
                     isLogin={this.isLogin}
+                    questionlist={questionlist}
+                    handleClickEditBtn={this.handleClickEditBtn}
+                    petBaseInfo={petBaseInfo}
                   />
                 </div>
                 <hr />

@@ -89,6 +89,7 @@ import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
+import FR_Values from '@/views/StaticPage/Values/FR_index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
 import RequestInvoices from '@/views/StaticPage/RequestInvoices';
 import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
@@ -377,6 +378,7 @@ const App = () => (
               />
               <Route path="/aboutUs" exact component={AboutUs} />
               <Route path="/values-ru" exact component={RU_Values} />
+              <Route path="/values-fr" exact component={FR_Values} />
               <Route
                 path="/tailorednutrition"
                 exact

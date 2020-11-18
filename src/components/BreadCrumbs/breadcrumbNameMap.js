@@ -132,6 +132,7 @@ const breadcrumbNameMap = {
       name: 'productFinder.index'
     }
   ],
+  '/product-finder/question/:type': [{ name: 'productFinder.index' }],
   '/product-finder/result/:type': [
     {
       name: 'productFinder.index',

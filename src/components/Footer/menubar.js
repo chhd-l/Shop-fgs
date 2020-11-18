@@ -167,7 +167,7 @@ export const menubar = {
         titleId: 'footer.help2',
         list: [
           {
-            url: 'https://shopstg.royalcanin.com/help',
+            url: `${process.env.REACT_APP_ACCESS_PATH}help`,
             messageId: 'footer.contacts'
           },
           { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
@@ -220,6 +220,10 @@ export const menubar = {
           {
             link: '/tailorednutrition',
             messageId: 'tailorednutrition'
+          },
+          {
+            link: '/',
+            messageId: 'product-finder'
           }
         ]
       }

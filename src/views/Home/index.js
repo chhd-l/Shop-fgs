@@ -6,7 +6,7 @@ import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel2';
+import HeroCarousel from '@/components/HeroCarousel3';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
@@ -420,7 +420,7 @@ class Home extends React.Component {
                       curNum >= 6 ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
@@ -431,11 +431,7 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-
-          {<Ads />}
-
           <Divider />
-
           <section>
             <div className="rc-bg-colour--brand3" style={{ padding: '1px 0' }}>
               <div className="rc-full-width">
@@ -452,6 +448,10 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
+
+          {<Ads />}
+          <Divider />
+
           <HealthNutrition />
           <Share />
 

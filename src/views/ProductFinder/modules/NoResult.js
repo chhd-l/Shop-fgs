@@ -14,6 +14,7 @@ import catImg from '@/assets/images/product-finder-cat2.png';
 import dogImg from '@/assets/images/product-finder-dog2.png';
 
 function PetJSX(props) {
+  const { petBaseInfo } = props;
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row align-items-center">
@@ -38,22 +39,30 @@ function PetJSX(props) {
                     <div className="col-6 mb-2 mb-md-0">
                       Age
                       <br />
-                      <span className="font-weight-normal">2 years old</span>
+                      <span className="font-weight-normal">
+                        {(petBaseInfo && petBaseInfo.age) || '...'}
+                      </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
                       Breed
                       <br />
-                      <span className="font-weight-normal">Mix Breed</span>
+                      <span className="font-weight-normal">
+                        {(petBaseInfo && petBaseInfo.breed) || '...'}
+                      </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
                       Gender
                       <br />
-                      <span className="font-weight-normal">Female</span>
+                      <span className="font-weight-normal">
+                        {(petBaseInfo && petBaseInfo.gender) || '...'}
+                      </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
                       Sterilized
                       <br />
-                      <span className="font-weight-normal">Yes</span>
+                      <span className="font-weight-normal">
+                        {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -108,18 +117,46 @@ class ProductFinderNoResult extends React.Component {
     super(props);
     this.state = {
       type: '',
-      isLoading: false
+      isLoading: false,
+      petBaseInfo: null
     };
   }
   componentDidMount() {
     this.setState({ type: this.props.match.params.type });
+    const questionlist = sessionItemRoyal.get('pf-questionlist');
+    if (questionlist) {
+      const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
+      const ageItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'age'
+      );
+      const breedItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'breedCode'
+      );
+      const genderItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'genderCode'
+      );
+      this.setState({
+        petBaseInfo: {
+          age: ageItem.length
+            ? ageItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          breed: breedItem.length
+            ? breedItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          gender: genderItem.length
+            ? genderItem[0].productFinderAnswerDetailsVO.suffix
+            : '',
+          sterilized: ''
+        }
+      });
+    }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
   render() {
     const { location, history, match } = this.props;
-    const { type, isLoading } = this.state;
+    const { type, isLoading, questionlist } = this.state;
     return (
       <div>
         <Header
@@ -145,7 +182,11 @@ class ProductFinderNoResult extends React.Component {
                   <FormattedMessage id="productFinder.searchResultTip4" />
                 </p>
 
-                <PetJSX type={type} isLogin={this.isLogin} />
+                <PetJSX
+                  type={type}
+                  isLogin={this.isLogin}
+                  questionlist={questionlist}
+                />
                 <div className="row">
                   <div className="col-12 order-1 order-md-0">
                     <div className="p-f-help-box mt-4">

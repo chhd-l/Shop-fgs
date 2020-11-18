@@ -7,14 +7,21 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import Filters from '@/components/Filters';
+import Filters from './Filters';
 import Pagination from '@/components/Pagination';
+import Selection from '@/components/Selection';
 import { cloneDeep, find, findIndex } from 'lodash';
-import { getList, getSelectedProps, getLoginList } from '@/api/list';
+import {
+  getList,
+  getSelectedProps,
+  getLoginList,
+  findFilterList,
+  findSortList
+} from '@/api/list';
 import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
 import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
-import './index.css';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -39,7 +46,7 @@ function ListItem(props) {
   );
 }
 
-@inject('loginStore')
+@inject('loginStore', 'configStore')
 @injectIntl
 @observer
 class List extends React.Component {
@@ -51,19 +58,29 @@ class List extends React.Component {
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
-      checkedList: [],
+
+      checkedListForAttr: [], // goodsAttributesValueRelVOList 属性
+      checkedListForFilter: [], // goodsFilterRelList 自定义
+
+      checkedObjForAttr: null,
+      checkedObjForFilter: null,
+
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
-      pageSize: 12,
+
       keywords: '',
       filterList: [],
+      filterList2: [],
       initingFilter: true,
       initingList: true,
       filterModalVisible: false,
       currentCatogery: '',
-      cateId: ''
+      cateId: '',
+      sortList: [], // 排序信息
+      selectedSortParam: null
     };
+    this.pageSize = 12;
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -79,17 +96,23 @@ class List extends React.Component {
     // }
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
+    const { state } = this.props.history.location;
+    const { category, keywords } = this.props.match.params;
+    debugger;
+    if (state && state.sortParam) {
+      this.setState({ selectedSortParam: state.sortParam });
+    }
 
     this.setState(
       {
-        category: this.props.match.params.category
+        category
       },
       () => {
         const { category } = this.state;
         this.initData();
         if (category.toLocaleLowerCase() === 'keywords') {
           this.setState({
-            keywords: this.props.match.params.keywords
+            keywords
           });
         }
       }
@@ -137,16 +160,39 @@ class List extends React.Component {
     }
 
     this.getProductList(this.fidFromSearch ? 'search_fid' : '');
+    findSortList().then((res) => {
+      let list = res.context || [];
+      list.sort((a, b) => a.sort - b.sort);
+      this.setState({
+        sortList: list.map((ele) => ({
+          ...ele,
+          name: ele.sortName,
+          value: ele.field
+        }))
+      });
+    });
+    findFilterList()
+      .then((res) => {
+        let tmpList = (res.context || [])
+          .filter((ele) => +ele.filterStatus)
+          .sort((a) => (a.filterType === '0' ? -1 : 1));
+        console.log(1212, tmpList);
+        this.setState({ filterList2: tmpList, initingFilter: false });
+      })
+      .catch(() => {
+        this.setState({ initingFilter: false });
+      });
   }
   async getProductList(type) {
     let {
-      checkedList,
+      checkedListForAttr,
+      checkedListForFilter,
       currentPage,
-      pageSize,
       storeCateIds,
       keywords,
       initingList,
-      category
+      category,
+      selectedSortParam
     } = this.state;
     this.setState({ loading: true });
 
@@ -170,13 +216,24 @@ class List extends React.Component {
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
-      sortFlag: 0,
-      pageSize,
+      sortFlag: 10, // todo 最终为11
+      pageSize: this.pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
       keywords,
       storeCateIds
     };
+    debugger;
+    if (selectedSortParam) {
+      params = Object.assign(params, {
+        esSortList: [
+          {
+            fieldName: selectedSortParam.field,
+            type: selectedSortParam.sortType
+          }
+        ]
+      });
+    }
 
     if (this.cidFromSearch) {
       params.storeCateIds = this.cidFromSearch.split('|');
@@ -188,7 +245,7 @@ class List extends React.Component {
         params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
         break;
       default:
-        for (let item of checkedList) {
+        for (let item of []) {
           let tmp = find(params.propDetails, (p) => p.propId === item.propId);
           if (tmp) {
             tmp.detailIds.push(item.detailId);
@@ -252,7 +309,9 @@ class List extends React.Component {
         this.setState({
           loading: false
         });
-        if (!this.state.filterList.length) {
+        // 查询filter
+        // 弃用本filter接口
+        if (!false && !this.state.filterList.length) {
           getSelectedProps(
             this.state.cateId ||
               (res.context.goodsList &&
@@ -324,9 +383,9 @@ class List extends React.Component {
                       (item) => item.detailId === tmpArr[1]
                     );
 
-                  this.setState({
-                    checkedList: checkedListTemp
-                  });
+                  // this.setState({
+                  //   checkedList: checkedListTemp
+                  // });
                   break;
                 default:
                   break;
@@ -346,17 +405,71 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [] });
       });
   }
-  handleFilterChange(item) {
-    const { checkedList } = this.state;
+  handleFilterChange(parentItem, item) {
+    let { checkedObjForAttr, checkedObjForFilter } = this.state;
+    if (parentItem.filterType === '0') {
+      checkedObjForAttr = checkedObjForAttr || {};
+      let valueList = (checkedObjForAttr[item.attributeId] =
+        checkedObjForAttr[item.attributeId] || []);
+
+      // 判断删除或新增
+      // 该孩子id是否存在于list中，
+      const index = findIndex(valueList, (c) => c.id === item.id);
+      if (index > -1) {
+        valueList.splice(index, 1); // 删除
+      } else {
+        valueList.push(item);
+      }
+
+      debugger;
+      this.setState({ checkedObjForAttr });
+    } else {
+      checkedObjForFilter = checkedObjForFilter || {};
+      let valueList = (checkedObjForFilter[item.filterId] =
+        checkedObjForFilter[item.filterId] || []);
+
+      // 判断删除或新增
+      // 该孩子id是否存在于list中，
+      const index = findIndex(valueList, (c) => c.id === item.id);
+      if (index > -1) {
+        valueList.splice(index, 1); // 删除
+      } else {
+        valueList.push(item);
+      }
+
+      debugger;
+      this.setState({ checkedObjForFilter });
+    }
+  }
+  handleFilterChange2(parentItem, item) {
+    debugger;
+    const { checkedListForAttr, checkedListForFilter } = this.state;
+    const { checkedObjForAttr, checkedObjForFilter } = this.state;
+    let checkedListForAttrCopy = cloneDeep(checkedListForAttr);
+    let checkedListForFilterCopy = cloneDeep(checkedListForFilter);
+
+    if (parentItem.filterType === '0') {
+      // 判断删除或者添加数据
+      checkedListForAttrCopy.push({
+        attributeId: item.attributeId,
+        attributeValueIdList: [item.id]
+      });
+    } else {
+      checkedListForFilterCopy.push({
+        filterId: item.filterId,
+        filterValueIdList: [item.id]
+      });
+    }
+
     let checkedListCopy = cloneDeep(checkedList);
     let index = findIndex(
       checkedListCopy,
       (c) => c.detailId === item.detailId && c.propId === item.propId
     );
     if (index > -1) {
-      checkedListCopy.splice(index, 1);
+      checkedListCopy.splice(index, 1); // 删除
     } else {
-      checkedListCopy.push(item);
+      checkedListCopy.push(item); // 添加
     }
 
     this.setState({ checkedList: checkedListCopy, currentPage: 1 }, () =>
@@ -404,15 +517,24 @@ class List extends React.Component {
     const { history } = this.props;
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
+  onSortChange = (data) => {
+    this.setState({ selectedSortParam: data, currentPage: 1 }, () =>
+      this.getProductList()
+    );
+  };
   render() {
     const {
       category,
       results,
       productList,
       loading,
-      checkedList,
+      checkedObjForAttr,
+      checkedObjForFilter,
       titleData,
-      initingList
+      initingList,
+      sortList,
+      filterList2,
+      initingFilter
     } = this.state;
     let event;
     let eEvents;
@@ -487,21 +609,16 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BreadCrumbs />
           {titleData ? (
-            <div className="content-block__wrapper_ rc-bg-colour--brand3 rc-margin-bottom--xs">
-              <div className="layout-container_ two-column_ rc-layout-container rc-two-column rc-max-width--lg rc-content-h-middle">
-                <div className="rc-column pt-0 pb-0">
-                  <div className="rc-full-width rc-text--left rc-padding-x--sm">
-                    <h1 className="rc-alpha">{titleData.title}</h1>
-                    <p>{titleData.description}</p>
-                  </div>
+            <div className="rc-max-width--lg rc-padding-x--sm">
+              <div className="rc-layout-container rc-three-column">
+                <div className="rc-column rc-double-width">
+                  <h1 className="rc-gamma rc-margin--none">
+                    {titleData.title}
+                  </h1>
+                  <div>{titleData.description}</div>
                 </div>
-                <div className="rc-column pt-0 pb-0">
-                  <img
-                    alt=""
-                    className="mw-100"
-                    src={titleData.img}
-                    style={{ width: '63%', margin: '0 auto' }}
-                  />
+                <div className="rc-column">
+                  <img className="mx-auto" src={titleData.img}></img>
                 </div>
               </div>
             </div>
@@ -546,19 +663,17 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={[
-                        'rc-filters',
+                      className={`rc-filters ${
                         this.state.filterModalVisible ? 'active' : ''
-                      ].join(' ')}
+                      }`}
                     >
                       <Filters
-                        initing={this.state.initingFilter}
+                        initing={initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
-                        filterList={this.state.filterList}
-                        key={this.state.filterList.length}
-                        checkedList={checkedList}
+                        filterList={filterList2}
+                        key={filterList2.length}
                       />
                     </aside>
                   </div>
@@ -580,48 +695,64 @@ class List extends React.Component {
                       ].join(' ')}
                     >
                       <Filters
-                        initing={this.state.initingFilter}
+                        initing={initingFilter}
                         onChange={this.handleFilterChange}
                         onRemove={this.handleRemove}
                         onToggleFilterModal={this.toggleFilterModal}
-                        filterList={this.state.filterList}
-                        checkedList={checkedList}
+                        filterList={filterList2}
+                        key={filterList2.length}
                       />
                     </aside>
                   </div>
-                  <div
-                    className={[
-                      'rc-column',
-                      'rc-triple-width',
-                      !productList.length
-                        ? 'd-flex justify-content-center align-items-center'
-                        : ''
-                    ].join(' ')}
-                  >
+                  <div className={`rc-column rc-triple-width`}>
                     {!loading && (
-                      <div className="ListTotal">
-                        <span style={{ fontWeight: 500 }}>
-                          {this.state.currentCatogery}{' '}
-                        </span>
-                        (
-                        <FormattedMessage
-                          id="results"
-                          values={{ val: results }}
-                        />
-                        )
-                      </div>
-                    )}
-                    {!productList.length ? (
                       <>
-                        <div className="ui-font-nothing rc-md-up">
-                          <i className="rc-icon rc-incompatible--sm rc-iconography" />
-                          <FormattedMessage id="list.errMsg" />
-                        </div>
-                        <div className="ui-font-nothing rc-md-down d-flex">
-                          <i className="rc-icon rc-incompatible--xs rc-iconography" />
-                          <FormattedMessage id="list.errMsg" />
+                        <div className="row mb-3">
+                          <div className="col-12 col-md-8">
+                            <span className="font-weight-normal">
+                              {this.state.currentCatogery}{' '}
+                            </span>
+                            (
+                            <FormattedMessage
+                              id="results"
+                              values={{ val: results }}
+                            />
+                            )
+                          </div>
+                          <div className="col-12 col-md-4">
+                            <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
+                              <Selection
+                                key={sortList.length}
+                                selectedItemChange={this.onSortChange}
+                                optionList={sortList}
+                                // selectedItemData={{
+                                //   value: form.country
+                                // }}
+                                placeholder={<FormattedMessage id="sortBy" />}
+                                customInnerStyle={{
+                                  paddingTop: '.7em',
+                                  paddingBottom: '.7em'
+                                }}
+                                customStyleType="select-one"
+                              />
+                            </span>
+                          </div>
                         </div>
                       </>
+                    )}
+                    {!productList.length ? (
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="ui-font-nothing rc-md-up">
+                            <i className="rc-icon rc-incompatible--sm rc-iconography" />
+                            <FormattedMessage id="list.errMsg" />
+                          </div>
+                          <div className="ui-font-nothing rc-md-down d-flex">
+                            <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                            <FormattedMessage id="list.errMsg" />
+                          </div>
+                        </div>
+                      </div>
                     ) : (
                       <div className="row RowFitScreen">
                         {loading

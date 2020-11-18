@@ -119,6 +119,7 @@
   }
   .recommendation p {
     margin-bottom: 10px;
+    width: 300px;
   }
   p > .rc-btn, p > .btn {
       display: inline;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import './DropDownMenu.css';
 
 const defaultSubMenuCfg = [
   {
@@ -54,24 +55,46 @@ const defaultSubMenuCfg = [
       },
       {
         name: 'Gamme',
+        // children: [
+        //   {
+        //     name: 'Aliments secs',
+        //     linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
+        //   },
+        //   {
+        //     name: 'Bouchées en sauce',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   },
+        //   {
+        //     name: 'Aliment pour Chien de Race',
+        //     linkObj: { pathname: '/list/dogs' }
+        //   }
+        // ],
         children: [
           {
-            name: 'Aliments secs',
-            linkObj: { pathname: '/list/dogs', search: '?fid=484|1792' }
-          },
-          {
-            name: 'Bouchées en sauce',
+            name: 'Breed Health Nutrition',
             linkObj: { pathname: '/list/dogs' }
           },
           {
-            name: 'Aliment pour Chien de Race',
+            name: 'Canin Care Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Size Health Nutrition',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Aliments secs',
+            linkObj: { pathname: '/list/dogs' }
+          },
+          {
+            name: 'Bouchées en sauce',
             linkObj: { pathname: '/list/dogs' }
           }
         ]
       }
     ],
     desc: {
-      text: 'Chaque animal est unique, tout comme ses besoins nutritionnels.',
+      text: 'Chaque animal est unique. Il en va de même pour ses besoins nutritionnels',
       img:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw89994f07/CMS/header-dog.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
     }, // 图片及描述文字
@@ -120,7 +143,7 @@ const defaultSubMenuCfg = [
       }
     ],
     desc: {
-      text: 'Chaque animal est unique, tout comme ses besoins nutritionnels.',
+      text: 'Chaque animal est unique. Il en va de même pour ses besoins nutritionnels',
       img:
         'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw73b132cd/CMS/header-cat.jpg?sw=245&amp;sh=258&amp;sm=fit&amp;cx=27&amp;cy=0&amp;cw=437&amp;ch=460&amp;sfrm=jpg'
     },
@@ -463,56 +486,64 @@ export default class DropDownMenu extends React.Component {
             className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
             role="menu"
           >
-            {(item.children || []).map((mitem, mIndx) => (
-              <li
-                className="dropdown-nav__item rc-padding-top--xs relative"
-                role="menuitem"
-                key={mIndx}
-                onMouseOver={this.handleNavChildrenMouseOver.bind(
-                  this,
-                  item,
-                  mitem
-                )}
-                onMouseOut={this.handleNavChildrenMouseOut}
-              >
-                <div className="dropdown-nav__title rc-margin-bottom--xs">
-                  <span className="dropdown-nav__item">
-                    <small />
-                    <b>{mitem.navigationName}</b>
-                  </span>
-                </div>
-                <ul className="rc-padding--none" role="menu" aria-hidden="true">
-                  {(mitem.children || []).map((citem, cIndex) => (
-                    <li
-                      className="dropdown-nav__item"
-                      role="menuitem"
-                      key={cIndex}
-                      onMouseOver={this.handleNavChildrenMouseOver.bind(
-                        this,
-                        item,
-                        citem
-                      )}
-                      onMouseOut={this.handleNavChildrenMouseOut}
-                    >
-                      <Link
-                        to={citem.linkObj}
-                        role="button"
-                        className="dropdown-nav__link"
-                      >
-                        {citem.navigationName}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                {mIndx === 0 && (
-                  <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
-                    <Link className="rc-styled-link" to="/list/dogs">
-                      <FormattedMessage id="viewAll" />
-                    </Link>
+            {(item.children || [])
+              .sort((a, b) => a.sort - b.sort)
+              .map((mitem, mIndx) => (
+                <li
+                  className="dropdown-nav__item rc-padding-top--xs relative"
+                  role="menuitem"
+                  key={mIndx}
+                  onMouseOver={this.handleNavChildrenMouseOver.bind(
+                    this,
+                    item,
+                    mitem
+                  )}
+                  onMouseOut={this.handleNavChildrenMouseOut}
+                >
+                  <div className="dropdown-nav__title rc-margin-bottom--xs">
+                    <span className="dropdown-nav__item">
+                      <small />
+                      <b>{mitem.navigationName}</b>
+                    </span>
                   </div>
-                )}
-              </li>
-            ))}
+                  <ul
+                    className="rc-padding--none"
+                    role="menu"
+                    aria-hidden="true"
+                  >
+                    {(mitem.children || [])
+                      .sort((a, b) => a.sort - b.sort)
+                      .map((citem, cIndex) => (
+                        <li
+                          className="dropdown-nav__item"
+                          role="menuitem"
+                          key={cIndex}
+                          onMouseOver={this.handleNavChildrenMouseOver.bind(
+                            this,
+                            item,
+                            citem
+                          )}
+                          onMouseOut={this.handleNavChildrenMouseOut}
+                        >
+                          <Link
+                            to={citem.linkObj}
+                            role="button"
+                            className="dropdown-nav__link"
+                          >
+                            {citem.navigationName}
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                  {mIndx === 0 && (
+                    <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
+                      <Link className="rc-styled-link" to="/list/dogs">
+                        <FormattedMessage id="viewAll" />
+                      </Link>
+                    </div>
+                  )}
+                </li>
+              ))}
           </ul>
         </div>
         {descObj ? (
@@ -664,7 +695,6 @@ export default class DropDownMenu extends React.Component {
     );
   };
   render() {
-    console.log(1111, this.props.headerNavigationList);
     return (
       <div className="rc-md-up">
         {this.props.headerNavigationList
@@ -673,6 +703,7 @@ export default class DropDownMenu extends React.Component {
               (ele.expanded && ele.children && ele.children.length) ||
               (ele.navigationLink && ele.navigationLink.includes('/help'))
           )
+          .sort((a, b) => a.sort - b.sort)
           .map((item, i) =>
             item.navigationLink && item.navigationLink.includes('/help')
               ? this._renderHelpMenu(item, i)

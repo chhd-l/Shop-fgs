@@ -14,7 +14,7 @@ export function query(parameter) {
   });
 }
 
-export function submit(parameter) {
+export function edit(parameter) {
   return axios({
     url: `${api.nextStep}`,
     method: 'put',

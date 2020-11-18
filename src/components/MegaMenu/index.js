@@ -62,6 +62,7 @@ class MegaMenu extends React.Component {
     return (
       <>
         <button
+          style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'inline-block'}}
           className="rc-btn rc-btn--icon-label rc-icon rc-menu--xs rc-iconography rc-md-up"
           aria-label="Menu"
           ref={this.menuBtnRef}

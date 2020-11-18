@@ -569,7 +569,7 @@ FAQdesc: "If you have any question. Look below to see if there is an answer. If 
   'productFinder.healthTitle': 'Veterinary Nutrition',
   'productFinder.helpTip1': 'Do you have any questions?',
   'productFinder.helpTip2': 'Out Pet Experts are always here to help you find the most precise diet for your pet',
-  'productFinder.helpTip3': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+  'productFinder.helpTip3': 'Get help from our pet advisor 123-456-789',
   'productFinder.index': 'Product finder',
   'productFinder.otherProductsToConsider': 'Other products to consider',
   'productFinder.resultPage': 'Product finder result page',

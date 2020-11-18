@@ -219,3 +219,7 @@
   font-size: 11px !important;
   font-weight: normal !important;
 }
+/* 暂时为了解决图标hover后background-position变了的问题 */
+.qhx.rc-email--xs:hover:after{ 
+	background-position: 17.27% 42.86%!important;
+}

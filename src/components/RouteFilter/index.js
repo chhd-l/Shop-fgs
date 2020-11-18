@@ -15,9 +15,9 @@ class RouteFilter extends Component {
     return this.props.loginStore.isLogin;
   }
   UNSAFE_componentWillMount() {
-    const { history, location, configStore, checkoutStore } = this.props;
+    const { history, location, configStore } = this.props;
     const { pathname } = location;
-  // 默认了clinic后，再次编辑clinic
+    // 默认了clinic后，再次编辑clinic
     if (
       pathname === '/prescription' &&
       sessionItemRoyal.get('clinic-reselect') === 'true'
@@ -31,30 +31,43 @@ class RouteFilter extends Component {
     }
 
     if (pathname === '/prescription') {
-      if(this.isLogin) {
-        let needPrescriber
-        if(this.props.checkoutStore.autoAuditFlag) {
-          needPrescriber = this.props.checkoutStore.loginCartData.filter(el => el.prescriberFlag).length > 0
-        }else {
-          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+      if (this.isLogin) {
+        let needPrescriber;
+        if (this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber =
+            this.props.checkoutStore.loginCartData.filter(
+              (el) => el.prescriberFlag
+            ).length > 0;
+        } else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0;
         }
-        if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        if (
+          !needPrescriber ||
+          localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+        ) {
           history.replace('/payment/payment');
         }
-      }else {
-        let needPrescriber
-        if(this.props.checkoutStore.autoAuditFlag) {
-          needPrescriber = this.props.checkoutStore.cartData.filter(el => el.prescriberFlag).length > 0
-        }else {
-          needPrescriber = this.props.checkoutStore.AuditData.length > 0
+      } else {
+        let needPrescriber;
+        if (this.props.checkoutStore.autoAuditFlag) {
+          needPrescriber =
+            this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+              .length > 0;
+        } else {
+          needPrescriber = this.props.checkoutStore.AuditData.length > 0;
         }
-        if((!needPrescriber) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        if (
+          !needPrescriber ||
+          localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+        ) {
           history.replace('/payment/payment');
         }
       }
     }
     if (
-      pathname === '/prescription' && (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined)  &&
+      pathname === '/prescription' &&
+      (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
+        localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
       ((localItemRoyal.get(`rc-clinic-id-link`) &&
         localItemRoyal.get(`rc-clinic-name-link`)) ||
         (localItemRoyal.get(`rc-clinic-id-select`) &&
@@ -62,14 +75,26 @@ class RouteFilter extends Component {
         (localItemRoyal.get(`rc-clinic-id-default`) &&
           localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
-      if(localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-        if(this.props.clinicStore.linkClinicId) {
-          this.props.clinicStore.setSelectClinicId(this.props.clinicStore.linkClinicId)
-          this.props.clinicStore.setSelectClinicName(this.props.clinicStore.linkClinicName)
+      if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+        if (this.props.clinicStore.linkClinicId) {
+          this.props.clinicStore.setSelectClinicId(
+            this.props.clinicStore.linkClinicId
+          );
+          this.props.clinicStore.setSelectClinicName(
+            this.props.clinicStore.linkClinicName
+          );
         }
-      }else if(!this.props.clinicStore.linkClinicId && !this.props.clinicStore.selectClinicId && this.props.clinicStore.defaultClinicId) {
-        this.props.clinicStore.setSelectClinicId(this.props.clinicStore.defaultClinicId)
-        this.props.clinicStore.setSelectClinicName(this.props.clinicStore.defaultClinicName)
+      } else if (
+        !this.props.clinicStore.linkClinicId &&
+        !this.props.clinicStore.selectClinicId &&
+        this.props.clinicStore.defaultClinicId
+      ) {
+        this.props.clinicStore.setSelectClinicId(
+          this.props.clinicStore.defaultClinicId
+        );
+        this.props.clinicStore.setSelectClinicName(
+          this.props.clinicStore.defaultClinicName
+        );
       }
       history.replace('/payment/payment');
       return false;
@@ -184,7 +209,7 @@ class RouteFilter extends Component {
     const prevPath = sessionItemRoyal.get('prevPath');
     const isNavigateToOtherPage = curPath !== prevPath;
 
-    // 清除session/local storage数据
+    // 离开某页面时 清除session/local storage数据
     if (isNavigateToOtherPage && prevPath) {
       if (prevPath.includes('/payment/payment')) {
         sessionItemRoyal.remove('rc-tid');
@@ -207,6 +232,9 @@ class RouteFilter extends Component {
       }
       if (prevPath.includes('/prescription')) {
         sessionItemRoyal.remove('clinic-reselect');
+      }
+      if (prevPath.includes('/product-finder/question/')) {
+        sessionItemRoyal.remove('product-finder-edit-order');
       }
     }
     sessionItemRoyal.set('prevPath', curPath);

@@ -8,7 +8,8 @@ export default class Selection extends React.Component {
     customStyleType: '', // eg: select-one
     customContainerStyle: null,
     placeholder: '',
-    customInnerStyle: {}
+    customInnerStyle: {},
+    selectedItemData: null
   };
   constructor(props) {
     super(props);
@@ -16,20 +17,14 @@ export default class Selection extends React.Component {
       optionsVisible: false,
       selectedItem: {
         name: '',
-        value: this.props.selectedItemData.value,
+        value:
+          (this.props.selectedItemData && this.props.selectedItemData.value) ||
+          '',
         id: -1
       },
       hoveredIdx: -1
     };
     this.timeOutId = null;
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const selectedItemData = nextProps.selectedItemData;
-    // if (selectedItemData.value !== this.state.selectedItem.value) {
-    //   this.setState({
-    //     selectedItem: { value: selectedItemData.value }
-    //   });
-    // }
   }
   hideOptions = () => {
     this.setState({
@@ -39,7 +34,7 @@ export default class Selection extends React.Component {
   handleClickOption(value, item) {
     this.setState(
       {
-        selectedItem: { value, id: item.id, name: item.name }
+        selectedItem: { value, ...item }
       },
       () => {
         this.props.selectedItemChange(this.state.selectedItem);
@@ -105,14 +100,12 @@ export default class Selection extends React.Component {
                 className="choices__item choices__item--selectable"
                 aria-selected="true"
               >
-                {find(
-                  optionList,
+                {optionList.filter(
                   (ele) => ele.value + '' === selectedItem.value + ''
-                )
-                  ? find(
-                      optionList,
+                ).length
+                  ? optionList.filter(
                       (ele) => ele.value + '' === selectedItem.value + ''
-                    ).name
+                    )[0].name
                   : this.props.placeholder}
                 &nbsp;
               </div>

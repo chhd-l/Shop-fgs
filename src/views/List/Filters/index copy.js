@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
 import { findIndex, find } from 'lodash';
 import '@/assets/css/search.css';
-import './index.css';
+import './index.less';
 
 class Filter extends React.Component {
   static defaultProps = {
@@ -50,7 +50,7 @@ class Filter extends React.Component {
       return f;
     });
     this.setState({
-      filterListCopy: filterListCopy
+      filterListCopy
     });
   }
   hanldeRemove(data) {
@@ -67,7 +67,6 @@ class Filter extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const { initing, filterList } = props;
     if (initing !== state.prevIniting) {
-      console.log('000');
       return {
         initing,
         filterListCopy: filterList
