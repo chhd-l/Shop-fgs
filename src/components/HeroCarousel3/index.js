@@ -172,6 +172,13 @@ class Carousel extends React.Component {
                         :
                         <a href="#" className="imageURL">
                           <div style={{backgroundImage:"url("+item.webUrl+")"}}></div>
+                          {
+                            process.env.REACT_APP_LANG == 'fr'&&index==1
+                            ?<a href="/product-finder" className="category-btn">
+                              <button class="rc-btn rc-btn--one">En savoir plus</button>
+                            </a>
+                            :null
+                          }
                         </a>
                         }
                       </li>
