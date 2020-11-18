@@ -141,7 +141,7 @@ class AboutUs extends React.Component {
                 {this.props.intl.messages['aboutUs.learnMore'] ? (
                   <a
                     className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    href={process.env.REACT_APP_LANG == 'fr'?"/values-fr":'/tailorednutrition'}
+                    href={process.env.REACT_APP_LANG === 'fr'?"/values-fr":'/tailorednutrition'}
                   >
                     <FormattedMessage
                       id="aboutUs.learnMore"
