@@ -42,6 +42,7 @@ import { formatMoney } from '@/utils/utils';
 import resolve from 'resolve';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -164,6 +165,7 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
+    setSeoConfig({goodsId:'',categoryId:'',pageName:'Subscription Page'})
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

@@ -6,8 +6,9 @@ import {IntlProvider,FormattedMessage, FormattedNumber} from 'react-intl';
 import { Money } from 'react-format';
 import image from '@/assets/images/500.png'
 import logo from '@/assets/images/logo--animated.png'
-
+import { setSeoConfig } from '@/utils/utils';
 function Page403() {
+  setSeoConfig()
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}

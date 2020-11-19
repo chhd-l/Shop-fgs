@@ -9,6 +9,7 @@ import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -27,6 +28,7 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

@@ -9,7 +9,7 @@ const api = {
   buryPoint: '/wm.gif',
   getConfig: '/initConfig/getConfig',
   navigations: '/navigations', //  查询二级菜单
-  seo:'/setting'
+  seo:'seo/setting'
 };
 
 export default api;

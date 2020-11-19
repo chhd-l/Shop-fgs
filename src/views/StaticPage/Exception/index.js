@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl';
+import { setSeoConfig } from '@/utils/utils';
 
 function Exception() {
+  setSeoConfig()
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}

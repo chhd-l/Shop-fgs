@@ -21,6 +21,7 @@ import {
 import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
 import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
+import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -94,6 +95,8 @@ class List extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    //To do: category暂时取不到，后续添加
+    setSeoConfig({goodsId:'',categoryId:'',pageName:'Product List Page'})
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;

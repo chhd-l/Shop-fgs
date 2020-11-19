@@ -14,6 +14,7 @@ import successImg from '@/assets/images/credit-cards/success.png';
 import { queryCityNameById } from '@/api';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.css';
+import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -65,6 +66,7 @@ class Confirmation extends React.Component {
     // sessionItemRoyal.remove('oxxoPayUrl');
   }
   async componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

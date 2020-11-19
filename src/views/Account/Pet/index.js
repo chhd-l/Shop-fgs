@@ -12,6 +12,7 @@ import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
+import { setSeoConfig } from '@/utils/utils';
 
 @inject('loginStore')
 @observer
@@ -23,6 +24,8 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
+
+    setSeoConfig()
     this.getPetList();
   }
   isHavePet() {

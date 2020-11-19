@@ -11,7 +11,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary } from '@/utils/utils';
+import { formatMoney, getDictionary,setSeoConfig } from '@/utils/utils';
 import { find, findIndex } from 'lodash';
 import { queryCityNameById } from '@/api';
 import {
@@ -183,6 +183,7 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

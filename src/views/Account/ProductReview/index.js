@@ -13,6 +13,7 @@ import { getGoodsList, addGoodsEvaluate } from '@/api/review';
 import './index.css';
 import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
+import { setSeoConfig } from '@/utils/utils';
 
 @injectIntl
 class ProductReview extends React.Component {
@@ -47,6 +48,7 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
+    setSeoConfig()
   }
   showErrMsg(msg) {
     this.setState({

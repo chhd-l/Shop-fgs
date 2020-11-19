@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { setSeoConfig } from '@/utils/utils';
 
 class FrFaq extends Component {
     constructor(props){
@@ -6,6 +7,9 @@ class FrFaq extends Component {
         this.state = {
             
         }
+    }
+    componentDidMount(){
+        setSeoConfig()
     }
     render() {
         return (

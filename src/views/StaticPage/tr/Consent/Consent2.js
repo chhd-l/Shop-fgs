@@ -1,6 +1,8 @@
 import React from 'react';
+import { setSeoConfig } from '@/utils/utils';
 
 function Consent2() {
+  setSeoConfig()
   return (
     <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
       <div className="rc-padding--sm rc-margin-bottom--sm rc-agreements-container">

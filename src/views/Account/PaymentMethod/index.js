@@ -11,6 +11,7 @@ import paymentImg from './img/payment.jpg';
 import Loading from '@/components/Loading';
 import PaymentComp from '@/components/PaymentComp';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -48,6 +49,7 @@ class PaymentMethod extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

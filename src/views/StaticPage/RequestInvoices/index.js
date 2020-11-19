@@ -3,7 +3,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
+import { setSeoConfig } from '@/utils/utils';
 export default function RequestInvoices(props) {
+  setSeoConfig()
   return (
     <div>
       <Header

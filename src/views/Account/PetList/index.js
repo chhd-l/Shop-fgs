@@ -5,11 +5,15 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
+import { setSeoConfig } from '@/utils/utils';
 
 export default class PetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+  componentDidMount(){
+    setSeoConfig()
   }
 
   render() {

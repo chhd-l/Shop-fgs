@@ -295,7 +295,7 @@ function getchilds(id, array) {
   return childs;
 }
 
-export function setSeoConfig(goodsId,categoryId,pageName){
+export function setSeoConfig(obj={goodsId:'',categoryId:'',pageName:''} ){
   if(!sessionStorage.getItem('seoInfo')){
     let params ={
       type:4,
@@ -304,24 +304,30 @@ export function setSeoConfig(goodsId,categoryId,pageName){
     getSeoConfig(params).then(res=>{
       if(res.code === 'K-000000'){
         let seoInfo = res.context.seoSettingVO;
-        sessionStorage.setItem('seoInfo',seoInfo)
+        sessionStorage.setItem('seoInfo',JSON.stringify(seoInfo) )
         changeTitleAndMeta(seoInfo)
-        if(pageName){}
-        else if(categoryId){}
-        else if(goodsId){}
+        if(obj.pageName){
+          getPageSeo(obj.goodsId,obj.categoryId,obj.pageName)
+        }
+        else if(obj.categoryId){
+          getCateSeo(obj.goodsId,obj.categoryId)
+        }
+        else if(obj.goodsId){
+          getGoodsSeo(obj.goodsId)
+        }
       }
     })
   }else{
-    let seoInfo = sessionStorage.getItem('seoInfo')
+    let seoInfo =JSON.parse(sessionStorage.getItem('seoInfo')) 
     changeTitleAndMeta(seoInfo)
-    if(pageName){
-      getPageSeo(goodsId,categoryId,pageName)
+    if(obj.pageName){
+      getPageSeo(obj.goodsId,obj.categoryId,obj.pageName)
     }
-    else if(categoryId){
-      getCateSeo(goodsId,categoryId)
+    else if(obj.categoryId){
+      getCateSeo(obj.goodsId,obj.categoryId)
     }
-    else if(goodsId){
-      getGoodsSeo(goodsId)
+    else if(obj.goodsId){
+      getGoodsSeo(obj.goodsId)
     }
   }
 }

@@ -12,12 +12,16 @@ import icon4 from './images/us_icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
 import { inject, observer } from 'mobx-react';
+import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
 @observer
 @injectIntl
 class Help extends React.Component {
+  componentDidMount(){
+    setSeoConfig()
+  }
   render(h) {
     const event = {
       page: {

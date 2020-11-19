@@ -348,7 +348,7 @@ class Home extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfig('','','Home Page')
+    setSeoConfig({goodsId:'',categoryId:'',pageName:'Home Page'})
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);

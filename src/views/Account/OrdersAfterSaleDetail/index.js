@@ -3,7 +3,7 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney,setSeoConfig } from '@/utils/utils';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -27,6 +27,7 @@ export default class OrdersAfterSaleDetail extends React.Component {
       },
       () => this.queryReturnDetails()
     );
+    setSeoConfig()
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber).then((res) => {

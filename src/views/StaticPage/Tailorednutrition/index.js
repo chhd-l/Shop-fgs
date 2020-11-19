@@ -12,6 +12,7 @@ import dog from './images/dog.jpg';
 
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
+import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -24,6 +25,7 @@ class Tailorednutrition extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

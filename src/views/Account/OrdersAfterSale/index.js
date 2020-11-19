@@ -15,6 +15,8 @@ import {
   returnAdd
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
+import { setSeoConfig } from '@/utils/utils';
+
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -44,6 +46,7 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

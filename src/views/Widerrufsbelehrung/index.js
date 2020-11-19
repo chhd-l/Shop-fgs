@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
+import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -23,6 +24,7 @@ class Widerrufsbelehrung extends React.Component {
         localItemRoyal.set('isRefresh', true);
     }
     componentDidMount() {
+        setSeoConfig()
         // if (localItemRoyal.get('isRefresh')) {
         //   localItemRoyal.remove('isRefresh');
         //   window.location.reload();
