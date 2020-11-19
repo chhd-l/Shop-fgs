@@ -200,7 +200,7 @@ class AboutUs extends React.Component {
               <FormattedMessage id="aboutUs.SeeHowWeDo" />
             </p>
             <iframe
-              src="https://www.youtube.com/embed/OrQZm_1SvFE"
+              src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&origin=https%3A%2F%2Fshop.royalcanin.fr"
               width="608"
               height="342"
               title="making a better world for pets"
