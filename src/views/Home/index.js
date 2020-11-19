@@ -7,7 +7,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel3';
-import HeroCarouselMobile from '@/components/HeroCarouselMobile';
+import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
@@ -415,7 +415,7 @@ class Home extends React.Component {
           location={this.props.location}
           history={this.props.history}
         />
-        <main className={this.state.windowWidth>769?["rc-main-content__wrapper","mt180"].join(" "):["rc-main-content__wrapper","mt64"].join(" ")}>
+        <main className={this.state.windowWidth>769?["rc-main-content__wrapper","mt110"].join(" "):["rc-main-content__wrapper","mt-20"].join(" ")}>
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
               {
