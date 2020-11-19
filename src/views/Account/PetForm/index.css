@@ -182,7 +182,7 @@ h2{
   font-size: 1.5rem;
 }
 .select-breed{
-  width: 310px;
+  /* width: 310px; */
   max-height: 150px;
   margin: 0 auto;
   text-align: left;
@@ -193,6 +193,7 @@ h2{
   right: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  border: 1px solid #d7d7d7;
 }
 .petPropChecked:after {
   background-position: 18.18% 100%;
@@ -225,7 +226,48 @@ h2{
 }
 
 .petForm .react-datepicker-wrapper {
-  border: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
   padding-left: 10px;
   cursor: pointer;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker__input-container {
+  width: 100%;
+}
+.receiveDate {
+  width: 100%;
+  height: 40px;
+  padding: .5rem 0;
+}
+.react-datepicker-wrapper {
+  height: 40px;
+}
+.petForm .choices__inner {
+  height: 39px;
+  border-bottom: 1px solid #d7d7d7;
+  border-radius: 0;
+  box-sizing: border-box;
+  padding-top: .5rem;
+  min-height: auto;
+}
+
+.petForm .choices.disabled > .choices__inner {
+  background-color: #e9ecef !important;
+  opacity: 1;
+}
+.petForm .form-control {
+  border: none;
+  border-bottom: 1px solid #ced4da;
+  border-radius: 0;
+}
+.petFormBox {
+  display: flex;
+}
+.petFormBox .photoBox {
+  flex: 1;
+}
+.petFormBox .formBox {
+  flex: 5;
 }

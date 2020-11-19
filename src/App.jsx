@@ -56,7 +56,8 @@ import AccountPaymentMethod from '@/views/Account/PaymentMethod';
 import AccountSubscription from '@/views/Account/Subscription';
 import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
 import AccountPaymentMethodForm from '@/views/Account/CreditCardForm';
-import AccountPetForm from '@/views/Account/PetForm';
+import AccountPetForm from '@/views/Account/PetForm/COPY_index.js';
+// import AccountPetForm from '@/views/Account/PetForm/index.js';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
 import AccountShippingAddress from '@/views/Account/ShippingAddress';
@@ -234,7 +235,15 @@ const App = () => (
                 component={AccountOrdersDetail}
               />
               <Route
-                path="/account/pets/petForm"
+                path="/account/pets/petForm/:id"
+                exact
+                render={(props) => (
+                  <AccountPetForm key={props.match.params.id} {...props} />
+                )}
+                // component={AccountPetForm}
+              />
+              <Route
+                path="/account/pets/petForm/"
                 exact
                 component={AccountPetForm}
               />

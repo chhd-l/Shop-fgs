@@ -7,12 +7,16 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
-import './index.css';
+import './index.less';
 import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
 import { setSeoConfig } from '@/utils/utils';
+import Female from '@/assets/images/female.png'
+import Male from '@/assets/images/male.png'
+import Cat from '@/assets/images/cat.png'
+import Dog from '@/assets/images/dog.png'
 
 @inject('loginStore')
 @observer
@@ -20,7 +24,8 @@ class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      petList: []
     };
   }
   componentDidMount() {
@@ -30,7 +35,7 @@ class Pet extends React.Component {
   }
   isHavePet() {
     const { history } = this.props;
-    history.push('/account/pets/petForm');
+    // history.push('/account/pets/petForm');
   }
   getUserInfo() {
     return this.props.loginStore.userInfo;
@@ -67,16 +72,21 @@ class Pet extends React.Component {
       .then((res) => {
         if (res.code === 'K-000000') {
           let petList = res.context.context;
-          if (petList.length > 0) {
-            this.setState({
-              loading: false
-            });
-            this.isHavePet();
-          } else {
-            this.setState({
-              loading: false
-            });
-          }
+          this.setState({
+            loading: false,
+            petList: petList
+          });
+          // if (petList.length > 0) {
+          //   this.setState({
+          //     loading: false
+          //   });
+          //   this.isHavePet();
+          // } else {
+          //   this.setState({
+          //     loading: false,
+          //     petList: petList
+          //   });
+          // }
         } else {
           this.setState({
             loading: false
@@ -97,7 +107,7 @@ class Pet extends React.Component {
       }
     };
     return (
-      <div>
+      <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -113,11 +123,11 @@ class Pet extends React.Component {
               <SideMenu type="Pets" />
 
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
+                {/* <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 className="rc-delta rc-margin--none">
                     <FormattedMessage id="account.pets"></FormattedMessage>
                   </h4>
-                </div>
+                </div> */}
                 <div className="content-asset">
                   {this.state.loading ? (
                     <Skeleton
@@ -127,7 +137,8 @@ class Pet extends React.Component {
                       count={5}
                     />
                   ) : (
-                    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                    this.state.petList.length <= 0? (
+                      <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
@@ -149,6 +160,41 @@ class Pet extends React.Component {
                         <img src={noPet} alt="No pets" />
                       </div>
                     </div>
+                    ): (
+                      <div>
+                        <p>Create and manage your pet's profile to maintain its best health possible</p>
+                        {this.state.petList.map(el => (
+                          <div className="petItem">
+                            <div className="photo">
+                              <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
+                            </div>
+                            <div className="content">
+                              <h1 className="name red">{el.petsName} <img style={{width: '15px'}} src={!el.petsSex?Male: Female}/></h1>
+                              <div className="key">
+                                <span>Birthday</span>
+                                <span>Breed</span>
+                              </div>
+                              <div className="value">
+                                <span>{el.birthOfPets}</span>
+                                <span>{el.petsBreed}</span>
+                              </div>
+                            </div>
+                            <div className="operation">
+                              <a className="edit rc-styled-link" href="#/" onClick={(e) => {
+                                e.preventDefault()
+                                this.props.history.push('/account/pets/petForm/' + el.petsId)      
+                              }}>Edit</a>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="petItem" onClick={() => {
+                          this.props.history.push('/account/pets/petForm')
+                        }} style={{textAlign: 'center', display: 'block', cursor: 'pointer'}}>
+                          <span style={{fontSize: '25px'}}>+</span> Add a new PET
+                        </div>
+                      </div>
+                    )
+                    
                   )}
                 </div>
               </div>

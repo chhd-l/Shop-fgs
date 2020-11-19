@@ -161,7 +161,6 @@ const es_ES = {
   'confirmDelete': '¿Confirmas eliminar?',
   'confirmPassword': 'Confirmar contraseña *',
   'consignee': 'Consignatario',
-  consignee: "Consignatario",
   'consigneeNumber': 'Número de destinatario',
   'contactUs': 'Contáctanos',
   'contactUsViaPhone': 'contact Us Via Phone',

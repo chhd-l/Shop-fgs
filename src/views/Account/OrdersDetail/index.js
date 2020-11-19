@@ -264,6 +264,8 @@ class AccountOrders extends React.Component {
                 auditRejectReason: tradeState.obsoleteReason
               });
               break;
+            default:
+              break;
           }
         }
         const tradeEventLogs = res.context.tradeEventLogs || [];

@@ -1174,7 +1174,6 @@ class PetForm extends React.Component {
                             </label>
                           )}
                         </div>
-
                         <div
                           className="wrap__input col-6 pull-left text-center"
                           onClick={() => this.setSterilized(false)}
@@ -1224,19 +1223,6 @@ class PetForm extends React.Component {
                         }
                         onChange={(date) => this.onDateChange(date)}
                       />
-                      {/* <span className="rc-input rc-input--inline rc-full-width rc-icon rc-calendar--xs rc-interactive rc-iconography--xs" input-setup="true">
-                        <input
-                          className="rc-input__date rc-js-custom rc-input__control birthdate"
-                          id="birthdate"
-                          data-js-dateformat="DD/MM/YYYY"
-                          name="birthdate"
-                          type="date"
-                          value={this.state.birthdate}
-                          onChange={e => this.handleInputChange(e)}
-                          onBlur={e => this.inputBlur(e)} />
-
-                        <label className="rc-input__label" htmlFor="birthdate"></label>
-                      </span> */}
                       <div className="invalid-birthdate invalid-feedback">
                         <FormattedMessage id="account.dateTip" />
                       </div>

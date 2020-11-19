@@ -774,9 +774,6 @@ const fr_FR = {
   callUs: 'Appelez nous',
   sendUsAnEmail: 'Envoyez-nous un e-mail',
   weight: 'Poids',
-  'aQuestion': 'Une question ?',
-  uNeedHelp: 'Vous avez besoin d\'aide?',
-  dontHesitateToContactUs: 'N\'hésitez pas à nous contacter',
   "product-finder":'Aide aux choix'
 }
 export default fr_FR;
