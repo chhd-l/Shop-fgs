@@ -29,6 +29,7 @@ import './index.less';
 import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
+import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -88,7 +89,9 @@ class Help extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    setSeoConfig()
+  }
   checkoutStock() {
     let {
       productList,

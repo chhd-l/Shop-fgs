@@ -15,6 +15,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png'
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
+import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
 
@@ -56,6 +57,7 @@ class Subscription extends React.Component {
   }
 
   componentDidMount() {
+    setSeoConfig({goodsId:'',categoryId:'',pageName:'Subscription Page'})
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

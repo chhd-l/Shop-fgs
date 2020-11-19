@@ -11,11 +11,15 @@ import icon3 from './images/icon3.png';
 import icon4 from './images/icon4.png';
 import cat from './images/cat.png';
 import dog from './images/dog.png';
+import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
+  componentDidMount(){
+    setSeoConfig()
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }

@@ -12,6 +12,7 @@ import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
+import { setSeoConfig } from '@/utils/utils';
 import Female from '@/assets/images/female.png'
 import Male from '@/assets/images/male.png'
 import Cat from '@/assets/images/cat.png'
@@ -28,6 +29,8 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
+
+    setSeoConfig()
     this.getPetList();
   }
   isHavePet() {

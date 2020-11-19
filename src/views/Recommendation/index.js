@@ -32,6 +32,7 @@ import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
+import { setSeoConfig } from '@/utils/utils';
 import {
   updateBackendCart
 } from '@/api/cart';
@@ -95,6 +96,7 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    setSeoConfig()
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id)

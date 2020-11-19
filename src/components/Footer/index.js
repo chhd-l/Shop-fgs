@@ -8,6 +8,7 @@ import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
 
+
 @inject('configStore')
 @observer
 class Footer extends React.Component {

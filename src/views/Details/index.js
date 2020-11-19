@@ -22,6 +22,7 @@ import { getDict } from '@/api/dict';
 import './index.css';
 import Carousel from './components/Carousel';
 import { getProductPetConfig } from '@/api/payment';
+import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -140,6 +141,8 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    //TODO : category?
+    setSeoConfig({goodsId:details.id,categoryId:'',pageName:'Product Detail Page'})
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

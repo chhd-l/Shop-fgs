@@ -6,6 +6,7 @@ import logoAnimatedPng from '@/assets/images/logo--animated2.png';
 import './index.less';
 import { customerInfoSave } from '@/api/landing';
 import Loading from '@/components/Loading';
+import { setSeoConfig } from '@/utils/utils';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -117,6 +118,7 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
+    setSeoConfig()
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {

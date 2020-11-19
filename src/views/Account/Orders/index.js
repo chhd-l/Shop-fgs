@@ -11,7 +11,7 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney, getDictionary, getDeviceType } from '@/utils/utils';
+import { formatMoney, getDictionary, getDeviceType,setSeoConfig } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
@@ -63,6 +63,7 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');

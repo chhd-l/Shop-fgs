@@ -11,6 +11,7 @@ import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
 import { inject, observer } from 'mobx-react';
 import './index.css';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -28,6 +29,7 @@ class AboutUs extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

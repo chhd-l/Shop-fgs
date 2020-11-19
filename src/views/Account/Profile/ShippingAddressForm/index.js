@@ -7,7 +7,7 @@ import { findIndex } from 'lodash';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
-import { getDictionary, validData } from '@/utils/utils';
+import { getDictionary, validData,setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -55,6 +55,7 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

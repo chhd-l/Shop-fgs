@@ -11,6 +11,7 @@ import Loading from '@/components/Loading';
 import axios from 'axios';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
+import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -57,8 +58,8 @@ class ShippingAddressFrom extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     const { location } = this.props;
+    setSeoConfig()
     if (location.query) {
       sessionItemRoyal.set(
         'paymentMethodForm',

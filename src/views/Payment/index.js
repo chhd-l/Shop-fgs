@@ -44,6 +44,7 @@ import AdyenCommonPay from './modules/AdyenCommonPay';
 
 import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
+import { setSeoConfig } from '@/utils/utils';
 import './modules/adyenCopy.css';
 import './index.css';
 
@@ -130,6 +131,7 @@ class Payment extends React.Component {
     this.timer = null;
   }
   async componentDidMount() {
+    setSeoConfig()
     if (this.isLogin) {
       if(this.loginCartData.filter(el => el.goodsInfoFlag).length) {
         this.setState({subForm: {

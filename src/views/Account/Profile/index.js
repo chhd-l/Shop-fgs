@@ -15,6 +15,7 @@ import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
 import { FormattedMessage } from 'react-intl';
+import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -78,6 +79,7 @@ class AccountProfile extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

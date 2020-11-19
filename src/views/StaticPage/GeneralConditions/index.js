@@ -5,10 +5,15 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl';
 import './index.css';
+import { setSeoConfig } from '@/utils/utils';
+
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
+  componentDidMount(){
+    setSeoConfig()
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }

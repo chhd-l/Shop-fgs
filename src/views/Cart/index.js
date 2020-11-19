@@ -5,6 +5,7 @@ import LoginCart from './modules/COPY_loginCart';
 // import UnloginCart from './modules/COPY_unLoginCart';
 // import LoginCart from './modules/loginCart';
 import './index.css';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -15,6 +16,7 @@ class Cart extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

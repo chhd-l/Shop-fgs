@@ -14,7 +14,7 @@ import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary,setSeoConfig } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -108,6 +108,7 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

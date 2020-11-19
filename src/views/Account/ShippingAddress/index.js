@@ -16,7 +16,7 @@ import { queryCityNameById } from '@/api';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary,setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -56,6 +56,7 @@ class ShippingAddress extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

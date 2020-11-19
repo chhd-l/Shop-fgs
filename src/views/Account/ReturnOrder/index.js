@@ -8,7 +8,7 @@ import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney,setSeoConfig } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 
@@ -36,6 +36,7 @@ export default class ReturnOrder extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig()
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

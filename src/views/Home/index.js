@@ -11,6 +11,7 @@ import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
 import './index.css';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -339,6 +340,7 @@ function Share() {
     }[process.env.REACT_APP_LANG] || null
   );
 }
+
 class Home extends React.Component {
   async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
@@ -346,6 +348,7 @@ class Home extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    setSeoConfig({goodsId:'',categoryId:'',pageName:'Home Page'})
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -360,9 +363,8 @@ class Home extends React.Component {
 
     const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
       <div
-        className={`col-6 ${
-          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
-        }`}
+        className={`col-6 ${curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
+          }`}
         key={i}
       >
         <FormattedMessage id={ele.textLangKey}>
@@ -411,14 +413,12 @@ class Home extends React.Component {
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div
-                  className={`${
-                    curNum >= 6 ? '' : 'row'
-                  } rc-match-heights text-center text-md-left`}
+                  className={`${curNum >= 6 ? '' : 'row'
+                    } rc-match-heights text-center text-md-left`}
                 >
                   <div
-                    className={`${
-                      curNum >= 6 ? 'DeCenter' : ''
-                    } col-lg-3 align-self-center`}
+                    className={`${curNum >= 6 ? 'DeCenter' : ''
+                      } col-lg-3 align-self-center`}
                   >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />

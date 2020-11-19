@@ -7,7 +7,9 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { setSeoConfig } from '@/utils/utils';
 import './index.less';
+
 
 const itemList = [
   {
@@ -84,6 +86,10 @@ class AccountHome extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
+  componentDidMount(){
+    setSeoConfig()
+  }
+
   render() {
     const event = {
       page: {
