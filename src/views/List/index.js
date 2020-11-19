@@ -26,7 +26,6 @@ import {
   setSeoConfig
 } from '@/utils/utils';
 import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
-import Rate from '@/components/Rate';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
