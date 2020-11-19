@@ -1,10 +1,3 @@
-
-@media(max-width: 960px){
-  /* 手机 */
-  .special-need-style{
-    width:80%;
-  }
-}
 @media(min-width: 960px){
   /* PC */
   .special-need-style{
@@ -262,12 +255,54 @@ h2{
   border-bottom: 1px solid #ced4da;
   border-radius: 0;
 }
-.petFormBox {
+.petForm .petFormBox {
   display: flex;
+  #petType {
+    margin-bottom: 10px;
+  }
 }
 .petFormBox .photoBox {
   flex: 1;
 }
 .petFormBox .formBox {
   flex: 5;
+}
+
+@media(max-width: 960px){
+  /* 手机 */
+  .special-need-style{
+    width:80%;
+  }
+  .petForm .petFormBox {
+    display: block;
+    .photoBox {
+      width: 100%;
+      text-align: center;
+      > img {
+        display: inline;
+      }
+    }
+  }
+  .form-group {
+    font-size: 20px;
+  }
+  .form-group > .form-control-label:nth-child(1) {
+    color: #333;
+    font-weight: 400;
+  }
+  .form-group.placehoder {
+    display: none;
+  }
+  .form-group > p {
+    text-align: center;
+    .rc-btn.rc-btn--one {
+      font-size: 20px;
+      display: inline;
+      margin-left: 0;
+    }
+    .rc-styled-link {
+      font-size: 20px;
+    }
+  }
+  
 }

@@ -159,32 +159,63 @@ class Pet extends React.Component {
                     </div>
                     ): (
                       <div>
-                        <p>Create and manage your pet's profile to maintain its best health possible</p>
-                        {this.state.petList.map(el => (
-                          <div className="petItem">
-                            <div className="photo">
-                              <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
-                            </div>
-                            <div className="content">
-                              <h1 className="name red">{el.petsName} <img style={{width: '15px'}} src={!el.petsSex?Male: Female}/></h1>
-                              <div className="key">
-                                <span>Birthday</span>
-                                <span>Breed</span>
+                        <p className="title">Create and manage your pet's profile to maintain its best health possible</p>
+                        {
+                          /Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                            navigator.userAgent
+                          )?(
+                            this.state.petList.map(el => (
+                              <div className="petItem">
+                                <div className="photo">
+                                  <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
+                                </div>
+                                <div className="content">
+                                  <h1 className="name red">{el.petsName} <img style={{width: '20px'}} src={!el.petsSex?Male: Female}/></h1>
+                                  <div className="key">
+                                    <span>Birthday</span>
+                                    <span>Breed</span>
+                                  </div>
+                                  <div className="value">
+                                    <span>{el.birthOfPets}</span>
+                                    <span>{el.petsBreed}</span>
+                                  </div>
+                                </div>
+                                <div className="operation">
+                                  <a className="edit rc-styled-link" href="#/" onClick={(e) => {
+                                    e.preventDefault()
+                                    this.props.history.push('/account/pets/petForm/' + el.petsId)      
+                                  }}>Edit</a>
+                                </div>
                               </div>
-                              <div className="value">
-                                <span>{el.birthOfPets}</span>
-                                <span>{el.petsBreed}</span>
+                            ))
+                          ): (
+                            this.state.petList.map(el => (
+                              <div className="petItem">
+                                <div className="photo">
+                                  <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
+                                </div>
+                                <div className="content">
+                                  <h1 className="name red">{el.petsName} <img style={{width: '15px'}} src={!el.petsSex?Male: Female}/></h1>
+                                  <div className="key">
+                                    <span>Birthday</span>
+                                    <span>Breed</span>
+                                  </div>
+                                  <div className="value">
+                                    <span>{el.birthOfPets}</span>
+                                    <span>{el.petsBreed}</span>
+                                  </div>
+                                </div>
+                                <div className="operation">
+                                  <a className="edit rc-styled-link" href="#/" onClick={(e) => {
+                                    e.preventDefault()
+                                    this.props.history.push('/account/pets/petForm/' + el.petsId)      
+                                  }}>Edit</a>
+                                </div>
                               </div>
-                            </div>
-                            <div className="operation">
-                              <a className="edit rc-styled-link" href="#/" onClick={(e) => {
-                                e.preventDefault()
-                                this.props.history.push('/account/pets/petForm/' + el.petsId)      
-                              }}>Edit</a>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="petItem" onClick={() => {
+                            ))
+                          )
+                        }
+                        <div className="petItem addNew" onClick={() => {
                           this.props.history.push('/account/pets/petForm')
                         }} style={{textAlign: 'center', display: 'block', cursor: 'pointer'}}>
                           <span style={{fontSize: '25px'}}>+</span> Add a new PET

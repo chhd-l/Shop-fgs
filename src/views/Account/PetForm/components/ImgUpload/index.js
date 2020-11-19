@@ -1,6 +1,6 @@
 import React from 'react';
 import { uploadResource } from '@/api';
-import './index.css';
+import './index.less';
 
 export default class ImgUpload extends React.Component {
   constructor(props) {
@@ -38,9 +38,11 @@ export default class ImgUpload extends React.Component {
     } else {
       const formData = new FormData();
       formData.append('uploadFile', files[0]);
+      this.props.showLoading()
       uploadResource(formData)
         .then((res) => {
           this.props.handleChange(res.context[0]);
+          this.props.hiddenLoading()
         })
         .catch((err) => {
           console.log(err);
@@ -65,7 +67,6 @@ export default class ImgUpload extends React.Component {
       <div className="aui-col-xs-3 d-flex flex-wrap" id="img">
         <div
           id="imgPreview"
-          style={{ width: '220px' }}
           className="d-flex flex-wrap"
         >
           <p style={{marginTop: '10px'}}>
@@ -75,7 +76,7 @@ export default class ImgUpload extends React.Component {
                       }}>Change picture</a>
           </p>
           {this.state.imgList.length <= 2 ? (
-            <div className="icon-add" style={{visibility: 'hidden'}}>
+            <div className="icon-add" style={{visibility: 'hidden', position: 'absolute'}}>
               <div id="upImg">
                 <input
                   ref={this.uploadDom}

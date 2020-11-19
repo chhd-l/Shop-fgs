@@ -12,6 +12,9 @@
   opacity: 0;
   cursor: pointer;
  }
+ #imgPreview {
+   width: 220px;
+ }
  #imgPreview .img-item {
   position: relative;
   width: 60px;
@@ -67,3 +70,15 @@
   max-width: 40%;
  }
  
+ @media(max-width: 960px){
+   #imgPreview {
+     width: 100%;
+     > p {
+       width: 100%;
+       text-align: center;
+     }
+     .rc-styled-link {
+       font-size: 20px;
+     }
+   }
+ }

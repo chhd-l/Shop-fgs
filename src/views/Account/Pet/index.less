@@ -44,3 +44,73 @@
     display: inline-block;
   }
 }
+
+@media(max-width: 960px){
+  #Pets {
+    .title {
+      font-size: 20px;
+      text-align: center;
+    }
+    .petItem {
+      // display: flex;
+      display: block;
+      height: 320px;
+      line-height: 140px;
+      border: 1px solid #d7d7d7;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      position: relative;
+      > .photo {
+        // flex: 1;
+        width: 100%;
+        text-align: center;
+      }
+      > .content {
+        width: 100%;
+        margin-top: 0;
+        padding-top: 0;
+        .name {
+          text-align: center;
+          font-size: 30px;
+          margin-bottom: 40px;
+        }
+        .key, .value {
+          width: 100%;
+          min-height: 20px;
+          line-height: 20px;
+          display: flex;
+          margin-bottom: 5px;
+          text-align: left;
+          font-size: 20px;
+          margin-bottom: 10px;
+          >span {
+            // text-align: center;
+            flex: 1;
+            padding-left: 40px;
+          }
+        }
+        .value {
+          font-weight: 400;
+        }
+      }
+      > .operation {
+        position: absolute;
+        right: 0;
+        top: 0;
+        .edit {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 20px;
+        }
+      }
+    }
+    img {
+      display: inline-block;
+    }
+    .addNew {
+      height: 160px;
+      font-size: 22px;
+    }
+  }
+}
