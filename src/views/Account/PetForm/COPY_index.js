@@ -25,7 +25,7 @@ import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png'
 import Dog from '@/assets/images/dog.png'
-
+import UploadImg from './components/ImgUpload' 
 const lang = process.env.REACT_APP_LANG;
 
 switch (lang) {
@@ -90,6 +90,9 @@ class PetForm extends React.Component {
       selectedSpecialNeedsObj: {
         value: ''
       },
+      selectedSizeObj: {
+        value: ''
+      },
       showBreedList: false,
       breedList: [],
       petList: [],
@@ -99,7 +102,8 @@ class PetForm extends React.Component {
       successMsg: '',
       breedListLoading: false,
       showBreedListNoneTip: false,
-      specialNeedsDisable: false
+      specialNeedsDisable: false,
+      imgUrl: ''
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -146,13 +150,21 @@ class PetForm extends React.Component {
       });
       this.getPetList();
   }
-  get computedList() {
+  get specialNeedsOptions() {
     return this.state.specialNeeds.map((ele) => {
       return {
         value: ele.valueEn,
         ...ele
       };
     });
+  }
+  get sizeOptions() {
+    return this.state.sizeArr.map(ele => {
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
+    })
   }
   getUserInfo() {
     return this.props.loginStore.userInfo;
@@ -197,9 +209,11 @@ class PetForm extends React.Component {
             if(currentPet) {
               this.edit(currentPet)
               this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+              console.log(currentPet.petsImg, 'haha')
               this.setState({
                 currentPetId: currentPet.petsId,
-                currentPet: currentPet
+                currentPet: currentPet,
+                imgUrl: currentPet.petsImg
               })
             }
           } else {
@@ -293,7 +307,7 @@ class PetForm extends React.Component {
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
-      petsImg: '10086',
+      petsImg: this.state.imgUrl,
       petsBreed: this.state.breed,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
@@ -615,17 +629,17 @@ class PetForm extends React.Component {
       param.isInputDisabled = true
       param.breed = ''
     }
+    let filterSize = this.sizeOptions.filter(el => el.name === currentPet.petsSizeValueName)
+    if(filterSize.length) {
+      param.selectedSizeObj = Object.assign(this.state.selectedSizeObj, {value: filterSize[0].value})
+    }
     if(currentPet.customerPetsPropRelations[0].propName !== 'Sin necesidades especiales') {
-      this.setState({
-        selectedSpecialNeedsObj: Object.assign(this.state.selectedSpecialNeedsObj, {
-        value: this.computedList.filter(el => el.name === currentPet.customerPetsPropRelations[0].propName)[0].value}),
-        selectedSpecialNeeds: [currentPet.customerPetsPropRelations[0].propName]
-      })
+      param.selectedSpecialNeedsObj = Object.assign(this.state.selectedSpecialNeedsObj, {
+        value: this.specialNeedsOptions.filter(el => el.name === currentPet.customerPetsPropRelations[0].propName)[0].value})
+      param.selectedSpecialNeeds = [currentPet.customerPetsPropRelations[0].propName]
     }else {
-      this.setState({
-        specialNeedsDisable: true,
-        selectedSpecialNeeds: ['Sin necesidades especiales']
-      })
+      param.specialNeedsDisable = true
+      param.selectedSpecialNeeds = ['Sin necesidades especiales']
     }
     this.setState(param);
   };
@@ -745,7 +759,7 @@ class PetForm extends React.Component {
       });
     }
   }
-  handleSelectedItemChange(data) {
+  specialNeedsOptionsChange(data) {
     if(data.name === 'Sin necesidades especiales') {
       if(this.state.selectedSpecialNeeds[0] === 'Sin necesidades especiales') {
         this.setState({
@@ -763,6 +777,11 @@ class PetForm extends React.Component {
         selectedSpecialNeeds: [data.name],
       })
     }
+  }
+  sizeOptionsChange(data) {
+    this.setState({
+      weight: data.name
+    })
   }
   breedCheckboxChange(e) {
     console.log(e.currentTarget.value, e.currentTarget.checked)
@@ -785,9 +804,16 @@ class PetForm extends React.Component {
       }
     // }
   }
+  handelImgChange(data) {
+    console.log(data)
+    this.setState({imgUrl: data})
+  }
+  handleErrMessage = () => {
+
+  }
   render() {
-    const { petList, currentPet, selectedSpecialNeedsObj } = this.state;
-    console.log(this.state.selectedSpecialNeeds, this.computedList,'haha', this.state.selectedSpecialNeeds[0], this.state.selectedSpecialNeedsObj)
+    const { petList, currentPet, selectedSpecialNeedsObj, selectedSizeObj, imgUrl } = this.state;
+    console.log(imgUrl, 'haha')
     return (
       <div className="petForm">
         <Header
@@ -805,10 +831,13 @@ class PetForm extends React.Component {
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: 'flex'}}>
                 <div className="photoBox">
-                  <img style={{width: '120px', marginTop: '40px'}} src={this.state.isCat? Cat: Dog}/>
-                  <a class="rc-styled-link" href="#/" onClick={(e) => {
+                  <img style={{width: '120px', marginTop: '40px', borderRadius: '50%'}} src={imgUrl || (this.state.isCat? Cat: Dog)}/>
+                  {/* <a class="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
-                      }}>Change picture</a>
+                      }}>Change picture</a> */}
+                      <UploadImg tipVisible={false}
+                handleChange={(data) => this.handelImgChange(data)}
+                geterrMessage={this.handleErrMessage}/>
                 </div>
                 <div className="formBox">
                   <div className="form-group col-lg-6 pull-left">
@@ -992,6 +1021,41 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
+                  {
+                    !this.state.isCat && (
+                      <div className="form-group col-lg-6 pull-left">
+                  <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="weight"
+                    >
+                      <FormattedMessage id="Weight" />
+                    </label>
+                    <Selection 
+                      optionList={this.sizeOptions}
+                      selectedItemChange={(el) => this.sizeOptionsChange(el)}
+                      selectedItemData={{
+                        value: selectedSizeObj.value
+                      }}
+                      key={selectedSizeObj.value}
+                      customStyleType="select-one"/>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="weight" />
+                        }}
+                      />
+                    </div>
+                  </div>
+                    )
+                  }
+                  {
+                    !this.state.isCat && (<div className="form-group col-lg-6 pull-left" style={{height: "86px"}}></div>)
+                  }
+                  
                   <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
@@ -1083,6 +1147,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
+                  
                   <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
@@ -1091,8 +1156,8 @@ class PetForm extends React.Component {
                       <FormattedMessage id="Special Need" />
                     </label>
                     <Selection 
-                      optionList={this.computedList}
-                      selectedItemChange={(el) => this.handleSelectedItemChange(el)}
+                      optionList={this.specialNeedsOptions}
+                      selectedItemChange={(el) => this.specialNeedsOptionsChange(el)}
                       selectedItemData={{
                         value: selectedSpecialNeedsObj.value
                       }}
@@ -1135,7 +1200,7 @@ class PetForm extends React.Component {
                   </div>
                   <div className="form-group col-lg-6 pull-left">
                     <div class="rc-input rc-input--inline">
-                      <input class="rc-input__checkbox" id="noSpecialNeeds" value="in necesidades especiales" type="checkbox" name="noSpecialNeeds" checked={this.state.specialNeedsDisable} onClick={(e) => this.handleSelectedItemChange({name: 'Sin necesidades especiales'}) }/>
+                      <input class="rc-input__checkbox" id="noSpecialNeeds" value="in necesidades especiales" type="checkbox" name="noSpecialNeeds" checked={this.state.specialNeedsDisable} onClick={(e) => this.specialNeedsOptionsChange({name: 'Sin necesidades especiales'}) }/>
                       <label class="rc-input__label--inline" for="noSpecialNeeds"><FormattedMessage id="noSpecialNeeds" /></label>
                     </div>
                   </div>

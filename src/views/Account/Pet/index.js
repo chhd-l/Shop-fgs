@@ -163,7 +163,7 @@ class Pet extends React.Component {
                         {this.state.petList.map(el => (
                           <div className="petItem">
                             <div className="photo">
-                              <img style={{width: '90px'}} src={el.petsType === 'cat'? Cat: Dog}/>
+                              <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
                             </div>
                             <div className="content">
                               <h1 className="name red">{el.petsName} <img style={{width: '15px'}} src={!el.petsSex?Male: Female}/></h1>
