@@ -4,6 +4,8 @@ import './index.less';
 
 export default class PriceSlider extends React.Component {
   static defaultProps = {
+    max: 100,
+    defaultValue: [0, 100],
     onChange: () => {}
   };
   render() {
@@ -12,7 +14,8 @@ export default class PriceSlider extends React.Component {
         className="horizontal-slider"
         thumbClassName="example-thumb"
         trackClassName="example-track"
-        defaultValue={[0, 100]}
+        defaultValue={this.props.defaultValue}
+        max={this.props.max}
         ariaLabel={['Lower thumb', 'Upper thumb']}
         ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
         renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}

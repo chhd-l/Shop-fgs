@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
-import { findIndex, find } from 'lodash';
 import PriceSlider from '@/components/PriceSlider';
 import '@/assets/css/search.css';
 import './index.less';
@@ -9,36 +8,35 @@ import './index.less';
 class Filter extends React.Component {
   static defaultProps = {
     initing: true,
-    filterList: []
+    filterList: [],
+    updateParentData: () => {},
+    maxGoodsPrice: 100
   };
   constructor(props) {
     super(props);
     this.state = {
-      filterList: props.filterList,
-      checkedObjForAttr: null,
-      checkedObjForFilter: null
+      filterList: props.filterList
     };
     this.toggleContent = this.toggleContent.bind(this);
-    this.hanldeRemove = this.hanldeRemove.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
+    this.handleClickValueItem = this.handleClickValueItem.bind(this);
   }
-  get computedCheckList() {
-    return [];
-    return this.props.checkedList.map((v) => {
-      return Object.assign(
-        {},
-        { parentCatogery: this.matchParentCatogery(v) },
-        v
-      );
-    });
-  }
-  matchParentCatogery(data) {
-    let res = '';
-    let tmp = find(this.state.filterList, (l) => l.propId === data.propId);
-    if (tmp) {
-      res = tmp.propName && tmp.propName.toLocaleLowerCase();
+  get hasSelecedItems() {
+    let ret = false;
+    const { filterList } = this.state;
+    for (let index = 0; index < filterList.length; index++) {
+      const pItem = filterList[index];
+      const tmpRes = (
+        pItem.attributesValueList ||
+        pItem.storeGoodsFilterValueVOList ||
+        []
+      ).some((cItem) => cItem.selected);
+      if (tmpRes) {
+        ret = true;
+        break;
+      }
     }
-    return res;
+    return ret;
   }
   toggleContent(idx) {
     let { filterList } = this.state;
@@ -54,68 +52,59 @@ class Filter extends React.Component {
       filterList
     });
   }
-  hanldeRemove(data) {
-    this.props.onRemove(data);
-    if (data === 'all') {
-      let { filterList } = this.state;
-      filterList.map((f) => (f.expand = false));
-      this.setState({
+  hanldeClickRemoveAll() {
+    let { filterList } = this.state;
+    Array.from(filterList, (parentEle) => {
+      Array.from(
+        parentEle.attributesValueList ||
+          parentEle.storeGoodsFilterValueVOList ||
+          [],
+        (childEle) => {
+          childEle.selected = false;
+          return childEle;
+        }
+      );
+      return parentEle;
+    });
+
+    this.setState(
+      {
         filterList
-      });
-      this.handleClickCloseBtn();
-    }
+      },
+      () => this.props.updateParentData(this.state.filterList)
+    );
+    this.handleClickCloseBtn();
   }
   handleClickCloseBtn = () => {
     this.props.onToggleFilterModal(false);
   };
-  // handleFilterChange() {
-  //   debugger;
-  //   this.setState({ checkedObjForAttr: 1 }, () => {
-  //     console.log(122121, this.state.checkedObjForAttr);
-  //   });
-  // }
-  handleFilterChange(parentItem, item) {
-    debugger;
-    let { checkedObjForAttr, checkedObjForFilter } = this.state;
+  handleClickValueItem({ parentItem, item, isRemoveOperate = false }) {
+    // radio情况下 点击删除应置为false
+    let { filterList } = this.state;
     if (parentItem.filterType === '0') {
-      checkedObjForAttr = checkedObjForAttr || {};
-      let valueList = (checkedObjForAttr[item.attributeId] =
-        checkedObjForAttr[item.attributeId] || []);
-
-      // 判断删除或新增
-      // 该孩子id是否存在于list中，
-      const index = findIndex(valueList, (c) => c.id === item.id);
-      if (index > -1) {
-        valueList.splice(index, 1); // 删除
+      item.selected = !item.selected;
+    } else if (parentItem.choiceStatus === 'Single choice') {
+      // 同级其他设置为false
+      Array.from(parentItem.storeGoodsFilterValueVOList, (ele) => {
+        ele.selected = false;
+        return ele;
+      });
+      if (isRemoveOperate) {
+        item.selected = false;
       } else {
-        valueList.push(item);
+        item.selected = true;
       }
-
-      debugger;
-      this.setState({ checkedObjForAttr });
-    } else {
-      checkedObjForFilter = checkedObjForFilter || {};
-      let valueList = (checkedObjForFilter[item.filterId] =
-        checkedObjForFilter[item.filterId] || []);
-
-      // 判断删除或新增
-      // 该孩子id是否存在于list中，
-      const index = findIndex(valueList, (c) => c.id === item.id);
-      if (index > -1) {
-        valueList.splice(index, 1); // 删除
-      } else {
-        valueList.push(item);
-      }
-
-      debugger;
-      this.setState({ checkedObjForFilter });
     }
+    this.setState(
+      {
+        filterList
+      },
+      () => this.props.updateParentData(this.state.filterList)
+    );
   }
   render() {
-    const { computedCheckList } = this;
-    const { filterList, checkedObjForAttr, checkedObjForFilter } = this.state;
-    const { onChange, initing } = this.props;
-    console.log(2222222222, checkedObjForAttr);
+    const { filterList } = this.state;
+    const { initing, inputLabelKey } = this.props;
     return (
       <div className="rc-filters__form" name="example-filter">
         {initing ? (
@@ -135,148 +124,140 @@ class Filter extends React.Component {
                 <FormattedMessage id="filters" />
               </div>
               <div className="filter-bar">
-                <ul>
-                  {(computedCheckList || []).map((v, i) => (
-                    <FormattedMessage id="sortedBy" key={i}>
-                      {(txt) => (
-                        <li
-                          className="filter-value"
-                          title={`${txt} ${v.parentCatogery}: ${v.detailName}`}
-                          key={v + i}
-                        >
-                          {v.detailName}
-                          <i
-                            className="filter-remove"
-                            onClick={this.hanldeRemove.bind(this, v)}
-                          />
-                        </li>
-                      )}
-                    </FormattedMessage>
-                  ))}
+                <ul className="mt-4 mt-md-0">
+                  {filterList.map((pItem) => {
+                    return (
+                      pItem.attributesValueList ||
+                      pItem.storeGoodsFilterValueVOList ||
+                      []
+                    ).map((cItem) => {
+                      if (cItem.selected) {
+                        return (
+                          <li className="filter-value" key={cItem.id}>
+                            {cItem.attributeDetailName}
+                            <i
+                              className="filter-remove"
+                              onClick={this.handleClickValueItem.bind(this, {
+                                parentItem: pItem,
+                                item: cItem,
+                                isRemoveOperate: true
+                              })}
+                            />
+                          </li>
+                        );
+                      } else {
+                        return null;
+                      }
+                    });
+                  })}
                 </ul>
               </div>
-              {checkedObjForAttr || checkedObjForFilter ? (
+              {this.hasSelecedItems && (
                 <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
                   <span
                     className="rc-styled-link js-clear-filter"
-                    onClick={this.hanldeRemove.bind(this, 'all')}
+                    onClick={this.hanldeClickRemoveAll}
                   >
                     <FormattedMessage id="removeAllFilters" />
                   </span>
                 </div>
-              ) : (
-                ''
               )}
             </header>
 
             <div className="rc-margin--none">
               {filterList.length ? (
-                filterList.map((f, index) => (
-                  <React.Fragment key={index}>
+                filterList.map((parentItem, pIndex) => (
+                  <React.Fragment key={parentItem.id}>
                     <>
                       <div role="heading">
                         <div
                           className="rc-list__header"
-                          id={`accordion-header-${index}`}
-                          onClick={this.toggleContent.bind(this, index)}
+                          id={`accordion-header-${pIndex}`}
+                          onClick={this.toggleContent.bind(this, pIndex)}
                         >
-                          {f.attributeName}
+                          {parentItem.attributeName}
                         </div>
                       </div>
 
                       <ul
                         className={`rc-list__content rc-expand--vertical ${
-                          f.expand ? 'expand' : ''
+                          parentItem.expand ? 'expand' : ''
                         }`}
-                        id={`accordion-content-${index}`}
+                        id={`accordion-content-${pIndex}`}
                       >
-                        {f.filterType === '0' ? (
-                          f.attributesValueList.map((l, i) => (
+                        {parentItem.filterType === '0' ? (
+                          parentItem.attributesValueList.map((childItem) => (
                             <li
-                              title={`Sort by ${f.attributeName.toLocaleLowerCase()}: ${
-                                l.attributeDetailName
+                              title={`Sort by ${parentItem.attributeName.toLocaleLowerCase()}: ${
+                                childItem.attributeDetailName
                               }`}
                               className="rc-list__item"
-                              key={index + '-' + i}
+                              key={childItem.id}
                             >
                               <div className="rc-input rc-input--stacked">
                                 <input
-                                  className={`2222 rc-input__checkbox ${
-                                    checkedObjForAttr &&
-                                    checkedObjForAttr[l.attributeId]
-                                      ? JSON.stringify(
-                                          checkedObjForAttr[l.attributeId]
-                                        ) +
-                                        'ddd' +
-                                        JSON.stringify(
-                                          checkedObjForAttr[l.attributeId].find(
-                                            (c) => c.id === l.id
-                                          )
-                                        )
-                                      : null
-                                  }`}
-                                  id={`filter-input-${index}-${i}`}
+                                  className={`rc-input__checkbox`}
+                                  id={`filter-input-${childItem.id}-${inputLabelKey}`}
                                   type="checkbox"
                                   name="checkbox"
-                                  checked={
-                                    checkedObjForAttr &&
-                                    checkedObjForAttr[l.attributeId] &&
-                                    checkedObjForAttr[l.attributeId].find(
-                                      (c) => c.id === l.id
-                                    )
-                                      ? true
-                                      : false
-                                  }
-                                  // value={l.propName}
-                                  onChange={this.handleFilterChange.bind(
+                                  checked={childItem.selected}
+                                  onChange={this.handleClickValueItem.bind(
                                     this,
-                                    f,
-                                    l
+                                    {
+                                      parentItem,
+                                      item: childItem
+                                    }
                                   )}
                                 />
                                 <label
                                   className="rc-input__label--inline"
-                                  htmlFor={`filter-input-${index}-${i}`}
+                                  htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
                                 >
-                                  {l.attributeDetailName}
+                                  {childItem.attributeDetailName}
                                 </label>
                               </div>
                             </li>
                           ))
-                        ) : f.attributeName === 'markPrice' ? (
+                        ) : parentItem.attributeName === 'markPrice' ? (
                           <PriceSlider
+                            max={this.props.maxGoodsPrice}
+                            key={this.props.maxGoodsPrice}
                             onChange={(val) => {
                               console.log(333, val);
                             }}
                           />
-                        ) : f.attributeName === 'subscription' &&
-                          f.choiceStatus === 'Single choice' ? (
-                          f.storeGoodsFilterValueVOList.map((ele) => (
-                            <div
-                              key={ele.id}
-                              className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
-                            >
-                              <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
-                                <input
-                                  className="rc-input__radio"
-                                  id={`filter-sub-radio-${ele.id}`}
-                                  type="radio"
-                                  onChange={this.handleFilterChange.bind(
-                                    this,
-                                    f,
-                                    ele
-                                  )}
-                                  // checked={}
-                                />
-                                <label
-                                  className="rc-input__label--inline"
-                                  htmlFor={`filter-sub-radio-${ele.id}`}
-                                >
-                                  {ele.attributeDetailName}
-                                </label>
+                        ) : parentItem.attributeName === 'subscription' &&
+                          parentItem.choiceStatus === 'Single choice' ? (
+                          parentItem.storeGoodsFilterValueVOList.map(
+                            (childItem) => (
+                              <div
+                                key={childItem.id}
+                                className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
+                              >
+                                <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+                                  <input
+                                    className="rc-input__radio"
+                                    id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+                                    type="radio"
+                                    checked={childItem.selected}
+                                    onChange={this.handleClickValueItem.bind(
+                                      this,
+                                      {
+                                        parentItem,
+                                        item: childItem
+                                      }
+                                    )}
+                                  />
+                                  <label
+                                    className="rc-input__label--inline"
+                                    htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+                                  >
+                                    {childItem.attributeDetailName}
+                                  </label>
+                                </div>
                               </div>
-                            </div>
-                          ))
+                            )
+                          )
                         ) : null}
                       </ul>
                     </>

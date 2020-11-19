@@ -1,195 +1,209 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import '@/assets/css/heroCarousel.css';
-import './index.less';
+import "./index.less"
+import { animate } from "@/assets/js/animate"
 import { getBanner } from '@/api/home.js';
+import { FormattedMessage } from 'react-intl';
 
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      // className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--next rc-btn rc-btn--icon rc-icon rc-interactive rc-right rc-iconography`}
-      className="rc-icon rc-right rc-iconography"
-      style={{
-        ...style,
-        right: '3%',
-        zIndex: 1,
-        top: '50%',
-        position: 'absolute',
-        transform: 'translateY(-50%)',
-        cursor:'pointer'
-      }}
-      onClick={onClick}
-    />
-  );
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+//信号量
+var idx = 0;
+var options = {
+  "interval": 2000,	//间隔时间
+  "animatetime": 500,
+  "tween": "QuadEaseOut",
+  "width": 1400
 }
 
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      // className={`${className} d-none d-md-block rc-carousel__direction rc-carousel__direction--prev rc-btn rc-btn--icon rc-icon rc-interactive rc-left rc-iconography`}
-      className="rc-icon rc-left rc-iconography" 
-      style={{
-        ...style,
-        left: '3%',
-        zIndex: 1,
-        top: '50%',
-        position: 'absolute',
-        transform: 'translateY(-50%)',
-        cursor:'pointer'
-      }}
-      onClick={onClick}
-    />
-  );
-}
-
-class HeroCarousel extends React.Component {
+class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      noticeVisible: true,
-      banner: []
+      banner: [],
+      windowWidth: 0,
+
     };
-    this.hanldeClick = this.hanldeClick.bind(this);
-    this.hideNotice = this.hideNotice.bind(this);
   }
-  async UNSAFE_componentWillMount() {
+  componentDidMount() {
+    //定义变量获取屏幕视口宽度
+    // var windowWidth = document.body.clientWidth
+    // this.setState({
+    //   windowWidth
+    // })
     getBanner().then((res) => {
-      this.setState({ banner: res.context });
+      this.setState({ banner: res.context },()=>{
+        console.log(111,this.state.banner)
+      });
+    });
+
+  }
+  changeCircles = () => {
+    //得到元素
+    var circles = document.getElementById("circles");
+    var m_unit = document.getElementById("m_unit");
+    var imageUL = m_unit.getElementsByTagName("ul")[0];
+    var imageLis = imageUL.getElementsByTagName("li");
+    var circlesLis = circles.getElementsByTagName("li");
+
+    var length = imageLis.length;
+
+    //idx可能是5，但是我们的小圆点下标最大是4，所以用n过渡一下：
+    var n = idx > length - 1 ? 0 : idx;
+    //排他
+    for (var i = 0; i < circlesLis.length; i++) {
+      circlesLis[i].className = "";
+    }
+    circlesLis[n].className = "cur";
+  }
+  leftBtnClick = () => {
+    //得到元素
+    var m_unit = document.getElementById("m_unit");
+    var imageUL = m_unit.getElementsByTagName("ul")[0];
+    var imageLis = imageUL.getElementsByTagName("li");
+
+    var length = imageLis.length;
+
+    //阻止第一个跳转
+    //if(idx===0) return
+
+    //函数截流
+    if (m_unit.isanimated) return;
+
+    //信号量的变化
+    idx--;
+    if (idx < 0) {
+      idx = length - 1;
+      m_unit.style.left = -options.width * length + "px";
+    }
+
+    //改变小圆点
+    this.changeCircles();
+
+    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween);
+  }
+  rightBtnClick = () => {
+    //得到元素
+    var circles = document.getElementById("circles");
+    var m_unit = document.getElementById("m_unit");
+    var imageUL = m_unit.getElementsByTagName("ul")[0];
+    var imageLis = imageUL.getElementsByTagName("li");
+
+
+
+    var length = imageLis.length;
+
+     //阻止最后一个跳转
+    //  if(idx===length - 1) return
+
+    //函数截流
+    if (m_unit.isanimated) return;
+
+    //信号量的变化
+    idx++;
+
+    
+
+    //改变小圆点
+    this.changeCircles();
+
+    //运动机构的移动
+    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween, function () {
+      if (idx > length - 1) {
+        idx = 0;
+        m_unit.style.left = "0px";
+        return
+      }
     });
   }
-  hideNotice() {
-    this.setState({
-      noticeVisible: false
-    });
+  clickCircle = (index) => {
+    //信号量就是自己的序号
+    idx = index;
+    //拉动
+    animate(m_unit, { "left": -options.width * idx }, options.animatetime, options.tween);
+    //改变小圆点
+    this.changeCircles();
   }
-  hanldeClick() {
-    const { history } = this.props;
-    history.push('/list/keywords');
+
+  hanldeClick = (item) => {
+    console.log(item)
+    // sessionItemRoyal.set(
+    //   'rc-goods-cate-name',
+    //   this.state.currentCatogery || ''
+    // );
+    // const { history, location } = this.props;
+    // sessionItemRoyal.set('recomment-preview', location.pathname);
+    // sessionItemRoyal.set('rc-goods-name', item.goodsName);
+
+    // history.push('/details/' + item.goodsInfoIds[0]);
   }
   render() {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: false,
-      pauseOnHover: true,
-      lazyLoad: true,
-      adaptiveHeight: true,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
-      dotsClass: 'dots-custom'
-    };
-    const videoJSX = (el) => {
-      return (
-        <>
-          <div className="hero-carousel__slide__video">
-            <video autoPlay={true} muted={true} loop={true} id="myVideo">
-              <source src={el.webUrl} type="video/mp4" />
-            </video>
-            {el.mobiSkipUrl ? (
-              <a className="h-100 mobileBanner" href={el.mobiSkipUrl}>
-                <img
-                  className="w-100"
-                  src={el.mobiUrl}
-                  style={{ maxHeight: '100%' }}
-                  alt=""
-                />
-              </a>
-            ) : (
-              <img
-                className="w-100"
-                src={el.mobiUrl}
-                style={{ maxHeight: '100%' }}
-                alt=""
-              />
-            )}
-          </div>
-          <div className="hero-carousel__slide__content">
-            <div className="rc-gamma inherit-fontsize">
-              <h1>
-                <FormattedMessage id="header.carouselInfo1" />
-              </h1>
-            </div>
-            <div className="rc-body inherit-fontsize">
-              <FormattedMessage id="header.carouselInfo2" />
-            </div>
-            <div className="hero-carousel__slide__content__btn text-center">
-              <Link
-                className="rc-btn rc-btn--one gtm-hero-carousel-btn font-16 rc-text-colour--brand3"
-                to={`/list/keywords`}
-              >
-                <FormattedMessage id="header.toBegin" />
-              </Link>
-            </div>
-          </div>
-        </>
-      );
-    };
-
     return (
-      <div className="hero-carousel with-shadow">
-        <div className="rc-max-width--xl">
-          <Slider {...settings}>
-            {this.state.banner.map((el, i) => (
-              <div className="hero-carousel__slide" key={i}>
-                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                  {el.isVideo && el.isVideo === '1' ? (
-                    videoJSX(el)
-                  ) : (
-                    <>
-                      {el.webSkipUrl ? (
-                        <a className="h-100" href={el.webSkipUrl}>
-                          <img
-                            className="rc-md-up"
-                            src={el.webUrl}
-                            style={{ maxHeight: '100%' }}
-                            alt=""
-                          />
+      <div className="homePage">
+        <div className='carousel-wrap'>
+          <a href="javascript:;" className="leftBtn Btn rc-icon rc-left rc-iconography" id="leftBtn" onClick={this.leftBtnClick}></a>
+          <a href="javascript:;" className="rightBtn Btn  rc-icon  rc-right rc-iconography" id="rightBtn" onClick={this.rightBtnClick}></a>
+          <div class="carousel" id="carousel">
+            <div class="m_unit" id="m_unit">
+              <ul>
+                {
+                  this.state.banner.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        {item.isVideo==1
+                        ?
+                        <a href="javascript:;" className="videoURL">
+                          <video autoPlay={true} muted={true} loop={true}>
+                            <source src={item.webUrl} type="video/mp4" />
+                          </video>
+                          <div className="center-advice">
+                            <div className="rc-gamma inherit-fontsize">
+                              <h1><FormattedMessage id="header.carouselInfo1" /></h1>
+                            </div>
+                            <div className="rc-margin-bottom--sm rc-body inherit-fontsize">
+                              <p><FormattedMessage id="header.carouselInfo2" /></p>
+                            </div>
+                            <div>                       
+                              <a href="/product-finder">
+                                <button class="rc-btn rc-btn--one"><FormattedMessage id="header.toBegin" /></button>
+                              </a>
+                            </div>
+                          </div>
                         </a>
-                      ) : (
-                        <img
-                          className="rc-md-up"
-                          src={el.webUrl}
-                          style={{ maxHeight: '100%' }}
-                          alt=""
-                        />
-                      )}
-
-                      {el.mobiSkipUrl ? (
-                        <a className="h-100" href={el.mobiSkipUrl}>
-                          <img
-                            className="rc-md-down w-100"
-                            src={el.mobiUrl}
-                            style={{ maxHeight: '100%' }}
-                            alt=""
-                          />
+                        :
+                        <a href="#" className="imageURL">
+                          <div style={{backgroundImage:"url("+item.webUrl+")"}}></div>
+                          {
+                            process.env.REACT_APP_LANG == 'fr'&&index==1
+                            ?<a href="/product-finder" className="category-btn">
+                              <button class="rc-btn rc-btn--one">En savoir plus</button>
+                            </a>
+                            :null
+                          }
                         </a>
-                      ) : (
-                        <img
-                          className="rc-md-down w-100"
-                          src={el.mobiUrl}
-                          style={{ maxHeight: '100%' }}
-                          alt=""
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </Slider>
+                        }
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="circles" id="circles">
+            <ol>
+              {
+                this.state.banner.map((item, index) => {
+                  return (
+                    <li className={index === 0 ? 'cur' : ''} onClick={() => this.clickCircle(index)}></li>
+                  )
+                })
+              }
+            </ol>
+          </div>
         </div>
       </div>
-    );
+      
+    )
   }
 }
 
-export default HeroCarousel;
+export default Carousel;

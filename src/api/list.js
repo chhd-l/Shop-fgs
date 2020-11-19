@@ -4,7 +4,6 @@ const api = {
   list: '/goods/spuListFront',
   loginList: '/goods/spus',
   props: '/goods/props',
-  selectedProps: '/goods/props/owngoods',
   findFilterList: '/goods_filter/findFilterList', // 查询filter信息
   findSortList: '/goods_filter/findSortList' // 查询sort信息
 };
@@ -15,14 +14,6 @@ export function getProps(parameter) {
   return axios({
     url: `${api.props}/${parameter}`,
     method: 'get'
-  });
-}
-
-export function getSelectedProps(parameter) {
-  return axios({
-    url: `${api.selectedProps}`,
-    method: 'post',
-    data: { cateId: parameter }
   });
 }
 
