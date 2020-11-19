@@ -74,3 +74,10 @@
 .DeCenter{
   margin: 0 auto;
 }
+
+.mt180{
+  margin-top: 180px;
+}
+.mt64{
+  margin-top: 64px;
+}

@@ -7,6 +7,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel3';
+import HeroCarouselMobile from '@/components/HeroCarouselMobile';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
@@ -340,7 +341,21 @@ function Share() {
   );
 }
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      windowWidth: 0,
+
+    };
+  }
   async componentDidMount() {
+    //定义变量获取屏幕视口宽度
+    var windowWidth = document.body.clientWidth
+    this.setState({
+      windowWidth
+    },()=>{
+      console.log(222,this.state.windowWidth)
+    })
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -400,10 +415,14 @@ class Home extends React.Component {
           location={this.props.location}
           history={this.props.history}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper ">
+        <main className={this.state.windowWidth>769?["rc-main-content__wrapper","mt180"].join(" "):["rc-main-content__wrapper","mt64"].join(" ")}>
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarousel history={this.props.history} />
+              {
+                this.state.windowWidth>769
+                ?<HeroCarousel history={this.props.history} />
+                :<HeroCarouselMobile history={this.props.history}/>
+              }
             </div>
           </div>
 
