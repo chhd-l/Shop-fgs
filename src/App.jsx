@@ -204,7 +204,11 @@ const App = () => (
                   <FAQ key={props.match.params.catogery} {...props} />
                 )}
               />
-              <Route exact path="/Widerrufsbelehrung" component={Widerrufsbelehrung} />
+              <Route
+                exact
+                path="/Widerrufsbelehrung"
+                component={Widerrufsbelehrung}
+              />
               <Route
                 exact
                 path="/recommendation/:id"

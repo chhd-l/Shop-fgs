@@ -2,7 +2,6 @@ import axios from '@/utils/request';
 
 const api = {
   storeCate: '/storeCate',
-  props: '/goods/goodsProp',
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id',
   queryCityByName: '/system-city/query-system-city-by-name',
@@ -30,12 +29,6 @@ export function uploadResource(params) {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
-  });
-}
-export function getProps(parameter) {
-  return axios({
-    url: `${api.props}/${parameter}`,
-    method: 'get'
   });
 }
 

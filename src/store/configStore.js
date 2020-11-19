@@ -91,8 +91,12 @@ class ConfigStore {
 
   @action.bound
   async queryConfig() {
-    let res = await getConfig();
-    this.info = res.context;
+    let res = this.info;
+    if (!res) {
+      res = await getConfig();
+      res = res.context;
+    }
+    this.info = res;
     sessionItemRoyal.set('storeContentInfo', JSON.stringify(this.info));
   }
 }

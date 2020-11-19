@@ -7,9 +7,10 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import Filters from './Filters';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
+import Rate from '@/components/Rate';
+import Filters from './Filters';
 import { find } from 'lodash';
 import {
   getList,
@@ -17,10 +18,15 @@ import {
   findFilterList,
   findSortList
 } from '@/api/list';
-import { queryStoreCateIds, formatMoney, getParaByName } from '@/utils/utils';
+import {
+  queryStoreCateIds,
+  formatMoney,
+  getParaByName,
+  getDictionary,
+  setSeoConfig
+} from '@/utils/utils';
 import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import Rate from '@/components/Rate';
-import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -73,13 +79,25 @@ class List extends React.Component {
       currentCatogery: '',
       cateId: '',
       sortList: [], // 排序信息
-      selectedSortParam: null
+      selectedSortParam: null,
+
+      searchForm: {
+        minMarketPrice: 0,
+        maxMarketPrice: null
+      },
+      defaultFilterSearchForm: {
+        // 初始化filter查询参数
+        attrList: [],
+        filterList: []
+      },
+
+      markPriceAndSubscriptionLangDict: []
     };
     this.pageSize = 12;
-    this.hanldeItemClick = this.hanldeItemClick.bind(this);
-    this.toggleFilterModal = this.toggleFilterModal.bind(this);
     this.fidFromSearch = ''; // 链接中所带筛选器参数
     this.cidFromSearch = ''; // 链接中所带catory参数
+    this.hanldeItemClick = this.hanldeItemClick.bind(this);
+    this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
@@ -88,14 +106,38 @@ class List extends React.Component {
     //   return false;
     // }
     //To do: category暂时取不到，后续添加
-    setSeoConfig({goodsId:'',categoryId:'',pageName:'Product List Page'})
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Product List Page'
+    });
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
-    debugger;
-    if (state && state.sortParam) {
-      this.setState({ selectedSortParam: state.sortParam });
+    // debugger;
+    // 存在初始的filter查询数据
+    // 1 查询产品接口时，需要带上此参数
+    // 2 查询filterlist后，需初始化状态
+    if (state) {
+      this.setState({
+        selectedSortParam: state.sortParam || null,
+        storeCateIds: state.cateIds || [],
+        defaultFilterSearchForm: {
+          attrList: (state.filters || [])
+            .filter((ele) => ele.filterType === '0')
+            .map((ele) => {
+              const { filterType, ...param } = ele;
+              return param;
+            }),
+          filterList: (state.filters || [])
+            .filter((ele) => ele.filterType === '1')
+            .map((ele) => {
+              const { filterType, ...param } = ele;
+              return param;
+            })
+        }
+      });
     }
 
     this.setState(
@@ -112,6 +154,15 @@ class List extends React.Component {
         }
       }
     );
+
+    Promise.all([
+      getDictionary({ type: 'filterMarketPrice' }),
+      getDictionary({ type: 'filterSubscription' })
+    ]).then((dictList) => {
+      this.setState({
+        markPriceAndSubscriptionLangDict: [...dictList[0], ...dictList[1]]
+      });
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -170,12 +221,59 @@ class List extends React.Component {
       .then((res) => {
         let tmpList = (res.context || [])
           .filter((ele) => +ele.filterStatus)
-          .sort((a) => (a.filterType === '0' ? -1 : 1));
+          .sort((a) => (a.filterType === '0' ? -1 : 1))
+          .sort((a) =>
+            a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+          );
+        // 根据默认参数设置filter状态
+        const { defaultFilterSearchForm } = this.state;
+        this.initFilterSelectedSts({
+          seletedValList: defaultFilterSearchForm.attrList,
+          orginData: tmpList,
+          filterType: '0',
+          pIdName: 'attributeId',
+          orginChildListName: 'attributesValueList'
+        });
+        this.initFilterSelectedSts({
+          seletedValList: defaultFilterSearchForm.filterList,
+          orginData: tmpList,
+          filterType: '1',
+          pIdName: 'id',
+          orginChildListName: 'storeGoodsFilterValueVOList'
+        });
+
         this.setState({ filterList: tmpList, initingFilter: false });
       })
       .catch(() => {
         this.setState({ initingFilter: false });
       });
+  }
+  initFilterSelectedSts({
+    seletedValList,
+    orginData,
+    filterType,
+    pIdName,
+    orginChildListName
+  }) {
+    Array.from(seletedValList, (pItem) => {
+      // 所有匹配的源数据的父级数组
+      const targetItem = orginData.filter(
+        (t) => t.filterType === filterType && t[pIdName] === pItem.attributeId
+      );
+      if (targetItem.length) {
+        Array.from(pItem.attributeValueIdList, (cItem) => {
+          Array.from(targetItem[0][orginChildListName], (tItem) => {
+            if (tItem.id === cItem) {
+              tItem.selected = true;
+            }
+            return tItem;
+          });
+          return cItem;
+        });
+      }
+
+      return pItem;
+    });
   }
   async getProductList(type) {
     let {
@@ -185,7 +283,10 @@ class List extends React.Component {
       initingList,
       category,
       selectedSortParam,
-      operatedFilterList
+      operatedFilterList,
+      filterList,
+      searchForm,
+      defaultFilterSearchForm
     } = this.state;
     this.setState({ loading: true });
 
@@ -201,10 +302,10 @@ class List extends React.Component {
       }
     }
 
-    let goodsAttributesValueRelVOList = [];
-    let goodsFilterRelList = [];
+    let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
+    let goodsFilterRelList = [...defaultFilterSearchForm.filterList];
     // 处理filter查询值
-    Array.from(operatedFilterList, (pItem) => {
+    Array.from(filterList, (pItem) => {
       const seletedList = (
         pItem.attributesValueList ||
         pItem.storeGoodsFilterValueVOList ||
@@ -234,22 +335,23 @@ class List extends React.Component {
       propDetails: [],
       pageNum: currentPage - 1,
       brandIds: [],
-      sortFlag: 10, // todo 最终为11
+      sortFlag: 11,
       pageSize: this.pageSize,
       esGoodsInfoDTOList: [],
       companyType: '',
       keywords,
       storeCateIds,
       goodsAttributesValueRelVOList,
-      goodsFilterRelList
+      goodsFilterRelList,
+      ...searchForm
     };
-    debugger;
+    // debugger;
     if (selectedSortParam) {
       params = Object.assign(params, {
         esSortList: [
           {
             fieldName: selectedSortParam.field,
-            type: selectedSortParam.sortType
+            type: selectedSortParam.sortType === '0' ? 'asc' : 'desc'
           }
         ]
       });
@@ -300,6 +402,7 @@ class List extends React.Component {
                   avgEvaluate,
                   minMarketPrice,
                   goodsImg,
+                  miMarketPrice,
                   ...others
                 } = tmpItem;
                 ret = Object.assign(ret, {
@@ -329,6 +432,98 @@ class List extends React.Component {
         this.setState({
           loading: false
         });
+        // 查询filter
+        // 弃用本filter接口
+        // todo 之前filter其他逻辑
+        if (false && !this.state.filterList.length) {
+          getSelectedProps(
+            this.state.cateId ||
+              (res.context.goodsList &&
+                res.context.goodsList.length &&
+                res.context.goodsList[0].cateId.toString())
+          )
+            .then((res) => {
+              // res = JSON.parse('{"code":"K-000000","message":"Operación exitosa","errorData":null,"context":[{"propId":470,"cateId":1129,"propName":"Etapa de Vida","indexFlag":1,"createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1,"goodsPropDetails":[{"detailId":1754,"propId":470,"detailName":"Cachorro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":0},{"detailId":1751,"propId":470,"detailName":"Adulto","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":1},{"detailId":1752,"propId":470,"detailName":"Maduro","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":2},{"detailId":1753,"propId":470,"detailName":"Mayor","createTime":"2020-05-05 18:10:30.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":3},{"detailId":1779,"propId":470,"detailName":"Gatito","createTime":"2020-05-07 11:59:11.000","updateTime":"2020-08-12 08:29:36.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":471,"cateId":1129,"propName":"Talla","indexFlag":1,"createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2,"goodsPropDetails":[{"detailId":1755,"propId":471,"detailName":"Minuatura","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":0},{"detailId":1756,"propId":471,"detailName":"Pequeño","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":1},{"detailId":1757,"propId":471,"detailName":"Mediano","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":2},{"detailId":1758,"propId":471,"detailName":"Grande","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":3},{"detailId":1759,"propId":471,"detailName":"Gigante","createTime":"2020-05-05 18:21:38.000","updateTime":"2020-08-12 08:30:11.000","delFlag":0,"sort":4}],"propDetailStr":null},{"propId":472,"cateId":1129,"propName":"Necesidades especiales","indexFlag":1,"createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":3,"goodsPropDetails":[{"detailId":1760,"propId":472,"detailName":"Envejecimiento saludable","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":0},{"detailId":1761,"propId":472,"detailName":"Soporte cardiaco","createTime":"2020-05-05 18:39:49.000","updateTime":"2020-05-05 18:46:48.000","delFlag":0,"sort":1},{"detailId":1762,"propId":472,"detailName":"Apoyo para la diabetes","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":2},{"detailId":1763,"propId":472,"detailName":"Apoyo digestivo","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":3},{"detailId":1764,"propId":472,"detailName":"Apoyo de las articulaciones","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":4},{"detailId":1765,"propId":472,"detailName":"Higiene oral / dental","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":5},{"detailId":1766,"propId":472,"detailName":"Sensibilidades alimentarias","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":6},{"detailId":1767,"propId":472,"detailName":"Apoyo renal","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":7},{"detailId":1768,"propId":472,"detailName":"Soporte del hígado","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":8},{"detailId":1769,"propId":472,"detailName":"Soporte de piel y pelaje","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":9},{"detailId":1770,"propId":472,"detailName":"Soporte urinario","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":10},{"detailId":1771,"propId":472,"detailName":"Control de peso","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":11},{"detailId":1772,"propId":472,"detailName":"Convalecencia","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":12},{"detailId":1773,"propId":472,"detailName":"Sensibilidad de la piel","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":13},{"detailId":1774,"propId":472,"detailName":"Sensibilidad digestiva","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":14},{"detailId":1775,"propId":472,"detailName":"Sensibilidad articular","createTime":"2020-05-05 18:46:48.000","updateTime":null,"delFlag":0,"sort":15}],"propDetailStr":null},{"propId":473,"cateId":1129,"propName":"Seco/Húmedo","indexFlag":1,"createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":4,"goodsPropDetails":[{"detailId":1776,"propId":473,"detailName":"Seco","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":0},{"detailId":1777,"propId":473,"detailName":"Húmedo","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":1},{"detailId":1778,"propId":473,"detailName":"Otro","createTime":"2020-05-05 18:54:49.000","updateTime":null,"delFlag":0,"sort":2}],"propDetailStr":null}],"defaultLocalDateTime":"2020-08-14 11:54:41.553"}')
+              // debugger
+              let tmpList = res.context;
+              let tmpItem = find(
+                tmpList,
+                (v) => v.propName === 'Etapa de Vida'
+              );
+              if (
+                category === 'cats' ||
+                category === 'vd' ||
+                category === 'prescription-cats'
+              ) {
+                tmpList = res.context.filter((v) => v.propName !== 'Talla');
+                if (tmpItem) {
+                  tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
+                    (v) =>
+                      v.detailName !== 'Cachorro' && v.detailName !== 'Mayor'
+                  );
+                }
+                if (category === 'vd') {
+                  let tmpSecoItem = find(
+                    tmpList,
+                    (v) => v.propName === 'Seco/Húmedo'
+                  );
+                  tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
+                    (v) => v.detailName !== 'Otro'
+                  );
+                }
+              }
+              if (
+                (category === 'dogs' ||
+                  category === 'vcn' ||
+                  category === 'prescription-dogs') &&
+                tmpItem
+              ) {
+                tmpItem.goodsPropDetails = tmpItem.goodsPropDetails.filter(
+                  (v) => v.detailName !== 'Gatito' && v.detailName !== 'Mayor'
+                );
+                let tmpTallaItem = find(tmpList, (v) => v.propName === 'Talla');
+                tmpTallaItem.goodsPropDetails = tmpTallaItem.goodsPropDetails.filter(
+                  (v) =>
+                    v.detailName !== 'Minuatura' && v.detailName !== 'Grande'
+                );
+
+                let tmpSecoItem = find(
+                  tmpList,
+                  (v) => v.propName === 'Seco/Húmedo'
+                );
+                tmpSecoItem.goodsPropDetails = tmpSecoItem.goodsPropDetails.filter(
+                  (v) => v.detailName !== 'Otro'
+                );
+              }
+
+              const condition = this.fidFromSearch ? 'search_fid' : '';
+              let checkedListTemp;
+              switch (condition) {
+                case 'search_fid':
+                  const tmpArr = this.fidFromSearch.split('|');
+                  checkedListTemp = tmpList
+                    .filter((item) => item.propId === Number(tmpArr[0]))[0]
+                    .goodsPropDetails.filter(
+                      (item) => item.detailId === tmpArr[1]
+                    );
+
+                  // this.setState({
+                  //   checkedList: checkedListTemp
+                  // });
+                  break;
+                default:
+                  break;
+              }
+
+              this.setState({
+                filterList: tmpList,
+                initingFilter: false
+              });
+            })
+            .catch(() => {
+              this.setState({ initingFilter: false });
+            });
+        }
       })
       .catch(() => {
         this.setState({ loading: false, productList: [] });
@@ -361,9 +556,27 @@ class List extends React.Component {
     );
   };
   updateOperatedFilterList = (data) => {
-    this.setState({ operatedFilterList: data, currentPage: 1 }, () => {
+    this.setState({ filterList: data, currentPage: 1 }, () => {
       this.getProductList();
     });
+  };
+  hanldePriceSliderChange = (val) => {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      // 防抖
+      this.setState(
+        {
+          searchForm: Object.assign(this.state.searchForm, {
+            minMarketPrice: val[0],
+            maxMarketPrice: val[1]
+          }),
+          currentPage: 1
+        },
+        () => {
+          this.getProductList();
+        }
+      );
+    }, 500);
   };
   render() {
     const {
@@ -376,7 +589,8 @@ class List extends React.Component {
       sortList,
       filterList,
       initingFilter,
-      filterModalVisible
+      filterModalVisible,
+      markPriceAndSubscriptionLangDict
     } = this.state;
     let event;
     let eEvents;
@@ -448,7 +662,10 @@ class List extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main
+          className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 position-relative"
+          // style={{ zIndex: 8 }} // todo
+        >
           <BreadCrumbs />
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
@@ -464,10 +681,8 @@ class List extends React.Component {
                 </div>
               </div>
             </div>
-          ) : (
-            ''
-          )}
-          <div id="J-product-list"></div>
+          ) : null}
+          <div id="J-product-list" />
           <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
               {this.state.keywords ? (
@@ -500,7 +715,7 @@ class List extends React.Component {
                     <button
                       className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography"
                       data-filter-trigger="filter-example"
-                      onClick={() => this.toggleFilterModal(true)}
+                      onClick={this.toggleFilterModal.bind(this, true)}
                     >
                       <FormattedMessage id="filters" />
                     </button>
@@ -517,17 +732,18 @@ class List extends React.Component {
                         key={`1-${filterList.length}`}
                         inputLabelKey={1}
                         updateParentData={this.updateOperatedFilterList}
+                        hanldePriceSliderChange={this.hanldePriceSliderChange}
+                        markPriceAndSubscriptionLangDict={
+                          markPriceAndSubscriptionLangDict
+                        }
                       />
                     </aside>
                   </div>
-                  <div
-                    className="refinements rc-column ItemBoxFitSCreen"
-                    style={{ top: '-45px' }}
-                  >
+                  <div className="refinements rc-column ItemBoxFitSCreen pt-0 mb-3 mb-md-0 pl-0 pl-md-3">
                     <button
                       className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
                       data-filter-trigger="filter-example"
-                      onClick={() => this.toggleFilterModal(true)}
+                      onClick={this.toggleFilterModal.bind(this, true)}
                     >
                       <FormattedMessage id="filters" />
                     </button>
@@ -544,6 +760,10 @@ class List extends React.Component {
                         key={`2-${filterList.length}`}
                         inputLabelKey={2}
                         updateParentData={this.updateOperatedFilterList}
+                        hanldePriceSliderChange={this.hanldePriceSliderChange}
+                        markPriceAndSubscriptionLangDict={
+                          markPriceAndSubscriptionLangDict
+                        }
                       />
                     </aside>
                   </div>
@@ -669,7 +889,7 @@ class List extends React.Component {
                                     </div>
                                   </div>
                                   <div
-                                    className={`rc-card__price text-center RateFitScreen `}
+                                    className={`rc-card__price text-center RateFitScreen`}
                                   >
                                     <div className="display-inline">
                                       <Rate
@@ -703,14 +923,9 @@ class List extends React.Component {
                                             fontWeight: 400
                                           }}
                                         >
-                                          {formatMoney(
-                                            Math.min.apply(
-                                              null,
-                                              item.goodsInfos.map(
-                                                (g) => g.marketPrice || 0
-                                              )
-                                            )
-                                          )}{' '}
+                                          {/* 最低marketPrice */}
+                                          {formatMoney(item.miMarketPrice)}{' '}
+                                          {/* 划线价 */}
                                           {item.goodsInfos.sort(
                                             (a, b) =>
                                               a.marketPrice - b.marketPrice
