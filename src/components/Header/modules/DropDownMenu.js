@@ -128,15 +128,15 @@ const defaultSubMenuCfg = [
         name: 'Gamme',
         children: [
           {
-            name: 'Aliments secs',
+            name: 'Feline Breed Nutrition',
             linkObj: { pathname: '/list/cats', search: '?fid=484|1792' }
           },
           {
-            name: 'Bouchées en sauce',
+            name: 'Feline Care Nutrition',
             linkObj: { pathname: '/list/cats' }
           },
           {
-            name: 'Aliment pour Chien de Race',
+            name: 'Feline Health Nutrition',
             linkObj: { pathname: '/list/cats' }
           }
         ]
