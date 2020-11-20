@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
 import MapFlag from '@/components/MapFlag';
 import GoogleMap from '@/components/GoogleMap';
-import SimpleMap from '@/components/GoogleMap/demo'
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
@@ -299,6 +299,7 @@ class Prescription extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div
             id="checkout-main"
             style={{ maxWidth: '90%' }}

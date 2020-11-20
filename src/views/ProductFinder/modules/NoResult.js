@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import { formatMoney } from '@/utils/utils';
 
@@ -67,7 +68,10 @@ function PetJSX(props) {
                     </button>
                   </div>
                   <div className="col-12 col-md-6">
-                    <Link className="rc-btn rc-btn--two mb-4" to="/product-finder">
+                    <Link
+                      className="rc-btn rc-btn--two mb-4"
+                      to="/product-finder"
+                    >
                       <FormattedMessage id="productFinder.startAgin" />
                     </Link>
                   </div>
@@ -115,6 +119,7 @@ const ProductFinderNoResult = ({ location, history, match }) => {
         match={match}
       />
       <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <BannerTip />
         <BreadCrumbs />
         <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
           {isLoading ? (

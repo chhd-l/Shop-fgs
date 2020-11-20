@@ -8,6 +8,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import './index.css';
 import paymentImg from './img/payment.jpg';
+import BannerTip from '@/components/BannerTip';
 import Loading from '@/components/Loading';
 import PaymentComp from '@/components/PaymentComp';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
@@ -79,6 +80,7 @@ class PaymentMethod extends React.Component {
             match={this.props.match}
           />
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+            <BannerTip />
             <BreadCrumbs />
             <div className="rc-padding--sm rc-max-width--xl">
               <div className="rc-layout-container rc-five-column">
@@ -149,7 +151,11 @@ class PaymentMethod extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column">
-                        <img src={paymentImg} style={{ width: '100%' }} alt=""/>
+                        <img
+                          src={paymentImg}
+                          style={{ width: '100%' }}
+                          alt=""
+                        />
                       </div>
                     </div>
                   </div>

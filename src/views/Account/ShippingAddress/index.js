@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
+import BannerTip from '@/components/BannerTip';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import './index.css';
 import {
@@ -88,7 +89,7 @@ class ShippingAddress extends React.Component {
         ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
           : ele.cityId;
-        return ele
+        return ele;
       });
       this.setState({
         addressList: addressList,
@@ -97,7 +98,9 @@ class ShippingAddress extends React.Component {
       this.switchAddressType(this.state.currentType);
       this.setState({ listLoading: false });
     } catch (err) {
-      this.showErrorMsg(err.message || this.props.intl.messages.queryDataFailed);
+      this.showErrorMsg(
+        err.message || this.props.intl.messages.queryDataFailed
+      );
       this.setState({ listLoading: false });
     }
   };
@@ -303,6 +306,7 @@ class ShippingAddress extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

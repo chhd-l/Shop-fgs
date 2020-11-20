@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import TimeCount from '@/components/TimeCount';
@@ -15,7 +16,7 @@ import { formatMoney, getDictionary } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import moment from "moment"
+import moment from 'moment';
 import {
   IMG_DEFAULT,
   DELIVER_STATUS_ENUM,
@@ -47,8 +48,8 @@ class AccountOrders extends React.Component {
       duringTimeOptions: [],
       defaultLocalDateTime: '',
       haveList: true,
-      haveOrder:true,
-      isFirstComeIn: true,
+      haveOrder: true,
+      isFirstComeIn: true
     };
 
     this.pageSize = 6;
@@ -185,8 +186,8 @@ class AccountOrders extends React.Component {
         if (!tmpList.length) {
           this.setState({ haveList: false });
         } else {
-          if(this.state.isFirstComeIn) {
-            this.setState({haveOrder: true, isFirstComeIn: false})
+          if (this.state.isFirstComeIn) {
+            this.setState({ haveOrder: true, isFirstComeIn: false });
           }
           this.setState({ haveList: true });
         }
@@ -374,6 +375,7 @@ class AccountOrders extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -386,7 +388,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="row justify-content-around"
-                  style={{ display: haveOrder? 'flex' : 'none' }}
+                  style={{ display: haveOrder ? 'flex' : 'none' }}
                 >
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
@@ -434,7 +436,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="order__listing"
-                  style={{ display: haveOrder? 'block' : 'none' }}
+                  style={{ display: haveOrder ? 'block' : 'none' }}
                 >
                   <div className="order-list-container">
                     {this.state.loading ? (
@@ -466,7 +468,9 @@ class AccountOrders extends React.Component {
                                         0,
                                         10
                                       )} */}
-                                      {moment(order.tradeState.createTime).format('DD-MM-YYYY')}
+                                      {moment(
+                                        order.tradeState.createTime
+                                      ).format('DD-MM-YYYY')}
                                     </span>
                                   </p>
                                 </div>
@@ -631,7 +635,11 @@ class AccountOrders extends React.Component {
                           </div>
                         ))}
                       </>
-                    ) : <div style={{margin: '50px auto', textAlign: 'center'}}><FormattedMessage id="order.noDataTip" /></div>}
+                    ) : (
+                      <div style={{ margin: '50px auto', textAlign: 'center' }}>
+                        <FormattedMessage id="order.noDataTip" />
+                      </div>
+                    )}
                     {this.state.errMsg ||
                     !this.state.orderList.length ? null : (
                       <div className="grid-footer rc-full-width mt-2">
@@ -650,7 +658,7 @@ class AccountOrders extends React.Component {
                 </div>
                 <div
                   className="content-asset"
-                  style={{ display: haveOrder? 'none' : 'block' }}
+                  style={{ display: haveOrder ? 'none' : 'block' }}
                 >
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">

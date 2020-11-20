@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -26,6 +27,7 @@ class TermUse extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-padding-left--none">

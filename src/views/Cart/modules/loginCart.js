@@ -6,6 +6,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import BannerTip from '@/components/BannerTip';
 //import PetModal from '@/components/PetModal';
 import { Link } from 'react-router-dom';
 import { formatMoney, mergeUnloginCartData } from '@/utils/utils';
@@ -800,6 +801,7 @@ class LoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           }`}
         >
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {initLoading ? (
               <div className="mt-4">

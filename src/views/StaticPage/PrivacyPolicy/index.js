@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -26,6 +27,7 @@ class PrivacyPolicy extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-padding-left--none">
@@ -486,7 +488,11 @@ class PrivacyPolicy extends React.Component {
                 </p>
                 <p>
                   En Estados Unidos, visite este sitio:&nbsp;
-                  <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="http://www.aboutads.info/choices/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Ad Choices
                   </a>
                   .
@@ -561,10 +567,12 @@ class PrivacyPolicy extends React.Component {
                 <p>
                   Podemos permitir a terceros utilizar cookies y publicitar en
                   nuestros sitios web. No controlamos las cookies de terceros.
-                  <a name="tab57" id="tab57"> </a>&nbsp;Hay programas gratuitos
-                  que puede descargar y que le permitirían configurar sus
-                  preferencias y bloquear la mayoría de las cookies de terceros
-                  en Internet.
+                  <a name="tab57" id="tab57">
+                    {' '}
+                  </a>
+                  &nbsp;Hay programas gratuitos que puede descargar y que le
+                  permitirían configurar sus preferencias y bloquear la mayoría
+                  de las cookies de terceros en Internet.
                 </p>
                 <h3>Diferentes tipos de cookies que utilizamos</h3>
                 <p>
