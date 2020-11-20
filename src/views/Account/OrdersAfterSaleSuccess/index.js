@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { IMG_DEFAULT } from '@/utils/constant';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { setSeoConfig } from '@/utils/utils';
@@ -54,6 +55,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       <div>
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header">
+          <BannerTip />
           <div className="rc-layout-container rc-three-column rc-max-width--xl">
             <div className="rc-column rc-double-width">
               <div className="center">

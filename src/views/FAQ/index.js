@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
@@ -43,7 +44,7 @@ class FAQ extends React.Component {
             loading: false
           },
           () => {
-            console.log(111,this.props)
+            console.log(111, this.props);
             const widget = document.querySelector(
               `#${this.props.match.params.catogery}`
             );
@@ -92,6 +93,7 @@ class FAQ extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             style={{ maxWidth: '70%' }}
@@ -117,7 +119,7 @@ class FAQ extends React.Component {
                                 href="/help"
                                 style={{ cursor: 'pointer' }}
                               >
-                                <FormattedMessage id="here"/>
+                                <FormattedMessage id="here" />
                               </a>
                             )
                           }}

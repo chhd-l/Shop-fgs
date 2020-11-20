@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
+import BannerTip from '@/components/BannerTip';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
 import { setSeoConfig } from '@/utils/utils';
@@ -27,12 +28,16 @@ export default class PetForm extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div className="list-select-pet js-list-pet" data-toggle-group="">
+                <div
+                  className="list-select-pet js-list-pet"
+                  data-toggle-group=""
+                >
                   <ul
                     className="scroll--x list list--inline list--align list--blank flex--middle"
                     role="tablist"

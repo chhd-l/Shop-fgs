@@ -3,13 +3,13 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
-
 
 const itemList = [
   {
@@ -86,8 +86,8 @@ class AccountHome extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  componentDidMount(){
-    setSeoConfig()
+  componentDidMount() {
+    setSeoConfig();
   }
 
   render() {
@@ -108,6 +108,7 @@ class AccountHome extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl pt-2">
             <div className="rc-layout-container rc-five-column">

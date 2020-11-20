@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import ImageMagnifier from '@/components/ImageMagnifier';
+import BannerTip from '@/components/BannerTip';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
@@ -142,7 +143,11 @@ class Details extends React.Component {
   }
   componentDidMount() {
     //TODO : category?
-    setSeoConfig({goodsId:details.id,categoryId:'',pageName:'Product Detail Page'})
+    setSeoConfig({
+      goodsId: details.id,
+      categoryId: '',
+      pageName: 'Product Detail Page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -953,6 +958,7 @@ class Details extends React.Component {
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
+            <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div
                 className="rc-max-width--xl d-flex"
@@ -966,7 +972,8 @@ class Details extends React.Component {
             </div>
           </main>
         ) : (
-          <main className="rc-content--fixed-header ">
+          <main className="rc-content--fixed-header">
+            <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 <BreadCrumbs />
@@ -1139,7 +1146,12 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
+              <Carousel
+                location={this.props.location}
+                history={this.props.history}
+                goodsId={this.state.goodsId}
+                key={this.state.goodsId}
+              />
             </div>
             {/* <div
               className="sticky-addtocart"

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import TimeCount from '@/components/TimeCount';
@@ -11,10 +12,16 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney, getDictionary, getDeviceType,setSeoConfig } from '@/utils/utils';
+import {
+  formatMoney,
+  getDictionary,
+  getDeviceType,
+  setSeoConfig
+} from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
+import moment from 'moment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
@@ -63,7 +70,7 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -480,6 +487,7 @@ class AccountOrders extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="p-md-2rem rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">

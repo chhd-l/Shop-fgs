@@ -1,14 +1,9 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
 import image1 from './images/image1.jpeg';
 import image2 from './images/image2.jpeg';
 import image3 from './images/image3.jpeg';
@@ -17,25 +12,19 @@ import image5 from './images/image5.jpeg';
 import image6 from './images/image6.jpeg';
 import image7 from './images/image7.jpeg';
 
-import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from '@/components/ImageMagnifier';
 import { formatMoney } from '@/utils/utils';
-// import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import BannerTip from '@/components/BannerTip';
-import { getRecommendationList } from '@/api/recommendation';
 import { sitePurchase } from '@/api/cart';
 import './index.less';
 import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
+@inject('checkoutStore')
 @observer
 @injectIntl
 class Help extends React.Component {
@@ -90,7 +79,7 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
   }
   checkoutStock() {
     let {
@@ -381,6 +370,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${

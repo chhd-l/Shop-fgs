@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -661,10 +662,8 @@ class List extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main
-          className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 position-relative"
-          // style={{ zIndex: 8 }} // todo
-        >
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">

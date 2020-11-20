@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import Progress from '@/components/Progress';
 import Pagination from '@/components/Pagination';
 import './index.css';
@@ -164,7 +165,7 @@ class Prescription extends React.Component {
   async getAllPrescription() {
     let params = {
       storeId: process.env.REACT_APP_STOREID,
-      auditAuthority: true,
+      auditAuthority: true
     };
     const res = await getAllPrescription(params);
     if (res.code === 'K-000000') {
@@ -296,6 +297,7 @@ class Prescription extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div
             id="checkout-main"
             style={{ maxWidth: '90%' }}

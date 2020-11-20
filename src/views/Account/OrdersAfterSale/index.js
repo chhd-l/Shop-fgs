@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ImgUpload from '@/components/ImgUpload';
+import BannerTip from '@/components/BannerTip';
 import { formatMoney } from '@/utils/utils';
 import {
   getOrderReturnDetails,
@@ -243,6 +244,7 @@ class OrdersAfterSale extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

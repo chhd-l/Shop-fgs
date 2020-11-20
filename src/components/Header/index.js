@@ -25,7 +25,6 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import LogoutButton from '@/components/LogoutButton';
-import BannerTip from '@/components/BannerTip';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
@@ -1174,7 +1173,6 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
-        <BannerTip />
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import autoship from './images/autoship.png';
@@ -43,6 +44,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
           >

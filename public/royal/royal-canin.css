@@ -1343,10 +1343,6 @@ video.rc-hero__bg {
   box-shadow: 0 2px 4px #f1f1f1
 }
 
-/* .rc-content--fixed-header {
-  padding-top: 7.0rem !important
-} */
-
 .rc-header__nav {
   position: relative;
   display: -webkit-box;
