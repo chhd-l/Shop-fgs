@@ -29,7 +29,11 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    setSeoConfig()
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Contact Us Page'
+    })
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();

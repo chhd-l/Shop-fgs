@@ -19,7 +19,11 @@ const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
   componentDidMount(){
-    setSeoConfig()
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Subscription Page'
+    })
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);

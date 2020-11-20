@@ -21,7 +21,11 @@ import './index.css';
 @injectIntl
 class Help extends React.Component {
   componentDidMount(){
-    setSeoConfig()
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Subscription Page'
+    })
   }
   render(h) {
     const event = {
