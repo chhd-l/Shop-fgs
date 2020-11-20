@@ -58,7 +58,7 @@ class HeroCarousel extends React.Component {
                             <img
                             className="rc-md-down w-100"
                             src={el.mobiUrl}
-                            style={{ maxHeight: '100%',paddingTop:"80px" }}
+                            style={{ maxHeight: '100%' }}
                             alt={i}
                             />
                         </a>
