@@ -134,3 +134,20 @@
   text-decoration: underline;
   color:#ED3832;
 }
+.back-link{
+    position: relative;
+    padding-left: 20px;
+    font-weight: 400;
+}
+.back-link:before {
+  content: "\203A";
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 15px;
+  color: #ec001a;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}

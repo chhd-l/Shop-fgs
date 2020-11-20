@@ -488,17 +488,22 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
+          <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
+            <a href="/" className="back-link">Homepage</a>
+          </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
-              <div className="rc-layout-container rc-three-column">
-                <div className="rc-column rc-double-width">
-                  <h1 className="rc-gamma rc-margin--none">
-                    {titleData.title}
-                  </h1>
-                  <div>{titleData.description}</div>
+              <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
+                <div className="rc-column rc-double-width text-center text-md-left">
+                  <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
+                    <h1 className="rc-gamma rc-margin--none">{titleData.title}</h1>
+                    <div className="children-nomargin rc-body">
+                        <p>{titleData.description}</p>
+                    </div>
+                  </div>
                 </div>
                 <div className="rc-column">
-                  <img className="mx-auto" src={titleData.img}></img>
+                  <img src={titleData.img} className="mx-auto"></img>
                 </div>
               </div>
             </div>
