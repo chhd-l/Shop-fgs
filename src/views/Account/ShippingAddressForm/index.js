@@ -2,6 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import CitySearchSelection from '@/components/CitySearchSelection';
@@ -181,7 +182,9 @@ class ShippingAddressFrom extends React.Component {
       this.setState({
         loading: false
       });
-      this.showErrorMsg(err.message.toString() || this.props.intl.messages.saveFailed);
+      this.showErrorMsg(
+        err.message.toString() || this.props.intl.messages.saveFailed
+      );
     }
   };
   setDefaltAddress = async (id) => {
@@ -209,7 +212,8 @@ class ShippingAddressFrom extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.setDefaltAddressFailed
+          err.message.toString() ||
+            this.props.intl.messages.setDefaltAddressFailed
         );
         this.setState({
           loading: false
@@ -241,7 +245,8 @@ class ShippingAddressFrom extends React.Component {
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.setDefaltAddressFailed
+          err.message.toString() ||
+            this.props.intl.messages.setDefaltAddressFailed
         );
         this.setState({
           loading: false
@@ -341,6 +346,7 @@ class ShippingAddressFrom extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

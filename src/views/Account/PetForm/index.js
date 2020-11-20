@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import BannerTip from '@/components/BannerTip';
 import './index.css';
 import dog from '@/assets/images/animal-1.jpg';
 import cat from '@/assets/images/animal-2.jpg';
@@ -681,6 +682,7 @@ class PetForm extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -1341,7 +1343,10 @@ class PetForm extends React.Component {
                         <FormattedMessage id="account.fine" />
                       </div>
                       <div className="text-done">
-                        <FormattedMessage id="account.welcome" defaultMessage={' '} />
+                        <FormattedMessage
+                          id="account.welcome"
+                          defaultMessage={' '}
+                        />
                       </div>
                     </div>
                   ) : null}

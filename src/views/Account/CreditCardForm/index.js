@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
+import BannerTip from '@/components/BannerTip';
 import './index.css';
 import { findIndex } from 'lodash';
 import Loading from '@/components/Loading';
@@ -60,10 +61,7 @@ class ShippingAddressFrom extends React.Component {
     console.log(this.props);
     const { location } = this.props;
     if (location.query) {
-      sessionItemRoyal.set(
-        'paymentMethodForm',
-        JSON.stringify(location.query)
-      );
+      sessionItemRoyal.set('paymentMethodForm', JSON.stringify(location.query));
       this.setState({
         creditCardInfo: location.query
       });
@@ -267,7 +265,7 @@ class ShippingAddressFrom extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} alt=""/>
+          <img key={idx} className="logo-payment-card" src={el} alt="" />
         ))}
       </span>
     );
@@ -281,6 +279,7 @@ class ShippingAddressFrom extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

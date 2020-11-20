@@ -5,6 +5,7 @@ import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
@@ -503,6 +504,7 @@ class SubscriptionDetail extends React.Component {
           />
 
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+            <BannerTip />
             <BreadCrumbs />
             <Modal
               key="1"
@@ -1053,7 +1055,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ width: '80%' }}
                                 >
                                   <div className="img-container">
-                                    <img src={el.goodsPic} alt=""/>
+                                    <img src={el.goodsPic} alt="" />
                                   </div>
                                   <div
                                     className="v-center"
@@ -1078,16 +1080,16 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {el.specText}
                                     </p>
-                                    {
-                                      el.petsName && (<p
+                                    {el.petsName && (
+                                      <p
                                         style={{
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis'
                                         }}
                                       >
                                         pet: {el.petsName}
-                                      </p>)
-                                    }
+                                      </p>
+                                    )}
                                     <div>
                                       <label
                                         style={{

@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import OxxoModal from './modules/OxxoModal';
 import PayProductInfo from '@/components/PayProductInfo';
 import AddressPreview from './modules/AddressPreview';
+import BannerTip from '@/components/BannerTip';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -182,6 +183,7 @@ class Confirmation extends React.Component {
         ) : null}
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
+          <BannerTip />
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
               <img

@@ -16,6 +16,7 @@ import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from '../components/Carousel';
+import BannerTip from '@/components/BannerTip';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -894,6 +895,7 @@ class UnLoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           ].join(' ')}
         >
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {productList.length ? (
               <>

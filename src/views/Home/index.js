@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { formatMoney } from '@/utils/utils';
+import BannerTip from '@/components/BannerTip';
 import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -25,9 +25,7 @@ function Divider() {
       <div
         className="rc-border-bottom rc-border-colour--brand4"
         style={{ borderBottomWidth: '4px' }}
-      >
-        {' '}
-      </div>
+      />
     </div>
   );
 }
@@ -344,18 +342,15 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      windowWidth: 0,
-
+      windowWidth: 0
     };
   }
   async componentDidMount() {
     //定义变量获取屏幕视口宽度
-    var windowWidth = document.body.clientWidth
+    var windowWidth = document.body.clientWidth;
     this.setState({
       windowWidth
-    },()=>{
-      console.log(222,this.state.windowWidth)
-    })
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -415,14 +410,15 @@ class Home extends React.Component {
           location={this.props.location}
           history={this.props.history}
         />
-        <main className={this.state.windowWidth>769?["rc-main-content__wrapper","mt110"].join(" "):["rc-main-content__wrapper","mt-20"].join(" ")}>
+        <main className={'rc-content--fixed-header'}>
+          <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              {
-                this.state.windowWidth>769
-                ?<HeroCarousel history={this.props.history} />
-                :<HeroCarouselMobile history={this.props.history}/>
-              }
+              {this.state.windowWidth > 769 ? (
+                <HeroCarousel history={this.props.history} />
+              ) : (
+                <HeroCarouselMobile history={this.props.history} />
+              )}
             </div>
           </div>
 

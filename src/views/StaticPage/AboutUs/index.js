@@ -3,6 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
@@ -53,6 +54,7 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
