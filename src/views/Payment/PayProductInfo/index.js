@@ -302,6 +302,7 @@ class PayProductInfo extends React.Component {
                         placeholder={txt}
                         value={this.state.promotionInputValue}
                         onChange={(e) => this.handlerChange(e)}
+                        style={{background:'#eee'}}
                       />
                     )}
                   </FormattedMessage>
