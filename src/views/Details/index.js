@@ -144,7 +144,7 @@ class Details extends React.Component {
   componentDidMount() {
     //TODO : category?
     setSeoConfig({
-      goodsId: details.id,
+      goodsId: this.props.match.params.id,
       categoryId: '',
       pageName: 'Product Detail Page'
     });
