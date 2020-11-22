@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
-import MegaMenu from './MegaMenu';
 import {
   getParaByName,
   getDeviceType,
@@ -24,6 +23,7 @@ import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
+import MegaMenuMobile from './modules/MegaMenuMobile';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
@@ -31,149 +31,6 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const _catogryCfg = function (lang, props) {
-  const defaultVal = [
-    { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-    { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
-    {
-      linkObj: { pathname: '/aboutUs' },
-      langKey: 'aboutUs'
-    },
-    { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
-  ];
-  return (
-    {
-      en: [
-        { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
-        { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-        {
-          linkObj: { pathname: '/subscription-landing-us' },
-          langKey: 'royalCaninClub'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndNutrition'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      de: [
-        {
-          linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
-          langKey: 'cats'
-        },
-        {
-          linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
-          langKey: 'dogs'
-        },
-        { linkObj: { pathname: '/help' }, langKey: 'contactUs' },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      fr: [
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs', // 存在subMenuKey则显示下拉
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        },
-        {
-          linkObj: { pathname: '/help' },
-          langKey: 'contactUs',
-          subMenuKey: 'help',
-          type: 'help'
-        }
-      ],
-      ru: [
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs',
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing-ru' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      tr: [
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs',
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing-tr' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/help' },
-          langKey: 'contactUs',
-          subMenuKey: 'help',
-          type: 'help'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ]
-    }[lang] || defaultVal
-  );
-};
 
 @inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
 @injectIntl
@@ -333,8 +190,9 @@ class Header extends React.Component {
   initNavigations = async () => {
     let res = await this.queryHeaderNavigations();
     if (res) {
+      let resList = generateOptions(res).filter((el) => el.enable);
       this.setState({
-        headerNavigationList: generateOptions(res)
+        headerNavigationList: resList
       });
     }
   };
@@ -683,7 +541,7 @@ class Header extends React.Component {
             }
           }
           // sales category筛选
-          const tmpCateIds = item.navigationCateIds.split(',');
+          const tmpCateIds = (item.navigationCateIds || '').split(',');
           if (tmpCateIds.length) {
             cateIds = tmpCateIds;
           }
@@ -732,7 +590,7 @@ class Header extends React.Component {
       }
     }
   }
-  _renderDropDownText = (item) => {
+  renderDropDownText = (item) => {
     return item.expanded ? (
       <span className="rc-header-with-icon">
         {item.navigationName}
@@ -765,7 +623,7 @@ class Header extends React.Component {
     });
   }
   render() {
-    const { showMiniIcons, loginStore } = this.props;
+    const { showMiniIcons, loginStore, configStore } = this.props;
     const {
       headerNavigationList,
       showSearchInput,
@@ -785,13 +643,11 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  <MegaMenu
+                  <MegaMenuMobile
                     menuData={headerNavigationList}
                     handleClickNavItem={this.handleClickNavItem}
-                    // menuData={_catogryCfg(
-                    //   process.env.REACT_APP_LANG,
-                    //   this.props
-                    // )}
+                    configStore={configStore}
+                    key={headerNavigationList.length}
                   />
                 </li>
               ) : null}
@@ -1093,14 +949,14 @@ class Header extends React.Component {
                             target={item.target}
                             className="rc-list__header"
                           >
-                            {this._renderDropDownText(item)}
+                            {this.renderDropDownText(item)}
                           </a>
                         ) : (
                           <span
                             onClick={this.handleClickNavItem.bind(this, item)}
                             className="rc-list__header"
                           >
-                            {this._renderDropDownText(item)}
+                            {this.renderDropDownText(item)}
                           </span>
                         )}
                       </span>
@@ -1116,7 +972,7 @@ class Header extends React.Component {
               this.setState({ activeTopParentId: id });
             }}
             headerNavigationList={headerNavigationList}
-            configStore={this.props.configStore}
+            configStore={configStore}
             handleClickNavItem={this.handleClickNavItem}
           />
           <div className="search">

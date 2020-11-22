@@ -277,8 +277,6 @@ class RouteFilter extends Component {
         }
       });
     }
-
-    queryStoreCateIds();
   }
   //判断consent接口是否存在必填项
   isExistRequiredListFun(result) {

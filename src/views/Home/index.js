@@ -11,7 +11,7 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import { findStoreCateList } from '@/api/home';
 import './index.css';
 
@@ -346,20 +346,17 @@ class Home extends React.Component {
     super(props);
     this.state = {
       categoryList: [],
-      windowWidth: 0
+      categoryLoading: true,
+      deviceType: ''
     };
   }
   async componentDidMount() {
-    //定义变量获取屏幕视口宽度
-    var windowWidth = document.body.clientWidth;
-    this.setState({
-      windowWidth
-    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
+    this.setState({ deviceType: getDeviceType() });
     setSeoConfig({ goodsId: '', categoryId: '', pageName: 'Home Page' });
     findStoreCateList().then((res) => {
       let tmpRes = (res.context || []).map((ele) => {
@@ -370,16 +367,16 @@ class Home extends React.Component {
         } catch (e) {}
         return ele;
       });
-      this.setState({ categoryList: tmpRes });
+      this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   render() {
-    // todo 先要预埋几个否则样式加载失败
-    const { categoryList } = this.state;
-    const curNum = categoryList.length;
+    const { history, match, location } = this.props;
+    const { categoryList, deviceType } = this.state;
+    const curListNum = categoryList.length;
     const event = {
       page: {
         type: 'Homepage',
@@ -422,13 +419,20 @@ class Home extends React.Component {
     const _catogeryJXS2 = categoryList.map((ele, i) => (
       <div
         className={`col-6 ${
-          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
+          curListNum >= 6
+            ? curListNum === 15
+              ? 'col-md-3'
+              : 'col-md-4'
+            : 'col-md-3'
         }`}
         key={i}
       >
         <Link
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-          // to={ele.url}
+          to={{
+            pathname: `/list/${ele.cateName}`,
+            state: { cateIds: [ele.storeCateId] }
+          }}
           title={ele.cateName}
         >
           <picture className="category-cards__card__img">
@@ -453,41 +457,45 @@ class Home extends React.Component {
         <Header
           showMiniIcons={true}
           showUserIcon={true}
-          match={this.props.match}
-          location={this.props.location}
-          history={this.props.history}
+          match={match}
+          location={location}
+          history={history}
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              {this.state.windowWidth > 769 ? (
-                <HeroCarousel history={this.props.history} />
+              {deviceType === 'PC' ? (
+                <HeroCarousel history={history} />
               ) : (
-                <HeroCarouselMobile history={this.props.history} />
+                <HeroCarouselMobile history={history} />
               )}
             </div>
           </div>
-
           <section>
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div
                   className={`${
-                    curNum >= 6 ? '' : 'row'
+                    curListNum >= 6 ? '' : 'row'
                   } rc-match-heights text-center text-md-left`}
                 >
                   <div
                     className={`${
-                      curNum >= 6 ? 'DeCenter' : ''
+                      curListNum >= 6 ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
-                  <div className={`${curNum >= 6 ? 'DeCenter' : ''} col-lg-9`}>
-                    <div className="row custom-gutter">{_catogeryJXS2}</div>
+                  <div
+                    className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}
+                  >
+                    <div className="row custom-gutter">
+                      <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link" />
+                      {_catogeryJXS2}
+                    </div>
                   </div>
                 </div>
               </div>

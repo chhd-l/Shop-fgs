@@ -10,7 +10,7 @@
 }
 .rc-icon {
   display: inline-block;
-  height: 36px;
+  /* height: 36px; */
 }
 .column-contanier {
   border: none;

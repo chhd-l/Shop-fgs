@@ -37,15 +37,6 @@ export function formatMoney(
   }).format(val);
 }
 
-export async function queryStoreCateIds() {
-  let tmp = sessionItemRoyal.get('rc-storeId-list');
-  if (!tmp) {
-    let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
-    sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
-  }
-  return JSON.parse(sessionItemRoyal.get('rc-storeId-list'));
-}
-
 export function getParaByName(search, name) {
   search = search.substr(1);
   if (typeof name === 'undefined') return search;
@@ -258,6 +249,7 @@ export function generateOptions(params) {
       result.push(parent);
     }
   }
+  result.sort((a, b) => a.sort - b.sort);
   return result;
 }
 
@@ -278,6 +270,7 @@ function getchilds(id, array) {
       child.children = childscopy;
     }
   }
+  childs.sort((a, b) => a.sort - b.sort);
   return childs;
 }
 

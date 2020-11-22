@@ -1,6 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -51,20 +49,20 @@ class HeroCarousel extends React.Component {
         <div className="rc-max-width--xl">
           <Slider {...settings}>
             {this.state.banner.map((el, i) => (
-              <div className="hero-carousel__slide" key={i} style={{position:'relative'}}>
-                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">(
-                    {
-                        <a className="h-100" href="javascript:;">
-                            <img
-                            className="rc-md-down w-100"
-                            src={el.mobiUrl}
-                            style={{ maxHeight: '100%',paddingTop:"80px" }}
-                            alt={i}
-                            />
-                        </a>
-                    }
-                    
-                  )}
+              <div
+                className="hero-carousel__slide"
+                key={i}
+                style={{ position: 'relative' }}
+              >
+                <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
+                  <a className="h-100" href="javascript:;">
+                    <img
+                      className="rc-md-down w-100"
+                      src={el.mobiUrl}
+                      style={{ maxHeight: '100%' }}
+                      alt={i}
+                    />
+                  </a>
                 </div>
               </div>
             ))}

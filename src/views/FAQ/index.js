@@ -44,7 +44,6 @@ class FAQ extends React.Component {
             loading: false
           },
           () => {
-            console.log(111, this.props);
             const widget = document.querySelector(
               `#${this.props.match.params.catogery}`
             );
