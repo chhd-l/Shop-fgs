@@ -794,5 +794,5 @@ const en_US = {
   yes: 'Yes',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified'
-};
+}
 export default en_US;

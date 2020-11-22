@@ -586,6 +586,7 @@ const es_ES = {
   'product.de.catogery6.desc': 'Optimales Gewicht, Seniorengesundheit, Zahnhygiene, Nahrungsumstellung',
   'product.de.catogery6.name': 'Health Management',
   'product.de.catogery6.title': 'Manejo de la salud',
+  'product.de.catogery6.title': 'Health Management',
   'productFinder.createMyPetProfile': 'Crear mi perfil de mascota',
   'productFinder.createMyPetProfileTip': 'Cree su perfil de mascota en RoyalCanin y reciba el boletín / ofertas específicas que se adaptarán a sus mascotas.',
   'productFinder.healthTip1': 'Si su gato tiene problemas de salud, le recomendamos que visite a su veterinario para asegurar la solución nutricional óptima para las necesidades individuales de su mascota.',
