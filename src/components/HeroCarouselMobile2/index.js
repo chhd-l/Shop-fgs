@@ -55,14 +55,17 @@ class HeroCarousel extends React.Component {
                 style={{ position: 'relative' }}
               >
                 <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
-                  <a className="h-100" href="javascript:;">
-                    <img
-                      className="rc-md-down w-100"
-                      src={el.mobiUrl}
-                      style={{ maxHeight: '100%' }}
-                      alt={i}
-                    />
-                  </a>
+                  (
+                  {
+                    <a className="h-100" href="javascript:;">
+                      <img
+                        className="rc-md-down w-100"
+                        src={el.mobiUrl}
+                        style={{ maxHeight: '100%' }}
+                        alt={i}
+                      />
+                    </a>
+                  }
                 </div>
               </div>
             ))}
