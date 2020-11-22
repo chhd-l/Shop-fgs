@@ -3,8 +3,7 @@ import './index.less';
 import { animate } from '@/assets/js/animate';
 import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
-
-const sessionItemRoyal = window.__.sessionItemRoyal;
+import { Link } from 'react-router-dom';
 
 //信号量
 var idx = 0;
@@ -19,16 +18,11 @@ class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      banner: [],
-      windowWidth: 0
+      banner: []
     };
+    this.clickCircle = this.clickCircle.bind(this);
   }
   componentDidMount() {
-    //定义变量获取屏幕视口宽度
-    // var windowWidth = document.body.clientWidth
-    // this.setState({
-    //   windowWidth
-    // })
     getBanner().then((res) => {
       this.setState({ banner: res.context });
     });
@@ -118,7 +112,7 @@ class Carousel extends React.Component {
       }
     );
   };
-  clickCircle = (index) => {
+  clickCircle(index) {
     //信号量就是自己的序号
     idx = index;
     //拉动
@@ -130,7 +124,7 @@ class Carousel extends React.Component {
     );
     //改变小圆点
     this.changeCircles();
-  };
+  }
 
   hanldeClick = (item) => {
     console.log(item);
@@ -153,13 +147,13 @@ class Carousel extends React.Component {
             className="leftBtn Btn rc-icon rc-left rc-iconography"
             id="leftBtn"
             onClick={this.leftBtnClick}
-          ></a>
+          />
           <a
             href="javascript:;"
             className="rightBtn Btn  rc-icon  rc-right rc-iconography"
             id="rightBtn"
             onClick={this.rightBtnClick}
-          ></a>
+          />
           <div class="carousel" id="carousel">
             <div class="m_unit" id="m_unit">
               <ul>
@@ -198,12 +192,12 @@ class Carousel extends React.Component {
                               backgroundImage: 'url(' + item.webUrl + ')'
                             }}
                           ></div>
-                          {process.env.REACT_APP_LANG == 'fr' && index == 1 ? (
-                            <a href="/product-finder" className="category-btn">
+                          {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
+                            <Link to="/product-finder" className="category-btn">
                               <button class="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>
-                            </a>
+                            </Link>
                           ) : null}
                         </a>
                       )}
@@ -219,8 +213,9 @@ class Carousel extends React.Component {
                 return (
                   <li
                     className={index === 0 ? 'cur' : ''}
-                    onClick={() => this.clickCircle(index)}
-                  ></li>
+                    onClick={this.clickCircle.bind(this, index)}
+                    key={index}
+                  />
                 );
               })}
             </ol>

@@ -10,25 +10,13 @@ class HeroCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      noticeVisible: true,
       banner: []
     };
-    this.hanldeClick = this.hanldeClick.bind(this);
-    this.hideNotice = this.hideNotice.bind(this);
   }
-  async UNSAFE_componentWillMount() {
+  componentDidMount() {
     getBanner().then((res) => {
       this.setState({ banner: res.context });
     });
-  }
-  hideNotice() {
-    this.setState({
-      noticeVisible: false
-    });
-  }
-  hanldeClick() {
-    const { history } = this.props;
-    history.push('/list/keywords');
   }
   render() {
     const settings = {
@@ -57,14 +45,14 @@ class HeroCarousel extends React.Component {
                 <div className="d-md-flex flex-wrap justify-content-center align-items-center hero-carousel__slide__inner hero-carousel__slide__inner-custom">
                   (
                   {
-                    <a className="h-100" href="javascript:;">
+                    <span className="h-100">
                       <img
                         className="rc-md-down w-100"
                         src={el.mobiUrl}
                         style={{ maxHeight: '100%' }}
                         alt={i}
                       />
-                    </a>
+                    </span>
                   }
                 </div>
               </div>
