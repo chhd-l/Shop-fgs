@@ -1,17 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { formatMoney } from '@/utils/utils';
+import BannerTip from '@/components/BannerTip';
 import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroCarousel from '@/components/HeroCarousel3';
+import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
+import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { findStoreCateList } from '@/api/home';
 import './index.css';
-import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -25,9 +27,7 @@ function Divider() {
       <div
         className="rc-border-bottom rc-border-colour--brand4"
         style={{ borderBottomWidth: '4px' }}
-      >
-        {' '}
-      </div>
+      />
     </div>
   );
 }
@@ -342,18 +342,41 @@ function Share() {
 }
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categoryList: [],
+      categoryLoading: true,
+      deviceType: ''
+    };
+  }
   async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfig({goodsId:'',categoryId:'',pageName:'Home Page'})
+    this.setState({ deviceType: getDeviceType() });
+    setSeoConfig({ goodsId: '', categoryId: '', pageName: 'Home Page' });
+    findStoreCateList().then((res) => {
+      let tmpRes = (res.context || []).map((ele) => {
+        try {
+          let tmpList = JSON.parse(ele.cateImg);
+          ele.cateImgHome = tmpList[0].artworkUrl;
+          ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
+        } catch (e) {}
+        return ele;
+      });
+      this.setState({ categoryList: tmpRes, categoryLoading: false });
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   render() {
+    const { history, match, location } = this.props;
+    const { categoryList, deviceType } = this.state;
+    const curListNum = categoryList.length;
     const event = {
       page: {
         type: 'Homepage',
@@ -363,8 +386,9 @@ class Home extends React.Component {
 
     const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
       <div
-        className={`col-6 ${curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
-          }`}
+        className={`col-6 ${
+          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
+        }`}
         key={i}
       >
         <FormattedMessage id={ele.textLangKey}>
@@ -392,40 +416,86 @@ class Home extends React.Component {
       </div>
     ));
 
+    const _catogeryJXS2 = categoryList.map((ele, i) => (
+      <div
+        className={`col-6 ${
+          curListNum >= 6
+            ? curListNum === 15
+              ? 'col-md-3'
+              : 'col-md-4'
+            : 'col-md-3'
+        }`}
+        key={i}
+      >
+        <Link
+          className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
+          to={{
+            pathname: `/list/${ele.cateName}`,
+            state: { cateIds: [ele.storeCateId] }
+          }}
+          title={ele.cateName}
+        >
+          <picture className="category-cards__card__img">
+            <source srcSet={ele.cateImgHome} />
+            <img
+              src={ele.cateImgHome}
+              alt={ele.cateName}
+              title={ele.cateName}
+              style={{ width: '144px' }}
+            />
+          </picture>
+          <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
+            <h3 className="rc-margin--none">{ele.cateName}</h3>
+          </div>
+        </Link>
+      </div>
+    ));
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
-          match={this.props.match}
-          location={this.props.location}
-          history={this.props.history}
+          match={match}
+          location={location}
+          history={history}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper ">
+        <main className={'rc-content--fixed-header'}>
+          <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarousel history={this.props.history} />
+              {deviceType === 'PC' ? (
+                <HeroCarousel history={history} />
+              ) : (
+                <HeroCarouselMobile history={history} />
+              )}
             </div>
           </div>
-
           <section>
             <div className="rc-bg-colour--brand3 rc-margin-bottom--xs">
               <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile category-cards rc-padding--sm">
                 <div
-                  className={`${curNum >= 6 ? '' : 'row'
-                    } rc-match-heights text-center text-md-left`}
+                  className={`${
+                    curListNum >= 6 ? '' : 'row'
+                  } rc-match-heights text-center text-md-left`}
                 >
                   <div
-                    className={`${curNum >= 6 ? 'DeCenter' : ''
-                      } col-lg-3 align-self-center`}
+                    className={`${
+                      curListNum >= 6 ? 'DeCenter' : ''
+                    } col-lg-3 align-self-center`}
                   >
                     <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
-                  <div className={`${curNum >= 6 ? 'DeCenter' : ''} col-lg-9`}>
-                    <div className="row custom-gutter">{_catogeryJXS}</div>
+                  <div
+                    className={`${curListNum >= 6 ? 'DeCenter' : ''} col-lg-9`}
+                  >
+                    <div className="row custom-gutter">
+                      <span className="hidden rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link" />
+                      {_catogeryJXS2}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -27,11 +27,11 @@
 .click-hover:hover{
   color: #e2001a;
 }
-#bannerTip {
+/* #bannerTip {
   z-index: 8;
   position: relative !important;
   top: 7.4em;
-}
+} */
 
 @media (max-width: 639.98px) {
   .minicart .minicart-quantity {
@@ -40,9 +40,9 @@
   .less-width-xs {
     min-width: 2.54rem!important;
   }
-  #bannerTip {
+  /* #bannerTip {
     top: 4em !important;
-  }
+  } */
 }
 
 .rc-header-with-icon .rc-icon:after{

@@ -3,6 +3,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
@@ -55,6 +56,7 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
@@ -200,7 +202,7 @@ class AboutUs extends React.Component {
               <FormattedMessage id="aboutUs.SeeHowWeDo" />
             </p>
             <iframe
-              src="https://www.youtube.com/embed/OrQZm_1SvFE"
+              src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&origin=https%3A%2F%2Fshop.royalcanin.fr"
               width="608"
               height="342"
               title="making a better world for pets"

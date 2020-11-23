@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import FrTips from './fr/frTips'
 import FrFaq from './fr/frFaq'
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -28,7 +29,11 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    setSeoConfig()
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Contact Us Page'
+    })
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -57,6 +62,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           {/* <div className="rc-bg-colour--brand4 text-center" >
             <div className="rc-layout-container rc-content-h-middle">
               <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">

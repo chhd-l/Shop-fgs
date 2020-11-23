@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
@@ -18,7 +19,11 @@ const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
   componentDidMount(){
-    setSeoConfig()
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Subscription Page'
+    })
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -42,6 +47,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
           >

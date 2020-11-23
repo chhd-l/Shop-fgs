@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { queryStoreCateIds, loadJS, loadNoScriptIframeJS } from '@/utils/utils';
+import { loadJS, loadNoScriptIframeJS } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
@@ -277,8 +277,6 @@ class RouteFilter extends Component {
         }
       });
     }
-
-    queryStoreCateIds();
   }
   //判断consent接口是否存在必填项
   isExistRequiredListFun(result) {

@@ -1,11 +1,18 @@
 import React, {Component} from 'react'
-
+import { setSeoConfig } from '@/utils/utils';
 class Help extends Component {
     constructor(props){
         super(props)
         this.state = {
             
         }
+    }
+    componentDidCatch(){
+        setSeoConfig({
+            goodsId: '',
+            categoryId: '',
+            pageName: 'Subscription Page'
+          })
     }
     render() {
         return (

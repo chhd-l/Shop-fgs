@@ -10,7 +10,8 @@ class Filter extends React.Component {
     initing: true,
     filterList: [],
     updateParentData: () => {},
-    maxGoodsPrice: 100
+    maxGoodsPrice: 100,
+    markPriceAndSubscriptionLangDict: []
   };
   constructor(props) {
     super(props);
@@ -21,6 +22,7 @@ class Filter extends React.Component {
     this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
     this.handleClickValueItem = this.handleClickValueItem.bind(this);
   }
+  componentDidMount() {}
   get hasSelecedItems() {
     let ret = false;
     const { filterList } = this.state;
@@ -104,7 +106,12 @@ class Filter extends React.Component {
   }
   render() {
     const { filterList } = this.state;
-    const { initing, inputLabelKey } = this.props;
+    const {
+      initing,
+      inputLabelKey,
+      hanldePriceSliderChange,
+      markPriceAndSubscriptionLangDict
+    } = this.props;
     return (
       <div className="rc-filters__form" name="example-filter">
         {initing ? (
@@ -175,7 +182,16 @@ class Filter extends React.Component {
                           id={`accordion-header-${pIndex}`}
                           onClick={this.toggleContent.bind(this, pIndex)}
                         >
-                          {parentItem.attributeName}
+                          {/* when name=markPrice/subscription, get dictionary to multi lang  */}
+                          {(parentItem.attributeName === 'markPrice' ||
+                            parentItem.attributeName === 'subscription') &&
+                          markPriceAndSubscriptionLangDict.filter(
+                            (ele) => ele.name === parentItem.attributeName
+                          ).length
+                            ? markPriceAndSubscriptionLangDict.filter(
+                                (ele) => ele.name === parentItem.attributeName
+                              )[0].valueEn
+                            : parentItem.attributeName}
                         </div>
                       </div>
 
@@ -221,13 +237,12 @@ class Filter extends React.Component {
                         ) : parentItem.attributeName === 'markPrice' ? (
                           <PriceSlider
                             max={this.props.maxGoodsPrice}
-                            key={this.props.maxGoodsPrice}
-                            onChange={(val) => {
-                              console.log(333, val);
-                            }}
+                            defaultValue={[0, this.props.maxGoodsPrice]}
+                            // key={this.props.maxGoodsPrice}
+                            onChange={hanldePriceSliderChange}
                           />
-                        ) : parentItem.attributeName === 'subscription' &&
-                          parentItem.choiceStatus === 'Single choice' ? (
+                        ) : parentItem.choiceStatus === 'Single choice' &&
+                          parentItem.attributeName === 'subscription' ? (
                           parentItem.storeGoodsFilterValueVOList.map(
                             (childItem) => (
                               <div

@@ -3,7 +3,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
-import MegaMenu from '@/components/MegaMenu';
 import {
   getParaByName,
   getDeviceType,
@@ -24,157 +23,14 @@ import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
+import MegaMenuMobile from './modules/MegaMenuMobile';
 import LogoutButton from '@/components/LogoutButton';
-import BannerTip from '@/components/BannerTip';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const _catogryCfg = function (lang, props) {
-  const defaultVal = [
-    { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-    { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
-    {
-      linkObj: { pathname: '/aboutUs' },
-      langKey: 'aboutUs'
-    },
-    { linkObj: { pathname: '/help' }, langKey: 'contactUs' }
-  ];
-  return (
-    {
-      en: [
-        { linkObj: { pathname: '/list/dogs' }, langKey: 'dogs' },
-        { linkObj: { pathname: '/list/cats' }, langKey: 'cats' },
-        {
-          linkObj: { pathname: '/subscription-landing-us' },
-          langKey: 'royalCaninClub'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndNutrition'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      de: [
-        {
-          linkObj: { pathname: '/list/cats', search: '?fid=481|1784' },
-          langKey: 'cats'
-        },
-        {
-          linkObj: { pathname: '/list/dogs', search: '?fid=481|1783' },
-          langKey: 'dogs'
-        },
-        { linkObj: { pathname: '/help' }, langKey: 'contactUs' },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      fr: [
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs', // 存在subMenuKey则显示下拉
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        },
-        {
-          linkObj: { pathname: '/help' },
-          langKey: 'contactUs',
-          subMenuKey: 'help',
-          type: 'help'
-        }
-      ],
-      ru: [
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs',
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing-ru' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ],
-      tr: [
-        {
-          linkObj: { pathname: '/list/dogs' },
-          langKey: 'dogs',
-          subMenuKey: 'dogs',
-          type: 'dogs'
-        },
-        {
-          linkObj: { pathname: '/list/cats' },
-          langKey: 'cats',
-          subMenuKey: 'cats',
-          type: 'cats'
-        },
-        {
-          linkObj: { pathname: '/subscription-landing-tr' },
-          langKey: 'account.subscription',
-          type: 'subscription'
-        },
-        {
-          linkObj: { pathname: '/tailorednutrition' },
-          langKey: 'healthAndWellbeing',
-          type: 'healthAndWellbeing'
-        },
-        {
-          linkObj: { pathname: '/help' },
-          langKey: 'contactUs',
-          subMenuKey: 'help',
-          type: 'help'
-        },
-        {
-          linkObj: { pathname: '/aboutUs' },
-          langKey: 'aboutUs'
-        }
-      ]
-    }[lang] || defaultVal
-  );
-};
 
 @inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
 @injectIntl
@@ -193,7 +49,6 @@ class Header extends React.Component {
       keywords: '',
       loading: false,
       result: null,
-      showMegaMenu: false,
       isScrollToTop: true,
       headerNavigationList: [],
       activeTopParentId: -1
@@ -210,16 +65,10 @@ class Header extends React.Component {
 
     this.inputRef = React.createRef();
     this.inputRefMobile = React.createRef();
-    this.menuBtnRef = React.createRef();
-    this.unloginCartRef = React.createRef();
-    this.loginCartRef = React.createRef();
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this);
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this);
 
-    this.handleMenuMouseOver = this.handleMenuMouseOver.bind(this);
-    this.handleMenuMouseOut = this.handleMenuMouseOut.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
     this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
     this.hanldeListItemMouseOut = this.hanldeListItemMouseOut.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
@@ -238,7 +87,6 @@ class Header extends React.Component {
       return false;
     }
 
-    window.addEventListener('click', (e) => this.hideMenu(e));
     window.addEventListener('scroll', (e) => this.handleScroll(e));
 
     const { location, clinicStore } = this.props;
@@ -342,8 +190,9 @@ class Header extends React.Component {
   initNavigations = async () => {
     let res = await this.queryHeaderNavigations();
     if (res) {
+      let resList = generateOptions(res).filter((el) => el.enable);
       this.setState({
-        headerNavigationList: generateOptions(res)
+        headerNavigationList: resList
       });
     }
   };
@@ -564,51 +413,23 @@ class Header extends React.Component {
     sessionItemRoyal.set('rc-goods-name', item.goodsName);
     this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
-  handleMenuMouseOver() {
-    this.flag = 1;
-    this.setState({
-      showMegaMenu: true
-    });
-  }
-  handleMenuMouseOut() {
-    this.flag = 0;
-    setTimeout(() => {
-      if (!this.flag) {
-        this.setState({
-          showMegaMenu: false
-        });
-      }
-    }, 200);
-  }
-  toggleMenu() {
-    this.setState({
-      showMegaMenu: !this.state.showMegaMenu
-    });
-  }
-  hideMenu(e) {
-    // const widget = this.menuBtnRef.current && getComputedStyle(this.menuBtnRef.current)
-    const widget = document.getElementById('J-btn-menu');
-    if (e.target.id !== 'J-btn-menu' && widget) {
-      this.setState({
-        showMegaMenu: false
-      });
-    }
-  }
   clickLogin() {
     this.props.history.push('/login');
     localItemRoyal.set('loginType', 'login');
   }
   clickLogoff() {
+    const { loginStore, checkoutStore, history } = this.props;
     localItemRoyal.remove('rc-token');
     sessionItemRoyal.remove(`rc-clinic-name-default`);
     sessionItemRoyal.remove(`rc-clinic-id-default`);
-    this.props.loginStore.removeUserInfo();
-    this.props.checkoutStore.removeLoginCartData();
-    this.props.loginStore.changeIsLogin(false);
-    this.props.history.push('/');
+    loginStore.removeUserInfo();
+    checkoutStore.removeLoginCartData();
+    loginStore.changeIsLogin(false);
+    history.push('/');
   }
   renderResultJsx() {
-    return this.state.result ? (
+    const { result, keywords } = this.state;
+    return result ? (
       <div className="suggestions" id="mainSuggestions">
         <div className="container">
           <div className="row d-flex flex-column-reverse flex-sm-row">
@@ -617,14 +438,14 @@ class Header extends React.Component {
                 <FormattedMessage id="goods" />
               </div>
               <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {this.state.result.productList.length ? (
-                  this.state.result.productList.map((item, idx) => (
+                {result.productList.length ? (
+                  result.productList.map((item, idx) => (
                     <div className="col-12 item" key={item.id + idx}>
                       <div className="row">
                         <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
                           <span
                             className="ui-cursor-pointer"
-                            onClick={() => this.gotoDetails(item)}
+                            onClick={this.gotoDetails.bind(this, item)}
                           >
                             <img
                               className="swatch__img"
@@ -642,34 +463,34 @@ class Header extends React.Component {
                         </div>
                         <div className="col-8 col-md-9 col-lg-10">
                           <span
-                            onClick={() => this.gotoDetails(item)}
+                            onClick={this.gotoDetails.bind(this, item)}
                             className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                             alt={item.goodsName}
                             title={item.goodsName}
                           >
                             {item.goodsName}
                           </span>
-                          <div className="rc-meta searchProductKeyword"></div>
+                          <div className="rc-meta searchProductKeyword" />
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
                   <p className="d-flex ml-2 mr-2">
-                    <i className="rc-icon rc-incompatible--xs rc-iconography"></i>
+                    <i className="rc-icon rc-incompatible--xs rc-iconography" />
                     <FormattedMessage id="list.errMsg4" />
                   </p>
                 )}
               </div>
-              {this.state.result.totalElements ? (
+              {result.totalElements ? (
                 <div className="rc-margin-top--xs">
                   <Link
                     className="productName rc-large-body ui-cursor-pointer"
-                    to={`/list/keywords/${this.state.keywords}`}
+                    to={`/list/keywords/${keywords}`}
                   >
                     <b>
                       <FormattedMessage id="viewAllResults" /> (
-                      {this.state.result.totalElements})
+                      {result.totalElements})
                     </b>
                   </Link>
                 </div>
@@ -694,34 +515,51 @@ class Header extends React.Component {
   async handleClickNavItem(item) {
     let res = await getDictionary({ type: 'pageType' });
     const targetRes = res.filter((ele) => ele.id === item.pageId);
-    debugger;
-    // 某些页面直接跳转link，无需拼接参数
-    // 1 无pageId是跳转哪个页面 -
-    // 2 无navigationLink，怎么办
-    // 3 pageId和字段id对应不起
-    // todo
     // interaction 0-page 1-External URL 2-text
     if (item.interaction === 2) {
       return false;
     } else if (item.interaction === 0 && targetRes.length) {
       let link = '';
       let sortParam = null;
-      switch (targetRes[0].valueEn) {
+      let cateIds = [];
+      let filters = [];
+      const pageVal = targetRes[0].valueEn;
+      switch (pageVal) {
         case 'PLP':
-          break;
         case 'SRP':
           // 获取sort参数
-          let sortRes = await findSortList();
-          const targetSortRes = (sortRes.context || []).filter(
-            (ele) => ele.id === item.searchSort
-          );
-          if (targetSortRes.length) {
-            sortParam = {
-              field: targetSortRes[0].field,
-              sortType: targetSortRes[0].sortType
-            };
+          if (item.searchSort) {
+            const sortRes = await findSortList();
+            const targetSortRes = (sortRes.context || []).filter(
+              (ele) => ele.id === item.searchSort
+            );
+            if (targetSortRes.length) {
+              sortParam = {
+                field: targetSortRes[0].field,
+                sortType: targetSortRes[0].sortType
+              };
+            }
           }
-          link = `/list/keywords/${item.keywords}`;
+          // sales category筛选
+          const tmpCateIds = (item.navigationCateIds || '').split(',');
+          if (tmpCateIds.length) {
+            cateIds = tmpCateIds;
+          }
+          // filter筛选
+          try {
+            if (item.filter) {
+              const tmpFilter = JSON.parse(item.filter);
+              if (tmpFilter.length) {
+                filters = tmpFilter;
+              }
+            }
+          } catch (err) {}
+
+          if (pageVal === 'PLP') {
+            link = `/list/${item.navigationName}`;
+          } else {
+            link = `/list/keywords/${item.keywords}`;
+          }
           break;
         case 'PDP':
           link = `/details/${item.paramsField}`;
@@ -745,11 +583,14 @@ class Header extends React.Component {
           break;
       }
       if (link) {
-        this.props.history.push({ pathname: link, state: { sortParam } });
+        this.props.history.push({
+          pathname: link,
+          state: { sortParam, cateIds, filters }
+        });
       }
     }
   }
-  _renderDropDownText = (item) => {
+  renderDropDownText = (item) => {
     return item.expanded ? (
       <span className="rc-header-with-icon">
         {item.navigationName}
@@ -782,7 +623,7 @@ class Header extends React.Component {
     });
   }
   render() {
-    const { showMiniIcons, loginStore } = this.props;
+    const { showMiniIcons, loginStore, configStore } = this.props;
     const {
       headerNavigationList,
       showSearchInput,
@@ -802,15 +643,11 @@ class Header extends React.Component {
             >
               {showMiniIcons ? (
                 <li className="rc-list__item">
-                  <MegaMenu
-                    showMegaMenu={this.state.showMegaMenu}
-                    handleMouseOver={this.handleMenuMouseOver}
-                    handleMouseOut={this.handleMenuMouseOut}
-                    toggleMenu={this.toggleMenu}
-                    menuData={_catogryCfg(
-                      process.env.REACT_APP_LANG,
-                      this.props
-                    )}
+                  <MegaMenuMobile
+                    menuData={headerNavigationList}
+                    handleClickNavItem={this.handleClickNavItem}
+                    configStore={configStore}
+                    key={headerNavigationList.length}
                   />
                 </li>
               ) : null}
@@ -856,13 +693,9 @@ class Header extends React.Component {
                       </button>
                       <div className="rc-sm-up">
                         <form
-                          className={[
-                            'inlineblock',
-                            'headerSearch',
-                            'headerSearchDesktop',
-                            'relative',
+                          className={`inlineblock headerSearch headerSearchDesktop relative ${
                             showSearchInput ? '' : 'rc-hidden'
-                          ].join(' ')}
+                          }`}
                           role="search"
                           name="simpleSearch"
                           onSubmit={(e) => {
@@ -913,13 +746,11 @@ class Header extends React.Component {
                     </div>
                     {this.isLogin ? (
                       <LoginCart
-                        ref={this.loginCartRef}
                         showSearchInput={this.state.showSearchInput}
                         history={this.props.history}
                       />
                     ) : (
                       <UnloginCart
-                        ref={this.unloginCartRef}
                         showSearchInput={this.state.showSearchInput}
                         history={this.props.history}
                       />
@@ -1118,14 +949,14 @@ class Header extends React.Component {
                             target={item.target}
                             className="rc-list__header"
                           >
-                            {this._renderDropDownText(item)}
+                            {this.renderDropDownText(item)}
                           </a>
                         ) : (
                           <span
                             onClick={this.handleClickNavItem.bind(this, item)}
                             className="rc-list__header"
                           >
-                            {this._renderDropDownText(item)}
+                            {this.renderDropDownText(item)}
                           </span>
                         )}
                       </span>
@@ -1141,19 +972,15 @@ class Header extends React.Component {
               this.setState({ activeTopParentId: id });
             }}
             headerNavigationList={headerNavigationList}
-            data={headerNavigationList.filter(
-              (ele) => ele.id === activeTopParentId
-            )} // 下拉菜单数据源
-            configStore={this.props.configStore}
+            configStore={configStore}
+            handleClickNavItem={this.handleClickNavItem}
           />
           <div className="search">
             <div className="rc-sm-down">
               <form
-                className={[
-                  'rc-header__search-bar',
-                  'headerSearch',
+                className={`rc-header__search-bar headerSearch ${
                   this.state.showSearchInput ? '' : 'rc-hidden'
-                ].join(' ')}
+                }`}
                 role="search"
                 name="simpleSearch"
                 onSubmit={(e) => {
@@ -1202,7 +1029,6 @@ class Header extends React.Component {
           </div>
           {this.state.loading ? <Loading /> : null}
         </header>
-        <BannerTip />
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
       </>

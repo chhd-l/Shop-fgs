@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
@@ -51,6 +52,7 @@ class Tailorednutrition extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
@@ -185,7 +187,13 @@ class Tailorednutrition extends React.Component {
             </p>
           </section>
           <section
-            style={{ textAlign: 'left', width: '100%', margin: '0 auto',display:process.env.REACT_APP_LANG==='fr'?'none':'inline-block' }}
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              margin: '0 auto',
+              display:
+                process.env.REACT_APP_LANG === 'fr' ? 'none' : 'inline-block'
+            }}
           >
             <h2
               style={{

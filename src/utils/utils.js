@@ -1,4 +1,4 @@
-import { getStoreCate, getProps ,getSeoConfig } from '@/api';
+import { getStoreCate, getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { find } from 'lodash';
@@ -35,29 +35,6 @@ export function formatMoney(
     style: 'currency',
     currency: process.env.REACT_APP_CURRENCY
   }).format(val);
-}
-
-export async function queryStoreCateIds() {
-  let tmp = sessionItemRoyal.get('rc-storeId-list');
-  if (!tmp) {
-    let res = await getStoreCate({ storeId: process.env.REACT_APP_STOREID });
-    sessionItemRoyal.set('rc-storeId-list', JSON.stringify(res.context));
-  }
-  return JSON.parse(sessionItemRoyal.get('rc-storeId-list'));
-}
-
-/**
- * 获取商品属性
- */
-export async function queryProps() {
-  let tmp = sessionItemRoyal.get('rc-goodsprop-list');
-  if (!tmp) {
-    let res = await getProps(process.env.REACT_APP_CATEID);
-    if (res.context && res.context.length) {
-      sessionItemRoyal.set('rc-goodsprop-list', JSON.stringify(res.context));
-    }
-  }
-  return JSON.parse(sessionItemRoyal.get('rc-goodsprop-list'));
 }
 
 export function getParaByName(search, name) {
@@ -272,6 +249,7 @@ export function generateOptions(params) {
       result.push(parent);
     }
   }
+  result.sort((a, b) => a.sort - b.sort);
   return result;
 }
 
@@ -292,111 +270,108 @@ function getchilds(id, array) {
       child.children = childscopy;
     }
   }
+  childs.sort((a, b) => a.sort - b.sort);
   return childs;
 }
 
-export function setSeoConfig(obj={goodsId:'',categoryId:'',pageName:''} ){
-  if(!sessionStorage.getItem('seoInfo')){
-    let params ={
-      type:4,
-      storeId : process.env.REACT_APP_STOREID
-    }
-    getSeoConfig(params).then(res=>{
-      if(res.code === 'K-000000'){
+export function setSeoConfig(
+  obj = { goodsId: '', categoryId: '', pageName: '' }
+) {
+  if (!sessionStorage.getItem('seoInfo')) {
+    let params = {
+      type: 4,
+      storeId: process.env.REACT_APP_STOREID
+    };
+    getSeoConfig(params).then((res) => {
+      if (res.code === 'K-000000') {
         let seoInfo = res.context.seoSettingVO;
-        sessionStorage.setItem('seoInfo',JSON.stringify(seoInfo) )
-        changeTitleAndMeta(seoInfo)
-        if(obj.pageName){
-          getPageSeo(obj.goodsId,obj.categoryId,obj.pageName)
-        }
-        else if(obj.categoryId){
-          getCateSeo(obj.goodsId,obj.categoryId)
-        }
-        else if(obj.goodsId){
-          getGoodsSeo(obj.goodsId)
+        sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
+        changeTitleAndMeta(seoInfo);
+        if (obj.pageName) {
+          getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
+        } else if (obj.categoryId) {
+          getCateSeo(obj.goodsId, obj.categoryId);
+        } else if (obj.goodsId) {
+          getGoodsSeo(obj.goodsId);
         }
       }
-    })
-  }else{
-    let seoInfo =JSON.parse(sessionStorage.getItem('seoInfo')) 
-    changeTitleAndMeta(seoInfo)
-    if(obj.pageName){
-      getPageSeo(obj.goodsId,obj.categoryId,obj.pageName)
-    }
-    else if(obj.categoryId){
-      getCateSeo(obj.goodsId,obj.categoryId)
-    }
-    else if(obj.goodsId){
-      getGoodsSeo(obj.goodsId)
+    });
+  } else {
+    let seoInfo = JSON.parse(sessionStorage.getItem('seoInfo'));
+    changeTitleAndMeta(seoInfo);
+    if (obj.pageName) {
+      getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
+    } else if (obj.categoryId) {
+      getCateSeo(obj.goodsId, obj.categoryId);
+    } else if (obj.goodsId) {
+      getGoodsSeo(obj.goodsId);
     }
   }
 }
-function getPageSeo(goodsId,categoryId,pageName) {
-  let params ={
-    type:3,
-    pageName:pageName,
-    storeId : process.env.REACT_APP_STOREID
-  }
-  getSeoConfig(params).then(res=>{
-    if(res.code === 'K-000000'){
+function getPageSeo(goodsId, categoryId, pageName) {
+  let params = {
+    type: 3,
+    pageName: pageName,
+    storeId: process.env.REACT_APP_STOREID
+  };
+  getSeoConfig(params).then((res) => {
+    if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo)
-      if(categoryId){
-        getCateSeo(goodsId,categoryId)
-      }
-      else if(goodsId){
-        getGoodsSeo(goodsId)
+      changeTitleAndMeta(seoInfo);
+      if (categoryId) {
+        getCateSeo(goodsId, categoryId);
+      } else if (goodsId) {
+        getGoodsSeo(goodsId);
       }
     }
-  })
+  });
 }
-function getCateSeo(goodsId,categoryId) {
-  let params ={
-    type:2,
-    storeCateId:categoryId,
-    storeId : process.env.REACT_APP_STOREID
-  }
-  getSeoConfig(params).then(res=>{
-    if(res.code === 'K-000000'){
+function getCateSeo(goodsId, categoryId) {
+  let params = {
+    type: 2,
+    storeCateId: categoryId,
+    storeId: process.env.REACT_APP_STOREID
+  };
+  getSeoConfig(params).then((res) => {
+    if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo)
-      if(goodsId){
-        getGoodsSeo(goodsId)
+      changeTitleAndMeta(seoInfo);
+      if (goodsId) {
+        getGoodsSeo(goodsId);
       }
     }
-  })
+  });
 }
 function getGoodsSeo(goodsId) {
-  let params ={
-    type:1,
-    goodsId:goodsId,
-    storeId : process.env.REACT_APP_STOREID
-  }
-  getSeoConfig(params).then(res=>{
-    if(res.code === 'K-000000'){
+  let params = {
+    type: 1,
+    goodsId: goodsId,
+    storeId: process.env.REACT_APP_STOREID
+  };
+  getSeoConfig(params).then((res) => {
+    if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo)
+      changeTitleAndMeta(seoInfo);
     }
-  })
+  });
 }
-
 
 //修改title和meta
 function changeTitleAndMeta(seoInfo) {
-  if(seoInfo.title){
-    document.title = seoInfo.title
+  if (seoInfo.title) {
+    document.title = seoInfo.title;
   }
-  let metaList = document.getElementsByTagName("meta");
-  if(seoInfo.metaKeywords){
+  let metaList = document.getElementsByTagName('meta');
+  if (seoInfo.metaKeywords) {
     for (let i = 0; i < metaList.length; i++) {
-      if (metaList[i].getAttribute("name") === "keysword") {
+      if (metaList[i].getAttribute('name') === 'keysword') {
         metaList[i].content = seoInfo.metaKeywords;
       }
     }
   }
-  if(seoInfo.metaDescription){
+  if (seoInfo.metaDescription) {
     for (let i = 0; i < metaList.length; i++) {
-      if (metaList[i].getAttribute("name") === "description") {
+      if (metaList[i].getAttribute('name') === 'description') {
         metaList[i].content = seoInfo.metaDescription;
       }
     }

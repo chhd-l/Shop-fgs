@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { formatMoney, getDictionary,setSeoConfig } from '@/utils/utils';
 import { find, findIndex } from 'lodash';
@@ -910,7 +911,8 @@ class AccountOrders extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="p-md-2rem rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

@@ -4,7 +4,7 @@ import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
+import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
@@ -364,8 +364,8 @@ class Help extends React.Component {
       }
       let res = await getProductPetConfig({
         goodsInfos: inStockProducts.map((el) => {
-          el.goodsInfo.buyCount = el.recommendationNumber
-          return el.goodsInfo
+          el.goodsInfo.buyCount = el.recommendationNumber;
+          return el.goodsInfo;
         })
       });
       // let handledData = inStockProducts.map((el, i) => {
@@ -374,7 +374,7 @@ class Help extends React.Component {
       //   el.sizeList = el.goodsInfo.goods.sizeList
       //   return el;
       // });
-      let handledData = res.context.goodsInfos
+      let handledData = res.context.goodsInfos;
       let AuditData = handledData.filter((el) => el.auditCatFlag);
       this.props.checkoutStore.setAuditData(AuditData);
       let autoAuditFlag = res.context.autoAuditFlag;
@@ -525,6 +525,7 @@ class Help extends React.Component {
           <span>{currentModalObj.content}</span>
         </Modal>
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
               this.state.errorMsg ? '' : 'hidden'

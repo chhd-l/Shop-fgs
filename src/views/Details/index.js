@@ -7,12 +7,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import ImageMagnifier from '@/components/ImageMagnifier';
+import BannerTip from '@/components/BannerTip';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
-import { formatMoney, translateHtmlCharater, queryProps } from '@/utils/utils';
+import { formatMoney, translateHtmlCharater } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { cloneDeep, findIndex, find } from 'lodash';
@@ -142,7 +143,11 @@ class Details extends React.Component {
   }
   componentDidMount() {
     //TODO : category?
-    setSeoConfig({goodsId:details.id,categoryId:'',pageName:'Product Detail Page'})
+    setSeoConfig({
+      goodsId: this.props.match.params.id,
+      categoryId: '',
+      pageName: 'Product Detail Page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -288,45 +293,6 @@ class Details extends React.Component {
               this.productRange.push(t.text);
             }
           }
-          // 获取产品Dry/Wet属性
-          let tmpFormat = [];
-          queryProps().then((propsRes) => {
-            for (let item of res.context.goodsPropDetailRels) {
-              const t = find(
-                propsRes || [],
-                (ele) => ele.propId === item.propId
-              );
-              // 区分cat or dog(de)
-              if (t && t.propName.includes('Spezies')) {
-                const t3 = find(
-                  t.goodsPropDetails,
-                  (ele) => ele.detailId === item.detailId
-                );
-                if (t3) {
-                  this.specie =
-                    { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-                }
-              }
-              if (
-                t &&
-                (t.propName.includes('Seco') ||
-                  t.propName.includes('Technologie'))
-              ) {
-                const t2 = find(
-                  t.goodsPropDetails,
-                  (ele) => ele.detailId === item.detailId
-                );
-                if (t2) {
-                  tmpFormat.push(
-                    { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-                      t2.detailName
-                    ] || ''
-                  );
-                }
-              }
-            }
-            this.format = tmpFormat;
-          });
 
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
@@ -953,6 +919,7 @@ class Details extends React.Component {
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
+            <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div
                 className="rc-max-width--xl d-flex"
@@ -966,7 +933,8 @@ class Details extends React.Component {
             </div>
           </main>
         ) : (
-          <main className="rc-content--fixed-header ">
+          <main className="rc-content--fixed-header">
+            <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 <BreadCrumbs />
@@ -1139,7 +1107,12 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             <div>
-              <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
+              <Carousel
+                location={this.props.location}
+                history={this.props.history}
+                goodsId={this.state.goodsId}
+                key={this.state.goodsId}
+              />
             </div>
             {/* <div
               className="sticky-addtocart"

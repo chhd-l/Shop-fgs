@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '@/components/Footer';
+import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 
@@ -14,6 +15,7 @@ function Exception() {
         data-action="RedirectURL-Start"
         data-querystring=""
       >
+        <BannerTip />
         <div className="container full-vh">
           <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
             <svg

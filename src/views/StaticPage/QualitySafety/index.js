@@ -1,14 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
+import BannerTip from '@/components/BannerTip';
+import { FormattedMessage } from 'react-intl';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
@@ -16,39 +12,19 @@ import image4 from './images/image4.jpg';
 import image5 from './images/image5.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
-
-import storeLogo from '@/assets/images/storeLogo.png';
-import ImageMagnifier from '@/components/ImageMagnifier';
-import { formatMoney } from '@/utils/utils';
-// import paymentImg from "./img/payment.jpg";
-import { inject, observer } from 'mobx-react';
-import BannerTip from '@/components/BannerTip';
-import { getRecommendationList } from '@/api/recommendation';
-import { sitePurchase } from '@/api/cart';
 import './index.css';
 import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-@inject('checkoutStore', 'loginStore', 'clinicStore')
-@inject('configStore')
-@observer
-@injectIntl
 class QualitySafety extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -74,23 +50,8 @@ class QualitySafety extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
-          <div
-            className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-            style={{
-              width: '50%',
-              margin: '20px auto 0'
-            }}
-          >
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close"
-              role="alert"
-            >
-              {this.state.errorMsg}
-            </aside>
-          </div>
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >

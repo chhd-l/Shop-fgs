@@ -16,7 +16,6 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  queryProps,
   getDictionary
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
@@ -29,6 +28,7 @@ import './index.css';
 import './index.less';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
+import { setSeoConfig } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -156,6 +156,11 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
+    setSeoConfig({
+      goodsId: this.props.match.params.id,
+      categoryId: '',
+      pageName: 'Product Detail Page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -328,44 +333,44 @@ class Details extends React.Component {
             }
           }
           // 获取产品Dry/Wet属性
-          let tmpFormat = [];
-          queryProps().then((propsRes) => {
-            for (let item of res.context.goodsPropDetailRels) {
-              const t = find(
-                propsRes || [],
-                (ele) => ele.propId === item.propId
-              );
-              // 区分cat or dog(de)
-              if (t && t.propName.includes('Spezies')) {
-                const t3 = find(
-                  t.goodsPropDetails,
-                  (ele) => ele.detailId === item.detailId
-                );
-                if (t3) {
-                  this.specie =
-                    { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-                }
-              }
-              if (
-                t &&
-                (t.propName.includes('Seco') ||
-                  t.propName.includes('Technologie'))
-              ) {
-                const t2 = find(
-                  t.goodsPropDetails,
-                  (ele) => ele.detailId === item.detailId
-                );
-                if (t2) {
-                  tmpFormat.push(
-                    { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-                      t2.detailName
-                    ] || ''
-                  );
-                }
-              }
-            }
-            this.format = tmpFormat;
-          });
+          // let tmpFormat = [];
+          // queryProps().then((propsRes) => {
+          //   for (let item of res.context.goodsPropDetailRels) {
+          //     const t = find(
+          //       propsRes || [],
+          //       (ele) => ele.propId === item.propId
+          //     );
+          //     // 区分cat or dog(de)
+          //     if (t && t.propName.includes('Spezies')) {
+          //       const t3 = find(
+          //         t.goodsPropDetails,
+          //         (ele) => ele.detailId === item.detailId
+          //       );
+          //       if (t3) {
+          //         this.specie =
+          //           { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
+          //       }
+          //     }
+          //     if (
+          //       t &&
+          //       (t.propName.includes('Seco') ||
+          //         t.propName.includes('Technologie'))
+          //     ) {
+          //       const t2 = find(
+          //         t.goodsPropDetails,
+          //         (ele) => ele.detailId === item.detailId
+          //       );
+          //       if (t2) {
+          //         tmpFormat.push(
+          //           { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
+          //             t2.detailName
+          //           ] || ''
+          //         );
+          //       }
+          //     }
+          //   }
+          //   this.format = tmpFormat;
+          // });
 
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;

@@ -6,6 +6,7 @@ import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
 import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
@@ -131,14 +132,16 @@ class Payment extends React.Component {
     this.timer = null;
   }
   async componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     if (this.isLogin) {
-      if(this.loginCartData.filter(el => el.goodsInfoFlag).length) {
-        this.setState({subForm: {
-          buyWay: 'frequency',
-          frequencyName: '',
-          frequencyId: ''
-        }})
+      if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+        this.setState({
+          subForm: {
+            buyWay: 'frequency',
+            frequencyName: '',
+            frequencyId: ''
+          }
+        });
       }
       if (this.props.checkoutStore.autoAuditFlag) {
         this.setState({
@@ -151,12 +154,14 @@ class Payment extends React.Component {
         });
       }
     } else {
-      if(this.cartData.filter(el => el.goodsInfoFlag).length) {
-        this.setState({subForm: {
-          buyWay: 'frequency',
-          frequencyName: '',
-          frequencyId: ''
-        }})
+      if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
+        this.setState({
+          subForm: {
+            buyWay: 'frequency',
+            frequencyName: '',
+            frequencyId: ''
+          }
+        });
       }
       if (this.props.checkoutStore.autoAuditFlag) {
         this.setState({
@@ -570,27 +575,27 @@ class Payment extends React.Component {
   };
   // 支付公共初始化方法
   initCommonPay = ({ email = '', type }) => {
-    if(this.props.checkoutStore.AuditData.length) {
-      let petFlag = true
-      let data = this.props.checkoutStore.AuditData
-      console.log(toJS(this.props.checkoutStore.AuditData))
-      for(let i = 0; i < data.length; i++) {
-        if(this.isLogin) {
-          if(!data[i].petsId) {
-            petFlag = false
-            break
+    if (this.props.checkoutStore.AuditData.length) {
+      let petFlag = true;
+      let data = this.props.checkoutStore.AuditData;
+      console.log(toJS(this.props.checkoutStore.AuditData));
+      for (let i = 0; i < data.length; i++) {
+        if (this.isLogin) {
+          if (!data[i].petsId) {
+            petFlag = false;
+            break;
           }
-        }else {
-          if(!data[i].petForm || !data[i].petForm.petName) {
-            petFlag = false
-            break
+        } else {
+          if (!data[i].petForm || !data[i].petForm.petName) {
+            petFlag = false;
+            break;
           }
         }
       }
-      if(!petFlag && this.props.checkoutStore.petFlag) {
-        this.showErrorMsg('Please fill in pet information')
-        this.endLoading()
-        return
+      if (!petFlag && this.props.checkoutStore.petFlag) {
+        this.showErrorMsg('Please fill in pet information');
+        this.endLoading();
+        return;
       }
     }
     this.doGetAdyenPayParam(type);
@@ -664,7 +669,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
-            encryptedSecurityCode:adyenPayParam.encryptedSecurityCode,
+            encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -842,13 +847,15 @@ class Payment extends React.Component {
           let res = await batchAddPets({
             batchAddItemList: param
           });
-          parameters.tradeItems.map(el => {
-            let filterItems = res.context.resultList.filter(item => item.productId === el.skuId )
-            if(filterItems.length > 0) {
-              el.petsName = filterItems[0].petsName
-              el.petsId = filterItems[0].petsId
+          parameters.tradeItems.map((el) => {
+            let filterItems = res.context.resultList.filter(
+              (item) => item.productId === el.skuId
+            );
+            if (filterItems.length > 0) {
+              el.petsName = filterItems[0].petsName;
+              el.petsId = filterItems[0].petsId;
             }
-          })
+          });
         }
       }
 
@@ -945,10 +952,13 @@ class Payment extends React.Component {
 
       // update clinic
       if (this.checkoutWithClinic) {
-        if(clinicStore.linkClinicId && clinicStore.linkClinicId !== clinicStore.selectClinicId) {
+        if (
+          clinicStore.linkClinicId &&
+          clinicStore.linkClinicId !== clinicStore.selectClinicId
+        ) {
           clinicStore.removeLinkClinicId();
           clinicStore.removeLinkClinicName();
-          clinicStore.removeAuditAuthority()
+          clinicStore.removeAuditAuthority();
         }
         // clinicStore.setSelectClinicId(clinicStore.clinicId);
         // clinicStore.setSelectClinicName(clinicStore.clinicName);
@@ -1098,11 +1108,11 @@ class Payment extends React.Component {
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId
     };
-    if(this.state.needPrescriber) {
-      param.clinicsId = this.props.clinicStore.selectClinicId
-      param.clinicsName = this.props.clinicStore.selectClinicName
+    if (this.state.needPrescriber) {
+      param.clinicsId = this.props.clinicStore.selectClinicId;
+      param.clinicsName = this.props.clinicStore.selectClinicName;
     }
-    
+
     // if (!this.checkoutWithClinic) {
     //   param = Object.assign(param, {
     //     clinicsId: 'FG20200914',
@@ -1165,8 +1175,13 @@ class Payment extends React.Component {
       //     };
       //   });
       // }else {
-        param.subTradeItems = loginCartData
-        .filter((ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0 && ele.goodsInfoFlag)
+      param.subTradeItems = loginCartData
+        .filter(
+          (ele) =>
+            ele.subscriptionStatus &&
+            ele.subscriptionPrice > 0 &&
+            ele.goodsInfoFlag
+        )
         .map((g) => {
           return {
             subscribeNum: g.buyCount,
@@ -1178,7 +1193,7 @@ class Payment extends React.Component {
           };
         });
       // }
-      
+
       param.cycleTypeId = subForm.frequencyId;
       param.paymentMethodId = creditCardInfo.id;
     }
@@ -1486,16 +1501,20 @@ class Payment extends React.Component {
             ) {
               //判断payWayObj是数组
               if (data.buyWay === 'frequency') {
-                console.log(this.state.payWayObj)
-                
-                //adyen如果选订阅，只保留creditcard/klarnapaylater
-                const adyenMethods = this.state.payWayObj.filter((item,index)=>{
-                  return item.name === 'adyen_credit_card' || item.name === 'adyen_klarna_pay_lat'
-                })
-                if(adyenMethods.length !== 0){
-                   this.setState({payWayObj:adyenMethods})
-                }
+                console.log(this.state.payWayObj);
 
+                //adyen如果选订阅，只保留creditcard/klarnapaylater
+                const adyenMethods = this.state.payWayObj.filter(
+                  (item, index) => {
+                    return (
+                      item.name === 'adyen_credit_card' ||
+                      item.name === 'adyen_klarna_pay_lat'
+                    );
+                  }
+                );
+                if (adyenMethods.length !== 0) {
+                  this.setState({ payWayObj: adyenMethods });
+                }
 
                 //payu
                 payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
@@ -1503,9 +1522,7 @@ class Payment extends React.Component {
                 }); //找到oxxo在数组中的下标
                 if (payuoxxoIndex !== -1) {
                   this.state.payWayObj.splice(payuoxxoIndex, 1);
-                }  
-                
-                
+                }
               } else {
                 //为后台提供的初始支付方式
                 this.setState({
@@ -1712,18 +1729,18 @@ class Payment extends React.Component {
       let handledData;
       this.props.checkoutStore.AuditData.map((el, i) => {
         if (i === this.state.currentProIndex) {
-          if(sessionItemRoyal.get('recommend_product')) {
-            handledData = this.state.recommend_data.map(recomEl => {
+          if (sessionItemRoyal.get('recommend_product')) {
+            handledData = this.state.recommend_data.map((recomEl) => {
               if (recomEl.goodsInfoId === el.goodsInfoId) {
                 recomEl.petsId = data.value;
                 recomEl.petsName = data.name;
                 el.petsId = data.value;
                 el.petName = data.name;
               }
-              console.log(el, 'ellll')
-              return recomEl;  
-            })
-          }else {
+              console.log(el, 'ellll');
+              return recomEl;
+            });
+          } else {
             handledData = this.loginCartData.map((loginEl) => {
               if (loginEl.goodsInfoId === el.goodsInfoId) {
                 loginEl.petsId = data.value;
@@ -1737,9 +1754,9 @@ class Payment extends React.Component {
         }
         return el;
       });
-      if(sessionItemRoyal.get('recommend_product')) {
-        this.setState({recommend_data: handledData})
-      }else {
+      if (sessionItemRoyal.get('recommend_product')) {
+        this.setState({ recommend_data: handledData });
+      } else {
         this.props.checkoutStore.setLoginCartData(handledData);
       }
     }
@@ -1785,6 +1802,7 @@ class Payment extends React.Component {
         />
         {this.state.loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
+          <BannerTip />
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -2004,13 +2022,8 @@ class Payment extends React.Component {
                     operateBtnVisible={!this.state.tid}
                   />
                 )}
-                {
-                  process.env.REACT_APP_LANG == 'fr'?
-                  <Faq/>
-                  :null
-                }
-              
-              </div>              
+                {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
+              </div>
             </div>
           </div>
         </main>

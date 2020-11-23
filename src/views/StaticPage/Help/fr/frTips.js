@@ -9,7 +9,11 @@ class FrTips extends Component {
         }
     }
     componentDidMount(){
-        setSeoConfig()
+        setSeoConfig({
+            goodsId: '',
+            categoryId: '',
+            pageName: 'Contact Us Page'
+          })
     }
     render() {
         return (
