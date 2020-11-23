@@ -11,7 +11,7 @@ import {
 } from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
-import { getList, findSortList } from '@/api/list';
+import { getList, getLoginList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
@@ -363,7 +363,7 @@ class Header extends React.Component {
       companyType: ''
     };
     try {
-      let res = await getList(params);
+      let res = await (this.isLogin ? getLoginList : getList)(params);
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -930,7 +930,7 @@ class Header extends React.Component {
           </nav>
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
-            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap">
               {headerNavigationList.map((item, i) => (
                 <li
                   className={`rc-list__item ${

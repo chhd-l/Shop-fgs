@@ -131,19 +131,14 @@ class List extends React.Component {
         }
       });
     }
-
+    
     this.setState(
       {
-        category
+        category,
+        keywords: category.toLocaleLowerCase() === 'keywords' ? keywords : ''
       },
       () => {
-        const { category } = this.state;
         this.initData();
-        if (category.toLocaleLowerCase() === 'keywords') {
-          this.setState({
-            keywords
-          });
-        }
       }
     );
 
@@ -258,6 +253,7 @@ class List extends React.Component {
       searchForm,
       defaultFilterSearchForm
     } = this.state;
+    
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -272,6 +268,7 @@ class List extends React.Component {
       }
     }
 
+    let subscriptionStatus = 0;
     let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
     let goodsFilterRelList = [...defaultFilterSearchForm.filterList];
     // 处理filter查询值
@@ -288,13 +285,24 @@ class List extends React.Component {
             attributeValueIdList: seletedList.map((s) => s.id)
           });
         } else {
+          debugger;
+          //自定义属性
           goodsFilterRelList.push({
             attributeId: pItem.id,
             attributeValueIdList: seletedList.map((s) => s.id)
+            // selectedAttributeDetailName: ''
           });
+          subscriptionStatus =
+            seletedList.length &&
+            seletedList[0].attributeDetailName === 'not subscription'
+              ? 0
+              : 1;
         }
       }
       return pItem;
+    });
+    Array.from(goodsFilterRelList, (ele) => {
+      return ele;
     });
 
     let params = {
@@ -313,6 +321,7 @@ class List extends React.Component {
       storeCateIds,
       goodsAttributesValueRelVOList,
       goodsFilterRelList,
+      // subscriptionStatus, //1
       ...searchForm
     };
 
@@ -468,7 +477,9 @@ class List extends React.Component {
       filterList,
       initingFilter,
       filterModalVisible,
-      markPriceAndSubscriptionLangDict
+      markPriceAndSubscriptionLangDict,
+      selectedSortParam,
+      keywords
     } = this.state;
     let event;
     let eEvents;
@@ -570,13 +581,13 @@ class List extends React.Component {
           <div id="J-product-list" />
           <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
-              {this.state.keywords ? (
+              {keywords ? (
                 <div className="nav-tabs-wrapper rc-text--center">
                   <div className="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{this.state.keywords}"</b>(
+                    <b>"{keywords}"</b>(
                     <FormattedMessage id="results" values={{ val: results }} />)
                   </div>
                 </div>
@@ -673,9 +684,12 @@ class List extends React.Component {
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
                                 optionList={sortList}
-                                // selectedItemData={{
-                                //   value: form.country
-                                // }}
+                                selectedItemData={{
+                                  value:
+                                    (selectedSortParam &&
+                                      selectedSortParam.value) ||
+                                    ''
+                                }}
                                 placeholder={<FormattedMessage id="sortBy" />}
                                 customInnerStyle={{
                                   paddingTop: '.7em',
