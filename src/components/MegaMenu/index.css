@@ -18,9 +18,3 @@
 .rc-nav.rc-nav-custom .rc-list__item--group {
   padding-bottom: 1rem;
 }
-.rc-nav+.nav-bottom-banner-mobile {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 99;
-}

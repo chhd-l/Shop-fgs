@@ -93,34 +93,38 @@ class MegaMenu extends React.Component {
               data-toggle-effect="rc-expand--horizontal"
             >
               <div className="rc-layout-container rc-three-column">
-                <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-right--none">
-                  <ul
-                    className="rc-list rc-list--blank rc-list--align"
-                    role="menubar"
-                  >
-                    {this.props.menuData.map((item, i) => (
-                      <li
-                        className="rc-list__item rc-list__item--group w-100"
-                        key={i}
-                      >
-                        {this._renderLinkItem(item)}
-                      </li>
-                    ))}
-                    <div>
-                      <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mon compte</a>
-                    </div>
-                    <div>
-                      <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mes commandes </a>
-                    </div>
-                  </ul>
+                <div className="rc-column rc-double-width rc-padding-x--none--mobile rc-padding-y--none--mobile rc-padding-right--none">
+                    <ul
+                      className="rc-list rc-list--blank rc-list--align"
+                      role="menubar"
+                    >
+                      {this.props.menuData.map((item, i) => (
+                        <li
+                          className="rc-list__item rc-list__item--group w-100"
+                          key={i}
+                        >
+                          {this._renderLinkItem(item)}
+                        </li>
+                      ))}
+                    </ul>
                 </div>
               </div>
+              
               {
                 process.env.REACT_APP_LANG == 'fr'
-                ?
-                  <div className="nav-bottom-banner-mobile rc-padding-x--xl rc-padding-y--md rc-bg-colour--interface-dark rc-full-width rc-large-intro rc-margin--none">
+                ?<div>
+                  <div className="d-flex align-items-center p-2" style={{borderBottom:'1px solid #ccc'}}>
+                    <span className="rc-icon rc-iconography rc-human-interaction--xs"></span>
+                    <span className="pl-1">Mon compte</span>
+                  </div>
+                  <div className="d-flex align-items-center p-2" style={{borderBottom:'1px solid #ccc'}}>
+                    <span className="rc-icon rc-iconography rc-bag--xs"></span>
+                    <span className="pl-1">Mes commandes</span>
+                  </div>
+                  <div className="nav-bottom-banner-mobile rc-padding-x--xl rc-padding-y--md rc-bg-colour--interface-dark rc-full-width rc-large-intro rc-margin--none" style={{marginTop:'20px'}}>
                     <span className="pull-left" style={{color:'#fff'}}>Besoin d'aide ?</span>
                     <a href="tel:0800-005-360" className="pull-right" style={{color:'#fff'}}>0800-005-360</a>
+                </div>
                 </div>
                 :
                 null
