@@ -7,19 +7,22 @@ export const LinkJSX = () => {
     return (
         {
             fr: <Link
-            className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+            style={{minWidth:"110px"}}
             to={'/subscription-landing'}
           >
             En savoir plus
           </Link>,
             en:  <Link
-            className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+            style={{minWidth:"110px"}}
             to={'/subscription-landing-us'}
           >
             Join the Club
           </Link>,
             ru: <Link
-            className="rc-btn rc-btn--sm rc-btn--two mb-2 mt-1 ml-2"
+            className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+            style={{minWidth:"110px"}}
             to={'/subscription-landing-ru'}
           >
             Учить больше
