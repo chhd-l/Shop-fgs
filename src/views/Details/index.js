@@ -155,7 +155,7 @@ class Details extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
+  async componentDidMount() {
     setSeoConfig({
       goodsId: this.props.match.params.id,
       categoryId: '',
@@ -166,7 +166,7 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    Promise.all([
+    await Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
     ]).then((dictList) => {

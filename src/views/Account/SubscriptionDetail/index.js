@@ -34,7 +34,8 @@ import {
   skipNextSub,
   cancelAllSub,
   orderNowSub,
-  getPromotionPrice
+  getPromotionPrice,
+  updateNextDeliveryTime
 } from '@/api/subscription';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
@@ -165,6 +166,24 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
+    getDictionary({ type: 'country' }).then((res) => {
+      this.setState({
+        countryList: res
+      });
+    });
+    await Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
+      this.setState(
+        {
+          frequencyList: [...dictList[0], ...dictList[1]]
+        },
+        () => {
+          // this.props.updateSelectedData(this.state.form);
+        }
+      );
+    });
     setSeoConfig({
       goodsId: '',
       categoryId: '',
@@ -175,21 +194,7 @@ class SubscriptionDetail extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    getDictionary({ type: 'country' }).then((res) => {
-      this.setState({
-        countryList: res
-      });
-    });
-    await getDictionary({ type: 'Frequency_week' }).then((res) => {
-      let frequencyList = res;
-      getDictionary({ type: 'Frequency_month' }).then((res) => {
-        frequencyList = frequencyList.concat(res);
-        console.log(frequencyList, 'frequencyList');
-        this.setState({
-          frequencyList: frequencyList
-        });
-      });
-    });
+    
     await this.getDetail();
 
     await this.doGetPromotionPrice();
@@ -209,26 +214,17 @@ class SubscriptionDetail extends React.Component {
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
-  onDateChange(date) {
+  onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
     subDetail.nextDeliveryTime = moment(date).format('YYYY-MM-DD');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
-      goodsItems: subDetail.goodsInfo.map((el) => {
-        return {
-          skuId: el.skuId,
-          subscribeNum: el.subscribeNum,
-          subscribeGoodsId: el.subscribeGoodsId
-        };
-      }),
-      changeField: this.props.intl.messages['subscription.receiveDate']
+      goodsItems: goodsInfo
     };
     this.setState({ loading: true });
-    updateDetail(param)
+    updateNextDeliveryTime(param)
       .then((res) => {
-        // this.setState({ loading: false });
-        // window.location.reload();
         this.getDetail(
           this.showErrMsg.bind(
             this,
@@ -240,6 +236,21 @@ class SubscriptionDetail extends React.Component {
       .catch((err) => {
         this.setState({ loading: false });
       });
+    // updateDetail(param)
+    //   .then((res) => {
+    //     // this.setState({ loading: false });
+    //     // window.location.reload();
+    //     this.getDetail(
+    //       this.showErrMsg.bind(
+    //         this,
+    //         this.props.intl.messages.saveSuccessfullly,
+    //         'success'
+    //       )
+    //     );
+    //   })
+    //   .catch((err) => {
+    //     this.setState({ loading: false });
+    //   });
   }
   //订阅数量更改
   async onQtyChange() {
@@ -278,6 +289,7 @@ class SubscriptionDetail extends React.Component {
             (item) => item.id === el.periodTypeId
           )[0] || this.frequencyListOptions[0];
         el.periodTypeValue = filterData.valueEn;
+        console.log(el.periodTypeValue, 'periodTypeValue', el.periodTypeValue === '8', el.periodTypeValue === 8)
         return el;
       });
       let orderOptions = (subDetail.trades || []).map((el) => {
@@ -403,8 +415,8 @@ class SubscriptionDetail extends React.Component {
     if (modalType === 'skipNext') {
       skipNextSub({
         subscribeId: subDetail.subscribeId,
-        changeField: this.prop.intl.messages['subscription.skip'],
-        goodsList: skipNextGoods
+        changeField: this.props.intl.messages['subscription.skip'],
+        goodsList: this.state.skipNextGoods
       })
         .then((res) => {
           window.location.reload();
@@ -1052,7 +1064,7 @@ class SubscriptionDetail extends React.Component {
                                         value: el.periodTypeValue
                                       }}
                                       customStyleType="select-one"
-                                      key={el.periodTypeValue}
+                                      key={index + '_' + el.periodTypeValue}
                                     />
                                   </h1>
                                 </div>
@@ -1064,7 +1076,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     {/* Shipping Method: */}
-                                    Autoship starts at: 
+                                    Autoship starts at:
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1313,32 +1325,32 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <div className="footerGroupButton">
                         <p>
-                        {/* <div className="col-12 col-md-2"> */}
-                              <img
-                                style={{
-                                  display: 'inline-block',
-                                  width: '20px',
-                                  marginRight: '5px'
-                                }}
-                                src={cancelIcon}
-                              />
-                              <a
-                                class="rc-styled-link"
-                                href="#/"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  this.setState({
-                                    modalType: 'cancelAll',
-                                    modalShow: true,
-                                    currentModalObj: this.state.modalList.filter(
-                                      (el) => el.type === 'cancelAll'
-                                    )[0]
-                                  });
-                                }}
-                              >
-                                <FormattedMessage id="subscription.cancelAll" />
-                              </a>
-                            {/* </div> */}
+                          {/* <div className="col-12 col-md-2"> */}
+                          <img
+                            style={{
+                              display: 'inline-block',
+                              width: '20px',
+                              marginRight: '5px'
+                            }}
+                            src={cancelIcon}
+                          />
+                          <a
+                            class="rc-styled-link"
+                            href="#/"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.setState({
+                                modalType: 'cancelAll',
+                                modalShow: true,
+                                currentModalObj: this.state.modalList.filter(
+                                  (el) => el.type === 'cancelAll'
+                                )[0]
+                              });
+                            }}
+                          >
+                            <FormattedMessage id="subscription.cancelAll" />
+                          </a>
+                          {/* </div> */}
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <button
                             class="rc-btn rc-btn--one"
@@ -2399,25 +2411,34 @@ class SubscriptionDetail extends React.Component {
                                                 marginLeft: '5px'
                                               }}
                                             >
-                                            <DatePicker
-                                              className="receiveDate subs-receiveDate"
-                                              placeholder="Select Date"
-                                              dateFormat="yyyy-MM-dd"
-                                              minDate={this.state.minDate}
-                                              selected={
-                                                el.nextDeliveryTime
-                                                  ? new Date(el.nextDeliveryTime)
-                                                  : new Date()
-                                              }
-                                              onChange={(date) =>
-                                                this.onDateChange(date)
-                                              }
-                                            />
+                                              <DatePicker
+                                                className="receiveDate subs-receiveDate"
+                                                placeholder="Select Date"
+                                                dateFormat="yyyy-MM-dd"
+                                                minDate={this.state.minDate}
+                                                selected={
+                                                  el.tradeItems
+                                                    ? new Date(
+                                                        el.tradeItems[0].nextDeliveryTime
+                                                      )
+                                                    : new Date()
+                                                }
+                                                onChange={(date) =>
+                                                  this.onDateChange(
+                                                    date,
+                                                    el.tradeItems.map((el) => {
+                                                      return {
+                                                        skuId:
+                                                          el.skuId
+                                                      };
+                                                    })
+                                                  )
+                                                }
+                                              />
                                             </span>
                                           </div>
                                           <div className="col-12 col-md-5"></div>
-                                          <div className="col-12 col-md-3 pl-4">
-                                          </div>
+                                          <div className="col-12 col-md-3 pl-4"></div>
                                           <div className="col-12 col-md-1">
                                             <img
                                               style={{
@@ -2427,19 +2448,29 @@ class SubscriptionDetail extends React.Component {
                                               }}
                                               src={skipIcon}
                                             />
-                                            <a class="rc-styled-link" href="#/" onClick={e => {
-                                              e.preventDefault();
-                                              this.setState({
-                                                modalType: 'skipNext',
-                                                modalShow: true,
-                                                currentModalObj: this.state.modalList.filter(
-                                                  (el) => el.type === 'skipNext'
-                                                )[0],
-                                                skipNextGoods: el.tradeItem.map(el => {
-                                                  return { subscribeGoodsId: el.skuId }
-                                                })
-                                              });
-                                            }}>
+                                            <a
+                                              class="rc-styled-link"
+                                              href="#/"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                this.setState({
+                                                  modalType: 'skipNext',
+                                                  modalShow: true,
+                                                  currentModalObj: this.state.modalList.filter(
+                                                    (el) =>
+                                                      el.type === 'skipNext'
+                                                  )[0],
+                                                  skipNextGoods: el.tradeItems.map(
+                                                    (el) => {
+                                                      return {
+                                                        skuId:
+                                                          el.skuId
+                                                      };
+                                                    }
+                                                  )
+                                                });
+                                              }}
+                                            >
                                               Skip
                                             </a>
                                           </div>
@@ -2525,9 +2556,15 @@ class SubscriptionDetail extends React.Component {
                                               </div>
                                               <div className="col-4 col-md-4">
                                                 <p
-                                                  style={{ textAlign: 'right', paddingRight: '10px', marginBottom: '0' }}
+                                                  style={{
+                                                    textAlign: 'right',
+                                                    paddingRight: '10px',
+                                                    marginBottom: '0'
+                                                  }}
                                                 >
-                                                  {formatMoney(tradeItem.subscriptionPrice)}
+                                                  {formatMoney(
+                                                    tradeItem.subscriptionPrice
+                                                  )}
                                                 </p>
                                               </div>
                                             </div>
@@ -2754,167 +2791,188 @@ class SubscriptionDetail extends React.Component {
                                     </div>
                                   </>
                                 ))}
-                              {this.state.activeTabIdx === 1 && subDetail.noStartTradeList && subDetail.completedTradeList.map(el => (
-                                <div className="card-container">
-                                  <div className="card rc-margin-y--none ml-0">
-                                    <div
-                                      className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                      style={{
-                                        background: '#f9f9f9',
-                                        height: '60px'
-                                      }}
-                                    >
+                              {this.state.activeTabIdx === 1 &&
+                                subDetail.noStartTradeList &&
+                                subDetail.completedTradeList.map((el) => (
+                                  <div className="card-container">
+                                    <div className="card rc-margin-y--none ml-0">
                                       <div
-                                        className="col-12 col-md-3"
-                                        style={{ paddingLeft: '20px' }}
-                                      >
-                                        shipment on:{' '}
-                                        <span
-                                          style={{
-                                            color: '#e2001a',
-                                            fontWeight: '400'
-                                          }}
-                                        >
-                                          {el.tradeState.createTime.split(' ')[0]}
-                                        </span>
-                                      </div>
-                                      <div className="col-12 col-md-4"></div>
-                                      <div className="col-12 col-md-3 pl-4">
-                                        Promotion:{' '}
-                                        <span
-                                          style={{
-                                            color: '#e2001a',
-                                            fontWeight: '400'
-                                          }}
-                                        >
-                                          -{formatMoney(el.discountsPrice)}
-                                        </span>
-                                      </div>
-
-                                      <div className="col-12 col-md-2">
-                                        <img
-                                          style={{
-                                            display: 'inline-block',
-                                            width: '20px',
-                                            marginRight: '5px'
-                                          }}
-                                          src={dateIcon}
-                                        />
-                                        <a class="rc-styled-link" href="#/" onClick={(e) => {
-                                          e.preventDefault()
-                                          const { history } = this.props;
-                                          history.push(
-                                            `/account/orders-detail/${el.id}`
-                                          );
-                                        }}>
-                                          {/* <FormattedMessage id="subscription.skip" /> */}
-                                          Order detail
-                                        </a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  {/* {subDetail.goodsInfo &&
-                                    subDetail.goodsInfo.map((el, index) => ( */}
-                                      <div
-                                        className="row rc-margin-x--none row align-items-center"
+                                        className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                                         style={{
-                                          padding: '1rem 0',
-                                          borderBottom: '1px solid #d7d7d7'
+                                          background: '#f9f9f9',
+                                          height: '60px'
                                         }}
                                       >
-                                        <div className="col-4 col-md-6">
-                                          <div
-                                            className="rc-layout-container rc-five-column"
+                                        <div
+                                          className="col-12 col-md-3"
+                                          style={{ paddingLeft: '20px' }}
+                                        >
+                                          shipment on:{' '}
+                                          <span
                                             style={{
-                                              paddingRight: '60px',
-                                              paddingTop: '0'
+                                              color: '#e2001a',
+                                              fontWeight: '400'
                                             }}
                                           >
-                                            <div
-                                              className="rc-column flex-layout"
-                                              style={{
-                                                width: '100%',
-                                                padding: 0
-                                              }}
-                                            >
-                                              {
-                                                el.tradeItems && el.tradeItems.map((tradeItem, index) => {
-                                                  if(index < 2) {
+                                            {
+                                              el.tradeState.createTime.split(
+                                                ' '
+                                              )[0]
+                                            }
+                                          </span>
+                                        </div>
+                                        <div className="col-12 col-md-4"></div>
+                                        <div className="col-12 col-md-3 pl-4">
+                                          Promotion:{' '}
+                                          <span
+                                            style={{
+                                              color: '#e2001a',
+                                              fontWeight: '400'
+                                            }}
+                                          >
+                                            -{formatMoney(el.discountsPrice)}
+                                          </span>
+                                        </div>
+
+                                        <div className="col-12 col-md-2">
+                                          <img
+                                            style={{
+                                              display: 'inline-block',
+                                              width: '20px',
+                                              marginRight: '5px'
+                                            }}
+                                            src={dateIcon}
+                                          />
+                                          <a
+                                            class="rc-styled-link"
+                                            href="#/"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              const { history } = this.props;
+                                              history.push(
+                                                `/account/orders-detail/${el.id}`
+                                              );
+                                            }}
+                                          >
+                                            {/* <FormattedMessage id="subscription.skip" /> */}
+                                            Order detail
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {/* {subDetail.goodsInfo &&
+                                    subDetail.goodsInfo.map((el, index) => ( */}
+                                    <div
+                                      className="row rc-margin-x--none row align-items-center"
+                                      style={{
+                                        padding: '1rem 0',
+                                        borderBottom: '1px solid #d7d7d7'
+                                      }}
+                                    >
+                                      <div className="col-4 col-md-6">
+                                        <div
+                                          className="rc-layout-container rc-five-column"
+                                          style={{
+                                            paddingRight: '60px',
+                                            paddingTop: '0'
+                                          }}
+                                        >
+                                          <div
+                                            className="rc-column flex-layout"
+                                            style={{
+                                              width: '100%',
+                                              padding: 0
+                                            }}
+                                          >
+                                            {el.tradeItems &&
+                                              el.tradeItems.map(
+                                                (tradeItem, index) => {
+                                                  if (index < 2) {
                                                     return (
                                                       <>
-                                                      <img
-                                                  style={{
-                                                    width: '70px',
-                                                    margin: '0 10px'
-                                                  }}
-                                                  src={tradeItem.pic}
-                                                  alt=""
-                                                />
+                                                        <img
+                                                          style={{
+                                                            width: '70px',
+                                                            margin: '0 10px'
+                                                          }}
+                                                          src={tradeItem.pic}
+                                                          alt=""
+                                                        />
+                                                        <div
+                                                          style={{
+                                                            width: '120px',
+                                                            paddingTop: '30px'
+                                                          }}
+                                                        >
+                                                          <h5
+                                                            style={{
+                                                              overflow:
+                                                                'hidden',
+                                                              textOverflow:
+                                                                'ellipsis',
+                                                              overflowWrap:
+                                                                'normal',
+                                                              fontSize: '14px',
+                                                              whiteSpace:
+                                                                'nowrap'
+                                                            }}
+                                                          >
+                                                            {tradeItem.skuName}
+                                                          </h5>
+                                                          <p
+                                                            style={{
+                                                              overflow:
+                                                                'hidden',
+                                                              textOverflow:
+                                                                'ellipsis',
+                                                              marginBottom:
+                                                                '8px',
+                                                              fontSize: '14px'
+                                                            }}
+                                                          >
+                                                            {
+                                                              tradeItem.specDetails
+                                                            }
+                                                          </p>
+                                                        </div>
+                                                      </>
+                                                    );
+                                                  }
+                                                }
+                                              )}
+                                            {el.tradeItems &&
+                                              el.tradeItems.length > 2 && (
                                                 <div
                                                   style={{
                                                     width: '120px',
-                                                    paddingTop: '30px'
+                                                    paddingTop: '30px',
+                                                    marginLeft: '40px',
+                                                    fontSize: '25px',
+                                                    fontWeight: 400
                                                   }}
                                                 >
-                                                  <h5
-                                                    style={{
-                                                      overflow: 'hidden',
-                                                      textOverflow: 'ellipsis',
-                                                      overflowWrap: 'normal',
-                                                      fontSize: '14px',
-                                                      whiteSpace: 'nowrap'
-                                                    }}
-                                                  >
-                                                    {tradeItem.skuName}
-                                                  </h5>
-                                                  <p
-                                                    style={{
-                                                      overflow: 'hidden',
-                                                      textOverflow: 'ellipsis',
-                                                      marginBottom: '8px',
-                                                      fontSize: '14px'
-                                                    }}
-                                                  >
-                                                    {tradeItem.specDetails}
-                                                  </p>
+                                                  ...
                                                 </div>
-                                                </>
-                                                    )
-                                                  }
-                                                  
-                                                })
-                                              }
-                                              {
-                                                el.tradeItems && el.tradeItems.length > 2 && (<div
-                                                style={{
-                                                  width: '120px',
-                                                  paddingTop: '30px',
-                                                  marginLeft: '40px',
-                                                  fontSize: '25px',
-                                                  fontWeight: 400
-                                                }}
-                                              >...</div>)
-                                              }
-                                            </div>
+                                              )}
                                           </div>
-                                        </div>
-                                        <div className="col-4 col-md-4">
-                                          <div style={{ textAlign: 'center' }}>
-                                            <i className="greenCircle"></i>
-                                            <FormattedMessage id="Delivered" />
-                                          </div>
-                                        </div>
-                                        <div
-                                          className="col-4 col-md-2"
-                                          style={{ textAlign: 'center' }}
-                                        >
-                                          {formatMoney(el.tradePrice.totalPrice)}
                                         </div>
                                       </div>
+                                      <div className="col-4 col-md-4">
+                                        <div style={{ textAlign: 'center' }}>
+                                          <i className="greenCircle"></i>
+                                          <FormattedMessage id="Delivered" />
+                                        </div>
+                                      </div>
+                                      <div
+                                        className="col-4 col-md-2"
+                                        style={{ textAlign: 'center' }}
+                                      >
+                                        {formatMoney(el.tradePrice.totalPrice)}
+                                      </div>
+                                    </div>
                                     {/* ))} */}
-                                </div>
-                              ))
-                              }
+                                  </div>
+                                ))}
                               {/* {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                                   <div
                                     id={`tab__panel-${i}`}

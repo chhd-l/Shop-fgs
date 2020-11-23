@@ -9,7 +9,8 @@ const api = {
   skipNextSub: '/sub/cancelNextSubscription',
   cancelAllSub: '/sub/cancelSubscription',
   orderNowSub: '/sub/createOrderNow',
-  getPromotionPrice: '/sub/getPromotionPrice'
+  getPromotionPrice: '/sub/getPromotionPrice',
+  updateNextDeliveryTime: '/sub/updateNextDeliveryTime',
 }
 
 export default api
@@ -70,6 +71,14 @@ export function orderNowSub (parameter) {
 export function getPromotionPrice (parameter) {
   return axios({
     url: `${api.getPromotionPrice}`,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function updateNextDeliveryTime(parameter) {
+  return axios({
+    url: `${api.updateNextDeliveryTime}`,
     method: 'post',
     data: parameter
   })

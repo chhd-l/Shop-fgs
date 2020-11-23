@@ -1,0 +1,13 @@
+.minicart .priceBox {
+  width: 85px;
+  height: 21px;
+  text-align: right;
+}
+.minicart .priceBox .light {
+  font-size: 14px !important;
+  text-align: right;
+  color: #666;
+}
+.minicart .popover {
+  min-width: 350px;
+}

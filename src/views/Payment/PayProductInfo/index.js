@@ -159,9 +159,7 @@ class PayProductInfo extends React.Component {
   }
   isSubscription(el) {
     return (
-      el.subscriptionStatus &&
-      el.subscriptionPrice > 0 &&
-      this.props.buyWay === 'frequency'
+      el.goodsInfoFlag
     );
   }
   handleClickProName = (item) => {
