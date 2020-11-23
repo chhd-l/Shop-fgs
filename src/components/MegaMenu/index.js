@@ -40,6 +40,7 @@ class MegaMenu extends React.Component {
   _renderLinkItem = (item) => {
     return item.link ? (
       <a
+        style={{background:'#F6F6F6'}}
         className="rc-list__header"
         href={item.link}
         target="_blank"
@@ -50,6 +51,7 @@ class MegaMenu extends React.Component {
       </a>
     ) : (
       <Link
+        style={{background:'#F6F6F6'}}
         className="rc-list__header"
         to={item.linkObj}
         aria-haspopup={!!item.subMenuKey}
@@ -104,19 +106,26 @@ class MegaMenu extends React.Component {
                         {this._renderLinkItem(item)}
                       </li>
                     ))}
-                    {/* <div>
+                    <div>
                       <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mon compte</a>
                     </div>
                     <div>
                       <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mes commandes </a>
-                    </div> */}
+                    </div>
                   </ul>
                 </div>
               </div>
-              <div className="nav-bottom-banner-mobile rc-padding-x--xl rc-padding-y--md rc-bg-colour--interface-dark rc-full-width rc-large-intro rc-margin--none">
-                <span className="pull-left" style={{color:'#fff'}}>Besoin d'aide ?</span>
-                <a href="tel:0800-005-360" className="pull-right" style={{color:'#fff'}}>0800-005-360</a>
-              </div>
+              {
+                process.env.REACT_APP_LANG == 'fr'
+                ?
+                  <div className="nav-bottom-banner-mobile rc-padding-x--xl rc-padding-y--md rc-bg-colour--interface-dark rc-full-width rc-large-intro rc-margin--none">
+                    <span className="pull-left" style={{color:'#fff'}}>Besoin d'aide ?</span>
+                    <a href="tel:0800-005-360" className="pull-right" style={{color:'#fff'}}>0800-005-360</a>
+                </div>
+                :
+                null
+              }
+              
             </nav>
             <nav
               className="rc-nav rc-nav-custom rc-md-up"
