@@ -20,13 +20,11 @@ import {
   findSortList
 } from '@/api/list';
 import {
-  queryStoreCateIds,
   formatMoney,
   getParaByName,
   getDictionary,
   setSeoConfig
 } from '@/utils/utils';
-import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -71,7 +69,6 @@ class List extends React.Component {
 
       keywords: '',
       filterList: [],
-      operatedFilterList: [],
 
       initingFilter: true,
       initingList: true,
@@ -105,17 +102,12 @@ class List extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    //To do: category暂时取不到，后续添加
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Product List Page'
-    });
+
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
-    // debugger;
+
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
     // 2 查询filterlist后，需初始化状态
@@ -174,6 +166,7 @@ class List extends React.Component {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
+    const { storeCateIds, keywords } = this.state;
     this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
@@ -216,6 +209,16 @@ class List extends React.Component {
       .catch(() => {
         this.setState({ initingFilter: false });
       });
+    if (keywords) {
+      setSeoConfig({
+        pageName: 'Search Results Page'
+      });
+    } else if (storeCateIds && storeCateIds.length) {
+      setSeoConfig({
+        categoryId: storeCateIds[0],
+        pageName: 'Product List Page' // Search Results Page
+      });
+    }
   }
   initFilterSelectedSts({
     seletedValList,
@@ -250,9 +253,7 @@ class List extends React.Component {
       storeCateIds,
       keywords,
       initingList,
-      category,
       selectedSortParam,
-      operatedFilterList,
       filterList,
       searchForm,
       defaultFilterSearchForm
@@ -314,7 +315,7 @@ class List extends React.Component {
       goodsFilterRelList,
       ...searchForm
     };
-    // debugger;
+
     if (selectedSortParam) {
       params = Object.assign(params, {
         esSortList: [
@@ -543,16 +544,20 @@ class List extends React.Component {
           <BannerTip />
           <BreadCrumbs />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <a href="/" className="back-link">Homepage</a>
+            <a href="/" className="back-link">
+              Homepage
+            </a>
           </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
               <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                 <div className="rc-column rc-double-width text-center text-md-left">
                   <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
-                    <h1 className="rc-gamma rc-margin--none">{titleData.title}</h1>
+                    <h1 className="rc-gamma rc-margin--none">
+                      {titleData.title}
+                    </h1>
                     <div className="children-nomargin rc-body">
-                        <p>{titleData.description}</p>
+                      <p>{titleData.description}</p>
                     </div>
                   </div>
                 </div>
