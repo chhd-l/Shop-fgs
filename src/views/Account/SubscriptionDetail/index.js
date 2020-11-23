@@ -5,7 +5,6 @@ import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
@@ -256,24 +255,6 @@ class SubscriptionDetail extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  // get totalPrice () {
-  //   return this.props.checkoutStore.totalPrice
-  // }
-  // get tradePrice () {
-  //   return this.props.checkoutStore.tradePrice
-  // }
-  // get discountPrice () {
-  //   return this.props.checkoutStore.discountPrice
-  // }
-  // get deliveryPrice(){
-  //   return this.props.checkoutStore.deliveryPrice
-  // }
-  // get subscriptionPrice(){
-  //   return this.props.checkoutStore.subscriptionPrice
-  // }
-  // get promotionDesc(){
-  //   return this.props.checkoutStore.promotionDesc
-  // }
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
@@ -371,15 +352,11 @@ class SubscriptionDetail extends React.Component {
   async doGetPromotionPrice(promotionCode = '') {
     try {
       //计算Tota
-      // this.setState({ loading: true });
       let goodsInfo = this.state.subDetail.goodsInfo;
-
       let subTotal = 0;
       for (let goods of goodsInfo) {
-        // console.log(goods.subscribePrice, goods.subscribeNum, 'goods.subscribeNum;')
         subTotal += Number(goods.subscribePrice) * goods.subscribeNum;
       }
-
       //拼装goodsInfoList参数
       let goodsInfoList = this.state.subDetail.goodsInfo.map((ele) => {
         return {
@@ -387,7 +364,6 @@ class SubscriptionDetail extends React.Component {
           buyCount: ele.subscribeNum
         };
       });
-
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
         totalPrice: subTotal,
@@ -395,7 +371,6 @@ class SubscriptionDetail extends React.Component {
         promotionCode,
         isAutoSub: true
       });
-
       //拼装订阅购物车参数
       if (res.code === 'K-000000' && !res.context.promotionFlag) {
         //只有promotionFlag为false的时候表示prootionCode生效
@@ -526,7 +501,6 @@ class SubscriptionDetail extends React.Component {
           />
 
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-            <BannerTip />
             <BreadCrumbs />
             <Modal
               key="1"
@@ -1705,7 +1679,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ width: '80%' }}
                                 >
                                   <div className="img-container">
-                                    <img src={el.goodsPic} alt="" />
+                                    <img src={el.goodsPic} alt=""/>
                                   </div>
                                   <div
                                     className="v-center"
@@ -1730,16 +1704,16 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {el.specText}
                                     </p>
-                                    {el.petsName && (
-                                      <p
+                                    {
+                                      el.petsName && (<p
                                         style={{
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis'
                                         }}
                                       >
                                         pet: {el.petsName}
-                                      </p>
-                                    )}
+                                      </p>)
+                                    }
                                     <div>
                                       <label
                                         style={{
