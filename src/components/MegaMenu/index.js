@@ -86,7 +86,7 @@ class MegaMenu extends React.Component {
         <div className={`${this.state.showMegaMenu ? '' : 'rc-hidden'}`}>
           <section className="rc-max-width--xl">
             <nav
-              className="rc-nav rc-md-down"
+              className="rc-nav rc-md-down nav-toggle"
               data-toggle-group="mobile"
               data-toggle-effect="rc-expand--horizontal"
             >
@@ -104,8 +104,18 @@ class MegaMenu extends React.Component {
                         {this._renderLinkItem(item)}
                       </li>
                     ))}
+                    {/* <div>
+                      <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mon compte</a>
+                    </div>
+                    <div>
+                      <a className="rc-list__link rc-icon rc-bag--xs rc-iconography" role="menuitem">Mes commandes </a>
+                    </div> */}
                   </ul>
                 </div>
+              </div>
+              <div className="nav-bottom-banner-mobile rc-padding-x--xl rc-padding-y--md rc-bg-colour--interface-dark rc-full-width rc-large-intro rc-margin--none">
+                <span className="pull-left" style={{color:'#fff'}}>Besoin d'aide ?</span>
+                <a href="tel:0800-005-360" className="pull-right" style={{color:'#fff'}}>0800-005-360</a>
               </div>
             </nav>
             <nav
