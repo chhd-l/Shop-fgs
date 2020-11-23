@@ -7,15 +7,14 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import BannerTip from '@/components/BannerTip';
-import './index.css';
-import dog from '@/assets/images/animal-1.jpg';
-import cat from '@/assets/images/animal-2.jpg';
+import './index.less';
+// import dog from '@/assets/images/animal-1.jpg';
+// import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary,setSeoConfig } from '@/utils/utils';
+import { getDictionary } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -23,7 +22,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
-
+import Selection from '@/components/Selection';
+import Cat from '@/assets/images/cat.png';
+import Dog from '@/assets/images/dog.png';
+import UploadImg from './components/ImgUpload';
 const lang = process.env.REACT_APP_LANG;
 
 switch (lang) {
@@ -76,6 +78,7 @@ class PetForm extends React.Component {
       isMale: null,
       nickname: '',
       isUnknown: false,
+      isMix: false,
       breed: '',
       weight: '',
       isSterilized: null,
@@ -84,7 +87,12 @@ class PetForm extends React.Component {
       specialNeeds: [],
 
       selectedSpecialNeeds: [],
-
+      selectedSpecialNeedsObj: {
+        value: ''
+      },
+      selectedSizeObj: {
+        value: ''
+      },
       showBreedList: false,
       breedList: [],
       petList: [],
@@ -93,7 +101,9 @@ class PetForm extends React.Component {
       errorMsg: '',
       successMsg: '',
       breedListLoading: false,
-      showBreedListNoneTip: false
+      showBreedListNoneTip: false,
+      specialNeedsDisable: false,
+      imgUrl: ''
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -108,14 +118,12 @@ class PetForm extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
-    setSeoConfig()
+  async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    this.getPetList();
 
     getDictionary({ type: 'dogSize' })
       .then((res) => {
@@ -128,7 +136,7 @@ class PetForm extends React.Component {
           err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
-    getDictionary({ type: 'specialNeeds' })
+    await getDictionary({ type: 'specialNeeds' })
       .then((res) => {
         this.setState({
           specialNeeds: res
@@ -139,6 +147,23 @@ class PetForm extends React.Component {
           err.message.toString() || this.props.intl.messages.getDataFailed
         );
       });
+    this.getPetList();
+  }
+  get specialNeedsOptions() {
+    return this.state.specialNeeds.map((ele) => {
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
+    });
+  }
+  get sizeOptions() {
+    return this.state.sizeArr.map((ele) => {
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
+    });
   }
   getUserInfo() {
     return this.props.loginStore.userInfo;
@@ -158,7 +183,7 @@ class PetForm extends React.Component {
     return consumerAccount;
   };
 
-  getPetList = () => {
+  getPetList = async () => {
     if (!this.getAccount()) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -169,20 +194,29 @@ class PetForm extends React.Component {
     let params = {
       consumerAccount: this.getAccount()
     };
-    getPetList(params)
+    await getPetList(params)
       .then((res) => {
         if (res.code === 'K-000000') {
           let petList = res.context.context;
           if (petList.length > 0) {
-            let currentPet = petList[0];
+            let currentPet = petList.filter(
+              (el) => el.petsId === this.props.match.params.id
+            )[0];
             this.setState({
               loading: false,
               showList: true,
-              petList: petList,
-              currentPetId: currentPet.petsId,
-              currentPet: currentPet
+              petList: petList
             });
-            this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+            if (currentPet) {
+              this.edit(currentPet);
+              this.getSpecialNeeds(currentPet.customerPetsPropRelations);
+              console.log(currentPet.petsImg, 'haha');
+              this.setState({
+                currentPetId: currentPet.petsId,
+                currentPet: currentPet,
+                imgUrl: currentPet.petsImg.includes('http')? currentPet.petsImg: ''
+              });
+            }
           } else {
             this.setState({
               loading: false,
@@ -238,7 +272,8 @@ class PetForm extends React.Component {
       currentPet: currentPet
     });
     await delPets(params);
-    this.getPetList();
+
+    this.props.history.push('/account/pets/');
   };
   savePet = async () => {
     let consumerAccount = '';
@@ -272,11 +307,9 @@ class PetForm extends React.Component {
 
     let pets = {
       birthOfPets: this.state.birthdate,
-      petsBreed: this.state.isUnknown
-        ? this.props.intl.messages['account.unknownBreed']
-        : this.state.breed,
       petsId: this.state.currentPetId,
-      petsImg: '10086',
+      petsImg: this.state.imgUrl,
+      petsBreed: this.state.breed,
       petsName: this.state.nickname,
       petsSex: this.state.isMale ? '0' : '1',
       petsSizeValueId: '10086',
@@ -285,6 +318,12 @@ class PetForm extends React.Component {
       sterilized: this.state.isSterilized ? '0' : '1',
       storeId: process.env.REACT_APP_STOREID
     };
+    if (this.state.isUnknown) {
+      pets.petsBreed = 'unknown Breed';
+    }
+    if (this.state.isMix) {
+      pets.petsBreed = 'mix Breed';
+    }
     let param = {
       customerPets: pets,
       customerPetsPropRelations: customerPetsPropRelations,
@@ -311,6 +350,7 @@ class PetForm extends React.Component {
               loading: false
             });
           }
+          this.props.history.push('/account/pets/');
         })
         .catch((err) => {
           this.showErrorMsg(this.props.intl.messages.saveFailed);
@@ -338,6 +378,7 @@ class PetForm extends React.Component {
               loading: false
             });
           }
+          this.props.history.push('/account/pets/');
         })
         .catch((err) => {
           this.showErrorMsg(this.props.intl.messages.saveFailed);
@@ -463,7 +504,6 @@ class PetForm extends React.Component {
         );
         this.setState({ breedListLoading: false, showBreedListNoneTip: true });
       });
-
     // this.getDict(
     //   this.state.isCat ? 'catBreed_mx' : 'dogBreed_mx',
     //   e.target.value
@@ -476,9 +516,10 @@ class PetForm extends React.Component {
     });
   }
   setSterilized(val) {
+    console.log(val);
     this.setState({
-      isSterilized: val,
-      isDisabled: false
+      isSterilized: val
+      // isDisabled: false
     });
   }
 
@@ -558,7 +599,8 @@ class PetForm extends React.Component {
     });
   };
   edit = (currentPet) => {
-    this.setState({
+    console.log(currentPet, 'haha');
+    let param = {
       isEdit: true,
       step: 1,
       currentStep: 'step1',
@@ -577,7 +619,46 @@ class PetForm extends React.Component {
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
       isSterilized: currentPet.sterilized === 0 ? true : false,
       birthdate: currentPet.birthOfPets
-    });
+    };
+    if (currentPet.petsBreed === 'unknown Breed') {
+      param.isMix = false;
+      param.isUnknown = true;
+      param.isInputDisabled = true;
+      param.breed = '';
+    } else if (currentPet.petsBreed === 'mix Breed') {
+      param.isMix = true;
+      param.isUnknown = false;
+      param.isInputDisabled = true;
+      param.breed = '';
+    }
+    let filterSize = this.sizeOptions.filter(
+      (el) => el.name === currentPet.petsSizeValueName
+    );
+    if (filterSize.length) {
+      param.selectedSizeObj = Object.assign(this.state.selectedSizeObj, {
+        value: filterSize[0].value
+      });
+    }
+    if (
+      currentPet.customerPetsPropRelations[0].propName !==
+      'Sin necesidades especiales'
+    ) {
+      param.selectedSpecialNeedsObj = Object.assign(
+        this.state.selectedSpecialNeedsObj,
+        {
+          value: this.specialNeedsOptions.filter(
+            (el) => el.name === currentPet.customerPetsPropRelations[0].propName
+          )[0].value
+        }
+      );
+      param.selectedSpecialNeeds = [
+        currentPet.customerPetsPropRelations[0].propName
+      ];
+    } else {
+      param.specialNeedsDisable = true;
+      param.selectedSpecialNeeds = ['Sin necesidades especiales'];
+    }
+    this.setState(param);
   };
   getDict = (type, name) => {
     this.setState({ loading: true });
@@ -671,8 +752,88 @@ class PetForm extends React.Component {
       isDisabled: false
     });
   }
+  genderChange(e) {
+    if (e.currentTarget.value === '0') {
+      this.setState({
+        isMale: true
+      });
+    } else if (e.currentTarget.value === '1') {
+      this.setState({
+        isMale: false
+      });
+    }
+  }
+  petTypeChange(e) {
+    if (e.currentTarget.value === '0') {
+      this.setState({
+        isCat: true,
+        isDisabled: false
+      });
+    } else if (e.currentTarget.value === '1') {
+      this.setState({
+        isCat: false,
+        isDisabled: false
+      });
+    }
+  }
+  specialNeedsOptionsChange(data) {
+    if (data.name === 'Sin necesidades especiales') {
+      if (this.state.selectedSpecialNeeds[0] === 'Sin necesidades especiales') {
+        this.setState({
+          specialNeedsDisable: false,
+          selectedSpecialNeeds: []
+        });
+      } else {
+        this.setState({
+          specialNeedsDisable: true,
+          selectedSpecialNeeds: ['Sin necesidades especiales']
+        });
+      }
+    } else {
+      this.setState({
+        selectedSpecialNeeds: [data.name]
+      });
+    }
+  }
+  sizeOptionsChange(data) {
+    this.setState({
+      weight: data.name
+    });
+  }
+  breedCheckboxChange(e) {
+    console.log(e.currentTarget.value, e.currentTarget.checked);
+    if (e.currentTarget.checked) {
+      this.setState({ isInputDisabled: true });
+    } else {
+      this.setState({ isInputDisabled: false });
+    }
+    if (e.currentTarget.value === 'Mix breed') {
+      this.setState({
+        isMix: !this.state.isMix,
+        isUnknown: false
+      });
+    }
+    if (e.currentTarget.value === "Don't know") {
+      this.setState({
+        isMix: false,
+        isUnknown: !this.state.isUnknown
+      });
+    }
+    // }
+  }
+  handelImgChange(data) {
+    console.log(data);
+    this.setState({ imgUrl: data });
+  }
+  handleErrMessage = () => {};
   render() {
-    const { petList, currentPet } = this.state;
+    const {
+      petList,
+      currentPet,
+      selectedSpecialNeedsObj,
+      selectedSizeObj,
+      imgUrl
+    } = this.state;
     return (
       <div className="petForm">
         <Header
@@ -683,535 +844,135 @@ class PetForm extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
               <SideMenu type="Pets" />
               {this.state.loading ? <Loading positionFixed="true" /> : null}
-              <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div
-                  className="list-select-pet js-list-pet"
-                  data-toggle-group=""
-                >
-                  <ul
-                    className="scroll--x list list--inline list--align list--blank flex--middle"
-                    role="tablist"
-                  >
-                    <li className="pet-element">
-                      <span
-                        onClick={() => this.add()}
-                        className="tab-add tab--img"
-                        role="tab"
-                      >
-                        <span className="rc-icon rc-plus rc-iconography plus-icon add_pet ui-cursor-pointer"></span>
-                      </span>
-                    </li>
-
-                    {petList.map((item) => (
-                      <li
-                        className="rc-margin-x--xs pet-element"
-                        key={item.petsId}
-                      >
-                        <span onClick={() => this.petsById(item.petsId)}>
-                          <div
-                            className={
-                              'tab__img img--round img--round--md name--select text-center ' +
-                              (item.petsId === this.state.currentPetId
-                                ? 'active'
-                                : '')
-                            }
-                          >
-                            {item.petsName}
-                          </div>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+                <div className="photoBox">
+                  <img
+                    style={{
+                      width: '120px',
+                      marginTop: '40px',
+                      borderRadius: '50%'
+                    }}
+                    src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                  />
+                  {/* <a class="rc-styled-link" href="#/" onClick={(e) => {
+                        e.preventDefault()
+                      }}>Change picture</a> */}
+                  <UploadImg
+                    tipVisible={false}
+                    handleChange={(data) => this.handelImgChange(data)}
+                    geterrMessage={this.handleErrMessage}
+                    showLoading={() => {
+                      this.setState({loading: true})
+                    }}
+                    hiddenLoading={() => {
+                      this.setState({loading: false})
+                    }}
+                  />
                 </div>
-                <div
-                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                    this.state.errorMsg ? '' : 'hidden'
-                  }`}
-                >
-                  <aside
-                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                    role="alert"
-                  >
-                    <span className="pl-0">{this.state.errorMsg}</span>
-                    <button
-                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                      onClick={() => {
-                        this.setState({ errorMsg: '' });
-                      }}
-                      aria-label="Close"
+                <div className="formBox">
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="name"
                     >
-                      <span className="rc-screen-reader-text">
-                        <FormattedMessage id="close" />
-                      </span>
-                    </button>
-                  </aside>
-                </div>
-                <aside
-                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                    this.state.successMsg ? '' : 'hidden'
-                  }`}
-                  role="alert"
-                >
-                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                    {this.state.successMsg}
-                  </p>
-                </aside>
-                {this.state.showList ? (
-                  <div className="pet-information js-pet-information rc-margin-bottom--md">
-                    <h2 className="name-pet">{currentPet.petsName}</h2>
-                    <div className="rc-layout-container">
-                      <div className="rc-column">
-                        <ul className="pet-data">
-                          <li
-                            className={
-                              'breed ' +
-                              (currentPet.petsType === 'dog' ? 'dog' : 'cat')
-                            }
-                          >
-                            <span className="">{currentPet.petsBreed}</span>
-                          </li>
-                          <li className="birth">
-                            <span className="">{currentPet.birthOfPets}</span>
-                          </li>
-                          <li
-                            className={
-                              'gender ' +
-                              (currentPet.petsSex === 0 ? 'male' : 'female') +
-                              ' sprite-pet'
-                            }
-                          >
-                            <span className="">
-                              {' '}
-                              {currentPet.petsSex === 0 ? (
-                                <FormattedMessage id="account.male"></FormattedMessage>
-                              ) : (
-                                <FormattedMessage id="account.female"></FormattedMessage>
-                              )}
-                            </span>
-                          </li>
-                          <li
-                            className="weight"
-                            style={{
-                              display:
-                                currentPet.petsType === 'dog' ? 'block' : 'none'
-                            }}
-                          >
-                            <span className="">
-                              {currentPet.petsSizeValueName}
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="rc-column">
-                        <div className="pet-special-need">
-                          <FormattedMessage id="account.specialNeeds" />
-                        </div>
-                        <ul className="list-special-need">
-                          {this.state.selectedSpecialNeeds.map((item, i) => (
-                            <li key={i}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="edit js-edit-pet">
-                        <a onClick={() => this.edit(currentPet)}>
-                          <img src={edit} className="img-success" alt="" />
-                        </a>
-                      </div>
-                      <div className="delete">
-                        <a
-                          onClick={() => this.updateConfirmTooltipVisible(true)}
-                        >
-                          X
-                        </a>
-                        <ConfirmTooltip
-                          containerStyle={{
-                            transform: 'translate(-89%, 105%)'
-                          }}
-                          arrowStyle={{ left: '89%' }}
-                          display={currentPet.confirmTooltipVisible}
-                          confirm={(e) => this.delPets(currentPet)}
-                          updateChildDisplay={(status) =>
-                            this.updateConfirmTooltipVisible(status)
-                          }
-                        />
-                      </div>
+                      <FormattedMessage id="name" />
+                    </label>
+                    <span
+                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                      input-setup="true"
+                    >
+                      <input
+                        type="text"
+                        className="rc-input__control"
+                        id="firstName"
+                        name="firstName"
+                        required=""
+                        aria-required="true"
+                        style={{ padding: '.5rem 0' }}
+                        value={this.state.nickname}
+                        onChange={this.inputNickname}
+                        maxLength="50"
+                        autoComplete="address-line"
+                      />
+                      <label className="rc-input__label" htmlFor="name"></label>
+                    </span>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="name" />
+                        }}
+                      />
                     </div>
                   </div>
-                ) : null}
-                <div
-                  className="group-progress js-group-progress section-form-group"
-                  style={{ display: !this.state.showList ? 'block' : 'none' }}
-                >
-                  <div className="bar-progress">
-                    <div
-                      className="progress-child red js-percent-step"
-                      style={{
-                        width: this.state.precent * this.state.step + '%'
-                      }}
-                    ></div>
-                  </div>
-                  <div className="step-progress">
-                    <FormattedMessage id="account.step"></FormattedMessage>
-                    <span className="js-step-number">{this.state.step}</span>
-                    <FormattedMessage id="account.of"></FormattedMessage>8
-                  </div>
-                </div>
-                <div
-                  className="pet-form-create"
-                  style={{ display: !this.state.showList ? 'block' : 'none' }}
-                >
-                  {this.state.currentStep === 'step1' ? (
-                    <div id="step-1" className="section col-lg-9 col-12">
-                      <h2>
-                        <FormattedMessage id="account.catOrDog" />
-                      </h2>
-                      <div className="form-group  custom-checkbox col-lg-6 ui-cursor-pointer">
-                        <img
-                          src={cat}
-                          className="animal-select"
-                          alt=""
-                          title=""
-                          onClick={() => this.selectPetType('cat')}
-                          style={
-                            this.state.isCat === true ? selectedPet : noSelect
-                          }
-                        />
-                        <div className="label-option">
-                          <FormattedMessage id="account.cat" />
-                        </div>
-                      </div>
-
-                      <div className="form-group custom-checkbox col-lg-6 ui-cursor-pointer">
-                        <img
-                          src={dog}
-                          className="animal-select"
-                          alt=""
-                          title=""
-                          onClick={() => this.selectPetType('dog')}
-                          style={
-                            this.state.isCat === false ? selectedPet : noSelect
-                          }
-                        />
-                        <div className="label-option">
-                          <FormattedMessage id="account.dog"></FormattedMessage>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {this.state.currentStep === 'step2' ? (
-                    <div
-                      id="step-2"
-                      className="section col-lg-9 col-12 next-step"
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="gender"
                     >
-                      <h2>
-                        <FormattedMessage id="account.nickname"></FormattedMessage>
-                      </h2>
-                      <div className="form-group">
+                      <FormattedMessage id="Gender" />
+                    </label>
+                    <div style={{ padding: '.5rem 0' }}>
+                      <div class="rc-input rc-input--inline">
                         <input
-                          type="text"
-                          placeholder={this.props.intl.messages.enterNickname}
-                          className="form-control input-pet"
-                          name="dwfrm_miaaPet_petName"
-                          required="required"
-                          aria-required="true"
-                          value={this.state.nickname}
-                          onChange={this.inputNickname}
-                          maxLength="2147483647"
+                          class="rc-input__radio"
+                          id="female"
+                          value="1"
+                          checked={!this.state.isMale}
+                          type="radio"
+                          name="gender"
+                          onChange={(e) => this.genderChange(e)}
                         />
-                        <div className="invalid-feedback"></div>
+                        <label class="rc-input__label--inline" for="female">
+                          Female
+                        </label>
+                      </div>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="male"
+                          value="0"
+                          checked={this.state.isMale}
+                          type="radio"
+                          name="gender"
+                          onChange={(e) => this.genderChange(e)}
+                        />
+                        <label class="rc-input__label--inline" for="male">
+                          Male
+                        </label>
                       </div>
                     </div>
-                  ) : null}
-                  {this.state.currentStep === 'step3' ? (
-                    <div id="step-3" className="section next-step">
-                      <h2>
-                        <FormattedMessage id="account.gender"></FormattedMessage>
-                      </h2>
-                      <div className="form-group custom-control custom-checkbox col-lg-6 ui-cursor-pointer">
-                        <label
-                          className="pet-select-control select-gender-1 icon-rc"
-                          onClick={() => this.selectSex('male')}
-                          style={
-                            this.state.isMale === true ? selectedPet : noSelect
-                          }
-                        ></label>
-                        <div className="label-option">
-                          <FormattedMessage id="account.male"></FormattedMessage>
-                        </div>
-                      </div>
-                      <div className="form-group custom-control custom-checkbox col-lg-6 ui-cursor-pointer">
-                        <label
-                          className="pet-select-control select-gender-2 icon-rc"
-                          onClick={() => this.selectSex('female')}
-                          style={
-                            this.state.isMale === false ? selectedPet : noSelect
-                          }
-                        ></label>
-                        <div className="label-option">
-                          <FormattedMessage id="account.female"></FormattedMessage>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {this.state.currentStep === 'step4' ? (
                     <div
-                      id="step-4"
-                      className="section next-step not-hidden col-lg-9 col-12"
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
                     >
-                      <h2>
-                        <FormattedMessage
-                          id="account.breed"
-                          values={{ val: this.state.nickname }}
-                        />
-                      </h2>
-                      <div className="content-section">
-                        <div className="form-group relative">
-                          <input
-                            type="text"
-                            id="dog-breed"
-                            placeholder={this.props.intl.messages.enterDogBreed}
-                            className="form-control input-pet breed"
-                            value={this.state.breed}
-                            onChange={this.inputBreed}
-                            style={{
-                              display: this.state.isCat ? 'none' : null
-                            }}
-                            disabled={
-                              this.state.isInputDisabled ? 'disabled' : null
-                            }
-                          />
-
-                          <input
-                            type="text"
-                            id="cat-breed"
-                            placeholder={this.props.intl.messages.enterCatBreed}
-                            className="form-control input-pet breed"
-                            value={this.state.breed}
-                            onChange={this.inputBreed}
-                            style={{
-                              display: !this.state.isCat ? 'none' : null
-                            }}
-                            disabled={
-                              this.state.isInputDisabled ? 'disabled' : null
-                            }
-                            onBlur={() => {
-                              this.setState({ showBreedListNoneTip: false });
-                            }}
-                          />
-
-                          <div
-                            className={`select-breed ${
-                              this.state.showBreedList ? '' : 'hidden'
-                            }`}
-                          >
-                            {this.state.breedListLoading ? (
-                              <div className="m-1">
-                                <Skeleton
-                                  color="#f5f5f5"
-                                  width="95%"
-                                  count={2}
-                                />
-                              </div>
-                            ) : null}
-                            {this.state.breedList.map((item, i) => (
-                              <option
-                                value={item.value}
-                                key={item.id}
-                                className={`pl-2 pr-1 ui-cursor-pointer ${
-                                  i !== this.state.breedList.length - 1
-                                    ? 'border-bottom'
-                                    : ''
-                                }`}
-                                onClick={() => this.selectedBreed(item)}
-                                style={{ whiteSpace: 'initial' }}
-                              >
-                                {item.name}
-                              </option>
-                            ))}
-                            {/* {this.state.showBreedListNoneTip && (
-                              <span className="pl-2">
-                                <FormattedMessage id="searchNoBreed" />
-                              </span>
-                            )} */}
-                          </div>
-                        </div>
-
-                        <div className="form-group custom-control label-unknown">
-                          <div
-                            className="rc-input rc-input--inline"
-                            style={{
-                              margin: '15px 0 0 0',
-                              pointerEvents: this.state.isUnknownDisabled
-                                ? 'none'
-                                : ''
-                            }}
-                            onClick={() => this.setUnknown()}
-                          >
-                            {this.state.isUnknown ? (
-                              <input
-                                type="checkbox"
-                                className="rc-input__checkbox"
-                                value={this.state.isUnknown}
-                                key={1}
-                                checked
-                              />
-                            ) : (
-                              <input
-                                type="checkbox"
-                                className="rc-input__checkbox"
-                                key={2}
-                                value={this.state.isUnknown}
-                              />
-                            )}
-                            <label className="rc-input__label--inline text-break">
-                              <FormattedMessage id="account.unknownBreed" />
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="gender" />
+                        }}
+                      />
                     </div>
-                  ) : null}
-                  {this.state.currentStep === 'step5' ? (
-                    <div id="step-5" className="section next-step">
-                      <h2>
-                        <FormattedMessage
-                          id="account.weight"
-                          values={{ val: this.state.nickname }}
-                        />
-                      </h2>
-                      <div className="group-size" style={{ width: '100%' }}>
-                        {this.state.sizeArr.map((item, i) => (
-                          <div
-                            className="wrap__input wrap-size pull-left "
-                            onClick={() => this.selectWeight(item.name)}
-                          >
-                            <input
-                              type="radio"
-                              className="radio input__radio"
-                              name="dwfrm_miaaPet_neuteredPet"
-                              value={item.name}
-                            />
-                            {this.state.weight === item.name ? (
-                              <label className="label label__input sterilizedChecked">
-                                {item.name}
-                              </label>
-                            ) : (
-                              <label className="label label__input">
-                                {item.name}
-                              </label>
-                            )}
-                          </div>
-                        ))}
-                        {/* <div className="wrap__input wrap-size pull-left col-3">
-                          <input id={"is-" + item}
-                            type="radio" 
-                            className="radio input__radio" 
-                            name="dwfrm_miaaPet_petSize" 
-                            value="X-Small"
-                            onClick={()=>this.selectWeight("X-Small")}/>
-                          <label className="label label__input" for="is-X-Small">X-Small (up to 4 kg)</label>
-                        </div>
-                        <div className="wrap__input wrap-size pull-left col-3">
-                          <input id="is-Small" type="radio" 
-                          className="radio input__radio" 
-                          name="dwfrm_miaaPet_petSize"
-                           value="Small"
-                           onClick={()=>this.selectWeight("Small")}/>
-                          <label className="label label__input" for="is-Small">Mini (4-10 kg)</label>
-                        </div>
-                        <div className="wrap__input wrap-size pull-left col-3">
-                          <input id="is-Medium" type="radio" 
-                          className="radio input__radio" 
-                          name="dwfrm_miaaPet_petSize" 
-                          value="Medium"
-                          onClick={()=>this.selectWeight("Medium")}/>
-                          <label className="label label__input" for="is-Medium">Medium (10-25 kg)</label>
-                        </div>
-                        <div className="wrap__input wrap-size pull-left col-3">
-                          <input id="is-Large" type="radio" className="radio input__radio" 
-                          name="dwfrm_miaaPet_petSize"
-                           value="Large"
-                           onClick={()=>this.selectWeight("Large")}/>
-                          <label className="label label__input" for="is-Large">Maxi (25-45 kg)</label>
-                        </div>
-                        <div className="wrap__input wrap-size pull-left col-3">
-                          <input id="is-X-Large" type="radio" className="radio input__radio" name="dwfrm_miaaPet_petSize" 
-                          value="X-Large"
-                          onClick={()=>this.selectWeight("X-Large")}/>
-                          <label className="label label__input" for="is-X-Large">Giant (over 45 kg)</label>
-                        </div>*/}
-                      </div>
-                    </div>
-                  ) : null}
-                  {this.state.currentStep === 'step6' ? (
-                    <div id="step-6" className="section next-step">
-                      <h2>
-                        <FormattedMessage id="account.sterilized"></FormattedMessage>
-                      </h2>
-                      <div className="group-size">
-                        <div
-                          className="wrap__input col-6 pull-left text-center"
-                          onClick={() => this.setSterilized(true)}
-                        >
-                          <input
-                            id="is-true"
-                            type="radio"
-                            className="radio input__radio"
-                            name="dwfrm_miaaPet_neuteredPet"
-                            value="true"
-                          />
-                          {this.state.isSterilized === true ? (
-                            <label className="label label__input sterilizedChecked">
-                              <FormattedMessage id="sterilized"></FormattedMessage>
-                            </label>
-                          ) : (
-                            <label className="label label__input">
-                              <FormattedMessage id="sterilized"></FormattedMessage>
-                            </label>
-                          )}
-                        </div>
-                        <div
-                          className="wrap__input col-6 pull-left text-center"
-                          onClick={() => this.setSterilized(false)}
-                        >
-                          <input
-                            id="is-true"
-                            type="radio"
-                            className="radio input__radio"
-                            name="dwfrm_miaaPet_neuteredPet"
-                            value="false"
-                          />
-                          {this.state.isSterilized === false ? (
-                            <label className="label label__input sterilizedChecked">
-                              <FormattedMessage id="notSterilized"></FormattedMessage>
-                            </label>
-                          ) : (
-                            <label className="label label__input">
-                              <FormattedMessage id="notSterilized"></FormattedMessage>
-                            </label>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {
-                    <div
-                      id="step-7"
-                      className="section next-step"
-                      style={{
-                        display:
-                          this.state.currentStep === 'step7' ? 'block' : 'none'
-                      }}
+                  </div>
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="birthday"
                     >
-                      <h2>
-                        <FormattedMessage id="account.enterBirthDare"></FormattedMessage>
-                      </h2>
+                      <FormattedMessage id="birthday" />
+                    </label>
+                    <span
+                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                      input-setup="true"
+                    >
                       <DatePicker
                         className="receiveDate"
                         placeholder="Select Date"
@@ -1221,122 +982,537 @@ class PetForm extends React.Component {
                         selected={
                           this.state.birthdate
                             ? new Date(this.state.birthdate)
-                            : new Date()
+                            : ''
                         }
                         onChange={(date) => this.onDateChange(date)}
                       />
                       <div className="invalid-birthdate invalid-feedback">
                         <FormattedMessage id="account.dateTip" />
                       </div>
-                    </div>
-                  }
-                  {this.state.currentStep === 'step8' ? (
-                    <div id="step-8" className="section next-step not-hidden">
-                      <h2>
-                        <FormattedMessage id="account.features" />
-                      </h2>
-                      <div style={{ width: '88%', margin: '0 auto' }}>
-                        {this.state.specialNeeds.map((item, i) => (
-                          <div
-                            className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                            onClick={() => this.selectFeatures(item.name)}
-                          >
-                            <input
-                              type="checkbox"
-                              className="rc-input__checkbox"
-                              value={item.name}
-                            />
-                            {this.state.selectedSpecialNeeds.includes(
-                              item.name
-                            ) ? (
-                              <label className="rc-input__label--inline petPropChecked">
-                                {item.name}
-                              </label>
-                            ) : (
-                              <label className="rc-input__label--inline ">
-                                {item.name}
-                              </label>
-                            )}
-                          </div>
-                        ))}
-
-                        <div
-                          className="rc-input rc-input--inline rc-margin-bottom--xs special-need-style"
-                          onClick={() =>
-                            this.selectFeatures('Sin necesidades especiales')
-                          }
-                        >
-                          <input
-                            type="checkbox"
-                            className="rc-input__checkbox"
-                            value="Sin necesidades especiales"
-                          />
-                          {this.state.selectedSpecialNeeds.includes(
-                            'Sin necesidades especiales'
-                          ) ? (
-                            <label className="rc-input__label--inline petPropChecked">
-                              <FormattedMessage id="noSpecialNeeds" />
-                            </label>
-                          ) : (
-                            <label className="rc-input__label--inline ">
-                              <FormattedMessage id="noSpecialNeeds" />
-                            </label>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <div>
-                    <button
-                      type="button"
-                      style={{
-                        margin: '20px',
-                        display:
-                          this.state.currentStep === 'success' ? 'none' : null
-                      }}
-                      className="rc-btn rc-btn--two btn-next btn-block js-btn-next"
-                      onClick={this.cancel}
+                    </span>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
                     >
-                      <FormattedMessage id="cancel"></FormattedMessage>
-                    </button>
-                    {this.state.currentStep !== 'success' ? (
-                      <button
-                        type="button"
-                        name="next"
-                        style={{ margin: '20px' }}
-                        className="rc-btn rc-btn--one btn-next btn-block js-btn-next"
-                        disabled={this.state.isDisabled ? 'disabled' : null}
-                        onClick={this.nextStep}
-                      >
-                        {this.state.step === 8 ? (
-                          <FormattedMessage id="save" />
-                        ) : (
-                          <FormattedMessage id="payment.further" />
-                        )}
-                      </button>
-                    ) : null}
-                  </div>
-
-                  {this.state.currentStep === 'success' ? (
-                    <div className="add-pet-success js-add-pet-success">
-                      <img
-                        alt=""
-                        src={success}
-                        className="img-success"
-                        style={{ margin: '0 auto' }}
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="birthday" />
+                        }}
                       />
-                      <div className="text-done">
-                        <FormattedMessage id="account.fine" />
+                    </div>
+                  </div>
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="Pet type"
+                    >
+                      <FormattedMessage id="Pet type" />
+                    </label>
+                    <div style={{ padding: '.5rem 0' }}>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="cat"
+                          value="0"
+                          checked={this.state.isCat}
+                          type="radio"
+                          name="petType"
+                          onChange={(e) => this.petTypeChange(e)}
+                        />
+                        <label class="rc-input__label--inline" for="cat">
+                          Cat
+                        </label>
                       </div>
-                      <div className="text-done">
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="dog"
+                          value="1"
+                          checked={!this.state.isCat}
+                          type="radio"
+                          name="petType"
+                          onChange={(e) => this.petTypeChange(e)}
+                        />
+                        <label class="rc-input__label--inline" for="dog">
+                          Dog
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="Pet type" />
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="weight"
+                    >
+                      <FormattedMessage id="weight" />
+                    </label>
+                    <span
+                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                      input-setup="true"
+                    >
+                      <input
+                        type="text"
+                        className="rc-input__control"
+                        id="weight"
+                        name="weight"
+                        required=""
+                        aria-required="true"
+                        // value={addressForm.firstName}
+                        // onChange={(e) => this.handleInputChange(e)}
+                        // onBlur={(e) => this.inputBlur(e)}
+                        style={{padding: '.5rem 0'}}
+                        maxLength="50"
+                        autoComplete="address-line"
+                      />
+                      <label
+                        className="rc-input__label"
+                        htmlFor="weight"
+                      ></label>
+                    </span>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="weight" />
+                        }}
+                      />
+                    </div>
+                  </div> */}
+                  {!this.state.isCat && (
+                    <div className="form-group col-lg-6 pull-left">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="weight"
+                      >
+                        <FormattedMessage id="Weight" />
+                      </label>
+                      <Selection
+                        optionList={this.sizeOptions}
+                        selectedItemChange={(el) => this.sizeOptionsChange(el)}
+                        selectedItemData={{
+                          value: selectedSizeObj.value
+                        }}
+                        key={selectedSizeObj.value}
+                        customStyleType="select-one"
+                      />
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
                         <FormattedMessage
-                          id="account.welcome"
-                          defaultMessage={' '}
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="weight" />
+                          }}
                         />
                       </div>
                     </div>
-                  ) : null}
+                  )}
+                  {!this.state.isCat && !/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                            navigator.userAgent
+                          )  && (
+                    <div
+                      className="form-group col-lg-6 pull-left"
+                      style={{ height: '86px' }}
+                    ></div>
+                  )}
+
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="breed"
+                    >
+                      <FormattedMessage id="Breed" />
+                    </label>
+                    <span
+                      className="rc-input rc-input--label rc-input--full-width"
+                      input-setup="true"
+                      style={{marginBottom: '10px'}}
+                    >
+                      <input
+                        type="text"
+                        id="dog-breed"
+                        placeholder={this.props.intl.messages.enterDogBreed}
+                        className="form-control input-pet breed"
+                        value={this.state.breed}
+                        onChange={this.inputBreed}
+                        style={{
+                          display: this.state.isCat ? 'none' : null
+                        }}
+                        disabled={
+                          this.state.isInputDisabled ? 'disabled' : null
+                        }
+                      />
+
+                      <input
+                        type="text"
+                        id="cat-breed"
+                        placeholder={this.props.intl.messages.enterCatBreed}
+                        className="form-control input-pet breed"
+                        value={this.state.breed}
+                        onChange={this.inputBreed}
+                        style={{
+                          display: !this.state.isCat ? 'none' : null
+                        }}
+                        disabled={
+                          this.state.isInputDisabled ? 'disabled' : null
+                        }
+                        onBlur={() => {
+                          this.setState({ showBreedListNoneTip: false });
+                        }}
+                      />
+
+                      <div
+                        className={`select-breed ${
+                          this.state.showBreedList ? '' : 'hidden'
+                        }`}
+                      >
+                        {this.state.breedListLoading ? (
+                          <div className="m-1">
+                            <Skeleton color="#f5f5f5" width="95%" count={2} />
+                          </div>
+                        ) : null}
+                        {this.state.breedList.map((item, i) => (
+                          <option
+                            value={item.value}
+                            key={item.id}
+                            className={`pl-2 pr-1 ui-cursor-pointer ${
+                              i !== this.state.breedList.length - 1
+                                ? 'border-bottom'
+                                : ''
+                            }`}
+                            onClick={() => this.selectedBreed(item)}
+                            style={{ whiteSpace: 'initial' }}
+                          >
+                            {item.name}
+                          </option>
+                        ))}
+                      </div>
+                      <label
+                        className="rc-input__label"
+                        htmlFor="breed"
+                      ></label>
+                    </span>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="breed" />
+                        }}
+                      />
+                    </div>
+                    {/* <div className="form-group col-lg-6 pull-left"> */}
+                    <div class="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Mix breed">
+                        Mix breed
+                      </label>
+                    </div>
+                    <div class="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Don't know">
+                        Don't know
+                      </label>
+                    </div>
+                  {/* </div> */}
+                  </div>
+
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="weight"
+                    >
+                      <FormattedMessage id="Special Need" />
+                    </label>
+                    <Selection
+                      optionList={this.specialNeedsOptions}
+                      selectedItemChange={(el) =>
+                        this.specialNeedsOptionsChange(el)
+                      }
+                      selectedItemData={{
+                        value: selectedSpecialNeedsObj.value
+                      }}
+                      disabled={this.state.specialNeedsDisable}
+                      key={selectedSpecialNeedsObj.value}
+                      customStyleType="select-one"
+                    />
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="weight" />
+                        }}
+                      />
+                    </div>
+                    {/* <div className="form-group col-lg-6 pull-left"> */}
+                    <div class="rc-input rc-input--inline">
+                      <input
+                        class="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        class="rc-input__label--inline"
+                        for="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </div>
+                  {/* </div> */}
+                  </div>
+                  {/* <div className="form-group col-lg-6 pull-left">
+                    <div class="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Mix breed">
+                        Mix breed
+                      </label>
+                    </div>
+                    <div class="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Don't know">
+                        Don't know
+                      </label>
+                    </div>
+                  </div> */}
+                  {/* <div className="form-group col-lg-6 pull-left">
+                    <div class="rc-input rc-input--inline">
+                      <input
+                        class="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        class="rc-input__label--inline"
+                        for="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </div>
+                  </div> */}
+                  <div className="form-group col-lg-6 pull-left">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="sterilized"
+                    >
+                      <FormattedMessage id="sterilized" />
+                    </label>
+                    <div style={{ padding: '.5rem 0' }}>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="sterilized"
+                          value="1"
+                          checked={this.state.isSterilized}
+                          type="radio"
+                          name="sterilized"
+                          onChange={(e) => this.setSterilized(true)}
+                        />
+                        <label class="rc-input__label--inline" for="sterilized">
+                          Yes
+                        </label>
+                      </div>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="noSterilized"
+                          value="0"
+                          checked={!this.state.isSterilized}
+                          type="radio"
+                          name="sterilized"
+                          onChange={(e) => this.setSterilized(false)}
+                        />
+                        <label
+                          class="rc-input__label--inline"
+                          for="noSterilized"
+                        >
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="sterilized" />
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="form-group col-lg-6 pull-left placehoder"
+                    style={{ height: '86px' }}
+                  ></div>
+                  <div
+                    className="form-group col-lg-6 pull-left placehoder"
+                    style={{ height: '40px' }}
+                  ></div>
+                  <div className="form-group col-lg-6 pull-left">
+                    {
+                      /Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                        navigator.userAgent
+                      )?(
+                        <p style={{ textAlign: 'center' }}>
+                          <button
+                            class="rc-btn rc-btn--one"
+                            onClick={() => this.savePet()}
+                          >
+                            Save changes
+                          </button>
+                          <br/>
+                          {this.props.match.params.id && (
+                            <a
+                              class="rc-styled-link"
+                              href="#/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.delPets(currentPet);
+                              }}
+                            >
+                              Delete Pet Profile
+                            </a>
+                          )}
+                        </p>
+                      ): (
+                        <p style={{ textAlign: 'right' }}>
+                      {this.props.match.params.id && (
+                        <a
+                            class="rc-styled-link"
+                            href="#/"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.delPets(currentPet);
+                            }}
+                          >
+                            Delete Pet Profile
+                          </a>
+                        )}
+                        <button
+                          class="rc-btn rc-btn--one"
+                          style={{ marginLeft: '35px' }}
+                          onClick={() => this.savePet()}
+                        >
+                          Save changes
+                        </button>
+                      </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
             </div>

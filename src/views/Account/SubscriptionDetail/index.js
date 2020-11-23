@@ -1,11 +1,10 @@
 import React from 'react';
-import './index.css';
+import './index.less';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
@@ -166,7 +165,11 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    setSeoConfig({goodsId:'',categoryId:'',pageName:'Subscription Page'})
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Subscription Page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -177,24 +180,11 @@ class SubscriptionDetail extends React.Component {
         countryList: res
       });
     });
-    getDictionary({ type: 'Frequency_week' }).then((res) => {
-      let frequencyList = res.map((el) => {
-        return {
-          id: el.id,
-          name: el.name,
-          value: el.name
-        };
-      });
+    await getDictionary({ type: 'Frequency_week' }).then((res) => {
+      let frequencyList = res;
       getDictionary({ type: 'Frequency_month' }).then((res) => {
-        frequencyList = frequencyList.concat(
-          res.map((el) => {
-            return {
-              id: el.id,
-              name: el.name,
-              value: el.name
-            };
-          })
-        );
+        frequencyList = frequencyList.concat(res);
+        console.log(frequencyList, 'frequencyList');
         this.setState({
           frequencyList: frequencyList
         });
@@ -206,6 +196,14 @@ class SubscriptionDetail extends React.Component {
 
     this.setState({
       subId: this.props.match.params.subscriptionNumber
+    });
+  }
+  get frequencyListOptions() {
+    return this.state.frequencyList.map((ele) => {
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
     });
   }
   changeTab(e, i) {
@@ -257,24 +255,6 @@ class SubscriptionDetail extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  // get totalPrice () {
-  //   return this.props.checkoutStore.totalPrice
-  // }
-  // get tradePrice () {
-  //   return this.props.checkoutStore.tradePrice
-  // }
-  // get discountPrice () {
-  //   return this.props.checkoutStore.discountPrice
-  // }
-  // get deliveryPrice(){
-  //   return this.props.checkoutStore.deliveryPrice
-  // }
-  // get subscriptionPrice(){
-  //   return this.props.checkoutStore.subscriptionPrice
-  // }
-  // get promotionDesc(){
-  //   return this.props.checkoutStore.promotionDesc
-  // }
   async doUpdateDetail(param) {
     try {
       this.setState({ loading: true });
@@ -292,6 +272,14 @@ class SubscriptionDetail extends React.Component {
         this.props.match.params.subscriptionNumber
       );
       let subDetail = res.context;
+      subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
+        let filterData =
+          this.frequencyListOptions.filter(
+            (item) => item.id === el.periodTypeId
+          )[0] || this.frequencyListOptions[0];
+        el.periodTypeValue = filterData.valueEn;
+        return el;
+      });
       let orderOptions = (subDetail.trades || []).map((el) => {
         let orderStatus =
           ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState;
@@ -364,16 +352,11 @@ class SubscriptionDetail extends React.Component {
   async doGetPromotionPrice(promotionCode = '') {
     try {
       //计算Tota
-      // this.setState({ loading: true });
       let goodsInfo = this.state.subDetail.goodsInfo;
-
       let subTotal = 0;
       for (let goods of goodsInfo) {
         subTotal += Number(goods.subscribePrice) * goods.subscribeNum;
       }
-      this.setState({
-        subTotal
-      });
       //拼装goodsInfoList参数
       let goodsInfoList = this.state.subDetail.goodsInfo.map((ele) => {
         return {
@@ -381,7 +364,6 @@ class SubscriptionDetail extends React.Component {
           buyCount: ele.subscribeNum
         };
       });
-
       //根据参数查询促销的金额与订单运费
       const res = await getPromotionPrice({
         totalPrice: subTotal,
@@ -389,14 +371,11 @@ class SubscriptionDetail extends React.Component {
         promotionCode,
         isAutoSub: true
       });
-
       //拼装订阅购物车参数
       if (res.code === 'K-000000' && !res.context.promotionFlag) {
         //只有promotionFlag为false的时候表示prootionCode生效
-        let subTradeTotal =
-          this.state.subTotal +
-          Number(res.context.deliveryPrice) -
-          Number(res.context.discountsPrice);
+        let subTradeTotal = subTotal + Number(res.context.deliveryPrice);
+        // -Number(res.context.discountsPrice);
         //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
@@ -404,7 +383,8 @@ class SubscriptionDetail extends React.Component {
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
           promotionDesc: res.context.promotionDesc,
-          subTradeTotal
+          subTradeTotal,
+          subTotal
         });
       }
       return new Promise((resolve) => {
@@ -423,7 +403,8 @@ class SubscriptionDetail extends React.Component {
     if (modalType === 'skipNext') {
       skipNextSub({
         subscribeId: subDetail.subscribeId,
-        changeField: this.prop.intl.messages['subscription.skip']
+        changeField: this.prop.intl.messages['subscription.skip'],
+        goodsList: skipNextGoods
       })
         .then((res) => {
           window.location.reload();
@@ -509,7 +490,7 @@ class SubscriptionDetail extends React.Component {
     console.log('props11', addressType);
     // const [startDate, setStartDate] = useState(new Date());
     return (
-      <div>
+      <div className="subscriptionDetail">
         <div>
           <Header
             showMiniIcons={true}
@@ -520,7 +501,6 @@ class SubscriptionDetail extends React.Component {
           />
 
           <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-            <BannerTip />
             <BreadCrumbs />
             <Modal
               key="1"
@@ -539,7 +519,7 @@ class SubscriptionDetail extends React.Component {
             <div className="rc-padding--sm rc-max-width--xl pb-1">
               <div className="rc-layout-container rc-five-column">
                 {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
-                <SideMenu type="Subscription   haha" />
+                <SideMenu type="Subscription" />
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
@@ -705,10 +685,12 @@ class SubscriptionDetail extends React.Component {
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
                     <h4 className="rc-delta font-weight-normal mb-2">
                       {/* <FormattedMessage id="subscription" /> */}
-                      {subDetail.subscribeId && (<img
-                        style={{ width: '20px', display: 'inline-block' }}
-                        src={subscriptionIcon}
-                      />)}
+                      {subDetail.subscribeId && (
+                        <img
+                          style={{ width: '20px', display: 'inline-block' }}
+                          src={subscriptionIcon}
+                        />
+                      )}
                       {subDetail.subscribeId
                         ? `${subDetail.subscribeId}`
                         : null}
@@ -772,9 +754,12 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="card-container" style={{marginTop: '0'}}>
+                      <div
+                        className="card-container"
+                        style={{ marginTop: '0' }}
+                      >
                         <div className="card rc-margin-y--none ml-0">
-                          <div
+                          {/* <div
                             className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                             style={{ background: '#f9f9f9', height: '60px' }}
                           >
@@ -783,17 +768,6 @@ class SubscriptionDetail extends React.Component {
                             </div>
                             <div className="col-12 col-md-4"></div>
                             <div className="col-12 col-md-3 pl-4">
-                              {/* <img
-                                style={{
-                                  display: 'inline-block',
-                                  width: '20px',
-                                  marginRight: '5px'
-                                }}
-                                src={pauseIcon}
-                              />
-                              <a class="rc-styled-link" href="#/">
-                                <FormattedMessage id="subscription.skip" />
-                              </a> */}
                             </div>
 
                             <div className="col-12 col-md-2">
@@ -805,11 +779,24 @@ class SubscriptionDetail extends React.Component {
                                 }}
                                 src={cancelIcon}
                               />
-                              <a class="rc-styled-link" href="#/">
+                              <a
+                                class="rc-styled-link"
+                                href="#/"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.setState({
+                                    modalType: 'cancelAll',
+                                    modalShow: true,
+                                    currentModalObj: this.state.modalList.filter(
+                                      (el) => el.type === 'cancelAll'
+                                    )[0]
+                                  });
+                                }}
+                              >
                                 <FormattedMessage id="subscription.cancelAll" />
                               </a>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
 
                         {subDetail.goodsInfo &&
@@ -878,29 +865,11 @@ class SubscriptionDetail extends React.Component {
                                             className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                                             style={{ marginLeft: '-8px' }}
                                             onClick={() => {
-                                              let {
-                                                currentGoodsInfo
-                                              } = this.state;
-                                              if (
-                                                currentGoodsInfo[index]
-                                                  .subscribeNum > 1
-                                              ) {
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  currentGoodsInfo[index]
-                                                    .subscribeNum - 1;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                                //数量变更后
-                                                subDetail.goodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  currentGoodsInfo[
-                                                    index
-                                                  ].subscribeNum;
-                                                this.onQtyChange();
+                                              if (el.subscribeNum > 1) {
+                                                el.subscribeNum =
+                                                  el.subscribeNum - 1;
+                                                this.doGetPromotionPrice();
+                                                this.setState({ subDetail });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorInfo" />
@@ -967,41 +936,17 @@ class SubscriptionDetail extends React.Component {
                                                 ].subscribeNum;
                                               this.onQtyChange();
                                             }}
-                                            value={
-                                              this.state.currentGoodsInfo
-                                                .length &&
-                                              this.state.currentGoodsInfo[index]
-                                                .subscribeNum
-                                            }
+                                            value={el.subscribeNum}
                                           />
                                           <span
                                             className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                             onClick={() => {
-                                              let {
-                                                currentGoodsInfo
-                                              } = this.state;
-                                              if (
-                                                currentGoodsInfo[index]
-                                                  .subscribeNum < 30
-                                              ) {
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  currentGoodsInfo[index]
-                                                    .subscribeNum + 1;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                                //数量变更后
-                                                subDetail.goodsInfo[
-                                                  index
-                                                ].subscribeNum =
-                                                  currentGoodsInfo[
-                                                    index
-                                                  ].subscribeNum;
-                                                this.onQtyChange();
+                                              if (el.subscribeNum < 30) {
+                                                el.subscribeNum =
+                                                  el.subscribeNum + 1;
+                                                this.doGetPromotionPrice();
+                                                this.setState({ subDetail });
                                               } else {
-                                                //数量不能超过30
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorMaxInfo" />
                                                 );
@@ -1028,7 +973,7 @@ class SubscriptionDetail extends React.Component {
                                               marginLeft: '8px'
                                             }}
                                           >
-                                            $900
+                                            {el.subscribePrice}
                                           </span>
                                         </div>
                                       </div>
@@ -1037,7 +982,10 @@ class SubscriptionDetail extends React.Component {
                                 </div>
                               </div>
                               <div className="col-4 col-md-1"></div>
-                              <div className="col-4 col-md-5" style={{paddingLeft: '60px'}}>
+                              <div
+                                className="col-4 col-md-5"
+                                style={{ paddingLeft: '60px' }}
+                              >
                                 <div className="rc-card-content">
                                   <b
                                     style={{
@@ -1057,55 +1005,54 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <Selection
-                                      optionList={this.state.frequencyList}
+                                      optionList={this.frequencyListOptions}
                                       selectedItemChange={(el) => {
-                                        let param = {
-                                          subscribeId: subDetail.subscribeId,
-                                          cycleTypeId: el.id,
-                                          goodsItems: subDetail.goodsInfo.map(
-                                            (el) => {
-                                              return {
-                                                skuId: el.skuId,
-                                                subscribeNum: el.subscribeNum,
-                                                subscribeGoodsId:
-                                                  el.subscribeGoodsId
-                                              };
-                                            }
-                                          )
-                                        };
-                                        //增加返回changeField字段
-                                        Object.assign(param, {
-                                          changeField: this.props.intl.messages[
-                                            'subscription.frequency'
-                                          ]
-                                        });
-                                        this.setState({ loading: true });
-                                        updateDetail(param)
-                                          .then((res) => {
-                                            // this.setState({ loading: false });
-                                            // window.location.reload();
-                                            this.getDetail(
-                                              this.showErrMsg.bind(
-                                                this,
-                                                this.props.intl.messages
-                                                  .saveSuccessfullly,
-                                                'success'
-                                              )
-                                            );
-                                          })
-                                          .catch((err) => {
-                                            this.setState({ loading: false });
-                                          });
+                                        console.log(el);
+                                        el.periodTypeId = el.id;
+                                        el.periodTypeValue = el.valueEn;
+                                        // let param = {
+                                        //   subscribeId: subDetail.subscribeId,
+                                        //   cycleTypeId: el.id,
+                                        //   goodsItems: subDetail.goodsInfo.map(
+                                        //     (el) => {
+                                        //       return {
+                                        //         skuId: el.skuId,
+                                        //         subscribeNum: el.subscribeNum,
+                                        //         subscribeGoodsId:
+                                        //           el.subscribeGoodsId
+                                        //       };
+                                        //     }
+                                        //   )
+                                        // };
+                                        // //增加返回changeField字段
+                                        // Object.assign(param, {
+                                        //   changeField: this.props.intl.messages[
+                                        //     'subscription.frequency'
+                                        //   ]
+                                        // });
+                                        // this.setState({ loading: true });
+                                        // updateDetail(param)
+                                        //   .then((res) => {
+                                        //     // this.setState({ loading: false });
+                                        //     // window.location.reload();
+                                        //     this.getDetail(
+                                        //       this.showErrMsg.bind(
+                                        //         this,
+                                        //         this.props.intl.messages
+                                        //           .saveSuccessfullly,
+                                        //         'success'
+                                        //       )
+                                        //     );
+                                        //   })
+                                        //   .catch((err) => {
+                                        //     this.setState({ loading: false });
+                                        //   });
                                       }}
                                       selectedItemData={{
-                                        value: subDetail.frequency || ''
+                                        value: el.periodTypeValue
                                       }}
                                       customStyleType="select-one"
-                                      type="freqency"
-                                      key={subDetail.frequency || ''}
-                                      disabled={
-                                        subDetail.subscribeStatus !== '0'
-                                      }
+                                      key={el.periodTypeValue}
                                     />
                                   </h1>
                                 </div>
@@ -1116,7 +1063,8 @@ class SubscriptionDetail extends React.Component {
                                       width: '200px'
                                     }}
                                   >
-                                    Shipping Method:
+                                    {/* Shipping Method: */}
+                                    Autoship starts at: 
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1126,7 +1074,7 @@ class SubscriptionDetail extends React.Component {
                                       marginLeft: '10px'
                                     }}
                                   >
-                                    Standard (free)
+                                    {el.createTime.split(' ')[0]}
                                   </h1>
                                 </div>
                                 <div className="rc-card-content">
@@ -1157,18 +1105,16 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <DatePicker
-                                      className="receiveDate subs-receiveDate"
+                                      className="receiveDate"
                                       placeholder="Select Date"
                                       dateFormat="yyyy-MM-dd"
                                       minDate={this.state.minDate}
                                       selected={
-                                        subDetail.nextDeliveryTime
-                                          ? new Date(subDetail.nextDeliveryTime)
+                                        el.nextDeliveryTime
+                                          ? new Date(el.nextDeliveryTime)
                                           : new Date()
                                       }
-                                      disabled={
-                                        subDetail.subscribeStatus !== '0'
-                                      }
+                                      disabled={true}
                                       onChange={(date) =>
                                         this.onDateChange(date)
                                       }
@@ -1268,7 +1214,10 @@ class SubscriptionDetail extends React.Component {
                             </div> */}
                           </div>
                           <div className="col-4 col-md-1"></div>
-                          <div className="col-4 col-md-5" style={{paddingLeft: '60px'}}>
+                          <div
+                            className="col-4 col-md-5"
+                            style={{ paddingLeft: '60px' }}
+                          >
                             <div>
                               <div className="flex-layout">
                                 <label
@@ -1353,7 +1302,6 @@ class SubscriptionDetail extends React.Component {
                                   <span style={{ fontSize: '12px' }}>
                                     (VAT included)
                                   </span>
-                                  {/* <FormattedMessage id="totalIncluIVA"></FormattedMessage> */}
                                 </label>
                                 <div className="text-right">
                                   <b>{formatMoney(this.state.subTradeTotal)}</b>
@@ -1362,6 +1310,77 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div className="footerGroupButton">
+                        <p>
+                        {/* <div className="col-12 col-md-2"> */}
+                              <img
+                                style={{
+                                  display: 'inline-block',
+                                  width: '20px',
+                                  marginRight: '5px'
+                                }}
+                                src={cancelIcon}
+                              />
+                              <a
+                                class="rc-styled-link"
+                                href="#/"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.setState({
+                                    modalType: 'cancelAll',
+                                    modalShow: true,
+                                    currentModalObj: this.state.modalList.filter(
+                                      (el) => el.type === 'cancelAll'
+                                    )[0]
+                                  });
+                                }}
+                              >
+                                <FormattedMessage id="subscription.cancelAll" />
+                              </a>
+                            {/* </div> */}
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button
+                            class="rc-btn rc-btn--one"
+                            onClick={async () => {
+                              try {
+                                // subDetail.goodsInfo = this.state.currentGoodsInfo;
+                                let param = {
+                                  subscribeId: subDetail.subscribeId,
+                                  goodsItems: subDetail.goodsInfo.map((el) => {
+                                    return {
+                                      skuId: el.skuId,
+                                      subscribeNum: el.subscribeNum,
+                                      subscribeGoodsId: el.subscribeGoodsId,
+                                      periodTypeId: el.periodTypeId
+                                    };
+                                  })
+                                };
+                                Object.assign(param, {
+                                  changeField: this.props.intl.messages[
+                                    'produtctNumber'
+                                  ]
+                                });
+                                await this.doUpdateDetail(param);
+                                await this.getDetail();
+                                this.showErrMsg(
+                                  this.props.intl.messages.saveSuccessfullly,
+                                  'success'
+                                );
+                                this.setState({
+                                  isChangeQuatity: false,
+                                  subDetail
+                                });
+                              } catch (err) {
+                                this.showErrMsg(err.message);
+                              } finally {
+                                this.setState({ loading: false });
+                              }
+                            }}
+                          >
+                            Save Changes
+                          </button>
+                        </p>
                       </div>
                       {/* <div className="rc-layout-container rc-three-column pt-0">
                         <div
@@ -1660,7 +1679,7 @@ class SubscriptionDetail extends React.Component {
                                   style={{ width: '80%' }}
                                 >
                                   <div className="img-container">
-                                    <img src={el.goodsPic} alt="" />
+                                    <img src={el.goodsPic} alt=""/>
                                   </div>
                                   <div
                                     className="v-center"
@@ -1685,16 +1704,16 @@ class SubscriptionDetail extends React.Component {
                                     >
                                       {el.specText}
                                     </p>
-                                    {el.petsName && (
-                                      <p
+                                    {
+                                      el.petsName && (<p
                                         style={{
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis'
                                         }}
                                       >
                                         pet: {el.petsName}
-                                      </p>
-                                    )}
+                                      </p>)
+                                    }
                                     <div>
                                       <label
                                         style={{
@@ -2287,7 +2306,10 @@ class SubscriptionDetail extends React.Component {
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                           <div>
-                            <div className="rc-border-bottom rc-border-colour--interface" style={{width: '70%', display: 'inline-block'}}>
+                            <div
+                              className="rc-border-bottom rc-border-colour--interface"
+                              style={{ width: '70%', display: 'inline-block' }}
+                            >
                               <nav className="rc-fade--x">
                                 <ul
                                   className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
@@ -2304,7 +2326,9 @@ class SubscriptionDetail extends React.Component {
                                             : 'false'
                                         }
                                         role="tab"
-                                        onClick={(e) => this.changeTab(e, index)}
+                                        onClick={(e) =>
+                                          this.changeTab(e, index)
+                                        }
                                       >
                                         {ele}
                                       </button>
@@ -2313,287 +2337,583 @@ class SubscriptionDetail extends React.Component {
                                 </ul>
                               </nav>
                             </div>
-                            <div style={{width: '30%', display: 'inline-block', textAlign: 'right', verticalAlign: 'middle'}}>
-                              <span style={{display: 'inline-block', width: '230px', borderBottom: '1px solid #aaa', textAlign: 'left'}}>
-                            <Selection
-                                      optionList={[{name: '2020', value: '2020'}, {name: '2019', value: '2019'}]}
-                                      selectedItemData={{
-                                        value: '2020'
-                                      }}
-                                      selectedItemChange={() => {}}
-                                      customStyleType="select-one"
-                                      type="freqency"
-                                      key={subDetail.frequency || ''}
-                                      disabled={
-                                        subDetail.subscribeStatus !== '0'
-                                      }
-                                    />
-                                    </span>
+                            <div
+                              style={{
+                                width: '30%',
+                                display: 'inline-block',
+                                textAlign: 'right',
+                                verticalAlign: 'middle'
+                              }}
+                            >
+                              <span
+                                style={{
+                                  display: 'inline-block',
+                                  width: '230px',
+                                  borderBottom: '1px solid #aaa',
+                                  textAlign: 'left'
+                                }}
+                              >
+                                <Selection
+                                  optionList={[
+                                    { name: '2020', value: '2020' },
+                                    { name: '2019', value: '2019' }
+                                  ]}
+                                  selectedItemData={{
+                                    value: '2020'
+                                  }}
+                                  selectedItemChange={() => {}}
+                                  customStyleType="select-one"
+                                  type="freqency"
+                                  key={subDetail.frequency || ''}
+                                  disabled={subDetail.subscribeStatus !== '0'}
+                                />
+                              </span>
                             </div>
                             <div
                               className="rc-tabs tabs-detail"
                               style={{ marginTop: '40px' }}
                             >
-                              {this.state.activeTabIdx === 0 && (<div className="card-container">
-                                <div className="card rc-margin-y--none ml-0">
-                                  <div
-                                    className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                    style={{
-                                      background: '#f9f9f9',
-                                      height: '60px'
-                                    }}
-                                  >
-                                    <div className="col-12 col-md-3" style={{paddingLeft: '20px'}}>
-                                      shipment on{' '}
-                                      <span
-                                        style={{
-                                          color: '#e2001a',
-                                          fontWeight: '400'
-                                        }}
-                                      >
-                                        Aug.24
-                                      </span>
-                                    </div>
-                                    <div className="col-12 col-md-5"></div>
-                                    <div className="col-12 col-md-3 pl-4">
-                                      <img
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '20px',
-                                          marginRight: '5px'
-                                        }}
-                                        src={dateIcon}
-                                      />
-                                      <a class="rc-styled-link" href="#/">
-                                        {/* <FormattedMessage id="subscription.skip" /> */}
-                                        Change shipment date
-                                      </a>
-                                    </div>
-
-                                    <div className="col-12 col-md-1">
-                                      <img
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '20px',
-                                          marginRight: '5px'
-                                        }}
-                                        src={skipIcon}
-                                      />
-                                      <a class="rc-styled-link" href="#/">
-                                        {/* <FormattedMessage id="subscription.cancelAll" /> */}
-                                        Skip
-                                      </a>
-                                    </div>
-                                  </div>
-                                </div>
-                                {subDetail.goodsInfo &&
-                                  subDetail.goodsInfo.map((el, index) => (
-                                    <div
-                                      className="row rc-margin-x--none row align-items-center"
-                                      style={{
-                                        padding: '1rem 0',
-                                        borderBottom: '1px solid #d7d7d7'
-                                      }}
-                                    >
-                                      <div className="col-4 col-md-6">
+                              {this.state.activeTabIdx === 0 &&
+                                subDetail.noStartTradeList &&
+                                subDetail.noStartTradeList.map((el) => (
+                                  <>
+                                    <div className="card-container">
+                                      <div className="card rc-margin-y--none ml-0">
                                         <div
-                                          className="rc-layout-container rc-five-column"
+                                          className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                                           style={{
-                                            paddingRight: '60px',
-                                            paddingTop: '0'
+                                            background: '#f9f9f9',
+                                            height: '60px',
+                                            padding: 0
                                           }}
                                         >
                                           <div
-                                            className="rc-column flex-layout"
-                                            style={{ width: '80%', padding: 0 }}
+                                            className="col-12 col-md-3"
+                                            style={{ paddingLeft: '20px' }}
                                           >
-                                            {/* <div className="img-container"> */}
-                                            <img style={{width: '70px', margin: '0 10px'}} src={el.goodsPic} alt="" />
-                                            {/* </div> */}
-                                            <div
-                                              // className="v-center"
+                                            shipment on:
+                                            <span
                                               style={{
-                                                width: '200px',
-                                                paddingTop: '30px'
+                                                color: '#e2001a',
+                                                fontWeight: '400',
+                                                marginLeft: '5px'
                                               }}
                                             >
-                                              <h5
-                                                style={{
-                                                  overflow: 'hidden',
-                                                  textOverflow: 'ellipsis',
-                                                  overflowWrap: 'normal',
-                                                  fontSize: '14px'
-                                                }}
-                                              >
-                                                {el.goodsName}
-                                              </h5>
-                                              <p
-                                                style={{
-                                                  overflow: 'hidden',
-                                                  textOverflow: 'ellipsis',
-                                                  marginBottom: '8px',
-                                                  fontSize: '14px'
-                                                }}
-                                              >
-                                                {el.specText}
-                                              </p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div
-                                          className="footer"
-                                          style={{
-                                            marginTop: '10px',
-                                            padding: '0 20px',
-                                            display:
-                                              subDetail.subscribeStatus === '0'
-                                                ? 'block'
-                                                : 'none'
-                                          }}
-                                        >
-                                          <span
-                                            className="rc-input rc-input--inline rc-input--label"
-                                            style={{
-                                              width: '180px',
-                                              verticalAlign: 'middle'
-                                            }}
-                                          >
-                                            <input
-                                              className="rc-input__control"
-                                              id="id-text2"
-                                              type="text"
-                                              name="text"
-                                              placeholder={
-                                                this.props.intl.messages
-                                                  .promotionCode
+                                            <DatePicker
+                                              className="receiveDate subs-receiveDate"
+                                              placeholder="Select Date"
+                                              dateFormat="yyyy-MM-dd"
+                                              minDate={this.state.minDate}
+                                              selected={
+                                                el.nextDeliveryTime
+                                                  ? new Date(el.nextDeliveryTime)
+                                                  : new Date()
                                               }
-                                              value={
-                                                this.state.promotionInputValue
-                                              }
-                                              onChange={(e) =>
-                                                this.handlerChange(e)
+                                              onChange={(date) =>
+                                                this.onDateChange(date)
                                               }
                                             />
-                                            <label
-                                              className="rc-input__label"
-                                              for="id-text2"
-                                            ></label>
-                                          </span>
+                                            </span>
+                                          </div>
+                                          <div className="col-12 col-md-5"></div>
+                                          <div className="col-12 col-md-3 pl-4">
+                                          </div>
+                                          <div className="col-12 col-md-1">
+                                            <img
+                                              style={{
+                                                display: 'inline-block',
+                                                width: '20px',
+                                                marginRight: '5px'
+                                              }}
+                                              src={skipIcon}
+                                            />
+                                            <a class="rc-styled-link" href="#/" onClick={e => {
+                                              e.preventDefault();
+                                              this.setState({
+                                                modalType: 'skipNext',
+                                                modalShow: true,
+                                                currentModalObj: this.state.modalList.filter(
+                                                  (el) => el.type === 'skipNext'
+                                                )[0],
+                                                skipNextGoods: el.tradeItem.map(el => {
+                                                  return { subscribeGoodsId: el.skuId }
+                                                })
+                                              });
+                                            }}>
+                                              Skip
+                                            </a>
+                                          </div>
                                         </div>
                                       </div>
-                                      <div className="col-4 col-md-6">
-                                        <p className="footer-linePrice">$137.25</p>
-                                        <p style={{textAlign: 'right', marginBottom: '0', marginRight: '60px', color: '#333', fontWeight: '400'}}>Total <span style={{fontSize: '12px', color: 'rgb(102, 102, 102)', fontWeight: '100', marginRight: '40px'}}>(VAT included)</span> $132.25</p>
-                                      </div>
-                                    </div>
-                                  ))}
-                              </div>)}
-                              {
-                                this.state.activeTabIdx === 1 && (
-                                  <div className="card-container">
-                                <div className="card rc-margin-y--none ml-0">
-                                  <div
-                                    className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                    style={{
-                                      background: '#f9f9f9',
-                                      height: '60px'
-                                    }}
-                                  >
-                                    <div className="col-12 col-md-3" style={{paddingLeft: '20px'}}>
-                                      shipment on{' '}
-                                      <span
-                                        style={{
-                                          color: '#e2001a',
-                                          fontWeight: '400'
-                                        }}
-                                      >
-                                        Aug.24
-                                      </span>
-                                    </div>
-                                    <div className="col-12 col-md-4"></div>
-                                    <div className="col-12 col-md-3 pl-4">
-                                      Promotion: <span style={{color: '#e2001a', fontWeight: '400'}}>-$5.00</span>
-                                    </div>
-
-                                    <div className="col-12 col-md-2">
-                                    <img
-                                        style={{
-                                          display: 'inline-block',
-                                          width: '20px',
-                                          marginRight: '5px'
-                                        }}
-                                        src={dateIcon}
-                                      />
-                                      <a class="rc-styled-link" href="#/">
-                                        {/* <FormattedMessage id="subscription.skip" /> */}
-                                        Order detail
-                                      </a>
-                                    </div>
-                                  </div>
-                                </div>
-                                {subDetail.goodsInfo &&
-                                  subDetail.goodsInfo.map((el, index) => (
-                                    <div
-                                      className="row rc-margin-x--none row align-items-center"
-                                      style={{
-                                        padding: '1rem 0',
-                                        borderBottom: '1px solid #d7d7d7'
-                                      }}
-                                    >
-                                      <div className="col-4 col-md-6">
-                                        <div
-                                          className="rc-layout-container rc-five-column"
-                                          style={{
-                                            paddingRight: '60px',
-                                            paddingTop: '0'
-                                          }}
-                                        >
-                                          <div
-                                            className="rc-column flex-layout"
-                                            style={{ width: '80%', padding: 0 }}
-                                          >
-                                            <img style={{width: '70px', margin: '0 10px'}}  src={el.goodsPic} alt="" />
+                                      {el.tradeItems &&
+                                        el.tradeItems.map(
+                                          (tradeItem, index) => (
                                             <div
-                                              // className="v-center"
+                                              className="row rc-margin-x--none row align-items-center"
                                               style={{
-                                                width: '200px',
-                                                paddingTop: '30px'
+                                                padding: '1rem 0',
+                                                borderBottom:
+                                                  '1px solid #d7d7d7'
                                               }}
                                             >
-                                              <h5
-                                                style={{
-                                                  overflow: 'hidden',
-                                                  textOverflow: 'ellipsis',
-                                                  overflowWrap: 'normal',
-                                                  fontSize: '14px'
-                                                }}
+                                              <div className="col-4 col-md-4">
+                                                <div
+                                                  className="rc-layout-container rc-five-column"
+                                                  style={{
+                                                    paddingRight: '60px',
+                                                    paddingTop: '0'
+                                                  }}
+                                                >
+                                                  <div
+                                                    className="rc-column flex-layout"
+                                                    style={{
+                                                      width: '80%',
+                                                      padding: 0
+                                                    }}
+                                                  >
+                                                    <img
+                                                      style={{
+                                                        width: '70px',
+                                                        margin: '0 10px'
+                                                      }}
+                                                      src={tradeItem.pic}
+                                                      alt=""
+                                                    />
+                                                    <div
+                                                      style={{
+                                                        width: '200px',
+                                                        paddingTop: '30px'
+                                                      }}
+                                                    >
+                                                      <h5
+                                                        style={{
+                                                          overflow: 'hidden',
+                                                          textOverflow:
+                                                            'ellipsis',
+                                                          overflowWrap:
+                                                            'normal',
+                                                          fontSize: '14px'
+                                                        }}
+                                                      >
+                                                        {tradeItem.skuName}
+                                                      </h5>
+                                                      <p
+                                                        style={{
+                                                          overflow: 'hidden',
+                                                          textOverflow:
+                                                            'ellipsis',
+                                                          marginBottom: '8px',
+                                                          fontSize: '14px'
+                                                        }}
+                                                      >
+                                                        {tradeItem.specDetails}
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-4 col-md-4">
+                                                <p
+                                                  style={{
+                                                    textAlign: 'center',
+                                                    marginBottom: '0',
+                                                    fontWeight: '400'
+                                                  }}
+                                                >
+                                                  x {tradeItem.num}
+                                                </p>
+                                              </div>
+                                              <div className="col-4 col-md-4">
+                                                <p
+                                                  style={{ textAlign: 'right', paddingRight: '10px', marginBottom: '0' }}
+                                                >
+                                                  {formatMoney(tradeItem.subscriptionPrice)}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          )
+                                        )}
+                                      <div
+                                        className="row rc-margin-x--none row align-items-center"
+                                        style={{
+                                          padding: '1rem 0',
+                                          borderBottom: '1px solid #d7d7d7'
+                                        }}
+                                      >
+                                        <div className="col-4 col-md-6">
+                                          <div
+                                            className="footer"
+                                            style={{
+                                              marginTop: '10px',
+                                              padding: '0 40px',
+                                              display:
+                                                subDetail.subscribeStatus ===
+                                                '0'
+                                                  ? 'block'
+                                                  : 'none'
+                                            }}
+                                          >
+                                            <span
+                                              className="rc-input rc-input--inline rc-input--label"
+                                              style={{
+                                                width: '180px',
+                                                verticalAlign: 'middle'
+                                              }}
+                                            >
+                                              <input
+                                                className="rc-input__control"
+                                                id="id-text2"
+                                                type="text"
+                                                name="text"
+                                                placeholder={
+                                                  this.props.intl.messages
+                                                    .promotionCode
+                                                }
+                                                value={
+                                                  this.state.promotionInputValue
+                                                }
+                                                onChange={(e) =>
+                                                  this.handlerChange(e)
+                                                }
+                                              />
+                                              <label
+                                                className="rc-input__label"
+                                                for="id-text2"
+                                              ></label>
+                                            </span>
+                                            <button
+                                              className={[
+                                                'rc-btn',
+                                                'rc-btn--sm',
+                                                'rc-btn--two',
+                                                this.state.isClickApply &&
+                                                  'ui-btn-loading ui-btn-loading-border-red'
+                                              ].join(' ')}
+                                              style={{ marginTop: '10px' }}
+                                              onClick={async () => {
+                                                let result = {};
+                                                if (
+                                                  !this.state
+                                                    .promotionInputValue
+                                                )
+                                                  return;
+                                                this.setState({
+                                                  isClickApply: true,
+                                                  isShowValidCode: false,
+                                                  lastPromotionInputValue: this
+                                                    .state.promotionInputValue
+                                                });
+                                                //会员
+                                                result = await this.doGetPromotionPrice(
+                                                  this.state.promotionInputValue
+                                                );
+                                                if (
+                                                  result.code === 'K-000000' &&
+                                                  !result.context.promotionFlag
+                                                ) {
+                                                  //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
+                                                  discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                                  this.setState({
+                                                    discount,
+                                                    promotionDesc:
+                                                      result.context
+                                                        .promotionDesc
+                                                  });
+                                                } else {
+                                                  this.setState({
+                                                    isShowValidCode: true
+                                                  });
+                                                }
+                                                this.setState({
+                                                  isClickApply: false,
+                                                  promotionInputValue: '',
+                                                  loading: false
+                                                });
+                                              }}
+                                            >
+                                              Apply
+                                            </button>
+                                          </div>
+                                        </div>
+                                        <div className="col-4 col-md-6">
+                                          <div style={{ paddingLeft: '200px' }}>
+                                            <div className="flex-layout">
+                                              <label
+                                                className=""
+                                                style={{ minWidth: '230px' }}
                                               >
-                                                {el.goodsName}
-                                              </h5>
-                                              <p
-                                                style={{
-                                                  overflow: 'hidden',
-                                                  textOverflow: 'ellipsis',
-                                                  marginBottom: '8px',
-                                                  fontSize: '14px'
-                                                }}
+                                                <FormattedMessage id="subscription.total"></FormattedMessage>
+                                              </label>
+                                              <div className="text-right">
+                                                <b>
+                                                  {formatMoney(
+                                                    this.state.subTotal
+                                                  )}
+                                                </b>
+                                              </div>
+                                            </div>
+                                            {this.state.subDiscount ? (
+                                              <div className="flex-layout">
+                                                <label
+                                                  className="saveDiscount  red-text"
+                                                  style={{ minWidth: '230px' }}
+                                                >
+                                                  {this.state.promotionDesc}:
+                                                </label>
+                                                <div className="text-right red-text">
+                                                  <b>
+                                                    -
+                                                    {formatMoney(
+                                                      this.state.subDiscount
+                                                    )}
+                                                  </b>
+                                                </div>
+                                              </div>
+                                            ) : null}
+                                            {!this.state.isShowValidCode &&
+                                              discount.map((el) => (
+                                                <div className="flex-layout">
+                                                  <label className="saveDiscount  red-text">
+                                                    {this.state.promotionDesc}
+                                                  </label>
+                                                  <div
+                                                    className="text-right red-text"
+                                                    style={{
+                                                      position: 'relative'
+                                                    }}
+                                                  >
+                                                    <b>
+                                                      -
+                                                      {formatMoney(
+                                                        this.state
+                                                          .promotionDiscount
+                                                      )}
+                                                    </b>
+                                                    <span
+                                                      style={{
+                                                        position: 'absolute',
+                                                        right: '-18px',
+                                                        fontSize: '22px',
+                                                        bottom: '5px',
+                                                        cursor: 'pointer'
+                                                      }}
+                                                      onClick={() => {
+                                                        discount.pop();
+                                                        this.setState({
+                                                          discount: discount
+                                                        });
+                                                      }}
+                                                    >
+                                                      x
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              ))}
+                                            <div className="flex-layout">
+                                              <label
+                                                className=""
+                                                style={{ minWidth: '230px' }}
                                               >
-                                                {el.specText}
-                                              </p>
+                                                <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                              </label>
+                                              <div className="text-right red-text">
+                                                <b>
+                                                  {formatMoney(
+                                                    this.state.subShipping
+                                                  )}
+                                                </b>
+                                              </div>
+                                            </div>
+                                            <div className="flex-layout">
+                                              <label className="saveDiscount">
+                                                <b
+                                                  style={{
+                                                    fontSize: '20px',
+                                                    color: '#333'
+                                                  }}
+                                                >
+                                                  Total
+                                                </b>
+                                                <span
+                                                  style={{ fontSize: '12px' }}
+                                                >
+                                                  (VAT included)
+                                                </span>
+                                              </label>
+                                              <div className="text-right">
+                                                <b>
+                                                  {formatMoney(
+                                                    this.state.subTradeTotal
+                                                  )}
+                                                </b>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-4 col-md-2">
-                                      <div style={{textAlign: 'right'}}><i className="greenCircle"></i><FormattedMessage id="Delivered" /></div>
+                                    </div>
+                                  </>
+                                ))}
+                              {this.state.activeTabIdx === 1 && subDetail.noStartTradeList && subDetail.completedTradeList.map(el => (
+                                <div className="card-container">
+                                  <div className="card rc-margin-y--none ml-0">
+                                    <div
+                                      className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                      style={{
+                                        background: '#f9f9f9',
+                                        height: '60px'
+                                      }}
+                                    >
+                                      <div
+                                        className="col-12 col-md-3"
+                                        style={{ paddingLeft: '20px' }}
+                                      >
+                                        shipment on:{' '}
+                                        <span
+                                          style={{
+                                            color: '#e2001a',
+                                            fontWeight: '400'
+                                          }}
+                                        >
+                                          {el.tradeState.createTime.split(' ')[0]}
+                                        </span>
                                       </div>
-                                      <div className="col-4 col-md-3" style={{textAlign: 'right'}}>
-                                        $137.25
+                                      <div className="col-12 col-md-4"></div>
+                                      <div className="col-12 col-md-3 pl-4">
+                                        Promotion:{' '}
+                                        <span
+                                          style={{
+                                            color: '#e2001a',
+                                            fontWeight: '400'
+                                          }}
+                                        >
+                                          -{formatMoney(el.discountsPrice)}
+                                        </span>
+                                      </div>
+
+                                      <div className="col-12 col-md-2">
+                                        <img
+                                          style={{
+                                            display: 'inline-block',
+                                            width: '20px',
+                                            marginRight: '5px'
+                                          }}
+                                          src={dateIcon}
+                                        />
+                                        <a class="rc-styled-link" href="#/" onClick={(e) => {
+                                          e.preventDefault()
+                                          const { history } = this.props;
+                                          history.push(
+                                            `/account/orders-detail/${el.id}`
+                                          );
+                                        }}>
+                                          {/* <FormattedMessage id="subscription.skip" /> */}
+                                          Order detail
+                                        </a>
                                       </div>
                                     </div>
-                                  ))}
-                              </div>
-                                )
+                                  </div>
+                                  {/* {subDetail.goodsInfo &&
+                                    subDetail.goodsInfo.map((el, index) => ( */}
+                                      <div
+                                        className="row rc-margin-x--none row align-items-center"
+                                        style={{
+                                          padding: '1rem 0',
+                                          borderBottom: '1px solid #d7d7d7'
+                                        }}
+                                      >
+                                        <div className="col-4 col-md-6">
+                                          <div
+                                            className="rc-layout-container rc-five-column"
+                                            style={{
+                                              paddingRight: '60px',
+                                              paddingTop: '0'
+                                            }}
+                                          >
+                                            <div
+                                              className="rc-column flex-layout"
+                                              style={{
+                                                width: '100%',
+                                                padding: 0
+                                              }}
+                                            >
+                                              {
+                                                el.tradeItems && el.tradeItems.map((tradeItem, index) => {
+                                                  if(index < 2) {
+                                                    return (
+                                                      <>
+                                                      <img
+                                                  style={{
+                                                    width: '70px',
+                                                    margin: '0 10px'
+                                                  }}
+                                                  src={tradeItem.pic}
+                                                  alt=""
+                                                />
+                                                <div
+                                                  style={{
+                                                    width: '120px',
+                                                    paddingTop: '30px'
+                                                  }}
+                                                >
+                                                  <h5
+                                                    style={{
+                                                      overflow: 'hidden',
+                                                      textOverflow: 'ellipsis',
+                                                      overflowWrap: 'normal',
+                                                      fontSize: '14px',
+                                                      whiteSpace: 'nowrap'
+                                                    }}
+                                                  >
+                                                    {tradeItem.skuName}
+                                                  </h5>
+                                                  <p
+                                                    style={{
+                                                      overflow: 'hidden',
+                                                      textOverflow: 'ellipsis',
+                                                      marginBottom: '8px',
+                                                      fontSize: '14px'
+                                                    }}
+                                                  >
+                                                    {tradeItem.specDetails}
+                                                  </p>
+                                                </div>
+                                                </>
+                                                    )
+                                                  }
+                                                  
+                                                })
+                                              }
+                                              {
+                                                el.tradeItems && el.tradeItems.length > 2 && (<div
+                                                style={{
+                                                  width: '120px',
+                                                  paddingTop: '30px',
+                                                  marginLeft: '40px',
+                                                  fontSize: '25px',
+                                                  fontWeight: 400
+                                                }}
+                                              >...</div>)
+                                              }
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-4 col-md-4">
+                                          <div style={{ textAlign: 'center' }}>
+                                            <i className="greenCircle"></i>
+                                            <FormattedMessage id="Delivered" />
+                                          </div>
+                                        </div>
+                                        <div
+                                          className="col-4 col-md-2"
+                                          style={{ textAlign: 'center' }}
+                                        >
+                                          {formatMoney(el.tradePrice.totalPrice)}
+                                        </div>
+                                      </div>
+                                    {/* ))} */}
+                                </div>
+                              ))
                               }
                               {/* {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                                   <div
@@ -2622,15 +2942,6 @@ class SubscriptionDetail extends React.Component {
               </div>
             </div>
           </main>
-          <div className="footerGroupButton">
-          <p>
-            <a class="rc-styled-link" href="#/">Cancel</a>
-            &nbsp;
-            or
-            &nbsp;
-            <button class="rc-btn rc-btn--one">Save Changes</button>
-          </p>
-          </div>
           <Footer />
         </div>
       </div>

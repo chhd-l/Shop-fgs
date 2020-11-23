@@ -64,9 +64,27 @@ class Subscription extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    getDictionary({ type: 'Frequency' }).then((res) => {
-      this.setState({
-        frequencyList: res
+    getDictionary({ type: 'Frequency_week' }).then((res) => {
+      let frequencyList = res.map((el) => {
+        return {
+          id: el.id,
+          name: el.name,
+          value: el.name
+        };
+      });
+      getDictionary({ type: 'Frequency_month' }).then((res) => {
+        frequencyList = frequencyList.concat(
+          res.map((el) => {
+            return {
+              id: el.id,
+              name: el.name,
+              value: el.name
+            };
+          })
+        );
+        this.setState({
+          frequencyList: frequencyList
+        });
       });
     });
     this.getSubList();
@@ -151,6 +169,7 @@ class Subscription extends React.Component {
         theme: ''
       }
     };
+    const { frequencyList } = this.state
     return (
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
@@ -289,8 +308,8 @@ class Subscription extends React.Component {
                                     />
                                     <span style={{display: 'inline-block', verticalAlign: 'middle', fontSize: '12px', marginLeft: '10px'}}>
                                       <p style={{fontSize: '16px', fontWeight: '400', color: '#333', marginBottom: '5px'}}>{item.goodsName}</p>
-                                      <p>15kg - 1 product</p>
-                                      <p>Frequency: every 4 week</p>
+                                      <p>{item.specText} - {item.subscribeNum} product</p>
+                                      <p>Frequency: {frequencyList.filter(el => el.id === item.periodTypeId)[0].value}</p>
                                     </span>
                                     </div>
                                     
