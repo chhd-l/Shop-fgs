@@ -14,6 +14,8 @@ import { formatMoney } from '@/utils/utils';
 import catImg from '@/assets/images/product-finder-cat2.png';
 import dogImg from '@/assets/images/product-finder-dog2.png';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
 function PetJSX(props) {
   const { petBaseInfo } = props;
   return (
