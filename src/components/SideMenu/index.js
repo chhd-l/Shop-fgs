@@ -47,18 +47,18 @@ const menuList = [
     langKey: 'footer.FAQ',
     url: '/FAQ/all'
   },
-  {
-    catogery: 'ShippingAddress',
-    icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
-    langKey: 'shippingAddress',
-    url: '/account/shippingAddress'
-  },
-  {
-    catogery: 'PaymentMethod',
-    icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
-    langKey: 'paymentMethod',
-    url: '/account/paymentMethod'
-  }
+  // {
+  //   catogery: 'ShippingAddress',
+  //   icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
+  //   langKey: 'shippingAddress',
+  //   url: '/account/shippingAddress'
+  // },
+  // {
+  //   catogery: 'PaymentMethod',
+  //   icon: <span className="rc-icon rc-cart--xs rc-iconography" />,
+  //   langKey: 'paymentMethod',
+  //   url: '/account/paymentMethod'
+  // }
 ];
 class SideMenu extends React.Component {
   static defaultProps = {

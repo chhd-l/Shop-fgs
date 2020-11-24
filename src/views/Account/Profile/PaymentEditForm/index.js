@@ -294,7 +294,8 @@ class PaymentEditForm extends React.Component {
               queryList={this.props.refreshList}
               updateFormVisible={this.handleCancel}
               // updateInitStatus={this.updateInitStatus}
-              enableStoreDetails={this.isLogin}
+              enableStoreDetails={true}
+              mustSaveForFutherPayments={true}
               showErrorMsg={this.showErrorMsg}
             />
           </>

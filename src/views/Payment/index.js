@@ -781,7 +781,7 @@ class Payment extends React.Component {
     try {
       const { clinicStore } = this.props;
       const { paymentTypeVal } = this.state;
-      let action;debugger
+      let action;
       const actions = () => {
         const rePayFun = () => {
           action = rePay;
@@ -1322,12 +1322,12 @@ class Payment extends React.Component {
       throw new Error(err.message);
     }
   }
-  startLoading() {
+  startLoading = () => {
     this.setState({ loading: true });
-  }
-  endLoading() {
+  };
+  endLoading = () => {
     this.setState({ loading: false });
-  }
+  };
   // 验证地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
     try {
@@ -1565,7 +1565,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   _renderPayTab = () => {
-    const { paymentTypeVal } = this.state;
+    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
@@ -1577,7 +1577,7 @@ class Payment extends React.Component {
       >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom `}>
-          {Object.entries(this.state.payWayObj).map((item) => {
+          {Object.entries(payWayObj).map((item) => {
             return (
               <div className="rc-input rc-input--inline">
                 <input
@@ -1609,10 +1609,10 @@ class Payment extends React.Component {
         >
           <OxxoConfirm
             type={'oxxo'}
-            listData={this.state.listData}
+            listData={listData}
             history={this.props.history}
-            startLoading={() => this.startLoading()}
-            endLoading={() => this.endLoading()}
+            startLoading={this.startLoading}
+            endLoading={this.endLoading}
             clickPay={this.initCommonPay}
           />
         </div>
@@ -1624,10 +1624,10 @@ class Payment extends React.Component {
             type={'PayUCreditCard'}
             isOnePageCheckout={this.isOnepageCheckout}
             paymentTypeVal={paymentTypeVal}
-            listData={this.state.listData}
-            startLoading={() => this.startLoading()}
-            endLoading={() => this.endLoading()}
-            showErrorMsg={(data) => this.showErrorMsg(data)}
+            listData={listData}
+            startLoading={this.startLoading}
+            endLoading={this.endLoading}
+            showErrorMsg={this.showErrorMsg}
             clickPay={this.initCommonPay}
             onVisitorPayosDataConfirm={(data) => {
               this.setState({ payosdata: data });
@@ -1646,7 +1646,8 @@ class Payment extends React.Component {
         {/* adyenCreditCard */}
         <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
           <AdyenCreditCard
-            listData={this.state.listData}
+            subBuyWay={subForm.buyWay}
+            listData={listData}
             checkRequiredItem={this.checkRequiredItem}
             clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
@@ -1665,7 +1666,7 @@ class Payment extends React.Component {
           <AdyenCommonPay
             type={'adyenKlarnaPayLater'}
             isOnepageCheckout={this.isOnepageCheckout}
-            listData={this.state.listData}
+            listData={listData}
             clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
             updateEmail={(email) => {
@@ -1682,7 +1683,7 @@ class Payment extends React.Component {
           <AdyenCommonPay
             type={'adyenKlarnaPayNow'}
             isOnepageCheckout={this.isOnepageCheckout}
-            listData={this.state.listData}
+            listData={listData}
             clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
             updateEmail={(email) => {
@@ -1697,7 +1698,7 @@ class Payment extends React.Component {
           <AdyenCommonPay
             isOnepageCheckout={this.isOnepageCheckout}
             type={'directEbanking'}
-            listData={this.state.listData}
+            listData={listData}
             clickPay={this.initCommonPay}
             showErrorMsg={this.showErrorMsg}
             updateEmail={(email) => {
