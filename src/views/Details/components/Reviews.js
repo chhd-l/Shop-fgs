@@ -68,7 +68,13 @@ class Reviews extends React.Component {
       {
         evaluatesCurrentPage: params.currentPage
       },
-      () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5)
+      () => {
+        this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5)
+        window.scrollTo({
+          top: 1200,
+          behavior: 'smooth'
+        });
+      }
     );
   }
 
@@ -231,7 +237,7 @@ class Reviews extends React.Component {
           </div>
         ) : null}
         {!data.noData ? (
-          <div>
+          <div className="remark">
             <div>
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
             </div>
