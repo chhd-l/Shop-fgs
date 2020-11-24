@@ -4,7 +4,7 @@ import Tooltip from '@/components/Tooltip';
 import redStar from './images/redStar.svg';
 import grayStar from './images/grayStar.svg';
 import oraStar from './images/oraStar.svg';
-import halfStar from './images/halfStar.png'
+import halfStar from './images/halfStar.png';
 import oraStar_active from './images/oraStar_active.svg';
 export default class Rate extends Component {
   state = {
@@ -17,7 +17,7 @@ export default class Rate extends Component {
     tooltipStatus: false,
     inActiveStar: grayStar,
     activeStar: redStar,
-    halfStar:halfStar
+    halfStar: halfStar
   };
   /** 页面渲染前 */
   /*componentWillMount = () => {};*/
@@ -104,7 +104,7 @@ export default class Rate extends Component {
                 //   disabled={this.state.disabled}
                 //   // style={{marginRight:this.props.marginSize}}
                 // />
-                <img src={this.state.halfStar}></img>
+                <img src={this.state.halfStar} alt="" />
               ) : (
                 // <img src={redStar}/>
                 // <span
