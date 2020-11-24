@@ -801,6 +801,7 @@ const es_ES = {
   year: 'Año',
   yes: 'sí',
   yourEmailNotVerified: '¡Tu email no se ha verificado!',
-  yourPasswordNotVerified: 'Tu contraseña no ha sido verificada'
+  yourPasswordNotVerified: 'Tu contraseña no ha sido verificada',
+  findTheRightDiet: 'Encuentra la comida adecuada'
 }
 export default es_ES;

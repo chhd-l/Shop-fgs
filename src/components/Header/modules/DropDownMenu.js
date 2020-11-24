@@ -48,7 +48,6 @@ export default class DropDownMenu extends React.Component {
     this.props.handleClickNavItem(item);
   };
   renderNormalMenu = (item, i) => {
-    console.log('renderNormalMenu', item);
     const { activeTopParentId } = this.props;
     const { currentDesc } = this.state;
     let descObj = null;
@@ -205,7 +204,6 @@ export default class DropDownMenu extends React.Component {
     );
   };
   renderHelpMenu = (item, i) => {
-    console.log('renderHelpMenu', item);
     const { configStore, activeTopParentId } = this.props;
     return (
       <div
@@ -224,7 +222,6 @@ export default class DropDownMenu extends React.Component {
     );
   };
   render() {
-    console.log('header navigation', this.props.headerNavigationList);
     return (
       <div className="rc-md-up">
         {this.props.headerNavigationList
