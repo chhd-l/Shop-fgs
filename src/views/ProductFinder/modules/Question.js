@@ -307,7 +307,7 @@ class Question extends React.Component {
           Array.from({ length: 12 }).map((item, i) => {
             return {
               label: <FormattedMessage id="xMonths" values={{ val: i }} />,
-              key: 12 * i
+              key: i
             };
           })
         ];
