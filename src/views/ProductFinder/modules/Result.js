@@ -224,7 +224,7 @@ class ProductFinderResult extends React.Component {
           match={match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-        <BannerTip />
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             {isLoading ? (
@@ -317,7 +317,7 @@ class ProductFinderResult extends React.Component {
                           to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
                           className="rc-btn rc-btn--one rc-btn--sm"
                         >
-                          <FormattedMessage id="chooseTheProduct" />
+                          <FormattedMessage id="seeTheProduct" />
                         </Link>
                       </div>
                     </div>
@@ -325,9 +325,7 @@ class ProductFinderResult extends React.Component {
                   <div className="row flex-nowrap mt-2">
                     <span className="rc-icon rc-incompatible--xs rc-iconography" />
                     <p style={{ fontSize: '.66em' }}>
-                      The recommendations provided here are for informational
-                      purpose only.It should not be considered as guarantee for
-                      what may be best for your indivaidual pet.
+                      <FormattedMessage id="productFinder.searchResultWarningTip1" />
                     </p>
                   </div>
                 </div>
@@ -384,7 +382,7 @@ class ProductFinderResult extends React.Component {
                               to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
                               className="rc-btn rc-btn--one rc-btn--sm"
                             >
-                              <FormattedMessage id="chooseTheProduct" />
+                              <FormattedMessage id="seeTheProduct" />
                             </Link>
                           </div>
                         </div>
