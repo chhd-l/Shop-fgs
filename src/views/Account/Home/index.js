@@ -83,10 +83,6 @@ const itemList = [
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
