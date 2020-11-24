@@ -4,6 +4,7 @@ import Tooltip from '@/components/Tooltip';
 import redStar from './images/redStar.svg';
 import grayStar from './images/grayStar.svg';
 import oraStar from './images/oraStar.svg';
+import halfStar from './images/halfStar.png'
 import oraStar_active from './images/oraStar_active.svg';
 export default class Rate extends Component {
   state = {
@@ -15,7 +16,8 @@ export default class Rate extends Component {
     state: ['不满意', '满意', '超满意'],
     tooltipStatus: false,
     inActiveStar: grayStar,
-    activeStar: redStar
+    activeStar: redStar,
+    halfStar:halfStar
   };
   /** 页面渲染前 */
   /*componentWillMount = () => {};*/
@@ -97,11 +99,12 @@ export default class Rate extends Component {
 
                 <img src={this.state.activeStar} alt="" />
               ) : flag && index === numInt ? (
-                <span
-                  className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
-                  disabled={this.state.disabled}
-                  // style={{marginRight:this.props.marginSize}}
-                />
+                // <span
+                //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
+                //   disabled={this.state.disabled}
+                //   // style={{marginRight:this.props.marginSize}}
+                // />
+                <img src={this.state.halfStar}></img>
               ) : (
                 // <img src={redStar}/>
                 // <span
