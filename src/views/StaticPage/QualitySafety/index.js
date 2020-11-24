@@ -140,10 +140,10 @@ class QualitySafety extends React.Component {
               </div>
             </div>
             <div className="rc-column">
-              <img src={image3} style={{ width: '100%' }} alt="" />
+              <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw97202e87/Quality-safety/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg?sw=622&sfrm=jpg" style={{ width: '100%' }} alt="" />
             </div>
           </div>
-          <div
+          {/* <div
             className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
@@ -171,8 +171,8 @@ class QualitySafety extends React.Component {
                 </p>
               </div>
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className="rc-layout-container rc-two-column"
             style={{ padding: '20px 200px' }}
           >
@@ -196,8 +196,8 @@ class QualitySafety extends React.Component {
             <div className="rc-column">
               <img src={image5} style={{ width: '100%' }} alt="" />
             </div>
-          </div>
-          <section
+          </div> */}
+          {/* <section
             style={{
               textAlign: 'left',
               width: '100%',
@@ -268,7 +268,7 @@ class QualitySafety extends React.Component {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
           <section
             style={{
               textAlign: 'center',
@@ -284,6 +284,26 @@ class QualitySafety extends React.Component {
               <FormattedMessage id="qualitySafety.foodQualityDetail" />
             </p>
           </section>
+          {
+            process.env.REACT_APP_LANG == 'fr'
+            ?
+            <section
+              style={{
+                textAlign: 'center',
+                width: '90%',
+                margin: '80px auto',
+                color: 'rgb(102, 102, 102)'
+              }}
+            >
+              <h2 style={{ fontSize: '2.5rem' }}>
+                Ingrédients entièrement traçables
+              </h2>
+              <p>
+                100 % des matières premières utilisées sont analysées et un échantillon de chacune d'entre elles est conservé pendant deux ans. Nous sommes ainsi en mesure de tracer d'un bout à l'autre de la chaîne chaque matière première pendant toute la durée de commercialisation du produit.
+              </p>
+            </section>
+            :null
+          }
         </main>
         <Footer />
       </div>
