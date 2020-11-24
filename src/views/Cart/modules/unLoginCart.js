@@ -655,14 +655,15 @@ class UnLoginCart extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div
+                {
+                  pitem.sizeList.filter(el => el.selected)[0].subscriptionStatus? (
+                    <div
                   className="buyMethod rc-margin-bottom--xs rc-margin-left--xs"
                   style={{
                     borderColor: parseInt(pitem.goodsInfoFlag)
                       ? '#e2001a'
                       : '#d7d7d7',
-                    cursor: 'pointer',
-                    display: pitem.subscriptionStatus? 'block': 'none'
+                    cursor: 'pointer'
                   }}
                   onClick={() => {
                     if (!pitem.goodsInfoFlag) {
@@ -763,6 +764,9 @@ class UnLoginCart extends React.Component {
                     />
                   </div>
                 </div>
+                  ): null
+                }
+                
               </div>
             </div>
           </div>
@@ -831,10 +835,11 @@ class UnLoginCart extends React.Component {
               </div>
             </div>
           </div>
-          <div
+          {
+            pitem.sizeList.filter(el => el.selected)[0].subscriptionStatus?(
+              <div
             className="buyMethod rc-margin-bottom--xs"
             style={{
-              display: pitem.subscriptionStatus? 'block': 'none',
               width: '100%',
               borderColor: parseInt(pitem.goodsInfoFlag)
                 ? '#e2001a'
@@ -940,6 +945,9 @@ class UnLoginCart extends React.Component {
               />
             </div>
           </div>
+            ): null
+          }
+          
         </div>
       </div>
     ));
