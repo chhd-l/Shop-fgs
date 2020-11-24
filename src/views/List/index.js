@@ -131,7 +131,7 @@ class List extends React.Component {
         }
       });
     }
-    
+
     this.setState(
       {
         category,
@@ -144,10 +144,11 @@ class List extends React.Component {
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
-      getDictionary({ type: 'filterSubscription' })
+      getDictionary({ type: 'filterSubscription' }),
+      getDictionary({ type: 'filterSubscriptionValue' })
     ]).then((dictList) => {
       this.setState({
-        markPriceAndSubscriptionLangDict: [...dictList[0], ...dictList[1]]
+        markPriceAndSubscriptionLangDict: [...dictList[0], ...dictList[1], ...dictList[2]]
       });
     });
   }
@@ -253,7 +254,7 @@ class List extends React.Component {
       searchForm,
       defaultFilterSearchForm
     } = this.state;
-    
+
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -267,10 +268,13 @@ class List extends React.Component {
         }, 0);
       }
     }
-
-    let subscriptionStatus = 0;
-    let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
-    let goodsFilterRelList = [...defaultFilterSearchForm.filterList];
+    
+    let goodsAttributesValueRelVOList = initingList
+      ? [...defaultFilterSearchForm.attrList]
+      : [];
+    let goodsFilterRelList = initingList
+      ? [...defaultFilterSearchForm.filterList]
+      : [];
     // 处理filter查询值
     Array.from(filterList, (pItem) => {
       const seletedList = (
@@ -282,28 +286,34 @@ class List extends React.Component {
         if (pItem.filterType === '0') {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
-            attributeValueIdList: seletedList.map((s) => s.id)
+            attributeValueIdList: seletedList.map((s) => s.id),
+            attributeValues: seletedList.map((s) => s.attributeDetailName)
           });
         } else {
-          debugger;
-          //自定义属性
           goodsFilterRelList.push({
             attributeId: pItem.id,
-            attributeValueIdList: seletedList.map((s) => s.id)
-            // selectedAttributeDetailName: ''
+            attributeValueIdList: seletedList.map((s) => s.id),
+            attributeValues: seletedList.map((s) => s.attributeDetailName)
           });
-          subscriptionStatus =
-            seletedList.length &&
-            seletedList[0].attributeDetailName === 'not subscription'
-              ? 0
-              : 1;
         }
       }
       return pItem;
     });
-    Array.from(goodsFilterRelList, (ele) => {
-      return ele;
-    });
+
+    // 选择subscription 和 not subscription 才置状态
+    let subscriptionStatus = null;
+    for (const item of goodsFilterRelList) {
+      const subItems = (item.attributeValues || []).filter(
+        (a) => a === 'subscription'
+      );
+      const notSubItems = (item.attributeValues || []).filter(
+        (a) => a === 'not subscription'
+      );
+      if (subItems.length || notSubItems.length) {
+        subscriptionStatus = subItems.length ? 1 : 0;
+        break;
+      }
+    }
 
     let params = {
       storeId: process.env.REACT_APP_STOREID,
@@ -319,9 +329,15 @@ class List extends React.Component {
       companyType: '',
       keywords,
       storeCateIds,
-      goodsAttributesValueRelVOList,
-      goodsFilterRelList,
-      // subscriptionStatus, //1
+      goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
+        const { attributeValues, ...otherParam } = el;
+        return otherParam;
+      }),
+      goodsFilterRelList: goodsFilterRelList.map((el) => {
+        const { attributeValues, ...otherParam } = el;
+        return otherParam;
+      }),
+      subscriptionStatus,
       ...searchForm
     };
 
@@ -359,8 +375,7 @@ class List extends React.Component {
         }
     }
 
-    let tmpList = this.isLogin ? getLoginList : getList;
-    tmpList(params)
+    (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
         this.setState({ initingList: false });
         const esGoods = res.context.esGoods;
@@ -413,7 +428,7 @@ class List extends React.Component {
         });
       })
       .catch(() => {
-        this.setState({ loading: false, productList: [] });
+        this.setState({ loading: false, productList: [], initingList: false });
       });
   }
   hanldePageNumChange(params) {
@@ -425,6 +440,7 @@ class List extends React.Component {
     );
   }
   hanldeItemClick(item) {
+    const { history } = this.props;
     if (this.state.loading) {
       return false;
     }
@@ -434,7 +450,6 @@ class List extends React.Component {
     );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     sessionItemRoyal.set('rc-goods-name', item.goodsName);
-    const { history } = this.props;
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   onSortChange = (data) => {

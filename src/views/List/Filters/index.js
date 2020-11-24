@@ -83,14 +83,19 @@ class Filter extends React.Component {
   handleClickValueItem({ parentItem, item, isRemoveOperate = false }) {
     // radio情况下 点击删除应置为false
     let { filterList } = this.state;
-    if (parentItem.filterType === '0') {
+    if (parentItem.choiceStatus === 'Multiple choice') {
       item.selected = !item.selected;
     } else if (parentItem.choiceStatus === 'Single choice') {
       // 同级其他设置为false
-      Array.from(parentItem.storeGoodsFilterValueVOList, (ele) => {
-        ele.selected = false;
-        return ele;
-      });
+      Array.from(
+        parentItem.attributesValueList ||
+          parentItem.storeGoodsFilterValueVOList ||
+          [],
+        (ele) => {
+          ele.selected = false;
+          return ele;
+        }
+      );
       if (isRemoveOperate) {
         item.selected = false;
       } else {
@@ -104,11 +109,79 @@ class Filter extends React.Component {
       () => this.props.updateParentData(this.state.filterList)
     );
   }
+  renderMultiChoiceJSX = (parentItem, childItem) => {
+    const { inputLabelKey } = this.props;
+    return (
+      <li
+        title={`Sort by ${parentItem.attributeName.toLocaleLowerCase()}: ${
+          childItem.attributeDetailName
+        }`}
+        className="rc-list__item"
+        key={childItem.id}
+      >
+        <div className="rc-input rc-input--stacked">
+          <input
+            className={`rc-input__checkbox`}
+            id={`filter-input-${childItem.id}-${inputLabelKey}`}
+            type="checkbox"
+            name="checkbox"
+            checked={childItem.selected}
+            onChange={this.handleClickValueItem.bind(this, {
+              parentItem,
+              item: childItem
+            })}
+          />
+          <label
+            className="rc-input__label--inline"
+            htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
+          >
+            {childItem.attributeDetailName}
+          </label>
+        </div>
+      </li>
+    );
+  };
+  renderSingleChoiceJSX = (parentItem, childItem) => {
+    const { inputLabelKey, markPriceAndSubscriptionLangDict } = this.props;
+    return (
+      <div
+        key={childItem.id}
+        className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
+      >
+        <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+          <input
+            className="rc-input__radio"
+            id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+            type="radio"
+            checked={childItem.selected}
+            onChange={this.handleClickValueItem.bind(this, {
+              parentItem,
+              item: childItem
+            })}
+          />
+          <label
+            className="rc-input__label--inline"
+            htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+          >
+            {/* when name=not subscription/subscription, get dictionary to multi lang  */}
+            {(childItem.attributeDetailName === 'subscription' ||
+              childItem.attributeDetailName === 'not subscription') &&
+            markPriceAndSubscriptionLangDict.filter(
+              (ele) => ele.name === childItem.attributeDetailName
+            ).length
+              ? markPriceAndSubscriptionLangDict.filter(
+                  (ele) => ele.name === childItem.attributeDetailName
+                )[0].valueEn
+              : childItem.attributeDetailName}
+          </label>
+        </div>
+      </div>
+    );
+  };
   render() {
     const { filterList } = this.state;
     const {
       initing,
-      inputLabelKey,
       hanldePriceSliderChange,
       markPriceAndSubscriptionLangDict
     } = this.props;
@@ -201,79 +274,30 @@ class Filter extends React.Component {
                         }`}
                         id={`accordion-content-${pIndex}`}
                       >
-                        {parentItem.filterType === '0' ? (
-                          parentItem.attributesValueList.map((childItem) => (
-                            <li
-                              title={`Sort by ${parentItem.attributeName.toLocaleLowerCase()}: ${
-                                childItem.attributeDetailName
-                              }`}
-                              className="rc-list__item"
-                              key={childItem.id}
-                            >
-                              <div className="rc-input rc-input--stacked">
-                                <input
-                                  className={`rc-input__checkbox`}
-                                  id={`filter-input-${childItem.id}-${inputLabelKey}`}
-                                  type="checkbox"
-                                  name="checkbox"
-                                  checked={childItem.selected}
-                                  onChange={this.handleClickValueItem.bind(
-                                    this,
-                                    {
-                                      parentItem,
-                                      item: childItem
-                                    }
-                                  )}
-                                />
-                                <label
-                                  className="rc-input__label--inline"
-                                  htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
-                                >
-                                  {childItem.attributeDetailName}
-                                </label>
-                              </div>
-                            </li>
-                          ))
-                        ) : parentItem.attributeName === 'markPrice' ? (
+                        {parentItem.attributeName === 'markPrice' ? (
                           <PriceSlider
                             max={this.props.maxGoodsPrice}
                             defaultValue={[0, this.props.maxGoodsPrice]}
                             // key={this.props.maxGoodsPrice}
                             onChange={hanldePriceSliderChange}
                           />
-                        ) : parentItem.choiceStatus === 'Single choice' &&
-                          parentItem.attributeName === 'subscription' ? (
-                          parentItem.storeGoodsFilterValueVOList.map(
-                            (childItem) => (
-                              <div
-                                key={childItem.id}
-                                className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
-                              >
-                                <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
-                                  <input
-                                    className="rc-input__radio"
-                                    id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
-                                    type="radio"
-                                    checked={childItem.selected}
-                                    onChange={this.handleClickValueItem.bind(
-                                      this,
-                                      {
-                                        parentItem,
-                                        item: childItem
-                                      }
-                                    )}
-                                  />
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
-                                  >
-                                    {childItem.attributeDetailName}
-                                  </label>
-                                </div>
-                              </div>
-                            )
-                          )
-                        ) : null}
+                        ) : (
+                          (
+                            parentItem.attributesValueList ||
+                            parentItem.storeGoodsFilterValueVOList ||
+                            []
+                          ).map((childItem) => {
+                            return parentItem.choiceStatus === 'Single choice'
+                              ? this.renderSingleChoiceJSX(
+                                  parentItem,
+                                  childItem
+                                )
+                              : this.renderMultiChoiceJSX(
+                                  parentItem,
+                                  childItem
+                                );
+                          })
+                        )}
                       </ul>
                     </>
                   </React.Fragment>

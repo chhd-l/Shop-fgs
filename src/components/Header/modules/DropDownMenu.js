@@ -94,6 +94,9 @@ export default class DropDownMenu extends React.Component {
                       ) : (
                         <span
                           onClick={this.handleClickNavItem.bind(this, mitem)}
+                          className={`${
+                            mitem.interaction !== 2 ? 'ui-cursor-pointer' : ''
+                          }`}
                         >
                           {mitem.navigationName}
                         </span>
@@ -133,7 +136,11 @@ export default class DropDownMenu extends React.Component {
                                 this,
                                 citem
                               )}
-                              className="dropdown-nav__link "
+                              className={`dropdown-nav__link ${
+                                citem.interaction !== 2
+                                  ? 'ui-cursor-pointer'
+                                  : ''
+                              }`}
                             >
                               {citem.navigationName}
                             </span>

@@ -745,6 +745,7 @@ const de_DE = {
   writeYourReview: 'Schreibe deine Rezension',
   yes: 'Ja',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
-  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert'
+  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
+  findTheRightDiet: 'Finde das richtige Essen',
 }
 export default de_DE;
