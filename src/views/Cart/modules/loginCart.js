@@ -130,6 +130,7 @@ class LoginCart extends React.Component {
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
@@ -842,7 +843,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-8">
+          <div className="col-6">
             <span
               className="rc-input rc-input--inline rc-input--label mr-0"
               style={{ width: '150px', marginBottom: '10px' }}
@@ -864,7 +865,7 @@ class LoginCart extends React.Component {
               <label className="rc-input__label" for="id-text2"></label>
             </span>
           </div>
-          <div className="col-4 no-padding-left">
+          <div className="col-6 no-padding-left">
             <p className="text-right sub-total">
               <button
                 id="promotionApply"
@@ -928,10 +929,10 @@ class LoginCart extends React.Component {
               </button>
             </p>
           </div>
-          <div className="col-8">
+          <div className="col-6">
             <FormattedMessage id="total" />
           </div>
-          <div className="col-4 no-padding-left">
+          <div className="col-6 no-padding-left">
             <p className="text-right sub-total">
               {formatMoney(this.totalPrice)}
             </p>

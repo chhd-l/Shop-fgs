@@ -113,6 +113,7 @@ class Details extends React.Component {
       currentUnitPrice: 0,
       currentLinePrice: 0,
       currentSubscriptionPrice: 0,
+      currentSubscriptionStatus: 0,
       imageMagnifierCfg: {
         show: false
         // config: {},
@@ -196,6 +197,7 @@ class Details extends React.Component {
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
@@ -209,6 +211,7 @@ class Details extends React.Component {
       currentUnitPrice,
       currentLinePrice,
       currentSubscriptionPrice,
+      currentSubscriptionStatus,
       stock
     } = this.state;
     let selectedArr = [];
@@ -260,10 +263,12 @@ class Details extends React.Component {
       }
       item.specText = specTextArr.join(' ');
       if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
+        console.log(item, 'item')
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
+        currentSubscriptionStatus = item.subscriptionStatus
         stock = item.stock;
       } else {
         item.selected = false;
@@ -277,6 +282,7 @@ class Details extends React.Component {
         currentUnitPrice,
         currentLinePrice,
         currentSubscriptionPrice,
+        currentSubscriptionStatus,
         stock
       },
       () => {
@@ -963,12 +969,14 @@ class Details extends React.Component {
       currentUnitPrice,
       currentLinePrice,
       currentSubscriptionPrice,
+      currentSubscriptionStatus,
       errMsg,
       addToCartLoading,
       specList,
       initing,
       form
     } = this.state;
+    console.log(currentSubscriptionStatus, 'currentSubscriptionStatus')
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     if (selectedSpecItem) {
       console.log(
@@ -1330,11 +1338,6 @@ class Details extends React.Component {
                                     </span>
                                   </label>
                                 </div>
-                                <br />
-                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  -4$
-                                </b>{' '}
-                                for your 1st order
                               </div>
                               <div
                                 className="price"
@@ -1355,8 +1358,8 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
-                            <div className="radioBox">
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7', height: '100px'}}>
+                            <div className="radioBox" style={{paddingTop: '1rem'}}>
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
@@ -1385,11 +1388,6 @@ class Details extends React.Component {
                                   </span>
                                 </label>
                               </div>
-                              <br />
-                              <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                -4$
-                              </b>{' '}
-                              for your 1st order
                             </div>
                             <div className="freqency">
                               <span
@@ -1403,7 +1401,7 @@ class Details extends React.Component {
                             </div>
                           </div>
                         )}
-                        {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                        {currentSubscriptionStatus? (/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
                           <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
@@ -1469,10 +1467,11 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                                 <br />
-                                Save extra{' '}
+                                Save&nbsp;
                                 <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  10%
+                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
                                 </b>
+                                &nbsp; on this subscription.
                               </div>
                               <div className="price">
                                 {formatMoney(currentSubscriptionPrice || 0)}
@@ -1499,7 +1498,7 @@ class Details extends React.Component {
                           </div>
                         ) : (
                           <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
-                            <div className="radioBox">
+                            <div className="radioBox" style={{paddingTop: '1rem'}}>
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
@@ -1557,10 +1556,13 @@ class Details extends React.Component {
                                 </label>
                               </div>
                               <br />
-                              Save extra{' '}
-                              <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                10%
-                              </b>
+                              {/* <div>
+                              Save&nbsp;
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
+                                </b>
+                                &nbsp; on this subscription.
+                              </div> */}
                             </div>
                             <div className="freqency">
                               <span>Delivery every:</span>
@@ -1584,7 +1586,7 @@ class Details extends React.Component {
                               {formatMoney(currentSubscriptionPrice || 0)}
                             </div>
                           </div>
-                        )}
+                        )): null}
                         {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) && (

@@ -205,6 +205,7 @@ class SubscriptionDetail extends React.Component {
   }
   get frequencyListOptions() {
     return this.state.frequencyList.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
@@ -289,7 +290,6 @@ class SubscriptionDetail extends React.Component {
             (item) => item.id === el.periodTypeId
           )[0] || this.frequencyListOptions[0];
         el.periodTypeValue = filterData.valueEn;
-        console.log(el.periodTypeValue, 'periodTypeValue', el.periodTypeValue === '8', el.periodTypeValue === 8)
         return el;
       });
       let orderOptions = (subDetail.trades || []).map((el) => {

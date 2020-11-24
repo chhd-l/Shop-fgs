@@ -52,7 +52,8 @@ class UnLoginCart extends React.Component {
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false //是否显示无效promotionCode
+      isShowValidCode: false, //是否显示无效promotionCode
+      subscriptionDiscount: 0,
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -87,7 +88,7 @@ class UnLoginCart extends React.Component {
     // return this.props.checkoutStore.tradePrice;
   }
   get discountPrice() {
-    return this.props.checkoutStore.discountPrice;
+    return this.props.checkoutStore.discountPrice + this.state.subscriptionDiscount;
   }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
@@ -103,6 +104,7 @@ class UnLoginCart extends React.Component {
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
@@ -129,6 +131,7 @@ class UnLoginCart extends React.Component {
       );
     });
     this.setCartData();
+    this.computeSubscriptionDiscount()
   }
   setCartData() {
     let productList = this.props.checkoutStore.cartData.map((el) => {
@@ -172,6 +175,14 @@ class UnLoginCart extends React.Component {
     // this.setState({ form: form }, () => {
     //   // this.props.updateSelectedData(this.state.form);
     // });
+  }
+  computeSubscriptionDiscount() {
+    let subscriptionDiscount = 0
+    this.state.productList.filter(el => el.goodsInfoFlag).map(el => {
+      let selectItem = el.sizeList.filter(el => el.selected)[0]
+      subscriptionDiscount = subscriptionDiscount + el.quantity * selectItem.subscriptionDiscountPrice
+    })
+    this.setState({subscriptionDiscount})
   }
   async handleCheckout({ needLogin = false } = {}) {
     sessionItemRoyal.set('okta-redirectUrl', '/cart');
@@ -409,6 +420,7 @@ class UnLoginCart extends React.Component {
   async updateStock() {
     const { productList } = this.state;
     this.setState({ checkoutLoading: true });
+    this.computeSubscriptionDiscount()
     await this.props.checkoutStore.updateUnloginCart(productList);
     this.setState({ checkoutLoading: false });
   }
@@ -1029,7 +1041,7 @@ class UnLoginCart extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-8">
+            <div className="col-6">
               <span
                 className="rc-input rc-input--inline rc-input--label mr-0"
                 style={{ width: '150px', marginBottom: '10px' }}
@@ -1047,11 +1059,10 @@ class UnLoginCart extends React.Component {
                     />
                   )}
                 </FormattedMessage>
-
                 <label className="rc-input__label" for="id-text2"></label>
               </span>
             </div>
-            <div className="col-4 no-padding-left">
+            <div className="col-6 no-padding-left">
               <p className="text-right sub-total">
                 <button
                   id="promotionApply"
@@ -1115,10 +1126,10 @@ class UnLoginCart extends React.Component {
                 </button>
               </p>
             </div>
-            <div className="col-8">
+            <div className="col-6">
               <FormattedMessage id="total" />
             </div>
-            <div className="col-4 no-padding-left">
+            <div className="col-6 no-padding-left">
               <p className="text-right sub-total">
                 {formatMoney(this.totalPrice)}
               </p>
@@ -1311,9 +1322,11 @@ class UnLoginCart extends React.Component {
   }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
+    this.computeSubscriptionDiscount()
+    
     this.setState(
       {
-        productList: this.state.productList
+        productList: this.state.productList,
       },
       () => {
         this.updateStock();
