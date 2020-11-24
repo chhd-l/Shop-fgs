@@ -198,7 +198,7 @@ export const menubar = {
         list: [
           {
             link: '/aboutUs',
-            messageId: 'aboutUs'
+            messageId: 'aboutUs2'
           },
           {
             url: 'https://shop.royalcanin.fr/Values.html',
