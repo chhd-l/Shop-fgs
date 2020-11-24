@@ -673,13 +673,13 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
-            payChannelItem: this.isLogin
+            payChannelItem: adyenPayParam.paymentToken
               ? subForm.buyWay === 'frequency'
                 ? 'adyen_card_customer_subscription'
                 : 'adyen_card_customer'
               : 'adyen_credit_card'
           });
-          if (this.isLogin) {
+          if (adyenPayParam.paymentToken) {
             parameters = Object.assign(parameters, {
               paymentMethodId: adyenPayParam.id
             });
@@ -781,7 +781,7 @@ class Payment extends React.Component {
     try {
       const { clinicStore } = this.props;
       const { paymentTypeVal } = this.state;
-      let action;
+      let action;debugger
       const actions = () => {
         const rePayFun = () => {
           action = rePay;
