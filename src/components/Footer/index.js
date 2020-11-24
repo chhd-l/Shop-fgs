@@ -33,7 +33,7 @@ class Footer extends React.Component {
         <div class="rc-max-width--xl rc-scroll--y">
           <div class="rc-layout-container rc-three-column rc-md-up">
             <div class="rc-column rc-text--right">
-              <a class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" href="#" role="back to top">Back to top</a>
+              <a class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3" href="#" role="back to top"><FormattedMessage id="footer.toTheTop"/></a>
             </div>
           </div>
           <div class="rc-divider rc-md-up"></div>

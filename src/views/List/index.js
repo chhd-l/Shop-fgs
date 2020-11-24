@@ -148,7 +148,11 @@ class List extends React.Component {
       getDictionary({ type: 'filterSubscriptionValue' })
     ]).then((dictList) => {
       this.setState({
-        markPriceAndSubscriptionLangDict: [...dictList[0], ...dictList[1], ...dictList[2]]
+        markPriceAndSubscriptionLangDict: [
+          ...dictList[0],
+          ...dictList[1],
+          ...dictList[2]
+        ]
       });
     });
   }
@@ -167,6 +171,10 @@ class List extends React.Component {
     findSortList().then((res) => {
       let list = res.context || [];
       list.sort((a, b) => a.sort - b.sort);
+      list.unshift({
+        sortName: <FormattedMessage id="default" />,
+        value: '11'
+      });
       this.setState({
         sortList: list.map((ele) => ({
           ...ele,
@@ -180,6 +188,7 @@ class List extends React.Component {
         let tmpList = (res.context || [])
           .filter((ele) => +ele.filterStatus)
           .sort((a) => (a.filterType === '0' ? -1 : 1))
+          .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
           .sort((a) =>
             a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
           );
@@ -268,7 +277,7 @@ class List extends React.Component {
         }, 0);
       }
     }
-    
+
     let goodsAttributesValueRelVOList = initingList
       ? [...defaultFilterSearchForm.attrList]
       : [];
@@ -341,7 +350,7 @@ class List extends React.Component {
       ...searchForm
     };
 
-    if (selectedSortParam) {
+    if (selectedSortParam && selectedSortParam.field) {
       params = Object.assign(params, {
         esSortList: [
           {
@@ -747,7 +756,7 @@ class List extends React.Component {
                                     </div>
                                   ) : null
                                 }
-                                onClick={() => this.hanldeItemClick(item)}
+                                onClick={this.hanldeItemClick.bind(this, item)}
                               >
                                 <picture className="rc-card__image">
                                   <div

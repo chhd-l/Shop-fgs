@@ -502,7 +502,7 @@ export const STORE_CATOGERY_ENUM = {
       desc: CURRENT_LANGFILE['product.fr.catogery4.desc'],
       img: catsImg,
       homeImg:
-        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ef1d157/Homepage/Kitten_categorie@2x.jpg?sw=144&amp;amp;sfrm=jpg'
+        'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw93a47ae0/Homepage/1440x1440px_RC_Kitten_Second_Age.jpg?sw=144&sfrm=jpg'
     }
   ],
   ru: [

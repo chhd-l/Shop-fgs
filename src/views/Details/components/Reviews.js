@@ -69,7 +69,13 @@ class Reviews extends React.Component {
       {
         evaluatesCurrentPage: params.currentPage
       },
-      () => this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5)
+      () => {
+        this.getGoodsEvaluates(this.state.evaluatesCurrentPage, 5);
+        window.scrollTo({
+          top: 1200,
+          behavior: 'smooth'
+        });
+      }
     );
   }
 
@@ -110,7 +116,7 @@ class Reviews extends React.Component {
     if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage;
       let list = obj.content;
-      this.setState({total: obj.total})
+      this.setState({ total: obj.total });
       if (list.length > 0) {
         list.forEach((item) => {
           item.commentator = item.customerName;
@@ -238,23 +244,27 @@ class Reviews extends React.Component {
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
             </div> */}
             <div>
-              {
-                !/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                  navigator.userAgent
-                ) && (
-                  <div className="rc-max-width--xl rc-padding-x--sm">
+              {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                navigator.userAgent
+              ) && (
+                <div className="rc-max-width--xl rc-padding-x--sm">
+                  <div
+                    className="rc-column padl0"
+                    style={{ marginBottom: '2rem' }}
+                  >
                     <div
-                      className="rc-column padl0"
-                      style={{ marginBottom: '2rem' }}
+                      className="red-text text-center"
+                      style={{ fontSize: '26px' }}
                     >
-                      <div className="red-text text-center" style={{ fontSize: '26px' }}>
-                        <FormattedMessage id="customerReviews" />
-                      </div>
+                      <FormattedMessage id="customerReviews" />
                     </div>
                   </div>
-                )
-              }
-              <div className="rc-max-width--xl rc-margin-x--sm" style={{maxWidth: '1400px !important', padding: '0 2rem'}}>
+                </div>
+              )}
+              <div
+                className="rc-max-width--xl rc-margin-x--sm"
+                style={{ maxWidth: '1400px !important', padding: '0 2rem' }}
+              >
                 {/* <div className="rc-column padl0">
                   <form>
                     <span className="rc-select rc-select-processed">
@@ -296,17 +306,26 @@ class Reviews extends React.Component {
                             style={{ paddingBottom: '20px' }}
                           >
                             <div className="rc-column padl0 padr0">
-                              <div style={{height: '40px', lineHeight: '40px'}}>
-                                <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle', marginTop: '-60px'}}><Rate
-                                  def={item.evaluateScore}
-                                  disabled={true}
-                                  marginSize="maxRate"
-                                  color="yellow"
-                                /></span>
-                                
+                              <div
+                                style={{ height: '40px', lineHeight: '40px' }}
+                              >
                                 <span
-                                  className="commentTitle"
+                                  style={{
+                                    display: 'inline-block',
+                                    height: '100%',
+                                    verticalAlign: 'middle',
+                                    marginTop: '-60px'
+                                  }}
                                 >
+                                  <Rate
+                                    def={item.evaluateScore}
+                                    disabled={true}
+                                    marginSize="maxRate"
+                                    color="yellow"
+                                  />
+                                </span>
+
+                                <span className="commentTitle">
                                   {item.title}
                                 </span>
                                 {/*rc-padding--xs--desktop rc-padding--sm--mobile*/}
@@ -318,45 +337,46 @@ class Reviews extends React.Component {
                                     marginTop: '.3rem'
                                   }}
                                 >
-                                  by {item.commentator} &nbsp; on {item.commentTime}
+                                  by {item.commentator} &nbsp; on{' '}
+                                  {item.commentTime}
                                 </span>
                               </div>
                               <div className="img-box rc-margin-bottom--xs rc-margin-top--xs flex-wrap align-items-start">
-                                  {item.evaluateImageList &&
-                                  item.evaluateImageList.length > 0
-                                    ? item.evaluateImageList.map((img, j) => {
-                                        if (j < 3) {
-                                          // 评论显示九宫格
-                                          return (
-                                            <img
-                                              alt=""
-                                              className="rc-img--square rc-img--square-custom mr-1"
-                                              src={img.artworkUrl}
-                                              key={j}
-                                              style={{
-                                                width: '120px',
-                                                height: '120px'
-                                              }}
-                                              onClick={this.handleImgClick.bind(
-                                                this,
-                                                j,
-                                                item.evaluateImageList
-                                              )}
-                                            />
-                                          );
-                                        } else {
-                                          return null;
-                                        }
-                                      })
-                                    : null}
-                                </div>
-                                {item.evaluateAnswer ? (
-                                  <div>
-                                    <div className="rc-padding-top--xs">
-                                      {item.evaluateAnswer}
-                                    </div>
+                                {item.evaluateImageList &&
+                                item.evaluateImageList.length > 0
+                                  ? item.evaluateImageList.map((img, j) => {
+                                      if (j < 3) {
+                                        // 评论显示九宫格
+                                        return (
+                                          <img
+                                            alt=""
+                                            className="rc-img--square rc-img--square-custom mr-1"
+                                            src={img.artworkUrl}
+                                            key={j}
+                                            style={{
+                                              width: '120px',
+                                              height: '120px'
+                                            }}
+                                            onClick={this.handleImgClick.bind(
+                                              this,
+                                              j,
+                                              item.evaluateImageList
+                                            )}
+                                          />
+                                        );
+                                      } else {
+                                        return null;
+                                      }
+                                    })
+                                  : null}
+                              </div>
+                              {item.evaluateAnswer ? (
+                                <div>
+                                  <div className="rc-padding-top--xs">
+                                    {item.evaluateAnswer}
                                   </div>
-                                ) : null}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                         ))

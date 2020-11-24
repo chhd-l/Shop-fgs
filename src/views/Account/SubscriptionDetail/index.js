@@ -11,7 +11,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp';
 import Selection from '@/components/Selection';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, dynamicLoadCss } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import subscriptionIcon from './images/subscription.png';
 import pauseIcon from './images/pause.png';
@@ -199,7 +199,7 @@ class SubscriptionDetail extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    
+
     await this.getDetail();
 
     await this.doGetPromotionPrice();
@@ -210,7 +210,7 @@ class SubscriptionDetail extends React.Component {
   }
   get frequencyListOptions() {
     return this.state.frequencyList.map((ele) => {
-      delete ele.value
+      delete ele.value;
       return {
         value: ele.valueEn,
         ...ele
@@ -339,6 +339,11 @@ class SubscriptionDetail extends React.Component {
             },
             phoneNumber: subDetail.paymentInfo.phoneNumber
           };
+        }
+        if (subDetail.paymentInfo.paymentType === 'ADYEN') {
+          dynamicLoadCss(
+            'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
+          );
         }
       }
       this.setState(
@@ -1531,10 +1536,7 @@ class SubscriptionDetail extends React.Component {
                       <h4 className="h4">
                         Transaction information
                       </h4>
-                      <div
-                        className="row text-left text-break editCard"
-                        style={{ marginLeft: '0', marginRight: '0' }}
-                      >
+                      <div className="row text-left text-break editCard ml-0 mr-0">
                         <div
                           className="col-12 col-md-4 mb-2"
                           style={{ padding: '5px', paddingLeft: '0' }}
@@ -1885,8 +1887,7 @@ class SubscriptionDetail extends React.Component {
                                                     date,
                                                     el.tradeItems.map((el) => {
                                                       return {
-                                                        skuId:
-                                                          el.skuId
+                                                        skuId: el.skuId
                                                       };
                                                     })
                                                   )
@@ -1920,8 +1921,7 @@ class SubscriptionDetail extends React.Component {
                                                   skipNextGoods: el.tradeItems.map(
                                                     (el) => {
                                                       return {
-                                                        skuId:
-                                                          el.skuId
+                                                        skuId: el.skuId
                                                       };
                                                     }
                                                   )

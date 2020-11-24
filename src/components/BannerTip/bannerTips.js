@@ -10,27 +10,19 @@ export const bannerTips = () => {
       className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4"
     >
       {process.env.REACT_APP_IS_PROMOTION === 'true' && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1em',
-            fontWeight: '300',
-            marginBottom: '-.4rem'
-          }}
-        >
-          <span
-            className="iconfont mr-2"
-            style={{ fontSize: '1.4em', color: '#E41E35', fontWeight: 'bold' }}
-          >
-            &#xe675;
-          </span>
-          <div style={{ minWidth: '220px' }}>
-            <FormattedMessage id="home.promotionTip" />
-          </div>
-          <div>
-            <LinkJSX />
+        <div className="rc-bg-colour--brand4 text-center">
+          <div className="rc-layout-container rc-content-h-middle">
+            <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
+              <span className="rc-icon rc-refresh rc-brand1 rc-iconography"></span>
+              <div className="d-flex align-items-center">
+                <span className="rc-margin-right--xs rc-margin-left--xs">
+                  <FormattedMessage id="home.promotionTip" />
+                </span>
+                <div>
+                  <a href="" className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs" style={{minWidth:"110px"}}>En savoir plus</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -11,6 +11,9 @@ import TermsCommon from '../Terms/common';
 @injectIntl
 @observer
 class AdyenCreditCard extends React.Component {
+  static defaultProps = {
+    subBuyWay: '' // once/fre
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -42,14 +45,14 @@ class AdyenCreditCard extends React.Component {
     });
   };
   updateSelectedCardInfo = (data) => {
-    const { paymentStore } = this.props;
+    const { paymentStore, isOnepageCheckout } = this.props;
     this.setState({ adyenPayParam: data, isValid: !!data });
     this.props.updateAdyenPayParam(data);
     data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
 
     // init时，paymentTypeVal还没返回，todo
     if (
-      !this.props.isOnepageCheckout
+      !isOnepageCheckout
       // &&
       // this.props.paymentTypeVal !== 'adyenCard'
     ) {
@@ -102,17 +105,19 @@ class AdyenCreditCard extends React.Component {
     }
   };
   render() {
+    const { isOnepageCheckout, listData, subBuyWay } = this.props;
+    const { isValid, errorMsg } = this.state;
     const _errJSX = (
       <div
         className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-          this.state.errorMsg ? '' : 'hidden'
+          errorMsg ? '' : 'hidden'
         }`}
       >
         <aside
           className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
           role="alert"
         >
-          <span className="pl-0">{this.state.errorMsg}</span>
+          <span className="pl-0">{errorMsg}</span>
           <button
             className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
             onClick={(e) => {
@@ -134,19 +139,20 @@ class AdyenCreditCard extends React.Component {
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
           {_errJSX}
           <CardList
-            isOnepageCheckout={this.props.isOnepageCheckout}
-            updateSelectedCardInfo={(data) => this.updateSelectedCardInfo(data)}
+            isOnepageCheckout={isOnepageCheckout}
+            updateSelectedCardInfo={this.updateSelectedCardInfo}
             showErrorMsg={this.showErrorMsg}
+            subBuyWay={subBuyWay}
           />
         </div>
 
-        {!this.props.isOnepageCheckout && (
+        {!isOnepageCheckout && (
           <>
             <div className="pb-3" />
             <div className="ml-custom mr-custom">
               <TermsCommon
                 id={'adyenCreditCard'}
-                listData={this.props.listData}
+                listData={listData}
                 checkRequiredItem={this.checkRequiredItem}
               />
             </div>
@@ -158,7 +164,7 @@ class AdyenCreditCard extends React.Component {
                     type="submit"
                     name="submit"
                     value="submit-shipping"
-                    disabled={!this.state.isValid}
+                    disabled={!isValid}
                     onClick={this.clickPay}
                   >
                     <FormattedMessage id="payment.further" />
