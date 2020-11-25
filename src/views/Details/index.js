@@ -318,27 +318,27 @@ class Details extends React.Component {
         }
         if (res && res.context && res.context.goodsSpecDetails) {
           // 获取产品所属类别
-          let tmpSpecie =
-            find(res.context.storeCates, (ele) =>
-              ele.cateName.toLowerCase().includes('dog')
-            ) && 'Dog';
-          if (!tmpSpecie) {
-            tmpSpecie =
-              find(res.context.storeCates, (ele) =>
-                ele.cateName.toLowerCase().includes('cat')
-              ) && 'Cat';
-          }
-          this.specie = tmpSpecie;
+          // let tmpSpecie =
+          //   find(res.context.storeCates, (ele) =>
+          //     ele.cateName.toLowerCase().includes('dog')
+          //   ) && 'Dog';
+          // if (!tmpSpecie) {
+          //   tmpSpecie =
+          //     find(res.context.storeCates, (ele) =>
+          //       ele.cateName.toLowerCase().includes('cat')
+          //     ) && 'Cat';
+          // }
+          // this.specie = tmpSpecie;
 
           // 获取产品所属home页四个大类
-          for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, (ele) =>
-              ele.cateName.includes(item.cateName)
-            );
-            if (t) {
-              this.productRange.push(t.text);
-            }
-          }
+          // for (let item of res.context.storeCates) {
+          //   const t = find(STORE_CATE_ENUM, (ele) =>
+          //     ele.cateName.includes(item.cateName)
+          //   );
+          //   if (t) {
+          //     this.productRange.push(t.text);
+          //   }
+          // }
           // 获取产品Dry/Wet属性
           // let tmpFormat = [];
           // queryProps().then((propsRes) => {
@@ -981,15 +981,16 @@ class Details extends React.Component {
       form,
       productRate
     } = this.state;
-    console.log(currentSubscriptionStatus, 'currentSubscriptionStatus');
+
+    // displayFlag 是否展示在前台
+    // saleableFlag 是否可销售
+    // 不可销售且不展示在前台 则前台按钮置灰
+    const btnStatus =
+      !initing &&
+      instockStatus &&
+      quantity &&
+      (details.saleableFlag || !details.displayFlag);
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (selectedSpecItem) {
-      console.log(
-        selectedSpecItem,
-        'selectedSpecItem',
-        String(parseFloat(selectedSpecItem.baseSpecLabel)).length
-      );
-    }
     let event;
     // let eEvents;
     // if (!this.state.initing) {
@@ -1654,17 +1655,13 @@ class Details extends React.Component {
                           // style={{ transform: 'translateY(-80px)' }}
                           >
                             <div
-                              className="rc-max-width--xl fullHeight justify-content-center"
-                              style={{ textAlign: 'right', marginTop: '20px' }}
+                              className="rc-max-width--xl fullHeight justify-content-center text-right"
+                              style={{ marginTop: '20px' }}
                             >
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${
-                                  !initing && instockStatus && quantity
-                                    ? ''
-                                    : 'rc-btn-solid-disabled'
-                                }`}
+                                } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                                 onClick={() => this.hanldeAddToCart()}
                               >
                                 <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -1677,9 +1674,7 @@ class Details extends React.Component {
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
+                                    btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
                                   onClick={() =>
                                     this.hanldeAddToCart({
@@ -1712,9 +1707,7 @@ class Details extends React.Component {
                                   btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
+                                    btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
                                   history={this.props.history}
                                 >
@@ -1734,11 +1727,7 @@ class Details extends React.Component {
                                     style={{ marginLeft: '10px' }}
                                     className={`rc-styled-link color-999 ${
                                       addToCartLoading ? 'ui-btn-loading' : ''
-                                    } ${
-                                      !initing && instockStatus && quantity
-                                        ? ''
-                                        : 'rc-btn-disabled'
-                                    }`}
+                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
                                     onClick={() =>
                                       this.hanldeAddToCart({ redirect: true })
                                     }
@@ -1959,11 +1948,7 @@ class Details extends React.Component {
                 <button
                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                     addToCartLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    !initing && instockStatus && quantity
-                      ? ''
-                      : 'rc-btn-solid-disabled'
-                  }`}
+                  } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                   onClick={() => this.hanldeAddToCart()}
                 >
                   <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -1975,11 +1960,7 @@ class Details extends React.Component {
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
+                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={() =>
                       this.hanldeAddToCart({ redirect: true, needLogin: false })
                     }
@@ -2004,11 +1985,7 @@ class Details extends React.Component {
                     }}
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
+                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     history={this.props.history}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
@@ -2026,11 +2003,7 @@ class Details extends React.Component {
                     <button
                       className={`rc-styled-link color-999 ${
                         addToCartLoading ? 'ui-btn-loading' : ''
-                      } ${
-                        !initing && instockStatus && quantity
-                          ? ''
-                          : 'rc-btn-disabled'
-                      }`}
+                      } ${btnStatus ? '' : 'rc-btn-disabled'}`}
                       onClick={() => this.hanldeAddToCart({ redirect: true })}
                     >
                       <FormattedMessage id="GuestCheckout" />
