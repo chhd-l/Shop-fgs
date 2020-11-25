@@ -41,7 +41,7 @@ class SameAsCheckbox extends React.Component {
   };
   render() {
     return (
-      <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox">
+      <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap">
         <div>
           <input
             className="form-check-input"

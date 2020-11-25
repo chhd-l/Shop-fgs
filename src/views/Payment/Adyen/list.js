@@ -196,6 +196,7 @@ class AdyenCreditCardList extends React.Component {
   }
   handleClickEditBtn = (e) => {
     e.stopPropagation();
+    this.props.paymentStore.setStsToEdit({ key: 'paymentMethod' });
     this.setState({ formVisible: true });
   };
   renderOneCard = ({ data, showLastFour = true }) => {

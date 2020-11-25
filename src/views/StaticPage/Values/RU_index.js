@@ -63,10 +63,10 @@ class Help extends React.Component {
                 fontSize: '2.5rem'
               }}
             >
-              Здоровье животных – наша главная забота
+              La santé est notre obsession
             </h2>
             <p style={{ fontSize: '1.2rem' }}>
-              Здоровье и благополучие собак и кошек – наша важнейшая цель.
+              Tout ce que nous faisons est motivé par notre passion pour la santé et le bien-être de chaque chien et chat.
             </p>
           </section>
 
@@ -84,23 +84,16 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Питание в соответствии с потребностями
+                  Respecter leur nature
                 </h2>
                 <p>
-                  Собаки и кошки – необыкновенные животные, и мы проявляем
-                  искреннее уважение к их особенностям. В основе этого уважения
-                  – глубокие знания о собаках, кошках и их подлинных
-                  потребностях. Этим обусловлены все наши решения о создании
-                  новых продуктов и услуг, каждый шаг в нашей работе.
+                  Nous respectons les chats et les chiens pour ce qu'ils sont : des animaux de compagnie incroyables. Ce respect est né d'une connaissance approfondie de leur vraie nature et de leurs besoins uniques. Ce respect guide chacune de nos décisions quant à nos produits et services, tout en façonnant notre attitude en tant qu'entreprise.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Благополучие животных – прежде всего
+                  Les animaux de compagnie en premier
                 </h2>
                 <p>
-                  Здоровье и благополучие собак и кошек – наш приоритет всегда и
-                  во всем. Этому принципу подчинены все наши бизнес-решения. Мы
-                  убеждены, что важный аспект удовлетворения потребностей
-                  животных – это правильно подобранное питание.
+                  Nous faisons toujours passer les besoins des animaux de compagnie en premier. Cela nous donne un objectif clair pour orienter nos recherches, renforce la qualité nutritionnelle de tous nos produits et aide les chats et les chiens à vivre plus longtemps et en meilleure santé.
                 </p>
               </div>
             </div>
@@ -129,25 +122,16 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Специализированное питание – основа основ
+                  Une précision absolue
                 </h2>
                 <p>
-                  Благодаря нашим знаниям и опыту, мы имеем очень точное
-                  представление о потребностях собак и кошек, о том, в каких
-                  питательных веществах они нуждаются, чтобы поддерживать
-                  красоту и отличную физическую форму. Такая точность
-                  предъявляет очень высокие требования ко всем параметрам наших
-                  продуктов: от формы, текстуры, вкусовой привлекательности и
-                  усвояемости до безопасности и отслеживаемости сырья по каждому
-                  ингредиенту.
+                  Nos connaissances et notre expérience approfondies nous ont permis de bien comprendre les besoins des animaux de compagnie et les nutriments nécessaires pour les garder en parfaite santé. Cette précision garantit la haute performance de nos aliments, que ce soit leur forme, leur texture, leur appétence, leur digestibilité, leur innocuité ou leur traçabilité.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Животные – наше главное увлечение
+                  Une passion pour les animaux de compagnie
                 </h2>
                 <p>
-                  Мы вкладываем все свои силы, всю душу в то, что мы делаем.
-                  Наше главное стремление – создать лучший мир для животных и их
-                  владельцев, где бы они не находились.
+                  Nous mettons tout notre cœur et notre âme dans tout ce que nous faisons, et notre passion pour rendre le monde meilleur pour les animaux de compagnie et leurs maître est authentique.
                 </p>
               </div>
             </div>
@@ -166,23 +150,16 @@ class Help extends React.Component {
             >
               <div>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Мы никогда не прекращаем учиться
+                  La quête du savoir
                 </h2>
                 <p>
-                  Чем глубже наши знания о животных, тем больше мы можем сделать
-                  для того, чтобы удовлетворить их подлинные потребности с
-                  помощью инноваций. Мы никогда не прекращаем учиться и ничего
-                  не принимаем на веру без критической оценки. Вот почему мы
-                  постоянно сотрудничаем с учеными, ветеринарными специалистами,
-                  заводчиками-профессионалами – и, конечно же, с владельцами
-                  собак и кошек.
+                  Notre compréhension approfondie des besoins des chiens et des chats nous permet de créer la nutrition santé pour animaux la plus précise au monde. Nous n'arrêtons jamais d'apprendre et ne tenons jamais rien pour acquis. C'est pourquoi, nous collaborons avec des experts scientifiques, vétérinaires et comportementaux, et nous entretenons un dialogue permanent avec les possesseurs de chats et de chiens du monde entier.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
-                  Здоровье – наша главная забота
+                  L'obsession pour la santé animale
                 </h2>
                 <p>
-                  Все, что мы делаем, подчинено движению к главной цели –
-                  здоровью и благополучию собак и кошек.
+                  Toutes nos actions sont motivées par notre passion pour la santé et le bien-être de chaque chien et chat.
                 </p>
               </div>
             </div>
@@ -193,34 +170,32 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'center', width: '90%', margin: '80px auto' }}
           >
-            <h2 style={{ fontSize: '2.5rem' }}>Устойчивое развитие</h2>
+            <h2 style={{ fontSize: '2.5rem' }}>Développement durable</h2>
             <p>
-              Наш подход к экологически устойчивому развитию – проявление
-              заслуженного уважения к животным, людям и нашей планете.
+              Grâce à notre approche en matière de développement durable, nous sommes sûrs d'offrir aux animaux, aux personnes et à la planète le respect qu’ils méritent.
             </p>
-            <h2 style={{ fontSize: '2.5rem' }}>Наука, здоровье и питание</h2>
+            <h2 style={{ fontSize: '2.5rem' }}>Science, Santé et Nutrition</h2>
             <p>
-              Вся наша деятельность основана на постоянном совершенствовании
-              научных знаний о здоровье и питании животных.
+              Notre travail s’appuie sur un vaste socle évolutif de connaissances scientifiques en matière de santé et de nutrition animale.
             </p>
           </section>
-          <section
-            style={{
-              textAlign: 'center',
-              width: '450px',
-              margin: '80px auto',
-              border: '1px solid #d7d7d7',
-              padding: '30px'
-            }}
-          >
-            <h2 style={{ color: '#E2001A', fontSize: '1.875rem' }}>
-              Здоровье и инновации
-            </h2>
-            <p>
-              Вся наша деятельность основана на глубоком понимании ключевых
-              вопросов науки и диетологии и постоянном его совершенствовании.
-            </p>
-          </section>
+          {/*<section*/}
+          {/*  style={{*/}
+          {/*    textAlign: 'center',*/}
+          {/*    width: '450px',*/}
+          {/*    margin: '80px auto',*/}
+          {/*    border: '1px solid #d7d7d7',*/}
+          {/*    padding: '30px'*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <h2 style={{ color: '#E2001A', fontSize: '1.875rem' }}>*/}
+          {/*    Здоровье и инновации*/}
+          {/*  </h2>*/}
+          {/*  <p>*/}
+          {/*    Вся наша деятельность основана на глубоком понимании ключевых*/}
+          {/*    вопросов науки и диетологии и постоянном его совершенствовании.*/}
+          {/*  </p>*/}
+          {/*</section>*/}
           {/* <section style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}>
             <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', paddingLeft: '200px' }}>
               Выберите нужный продукт. Какое у вас животное?

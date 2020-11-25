@@ -105,7 +105,7 @@ class AdyenCreditCard extends React.Component {
     }
   };
   render() {
-    const { isOnepageCheckout, listData, subBuyWay } = this.props;
+    const { isOnepageCheckout, listData, subBuyWay, paymentStore } = this.props;
     const { isValid, errorMsg } = this.state;
     const _errJSX = (
       <div
@@ -143,6 +143,7 @@ class AdyenCreditCard extends React.Component {
             updateSelectedCardInfo={this.updateSelectedCardInfo}
             showErrorMsg={this.showErrorMsg}
             subBuyWay={subBuyWay}
+            paymentStore={paymentStore}
           />
         </div>
 

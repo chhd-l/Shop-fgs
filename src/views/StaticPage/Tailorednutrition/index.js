@@ -54,6 +54,7 @@ class Tailorednutrition extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
+
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
