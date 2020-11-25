@@ -3,9 +3,9 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
 
 @media (min-width: 769px) {
-  .layout-container, .rc-layout-container {
+  /* .layout-container, .rc-layout-container {
     margin: 0 !important;
-  }
+  } */
   .loginBox {
     width: 476px;
   }

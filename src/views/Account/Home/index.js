@@ -38,11 +38,7 @@ const itemList = [
   },
   {
     icon: (
-      <svg
-        className="svg-icon account-home-icon"
-        aria-hidden="true"
-        style={{ width: '4em', height: '4em' }}
-      >
+      <svg className="svg-icon account-home-icon" aria-hidden="true">
         <use xlinkHref="#iconMyorders1" />
       </svg>
     ),
@@ -69,7 +65,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4em', height: '4em' }}
+        style={{ width: '6em', height: '6em' }}
       >
         <use xlinkHref="#iconFAQ" />
       </svg>
