@@ -274,41 +274,81 @@ function getchilds(id, array) {
   return childs;
 }
 
-export function setSeoConfig(
+export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
-  if (!sessionStorage.getItem('seoInfo')) {
-    let params = {
-      type: 4,
-      storeId: process.env.REACT_APP_STOREID
-    };
-    getSeoConfig(params).then((res) => {
-      if (res.code === 'K-000000') {
-        let seoInfo = res.context.seoSettingVO;
-        sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
-        changeTitleAndMeta(seoInfo);
-        if (obj.pageName) {
-          getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
-        } else if (obj.categoryId) {
-          getCateSeo(obj.goodsId, obj.categoryId);
-        } else if (obj.goodsId) {
-          getGoodsSeo(obj.goodsId);
-        }
-      }
-    });
-  } else {
-    let seoInfo = JSON.parse(sessionStorage.getItem('seoInfo'));
-    changeTitleAndMeta(seoInfo);
-    if (obj.pageName) {
-      getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
-    } else if (obj.categoryId) {
-      getCateSeo(obj.goodsId, obj.categoryId);
-    } else if (obj.goodsId) {
-      getGoodsSeo(obj.goodsId);
-    }
+  let goodsSeo = {},cateSeo={},pageSeo={},siteSeo={}
+  if(obj.goodsId){
+    goodsSeo = getGoodsSeo(obj.goodsId)
   }
+  if(obj.categoryId){
+    cateSeo = getCateSeo(obj.categoryId)
+  }
+  if(obj.pageName){
+    pageSeo = getPageSeo(obj.pageName)
+  }
+  siteSeo = getSiteSeo(obj.goodsId)
+  let seoInfo = {
+    title:goodsSeo.title||cateSeo.title|| pageSeo.title||siteSeo.title,
+    metaKeywords:goodsSeo.metaKeywords||cateSeo.metaKeywords|| pageSeo.metaKeywords||siteSeo.metaKeywords,
+    metaDescription:goodsSeo.metaDescription||cateSeo.metaDescription|| pageSeo.metaDescription||siteSeo.metaDescription,
+  }
+  changeTitleAndMeta(seoInfo)
 }
-function getPageSeo(goodsId, categoryId, pageName) {
+
+
+// export function setSeoConfig(
+//   obj = { goodsId: '', categoryId: '', pageName: '' }
+// ) {
+//   if (!sessionStorage.getItem('seoInfo')) {
+//     let params = {
+//       type: 4,
+//       storeId: process.env.REACT_APP_STOREID
+//     };
+//     getSeoConfig(params).then((res) => {
+//       if (res.code === 'K-000000') {
+//         let seoInfo = res.context.seoSettingVO;
+//         sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
+//         changeTitleAndMeta(seoInfo);
+//         if (obj.pageName) {
+//           getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
+//         } else if (obj.categoryId) {
+//           getCateSeo(obj.goodsId, obj.categoryId);
+//         } else if (obj.goodsId) {
+//           getGoodsSeo(obj.goodsId);
+//         }
+//       }
+//     });
+//   } else {
+//     let seoInfo = JSON.parse(sessionStorage.getItem('seoInfo'));
+//     changeTitleAndMeta(seoInfo);
+//     if (obj.pageName) {
+//       getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
+//     } else if (obj.categoryId) {
+//       getCateSeo(obj.goodsId, obj.categoryId);
+//     } else if (obj.goodsId) {
+//       getGoodsSeo(obj.goodsId);
+//     }
+//   }
+// }
+function getSiteSeo() {
+  let params = {
+    type: 4,
+    storeId: process.env.REACT_APP_STOREID
+  };
+  getSeoConfig(params).then((res) => {
+    if (res.code === 'K-000000') {
+      let seoInfo = res.context.seoSettingVO;
+      sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
+      return seoInfo
+    }
+    else {
+      return {}
+    }
+  })
+}
+
+function getPageSeo(pageName) {
   let params = {
     type: 3,
     pageName: pageName,
@@ -317,16 +357,14 @@ function getPageSeo(goodsId, categoryId, pageName) {
   getSeoConfig(params).then((res) => {
     if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo);
-      if (categoryId) {
-        getCateSeo(goodsId, categoryId);
-      } else if (goodsId) {
-        getGoodsSeo(goodsId);
-      }
+      return seoInfo
+    }
+    else {
+      return {}
     }
   });
 }
-function getCateSeo(goodsId, categoryId) {
+function getCateSeo( categoryId) {
   let params = {
     type: 2,
     storeCateId: categoryId,
@@ -335,10 +373,10 @@ function getCateSeo(goodsId, categoryId) {
   getSeoConfig(params).then((res) => {
     if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo);
-      if (goodsId) {
-        getGoodsSeo(goodsId);
-      }
+      return seoInfo
+    }
+    else {
+      return {}
     }
   });
 }
@@ -351,7 +389,10 @@ function getGoodsSeo(goodsId) {
   getSeoConfig(params).then((res) => {
     if (res.code === 'K-000000') {
       let seoInfo = res.context.seoSettingVO;
-      changeTitleAndMeta(seoInfo);
+      return seoInfo
+    }
+    else {
+      return {}
     }
   });
 }
