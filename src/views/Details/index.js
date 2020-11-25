@@ -148,7 +148,7 @@ class Details extends React.Component {
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.headerRef = React.createRef();
+    this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
 
     this.specie = '';
     this.productRange = [];
@@ -204,6 +204,18 @@ class Details extends React.Component {
         ...ele
       };
     });
+  }
+  get btnStatus() {
+    const { details, quantity, instockStatus, initing } = this.state;
+    // displayFlag 是否展示在前台
+    // saleableFlag 是否可销售
+    // 不可销售且不展示在前台 则前台按钮置灰
+    return (
+      !initing &&
+      instockStatus &&
+      quantity &&
+      (details.saleableFlag || !details.displayFlag)
+    );
   }
   matchGoods() {
     let {
@@ -597,14 +609,9 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
-    if (
-      !(!this.state.initing && this.state.instockStatus && this.state.quantity)
-    )
-      return;
+    const { loading } = this.state;
+    if (!this.btnStatus || loading) return false;
     this.setState({ checkOutErrMsg: '' });
-    if (this.state.loading) {
-      return false;
-    }
     if (this.isLogin) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
@@ -969,7 +976,6 @@ class Details extends React.Component {
       quantity,
       stock,
       quantityMinLimit,
-      instockStatus,
       currentUnitPrice,
       currentLinePrice,
       currentSubscriptionPrice,
@@ -977,20 +983,11 @@ class Details extends React.Component {
       errMsg,
       addToCartLoading,
       specList,
-      initing,
       form,
       productRate
     } = this.state;
 
-    // displayFlag 是否展示在前台
-    // saleableFlag 是否可销售
-    // 不可销售且不展示在前台 则前台按钮置灰
-    const btnStatus =
-      !initing &&
-      instockStatus &&
-      quantity &&
-      (details.saleableFlag || !details.displayFlag);
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    const btnStatus = this.btnStatus;
     let event;
     // let eEvents;
     // if (!this.state.initing) {
@@ -1033,7 +1030,6 @@ class Details extends React.Component {
           />
         ) : null} */}
         <Header
-          ref={this.headerRef}
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}
@@ -1668,7 +1664,7 @@ class Details extends React.Component {
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
                                 } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                                onClick={() => this.hanldeAddToCart()}
+                                onClick={this.hanldeAddToCart}
                               >
                                 <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                                 <span className="default-txt">
@@ -1682,14 +1678,12 @@ class Details extends React.Component {
                                   } ${
                                     btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
-                                  onClick={() =>
-                                    this.hanldeAddToCart({
-                                      redirect: true,
-                                      needLogin: false
-                                    })
-                                  }
+                                  onClick={this.hanldeAddToCart.bind(this, {
+                                    redirect: true,
+                                    needLogin: false
+                                  })}
                                 >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
                                   <span className="default-txt">
                                     <FormattedMessage id="checkout" />
                                   </span>
@@ -1732,11 +1726,11 @@ class Details extends React.Component {
                                   <button
                                     style={{ marginLeft: '10px' }}
                                     className={`rc-styled-link color-999 ${
-                                      addToCartLoading ? 'ui-btn-loading' : ''
+                                      addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
                                     } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                                    onClick={() =>
-                                      this.hanldeAddToCart({ redirect: true })
-                                    }
+                                    onClick={this.hanldeAddToCart.bind(this, {
+                                      redirect: true
+                                    })}
                                   >
                                     <FormattedMessage id="GuestCheckout" />
                                   </button>
@@ -1955,7 +1949,7 @@ class Details extends React.Component {
                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                     addToCartLoading ? 'ui-btn-loading' : ''
                   } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  onClick={() => this.hanldeAddToCart()}
+                  onClick={this.hanldeAddToCart}
                 >
                   <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                   <span className="default-txt">
@@ -1967,9 +1961,10 @@ class Details extends React.Component {
                     className={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
                     } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={() =>
-                      this.hanldeAddToCart({ redirect: true, needLogin: false })
-                    }
+                    onClick={this.hanldeAddToCart.bind(this, {
+                      redirect: true,
+                      needLogin: false
+                    })}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt">
@@ -2010,7 +2005,9 @@ class Details extends React.Component {
                       className={`rc-styled-link color-999 ${
                         addToCartLoading ? 'ui-btn-loading' : ''
                       } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                      onClick={() => this.hanldeAddToCart({ redirect: true })}
+                      onClick={this.hanldeAddToCart.bind(this, {
+                        redirect: true
+                      })}
                     >
                       <FormattedMessage id="GuestCheckout" />
                     </button>
