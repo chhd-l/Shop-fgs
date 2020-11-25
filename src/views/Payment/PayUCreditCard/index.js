@@ -617,12 +617,12 @@ class PayOs extends React.Component {
               id="payment.confirmInfo3"
               values={{
                 val1: (
-                  <Link className="red" target="_blank" to="/privacypolicy">
+                  <Link className="red" target="_blank" rel="nofollow" to="/privacypolicy">
                     Política de privacidad
                   </Link>
                 ),
                 val2: (
-                  <Link className="red" target="_blank" to="/termuse">
+                  <Link className="red" target="_blank" rel="nofollow" to="/termuse">
                     la transferencia transfronteriza
                   </Link>
                 )

@@ -1194,7 +1194,7 @@ class Help extends React.Component {
               <a
                 href="https://www.royal-canin.ru/upload/doc/RC_Invoice_back_LAST.pdf"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow"
                 data-link-type="external"
                 data-link-label="https://www.royal-canin.ru/upload/doc/RC_Invoice_back_LAST.pdf"
                 style={{ color: 'rgb(68, 68, 68)' }}

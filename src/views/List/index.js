@@ -7,7 +7,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
@@ -128,7 +128,15 @@ class List extends React.Component {
               const { filterType, ...param } = ele;
               return param;
             })
-        }
+        },
+        titleData:
+          state.cateName && state.cateDescription && state.cateImgList
+            ? {
+                title: state.cateName,
+                description: state.cateDescription,
+                img: state.cateImgList
+              }
+            : null
       });
     }
 
@@ -577,11 +585,15 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <BreadCrumbs />
+          <BreadCrumbsNavigation
+            list={[{ name: (titleData && titleData.title) || '' }].filter(
+              (el) => el.name
+            )}
+          />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <a href="/" className="back-link">
+            <Link to="/" className="back-link">
               Homepage
-            </a>
+            </Link>
           </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
@@ -597,7 +609,7 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <img src={titleData.img} className="mx-auto"></img>
+                  <img src={titleData.img} className="mx-auto" alt="" />
                 </div>
               </div>
             </div>

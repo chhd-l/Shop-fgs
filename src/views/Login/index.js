@@ -345,7 +345,7 @@ class Login extends React.Component {
               >
                 <div className="rc-column">
                   <h1 className="rc-espilon imgBox">
-                    <img src={bg1} style={{ display: 'inline' }}  alt=""/>
+                    <img src={bg1} style={{ display: 'inline' }} alt="" />
                   </h1>
                 </div>
 
@@ -519,7 +519,10 @@ class Login extends React.Component {
                         className="rc-layout-container rc-two-column"
                         style={{ width: '100%' }}
                       >
-                        <div className="rc-column" style={{ textAlign: 'center' }}>
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
                           <button
                             className="rc-btn rc-btn--one"
                             style={{ width: '100%' }}
@@ -528,7 +531,10 @@ class Login extends React.Component {
                             <FormattedMessage id="login" />
                           </button>
                         </div>
-                        <div className="rc-column" style={{ textAlign: 'center' }}>
+                        <div
+                          className="rc-column"
+                          style={{ textAlign: 'center' }}
+                        >
                           <button
                             className="rc-btn rc-btn--two"
                             style={{ width: '100%' }}
@@ -881,18 +887,18 @@ class Login extends React.Component {
                       <a
                         href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="nofollow"
                       >
-                          {' '}
-                          <FormattedMessage id="userAgreement" />
+                        {' '}
+                        <FormattedMessage id="userAgreement" />
                       </a>
                       <FormattedMessage id="andThe" />
                       <a
                         href="https://www.mars.com/global/policies/privacy/pp-russian/"
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="nofollow"
                       >
-                          <FormattedMessage id="privacyPolicy" />{' '}
+                        <FormattedMessage id="privacyPolicy" />{' '}
                       </a>
                       <FormattedMessage id="giveConsentPersonalData" />
                     </label>
@@ -1363,14 +1369,14 @@ class Login extends React.Component {
                             I have read the
                           <a
                             href="https://www.shop.royal-canin.ru/ru/general-terms-conditions.html/"
-                            target="_blank" rel='noopener noreferrer'
+                            target="_blank" rel="nofollow"
                           >
                             User Agreement
                           </a>
                               and the
                           <a
                             href="https://www.mars.com/global/policies/privacy/pp-russian/"
-                            target="_blank" rel='noopener noreferrer'
+                            target="_blank" rel="nofollow"
                           >
                             Privacy Policy
                           </a>
