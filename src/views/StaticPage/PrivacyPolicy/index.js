@@ -493,7 +493,7 @@ class PrivacyPolicy extends React.Component {
                   <a
                     href="http://www.aboutads.info/choices/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="nofollow"
                   >
                     Ad Choices
                   </a>

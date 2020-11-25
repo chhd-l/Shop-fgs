@@ -88,6 +88,7 @@ import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
+import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
@@ -381,6 +382,7 @@ const App = () => (
                 component={TR_GeneralConditions}
               />
               <Route path="/aboutUs" exact component={AboutUs} />
+              <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
               <Route

@@ -610,6 +610,7 @@ class Question extends React.Component {
                       className="rc-btn rc-btn--one"
                       href="https://shop.royalcanin.fr/dog-range/veterinary-care-nutrition/"
                       target="_blank"
+                      rel="nofollow"
                     >
                       <FormattedMessage id="learnMore" />
                     </a>
@@ -617,6 +618,7 @@ class Question extends React.Component {
                       className="rc-btn rc-btn--two"
                       to="/help"
                       target="_blank"
+                      rel="nofollow"
                     >
                       <FormattedMessage id="contactUs" />
                     </Link>

@@ -26,7 +26,7 @@ class FAQ extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -112,7 +112,7 @@ class FAQ extends React.Component {
                           values={{
                             val1: (
                               <a
-                                rel="noopener noreferrer"
+                                rel="nofollow"
                                 className="rc-styled-link"
                                 target="_blank"
                                 href="/help"

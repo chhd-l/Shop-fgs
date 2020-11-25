@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
 import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -197,7 +198,7 @@ class Details extends React.Component {
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
-      delete ele.value
+      delete ele.value;
       return {
         value: ele.valueEn,
         ...ele
@@ -263,12 +264,12 @@ class Details extends React.Component {
       }
       item.specText = specTextArr.join(' ');
       if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-        console.log(item, 'item')
+        console.log(item, 'item');
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus
+        currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
       } else {
         item.selected = false;
@@ -317,27 +318,27 @@ class Details extends React.Component {
         }
         if (res && res.context && res.context.goodsSpecDetails) {
           // 获取产品所属类别
-          let tmpSpecie =
-            find(res.context.storeCates, (ele) =>
-              ele.cateName.toLowerCase().includes('dog')
-            ) && 'Dog';
-          if (!tmpSpecie) {
-            tmpSpecie =
-              find(res.context.storeCates, (ele) =>
-                ele.cateName.toLowerCase().includes('cat')
-              ) && 'Cat';
-          }
-          this.specie = tmpSpecie;
+          // let tmpSpecie =
+          //   find(res.context.storeCates, (ele) =>
+          //     ele.cateName.toLowerCase().includes('dog')
+          //   ) && 'Dog';
+          // if (!tmpSpecie) {
+          //   tmpSpecie =
+          //     find(res.context.storeCates, (ele) =>
+          //       ele.cateName.toLowerCase().includes('cat')
+          //     ) && 'Cat';
+          // }
+          // this.specie = tmpSpecie;
 
           // 获取产品所属home页四个大类
-          for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, (ele) =>
-              ele.cateName.includes(item.cateName)
-            );
-            if (t) {
-              this.productRange.push(t.text);
-            }
-          }
+          // for (let item of res.context.storeCates) {
+          //   const t = find(STORE_CATE_ENUM, (ele) =>
+          //     ele.cateName.includes(item.cateName)
+          //   );
+          //   if (t) {
+          //     this.productRange.push(t.text);
+          //   }
+          // }
           // 获取产品Dry/Wet属性
           // let tmpFormat = [];
           // queryProps().then((propsRes) => {
@@ -625,9 +626,9 @@ class Details extends React.Component {
           this.format.join('&')
         ].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
-      }
-      if(parseInt(form.buyWay)) {
-        param.periodTypeId = form.frequencyId
+      };
+      if (parseInt(form.buyWay)) {
+        param.periodTypeId = form.frequencyId;
       }
       await sitePurchase(param);
       await this.checkoutStore.updateLoginCart();
@@ -747,9 +748,12 @@ class Details extends React.Component {
           this.setState({ addToCartLoading: false });
           return;
         }
-        tmpData = Object.assign(tmpData, { quantity: quantityNew, goodsInfoFlag: parseInt(form.buyWay) })
-        if(parseInt(form.buyWay)) {
-          tmpData.periodTypeId = form.frequencyId
+        tmpData = Object.assign(tmpData, {
+          quantity: quantityNew,
+          goodsInfoFlag: parseInt(form.buyWay)
+        });
+        if (parseInt(form.buyWay)) {
+          tmpData.periodTypeId = form.frequencyId;
         }
       }
     }
@@ -791,8 +795,8 @@ class Details extends React.Component {
       selected: true,
       goodsInfoFlag: parseInt(form.buyWay)
     });
-    if(parseInt(form.buyWay)) {
-      tmpData.periodTypeId = form.frequencyId
+    if (parseInt(form.buyWay)) {
+      tmpData.periodTypeId = form.frequencyId;
     }
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
@@ -895,10 +899,10 @@ class Details extends React.Component {
     }, 1000);
   }
 
-  handleInputChange (e) {
-    let { form } = this.state
-    form.buyWay = parseInt(e.currentTarget.value)
-    this.setState({form})
+  handleInputChange(e) {
+    let { form } = this.state;
+    form.buyWay = parseInt(e.currentTarget.value);
+    this.setState({ form });
   }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
@@ -974,17 +978,19 @@ class Details extends React.Component {
       addToCartLoading,
       specList,
       initing,
-      form
+      form,
+      productRate
     } = this.state;
-    console.log(currentSubscriptionStatus, 'currentSubscriptionStatus')
+
+    // displayFlag 是否展示在前台
+    // saleableFlag 是否可销售
+    // 不可销售且不展示在前台 则前台按钮置灰
+    const btnStatus =
+      !initing &&
+      instockStatus &&
+      quantity &&
+      (details.saleableFlag || !details.displayFlag);
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    if (selectedSpecItem) {
-      console.log(
-        selectedSpecItem,
-        'selectedSpecItem',
-        String(parseFloat(selectedSpecItem.baseSpecLabel)).length
-      );
-    }
     let event;
     // let eEvents;
     // if (!this.state.initing) {
@@ -1052,7 +1058,9 @@ class Details extends React.Component {
           <main className="rc-content--fixed-header ">
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
-                <BreadCrumbs />
+                {/* <BreadCrumbs /> */}
+                {/* todo 接口有返回salescatogery类别吗 */}
+                <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     <div
@@ -1084,18 +1092,18 @@ class Details extends React.Component {
                               style={{ verticalAlign: 'middle' }}
                             >
                               <Rate
-                                def={this.state.productRate}
+                                def={productRate}
                                 disabled={true}
                                 marginSize="sRate"
                               />
                             </div>
-                            <a
+                            <span
                               className="comments rc-margin-left--xs rc-text-colour--text"
                               onClick={this.handleAClick.bind(this)}
                             >
                               ({this.state.replyNum})
                               {/* <FormattedMessage id="reviews" /> */}
-                            </a>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -1170,7 +1178,8 @@ class Details extends React.Component {
                                     style={{ verticalAlign: 'middle' }}
                                   >
                                     <Rate
-                                      def={this.state.productRate}
+                                      def={productRate}
+                                      key={productRate}
                                       disabled={true}
                                       marginSize="sRate"
                                     />
@@ -1305,7 +1314,14 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1319,7 +1335,9 @@ class Details extends React.Component {
                                         name="buyWay"
                                         value="0"
                                         key="1"
-                                        onChange={(event) => this.handleInputChange(event)}
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
                                         checked
                                       />
                                     )}
@@ -1358,8 +1376,19 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7', height: '100px'}}>
-                            <div className="radioBox" style={{paddingTop: '1rem'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7',
+                              height: '100px'
+                            }}
+                          >
+                            <div
+                              className="radioBox"
+                              style={{ paddingTop: '1rem' }}
+                            >
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
@@ -1371,7 +1400,9 @@ class Details extends React.Component {
                                       name="buyWay"
                                       value="0"
                                       key="0"
-                                      onChange={(event) => this.handleInputChange(event)}
+                                      onChange={(event) =>
+                                        this.handleInputChange(event)
+                                      }
                                       // checked
                                       defaultChecked
                                     />
@@ -1401,31 +1432,148 @@ class Details extends React.Component {
                             </div>
                           </div>
                         )}
-                        {currentSubscriptionStatus? (/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                          navigator.userAgent
-                        ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
-                            <div className="buyMethodInnerBox">
-                              <div className="radioBox">
+                        {currentSubscriptionStatus ? (
+                          /Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                            navigator.userAgent
+                          ) ? (
+                            <div
+                              className="buyMethod rc-margin-bottom--xs"
+                              style={{
+                                borderColor: parseInt(form.buyWay)
+                                  ? '#e2001a'
+                                  : '#d7d7d7'
+                              }}
+                            >
+                              <div className="buyMethodInnerBox">
+                                <div className="radioBox">
+                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                    <FormattedMessage id="email">
+                                      {(txt) => (
+                                        <input
+                                          className="rc-input__radio"
+                                          id="optsemail"
+                                          type="radio"
+                                          alt={txt}
+                                          name="buyWay"
+                                          value="1"
+                                          key="1"
+                                          onChange={(event) =>
+                                            this.handleInputChange(event)
+                                          }
+                                          checked
+                                        />
+                                      )}
+                                    </FormattedMessage>
+                                    <label
+                                      className="rc-input__label--inline"
+                                      htmlFor="optsemail"
+                                    >
+                                      <span
+                                        style={{
+                                          fontWeight: '400',
+                                          color: '#333'
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoship" />
+                                        <span
+                                          className="info-tooltip delivery-method-tooltip"
+                                          onMouseEnter={() => {
+                                            this.setState({
+                                              toolTipVisible: true
+                                            });
+                                          }}
+                                          onMouseLeave={() => {
+                                            this.setState({
+                                              toolTipVisible: false
+                                            });
+                                          }}
+                                        >
+                                          i
+                                        </span>
+                                        <ConfirmTooltip
+                                          arrowStyle={{ left: '65%' }}
+                                          display={this.state.toolTipVisible}
+                                          cancelBtnVisible={false}
+                                          confirmBtnVisible={false}
+                                          updateChildDisplay={(status) =>
+                                            this.setState({
+                                              toolTipVisible: status
+                                            })
+                                          }
+                                          content={
+                                            <FormattedMessage id="subscription.promotionTip2" />
+                                          }
+                                        />
+                                      </span>
+                                    </label>
+                                  </div>
+                                  <br />
+                                  Save&nbsp;
+                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                    {formatMoney(
+                                      currentUnitPrice -
+                                        quantity * currentSubscriptionPrice
+                                    )}
+                                  </b>
+                                  &nbsp; on this subscription.
+                                </div>
+                                <div className="price">
+                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                </div>
+                              </div>
+                              <div className="freqency">
+                                <span>Delivery every:</span>
+                                <Selection
+                                  customContainerStyle={{
+                                    display: 'inline-block',
+                                    marginLeft: '100px'
+                                  }}
+                                  selectedItemChange={(data) =>
+                                    this.handleSelectedItemChange(data)
+                                  }
+                                  optionList={this.computedList}
+                                  selectedItemData={{
+                                    value: form.frequencyVal
+                                  }}
+                                  key={form.frequencyVal}
+                                  customStyleType="select-one"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              className="buyMethod rc-margin-bottom--xs"
+                              style={{
+                                borderColor: parseInt(form.buyWay)
+                                  ? '#e2001a'
+                                  : '#d7d7d7'
+                              }}
+                            >
+                              <div
+                                className="radioBox"
+                                style={{ paddingTop: '1rem' }}
+                              >
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input
                                         className="rc-input__radio"
-                                        id="optsemail"
+                                        id="type_frequency"
                                         type="radio"
                                         alt={txt}
                                         name="buyWay"
                                         value="1"
                                         key="1"
-                                        onChange={(event) => this.handleInputChange(event)}
-                                        checked
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
+                                        // checked
                                       />
                                     )}
                                   </FormattedMessage>
                                   <label
                                     className="rc-input__label--inline"
-                                    htmlFor="optsemail"
+                                    htmlFor="type_frequency"
                                   >
                                     <span
                                       style={{
@@ -1467,126 +1615,38 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                                 <br />
-                                Save&nbsp;
-                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
-                                </b>
-                                &nbsp; on this subscription.
-                              </div>
-                              <div className="price">
-                                {formatMoney(currentSubscriptionPrice || 0)}
-                              </div>
-                            </div>
-                            <div className="freqency">
-                              <span>Delivery every:</span> 
-                              <Selection
-                                customContainerStyle={{
-                                  display: 'inline-block',
-                                  marginLeft: '100px'
-                                }}
-                                selectedItemChange={(data) =>
-                                  this.handleSelectedItemChange(data)
-                                }
-                                optionList={this.computedList}
-                                selectedItemData={{
-                                  value: form.frequencyVal
-                                }}
-                                key={form.frequencyVal}
-                                customStyleType="select-one"
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
-                            <div className="radioBox" style={{paddingTop: '1rem'}}>
-                              <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                <FormattedMessage id="email">
-                                  {(txt) => (
-                                    <input
-                                      className="rc-input__radio"
-                                      id="type_frequency"
-                                      type="radio"
-                                      alt={txt}
-                                      name="buyWay"
-                                      value="1"
-                                      key="1"
-                                      onChange={(event) => this.handleInputChange(event)}
-                                      // checked
-                                    />
-                                  )}
-                                </FormattedMessage>
-                                <label
-                                  className="rc-input__label--inline"
-                                  htmlFor="type_frequency"
-                                >
-                                  <span
-                                    style={{ fontWeight: '400', color: '#333' }}
-                                  >
-                                    <FormattedMessage id="autoship" />
-                                    <span
-                                      className="info-tooltip delivery-method-tooltip"
-                                      onMouseEnter={() => {
-                                        this.setState({
-                                          toolTipVisible: true
-                                        });
-                                      }}
-                                      onMouseLeave={() => {
-                                        this.setState({
-                                          toolTipVisible: false
-                                        });
-                                      }}
-                                    >
-                                      i
-                                    </span>
-                                    <ConfirmTooltip
-                                      arrowStyle={{ left: '65%' }}
-                                      display={this.state.toolTipVisible}
-                                      cancelBtnVisible={false}
-                                      confirmBtnVisible={false}
-                                      updateChildDisplay={(status) =>
-                                        this.setState({
-                                          toolTipVisible: status
-                                        })
-                                      }
-                                      content={
-                                        <FormattedMessage id="subscription.promotionTip2" />
-                                      }
-                                    />
-                                  </span>
-                                </label>
-                              </div>
-                              <br />
-                              {/* <div>
+                                {/* <div>
                               Save&nbsp;
                                 <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                   {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
                                 </b>
                                 &nbsp; on this subscription.
                               </div> */}
+                              </div>
+                              <div className="freqency">
+                                <span>Delivery every:</span>
+                                <Selection
+                                  customContainerStyle={{
+                                    display: 'inline-block',
+                                    marginLeft: '100px'
+                                  }}
+                                  selectedItemChange={(data) =>
+                                    this.handleSelectedItemChange(data)
+                                  }
+                                  optionList={this.computedList}
+                                  selectedItemData={{
+                                    value: form.frequencyVal
+                                  }}
+                                  key={form.frequencyVal}
+                                  customStyleType="select-one"
+                                />
+                              </div>
+                              <div className="price">
+                                {formatMoney(currentSubscriptionPrice || 0)}
+                              </div>
                             </div>
-                            <div className="freqency">
-                              <span>Delivery every:</span>
-                              <Selection
-                                customContainerStyle={{
-                                  display: 'inline-block',
-                                  marginLeft: '100px'
-                                }}
-                                selectedItemChange={(data) =>
-                                  this.handleSelectedItemChange(data)
-                                }
-                                optionList={this.computedList}
-                                selectedItemData={{
-                                  value: form.frequencyVal
-                                }}
-                                key={form.frequencyVal}
-                                customStyleType="select-one"
-                              />
-                            </div>
-                            <div className="price">
-                              {formatMoney(currentSubscriptionPrice || 0)}
-                            </div>
-                          </div>
-                        )): null}
+                          )
+                        ) : null}
                         {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) && (
@@ -1595,17 +1655,13 @@ class Details extends React.Component {
                           // style={{ transform: 'translateY(-80px)' }}
                           >
                             <div
-                              className="rc-max-width--xl fullHeight justify-content-center"
-                              style={{ textAlign: 'right', marginTop: '20px' }}
+                              className="rc-max-width--xl fullHeight justify-content-center text-right"
+                              style={{ marginTop: '20px' }}
                             >
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${
-                                  !initing && instockStatus && quantity
-                                    ? ''
-                                    : 'rc-btn-solid-disabled'
-                                }`}
+                                } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                                 onClick={() => this.hanldeAddToCart()}
                               >
                                 <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -1618,9 +1674,7 @@ class Details extends React.Component {
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
+                                    btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
                                   onClick={() =>
                                     this.hanldeAddToCart({
@@ -1653,9 +1707,7 @@ class Details extends React.Component {
                                   btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-solid-disabled'
+                                    btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
                                   history={this.props.history}
                                 >
@@ -1665,23 +1717,24 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )}
-                              {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
-                                <button
-                                  style={{ marginLeft: '10px' }}
-                                  className={`rc-styled-link color-999 ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-disabled'
-                                  }`}
-                                  onClick={() =>
-                                    this.hanldeAddToCart({ redirect: true })
-                                  }
-                                >
-                                  <FormattedMessage id="GuestCheckout" />
-                                </button>)
-                              )}
+                              {!this.isLogin &&
+                                (this.state.form.buyWay ? (
+                                  <span style={{ marginLeft: '10px' }}>
+                                    Autoship is possible only after registration
+                                  </span>
+                                ) : (
+                                  <button
+                                    style={{ marginLeft: '10px' }}
+                                    className={`rc-styled-link color-999 ${
+                                      addToCartLoading ? 'ui-btn-loading' : ''
+                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
+                                    onClick={() =>
+                                      this.hanldeAddToCart({ redirect: true })
+                                    }
+                                  >
+                                    <FormattedMessage id="GuestCheckout" />
+                                  </button>
+                                ))}
                             </div>
                           </div>
                         )}
@@ -1860,7 +1913,7 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             {/* <div> */}
-              {/* <div
+            {/* <div
                 style={{
                   textAlign: 'center',
                   color: 'rgb(236, 0, 26)',
@@ -1872,15 +1925,20 @@ class Details extends React.Component {
               >
                 Recommanded for you
               </div> */}
-              {/* <HeroCarousel
+            {/* <HeroCarousel
                 history={this.props.history}
                 goodsId={this.state.goodsId}
                 key={this.state.goodsId}
               /> */}
-              {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-              <div>
-                <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
-              </div>
+            {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+            <div>
+              <Carousel
+                location={this.props.location}
+                history={this.props.history}
+                goodsId={this.state.goodsId}
+                key={this.state.goodsId}
+              />
+            </div>
             {/* </div> */}
             <div
               className="sticky-addtocart"
@@ -1890,11 +1948,7 @@ class Details extends React.Component {
                 <button
                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                     addToCartLoading ? 'ui-btn-loading' : ''
-                  } ${
-                    !initing && instockStatus && quantity
-                      ? ''
-                      : 'rc-btn-solid-disabled'
-                  }`}
+                  } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                   onClick={() => this.hanldeAddToCart()}
                 >
                   <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
@@ -1906,11 +1960,7 @@ class Details extends React.Component {
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
+                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={() =>
                       this.hanldeAddToCart({ redirect: true, needLogin: false })
                     }
@@ -1935,11 +1985,7 @@ class Details extends React.Component {
                     }}
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-solid-disabled'
-                    }`}
+                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     history={this.props.history}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
@@ -1948,20 +1994,21 @@ class Details extends React.Component {
                     </span>
                   </LoginButton>
                 )}
-                {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
-                  <button
-                    className={`rc-styled-link color-999 ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-disabled'
-                    }`}
-                    onClick={() => this.hanldeAddToCart({ redirect: true })}
-                  >
-                    <FormattedMessage id="GuestCheckout" />
-                  </button>)
-                )}
+                {!this.isLogin &&
+                  (this.state.form.buyWay ? (
+                    <span style={{ marginLeft: '10px' }}>
+                      Autoship is possible only after registration
+                    </span>
+                  ) : (
+                    <button
+                      className={`rc-styled-link color-999 ${
+                        addToCartLoading ? 'ui-btn-loading' : ''
+                      } ${btnStatus ? '' : 'rc-btn-disabled'}`}
+                      onClick={() => this.hanldeAddToCart({ redirect: true })}
+                    >
+                      <FormattedMessage id="GuestCheckout" />
+                    </button>
+                  ))}
               </div>
             </div>
           </main>

@@ -357,7 +357,7 @@ class Home extends React.Component {
     //   return false;
     // }
     this.setState({ deviceType: getDeviceType() });
-    setSeoConfig({ goodsId: '', categoryId: '', pageName: 'Home Page' });
+    setSeoConfig({ pageName: 'Home Page' });
     findStoreCateList().then((res) => {
       let tmpRes = (res.context || []).map((ele) => {
         try {
@@ -431,7 +431,12 @@ class Home extends React.Component {
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
           to={{
             pathname: `/list/${ele.cateName}`,
-            state: { cateIds: [ele.storeCateId] }
+            state: {
+              cateIds: [ele.storeCateId],
+              cateName: ele.cateName,
+              cateDescription: ele.cateDescription,
+              cateImgList: ele.cateImgList
+            }
           }}
           title={ele.cateName}
         >
