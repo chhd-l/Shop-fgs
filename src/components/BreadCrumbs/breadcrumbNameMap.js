@@ -122,6 +122,16 @@ const breadcrumbNameMap = {
       name: 'tailorednutrition'
     }
   ],
+  '/termsandconditions':[
+    {
+      name:'termsandconditions'
+    }
+  ],
+  '/ourValue':[
+    {
+      name:'Nos valeurs'
+    }
+  ],
   '/shipmentConditions': [
     {
       name: 'ShipmentConditions'

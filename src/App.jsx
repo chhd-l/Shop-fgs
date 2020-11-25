@@ -79,6 +79,7 @@ import Exception from '@/views/StaticPage/Exception';
 import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Help from '@/views/StaticPage/Help';
+import TermsConditions from '@/views/StaticPage/TermsAndConditions'
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
@@ -198,6 +199,7 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
+              <Route exact path="/termsandconditions"  component={TermsConditions}/>
               <Route
                 exact
                 path="/FAQ/:catogery"
@@ -385,6 +387,7 @@ const App = () => (
               <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
+              <Route path="/ourValue" exact component={RU_Values}/>
               <Route
                 path="/tailorednutrition"
                 exact
