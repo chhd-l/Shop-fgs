@@ -97,7 +97,6 @@ class SubscriptionDetail extends React.Component {
         cardImg: visaImg
       },
       isChangeQuatity: false,
-
       type: 'main',
       currentCardInfo: {
         id: 'PM202007100416145447',
@@ -159,7 +158,16 @@ class SubscriptionDetail extends React.Component {
       todaydate: new Date(),
       tabName: ['No start', 'Completed'],
       activeTabIdx: 0,
-      isMobile: false
+      isMobile: false,
+      noStartYearOption: [],
+      completedYearOption: [],
+      noStartYear: {
+        value: ''
+      },
+      completedYear: {
+        value: ''
+      },
+      isActive: false
     };
   }
   componentWillUnmount() {
@@ -287,8 +295,26 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       const res = await getSubDetail(
         this.props.match.params.subscriptionNumber
-      );
+      )
       let subDetail = res.context;
+      let { noStartYearOption, completedYearOption, noStartYear, completedYear } = this.state
+      let completeOption = new Set(subDetail.completedTradeList.map(el => {
+        return el.tradeState.createTime.split('-')[0]
+      }))
+      let noStartOption = new Set(subDetail.noStartTradeList.map(el => {
+        return el.tradeItems[0].nextDeliveryTime.split('-')[0]
+      }))
+      completeOption.forEach(el => {
+        completedYearOption.push({name: el, value: el})
+      })
+      completedYear = { value: completedYearOption[0]['value'] }
+      noStartOption.forEach(el => {
+        noStartYearOption.push({name: el, value: el})
+      })
+      noStartYear = { value: noStartYearOption[0]['value'] }
+      console.log(noStartYearOption, completedYearOption, noStartYear, completedYear, 'aaa')
+      
+
       subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
         let filterData =
           this.frequencyListOptions.filter(
@@ -346,6 +372,7 @@ class SubscriptionDetail extends React.Component {
           );
         }
       }
+      console.log(subDetail, 'hehehe')
       this.setState(
         {
           subDetail: subDetail,
@@ -353,7 +380,12 @@ class SubscriptionDetail extends React.Component {
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
-          minDate: now
+          minDate: now,
+          noStartYearOption,
+          completedYearOption,
+          noStartYear,
+          completedYear,
+          isActive: subDetail.subscribeStatus === '0'
         },
         () => {
           fn && fn();
@@ -507,7 +539,12 @@ class SubscriptionDetail extends React.Component {
       subDetail,
       currentModalObj,
       todaydate,
-      isMobile
+      isMobile,
+      noStartYearOption,
+      completedYearOption,
+      noStartYear,
+      completedYear,
+      isActive
     } = this.state;
     return (
       <div className="subscriptionDetail">
@@ -694,17 +731,31 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
-                    <h4 className="rc-delta font-weight-normal mb-2">
+                    <h4 className="rc-delta font-weight-normal mb-2" style={{color: '#666'}}>
                       {/* <FormattedMessage id="subscription" /> */}
-                      {subDetail.subscribeId && (
+                      {/* {subDetail.subscribeId && (
                         <img
                           style={{ width: '20px', display: 'inline-block' }}
                           src={subscriptionIcon}
                         />
-                      )}
+                      )} */}
                       {subDetail.subscribeId
-                        ? `${subDetail.subscribeId}`
+                        ? (<span>{`${subDetail.subscribeId}`}</span>)
                         : null}
+                      {subDetail.subscribeId?(isActive?(
+                        <span style={{background: '#E0F3D4',
+                          color: '#47B700',
+                          fontSize: '14px',
+                          padding: '0 5px',
+                          marginLeft: '10px'}}>Active</span>
+                      ): (
+                        <span style={{background: '#FCEBD4',
+                          color: '#ED8A00',
+                          fontSize: '14px',
+                          padding: '0 5px',
+                          marginLeft: '10px'}}>Inactive</span>
+                      )): null}
+                      
                     </h4>
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}
@@ -720,7 +771,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="mobileGoodsBox">
+                      <div className="mobileGoodsBox" style={{display: isMobile?'block': 'none'}}>
                         {
                           subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
@@ -792,9 +843,7 @@ class SubscriptionDetail extends React.Component {
                                                 currentGoodsInfo
                                               } = this.state;
                                               if (val === '') {
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum = 1;
+                                                el.subscribeNum = 1;
                                                 this.setState({
                                                   currentGoodsInfo
                                                 });
@@ -818,9 +867,7 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="cart.errorMaxInfo" />
                                                   );
                                                 }
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum = tmp;
+                                                el.subscribeNum = tmp;
                                                 this.setState({
                                                   currentGoodsInfo
                                                 });
@@ -830,9 +877,7 @@ class SubscriptionDetail extends React.Component {
                                               subDetail.goodsInfo[
                                                 index
                                               ].subscribeNum =
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum;
+                                                el.subscribeNum;
                                               this.onQtyChange();
                                             }}
                                             value={el.subscribeNum}
@@ -985,7 +1030,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <div
                         className="card-container"
-                        style={{ marginTop: '0', display: 'none' }}
+                        style={{ marginTop: '0', display: isMobile?'none': 'block'}}
                       >
                         {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
@@ -1049,7 +1094,7 @@ class SubscriptionDetail extends React.Component {
                                       <div>
                                         <div>
                                           <span
-                                            className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                            className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${isActive?'': 'disabled'}`}
                                             style={{ marginLeft: '-8px' }}
                                             onClick={() => {
                                               if (el.subscribeNum > 1) {
@@ -1080,9 +1125,7 @@ class SubscriptionDetail extends React.Component {
                                                 currentGoodsInfo
                                               } = this.state;
                                               if (val === '') {
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum = 1;
+                                                el.subscribeNum = 1;
                                                 this.setState({
                                                   currentGoodsInfo
                                                 });
@@ -1106,9 +1149,7 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="cart.errorMaxInfo" />
                                                   );
                                                 }
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum = tmp;
+                                                el.subscribeNum = tmp;
                                                 this.setState({
                                                   currentGoodsInfo
                                                 });
@@ -1118,15 +1159,13 @@ class SubscriptionDetail extends React.Component {
                                               subDetail.goodsInfo[
                                                 index
                                               ].subscribeNum =
-                                                currentGoodsInfo[
-                                                  index
-                                                ].subscribeNum;
+                                                el.subscribeNum;
                                               this.onQtyChange();
                                             }}
                                             value={el.subscribeNum}
                                           />
                                           <span
-                                            className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                            className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${isActive?'': 'disabled'}`}
                                             onClick={() => {
                                               if (el.subscribeNum < 30) {
                                                 el.subscribeNum =
@@ -1203,6 +1242,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                       customStyleType="select-one"
                                       key={index + '_' + el.periodTypeValue}
+                                      disabled={!isActive}
                                     />
                                   </h1>
                                 </div>
@@ -1461,7 +1501,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="footerGroupButton">
+                      <div className="footerGroupButton" style={{display: isActive? 'block': 'none'}}>
                         <p>
                           {/* <div className="col-12 col-md-2"> */}
                           <img
@@ -1519,7 +1559,6 @@ class SubscriptionDetail extends React.Component {
                                 );
                                 this.setState({
                                   isChangeQuatity: false,
-                                  subDetail
                                 });
                               } catch (err) {
                                 this.showErrMsg(err.message);
@@ -1824,20 +1863,40 @@ class SubscriptionDetail extends React.Component {
                                   textAlign: 'left'
                                 }}
                               >
-                                <Selection
-                                  optionList={[
-                                    { name: '2020', value: '2020' },
-                                    { name: '2019', value: '2019' }
-                                  ]}
-                                  selectedItemData={{
-                                    value: '2020'
+                                {
+                                  this.state.activeTabIdx === 0 && noStartYearOption.length && completedYearOption.length?(
+                                    <Selection
+                                  optionList={noStartYearOption}
+                                  selectedItemData={noStartYear}
+                                  selectedItemChange={(el) => {
+                                    if(this.state.activeTabIdx === 0) {
+                                      this.setState({noStartYear: el})
+                                    }else {
+                                      this.setState({completedYear: el})
+                                    }
                                   }}
-                                  selectedItemChange={() => {}}
                                   customStyleType="select-one"
                                   type="freqency"
-                                  key={subDetail.frequency || ''}
-                                  disabled={subDetail.subscribeStatus !== '0'}
+                                  key={0}
                                 />
+                                  ): (
+                                    <Selection
+                                  optionList={completedYearOption}
+                                  selectedItemData={completedYear}
+                                  selectedItemChange={(el) => {
+                                    if(this.state.activeTabIdx === 0) {
+                                      this.setState({noStartYear: el})
+                                    }else {
+                                      this.setState({completedYear: el})
+                                    }
+                                  }}
+                                  customStyleType="select-one"
+                                  type="freqency"
+                                  key={1}
+                                />
+                                  )
+                                }
+                                
                               </span>
                             </div>
                             <div
@@ -1846,7 +1905,7 @@ class SubscriptionDetail extends React.Component {
                             >
                               {this.state.activeTabIdx === 0 &&
                                 subDetail.noStartTradeList &&
-                                subDetail.noStartTradeList.map((el) => (
+                                subDetail.noStartTradeList.filter(el => el.tradeItems[0].nextDeliveryTime.split('-')[0] === noStartYear.value).map((el) => (
                                   <>
                                     <div className="card-container">
                                       <div className="card rc-margin-y--none ml-0">
@@ -1892,13 +1951,59 @@ class SubscriptionDetail extends React.Component {
                                                     })
                                                   )
                                                 }
+                                                disabled={true}
                                               />
                                             </span>
                                           </div>
                                           <div className={`${isMobile?'col-0': 'col-md-5'}`}></div>
-                                          <div className={`${isMobile?'col-0': 'col-md-3 pl-4'}`}></div>
-                                          <div className={`${isMobile?'col-3': 'col-md-1'}`}>
-                                            <img
+                                          <div className={`changeDate ${isMobile?'col-0': 'col-md-3 pl-4'}`} style={{textAlign: 'right', paddingRight: '20px'}}>
+                                            {
+                                              isActive? (
+                                                <>
+                                                <img src={dateIcon} style={{width: '20px', display: 'inline'}}/>
+                                          <span
+                                              style={{
+                                                color: '#666',
+                                                fontWeight: '400',
+                                                marginLeft: '5px',
+                                                borderBottom: '1px solid #666',
+                                                cursor: 'pointer'
+                                              }}
+                                            >
+                                              <DatePicker
+                                                className="receiveDate subs-receiveDate"
+                                                placeholder="Select Date"
+                                                dateFormat="yyyy-MM-dd"
+                                                minDate={this.state.minDate}
+                                                selected={
+                                                  el.tradeItems
+                                                    ? new Date(
+                                                        el.tradeItems[0].nextDeliveryTime
+                                                      )
+                                                    : new Date()
+                                                }
+                                                onChange={(date) =>
+                                                  this.onDateChange(
+                                                    date,
+                                                    el.tradeItems.map((el) => {
+                                                      return {
+                                                        skuId: el.skuId
+                                                      };
+                                                    })
+                                                  )
+                                                }
+                                              />
+                                            </span>
+                                                </>
+                                              ): null
+                                            }
+                                            
+                                          </div>
+                                          <div className={`${isMobile?'col-3': 'col-md-1'}`} style={{padding: 0}}>
+                                            {
+                                              isActive?(
+                                                <>
+                                                <img
                                               style={{
                                                 display: 'inline-block',
                                                 width: '20px',
@@ -1930,6 +2035,10 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               Skip
                                             </a>
+                                                </>
+                                              ): null
+                                            }
+                                            
                                           </div>
                                         </div>
                                       </div>
@@ -2142,7 +2251,7 @@ class SubscriptionDetail extends React.Component {
                                               <div className="text-right">
                                                 <b>
                                                   {formatMoney(
-                                                    this.state.subTotal
+                                                    el.tradePrice.goodsPrice
                                                   )}
                                                 </b>
                                               </div>
@@ -2214,7 +2323,7 @@ class SubscriptionDetail extends React.Component {
                                               <div className="text-right red-text">
                                                 <b>
                                                   {formatMoney(
-                                                    this.state.subShipping
+                                                    el.tradePrice.deliveryPrice
                                                   )}
                                                 </b>
                                               </div>
@@ -2238,7 +2347,7 @@ class SubscriptionDetail extends React.Component {
                                               <div className="text-right">
                                                 <b>
                                                   {formatMoney(
-                                                    this.state.subTradeTotal
+                                                    el.tradePrice.totalPrice
                                                   )}
                                                 </b>
                                               </div>
@@ -2251,7 +2360,7 @@ class SubscriptionDetail extends React.Component {
                                 ))}
                               {this.state.activeTabIdx === 1 &&
                                 subDetail.completedTradeList &&
-                                subDetail.completedTradeList.map((el) => (
+                                subDetail.completedTradeList.filter(el => el.tradeState.createTime.split('-')[0] === completedYear.value).map((el) => (
                                   <div className="card-container">
                                     <div className="card rc-margin-y--none ml-0">
                                       <div
@@ -2296,22 +2405,37 @@ class SubscriptionDetail extends React.Component {
                                                   fontWeight: '400'
                                                 }}
                                               >
-                                                -{formatMoney(el.discountsPrice)}
+                                                -{formatMoney(el.tradePrice.discountsPrice)}
                                               </span>
                                             </div>    
                                           )
                                         }
-                                        <div className="col-7 col-md-2">
+                                        <div className="col-7 col-md-2" style={{padding: isMobile? '0': '0 15px'}}>
                                           {
                                             isMobile? (
                                               <>
                                               <div style={{ textAlign: 'right' }}>
-                                                <i className="greenCircle"></i>
-                                                <FormattedMessage id="Delivered" />
-                                                <span className="rc-icon rc-right rc-iconography"></span>
+                                                {el.id? (
+                                                  <>
+                                                  <i className="greenCircle"></i>
+                                                  <span>{ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState}</span>
+                                                  <span className="rc-icon rc-right rc-iconography" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    const { history } = this.props;
+                                                    history.push(
+                                                      `/account/orders-detail/${el.id}`
+                                                    );
+                                                  }}></span>
+                                                  </>  
+                                                ): (
+                                                  <>
+                                                  <i className="yellowCircle"></i>
+                                                  <span>Skiped</span>
+                                                  </>
+                                                )}
                                               </div>
                                               </>
-                                            ): (
+                                            ): (el.id?(
                                               <>
                                                 <img
                                                   style={{
@@ -2336,6 +2460,7 @@ class SubscriptionDetail extends React.Component {
                                                   Order detail
                                                 </a>
                                               </>
+                                            ): null
                                             )
                                           }
                                         </div>
@@ -2478,7 +2603,7 @@ class SubscriptionDetail extends React.Component {
                                                           >
                                                             {
                                                               tradeItem.specDetails
-                                                            }
+                                                            } x {tradeItem.num}
                                                           </p>
                                                         </div>
                                                       </>
@@ -2511,8 +2636,19 @@ class SubscriptionDetail extends React.Component {
                                         ): (
                                           <div className="col-4 col-md-4">
                                             <div style={{ textAlign: 'center' }}>
-                                              <i className="greenCircle"></i>
-                                              <FormattedMessage id="Delivered" />
+                                              {
+                                                el.id?(
+                                                  <>
+                                                  <i className="greenCircle"></i>
+                                                  <span>{ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState}</span>
+                                                  </>
+                                                ): (
+                                                  <>
+                                                  <i className="yellowCircle"></i>
+                                                  <span>Skiped</span>
+                                                  </>
+                                                )
+                                              }
                                             </div>
                                           </div>
                                         )
