@@ -296,7 +296,7 @@ const fr_FR = {
   'footer.privacyPolicy': 'Politique de confidentialité',
   'footer.privacyPolicy2': 'intimité',
   'footer.products': 'ALIMENTS',
-  'footer.qualityAndSafety': 'Une sélection rigoureuse des fournisseurs',
+  'footer.qualityAndSafety': 'Qualité et sécurité alimentaire',
   'footer.termsOfService': "Conditions d'utilisation",
   'footer.termsOfUse': 'Mentions légales',
   'footer.toTheTop': 'Retour au menu',
