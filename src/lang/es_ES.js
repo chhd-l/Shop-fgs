@@ -802,6 +802,8 @@ const es_ES = {
   yes: 'sí',
   yourEmailNotVerified: '¡Tu email no se ha verificado!',
   yourPasswordNotVerified: 'Tu contraseña no ha sido verificada',
-  findTheRightDiet: 'Encuentra la comida adecuada'
+  findTheRightDiet: 'Encuentra la comida adecuada',
+  breed: 'Raza',
+  gender: 'Género'
 }
 export default es_ES;

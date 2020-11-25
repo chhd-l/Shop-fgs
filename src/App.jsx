@@ -68,7 +68,6 @@ import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
 import Recommendation from '@/views/Recommendation';
 import ProductFinder from '@/views/ProductFinder';
-import ProductFinderQuestion from '@/views/ProductFinder/modules/Question';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
@@ -339,17 +338,12 @@ const App = () => (
               <Route path="/product-finder" exact component={ProductFinder} />
               <Route
                 exact
-                path="/product-finder/question/:type"
-                component={ProductFinderQuestion}
-              />
-              <Route
-                exact
-                path="/product-finder/result/:type"
+                path="/product-finder-recommendation"
                 component={ProductFinderResult}
               />
               <Route
                 exact
-                path="/product-finder/noresult/:type"
+                path="/product-finder-noresult"
                 component={ProductFinderNoResult}
               />
 
