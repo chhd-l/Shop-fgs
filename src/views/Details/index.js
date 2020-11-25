@@ -315,7 +315,6 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          console.log(202, this);
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
@@ -1216,6 +1215,20 @@ class Details extends React.Component {
                                 {/* todo */}
                                 <div className={`${1 ? 'out-stock' : ''}`}>
                                   <FormattedMessage id="details.inStock" />
+                                </div>
+                              </span>
+                              &nbsp; dispatched within 2 working days.
+                            </div>
+                            <div className="stock">
+                              <label className="availability out-stock">
+                                <span className="title-select"></span>
+                              </label>
+                              <span
+                                className="availability-msg"
+                                data-ready-to-order="true"
+                              >
+                                <div>
+                                  <FormattedMessage id="details.outStock" />
                                 </div>
                               </span>
                               &nbsp; dispatched within 2 working days.

@@ -75,7 +75,7 @@ class LoginCart extends React.Component {
     ]).then((dictList) => {
       this.setState(
         {
-          frequencyList: [...dictList[0]],
+          frequencyList: [...dictList[0], ...dictList[1]],
           form: Object.assign(this.state.form, {
             frequencyVal: dictList[0][0].valueEn,
             frequencyName: dictList[0][0].name,
