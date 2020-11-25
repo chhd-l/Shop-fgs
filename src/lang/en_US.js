@@ -828,5 +828,7 @@ const en_US = {
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
   'productFinder.searchResultWarningTip1': "The recommendations provided here are for informational purpose only.It should not be considered as guarantee for what may be best for your indivaidual pet.",
+  breed: 'Breed',
+  gender: 'Gender'
 }
 export default en_US;

@@ -179,6 +179,53 @@ class CatNutrition extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-valueProposition">
+                    <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile value-proposition">
+                      <h4 className="rc-beta text-center rc-margin-bottom--sm rc-margin-bottom--lg--mobile">Pourquoi choisir Royal Canin ?</h4>
+                      <div className="value-proposition__container">
+                        <div className="row mx-0">
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                              <img className="value-proposition__img lazyloaded" data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=180&sh=180&sm=cut&sfrm=png 2x" alt="Camion Royal Canin" title="Camion Royal Canin" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=180&sh=180&sm=cut&sfrm=png 2x" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9e1d1fa7/Breed-Cats-&-Dogs/4B.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
+                              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                                <p className="rc-margin-bottom--none rc-intro">Livraison gratuite et rapide</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                              <img className="value-proposition__img lazyloaded" data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=180&sh=180&sm=cut&sfrm=png 2x" alt="Serveur de paiement sécurisé" title="Serveur de paiement sécurisé" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=180&sh=180&sm=cut&sfrm=png 2x" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1646c9d8/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
+                              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                                <p className="rc-margin-bottom--none rc-intro">Paiement sécurisé</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                              <img className="value-proposition__img lazyloaded" data-src="hhttps://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=180&sh=180&sm=cut&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=180&sh=180&sm=cut&sfrm=png 2x" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw9ef8f60f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
+                              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                                <p className="rc-margin-bottom--none rc-intro">Qualité certifiée</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+                            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                              <img className="value-proposition__img lazyloaded" data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=180&sh=180&sm=cut&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=180&sh=180&sm=cut&sfrm=png 2x" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5667a231/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
+                              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                                <p className="rc-margin-bottom--none rc-intro">La nutrition santé livrée à votre domicile</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         <Footer />

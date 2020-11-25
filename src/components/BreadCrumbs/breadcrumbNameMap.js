@@ -137,20 +137,21 @@ const breadcrumbNameMap = {
       name: 'ShipmentConditions'
     }
   ],
-  '/product-finder/:type': [
-    {
-      name: 'productFinder.index'
-    }
-  ],
-  '/product-finder/question/:type': [{ name: 'productFinder.index' }],
-  '/product-finder/result/:type': [
+  '/product-finder': [{ name: 'productFinder.resultPage' }],
+  '/product-finder-recommendation': [
     {
       name: 'productFinder.index',
       href: '/product-finder'
     },
     { name: 'productFinder.resultPage' }
   ],
-  '/product-finder/noresult/:type': [{ name: 'viewResults' }]
+  '/product-finder-noresult': [
+    {
+      name: 'productFinder.index',
+      href: '/product-finder'
+    },
+    { name: 'productFinder.resultPage' }
+  ]
 };
 
 export default breadcrumbNameMap;

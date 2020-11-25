@@ -179,7 +179,7 @@ export default class DropDownMenu extends React.Component {
                 <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
                   <p>{descObj.text}</p>
                 </div>
-                <Link to={item.mainLink}>
+                <Link to="/product-finder">
                   <button className="rc-btn rc-btn--one">
                     <FormattedMessage id="findTheRightDiet" />
                   </button>

@@ -1016,7 +1016,24 @@ const fr_FR = {
 
   "termsandconditions.title11":"11. Droit applicable et juridiction",
   "termsandconditions.title11descripition":"En cas de litige pouvant découler des présentes Conditions et de l'utilisation du Site, les dispositions des présentes Conditions seront applicables en priorité, et si les présentes Conditions ne contiennent aucune disposition pertinente, la législation française sera applicable. Tout litige découlant de ou en relation avec ces Conditions et l'utilisation du Site sera soumis aux tribunaux français compétents. ",
-
-
-};
+  viewAllResults: 'afficher tous les résultats',
+  viewResults: 'Voir les résultats',
+  visitStoreMap: 'Visiter la carte de visite',
+  weight: 'Poids',
+  welcome: 'Bienvenue',
+  welcomeTo: 'Bienvenue à',
+  whatYouLike: "Qu'est-ce que vous avez aimé ou non?",
+  writeReview: 'Écrire une critique',
+  writeYourReview: 'Donnez votre avis',
+  xMonths: '{val} mois',
+  xProduct: '{val} produit (s)',
+  xYears: '{val} année',
+  year: 'Année',
+  yes: 'Mois',
+  yourEmailNotVerified: "Votre email n'a pas été vérifié!",
+  yourPasswordNotVerified: "Votre mot de passe n'a pas été vérifié",
+  next: 'Suivant',
+  breed: 'Race',
+  gender: 'Le genre'
+}
 export default fr_FR;

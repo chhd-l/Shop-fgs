@@ -780,5 +780,7 @@ const de_DE = {
   'account.faqTitle': 'FAQ',
   'account.myPayments': 'Meine Zahlungen',
   'account.myAddresses': 'Meine Adressen',
+  breed: 'Rasse',
+  gender: 'Geschlecht'
 }
 export default de_DE;

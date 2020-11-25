@@ -154,7 +154,7 @@ class MegaMenu extends React.Component {
                 <div class="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
                   <p>{item.navigationDesc}</p>
                 </div>
-                <Link to={item.mainLink} data-tab-init="true">
+                <Link to="/product-finder" data-tab-init="true">
                   <button class="rc-btn rc-btn--one" data-tab-init="true">
                     <FormattedMessage id="findTheRightDiet" />
                   </button>

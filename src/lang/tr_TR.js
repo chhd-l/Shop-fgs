@@ -692,7 +692,9 @@ const tr_TR = {
   writeYourReview: 'Yorumunuzu yazın',
   yes: 'Evet',
   yourEmailNotVerified: 'E-posta doğrulanmadı!',
-  yourPasswordNotVerified: 'Şifreniz doğrulanmadı'
+  yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
+  breed: 'Doğurmak',
+  gender: 'Cinsiyet'  
 }
 
 export default tr_TR;

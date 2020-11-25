@@ -1204,14 +1204,20 @@ class Details extends React.Component {
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
-                              <label className="availability instock">
+                              {/* todo */}
+                              <label
+                                className={`availability ${
+                                  1 ? 'outofstock' : 'instock'
+                                }`}
+                              >
                                 <span className="title-select"></span>
                               </label>
                               <span
                                 className="availability-msg"
                                 data-ready-to-order="true"
                               >
-                                <div>
+                                {/* todo */}
+                                <div className={`${1 ? 'out-stock' : ''}`}>
                                   <FormattedMessage id="details.inStock" />
                                 </div>
                               </span>

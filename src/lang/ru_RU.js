@@ -717,7 +717,9 @@ const ru_RU = {
     'writeYourReview': "Напишите свой отзыв",
     'yes': "Да",
     'yourEmailNotVerified': "Ваш адрес электронной почты не был подтвержден!",
-    'yourPasswordNotVerified': "Ваш пароль не подтвержден"
+    'yourPasswordNotVerified': "Ваш пароль не подтвержден",
+    breed: 'Порода',
+    gender: 'Пол'
   }
   
   export default ru_RU;
