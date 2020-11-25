@@ -1409,7 +1409,7 @@ label.availability {
 
 .availabilty__wrapper .stock .availability-msg .out-stock,.availabilty__wrapper .stock .availability-msg>div+div,.availabilty__wrapper .stock .availability-msg[data-ready-to-order=false]>div,.stock__wrapper .stock .availability-msg .out-stock,.stock__wrapper .stock .availability-msg>div+div,.stock__wrapper .stock .availability-msg[data-ready-to-order=false]>div {
   margin-left: 0;
-  color: #ee8b00
+  color: #ee8b00;
 }
 
 @media(min-width: 992px) {
