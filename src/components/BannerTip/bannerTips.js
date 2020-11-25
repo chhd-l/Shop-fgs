@@ -19,7 +19,7 @@ export const bannerTips = () => {
                   <FormattedMessage id="home.promotionTip" />
                 </span>
                 <div>
-                  <a href="" className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs" style={{minWidth:"110px"}}>En savoir plus</a>
+                  <a href="/subscription-landing" className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs" style={{minWidth:"110px"}}>En savoir plus</a>
                 </div>
               </div>
             </div>
