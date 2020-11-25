@@ -157,7 +157,7 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { url: process.env.REACT_APP_ACCESS_PATH+'list/cats', messageId: 'de_cats' },   
+          { url: process.env.REACT_APP_ACCESS_PATH+'list/cats', messageId: 'de_cats' },
           { url: process.env.REACT_APP_ACCESS_PATH+'list/dogs', messageId: 'de_dogs' }
         ]
       }
@@ -201,7 +201,7 @@ export const menubar = {
             messageId: 'aboutUs'
           },
           {
-            url: 'https://shop.royalcanin.fr/Values.html',
+            url: '/ourValue',
             messageId: 'footer.ourValues'
           },
           {
@@ -255,7 +255,7 @@ export const menubar = {
         titleId: 'AUTRES',
         list: [
           {
-            url: 'https://shop.royalcanin.fr/general-terms-conditions.html',
+            link:'/termsandconditions',
             messageId: 'Conditions Générales de Vente'
           }
         ]
