@@ -143,7 +143,8 @@ class Details extends React.Component {
       },
       frequencyList: [],
       tabs: [],
-      reviewShow: false
+      reviewShow: false,
+      isShowPromotion: false,
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -271,6 +272,11 @@ class Details extends React.Component {
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
+        if(item.goodsPromotion) {
+          this.setState({isShowPromotion: true})
+        }else {
+          this.setState({isShowPromotion: false})
+        }
       } else {
         item.selected = false;
       }
@@ -1139,6 +1145,7 @@ class Details extends React.Component {
                                     minImg={details.goodsImg}
                                     maxImg={details.goodsImg}
                                     config={this.state.imageMagnifierCfg.config}
+                                    isShowPromotion={this.state.isShowPromotion}
                                   />
                                 </div>
                               }
@@ -1207,7 +1214,7 @@ class Details extends React.Component {
                               {/* todo */}
                               <label
                                 className={`availability ${
-                                  1 ? 'outofstock' : 'instock'
+                                  instockStatus ? 'instock': 'outofstock'
                                 }`}
                               >
                                 <span className="title-select"></span>
@@ -1217,25 +1224,10 @@ class Details extends React.Component {
                                 data-ready-to-order="true"
                               >
                                 {/* todo */}
-                                <div className={`${1 ? 'out-stock' : ''}`}>
-                                  <FormattedMessage id="details.inStock" />
+                                <div className={`${instockStatus ? '': 'out-stock'}`}>
+                                  {instockStatus? (<FormattedMessage id="details.inStock" />): (<FormattedMessage id="details.outStock" />)}
                                 </div>
                               </span>
-                              &nbsp; dispatched within 2 working days.
-                            </div>
-                            <div className="stock">
-                              <label className="availability out-stock">
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                <div>
-                                  <FormattedMessage id="details.outStock" />
-                                </div>
-                              </span>
-                              &nbsp; dispatched within 2 working days.
                             </div>
                           </div>
                         </div>
