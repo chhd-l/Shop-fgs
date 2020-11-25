@@ -409,7 +409,7 @@ class SubscriptionDetail extends React.Component {
       let goodsInfo = this.state.subDetail.goodsInfo;
       let subTotal = 0;
       for (let goods of goodsInfo) {
-        subTotal += Number(goods.subscribePrice) * goods.subscribeNum;
+        subTotal += Number(goods.originalPrice) * goods.subscribeNum;
       }
       //拼装goodsInfoList参数
       let goodsInfoList = this.state.subDetail.goodsInfo.map((ele) => {
@@ -913,6 +913,19 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
+                                              textDecoration: 'line-through',
+                                              verticalAlign: 'middle',
+                                              marginLeft: '8px'
+                                            }}
+                                          >
+                                            {formatMoney(el.originalPrice)}
+                                          </span>
+                                          <span
+                                            class="price"
+                                            style={{
+                                              display: 'inline-block',
+                                              fontSize: '20px',
+                                              fontWeight: '400',
                                               verticalAlign: 'middle',
                                               marginLeft: '8px'
                                             }}
@@ -1060,7 +1073,7 @@ class SubscriptionDetail extends React.Component {
                                     <div
                                       className="v-center"
                                       style={{
-                                        width: '200px'
+                                        width: '300px'
                                       }}
                                     >
                                       <h5
@@ -1195,11 +1208,24 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
+                                              textDecoration: 'line-through',
                                               verticalAlign: 'middle',
                                               marginLeft: '8px'
                                             }}
                                           >
-                                            {el.subscribePrice}
+                                            {formatMoney(el.originalPrice)}
+                                          </span>
+                                          <span
+                                            class="price"
+                                            style={{
+                                              display: 'inline-block',
+                                              fontSize: '20px',
+                                              fontWeight: '400',
+                                              verticalAlign: 'middle',
+                                              marginLeft: '8px'
+                                            }}
+                                          >
+                                            {formatMoney(el.subscribePrice)}
                                           </span>
                                         </div>
                                       </div>
