@@ -7,7 +7,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import BreadCrumbs from '@/components/BreadCrumbs';
+import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
@@ -20,13 +20,11 @@ import {
   findSortList
 } from '@/api/list';
 import {
-  queryStoreCateIds,
   formatMoney,
   getParaByName,
   getDictionary,
   setSeoConfig
 } from '@/utils/utils';
-import { STORE_CATE_ENUM, STORE_CATOGERY_ENUM } from '@/utils/constant';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -71,7 +69,6 @@ class List extends React.Component {
 
       keywords: '',
       filterList: [],
-      operatedFilterList: [],
 
       initingFilter: true,
       initingList: true,
@@ -105,17 +102,12 @@ class List extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    //To do: category暂时取不到，后续添加
-    setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Product List Page'
-    });
+
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
-    // debugger;
+
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
     // 2 查询filterlist后，需初始化状态
@@ -136,31 +128,39 @@ class List extends React.Component {
               const { filterType, ...param } = ele;
               return param;
             })
-        }
+        },
+        titleData:
+          state.cateName && state.cateDescription && state.cateImgList
+            ? {
+                title: state.cateName,
+                description: state.cateDescription,
+                img: state.cateImgList
+              }
+            : null
       });
     }
 
     this.setState(
       {
-        category
+        category,
+        keywords: category.toLocaleLowerCase() === 'keywords' ? keywords : ''
       },
       () => {
-        const { category } = this.state;
         this.initData();
-        if (category.toLocaleLowerCase() === 'keywords') {
-          this.setState({
-            keywords
-          });
-        }
       }
     );
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
-      getDictionary({ type: 'filterSubscription' })
+      getDictionary({ type: 'filterSubscription' }),
+      getDictionary({ type: 'filterSubscriptionValue' })
     ]).then((dictList) => {
       this.setState({
-        markPriceAndSubscriptionLangDict: [...dictList[0], ...dictList[1]]
+        markPriceAndSubscriptionLangDict: [
+          ...dictList[0],
+          ...dictList[1],
+          ...dictList[2]
+        ]
       });
     });
   }
@@ -174,10 +174,15 @@ class List extends React.Component {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
+    const { storeCateIds, keywords } = this.state;
     this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
       list.sort((a, b) => a.sort - b.sort);
+      list.unshift({
+        sortName: <FormattedMessage id="default" />,
+        value: '11'
+      });
       this.setState({
         sortList: list.map((ele) => ({
           ...ele,
@@ -191,6 +196,7 @@ class List extends React.Component {
         let tmpList = (res.context || [])
           .filter((ele) => +ele.filterStatus)
           .sort((a) => (a.filterType === '0' ? -1 : 1))
+          .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
           .sort((a) =>
             a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
           );
@@ -216,6 +222,16 @@ class List extends React.Component {
       .catch(() => {
         this.setState({ initingFilter: false });
       });
+    if (keywords) {
+      setSeoConfig({
+        pageName: 'Search Results Page'
+      });
+    } else if (storeCateIds && storeCateIds.length) {
+      setSeoConfig({
+        categoryId: storeCateIds[0],
+        pageName: 'Product List Page' // Search Results Page
+      });
+    }
   }
   initFilterSelectedSts({
     seletedValList,
@@ -250,13 +266,12 @@ class List extends React.Component {
       storeCateIds,
       keywords,
       initingList,
-      category,
       selectedSortParam,
-      operatedFilterList,
       filterList,
       searchForm,
       defaultFilterSearchForm
     } = this.state;
+
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -271,8 +286,12 @@ class List extends React.Component {
       }
     }
 
-    let goodsAttributesValueRelVOList = [...defaultFilterSearchForm.attrList];
-    let goodsFilterRelList = [...defaultFilterSearchForm.filterList];
+    let goodsAttributesValueRelVOList = initingList
+      ? [...defaultFilterSearchForm.attrList]
+      : [];
+    let goodsFilterRelList = initingList
+      ? [...defaultFilterSearchForm.filterList]
+      : [];
     // 处理filter查询值
     Array.from(filterList, (pItem) => {
       const seletedList = (
@@ -284,17 +303,34 @@ class List extends React.Component {
         if (pItem.filterType === '0') {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
-            attributeValueIdList: seletedList.map((s) => s.id)
+            attributeValueIdList: seletedList.map((s) => s.id),
+            attributeValues: seletedList.map((s) => s.attributeDetailName)
           });
         } else {
           goodsFilterRelList.push({
             attributeId: pItem.id,
-            attributeValueIdList: seletedList.map((s) => s.id)
+            attributeValueIdList: seletedList.map((s) => s.id),
+            attributeValues: seletedList.map((s) => s.attributeDetailName)
           });
         }
       }
       return pItem;
     });
+
+    // 选择subscription 和 not subscription 才置状态
+    let subscriptionStatus = null;
+    for (const item of goodsFilterRelList) {
+      const subItems = (item.attributeValues || []).filter(
+        (a) => a === 'subscription'
+      );
+      const notSubItems = (item.attributeValues || []).filter(
+        (a) => a === 'not subscription'
+      );
+      if (subItems.length || notSubItems.length) {
+        subscriptionStatus = subItems.length ? 1 : 0;
+        break;
+      }
+    }
 
     let params = {
       storeId: process.env.REACT_APP_STOREID,
@@ -310,12 +346,19 @@ class List extends React.Component {
       companyType: '',
       keywords,
       storeCateIds,
-      goodsAttributesValueRelVOList,
-      goodsFilterRelList,
+      goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
+        const { attributeValues, ...otherParam } = el;
+        return otherParam;
+      }),
+      goodsFilterRelList: goodsFilterRelList.map((el) => {
+        const { attributeValues, ...otherParam } = el;
+        return otherParam;
+      }),
+      subscriptionStatus,
       ...searchForm
     };
-    // debugger;
-    if (selectedSortParam) {
+
+    if (selectedSortParam && selectedSortParam.field) {
       params = Object.assign(params, {
         esSortList: [
           {
@@ -349,8 +392,7 @@ class List extends React.Component {
         }
     }
 
-    let tmpList = this.isLogin ? getLoginList : getList;
-    tmpList(params)
+    (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
         this.setState({ initingList: false });
         const esGoods = res.context.esGoods;
@@ -403,7 +445,7 @@ class List extends React.Component {
         });
       })
       .catch(() => {
-        this.setState({ loading: false, productList: [] });
+        this.setState({ loading: false, productList: [], initingList: false });
       });
   }
   hanldePageNumChange(params) {
@@ -415,6 +457,7 @@ class List extends React.Component {
     );
   }
   hanldeItemClick(item) {
+    const { history } = this.props;
     if (this.state.loading) {
       return false;
     }
@@ -424,7 +467,6 @@ class List extends React.Component {
     );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     sessionItemRoyal.set('rc-goods-name', item.goodsName);
-    const { history } = this.props;
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   onSortChange = (data) => {
@@ -467,7 +509,9 @@ class List extends React.Component {
       filterList,
       initingFilter,
       filterModalVisible,
-      markPriceAndSubscriptionLangDict
+      markPriceAndSubscriptionLangDict,
+      selectedSortParam,
+      keywords
     } = this.state;
     let event;
     let eEvents;
@@ -541,23 +585,31 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <BreadCrumbs />
+          <BreadCrumbsNavigation
+            list={[{ name: (titleData && titleData.title) || '' }].filter(
+              (el) => el.name
+            )}
+          />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <a href="/" className="back-link">Homepage</a>
+            <Link to="/" className="back-link">
+              Homepage
+            </Link>
           </div>
           {titleData ? (
             <div className="rc-max-width--lg rc-padding-x--sm">
               <div className="rc-layout-container rc-three-column rc-content-h-middle d-flex flex-md-wrap flex-wrap-reverse">
                 <div className="rc-column rc-double-width text-center text-md-left">
                   <div className="rc-full-width rc-padding-x--md--mobile rc-margin-bottom--lg--mobile">
-                    <h1 className="rc-gamma rc-margin--none">{titleData.title}</h1>
+                    <h1 className="rc-gamma rc-margin--none">
+                      {titleData.title}
+                    </h1>
                     <div className="children-nomargin rc-body">
-                        <p>{titleData.description}</p>
+                      <p>{titleData.description}</p>
                     </div>
                   </div>
                 </div>
                 <div className="rc-column">
-                  <img src={titleData.img} className="mx-auto"></img>
+                  <img src={titleData.img} className="mx-auto" alt="" />
                 </div>
               </div>
             </div>
@@ -565,13 +617,13 @@ class List extends React.Component {
           <div id="J-product-list" />
           <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
-              {this.state.keywords ? (
+              {keywords ? (
                 <div className="nav-tabs-wrapper rc-text--center">
                   <div className="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{this.state.keywords}"</b>(
+                    <b>"{keywords}"</b>(
                     <FormattedMessage id="results" values={{ val: results }} />)
                   </div>
                 </div>
@@ -668,9 +720,12 @@ class List extends React.Component {
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
                                 optionList={sortList}
-                                // selectedItemData={{
-                                //   value: form.country
-                                // }}
+                                selectedItemData={{
+                                  value:
+                                    (selectedSortParam &&
+                                      selectedSortParam.value) ||
+                                    ''
+                                }}
                                 placeholder={<FormattedMessage id="sortBy" />}
                                 customInnerStyle={{
                                   paddingTop: '.7em',
@@ -713,7 +768,7 @@ class List extends React.Component {
                                     </div>
                                   ) : null
                                 }
-                                onClick={() => this.hanldeItemClick(item)}
+                                onClick={this.hanldeItemClick.bind(this, item)}
                               >
                                 <picture className="rc-card__image">
                                   <div

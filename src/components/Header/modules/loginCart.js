@@ -2,11 +2,12 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getDictionary } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
+import './index.css'
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -18,11 +19,27 @@ class LoginCart extends React.Component {
     this.state = {
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      frequencyList: []
     };
     this.handleCheckout = this.handleCheckout.bind(this);
   }
   async componentDidMount() {
+    
+    await Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
+      this.setState(
+        {
+          frequencyList: [...dictList[0]]
+        },
+        () => {
+          console.log(this.state.frequencyList, 'frequencyList')
+          // this.props.updateSelectedData(this.state.form);
+        }
+      );
+    });
     const pathname = this.props.history.location.pathname;
     if (
       !sessionItemRoyal.get('recommend_product') &&
@@ -31,6 +48,7 @@ class LoginCart extends React.Component {
       this.checkoutStore.updateLoginCart();
     }
   }
+  
   get checkoutStore() {
     return this.props.checkoutStore;
   }
@@ -135,6 +153,8 @@ class LoginCart extends React.Component {
   }
   render() {
     const { totalNum, cartData, loading } = this;
+    const { frequencyList } = this.state
+    console.log(cartData, 'cartData', frequencyList)
     const { headerCartStore } = this.props;
     return (
       <span
@@ -210,7 +230,7 @@ class LoginCart extends React.Component {
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
                     <FormattedMessage id="total" />{' '}
-                    <b>{formatMoney(this.tradePrice)}</b>
+                    <span style={{fontWeight: '400'}}>{formatMoney(this.tradePrice)}</span>
                   </span>
                   <Link
                     to="/cart"
@@ -218,7 +238,7 @@ class LoginCart extends React.Component {
                     role="button"
                     aria-pressed="true"
                   >
-                    <FormattedMessage id="chang" />
+                    <FormattedMessage id="chang"/>
                   </Link>
                 </div>
                 <div
@@ -300,18 +320,54 @@ class LoginCart extends React.Component {
                                       )}
                                     </div>
                                   </div>
-                                  <div className="line-item-total-price justify-content-end pull-right">
+                                  <div className="line-item-total-price justify-content-end pull-right priceBox">
                                     <div className="item-total-07984de212e393df75a36856b6 price relative">
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
+                                        style={{color: item.goodsInfoFlag? '#888': '#666', textDecoration: item.goodsInfoFlag?'line-through': 'inhert'}}
+                                      >
                                         {formatMoney(
                                           item.salePrice * item.buyCount
                                         )}
                                       </b>
                                     </div>
                                   </div>
+                                  {
+                                    item.goodsInfoFlag? (
+                                      <>
+                                      <div className="line-item-total-price justify-content-start pull-left">
+                                        <div className="item-attributes">
+                                        <p className="line-item-attributes">
+                                          Frq: {frequencyList.length &&frequencyList.filter(el => el.id === item.periodTypeId)[0].name}
+                                        </p>
+                                        </div>
+                                      </div>
+                                      <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                    <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                      <div className="strike-through non-adjusted-price">
+                                        null
+                                      </div>
+                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                                        <span
+                                          className="iconfont font-weight-bold green"
+                                          style={{ fontSize: '.8em' }}
+                                        >
+                                          &#xe675;
+                                        </span>&nbsp;
+                                        <span className="red" style={{fontSize: '14px'}}>
+                                          {formatMoney(
+                                            item.subscriptionPrice * item.buyCount
+                                          )}
+                                        </span>
+                                      </b>
+                                    </div>
+                                  </div>
+                                      </>
+                                    ): null
+                                  }
+                                  
                                 </div>
                               </div>
                               <div className="item-options"></div>

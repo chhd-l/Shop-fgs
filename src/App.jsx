@@ -35,7 +35,7 @@ import Home from '@/views/Home';
 import List from '@/views/List';
 import Login from '@/views/Login';
 // import Details from '@/views/Details';
-import Details from '@/views/Details/COPY_index.js';
+import Details from '@/views/Details/index.js';
 import Cart from '@/views/Cart';
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
@@ -56,7 +56,7 @@ import AccountPaymentMethod from '@/views/Account/PaymentMethod';
 import AccountSubscription from '@/views/Account/Subscription';
 import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
 import AccountPaymentMethodForm from '@/views/Account/CreditCardForm';
-import AccountPetForm from '@/views/Account/PetForm/COPY_index.js';
+import AccountPetForm from '@/views/Account/PetForm/index.js';
 // import AccountPetForm from '@/views/Account/PetForm/index.js';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
@@ -68,7 +68,6 @@ import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
 import Recommendation from '@/views/Recommendation';
 import ProductFinder from '@/views/ProductFinder';
-import ProductFinderQuestion from '@/views/ProductFinder/modules/Question';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
 
@@ -79,6 +78,7 @@ import Exception from '@/views/StaticPage/Exception';
 import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Help from '@/views/StaticPage/Help';
+import TermsConditions from '@/views/StaticPage/TermsAndConditions'
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
@@ -88,6 +88,7 @@ import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
+import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
@@ -197,6 +198,7 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
+              <Route exact path="/termsandconditions"  component={TermsConditions}/>
               <Route
                 exact
                 path="/FAQ/:catogery"
@@ -336,17 +338,12 @@ const App = () => (
               <Route path="/product-finder" exact component={ProductFinder} />
               <Route
                 exact
-                path="/product-finder/question/:type"
-                component={ProductFinderQuestion}
-              />
-              <Route
-                exact
-                path="/product-finder/result/:type"
+                path="/product-finder-recommendation"
                 component={ProductFinderResult}
               />
               <Route
                 exact
-                path="/product-finder/noresult/:type"
+                path="/product-finder-noresult"
                 component={ProductFinderNoResult}
               />
 
@@ -381,8 +378,10 @@ const App = () => (
                 component={TR_GeneralConditions}
               />
               <Route path="/aboutUs" exact component={AboutUs} />
+              <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
+              <Route path="/ourValue" exact component={RU_Values}/>
               <Route
                 path="/tailorednutrition"
                 exact

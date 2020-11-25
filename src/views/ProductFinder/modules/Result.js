@@ -15,6 +15,7 @@ import catImg from '@/assets/images/product-finder-cat.png';
 import dogImg from '@/assets/images/product-finder-dog.png';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
@@ -63,7 +64,7 @@ function QListAndPetJSX(props) {
           </div>
         </div>
         <div className="col-12 col-md-6">
-          <div className="border rounded">
+          <div className="border rounded pr-2 pl-2">
             <div className="row align-items-center mt-4 mb-2 mb-md-4">
               <div className="col-12 col-md-6 mb-4 mb-md-0">
                 <img
@@ -77,31 +78,31 @@ function QListAndPetJSX(props) {
                   alt=""
                 />
               </div>
-              <div className="col-12 col-md-6 text-center text-md-left">
+              <div className="col-12 col-md-6 text-center text-md-left text-break">
                 <div className="row">
                   <div className="col-6 mb-2 mb-md-0">
-                    Age
+                    <FormattedMessage id="age" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.age) || '...'}
                     </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
-                    Breed
+                    <FormattedMessage id="breed" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.breed) || '...'}
                     </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
-                    Gender
+                    <FormattedMessage id="gender" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.gender) || '...'}
                     </span>
                   </div>
                   <div className="col-6 mb-2 mb-md-0">
-                    Sterilized
+                    <FormattedMessage id="sterilized" />
                     <br />
                     <span className="font-weight-normal">
                       {(petBaseInfo && petBaseInfo.sterilized) || '...'}
@@ -132,9 +133,12 @@ function QListAndPetJSX(props) {
               )}
 
               <br />
-              <Link className="rc-btn rc-btn--two mb-4" to="/product-finder">
+              <span
+                className="rc-btn rc-btn--two mb-4 ui-cursor-pointer"
+                onClick={props.handleClickGotoStart}
+              >
                 <FormattedMessage id="productFinder.startAgin" />
-              </Link>
+              </span>
             </div>
           </div>
         </div>
@@ -149,7 +153,7 @@ class ProductFinderResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
+      type: localItemRoyal.get('pf-cache-type'),
       qListVisible: false,
       productDetail: null,
       isLoading: true,
@@ -158,7 +162,6 @@ class ProductFinderResult extends React.Component {
     };
   }
   componentDidMount() {
-    this.setState({ type: this.props.match.params.type });
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (res) {
@@ -200,9 +203,15 @@ class ProductFinderResult extends React.Component {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
   };
   handleClickEditBtn = (ele) => {
-    const { type } = this.state;
     sessionItemRoyal.set('pf-edit-order', ele.stepOrder);
-    this.props.history.push(`/product-finder/question/${type}`);
+    this.props.history.push(`/product-finder`);
+  };
+  handleClickGotoStart = () => {
+    const { type } = this.state;
+    localItemRoyal.remove(`pf-cache-type`);
+    localItemRoyal.remove(`pf-cache-${type}-question`);
+    sessionItemRoyal.remove('pf-edit-order');
+    this.props.history.push(`/product-finder`);
   };
   render() {
     const { location, history, match } = this.props;
@@ -224,7 +233,7 @@ class ProductFinderResult extends React.Component {
           match={match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-        <BannerTip />
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             {isLoading ? (
@@ -260,6 +269,7 @@ class ProductFinderResult extends React.Component {
                       isLogin={this.isLogin}
                       questionlist={questionlist}
                       handleClickEditBtn={this.handleClickEditBtn}
+                      handleClickGotoStart={this.handleClickGotoStart}
                       petBaseInfo={petBaseInfo}
                     />
                   </div>
@@ -317,7 +327,7 @@ class ProductFinderResult extends React.Component {
                           to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
                           className="rc-btn rc-btn--one rc-btn--sm"
                         >
-                          <FormattedMessage id="chooseTheProduct" />
+                          <FormattedMessage id="seeTheProduct" />
                         </Link>
                       </div>
                     </div>
@@ -325,9 +335,7 @@ class ProductFinderResult extends React.Component {
                   <div className="row flex-nowrap mt-2">
                     <span className="rc-icon rc-incompatible--xs rc-iconography" />
                     <p style={{ fontSize: '.66em' }}>
-                      The recommendations provided here are for informational
-                      purpose only.It should not be considered as guarantee for
-                      what may be best for your indivaidual pet.
+                      <FormattedMessage id="productFinder.searchResultWarningTip1" />
                     </p>
                   </div>
                 </div>
@@ -384,7 +392,7 @@ class ProductFinderResult extends React.Component {
                               to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
                               className="rc-btn rc-btn--one rc-btn--sm"
                             >
-                              <FormattedMessage id="chooseTheProduct" />
+                              <FormattedMessage id="seeTheProduct" />
                             </Link>
                           </div>
                         </div>
@@ -401,6 +409,7 @@ class ProductFinderResult extends React.Component {
                     isLogin={this.isLogin}
                     questionlist={questionlist}
                     handleClickEditBtn={this.handleClickEditBtn}
+                    handleClickGotoStart={this.handleClickGotoStart}
                     petBaseInfo={petBaseInfo}
                   />
                 </div>

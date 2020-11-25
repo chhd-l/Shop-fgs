@@ -153,7 +153,7 @@ class PaymentComp extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  async getPaymentMethodList() {
+  getPaymentMethodList = async () => {
     let { confirmCardInfo } = this.state;
     this.setState({ listLoading: true });
     try {
@@ -199,7 +199,7 @@ class PaymentComp extends React.Component {
         listLoading: false
       });
     }
-  }
+  };
   initCardInfo() {
     let { deliveryAddress } = this.state;
     this.setState({
@@ -264,7 +264,7 @@ class PaymentComp extends React.Component {
       block: 'center'
     });
   }
-  currentCvvChange(e) {
+  currentCvvChange = (e) => {
     let { creditCardList } = this.state;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -285,7 +285,7 @@ class PaymentComp extends React.Component {
         }
       }
     );
-  }
+  };
   cardNumberFocus() {
     let { creditCardInfoForm } = this.state;
     this.setState({
@@ -337,7 +337,7 @@ class PaymentComp extends React.Component {
       console.log(e);
     }
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -402,8 +402,8 @@ class PaymentComp extends React.Component {
       this.inputBlur(e);
     }
     this.setState({ creditCardInfoForm });
-  }
-  inputBlur(e) {
+  };
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -415,7 +415,7 @@ class PaymentComp extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
+  };
   async handleSave(e) {
     e.preventDefault();
     const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
@@ -698,7 +698,7 @@ class PaymentComp extends React.Component {
     this.setState({ inited: val });
     this.props.updateInitStatus(val);
   };
-  _renderList = () => {
+  renderList = () => {
     let pathname = this.pathname;
     const { creditCardList, isCurrentCvvConfirm } = this.state;
     return creditCardList.map((el, idx) => {
@@ -777,7 +777,9 @@ class PaymentComp extends React.Component {
                       el.paymentMethod ? el.paymentMethod.vendor : ''
                     ]
                       ? CREDIT_CARD_IMG_ENUM[
-                          el.paymentMethod ? el.paymentMethod.vendor.toUpperCase() : ''
+                          el.paymentMethod
+                            ? el.paymentMethod.vendor.toUpperCase()
+                            : ''
                         ]
                       : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
@@ -825,9 +827,7 @@ class PaymentComp extends React.Component {
                       }}
                     >
                       <input
-                        onChange={(e) => {
-                          this.currentCvvChange(e);
-                        }}
+                        onChange={this.currentCvvChange}
                         type="password"
                         maxLength="3"
                         style={{ width: '100%' }}
@@ -863,10 +863,7 @@ class PaymentComp extends React.Component {
                     </span>
                   </div>
                   {this.props.isApplyCvv && (
-                    <div
-                      className="col-md-4 col-12 border-left color-999"
-                      data-aa={`${el.selected}`}
-                    >
+                    <div className="col-md-4 col-12 border-left color-999">
                       <button
                         className={`rc-btn rc-btn--two ${
                           el.selected && !isCurrentCvvConfirm ? '' : 'hidden'
@@ -947,9 +944,18 @@ class PaymentComp extends React.Component {
     });
   };
 
-  _renderForm = () => {
+  renderForm = () => {
     let pathname = this.pathname;
-    const { creditCardInfoForm, currentCardInfo, creditCardList } = this.state;
+    const {
+      creditCardInfoForm,
+      currentCardInfo,
+      creditCardList,
+      isEdit,
+      paymentType,
+      errorMsg,
+      successMsg,
+      completeCardShow
+    } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
@@ -966,26 +972,26 @@ class PaymentComp extends React.Component {
     return (
       <div
         className={`credit-card-content ${
-          this.state.isEdit ||
+          isEdit ||
           (!creditCardList.length && pathname !== '/account/paymentMethod')
             ? ''
             : 'hidden'
         }`}
         id="credit-card-content"
       >
-        {this.state.paymentType === 'ADYEN' ? (
+        {paymentType === 'ADYEN' ? (
           <>
             <div className="content-asset">
               <div
                 className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                  this.state.errorMsg ? '' : 'hidden'
+                  errorMsg ? '' : 'hidden'
                 }`}
               >
                 <aside
                   className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                   role="alert"
                 >
-                  <span className="pl-0">{this.state.errorMsg}</span>
+                  <span className="pl-0">{errorMsg}</span>
                   <button
                     className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                     onClick={() => {
@@ -1001,32 +1007,33 @@ class PaymentComp extends React.Component {
               </div>
               <aside
                 className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                  this.state.successMsg ? '' : 'hidden'
+                  successMsg ? '' : 'hidden'
                 }`}
                 role="alert"
               >
                 <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                  {this.state.successMsg}
+                  {successMsg}
                 </p>
               </aside>
             </div>
             <AdyenEditForm
               showCancelBtn={creditCardList.length > 0}
-              queryList={() => this.getPaymentMethodList()}
+              queryList={this.getPaymentMethodList}
               updateFormVisible={(val) => {
                 this.setState({ isEdit: val });
               }}
               updateInitStatus={this.updateInitStatus}
               enableStoreDetails={this.isLogin}
               showErrorMsg={this.showErrorMsg}
+              mustSaveForFutherPayments={true}
             />
           </>
         ) : (
           <>
             <div
               className={`creditCompleteInfoBox pb-3 ${
-                this.state.completeCardShow &&
-                !this.state.creditCardList.length &&
+                completeCardShow &&
+                !creditCardList.length &&
                 pathname !== '/account/paymentMethod'
                   ? ''
                   : 'hidden'
@@ -1050,7 +1057,9 @@ class PaymentComp extends React.Component {
                   <img
                     src={
                       CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
-                        ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor.toUpperCase()]
+                        ? CREDIT_CARD_IMG_ENUM[
+                            currentCardInfo.vendor.toUpperCase()
+                          ]
                         : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                     }
                     alt=""
@@ -1092,21 +1101,21 @@ class PaymentComp extends React.Component {
             </div>
             <div
               className={`credit-card-form ${
-                !this.state.completeCardShow ? '' : 'hidden'
+                !completeCardShow ? '' : 'hidden'
               }`}
             >
               <div className="rc-margin-bottom--xs">
                 <div className="content-asset">
                   <div
                     className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                      this.state.errorMsg ? '' : 'hidden'
+                      errorMsg ? '' : 'hidden'
                     }`}
                   >
                     <aside
                       className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                       role="alert"
                     >
-                      <span className="pl-0">{this.state.errorMsg}</span>
+                      <span className="pl-0">{errorMsg}</span>
                       <button
                         className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                         onClick={() => {
@@ -1122,12 +1131,12 @@ class PaymentComp extends React.Component {
                   </div>
                   <aside
                     className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                      this.state.successMsg ? '' : 'hidden'
+                      successMsg ? '' : 'hidden'
                     }`}
                     role="alert"
                   >
                     <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                      {this.state.successMsg}
+                      {successMsg}
                     </p>
                   </aside>
                   <p className="m-0">{CreditCardImg}</p>
@@ -1167,9 +1176,7 @@ class PaymentComp extends React.Component {
                                       className="rc-input__control form-control email"
                                       id="number"
                                       value={creditCardInfoForm.cardNumber}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
+                                      onChange={this.cardInfoInputChange}
                                       onKeyUp={(e) => {
                                         this.cardNumberChange(e);
                                       }}
@@ -1208,9 +1215,7 @@ class PaymentComp extends React.Component {
                                       data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                       data-range-error="The phone number should contain 10 digits"
                                       value={creditCardInfoForm.cardMmyy}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
+                                      onChange={this.cardInfoInputChange}
                                       name="cardMmyy"
                                       maxLength="5"
                                       placeholder={
@@ -1239,9 +1244,7 @@ class PaymentComp extends React.Component {
                                       data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                       data-range-error="The phone number should contain 10 digits"
                                       value={creditCardInfoForm.cardCvv}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
+                                      onChange={this.cardInfoInputChange}
                                       name="cardCvv"
                                       maxLength="4"
                                       placeholder="CVV"
@@ -1274,14 +1277,14 @@ class PaymentComp extends React.Component {
                           className="rc-input__control form-control cardOwner"
                           name="cardOwner"
                           value={creditCardInfoForm.cardOwner}
-                          onChange={(e) => this.cardInfoInputChange(e)}
-                          onBlur={(e) => this.inputBlur(e)}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
                           maxLength="40"
                         />
                         <label
                           className="rc-input__label"
                           htmlFor="cardOwner"
-                        ></label>
+                        />
                       </span>
                       <div className="invalid-feedback">
                         <FormattedMessage id="payment.errorInfo2" />
@@ -1304,15 +1307,12 @@ class PaymentComp extends React.Component {
                           className="rc-input__control email"
                           id="email"
                           value={creditCardInfoForm.email}
-                          onChange={(e) => this.cardInfoInputChange(e)}
-                          onBlur={(e) => this.inputBlur(e)}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
                           name="email"
                           maxLength="254"
                         />
-                        <label
-                          className="rc-input__label"
-                          htmlFor="email"
-                        ></label>
+                        <label className="rc-input__label" htmlFor="email" />
                       </span>
                       <div className="invalid-feedback">
                         <FormattedMessage id="payment.errorInfo2" />
@@ -1343,15 +1343,15 @@ class PaymentComp extends React.Component {
                           data-js-pattern="(^\d{10}$)"
                           data-range-error="The phone number should contain 10 digits"
                           value={creditCardInfoForm.phoneNumber}
-                          onChange={(e) => this.cardInfoInputChange(e)}
-                          onBlur={(e) => this.inputBlur(e)}
+                          onChange={this.cardInfoInputChange}
+                          onBlur={this.inputBlur}
                           name="phoneNumber"
                           maxLength="2147483647"
                         />
                         <label
                           className="rc-input__label"
                           htmlFor="phoneNumber"
-                        ></label>
+                        />
                       </span>
                       <div className="invalid-feedback">
                         <FormattedMessage id="payment.errorInfo2" />
@@ -1374,22 +1374,13 @@ class PaymentComp extends React.Component {
                         this.setState({ creditCardInfoForm });
                       }}
                     >
-                      {creditCardInfoForm.isDefault ? (
-                        <input
-                          type="checkbox"
-                          className="rc-input__checkbox"
-                          value={creditCardInfoForm.isDefault}
-                          key="1"
-                          checked
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          className="rc-input__checkbox"
-                          value={creditCardInfoForm.isDefault}
-                          key="2"
-                        />
-                      )}
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        value={creditCardInfoForm.isDefault}
+                        key="1"
+                        checked={creditCardInfoForm.isDefault}
+                      />
                       <label className="rc-input__label--inline text-break">
                         <FormattedMessage id="setDefaultPaymentMethod" />
                       </label>
@@ -1530,7 +1521,7 @@ class PaymentComp extends React.Component {
                 </aside>
               </div>
 
-              {this._renderList()}
+              {this.renderList()}
               <div
                 className={`p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal ${
                   this.state.inited
@@ -1560,10 +1551,10 @@ class PaymentComp extends React.Component {
             </>
           )
         ) : null}
-        {this._renderForm()}
+        {this.renderForm()}
       </div>
     );
   }
 }
 
-export default PaymentComp
+export default PaymentComp;

@@ -7,6 +7,7 @@ import { find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
+import './index.css'
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -210,7 +211,7 @@ class UnloginCart extends React.Component {
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
                     <FormattedMessage id="total" />{' '}
-                    <b>{formatMoney(this.tradePrice)}</b>
+                    <span style={{fontWeight: '400'}}>{formatMoney(this.tradePrice)}</span>
                   </span>
                   <Link
                     to="/cart"
@@ -311,7 +312,7 @@ class UnloginCart extends React.Component {
                                     </p>
                                   </div>
                                 </div>
-                                <div className="line-item-total-price justify-content-end pull-right">
+                                <div className="line-item-total-price justify-content-end pull-right priceBox">
                                   <div className="price relative">
                                     <div className="strike-through non-adjusted-price">
                                       null

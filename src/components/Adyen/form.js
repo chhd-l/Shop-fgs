@@ -16,8 +16,8 @@ class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
     isCheckoutPage: false, // 是否为支付页
     showCancelBtn: false,
-    isSaveToBackend: true,
-    enableStoreDetails: false,
+    enableStoreDetails: false, // 是否显示保存卡checkbox
+    mustSaveForFutherPayments: true, // 是否必须勾选保存卡checkbox，true-只有勾选了之后保存卡按钮才可用
     isOnepageCheckout: false,
     updateClickPayBtnValidStatus: () => {},
     updateAdyenPayParam: () => {},
@@ -31,7 +31,7 @@ class AdyenCreditCardForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      AdyenFormData: {},
+      adyenFormData: {},
       isValid: false
     };
   }
@@ -76,7 +76,7 @@ class AdyenCreditCardForm extends React.Component {
               brands: ADYEN_CREDIT_CARD_BRANDS,
               onBrand: (state) => {
                 _this.setState({
-                  AdyenFormData: Object.assign(_this.state.AdyenFormData, {
+                  adyenFormData: Object.assign(_this.state.adyenFormData, {
                     adyenBrands: state.brand,
                     brand: state.brand,
                     brandImageUrl: state.brandImageUrl
@@ -86,9 +86,12 @@ class AdyenCreditCardForm extends React.Component {
               onChange: (state) => {
                 console.log('adyen form state:', state);
                 console.log('adyen form card:', card);
+                const {
+                  enableStoreDetails,
+                  mustSaveForFutherPayments
+                } = _this.props;
                 let tmpValidSts;
-                // 会员必须勾选保存按钮
-                if (_this.props.enableStoreDetails) {
+                if (enableStoreDetails && mustSaveForFutherPayments) {
                   tmpValidSts = card.data.storePaymentMethod && state.isValid;
                 } else {
                   tmpValidSts = state.isValid;
@@ -99,9 +102,10 @@ class AdyenCreditCardForm extends React.Component {
                 _this.props.updateClickPayBtnValidStatus(state.isValid);
                 if (tmpValidSts) {
                   _this.setState({
-                    AdyenFormData: Object.assign(
-                      _this.state.AdyenFormData,
-                      getAdyenParam(card.data)
+                    adyenFormData: Object.assign(
+                      _this.state.adyenFormData,
+                      getAdyenParam(card.data),
+                      { storePaymentMethod: card.data.storePaymentMethod }
                     )
                   });
                 }
@@ -115,32 +119,54 @@ class AdyenCreditCardForm extends React.Component {
   }
   handleSave = async () => {
     try {
-      const { AdyenFormData } = this.state;
-      if (this.props.isSaveToBackend) {
+      debugger;
+      // 如果勾选了保存信息按钮，则保存到后台，否则不需要保存信息到后台
+      const { adyenFormData } = this.state;
+      let tmpSelectedId = '';
+      let decoAdyenFormData = Object.assign({}, adyenFormData);
+      if (adyenFormData.storePaymentMethod) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
           customerId: this.userInfo ? this.userInfo.customerId : '',
           storeId: process.env.REACT_APP_STOREID,
-          encryptedCardNumber: AdyenFormData.encryptedCardNumber,
-          encryptedExpiryMonth: AdyenFormData.encryptedExpiryMonth,
-          encryptedExpiryYear: AdyenFormData.encryptedExpiryYear,
-          encryptedSecurityCode: AdyenFormData.encryptedSecurityCode,
+          encryptedCardNumber: adyenFormData.encryptedCardNumber,
+          encryptedExpiryMonth: adyenFormData.encryptedExpiryMonth,
+          encryptedExpiryYear: adyenFormData.encryptedExpiryYear,
+          encryptedSecurityCode: adyenFormData.encryptedSecurityCode,
           paymentType: 'ADYEN',
-          holderName: AdyenFormData.hasHolderName,
+          holderName: adyenFormData.hasHolderName,
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
+        tmpSelectedId = res.context.id;
         this.props.queryList();
-        this.props.updateSelectedId(res.context.id);
         this.setState({ saveLoading: false });
+      } else {
+        tmpSelectedId = new Date().getTime() + '';
+        decoAdyenFormData = Object.assign(decoAdyenFormData, {
+          id: tmpSelectedId
+        });
       }
+      // 会员不保存情况下 怎么处理
       this.props.updateFormVisible(false);
-      this.props.updateAdyenPayParam(AdyenFormData);
+      this.props.updateAdyenPayParam(decoAdyenFormData);
+      this.props.updateSelectedId(tmpSelectedId);
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
     }
   };
+  handleClickCancel = () => {
+    this.props.updateFormVisible(false);
+    this.isLogin && this.props.queryList();
+  };
   render() {
+    const {
+      isOnepageCheckout,
+      isCheckoutPage,
+      showCancelBtn,
+      paymentStore
+    } = this.props;
+    const { saveLoading, isValid } = this.state;
     return (
       <>
         {/* 支持卡的类型 Visa和master */}
@@ -160,8 +186,8 @@ class AdyenCreditCardForm extends React.Component {
         <div
           id="adyen-card-container"
           className={`payment-method__container ${
-            !this.props.isCheckoutPage ||
-            !this.props.isOnepageCheckout ||
+            !isCheckoutPage ||
+            !isOnepageCheckout ||
             this.isLogin ||
             this.paymentMethodPanelStatus.isEdit
               ? ''
@@ -170,14 +196,12 @@ class AdyenCreditCardForm extends React.Component {
         />
         <div className="overflow-hidden mt-3">
           <div className="text-right">
-            {this.props.showCancelBtn && (
+            {showCancelBtn && (
               <>
                 <span
                   className="rc-styled-link editPersonalInfoBtn"
                   name="contactInformation"
-                  onClick={() => {
-                    this.props.updateFormVisible(false);
-                  }}
+                  onClick={this.handleClickCancel}
                 >
                   <FormattedMessage id="cancel" />
                 </span>{' '}
@@ -187,19 +211,19 @@ class AdyenCreditCardForm extends React.Component {
 
             <button
               className={`rc-btn rc-btn--one submitBtn editAddress ${
-                this.state.saveLoading ? 'ui-btn-loading' : ''
+                saveLoading ? 'ui-btn-loading' : ''
               }`}
               data-sav="false"
               name="contactInformation"
               type="submit"
-              disabled={!this.state.isValid}
+              disabled={!isValid}
               onClick={this.handleSave}
             >
               <FormattedMessage id="save" />
             </button>
           </div>
         </div>
-        {this.props.isOnepageCheckout &&
+        {isOnepageCheckout &&
           !this.isLogin &&
           this.paymentMethodPanelStatus.isCompleted && (
             <div className="border pb-2">
@@ -207,14 +231,11 @@ class AdyenCreditCardForm extends React.Component {
                 <span
                   className="pull-right ui-cursor-pointer-pure mr-2"
                   onClick={() => {
-                    this.props.paymentStore.updatePanelStatus2(
-                      'paymentMethod',
-                      {
-                        isPrepare: false,
-                        isEdit: true,
-                        isCompleted: false
-                      }
-                    );
+                    paymentStore.updatePanelStatus2('paymentMethod', {
+                      isPrepare: false,
+                      isEdit: true,
+                      isCompleted: false
+                    });
                   }}
                 >
                   <FormattedMessage id="edit" />

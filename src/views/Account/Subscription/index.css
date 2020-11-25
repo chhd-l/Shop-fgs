@@ -116,3 +116,8 @@
 .subscription .col-md-4 {
     padding: 0;
 }
+@media(max-width: 960px) {
+    .saveDiscount {
+        min-width: 210px;
+    }
+}

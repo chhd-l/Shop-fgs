@@ -140,6 +140,7 @@ const en_US = {
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
   chooseTheProduct: 'Choose the product',
+  seeTheProduct: 'See the product',
   clickConfirmCardButton: 'Please click the confirm card button',
   clickConfirmCvvButton: 'If you want to use this credit card, please enter CVV and click the Apply button',
   clickHere: 'Click here',
@@ -825,6 +826,9 @@ const en_US = {
   year: 'Year',
   yes: 'Yes',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  'productFinder.searchResultWarningTip1': "The recommendations provided here are for informational purpose only.It should not be considered as guarantee for what may be best for your indivaidual pet.",
+  breed: 'Breed',
+  gender: 'Gender'
 }
 export default en_US;

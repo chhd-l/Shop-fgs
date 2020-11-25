@@ -9,10 +9,11 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
 import LoginButton from '@/components/LoginButton';
-import { formatMoney } from '@/utils/utils';
 
 import catImg from '@/assets/images/product-finder-cat2.png';
 import dogImg from '@/assets/images/product-finder-dog2.png';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function PetJSX(props) {
   const { petBaseInfo } = props;
@@ -21,7 +22,7 @@ function PetJSX(props) {
       <div className="row align-items-center">
         <div className="col-12">
           <div className="border rounded">
-            <div className="row align-items-center">
+            <div className="row align-items-center text-break">
               <div className="col-12 col-md-6 row mt-4 mb-2 mb-md-4">
                 <div className="col-12 col-md-6 mb-4 mb-md-0">
                   <img
@@ -38,28 +39,28 @@ function PetJSX(props) {
                 <div className="col-12 col-md-6 text-center text-md-left">
                   <div className="row">
                     <div className="col-6 mb-2 mb-md-0">
-                      Age
+                      <FormattedMessage id="age" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.age) || '...'}
                       </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
-                      Breed
+                      <FormattedMessage id="breed" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.breed) || '...'}
                       </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
-                      Gender
+                      <FormattedMessage id="gender" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.gender) || '...'}
                       </span>
                     </div>
                     <div className="col-6 mb-2 mb-md-0">
-                      Sterilized
+                      <FormattedMessage id="sterilized" />
                       <br />
                       <span className="font-weight-normal">
                         {(petBaseInfo && petBaseInfo.sterilized) || '...'}
@@ -95,12 +96,12 @@ function PetJSX(props) {
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </LoginButton>
                   )}
-                  <Link
-                    className="col-12 col-md-6 rc-btn rc-btn--two mb-4"
-                    to="/product-finder"
+                  <span
+                    className="col-12 col-md-6 rc-btn rc-btn--two mb-4 ui-cursor-pointer"
+                    onClick={props.handleClickGotoStart}
                   >
                     <FormattedMessage id="productFinder.startAgin" />
-                  </Link>
+                  </span>
                 </div>
               </div>
             </div>
@@ -117,13 +118,12 @@ class ProductFinderNoResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: '',
+      type: sessionItemRoyal.get('pf-cache-type'),
       isLoading: false,
       petBaseInfo: null
     };
   }
   componentDidMount() {
-    this.setState({ type: this.props.match.params.type });
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (questionlist) {
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
@@ -155,9 +155,13 @@ class ProductFinderNoResult extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  handleClickGotoStart = () => {
+    localItemRoyal.remove(`pf-cache-type`);
+    this.props.history.push(`/product-finder`);
+  };
   render() {
     const { location, history, match } = this.props;
-    const { type, isLoading, questionlist } = this.state;
+    const { isLoading, questionlist, petBaseInfo, type } = this.state;
     return (
       <div>
         <Header
@@ -168,7 +172,7 @@ class ProductFinderNoResult extends React.Component {
           match={match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-        <BannerTip />
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
             {isLoading ? (
@@ -188,6 +192,8 @@ class ProductFinderNoResult extends React.Component {
                   type={type}
                   isLogin={this.isLogin}
                   questionlist={questionlist}
+                  petBaseInfo={petBaseInfo}
+                  handleClickGotoStart={this.handleClickGotoStart}
                 />
                 <div className="row">
                   <div className="col-12 order-1 order-md-0">

@@ -77,7 +77,9 @@ class ConfigStore {
 
   // 显示prescriber map开关
   @computed get prescriberMap() {
-    return this.info && this.info.storeVO && this.info.prescriberMap === '1';
+    return (
+      this.info && this.info.storeVO && this.info.storeVO.prescriberMap === '1'
+    );
   }
 
   // 显示onePageCheckout样式

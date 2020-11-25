@@ -19,7 +19,7 @@ const itemList = [
         aria-hidden="true"
         style={{ width: '2.5em', height: '2.5em' }}
       >
-        <use xlinkHref="#iconMyinformation"></use>
+        <use xlinkHref="#iconMyinformation" />
       </svg>
     ),
     titleLangKey: 'account.profile',
@@ -29,7 +29,7 @@ const itemList = [
   {
     icon: (
       <svg className="svg-icon account-home-icon" aria-hidden="true">
-        <use xlinkHref="#iconMypets"></use>
+        <use xlinkHref="#iconMypets" />
       </svg>
     ),
     titleLangKey: 'account.petsTitle',
@@ -39,7 +39,7 @@ const itemList = [
   {
     icon: (
       <svg className="svg-icon account-home-icon" aria-hidden="true">
-        <use xlinkHref="#iconMyorders1"></use>
+        <use xlinkHref="#iconMyorders1" />
       </svg>
     ),
     titleLangKey: 'account.ordersTitle',
@@ -53,7 +53,7 @@ const itemList = [
         aria-hidden="true"
         style={{ width: '2.8em', height: '2.8em' }}
       >
-        <use xlinkHref="#iconMySubsciptions1"></use>
+        <use xlinkHref="#iconMySubsciptions1" />
       </svg>
     ),
     titleLangKey: 'account.subscriptionTitle',
@@ -65,9 +65,9 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '2em', height: '2em' }}
+        style={{ width: '6em', height: '6em' }}
       >
-        <use xlinkHref="#iconFAQ"></use>
+        <use xlinkHref="#iconFAQ" />
       </svg>
     ),
     titleLangKey: 'account.faqTitle',
@@ -79,10 +79,6 @@ const itemList = [
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }

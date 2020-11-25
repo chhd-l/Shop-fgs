@@ -94,6 +94,9 @@ export default class DropDownMenu extends React.Component {
                       ) : (
                         <span
                           onClick={this.handleClickNavItem.bind(this, mitem)}
+                          className={`${
+                            mitem.interaction !== 2 ? 'ui-cursor-pointer' : ''
+                          }`}
                         >
                           {mitem.navigationName}
                         </span>
@@ -133,7 +136,11 @@ export default class DropDownMenu extends React.Component {
                                 this,
                                 citem
                               )}
-                              className="dropdown-nav__link "
+                              className={`dropdown-nav__link ${
+                                citem.interaction !== 2
+                                  ? 'ui-cursor-pointer'
+                                  : ''
+                              }`}
                             >
                               {citem.navigationName}
                             </span>
@@ -172,7 +179,7 @@ export default class DropDownMenu extends React.Component {
                 <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
                   <p>{descObj.text}</p>
                 </div>
-                <Link to={item.mainLink}>
+                <Link to="/product-finder">
                   <button className="rc-btn rc-btn--one">
                     <FormattedMessage id="findTheRightDiet" />
                   </button>

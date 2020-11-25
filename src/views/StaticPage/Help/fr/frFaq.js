@@ -33,7 +33,8 @@ class FrFaq extends Component {
                                     <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
                                         <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                             <p>Vous pouvez également consulter notre rubrique
-                                                <a> qui vous apportera de nombreuses réponses. </a>
+                                                <a style={{textDecoration:'underline',color:'rgb(236,0,26)',backgroundColor:'rgb(255,255,255)',padding:'0 3px'}} href={`${process.env.REACT_APP_ACCESS_PATH}FAQ/all`}>FAQ</a> 
+                                                qui vous apportera de nombreuses réponses. 
                                             </p>
                                         </div>
                                         <div className="rc-column rc-content-v-middle">

@@ -15,7 +15,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href={this.props.configStore.privacyPolicyUrl}
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
@@ -26,7 +26,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href={this.props.configStore.cookiesUrl}
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
@@ -34,7 +34,11 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>
               <li>
-                <a target="_blank" href={this.props.configStore.legalTerms} rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href={this.props.configStore.legalTerms}
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
@@ -57,28 +61,44 @@ class MarsFooterMap extends React.Component {
           <div className="mars-footer-container">
             <ul className="mars-footer-list-right" style={{ fontSize: '10px' }}>
               <li>
-                <a target="_blank" href="https://www.mars.com/privacy" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/privacy"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.confidentiality" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-english" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/cookies-english"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.legalTerms" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/accessibility" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/accessibility"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">Accessibility</span>
                 </a>
               </li>
@@ -86,7 +106,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/legal/ca-supply-chain-act"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">CA Supply Chain Act</span>
                 </a>
@@ -95,7 +115,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/modern-slavery-act"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">Modern Slavery Act</span>
                 </a>
@@ -104,7 +124,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/mars-incorporated-adchoices-united-states"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">AdChoices</span>
                 </a>
@@ -126,7 +146,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/privacy-policy-germany"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.privacy" />
@@ -134,14 +154,22 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-germany" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/cookies-germany"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies2" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-germany" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal-germany"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.termsOfUse" />
                   </span>
@@ -151,7 +179,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.royalcanin.com/de/about-us/imprint"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.impress" />
@@ -178,26 +206,33 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/privacy-policy-france"
-                  rel="noopener noreferrer"
-                >       
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.privacy" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-france" rel="noopener noreferrer">
-                  
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/cookies-france"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.cookies2" />
                   </span>
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-france" rel="noopener noreferrer">          
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal-france"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-label">
                     <FormattedMessage id="footer.termsOfUse" />
-                  </span>  
+                  </span>
                 </a>
               </li>
             </ul>
@@ -205,7 +240,7 @@ class MarsFooterMap extends React.Component {
               className="mars-footer-legal text-center"
               style={{ fontSize: '10px' }}
             >
-              <p style={{color:'rgb(102,102,102)'}}>
+              <p style={{ color: 'rgb(102,102,102)' }}>
                 <FormattedMessage id="footer.copyrightInfo2" />
                 <br />
                 <FormattedMessage id="footer.copyrightInfo2_1" />
@@ -229,7 +264,7 @@ class MarsFooterMap extends React.Component {
                 <a
                   target="_blank"
                   href="https://www.mars.com/privacy-policy-russia"
-                  rel="noopener noreferrer"
+                  rel="nofollow"
                 >
                   <span className="mars-footer-icon">
                      <strong></strong>
@@ -238,7 +273,11 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>{' '}
               <li>
-                <a target="_blank" href="https://www.mars.com/cookies-russia" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/cookies-russia"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-icon">
                      <strong></strong>
                   </span>{' '}
@@ -246,7 +285,11 @@ class MarsFooterMap extends React.Component {
                 </a>
               </li>{' '}
               <li>
-                <a target="_blank" href="https://www.mars.com/legal-russia" rel="noopener noreferrer">
+                <a
+                  target="_blank"
+                  href="https://www.mars.com/legal-russia"
+                  rel="nofollow"
+                >
                   <span className="mars-footer-icon">
                      <strong></strong>
                   </span>{' '}

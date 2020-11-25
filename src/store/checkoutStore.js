@@ -128,6 +128,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
+    console.log(purchasesRes, 'purchasesRes')
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);

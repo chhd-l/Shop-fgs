@@ -217,9 +217,8 @@ class Help extends React.Component {
                                           >
                                             <a
                                               href={this.state.mailAddress}
-                                              style={{
-                                                color: 'rgb(0, 135, 189)'
-                                              }}
+                                              style={{fontSize:'16px',borderBottom:'1px solid transparent'}}
+                                              className="rc-styled-link"
                                             >
                                               {/* <FormattedMessage id="help.email" /> */}
                                               {

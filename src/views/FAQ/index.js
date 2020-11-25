@@ -26,7 +26,7 @@ class FAQ extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -102,8 +102,8 @@ class FAQ extends React.Component {
                 <div className="rc-padding-y--md rc-md-down"></div>
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
-                    <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
-                      <h1 style={{ textAlign: 'center' }}>
+                    <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none ">
+                      <h1 style={{ textAlign: 'center' }} className="rc-alpha inherit-fontsize">
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p style={{ textAlign: 'center' }}>
@@ -112,7 +112,7 @@ class FAQ extends React.Component {
                           values={{
                             val1: (
                               <a
-                                rel="noopener noreferrer"
+                                rel="nofollow"
                                 className="rc-styled-link"
                                 target="_blank"
                                 href="/help"
@@ -137,7 +137,7 @@ class FAQ extends React.Component {
               this.state.dataFAQ.map((pitem, index) => (
                 <>
                   <div className="rc-bg-colour--brand3" key={'p-' + index}>
-                    <h2 name={`catogery-${index}`} id={`catogery-${index}`}>
+                    <h2 name={`catogery-${index}`} id={`catogery-${index}`} className="text-center">
                       {pitem.faqType}
                     </h2>
                   </div>

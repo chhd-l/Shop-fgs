@@ -532,7 +532,7 @@ class PaymentComp extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} alt=""/>
+          <img key={idx} className="logo-payment-card" src={el} alt="" />
         ))}
       </span>
     );
@@ -917,6 +917,7 @@ class PaymentComp extends React.Component {
               updateInitStatus={this.updateInitStatus}
               enableStoreDetails={true}
               showErrorMsg={this.showErrorMsg}
+              mustSaveForFutherPayments={true}
             />
           ) : (
             <>
@@ -949,7 +950,9 @@ class PaymentComp extends React.Component {
                     <img
                       src={
                         CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
-                          ? CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor.toUpperCase()]
+                          ? CREDIT_CARD_IMG_ENUM[
+                              currentCardInfo.vendor.toUpperCase()
+                            ]
                           : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                       }
                       alt=""

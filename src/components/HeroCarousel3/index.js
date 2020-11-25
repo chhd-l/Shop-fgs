@@ -154,8 +154,8 @@ class Carousel extends React.Component {
             id="rightBtn"
             onClick={this.rightBtnClick}
           />
-          <div class="carousel" id="carousel">
-            <div class="m_unit" id="m_unit">
+          <div className="carousel" id="carousel">
+            <div className="m_unit" id="m_unit">
               <ul>
                 {this.state.banner.map((item, index) => {
                   return (
@@ -177,11 +177,12 @@ class Carousel extends React.Component {
                               </p>
                             </div>
                             <div>
-                              <a href="/product-finder">
-                                <button class="rc-btn rc-btn--one">
-                                  <FormattedMessage id="header.toBegin" />
-                                </button>
-                              </a>
+                              <Link
+                                to="/product-finder"
+                                className="rc-btn rc-btn--one"
+                              >
+                                <FormattedMessage id="header.toBegin" />
+                              </Link>
                             </div>
                           </div>
                         </a>
@@ -194,7 +195,7 @@ class Carousel extends React.Component {
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
                             <Link to="/product-finder" className="category-btn">
-                              <button class="rc-btn rc-btn--one">
+                              <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>
                             </Link>
@@ -207,7 +208,7 @@ class Carousel extends React.Component {
               </ul>
             </div>
           </div>
-          <div class="circles" id="circles">
+          <div className="circles" id="circles">
             <ol>
               {this.state.banner.map((item, index) => {
                 return (

@@ -1,9 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import UnloginCart from './modules/COPY_unLoginCart';
-import LoginCart from './modules/COPY_loginCart';
-// import UnloginCart from './modules/COPY_unLoginCart';
-// import LoginCart from './modules/loginCart';
+import UnloginCart from './modules/unLoginCart';
+import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 
