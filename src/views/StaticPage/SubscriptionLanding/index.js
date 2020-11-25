@@ -151,8 +151,8 @@ class SubscriptionLanding extends React.Component {
                   alt=""
                 />
                 <p>
-                  Ajoutez les produits nutritionnels répondant aux besoins de
-                  votre animal dans votre panier.
+                  Ajoutez les produits nutritionnels <strong>répondant aux besoins de
+                  votre animal</strong> dans votre panier.
                 </p>
               </div>
               <div className="rc-column" style={{ textAlign: 'center' }}>
@@ -166,7 +166,7 @@ class SubscriptionLanding extends React.Component {
                   alt=""
                 />
                 <p>
-                  Sélectionnez l'expédition automatique et entrez votre mode de
+                  Sélectionnez l<strong>'expédition automatique</strong> et entrez votre mode de
                   paiement.
                 </p>
               </div>
@@ -181,7 +181,7 @@ class SubscriptionLanding extends React.Component {
                   alt=""
                 />
                 <p>
-                  Recevez votre produit automatiquement en fonction de votre
+                  <strong>Recevez votre produit automatiquement</strong> en fonction de votre
                   calendrier.
                 </p>
               </div>
@@ -195,7 +195,7 @@ class SubscriptionLanding extends React.Component {
                   }}
                   alt=""
                 />
-                <p>Modifiez vos préférences à tout moment.</p>
+                <p>Modifiez vos préférences à <strong>tout moment</strong>.</p>
               </div>
             </div>
           </div>
