@@ -48,7 +48,8 @@ class Subscription extends React.Component {
           value: '2',
           name: <FormattedMessage id="inactive" values={{ val: 2 }} />
         }
-      ]
+      ],
+      isMobile: false
     };
     this.pageSize = 6;
   }
@@ -64,6 +65,10 @@ class Subscription extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+      navigator.userAgent)) {
+        this.setState({isMobile: true})
+      }
     getDictionary({ type: 'Frequency_week' }).then((res) => {
       let frequencyList = res.map((el) => {
         return {
@@ -169,7 +174,7 @@ class Subscription extends React.Component {
         theme: ''
       }
     };
-    const { frequencyList } = this.state
+    const { frequencyList, isMobile } = this.state
     return (
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
@@ -185,7 +190,20 @@ class Subscription extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Subscription" />
+            {
+                isMobile? (
+                  <div className="col-12 rc-md-down">
+                        <Link to="/account">
+                          <span className="red">&lt;</span>
+                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                            <FormattedMessage id="home" />
+                          </span>
+                        </Link>
+                      </div>
+                ): (
+                  <SideMenu type="Subscription" />
+                )
+              }
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div>
                   <h4 className="rc-delta rc-margin--none pb-2">

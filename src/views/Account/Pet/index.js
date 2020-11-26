@@ -26,11 +26,15 @@ class Pet extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      petList: []
+      petList: [],
+      isMobile: false
     };
   }
   componentDidMount() {
-
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+      navigator.userAgent)) {
+        this.setState({isMobile: true})
+      }
     setSeoConfig()
     this.getPetList();
   }
@@ -107,6 +111,7 @@ class Pet extends React.Component {
         theme: ''
       }
     };
+    let { isMobile } = this.state
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
@@ -122,8 +127,20 @@ class Pet extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Pets" />
-
+              {
+                isMobile? (
+                  <div className="col-12 rc-md-down">
+                        <Link to="/account">
+                          <span className="red">&lt;</span>
+                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                            <FormattedMessage id="home" />
+                          </span>
+                        </Link>
+                      </div>
+                ): (
+                  <SideMenu type="Pets" />
+                )
+              }
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {/* <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 className="rc-delta rc-margin--none">

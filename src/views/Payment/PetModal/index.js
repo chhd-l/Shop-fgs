@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
+import { inject, observer } from 'mobx-react';
 import NewPetModal from './components/NewPetModal';
 import SelectPetModal from './components/SelectPetModal';
 import './index.css';
@@ -8,7 +9,11 @@ import { getCustomerInfo } from '@/api/user';
 
 const localItemRoyal = window.__.localItemRoyal;
 
+@inject(
+  'loginStore'
+)
 @injectIntl
+@observer
 class PetModal extends Component {
   // 新建Pet
 
@@ -19,7 +24,10 @@ class PetModal extends Component {
     };
   }
   componentDidMount() {
-    this.getPetList();
+    console.log(this.props.loginStore, 'islogin')
+    if(this.props.loginStore.isLogin) {
+      this.getPetList();
+    }
   }
 
   getUserInfo() {

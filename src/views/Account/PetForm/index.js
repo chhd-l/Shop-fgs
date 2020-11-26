@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Link } from 'react-router-dom';
 import './index.less';
 // import dog from '@/assets/images/animal-1.jpg';
 // import cat from '@/assets/images/animal-2.jpg';
@@ -103,7 +104,8 @@ class PetForm extends React.Component {
       breedListLoading: false,
       showBreedListNoneTip: false,
       specialNeedsDisable: false,
-      imgUrl: ''
+      imgUrl: '',
+      isMobile: false
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -124,7 +126,10 @@ class PetForm extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+      navigator.userAgent)) {
+        this.setState({isMobile: true})
+      }
     getDictionary({ type: 'dogSize' })
       .then((res) => {
         this.setState({
@@ -832,7 +837,8 @@ class PetForm extends React.Component {
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,
-      imgUrl
+      imgUrl,
+      isMobile
     } = this.state;
     return (
       <div className="petForm">
@@ -847,7 +853,21 @@ class PetForm extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Pets" />
+            {
+                isMobile? (
+                  <div className="col-12 rc-md-down">
+                        <Link to="/account/pets">
+                          <span className="red">&lt;</span>
+                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                            <FormattedMessage id="pet" />
+                          </span>
+                        </Link>
+                      </div>
+                ): (
+                  <SideMenu type="Pets" />
+                )
+              }
+              {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="photoBox">
