@@ -15,7 +15,7 @@ function CardItem(props) {
   const { data } = props;
   return (
     <div
-      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100"
+      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-4 ui-cursor-pointer-pure h-100 d-flex align-items-center justify-content-between"
       onClick={props.hanldeClickCardItem}
     >
       {props.removeBtnJSX}
@@ -171,6 +171,10 @@ class AddressList extends React.Component {
     }
   }
   handleClickEditBtn = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     this.changeListVisible(true);
   };
   handleHideEditForm = ({ closeListPage }) => {
@@ -237,7 +241,7 @@ class AddressList extends React.Component {
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
                 {curPageAtCover ? (
-                  <h5>
+                  <h5 className="mb-0">
                     <svg
                       className="svg-icon account-info-icon align-middle mr-3 ml-1"
                       aria-hidden="true"
@@ -260,7 +264,7 @@ class AddressList extends React.Component {
                 <FormattedMessage id="edit">
                   {(txt) => (
                     <button
-                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                         listVisible || editFormVisible ? 'hidden' : ''
                       }`}
                       name="personalInformation"
@@ -318,7 +322,7 @@ class AddressList extends React.Component {
                           removeBtnJSX={
                             <div
                               className="position-absolute"
-                              style={{ right: '4%', top: '7%', zIndex: 9 }}
+                              style={{ right: '2%', top: '1%', zIndex: 9 }}
                             >
                               <span
                                 className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}

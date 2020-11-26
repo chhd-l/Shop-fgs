@@ -131,6 +131,10 @@ class ClinicEditForm extends React.Component {
     this.setState({ form: form, isValid: !!form.clinicName });
   };
   handleClickEditBtn = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     this.changeEditFormVisible(true);
   };
   changeEditFormVisible = (status) => {
@@ -149,7 +153,7 @@ class ClinicEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (
-              <h5>
+              <h5 className="mb-0">
                 <svg
                   className="svg-icon account-info-icon align-middle mr-3 ml-1"
                   aria-hidden="true"
@@ -172,7 +176,7 @@ class ClinicEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
                   name="contactPreference"

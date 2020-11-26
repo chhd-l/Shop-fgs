@@ -121,7 +121,14 @@ class AddressList extends React.Component {
       return id;
     }
   }
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
   handleClickEditBtn = () => {
+    this.scrollToTop();
     this.changeListVisible(true);
     this.setState({ fromPage: 'cover' });
   };
@@ -156,6 +163,7 @@ class AddressList extends React.Component {
     e.nativeEvent.stopImmediatePropagation();
     let { addressList } = this.state;
     el.confirmTooltipVisible = false;
+    this.scrollToTop();
     this.setState({
       listLoading: true,
       addressList
@@ -214,7 +222,7 @@ class AddressList extends React.Component {
             <div className="personalInfo">
               <div className="profileSubFormTitle pl-3 pr-3 pt-3">
                 {curPageAtCover ? (
-                  <h5>
+                  <h5 className="mb-0">
                     <svg
                       className="svg-icon account-info-icon align-middle mr-3 ml-1"
                       aria-hidden="true"
@@ -235,7 +243,7 @@ class AddressList extends React.Component {
                 <FormattedMessage id="edit">
                   {(txt) => (
                     <button
-                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                      className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                         listVisible || editFormVisible ? 'hidden' : ''
                       }`}
                       name="personalInformation"

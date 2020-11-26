@@ -14,6 +14,7 @@ import ClinicEditForm from './modules/ClinicEditForm';
 import AddressList from './modules/AddressList';
 import PaymentList from './modules/PaymentList';
 import { getCustomerInfo } from '@/api/user';
+import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
@@ -47,15 +48,7 @@ class AccountProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      personalData: {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        email: '',
-        country: 'Mexico',
-        phoneNumber: '',
-        rfc: ''
-      },
+      personalData: null,
       addressBookData: {
         address1: '',
         address2: '',
@@ -72,7 +65,7 @@ class AccountProfile extends React.Component {
         clinicName: '',
         clinicId: ''
       },
-      originData: null,
+      originData: null, // 提交接口时，保留未修改参数用
       loading: true,
       editOperationPaneName: ''
     };
@@ -102,6 +95,7 @@ class AccountProfile extends React.Component {
           prescriberName = context.defaultClinics.clinicsName;
           prescriberId = context.defaultClinics.clinicsId;
         }
+
         this.setState({
           originData: context,
           personalData: {
@@ -112,8 +106,13 @@ class AccountProfile extends React.Component {
               ? context.birthDay.split('-').join('/')
               : context.birthDay,
             country: context.countryId,
+            city: context.cityId,
+
             phoneNumber: context.contactPhone,
-            rfc: context.reference
+            rfc: context.reference,
+            address1: context.address1,
+            address2: context.address2,
+            postCode: context.postCode
           },
           addressBookData: {
             address1: context.house,
@@ -132,6 +131,19 @@ class AccountProfile extends React.Component {
             clinicId: prescriberId
           }
         });
+
+        queryCityNameById({
+          id: [context.cityId]
+        }).then((cityRes) => {
+          const cityVORes = cityRes.context.systemCityVO || [];
+          this.setState({
+            personalData: Object.assign(this.state.personalData, {
+              cityName: cityVORes.filter((c) => c.id === context.cityId).length
+                ? cityVORes.filter((c) => c.id === context.cityId)[0].cityName
+                : ''
+            })
+          });
+        });
       })
       .catch(() => {
         this.setState({ loading: false });
@@ -142,8 +154,12 @@ class AccountProfile extends React.Component {
   };
 
   render() {
-    console.log(111, process.env.REACT_APP_CHECKOUT_WITH_CLINIC)
-    const { loading, editOperationPaneName } = this.state;
+    const {
+      loading,
+      editOperationPaneName,
+      originData,
+      personalData
+    } = this.state;
     const event = {
       page: {
         type: 'Account',
@@ -186,8 +202,9 @@ class AccountProfile extends React.Component {
                       })}
                     >
                       <PersonalDataEditForm
-                        originData={this.state.originData}
-                        data={this.state.personalData}
+                        originData={originData}
+                        data={personalData}
+                        key={Object.keys(personalData || {})}
                         updateData={this.queryCustomerBaseInfo}
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
@@ -205,7 +222,7 @@ class AccountProfile extends React.Component {
                         })}
                       >
                         <ClinicEditForm
-                          originData={this.state.originData}
+                          originData={originData}
                           data={this.state.clinicData}
                           updateData={this.queryCustomerBaseInfo}
                           updateEditOperationPanelName={
