@@ -771,6 +771,8 @@ const de_DE = {
   'productFinder.tip2': 'Dieser Fragebogen hilft Ihnen bei der Auswahl des empfohlenen Futters für Ihr Haustier.',
   'productFinder.tip3': 'Ihr Haustier ist ein ...',
   'productFinder.whyAreWeAskingThis': 'Warum fragen wir das?',
+  'productFinder.recoTitle': 'Finde das richtige Essen.',
+  'productFinder.recoDesc': 'Je mehr wir über Ihr Haustier wissen, desto besser können wir die genaueste Ernährung anbieten, die auf seine besonderen Bedürfnisse zugeschnitten ist.',
   xMonths: '{val} Monat (e)',
   xProduct: '{val} Produkt (e)',
   xYears: '{val} Jahr (e)',
