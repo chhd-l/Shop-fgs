@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getDictionary } from '@/utils/utils';
 import { find } from 'lodash';
 import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
@@ -19,10 +19,25 @@ class UnloginCart extends React.Component {
     this.state = {
       checkoutLoading: false,
       petModalVisible: false,
-      isAdd: 0
+      isAdd: 0,
+      frequencyList: []
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
+    await Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
+      this.setState(
+        {
+          frequencyList: [...dictList[0], ...dictList[1]]
+        },
+        () => {
+          console.log(this.state.frequencyList, 'frequencyList')
+          // this.props.updateSelectedData(this.state.form);
+        }
+      );
+    });
     this.props.checkoutStore.updateUnloginCart();
   }
   get selectedCartData() {
@@ -35,6 +50,15 @@ class UnloginCart extends React.Component {
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
+  }
+  get computedList() {
+    return this.state.frequencyList.map((ele) => {
+      delete ele.value
+      return {
+        value: ele.valueEn,
+        ...ele
+      };
+    });
   }
   async handleCheckout({ needLogin = false } = {}) {
     sessionItemRoyal.set('okta-redirectUrl', '/cart');
@@ -137,6 +161,7 @@ class UnloginCart extends React.Component {
   }
   render() {
     const { headerCartStore } = this.props;
+    let { frequencyList } = this.state
     return (
       <span
         className="minicart inlineblock"
@@ -247,19 +272,28 @@ class UnloginCart extends React.Component {
                     <FormattedMessage id="checkout" />
                   </LoginButton>
                 </div>
-                <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
-                  <span
-                    id="unLoginCarCheckout"
-                    onClick={() => this.handleCheckout()}
-                    className={`rc-styled-link color-999 ${
-                      this.state.checkoutLoading
-                        ? 'ui-btn-loading ui-btn-loading-border-red'
-                        : ''
-                    }`}
-                  >
-                    <FormattedMessage id="GuestCheckout" />
-                  </span>
-                </div>
+                {
+                  !this.selectedCartData.filter(el => el.goodsInfoFlag).length? (
+                    <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                      <span
+                        id="unLoginCarCheckout"
+                        onClick={() => this.handleCheckout()}
+                        className={`rc-styled-link color-999 ${
+                          this.state.checkoutLoading
+                            ? 'ui-btn-loading ui-btn-loading-border-red'
+                            : ''
+                        }`}
+                      >
+                        <FormattedMessage id="GuestCheckout" />
+                      </span>
+                    </div>
+                  ): (
+                    <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4 text-center">
+                      <FormattedMessage id="unLoginSubscriptionTips" />
+                    </div>
+                  )
+                }
+                
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
                     <FormattedMessage
@@ -322,6 +356,39 @@ class UnloginCart extends React.Component {
                                     </b>
                                   </div>
                                 </div>
+                                {
+                                    item.goodsInfoFlag? (
+                                      <>
+                                      <div className="line-item-total-price justify-content-start pull-left">
+                                        <div className="item-attributes">
+                                        <p className="line-item-attributes">
+                                          Frq: {frequencyList.length &&frequencyList.filter(el => el.id === item.periodTypeId)[0].name}
+                                        </p>
+                                        </div>
+                                      </div>
+                                      <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                    <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                      <div className="strike-through non-adjusted-price">
+                                        null
+                                      </div>
+                                      <b className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light">
+                                        <span
+                                          className="iconfont font-weight-bold green"
+                                          style={{ fontSize: '.8em' }}
+                                        >
+                                          &#xe675;
+                                        </span>&nbsp;
+                                        <span className="red" style={{fontSize: '14px'}}>
+                                          {formatMoney(
+                                            item.sizeList.filter(el => el.selected)[0].subscriptionPrice * item.quantity
+                                          )}
+                                        </span>
+                                      </b>
+                                    </div>
+                                  </div>
+                                      </>
+                                    ): null
+                                  }
                               </div>
                             </div>
                             <div className="item-options"></div>
