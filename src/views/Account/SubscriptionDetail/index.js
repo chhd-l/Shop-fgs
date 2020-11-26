@@ -297,7 +297,8 @@ class SubscriptionDetail extends React.Component {
         this.props.match.params.subscriptionNumber
       )
       let subDetail = res.context;
-      let { noStartYear, completedYear } = this.state
+      let noStartYear = {}
+      let completedYear = {}
       let noStartYearOption = []
       let completedYearOption = []
       let completeOption = new Set(subDetail.completedTradeList.map(el => {
@@ -313,9 +314,7 @@ class SubscriptionDetail extends React.Component {
       noStartOption.forEach(el => {
         noStartYearOption.push({name: el, value: el})
       })
-      noStartYear = { value: noStartYearOption[0]['value'] }
-      console.log(noStartYearOption, completedYearOption, noStartYear, completedYear, 'aaa')
-      
+      noStartYear = { value: noStartYearOption[0]['value'], name: noStartYearOption[0]['value'] }
 
       subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
         let filterData =
@@ -374,7 +373,6 @@ class SubscriptionDetail extends React.Component {
           );
         }
       }
-      console.log(subDetail, 'hehehe')
       this.setState(
         {
           subDetail: subDetail,
@@ -548,6 +546,7 @@ class SubscriptionDetail extends React.Component {
       completedYear,
       isActive
     } = this.state;
+    console.log(noStartYear, 'hahaha')
     return (
       <div className="subscriptionDetail">
         <div>
@@ -1893,10 +1892,11 @@ class SubscriptionDetail extends React.Component {
                               >
                                 {
                                   this.state.activeTabIdx === 0 && noStartYearOption.length && completedYearOption.length?(
-                                    <Selection
-                                  optionList={noStartYearOption}
-                                  selectedItemData={noStartYear}
-                                  selectedItemChange={(el) => {
+                                  <Selection
+                                    optionList={noStartYearOption}
+                                    selectedItemData={noStartYear}
+                                    selectedItemChange={(el) => {
+                                      console.log(el,'hahaha')
                                     if(this.state.activeTabIdx === 0) {
                                       this.setState({noStartYear: el})
                                     }else {
@@ -1905,7 +1905,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
-                                  key={0}
+                                  key={noStartYear.value}
                                 />
                                   ): (
                                     <Selection
@@ -1920,7 +1920,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
-                                  key={1}
+                                  key={completedYear.value}
                                 />
                                   )
                                 }
@@ -2568,7 +2568,7 @@ class SubscriptionDetail extends React.Component {
                                               )}
                                           </div>
                                         ):(
-                                          <div className="col-4 col-md-6">
+                                          <div className="col-4 col-md-7">
                                         <div
                                           className="rc-layout-container rc-five-column"
                                           style={{
@@ -2662,7 +2662,7 @@ class SubscriptionDetail extends React.Component {
                                         isMobile?(
                                           null
                                         ): (
-                                          <div className="col-4 col-md-4">
+                                          <div className="col-4 col-md-3">
                                             <div style={{ textAlign: 'center' }}>
                                               {
                                                 el.id?(

@@ -989,7 +989,8 @@ class Details extends React.Component {
       addToCartLoading,
       specList,
       form,
-      productRate
+      productRate,
+      instockStatus
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1207,23 +1208,43 @@ class Details extends React.Component {
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
-                              {/* todo */}
-                              <label
-                                className={`availability ${
-                                  instockStatus ? 'instock': 'outofstock'
-                                }`}
-                              >
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                {/* todo */}
-                                <div className={`${instockStatus ? '': 'out-stock'}`}>
-                                  {instockStatus? (<FormattedMessage id="details.inStock" />): (<FormattedMessage id="details.outStock" />)}
-                                </div>
-                              </span>
+                              {
+                                instockStatus? (
+                                  <>
+                                  <label
+                                    className={`availability instock`}
+                                  >
+                                    <span className="title-select"></span>
+                                  </label>
+                                  <span
+                                    className="availability-msg"
+                                    data-ready-to-order="true"
+                                  >
+                                    {/* todo */}
+                                    <div>
+                                      <FormattedMessage id="details.inStock" />
+                                    </div>
+                                  </span>
+                                  </>
+                                ): (
+                                  <>
+                                  <label
+                                    className={`availability outofstock`}
+                                  >
+                                    <span className="title-select"></span>
+                                  </label>
+                                  <span
+                                    className="availability-msg"
+                                    data-ready-to-order="true"
+                                  >
+                                    {/* todo */}
+                                    <div className={`out-stock`}>
+                                      <FormattedMessage id="details.outStock" />
+                                    </div>
+                                  </span>
+                                  </>
+                                )
+                              }
                             </div>
                           </div>
                         </div>
