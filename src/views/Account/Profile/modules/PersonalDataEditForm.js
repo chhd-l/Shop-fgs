@@ -39,6 +39,9 @@ class PersonalDataEditForm extends React.Component {
       countryList: [],
       isValid: false
     };
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
     const { data } = this.props;
@@ -59,20 +62,6 @@ class PersonalDataEditForm extends React.Component {
       });
     });
   }
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (nextProps.data !== this.state.form) {
-  //     debugger;
-  //     this.setState(
-  //       {
-  //         form: Object.assign({}, nextProps.data),
-  //         oldForm: Object.assign({}, nextProps.data)
-  //       },
-  //       () => {
-  //         this.validFormData();
-  //       }
-  //     );
-  //   }
-  // }
   inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
@@ -127,7 +116,6 @@ class PersonalDataEditForm extends React.Component {
   };
   handleSave = async () => {
     try {
-      debugger;
       const { form } = this.state;
       this.setState({ loading: true });
       let param = Object.assign({}, this.props.originData, {
@@ -143,7 +131,9 @@ class PersonalDataEditForm extends React.Component {
         address1: form.address1,
         address2: form.address2,
         postCode: form.postCode,
-        cityId: form.city
+        cityId: form.city,
+        communicationEmail: form.communicationEmail,
+        communicationPhone: form.communicationPhone
       });
 
       await updateCustomerBaseInfo(param);
@@ -220,6 +210,11 @@ class PersonalDataEditForm extends React.Component {
     form.cityName = data.cityName;
     this.setState({ form });
   };
+  handleCommunicationCheckBoxChange(item) {
+    let { form } = this.state;
+    form[item.type] = !+form[item.type] ? '1' : '0';
+    this.setState({ form });
+  }
   render() {
     const {
       editFormVisible,
@@ -321,49 +316,23 @@ class PersonalDataEditForm extends React.Component {
               >
                 {[
                   {
+                    name: <FormattedMessage id="account.Email" />,
+                    val: data.email
+                  },
+                  {
                     name: <FormattedMessage id="name" />,
                     val: [data.firstName, data.lastName]
                       .filter((el) => el)
                       .join(' ')
                   },
                   {
-                    name: <FormattedMessage id="account.Email" />,
-                    val: data.email
-                  },
-                  {
-                    name: <FormattedMessage id="account.birthDate" />,
-                    val: data.birthdate
+                    name: <FormattedMessage id="payment.phoneNumber" />,
+                    val: data.phoneNumber
                   },
                   {
                     name: <FormattedMessage id="payment.address1" />,
                     val: data.address1
-                  },
-                  {
-                    name: <FormattedMessage id="payment.address2" />,
-                    val: data.address2
-                  },
-                  {
-                    name: <FormattedMessage id="payment.postCode" />,
-                    val: data.postCode
-                  },
-                  {
-                    name: <FormattedMessage id="payment.city" />,
-                    val: data.cityName
-                  },
-
-                  {
-                    name: <FormattedMessage id="payment.country" />,
-                    val: this.getDictValue(this.state.countryList, data.country)
-                  },
-
-                  {
-                    name: <FormattedMessage id="payment.phoneNumber" />,
-                    val: data.phoneNumber
                   }
-                  // {
-                  //   name: <FormattedMessage id="payment.rfc" />,
-                  //   val: data.rfc
-                  // }
                 ].map((item, i) => (
                   <>
                     <div className="col-6 col-md-9">{item.name}</div>
@@ -379,7 +348,7 @@ class PersonalDataEditForm extends React.Component {
               })}
             >
               <div className="row">
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="firstName"
@@ -410,7 +379,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="lastname"
@@ -508,7 +477,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="address1"
@@ -570,7 +539,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="postCode"
@@ -601,7 +570,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="basicInfoCity"
@@ -620,7 +589,7 @@ class PersonalDataEditForm extends React.Component {
                   </div>
                 </div>
 
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label className="form-control-label" htmlFor="country">
                     <FormattedMessage id="payment.country" />
                   </label>
@@ -643,7 +612,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="phone"
@@ -675,6 +644,34 @@ class PersonalDataEditForm extends React.Component {
                   <div className="invalid-feedback" style={{ display: 'none' }}>
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
+                </div>
+                <div className="form-group col-lg-6">
+                  <label className="form-control-label rc-input--full-width w-100">
+                    <FormattedMessage id="account.preferredMethodOfCommunication" />
+                  </label>
+                  {[
+                    { type: 'communicationPhone', langKey: 'phone' },
+                    { type: 'communicationEmail', langKey: 'email' }
+                  ].map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type]}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
                 </div>
                 {/* <div className="form-group col-lg-6 pull-left">
                   <label

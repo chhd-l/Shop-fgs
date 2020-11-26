@@ -112,7 +112,9 @@ class AccountProfile extends React.Component {
             rfc: context.reference,
             address1: context.address1,
             address2: context.address2,
-            postCode: context.postCode
+            postCode: context.postCode,
+            communicationEmail: context.communicationEmail,
+            communicationPhone: context.communicationPhone
           },
           addressBookData: {
             address1: context.house,
@@ -183,7 +185,7 @@ class AccountProfile extends React.Component {
               <SideMenu type="Profile" customCls="rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {editOperationPaneName ? null : (
-                  <Link to="/account" className="rc-md-down">
+                  <Link to="/account" className="rc-md-down mb-2 inlineblock">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
                       <FormattedMessage id="home" />
