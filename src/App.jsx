@@ -89,6 +89,7 @@ import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
+import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js'
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
@@ -380,6 +381,8 @@ const App = () => (
               />
               <Route path="/aboutUs" exact component={AboutUs} />
               <Route path="/cat-nutrition" exact component={CatNutrition} />
+              <Route path="/cadeau-coussin-chat" exact component={CadeauCoussinChat} />
+              
               <Route path="/promotion-refuge" exact component={PromotionRefuge} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
