@@ -638,6 +638,8 @@ const fr_FR = {
   'productFinder.tip2': 'Le questionnaire d’aide au choix vous permettra de connaître l’aliment recommandé pour votre animal.',
   'productFinder.tip3': 'Votre animal est un ....',
   'productFinder.whyAreWeAskingThis': 'Pourquoi cette question ?',
+  'productFinder.recoTitle': 'Trouvez la bonne nourriture.',
+  'productFinder.recoDesc': 'Plus nous en savons sur votre animal, mieux nous pouvons fournir la nutrition la plus précise et adaptée à ses besoins uniques.',
   productRating: 'Évaluation du produit',
   produtctNumber: 'Quantité de produits',
   'profile.emailChoose': "J'accepte que ROYAL CANIN utilise mon adresse e-mail pour l'envoi de newsletters. La newsletter comprend, entre autres Des actualités sur ROYAL CANIN, ses produits et ses bons. Je peux révoquer mon consentement à ROYAL CANIN à tout moment et gratuitement en cliquant sur le lien de désinscription à la fin de chaque e-mail de newsletter, par e-mail à {val1} ou par écrit à ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Cologne. Le traitement des données est licite jusqu'au retrait du consentement. Informations complémentaires, par ex. Vous pouvez trouver des informations sur les prestataires de services utilisés, l'évaluation des performances de la newsletter et la durée de stockage dans notre déclaration de protection des données.",

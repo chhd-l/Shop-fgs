@@ -617,6 +617,8 @@ const es_ES = {
   'productFinder.tip2': 'Este cuestionario te ayudará a elegir el alimento recomendado para tu mascota.',
   'productFinder.tip3': 'Tu mascota es un ...',
   'productFinder.whyAreWeAskingThis': '¿Por qué estamos preguntando esto?',
+  'productFinder.recoTitle': 'Encuentra la comida adecuada.',
+  'productFinder.recoDesc': 'Cuanto más sepamos sobre su mascota, mejor podremos proporcionarle la nutrición más precisa y adaptada a sus necesidades únicas.',  
   productRating: 'Valoración del producto',
   produtctNumber: 'Número de productos',
   'profile.emailChoose': 'Sí, me gustaría recibir ahorros exclusivos, información de productos, consejos para el cuidado de mascotas y más de Royal Canin.',

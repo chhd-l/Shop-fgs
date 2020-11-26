@@ -9,7 +9,7 @@ import SideMenu from '@/components/SideMenu';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { formatMoney,setSeoConfig } from '@/utils/utils';
+import { formatMoney, setSeoConfig } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 
@@ -37,7 +37,7 @@ export default class ReturnOrder extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -250,7 +250,7 @@ export default class ReturnOrder extends React.Component {
                                 </div>
                                 <div className="col-12 col-md-3 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <Link
-                                    className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn"
+                                    className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse"
                                     to={`/account/return-order-detail/${order.id}`}
                                   >
                                     <span className="medium pull-right--desktop rc-styled-link rc-padding-top--xs">

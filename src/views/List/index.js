@@ -27,6 +27,8 @@ import {
 } from '@/utils/utils';
 import './index.less';
 
+import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -961,6 +963,24 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
+            <div className="ml-4 mr-4 pl-4 pr-4">
+              <div className="row d-flex align-items-center">
+                <div className="col-12 col-md-6">
+                  <h1 className="rc-gamma rc-padding--none">
+                    <FormattedMessage id="productFinder.recoTitle" />
+                  </h1>
+                  <p>
+                    <FormattedMessage id="productFinder.recoDesc" />
+                  </p>
+                  <Link to="/product-finder" className="rc-btn rc-btn--one">
+                    <FormattedMessage id="productFinder.index" />
+                  </Link>
+                </div>
+                <div className="col-12 col-md-6">
+                  <img src={pfRecoImg} />
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         <div className="notate ml-2 mb-2">

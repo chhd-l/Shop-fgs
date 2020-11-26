@@ -10,8 +10,8 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
 import LoginButton from '@/components/LoginButton';
 
-import catImg from '@/assets/images/product-finder-cat2.png';
-import dogImg from '@/assets/images/product-finder-dog2.png';
+import catImg from '@/assets/images/product-finder-cat2.jpg';
+import dogImg from '@/assets/images/product-finder-dog2.jpg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
