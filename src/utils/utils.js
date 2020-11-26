@@ -279,21 +279,30 @@ export async function setSeoConfig(
 ) {
   let goodsSeo = {},cateSeo={},pageSeo={},siteSeo={}
   if(obj.goodsId){
-    goodsSeo = getGoodsSeo(obj.goodsId)
+    goodsSeo = await getGoodsSeo(obj.goodsId)
   }
   if(obj.categoryId){
-    cateSeo = getCateSeo(obj.categoryId)
+    cateSeo =  await getCateSeo(obj.categoryId)
   }
   if(obj.pageName){
-    pageSeo = getPageSeo(obj.pageName)
+    pageSeo =  await getPageSeo(obj.pageName)
   }
-  siteSeo = getSiteSeo(obj.goodsId)
-  let seoInfo = {
-    title:goodsSeo.title||cateSeo.title|| pageSeo.title||siteSeo.title,
-    metaKeywords:goodsSeo.metaKeywords||cateSeo.metaKeywords|| pageSeo.metaKeywords||siteSeo.metaKeywords,
-    metaDescription:goodsSeo.metaDescription||cateSeo.metaDescription|| pageSeo.metaDescription||siteSeo.metaDescription,
+  if (!sessionStorage.getItem('seoInfo')) {
+    siteSeo =  await getSiteSeo()
   }
-  changeTitleAndMeta(seoInfo)
+  else{
+    siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'))
+  }
+  
+  setTimeout(() => {
+    let seoInfo = {
+      title:goodsSeo.title||cateSeo.title|| pageSeo.title||siteSeo.title||'',
+      metaKeywords:goodsSeo.metaKeywords||cateSeo.metaKeywords|| pageSeo.metaKeywords||siteSeo.metaKeywords||'',
+      metaDescription:goodsSeo.metaDescription||cateSeo.metaDescription|| pageSeo.metaDescription||siteSeo.metaDescription||'',
+    }
+    changeTitleAndMeta(seoInfo)
+  }, 100);
+  
 }
 
 
@@ -331,70 +340,65 @@ export async function setSeoConfig(
 //     }
 //   }
 // }
-function getSiteSeo() {
+async function getSiteSeo() {
   let params = {
     type: 4,
     storeId: process.env.REACT_APP_STOREID
   };
-  getSeoConfig(params).then((res) => {
-    if (res.code === 'K-000000') {
-      let seoInfo = res.context.seoSettingVO;
-      sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
-      return seoInfo
-    }
-    else {
-      return {}
-    }
-  })
+  let res = await getSeoConfig(params)
+  if (res.code === 'K-000000') {
+    let seoInfo = res.context.seoSettingVO;
+    return seoInfo
+  }
+  else {
+    return {}
+  }
 }
 
-function getPageSeo(pageName) {
+async function getPageSeo(pageName) {
   let params = {
     type: 3,
     pageName: pageName,
     storeId: process.env.REACT_APP_STOREID
   };
-  getSeoConfig(params).then((res) => {
-    if (res.code === 'K-000000') {
-      let seoInfo = res.context.seoSettingVO;
-      return seoInfo
-    }
-    else {
-      return {}
-    }
-  });
+  let res = await getSeoConfig(params)
+  if (res.code === 'K-000000') {
+    let seoInfo = res.context.seoSettingVO;
+    return seoInfo
+  }
+  else {
+    return {}
+  }
 }
-function getCateSeo( categoryId) {
+async function getCateSeo( categoryId) {
   let params = {
     type: 2,
     storeCateId: categoryId,
     storeId: process.env.REACT_APP_STOREID
   };
-  getSeoConfig(params).then((res) => {
-    if (res.code === 'K-000000') {
-      let seoInfo = res.context.seoSettingVO;
-      return seoInfo
-    }
-    else {
-      return {}
-    }
-  });
+  let res = await getSeoConfig(params)
+  if (res.code === 'K-000000') {
+    let seoInfo = res.context.seoSettingVO;
+    return seoInfo
+  }
+  else {
+    return {}
+  }
 }
-function getGoodsSeo(goodsId) {
+async function getGoodsSeo(goodsId) {
   let params = {
     type: 1,
     goodsId: goodsId,
     storeId: process.env.REACT_APP_STOREID
   };
-  getSeoConfig(params).then((res) => {
-    if (res.code === 'K-000000') {
-      let seoInfo = res.context.seoSettingVO;
-      return seoInfo
-    }
-    else {
-      return {}
-    }
-  });
+  let res = await getSeoConfig(params)
+  if (res.code === 'K-000000') {
+    let seoInfo = res.context.seoSettingVO;
+    return seoInfo
+  }
+  else {
+    return {}
+  }
 }
 
 //修改title和meta
