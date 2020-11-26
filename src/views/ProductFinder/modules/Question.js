@@ -12,8 +12,8 @@ import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
 import { query, edit, matchProducts } from '@/api/productFinder';
 
-import catImg from '@/assets/images/product-finder-cat.png';
-import dogImg from '@/assets/images/product-finder-dog.png';
+import catImg from '@/assets/images/product-finder-cat.jpg';
+import dogImg from '@/assets/images/product-finder-dog.jpg';
 import veterinaryImg from '@/assets/images/veterinary.png';
 import veterinaryProductImg from '@/assets/images/veterinary_product.png';
 

@@ -11,8 +11,8 @@ import LoginButton from '@/components/LoginButton';
 import Help from './Help';
 import { formatMoney } from '@/utils/utils';
 
-import catImg from '@/assets/images/product-finder-cat.png';
-import dogImg from '@/assets/images/product-finder-dog.png';
+import catImg from '@/assets/images/product-finder-cat.jpg';
+import dogImg from '@/assets/images/product-finder-dog.jpg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

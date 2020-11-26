@@ -194,7 +194,7 @@ class Carousel extends React.Component {
                             }}
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
-                            <Link to="/product-finder" className="category-btn">
+                            <Link to="/packmixfeedingwetdry" className="category-btn">
                               <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>

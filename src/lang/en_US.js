@@ -639,6 +639,8 @@ const en_US = {
   'productFinder.tip2': 'This questionnaire will help you to choose the recommended food for your pet.',
   'productFinder.tip3': 'Your Pet is a ...',
   'productFinder.whyAreWeAskingThis': 'Why are we asking this?',
+  'productFinder.recoTitle': 'Find the right food.',
+  'productFinder.recoDesc': 'The more we know about your pet, the better we can provide the most precise nutrition tailored to its unique needs.',
   productRating: 'Product rating',
   produtctNumber: 'Product number',
   'profile.emailChoose': 'Yes, I would like to receive exclusive savings, product information, pet care tips & more from Royal Canin.',
