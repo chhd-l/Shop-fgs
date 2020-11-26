@@ -62,7 +62,7 @@ class LoginCart extends React.Component {
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false //是否显示无效promotionCode
+      isShowValidCode: false, //是否显示无效promotionCode
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -155,6 +155,7 @@ class LoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
+        console.log(this.computedList.filter((item) => item.id === el.periodTypeId)[0], this.computedList[0], 'hahaha')
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
@@ -378,8 +379,8 @@ class LoginCart extends React.Component {
   }
   getProducts(plist) {
     let { form } = this.state;
-    console.log(form,plist, 'haha');
-    const Lists = plist.map((pitem, index) => (
+    const Lists = plist.map((pitem, index) => {
+      return (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
         key={index}
@@ -460,7 +461,7 @@ class LoginCart extends React.Component {
               <div style={{ maxWidth: '250px' }}>
                 <div>{pitem.goods.goodsSubtitle}</div>
                 <div className="align-left flex rc-margin-bottom--xs">
-                  <div className="stock__wrapper">
+                  {/* <div className="stock__wrapper">
                     <div className="stock">
                       <label className="availability instock">
                         <span className="title-select"></span>
@@ -474,7 +475,38 @@ class LoginCart extends React.Component {
                         </div>
                       </span>
                     </div>
-                  </div>
+                  </div> */}
+                  <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
+                  <label
+                    className={[
+                      'availability',
+                      pitem.addedFlag && pitem.buyCount <= pitem.stock
+                        ? 'instock'
+                        : 'outofstock'
+                    ].join(' ')}
+                  >
+                    <span className="title-select">
+                      {/* <FormattedMessage id="details.availability" /> : */}
+                    </span>
+                  </label>
+                  <span className="availability-msg" style={{display: 'inline-block'}}>
+                    <div
+                      className={[
+                        pitem.addedFlag && pitem.buyCount <= pitem.stock
+                          ? ''
+                          : 'out-stock'
+                      ].join(' ')}
+                    >
+                      {pitem.addedFlag && pitem.buyCount <= pitem.stock ? (
+                        <FormattedMessage id="details.inStock" />
+                      ) : pitem.addedFlag ? (
+                        <FormattedMessage id="details.outStock" />
+                      ) : (
+                        <FormattedMessage id="details.OffShelves" />
+                      )}
+                    </div>
+                  </span>
+                </div>
                 </div>
               </div>
               <div className="product-quickview product-null product-wrapper product-detail">
@@ -797,7 +829,7 @@ class LoginCart extends React.Component {
           </div>
         </div>
       </div>
-    ));
+    )});
     return Lists;
   }
   updateConfirmTooltipVisible(item, status) {
@@ -1073,7 +1105,7 @@ class LoginCart extends React.Component {
                     data-oauthlogintargetendpoint="2"
                     className={`rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width ${
                       checkoutLoading ? 'ui-btn-loading' : ''
-                    } `}
+                    }`}
                     aria-pressed="true"
                   >
                     <FormattedMessage id="checkout" />

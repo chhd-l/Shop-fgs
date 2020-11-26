@@ -132,7 +132,8 @@ class List extends React.Component {
         titleData:
           state.cateName && state.cateDescription && state.cateImgList
             ? {
-                title: state.cateName,
+                cateName: state.cateName,
+                title: state.cateTitle,
                 description: state.cateDescription,
                 img: state.cateImgList
               }
@@ -586,7 +587,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: (titleData && titleData.title) || '' }].filter(
+            list={[{ name: (titleData && titleData.cateName) || '' }].filter(
               (el) => el.name
             )}
           />

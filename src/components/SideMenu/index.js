@@ -73,7 +73,7 @@ class SideMenu extends React.Component {
         {menuList.map((item, i) => (
           <h2
             key={i}
-            className={`nav_item medium ui-cursor-pointer ${
+            className={`nav_item medium ui-cursor-pointer mb-4 ${
               type === item.catogery ? 'active red' : ''
             }`}
           >

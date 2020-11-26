@@ -443,7 +443,9 @@ class UnLoginCart extends React.Component {
   getProducts(plist) {
     const { checkoutLoading, form } = this.state;
     console.log(toJS(plist), 'plist');
-    const Lists = plist.map((pitem, index) => (
+    const Lists = plist.map((pitem, index) => {
+      // console.log(pitem.addedFlag, pitem.quantity, pitem.sizeList.filter(el => el.selected)[0].stock, 'aaaa')
+      return (
       <div
         className="rc-border-all rc-border-colour--interface product-info"
         key={index}
@@ -527,7 +529,36 @@ class UnLoginCart extends React.Component {
                 <div className="align-left flex rc-margin-bottom--xs">
                   <div className="stock__wrapper">
                     <div className="stock">
-                      <label className="availability instock">
+                      <label
+                    className={[
+                      'availability',
+                      (pitem.addedFlag && pitem.quantity <= pitem.sizeList.filter(el => el.selected)[0].stock)
+                        ? 'instock'
+                        : 'outofstock'
+                    ].join(' ')}
+                  >
+                    <span className="title-select">
+                      {/* <FormattedMessage id="details.availability" /> : */}
+                    </span>
+                  </label>
+                  <span className="availability-msg" style={{display: 'inline-block'}}>
+                    <div
+                      className={[
+                        (pitem.addedFlag && pitem.quantity <= pitem.sizeList.filter(el => el.selected)[0].stock)
+                          ? ''
+                          : 'out-stock'
+                      ].join(' ')}
+                    >
+                      {(pitem.addedFlag && pitem.quantity <= pitem.sizeList.filter(el => el.selected)[0].stock) ? (
+                        <FormattedMessage id="details.inStock" />
+                      ) : pitem.addedFlag ? (
+                        <FormattedMessage id="details.outStock" />
+                      ) : (
+                        <FormattedMessage id="details.OffShelves" />
+                      )}
+                    </div>
+                  </span>
+                      {/* <label className="availability instock">
                         <span className="title-select"></span>
                       </label>
                       <span
@@ -537,7 +568,7 @@ class UnLoginCart extends React.Component {
                         <div>
                           <FormattedMessage id="details.inStock" />
                         </div>
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                 </div>
@@ -950,7 +981,7 @@ class UnLoginCart extends React.Component {
           
         </div>
       </div>
-    ));
+    )});
     return Lists;
   }
   /**

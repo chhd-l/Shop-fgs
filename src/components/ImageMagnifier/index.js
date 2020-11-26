@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './index.css';
+import { FormattedMessage } from 'react-intl';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
 
@@ -348,10 +349,10 @@ class ImageMagnifier extends Component {
         <div style={{ position: 'relative' }}>
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
-          <div className="product-item-flag">
-                    {/* <FormattedMessage id="promotion" /> */}
-                    Bundle -20%
-                  </div>
+          {this.props.isShowPromotion?(<div className="product-item-flag">
+                    <FormattedMessage id="promotion" />
+                    {/* Bundle -20% */}
+                  </div>): null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{

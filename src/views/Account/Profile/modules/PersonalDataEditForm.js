@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { findIndex } from 'lodash';
-import Loading from '@/components/Loading';
+import CitySearchSelection from '@/components/CitySearchSelection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { getDictionary, validData } from '@/utils/utils';
 import { updateCustomerBaseInfo } from '@/api/user';
@@ -12,6 +12,9 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 class PersonalDataEditForm extends React.Component {
+  static defaultProps = {
+    originData: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -26,18 +29,27 @@ class PersonalDataEditForm extends React.Component {
         email: '',
         country: '',
         phoneNumber: '',
-        rfc: ''
+        rfc: '',
+        address1: '',
+        address2: '',
+        postCode: '',
+        city: ''
       },
       oldForm: {},
       countryList: [],
       isValid: false
     };
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
     const { data } = this.props;
     this.setState(
       {
-        form: Object.assign({}, data),
+        form: Object.assign({}, data, {
+          birthdate: moment(new Date()).format('YYYY-MM-DD')
+        }),
         oldForm: Object.assign({}, data)
       },
       () => {
@@ -49,19 +61,6 @@ class PersonalDataEditForm extends React.Component {
         countryList: res
       });
     });
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.state.form) {
-      this.setState(
-        {
-          form: Object.assign({}, nextProps.data),
-          oldForm: Object.assign({}, nextProps.data)
-        },
-        () => {
-          this.validFormData();
-        }
-      );
-    }
   }
   inputBlur = (e) => {
     let validDom = Array.from(
@@ -128,7 +127,13 @@ class PersonalDataEditForm extends React.Component {
           : form.birthdate,
         countryId: form.country,
         contactPhone: form.phoneNumber,
-        reference: form.rfc
+        reference: form.rfc,
+        address1: form.address1,
+        address2: form.address2,
+        postCode: form.postCode,
+        cityId: form.city,
+        communicationEmail: form.communicationEmail,
+        communicationPhone: form.communicationPhone
       });
 
       await updateCustomerBaseInfo(param);
@@ -189,13 +194,35 @@ class PersonalDataEditForm extends React.Component {
     });
   }
   handleClickEditBtn = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     this.changeEditFormVisible(true);
+    this.validFormData();
   };
   handleClickGoBack = () => {
     this.changeEditFormVisible(false);
   };
+  handleCityInputChange = (data) => {
+    const { form } = this.state;
+    form.city = data.id;
+    form.cityName = data.cityName;
+    this.setState({ form });
+  };
+  handleCommunicationCheckBoxChange(item) {
+    let { form } = this.state;
+    form[item.type] = !+form[item.type] ? '1' : '0';
+    this.setState({ form });
+  }
   render() {
-    const { editFormVisible, form, isValid } = this.state;
+    const {
+      editFormVisible,
+      form,
+      isValid,
+      errorMsg,
+      successTipVisible
+    } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
     return (
@@ -206,7 +233,7 @@ class PersonalDataEditForm extends React.Component {
         <div className="personalInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (
-              <h5>
+              <h5 className="mb-0">
                 <svg
                   className="svg-icon account-info-icon align-middle mr-3 ml-1"
                   aria-hidden="true"
@@ -227,7 +254,7 @@ class PersonalDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
                   name="personalInformation"
@@ -248,14 +275,14 @@ class PersonalDataEditForm extends React.Component {
           <div className="pl-3 pr-3 pb-3">
             <div
               className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                this.state.errorMsg ? '' : 'hidden'
+                errorMsg ? '' : 'hidden'
               }`}
             >
               <aside
                 className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
                 role="alert"
               >
-                <span className="pl-0">{this.state.errorMsg}</span>
+                <span className="pl-0">{errorMsg}</span>
                 <button
                   className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                   aria-label="Close"
@@ -271,7 +298,7 @@ class PersonalDataEditForm extends React.Component {
             </div>
             <aside
               className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                this.state.successTipVisible ? '' : 'hidden'
+                successTipVisible ? '' : 'hidden'
               }`}
               role="alert"
             >
@@ -281,48 +308,39 @@ class PersonalDataEditForm extends React.Component {
             </aside>
 
             {/* preview form */}
-            <div
-              className={`row userProfileInfo text-break ${
-                editFormVisible ? 'hidden' : ''
-              }`}
-            >
-              {[
-                {
-                  name: <FormattedMessage id="payment.firstName" />,
-                  val: data.firstName
-                },
-                {
-                  name: <FormattedMessage id="payment.lastName" />,
-                  val: data.lastName
-                },
-                {
-                  name: <FormattedMessage id="account.birthDate" />,
-                  val: data.birthdate
-                },
-                {
-                  name: <FormattedMessage id="account.Email" />,
-                  val: data.email
-                },
-                {
-                  name: <FormattedMessage id="payment.country" />,
-                  val: this.getDictValue(this.state.countryList, data.country)
-                },
-                {
-                  name: <FormattedMessage id="payment.phoneNumber" />,
-                  val: data.phoneNumber
-                },
-                {
-                  name: <FormattedMessage id="payment.rfc" />,
-                  val: data.rfc
-                }
-              ].map((item, i) => (
-                <>
-                  <div className="col-6 col-md-9">{item.name}</div>
-                  <div className="col-6 col-md-3">{item.val}</div>
-                </>
-              ))}
-            </div>
-
+            {data ? (
+              <div
+                className={`row userProfileInfo text-break ${
+                  editFormVisible ? 'hidden' : ''
+                }`}
+              >
+                {[
+                  {
+                    name: <FormattedMessage id="account.Email" />,
+                    val: data.email
+                  },
+                  {
+                    name: <FormattedMessage id="name" />,
+                    val: [data.firstName, data.lastName]
+                      .filter((el) => el)
+                      .join(' ')
+                  },
+                  {
+                    name: <FormattedMessage id="payment.phoneNumber" />,
+                    val: data.phoneNumber
+                  },
+                  {
+                    name: <FormattedMessage id="payment.address1" />,
+                    val: data.address1
+                  }
+                ].map((item, i) => (
+                  <>
+                    <div className="col-6 col-md-9">{item.name}</div>
+                    <div className="col-6 col-md-3">{item.val}</div>
+                  </>
+                ))}
+              </div>
+            ) : null}
             {/* edit form */}
             <div
               className={classNames('userProfileInfoEdit', {
@@ -330,7 +348,7 @@ class PersonalDataEditForm extends React.Component {
               })}
             >
               <div className="row">
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="firstName"
@@ -361,7 +379,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="lastname"
@@ -391,36 +409,6 @@ class PersonalDataEditForm extends React.Component {
                     <label className="rc-input__label" htmlFor="lastname" />
                   </span>
                   <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="form-group col-lg-6">
-                  <label
-                    className="form-control-label rc-input--full-width w-100"
-                    htmlFor="birthdate"
-                  >
-                    <FormattedMessage id="account.birthDate" />
-                  </label>
-                  <DatePicker
-                    className="receiveDate"
-                    style={{ padding: '.95rem 0' }}
-                    placeholder="Select Date"
-                    dateFormat="yyyy-MM-dd"
-                    maxDate={new Date()}
-                    selected={
-                      form.birthdate ? new Date(form.birthdate) : new Date()
-                    }
-                    onChange={(date) => this.onDateChange(date)}
-                  />
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
-                  <div
-                    className="invalid-birthdate invalid-feedback"
-                    style={{ display: 'none' }}
-                  >
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
@@ -460,9 +448,148 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="birthdate"
+                  >
+                    <FormattedMessage id="account.birthDate" />
+                  </label>
+                  <DatePicker
+                    className="receiveDate"
+                    style={{ padding: '.95rem 0' }}
+                    placeholder="Select Date"
+                    dateFormat="yyyy-MM-dd"
+                    maxDate={new Date()}
+                    selected={
+                      form.birthdate ? new Date(form.birthdate) : new Date()
+                    }
+                    onChange={(date) => this.onDateChange(date)}
+                  />
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                  <div
+                    className="invalid-birthdate invalid-feedback"
+                    style={{ display: 'none' }}
+                  >
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+
+                <div className="form-group col-lg-6 required">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="address1"
+                  >
+                    <FormattedMessage id="payment.address1" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="address1"
+                      data-name="profile_personalInfo"
+                      alt="address1"
+                      name="address1"
+                      required=""
+                      aria-required="true"
+                      value={form.address1}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="address1" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+                <div className="form-group col-lg-6 pull-left">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="address1"
+                  >
+                    <FormattedMessage id="payment.address2" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="address2"
+                      data-name="profile_personalInfo"
+                      alt="address2"
+                      name="address2"
+                      required=""
+                      aria-required="true"
+                      value={form.address2}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="50"
+                    />
+                    <label className="rc-input__label" htmlFor="address2" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+                <div className="form-group col-lg-6 required">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="postCode"
+                  >
+                    <FormattedMessage id="payment.postCode" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-input--full-width w-100"
+                    input-setup="true"
+                  >
+                    <input
+                      type="text"
+                      className="rc-input__control"
+                      id="postCode"
+                      data-name="profile_personalInfo"
+                      alt="postCode"
+                      name="postCode"
+                      required=""
+                      aria-required="true"
+                      value={form.postCode}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      data-js-pattern="(*.*)"
+                    />
+                    <label className="rc-input__label" htmlFor="postCode" />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+                <div className="form-group col-lg-6 required">
+                  <label
+                    className="form-control-label rc-input--full-width w-100"
+                    htmlFor="basicInfoCity"
+                  >
+                    <FormattedMessage id="payment.city" />
+                  </label>
+                  <span className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0">
+                    <CitySearchSelection
+                      defaultValue={form.cityName}
+                      key={form.cityName}
+                      onChange={this.handleCityInputChange}
+                    />
+                  </span>
+                  <div className="invalid-feedback" style={{ display: 'none' }}>
+                    <FormattedMessage id="payment.errorInfo2" />
+                  </div>
+                </div>
+
+                <div className="form-group col-lg-6 required">
                   <label className="form-control-label" htmlFor="country">
                     <FormattedMessage id="payment.country" />
                   </label>
@@ -485,7 +612,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 pull-left required">
+                <div className="form-group col-lg-6 required">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="phone"
@@ -518,9 +645,35 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="form-group col-lg-6 pull-left">
+                <div className="form-group col-lg-6">
+                  <label className="form-control-label rc-input--full-width w-100">
+                    <FormattedMessage id="account.preferredMethodOfCommunication" />
+                  </label>
+                  {[
+                    { type: 'communicationPhone', langKey: 'phone' },
+                    { type: 'communicationEmail', langKey: 'email' }
+                  ].map((ele, idx) => (
+                    <div className="rc-input rc-input--inline" key={idx}>
+                      <input
+                        type="checkbox"
+                        className="rc-input__checkbox"
+                        id={`basicinfo-communication-checkbox-${ele.type}`}
+                        onChange={this.handleCommunicationCheckBoxChange.bind(
+                          this,
+                          ele
+                        )}
+                        checked={+form[ele.type]}
+                      />
+                      <label
+                        className="rc-input__label--inline text-break"
+                        htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                      >
+                        <FormattedMessage id={ele.langKey} />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {/* <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="reference"
@@ -543,10 +696,7 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="reference" />
                   </span>
-                  {/* <div className="invalid-feedback" style={{ display: 'none' }}>
-                  <FormattedMessage id="payment.errorInfo2" />
                 </div> */}
-                </div>
               </div>
               <span className="rc-meta mandatoryField">
                 * <FormattedMessage id="account.requiredFields" />
