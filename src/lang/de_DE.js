@@ -439,6 +439,8 @@ const de_DE = {
   'order.returnOrderDetails': 'Details zur Rücksendung',
   'order.returnStatus': 'Rückgabestatus',
   'order.shippingStatus': 'Versandstatus',
+  'order.toBeDeliveredTip': 'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
+  'order.toBePaidTip': 'Ihre Bestellung wurde erfolgreich erstellt.',
   'order.viewOrder': 'Bestellung anzeigen',
   orders: 'Aufträge',
   'orderStatus.AUDIT': 'wird geliefert',

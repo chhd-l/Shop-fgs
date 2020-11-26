@@ -474,7 +474,8 @@ class AccountOrders extends React.Component {
       orderList,
       tabErrMsg,
       showOneOrderDetail,
-      curOneOrderDetails
+      curOneOrderDetails,
+      duringTimeOptions
     } = this.state;
     return (
       <div>
@@ -571,10 +572,8 @@ class AccountOrders extends React.Component {
                       <div className="col-10 order-0 order-md-1 col-md-4">
                         <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
                           <Selection
-                            optionList={this.state.duringTimeOptions}
-                            selectedItemChange={(data) =>
-                              this.handleDuringTimeChange(data)
-                            }
+                            optionList={duringTimeOptions}
+                            selectedItemChange={this.handleDuringTimeChange}
                             selectedItemData={{
                               value: this.state.form.period
                             }}

@@ -156,6 +156,7 @@ class AdyenCreditCard extends React.Component {
                 listData={listData}
                 checkRequiredItem={this.checkRequiredItem}
               />
+              <div className="pb-3" />
             </div>
             <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
               <div className="next-step-button">

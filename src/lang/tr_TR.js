@@ -415,6 +415,8 @@ const tr_TR = {
   'order.returnOrderDetails': 'İade Sipariş Ayrıntıları',
   'order.returnStatus': 'İade Durumu',
   'order.shippingStatus': 'Nakliye durumu',
+  'order.toBeDeliveredTip': 'Siparişiniz başarıyla ödendi ve kargoya hazırlanıyoruz.',
+  'order.toBePaidTip': 'Siparişiniz başarıyla oluşturuldu.',  
   'order.viewOrder': 'Siparişi görüntüle',
   orders: 'Emirler',
   'orderStatus.AUDIT': 'Teslim edilecek',

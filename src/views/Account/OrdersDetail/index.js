@@ -12,7 +12,7 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary,setSeoConfig } from '@/utils/utils';
+import { formatMoney, getDictionary, setSeoConfig } from '@/utils/utils';
 import { find, findIndex } from 'lodash';
 import { queryCityNameById } from '@/api';
 import {
@@ -84,7 +84,7 @@ function LogisticsProgress(props) {
               />
             </svg>
 
-            <span className="ml-4 ui-text-overflow-line2">
+            <span className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}>
               {item.details}
               {item.statusDescription}
             </span>
@@ -184,7 +184,7 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -722,8 +722,7 @@ class AccountOrders extends React.Component {
       canPayNow,
       payNowLoading,
       defaultLocalDateTime,
-      orderNumber,
-      logisticsList
+      orderNumber
     } = this.state;
     const tradeState = details.tradeState;
     let ret = null;
@@ -789,7 +788,7 @@ class AccountOrders extends React.Component {
                 aria-hidden="true"
                 style={{ width: '3.5em', height: '3.5em' }}
               >
-                <use xlinkHref="#iconPrescriptionDeclined" />
+                <use xlinkHref="#iconTobedelivered" />
               </svg>
             }
             title={<FormattedMessage id="subscription.toBeDelivered" />}

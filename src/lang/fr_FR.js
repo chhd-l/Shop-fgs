@@ -480,6 +480,8 @@ const fr_FR = {
   'order.returnOrderDetails': 'Détails du retour',
   'order.returnStatus': 'Statut de retour',
   'order.shippingStatus': "Statut d'envoi",
+  'order.toBeDeliveredTip': 'Votre commande a été payée avec succès et nous nous préparons à l\'expédier.',
+  'order.toBePaidTip': 'Votre commande a été créée avec succès.',
   'order.viewOrder': "Voir l'ordre",
   orders: 'Affectations',
   'orderStatus.AUDIT': 'Être délivré',
