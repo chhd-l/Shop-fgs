@@ -74,11 +74,11 @@ class UnLoginCart extends React.Component {
     let totalPrice = 0;
     this.props.checkoutStore.cartData.map((el) => {
       let skuItem = el.sizeList.filter((el) => el.selected)[0];
-      if (el.goodsInfoFlag) {
-        totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
-      } else {
+      // if (el.goodsInfoFlag) {
+      //   totalPrice = totalPrice + el.quantity * skuItem.subscriptionPrice;
+      // } else {
         totalPrice = totalPrice + el.quantity * skuItem.salePrice;
-      }
+      // }
     });
     return totalPrice;
     // return this.props.checkoutStore.totalPrice;
@@ -88,7 +88,8 @@ class UnLoginCart extends React.Component {
     // return this.props.checkoutStore.tradePrice;
   }
   get discountPrice() {
-    return this.props.checkoutStore.discountPrice + this.state.subscriptionDiscount;
+    return this.props.checkoutStore.discountPrice
+    // return this.props.checkoutStore.discountPrice + this.state.subscriptionDiscount;
   }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
@@ -131,7 +132,6 @@ class UnLoginCart extends React.Component {
       );
     });
     this.setCartData();
-    this.computeSubscriptionDiscount()
   }
   setCartData() {
     let productList = this.props.checkoutStore.cartData.map((el) => {
@@ -167,22 +167,6 @@ class UnLoginCart extends React.Component {
     pitem.form.frequencyId = data.id;
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
-    // console.log(data);
-    // const { form } = this.state;
-    // form.frequencyVal = data.value;
-    // form.frequencyName = data.name;
-    // form.frequencyId = data.id;
-    // this.setState({ form: form }, () => {
-    //   // this.props.updateSelectedData(this.state.form);
-    // });
-  }
-  computeSubscriptionDiscount() {
-    let subscriptionDiscount = 0
-    this.state.productList.filter(el => el.goodsInfoFlag).map(el => {
-      let selectItem = el.sizeList.filter(el => el.selected)[0]
-      subscriptionDiscount = subscriptionDiscount + el.quantity * selectItem.subscriptionDiscountPrice
-    })
-    this.setState({subscriptionDiscount})
   }
   async handleCheckout({ needLogin = false } = {}) {
     sessionItemRoyal.set('okta-redirectUrl', '/cart');
@@ -420,7 +404,6 @@ class UnLoginCart extends React.Component {
   async updateStock() {
     const { productList } = this.state;
     this.setState({ checkoutLoading: true });
-    this.computeSubscriptionDiscount()
     await this.props.checkoutStore.updateUnloginCart(productList);
     this.setState({ checkoutLoading: false });
   }
@@ -1361,7 +1344,6 @@ class UnLoginCart extends React.Component {
   }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
-    this.computeSubscriptionDiscount()
     
     this.setState(
       {
