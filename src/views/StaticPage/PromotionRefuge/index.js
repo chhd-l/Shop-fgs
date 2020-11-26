@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import Carouselem from '@/components/Carouselem';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -86,9 +87,63 @@ class PromotionRefuge extends React.Component {
                       <div className="product-reco rc-sm-up">
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
-                            <h4 className="rc-gamma text-center">Nos meilleures ventes</h4>
+                            <h4 className="rc-gamma text-center">Choisissez l’élément le plus adapté à votre chaton</h4>
                           </div>
-                          123
+                          <Carouselem/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-importContentAsset">
+                    <div className="content-asset">
+                      <div className="product-reco rc-sm-up">
+                        <div className="rc-max-width--lg">
+                          <div className="rc-margin-bottom--sm rc-padding--none">
+                            <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chat</h4>
+                          </div>
+                          <Carouselem/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-importContentAsset">
+                    <div className="content-asset">
+                      <div className="product-reco rc-sm-up">
+                        <div className="rc-max-width--lg">
+                          <div className="rc-margin-bottom--sm rc-padding--none">
+                            <h4 className="rc-gamma text-center">Choisissez l’aliment le plus adapté à votre chien slide 1 to 4 of 4</h4>
+                          </div>
+                          <Carouselem/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-importContentAsset">
+                    <div className="content-asset">
+                      <div className="product-reco rc-sm-up">
+                        <div className="rc-max-width--lg">
+                          <div className="rc-margin-bottom--sm rc-padding--none">
+                            <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chien</h4>
+                          </div>
+                          <Carouselem/>
                         </div>
                       </div>
                     </div>
