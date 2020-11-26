@@ -14,10 +14,7 @@ import { find } from 'lodash';
 function CardItem(props) {
   const { data } = props;
   return (
-    <div
-      className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-4 ui-cursor-pointer-pure h-100 d-flex align-items-center justify-content-between"
-      onClick={props.hanldeClickCardItem}
-    >
+    <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-4 h-100 d-flex align-items-center justify-content-between">
       {props.removeBtnJSX}
       <div className={`pt-3 pb-3`}>
         <div className="row">

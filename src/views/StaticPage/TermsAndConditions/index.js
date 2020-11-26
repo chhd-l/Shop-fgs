@@ -8,6 +8,7 @@ import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
+import BannerTip from '@/components/BannerTip';
 import './index.css'
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -57,6 +58,7 @@ class TermsConditions extends React.Component {
 
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">
@@ -80,26 +82,40 @@ class TermsConditions extends React.Component {
                 </div>
 
                 <p>
-                  <FormattedMessage id="termsandconditions.information" />
+                  <FormattedMessage id="termsandconditions.information" values={{
+                    val1:(
+                      <strong>Conditions</strong>
+                    )
+                  }} />
                 </p>
                 <p>
                   <h6 style={{
                     color:'#606060',
 
                   }}>
-                  <FormattedMessage id="termsandconditions.paragraph2"/>
+                    <strong>
+                      <FormattedMessage id="termsandconditions.paragraph2"/>
+                    </strong>
                   </h6>
                   <FormattedMessage id="termsandconditions.paragraph3" />
                   <br />
 
                   <FormattedMessage id="termsandconditions.paragraph4" />
                   <br/>
-                  <FormattedMessage id="termsandconditions.paragraph5" />
+                  <FormattedMessage id="termsandconditions.paragraph5" values={{
+                     val1:(
+                      <strong>04 66 73 03 00</strong>
+                    )
+                  }} />
                   <br />
                   <FormattedMessage id="termsandconditions.paragraph6" />
                 </p>
                 <p>
-                  <FormattedMessage id="termsandconditions.paragraph7" />
+                  <FormattedMessage id="termsandconditions.paragraph7" values={{
+                    val1:(
+                      <strong>Royal Canin</strong>
+                    )
+                  }}/>
                   <br />
                   <FormattedMessage id="termsandconditions.paragraph8" />
                 </p>

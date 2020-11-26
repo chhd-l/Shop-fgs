@@ -141,7 +141,7 @@ class CommunicationDataEditForm extends React.Component {
                 >
                   <use xlinkHref="#iconcommunication" />
                 </svg>
-                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+                <FormattedMessage id="account.consents" />
               </h5>
             ) : (
               <h5
@@ -149,7 +149,7 @@ class CommunicationDataEditForm extends React.Component {
                 onClick={this.handleClickGoBack}
               >
                 <span>&larr; </span>
-                <FormattedMessage id="account.preferredMmethodsOfCommunication" />
+                <FormattedMessage id="account.consents" />
               </h5>
             )}
 
@@ -176,7 +176,7 @@ class CommunicationDataEditForm extends React.Component {
           <div class="pl-3 pr-3 pb-3">
             <span className="rc-meta">
               <b>
-                <FormattedMessage id="account.emailCommunication" />
+                <FormattedMessage id="account.consentsDetail" />
               </b>
             </span>
             <div
