@@ -161,7 +161,7 @@ class Carousel extends React.Component {
                   return (
                     <li key={index}>
                       {item.isVideo == 1 ? (
-                        <a href="javascript:;" className="videoURL">
+                        <a href="javascript:;" className="videoURL" style={{cursor:'default'}}>
                           <video autoPlay={true} muted={true} loop={true}>
                             <source src={item.webUrl} type="video/mp4" />
                           </video>
@@ -187,7 +187,7 @@ class Carousel extends React.Component {
                           </div>
                         </a>
                       ) : (
-                        <a href="#" className="imageURL">
+                        <a href="javascript:;" className="imageURL" style={{cursor:'default'}}>
                           <div
                             style={{
                               backgroundImage: 'url(' + item.webUrl + ')'

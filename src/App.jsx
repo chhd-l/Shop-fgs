@@ -381,7 +381,7 @@ const App = () => (
               <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
-              <Route path="/ourValue" exact component={RU_Values}/>
+              <Route path="/Values" exact component={RU_Values}/>
               <Route
                 path="/tailorednutrition"
                 exact

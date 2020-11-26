@@ -201,7 +201,7 @@ export const menubar = {
             messageId: 'aboutUs2'
           },
           {
-            link: '/ourValue',
+            link: '/Values',
             messageId: 'footer.ourValues'
           },
           {
