@@ -23,7 +23,9 @@ const localItemRoyal = window.__.localItemRoyal;
 function PanleContainer(props) {
   const loading = props.loading || false;
   return (
-    <div className={`rc-layout-container rc-one-column ${props.customCls}`}>
+    <div
+      className={`rc-layout-container rc-one-column mb-3 ${props.customCls}`}
+    >
       <div
         className={classNames('rc-column', 'rc-padding-x--none--mobile', {
           'p-0': !loading
@@ -140,6 +142,7 @@ class AccountProfile extends React.Component {
   };
 
   render() {
+    console.log(111, process.env.REACT_APP_CHECKOUT_WITH_CLINIC)
     const { loading, editOperationPaneName } = this.state;
     const event = {
       page: {
@@ -157,7 +160,7 @@ class AccountProfile extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -192,25 +195,25 @@ class AccountProfile extends React.Component {
                       />
                     </PanleContainer>
 
-                    <PanleContainer
-                      loading={loading}
-                      customCls={classNames({
-                        hidden:
-                          process.env.REACT_APP_CHECKOUT_WITH_CLINIC ===
-                            'true' &&
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Clinic'
-                      })}
-                    >
-                      <ClinicEditForm
-                        originData={this.state.originData}
-                        data={this.state.clinicData}
-                        updateData={this.queryCustomerBaseInfo}
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
+                    {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
+                      <PanleContainer
+                        loading={loading}
+                        customCls={classNames({
+                          hidden:
+                            editOperationPaneName &&
+                            editOperationPaneName !== 'Clinic'
+                        })}
+                      >
+                        <ClinicEditForm
+                          originData={this.state.originData}
+                          data={this.state.clinicData}
+                          updateData={this.queryCustomerBaseInfo}
+                          updateEditOperationPanelName={
+                            this.updateEditOperationPanelName
+                          }
+                        />
+                      </PanleContainer>
+                    )}
 
                     <PanleContainer
                       customCls={classNames({

@@ -297,7 +297,9 @@ class SubscriptionDetail extends React.Component {
         this.props.match.params.subscriptionNumber
       )
       let subDetail = res.context;
-      let { noStartYearOption, completedYearOption, noStartYear, completedYear } = this.state
+      let { noStartYear, completedYear } = this.state
+      let noStartYearOption = []
+      let completedYearOption = []
       let completeOption = new Set(subDetail.completedTradeList.map(el => {
         return el.tradeState.createTime.split('-')[0]
       }))
