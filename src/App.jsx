@@ -78,6 +78,7 @@ import Exception from '@/views/StaticPage/Exception';
 import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Help from '@/views/StaticPage/Help';
+import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions'
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
@@ -201,6 +202,8 @@ const App = () => (
 
               <Route exact path="/help" component={Help} />
               <Route exact path="/general-terms-conditions"  component={TermsConditions}/>
+              <Route exact path="/packmixfeedingwetdry" component={Packfeed} />
+              <Route exact path="/termsandconditions"  component={TermsConditions}/>
               <Route
                 exact
                 path="/FAQ/:catogery"
