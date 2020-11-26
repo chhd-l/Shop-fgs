@@ -731,10 +731,16 @@ class UnLoginCart extends React.Component {
                       </span>
                       {/* </div> */}
                       <br />
-                      Save extra{' '}
+                      {/* Save extra{' '}
                       <b className="product-pricing__card__head__price red  rc-padding-y--none">
                         10%
+                      </b> */}
+                      Save&nbsp;
+                      <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                        {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice - pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0]
+                        .subscriptionPrice)}
                       </b>
+                      &nbsp; on this subscription.
                     </div>
                     <div className="price">
                       <div
@@ -912,10 +918,16 @@ class UnLoginCart extends React.Component {
                 </span>
                 {/* </div> */}
                 <br />
-                Save extra{' '}
+                {/* Save extra{' '}
                 <b className="product-pricing__card__head__price red  rc-padding-y--none">
                   10%
+                </b> */}
+                Save&nbsp;
+                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                  {formatMoney(pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0].salePrice - pitem.quantity * pitem.sizeList.filter((el) => el.selected)[0]
+                        .subscriptionPrice)}
                 </b>
+                &nbsp; on this subscription.
               </div>
               <div className="price">
                 <div

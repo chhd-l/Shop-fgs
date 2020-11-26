@@ -379,6 +379,7 @@ class LoginCart extends React.Component {
   }
   getProducts(plist) {
     let { form } = this.state;
+    console.log(plist, 'ssss')
     const Lists = plist.map((pitem, index) => {
       return (
       <div

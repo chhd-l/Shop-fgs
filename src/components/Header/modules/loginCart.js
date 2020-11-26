@@ -32,7 +32,7 @@ class LoginCart extends React.Component {
     ]).then((dictList) => {
       this.setState(
         {
-          frequencyList: [...dictList[0]]
+          frequencyList: [...dictList[0], ...dictList[1]]
         },
         () => {
           console.log(this.state.frequencyList, 'frequencyList')
