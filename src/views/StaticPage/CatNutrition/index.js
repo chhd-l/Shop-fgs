@@ -5,11 +5,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import image1 from './images/image1.jpg';
-import image2 from './images/image2.jpg';
-import image3 from './images/image3.jpg';
-import cat from './images/cat.jpg';
-import dog from './images/dog.jpg';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 
@@ -52,7 +47,6 @@ class CatNutrition extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-
           <div className="experience-region experience-main">
             <div className="experience-component experience-layouts-1column">
               <div className="row rc-margin-x--none">
@@ -218,6 +212,33 @@ class CatNutrition extends React.Component {
                                 <p className="rc-margin-bottom--none rc-intro">La nutrition santé livrée à votre domicile</p>
                               </div>
                             </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="experience-component experience-layouts-1column">
+              <div className="row rc-margin-x--none">
+                <div className="rc-full-width">
+                  <div className="experience-component experience-assets-contentBlock">
+                    <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile  rc-max-width--lg">
+                      <div className="row align-items-md-center">
+                        <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                          <picture data-rc-feature-objectfillpolyfill-setup="true">
+                            <source media="(max-width:640px)" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=350&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=700&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=350&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=700&sfrm=png 2x"></source>
+                            <source media="(min-width:640px) and (max-width:769px)" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=706&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1412&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=706&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1412&sfrm=png 2x"></source>
+                            <source media="(min-width:769px)" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1244&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=1244&sfrm=png 2x"></source>
+                            <img className="w-100 lazyloaded" data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwcf373acf/Breed-Cats-&-Dogs/CAT 6A.jpg?sw=622&sfrm=png"></img>
+                          </picture>
+                        </div>
+                        <div className=" col-12 col-lg-6">
+                          <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                            <h2 className="rc-beta markup-text">Les chats ont besoin d'une alimentation adaptée à leurs besoins </h2>
+                            <p>Depuis plus de 50 ans, nous étudions les besoins nutritionnels et physiologiques de tous les chats</p>
+                            <a className="rc-btn rc-btn--two gtm-content-block-btn js-hnc-try-the-club" href="https://www.royalcanin.com/fr/cats/kitten/kitten-feeding-and-nutrition" title="En savoir plus">En savoir plus</a>
                           </div>
                         </div>
                       </div>

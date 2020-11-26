@@ -823,14 +823,14 @@ const fr_FR = {
   "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié",
   //kylyang 新增内容在 views/staticPage/TermsAndConditions中查看(组件TermsConditions)
   "termsandconditions.title":"Conditions Générales de Vente",
-  "termsandconditions.information":"Les présentes conditions générales de vente (les “Conditions”) sont applicables entre",
+  "termsandconditions.information":"Les présentes conditions générales de vente (les “{val1}”) sont applicables entre",
   "termsandconditions.paragraph2":"Royal Canin France",
   "termsandconditions.paragraph3":"Société par actions simplifiée immatriculée au RCS de Nîmes sous le numéro 380 824 888",
   "termsandconditions.paragraph4":"Dont le siège social se situe 650 avenue de la petite Camargue, 30470 Aimargues",
-  "termsandconditions.paragraph5":"Numéro de téléphone : 04 66 73 03 00 ; Adresse email : serviceclients.france@royalcanin.com ;",
+  "termsandconditions.paragraph5":"Numéro de téléphone : {val1} ; Adresse email : serviceclients.france@royalcanin.com ;",
   "termsandconditions.paragraph6":"Capital social : 917 986€ ; Numéro de TVA : FR43380824888",
 
-  "termsandconditions.paragraph7":"(ci-après dénommé “Royal Canin”)",
+  "termsandconditions.paragraph7":"(ci-après dénommé “{val1}”)",
   "termsandconditions.paragraph8":"et",
   "termsandconditions.paragraph9":"les consommateurs qui utilisent les sites Internet de Royal Canin {https://www.royalcanin.com/fr} (ci-après dénommés collectivement le “Site” ou les “Sites”) ou appellent le numéro de commande de Royal Canin (0 800 005 360) pour passer commande de produits à des fins non-professionnelles.",
 
