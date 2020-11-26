@@ -384,9 +384,7 @@ export const STORE_CATOGERY_ENUM = {
       desc: CURRENT_LANGFILE['product.de.catogery15.desc'],
       img: dogsImg,
       homeImg: pillAssist
-    },
-
-
+    }
 
     // {
     //   url: '/list/urinary',
@@ -745,11 +743,11 @@ export const PRESONAL_INFO_RULE = [
     )
   },
   {
-    key: 'phoneNumber',
+    key: 'address1',
     require: true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
-      CURRENT_LANGFILE['payment.phoneNumber']
+      CURRENT_LANGFILE['payment.address1']
     )
   },
   {
@@ -761,6 +759,14 @@ export const PRESONAL_INFO_RULE = [
     )
   },
   {
+    key: 'city',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.city']
+    )
+  },
+  {
     key: 'email',
     regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
     require: true,
@@ -768,5 +774,23 @@ export const PRESONAL_INFO_RULE = [
       /{.+}/,
       CURRENT_LANGFILE['email']
     )
-  }
+  },
+  {
+    key: 'phoneNumber',
+    require: true,
+    errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.phoneNumber']
+    )
+  },
+  {
+    key: 'postCode',
+    regExp: /\d{5}/,
+    require: true,
+    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+      /{.+}/,
+      CURRENT_LANGFILE['payment.postCode2']
+    )
+  },
+  
 ];

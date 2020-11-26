@@ -112,6 +112,10 @@ class CommunicationDataEditForm extends React.Component {
     this.props.updateEditOperationPanelName(status ? 'Communication' : '');
   };
   handleClickEditBtn = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     this.changeEditFormVisible(true);
   };
   handleClickGoBack = () => {
@@ -129,13 +133,13 @@ class CommunicationDataEditForm extends React.Component {
         <div className="userContactPreferenceInfo">
           <div className="profileSubFormTitle pl-3 pr-3 pt-3">
             {curPageAtCover ? (
-              <h5>
+              <h5 className="mb-0">
                 <svg
                   className="svg-icon account-info-icon align-middle mr-3 ml-1"
                   aria-hidden="true"
                   style={{ width: '1.2em', height: '1.2em' }}
                 >
-                  <use xlinkHref="#iconcommunication"></use>
+                  <use xlinkHref="#iconcommunication" />
                 </svg>
                 <FormattedMessage id="account.preferredMmethodsOfCommunication" />
               </h5>
@@ -152,11 +156,9 @@ class CommunicationDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
-                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 ${
+                  className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
-                  name="contactPreference"
-                  id="contactPrefEditBtn"
                   title={txt}
                   alt={txt}
                   onClick={this.handleClickEditBtn}

@@ -96,7 +96,7 @@ class EditForm extends React.Component {
     tmp.unshift({ value: '', name: '' });
     return tmp;
   }
-  deliveryInputChange(e) {
+  deliveryInputChange = (e) => {
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -110,8 +110,8 @@ class EditForm extends React.Component {
       this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
-  }
-  inputBlur(e) {
+  };
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -123,11 +123,11 @@ class EditForm extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
+  };
   handleSelectedItemChange(key, data) {
     const { address } = this.state;
     address[key] = data.value;
-    this.setState({ address: address }, () => {
+    this.setState({ address }, () => {
       this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
@@ -136,7 +136,7 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address.city = data.id;
     address.cityName = data.cityName;
-    this.setState({ address: address }, () => {
+    this.setState({ address }, () => {
       this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
@@ -158,8 +158,8 @@ class EditForm extends React.Component {
               className="rc-input__control input__phoneField shippingPhoneNumber"
               id="shippingEmail"
               value={address.email}
-              onChange={(e) => this.deliveryInputChange(e)}
-              onBlur={(e) => this.inputBlur(e)}
+              onChange={this.deliveryInputChange}
+              onBlur={this.inputBlur}
               name="email"
               maxLength="254"
             />
@@ -197,8 +197,8 @@ class EditForm extends React.Component {
               type="tel"
               required
               value={address.postCode}
-              onChange={(e) => this.deliveryInputChange(e)}
-              onBlur={(e) => this.inputBlur(e)}
+              onChange={this.deliveryInputChange}
+              onBlur={this.inputBlur}
               name="postCode"
               // maxLength="5"
               // minLength="5"
@@ -247,8 +247,8 @@ class EditForm extends React.Component {
               className="rc-input__control input__phoneField shippingPhoneNumber"
               id="shippingPhoneNumber"
               value={address.phoneNumber}
-              onChange={(e) => this.deliveryInputChange(e)}
-              onBlur={(e) => this.inputBlur(e)}
+              onChange={this.deliveryInputChange}
+              onBlur={this.inputBlur}
               // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
               // data-js-pattern="(^(\+52)\d{8}$)"
               // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
@@ -273,7 +273,7 @@ class EditForm extends React.Component {
         onChange={(e) => {
           this.deliveryInputChange(e);
         }}
-        onBlur={(e) => this.inputBlur(e)}
+        onBlur={this.inputBlur}
         onClick={(e) => this.phoneNumberClick(e)}
         data-js-pattern="(^(\+52)\d{8}$)"
         name="phoneNumber"
@@ -320,8 +320,8 @@ class EditForm extends React.Component {
                   id="shippingFirstName"
                   type="text"
                   value={address.firstName}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
+                  onChange={this.deliveryInputChange}
+                  onBlur={this.inputBlur}
                   name="firstName"
                   maxLength="50"
                 />
@@ -351,8 +351,8 @@ class EditForm extends React.Component {
                   id="shippingLastName"
                   type="text"
                   value={address.lastName}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
+                  onChange={this.deliveryInputChange}
+                  onBlur={this.inputBlur}
                   name="lastName"
                   maxLength="50"
                 />
@@ -388,7 +388,10 @@ class EditForm extends React.Component {
             </div>
           </div>
           <div className="col-12 col-md-6">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_city" id="addressFieldsCity">
+            <div
+              className="form-group required dwfrm_shipping_shippingAddress_addressFields_city"
+              id="addressFieldsCity"
+            >
               <label
                 className="form-control-label"
                 htmlFor="shippingAddressCity"
@@ -419,12 +422,12 @@ class EditForm extends React.Component {
                   id="shippingAddress1"
                   type="text"
                   value={address.address1}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
+                  onChange={this.deliveryInputChange}
+                  onBlur={this.inputBlur}
                   name="address1"
                   maxLength="50"
                 />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
+                <label className="rc-input__label" htmlFor="shippingAddress1" />
               </span>
               <div className="invalid-feedback">
                 <FormattedMessage
@@ -450,8 +453,8 @@ class EditForm extends React.Component {
                   id="shippingAddress2"
                   type="text"
                   value={address.address2}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
+                  onChange={this.deliveryInputChange}
+                  onBlur={this.inputBlur}
                   name="address2"
                   maxLength="50"
                 />
@@ -463,7 +466,10 @@ class EditForm extends React.Component {
           {this._phonePanelJSX()}
           {this._postCodeJSX()}
           <div className="col-12 col-md-6">
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName" id="addressFieldsLastName">
+            <div
+              className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName"
+              id="addressFieldsLastName"
+            >
               <label className="form-control-label" htmlFor="shippingRfc">
                 <FormattedMessage id="payment.rfc" />
               </label>
@@ -475,8 +481,8 @@ class EditForm extends React.Component {
                   className="rc-input__control shippingRfc"
                   type="text"
                   value={address.rfc}
-                  onChange={(e) => this.deliveryInputChange(e)}
-                  onBlur={(e) => this.inputBlur(e)}
+                  onChange={this.deliveryInputChange}
+                  onBlur={this.inputBlur}
                   name="rfc"
                   maxLength="50"
                 />
