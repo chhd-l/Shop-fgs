@@ -99,14 +99,12 @@ class Header extends React.Component {
       'clinic'
     );
     let linkClinicName = '';
-    
     // 指定clinic/recommendation code链接进入，设置default clinic
     if (
-      location.pathname === process.env.REACT_APP_HOMEPAGE || location.pathname.includes('/list') || location.pathname.includes('/details')
-      // location &&
-      // (location.pathname === '/' ||
-      //   location.pathname.includes('/list') ||
-      //   location.pathname.includes('/details'))
+      location &&
+      (location.pathname === '/' ||
+        location.pathname.includes('/list') ||
+        location.pathname.includes('/details'))
     ) {
       if (clinciRecoCode && clinicStore.clinicRecoCode !== clinciRecoCode) {
         const res = await getPrescriberByEncryptCode({
@@ -138,18 +136,6 @@ class Header extends React.Component {
         if (linkClinicName) {
           clinicStore.setLinkClinicId(linkClinicId);
           clinicStore.setLinkClinicName(linkClinicName);
-          clinicStore.setAuditAuthority(res.context.auditAuthority);
-        }
-      }else {
-        const idRes = await getPrescriberByPrescriberIdAndStoreId({
-          prescriberId: clinicStore.clinicId,
-          storeId: process.env.REACT_APP_STOREID
-        });
-        const res = await getPrescriptionById({ id: idRes.context.id });
-        if (res.context) {
-          linkClinicName = res.context.prescriberName;
-        }
-        if (linkClinicName) {
           clinicStore.setAuditAuthority(res.context.auditAuthority);
         }
       }

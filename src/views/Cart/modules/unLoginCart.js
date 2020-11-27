@@ -568,7 +568,7 @@ class UnLoginCart extends React.Component {
                               <i></i>
                             </span>
                           </div> */}
-                          {pitem.goodsSpecs.map((sItem, i) => (
+                          {pitem.goodsSpecs && pitem.goodsSpecs.map((sItem, i) => (
                             <div key={i} className="overflow-hidden">
                               <div className="text-left ml-1">
                                 {sItem.specName}:
@@ -1368,6 +1368,7 @@ class UnLoginCart extends React.Component {
   }
   render() {
     const { productList, checkoutLoading } = this.state;
+    console.log(productList, 'productList')
     const List = this.getProducts(this.state.productList);
     const event = {
       page: {

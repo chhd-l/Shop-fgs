@@ -218,6 +218,101 @@ class Details extends React.Component {
       (details.saleableFlag || !details.displayFlag)
     );
   }
+  bundleMatchGoods() {
+    let {
+      specList,
+      details,
+      currentUnitPrice,
+      currentLinePrice,
+      currentSubscriptionPrice,
+      currentSubscriptionStatus,
+      stock
+    } = this.state;
+    let selectedArr = [];
+    let idArr = [];
+    let baseSpecId = details.baseSpec;
+    // specList.map((el) => {
+    //   if (el.chidren.filter((item) => item.selected).length) {
+    //     selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
+    //   }
+    //   return el;
+    // });
+    // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
+    // idArr = selectedArr.map((el) => el.specDetailId);
+    console.log(details, 'detailsaaa')
+    
+    currentUnitPrice = details.goodsInfos[0].salePrice
+    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice
+    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus
+    stock = details.goodsInfos[0].stock
+    details.sizeList[0].selected = true
+    // details.sizeList.map((item, i) => {
+    //   item.basePrice = 0;
+    //   details.goodsSpecDetails.map((el) => {
+    //     if (
+    //       el.specId === baseSpecId &&
+    //       item.mockSpecDetailIds.includes(el.specDetailId)
+    //     ) {
+    //       item.baseSpecLabel = el.detailName;
+    //     }
+    //     return el;
+    //   });
+    //   let specTextArr = [];
+    //   for (let specItem of specList) {
+    //     for (let specDetailItem of specItem.chidren) {
+    //       if (
+    //         item.mockSpecIds.includes(specDetailItem.specId) &&
+    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+    //       ) {
+    //         specTextArr.push(specDetailItem.detailName);
+    //       }
+    //       // console.log(item.mo)
+    //       if (
+    //         item.mockSpecIds.includes(baseSpecId) &&
+    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
+    //       ) {
+    //         console.log(
+    //           specDetailItem.detailName,
+    //           'specDetailItem.detailName',
+    //           i
+    //         );
+    //         item.baseSpecLabel = specDetailItem.detailName;
+    //       }
+    //     }
+    //   }
+    //   item.specText = specTextArr.join(' ');
+    //   if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
+    //     console.log(item, 'item');
+    //     item.selected = true;
+    //     currentUnitPrice = item.salePrice;
+    //     currentLinePrice = item.linePrice;
+    //     currentSubscriptionPrice = item.subscriptionPrice;
+    //     currentSubscriptionStatus = item.subscriptionStatus;
+    //     stock = item.stock;
+    //     if(item.goodsPromotion) {
+    //       this.setState({isShowPromotion: true})
+    //     }else {
+    //       this.setState({isShowPromotion: false})
+    //     }
+    //   } else {
+    //     item.selected = false;
+    //   }
+    //   return item;
+    // });
+    console.log(details, 'details');
+    this.setState(
+      {
+        details,
+        currentUnitPrice,
+        currentSubscriptionPrice,
+        currentSubscriptionStatus,
+        stock
+      },
+      () => {
+        this.updateInstockStatus();
+      }
+    );
+  }
   matchGoods() {
     let {
       specList,
@@ -490,10 +585,88 @@ class Details extends React.Component {
             }
           );
         } else {
-          // 没有规格的情况
-          this.setState({
-            errMsg: <FormattedMessage id="details.errMsg" />
+          let sizeList = [];
+          let goodsInfos = res.context.goodsInfos || [];
+
+          sizeList = goodsInfos.map((g) => {
+            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
+            // console.log(targetInfo, 'target')
+            // if (targetInfo) {
+            g = Object.assign({}, g, { selected: false });
+            // }
+            return g;
           });
+
+          // const selectedSize = find(sizeList, s => s.selected)
+
+          const { goodsDetailTab, tabs } = this.state;
+          try {
+            let tmpGoodsDetail = res.context.goods.goodsDetail;
+            if (tmpGoodsDetail) {
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              for (let key in tmpGoodsDetail) {
+                if (tmpGoodsDetail[key]) {
+                  goodsDetailTab.tabName.push(key);
+                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  tabs.push({ show: false });
+                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                }
+              }
+            }
+            this.setState({
+              goodsDetailTab: goodsDetailTab,
+              tabs
+            });
+          } catch (err) {
+            getDict({
+              type: 'goodsDetailTab',
+              storeId: process.env.REACT_APP_STOREID
+            }).then((res) => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                (ele) => ele.name
+              );
+              this.setState({
+                goodsDetailTab: goodsDetailTab
+              });
+            });
+          }
+          let images = [];
+          if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
+            if (res.context.images.length) {
+              images = res.context.images;
+            }
+          } else {
+            images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
+          }
+          this.setState(
+            {
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                },
+                {
+                  goodsCategory: [
+                    this.specie,
+                    this.productRange.join('&'),
+                    this.format.join('&')
+                  ].join('/')
+                }
+              ),
+              images: images
+            }, () => {
+              this.bundleMatchGoods()
+            }
+          )
+          // 没有规格的情况
+          // this.setState({
+          //   errMsg: <FormattedMessage id="details.errMsg" />
+          // });
         }
       })
       .catch((e) => {
@@ -627,7 +800,14 @@ class Details extends React.Component {
     this.setState({ addToCartLoading: true });
     const { quantity, form } = this.state;
     const { sizeList } = this.state.details;
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
+    // console.log(this.state.details, 'aaa')
+    // return
+    let currentSelectedSize
+    if(this.state.details.goodsSpecDetails) {
+      currentSelectedSize = find(sizeList, (s) => s.selected);
+    }else {
+      currentSelectedSize = sizeList[0]
+    }
     try {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
@@ -1686,6 +1866,24 @@ class Details extends React.Component {
                               className="rc-max-width--xl fullHeight justify-content-center text-right"
                               style={{ marginTop: '20px' }}
                             >
+                              {!this.isLogin &&
+                                (this.state.form.buyWay ? (
+                                  <span style={{ marginLeft: '10px' }}>
+                                    Autoship is possible only after registration
+                                  </span>
+                                ) : (
+                                  <button
+                                    style={{ marginRight: '10px' }}
+                                    className={`rc-styled-link color-999 ${
+                                      addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
+                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
+                                    onClick={this.hanldeAddToCart.bind(this, {
+                                      redirect: true
+                                    })}
+                                  >
+                                    <FormattedMessage id="GuestCheckout" />
+                                  </button>
+                                ))}
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
@@ -1743,24 +1941,6 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )}
-                              {!this.isLogin &&
-                                (this.state.form.buyWay ? (
-                                  <span style={{ marginLeft: '10px' }}>
-                                    Autoship is possible only after registration
-                                  </span>
-                                ) : (
-                                  <button
-                                    style={{ marginLeft: '10px' }}
-                                    className={`rc-styled-link color-999 ${
-                                      addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
-                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                                    onClick={this.hanldeAddToCart.bind(this, {
-                                      redirect: true
-                                    })}
-                                  >
-                                    <FormattedMessage id="GuestCheckout" />
-                                  </button>
-                                ))}
                             </div>
                           </div>
                         )}
