@@ -299,7 +299,6 @@ class Details extends React.Component {
             minMarketPrice: res.context.goods.minMarketPrice,
             minSubscriptionPrice: res.context.goods.minSubscriptionPrice
           });
-          debugger
           setSeoConfig({
             goodsId: res.context.goods.goodsId,
             categoryId: '',
