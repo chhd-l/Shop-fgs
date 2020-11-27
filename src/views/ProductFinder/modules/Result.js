@@ -117,13 +117,13 @@ function QListAndPetJSX(props) {
             </p>
             <div className="text-center pb-4">
               {props.isLogin ? (
-                <Link className="rc-btn rc-btn--one mb-3" to="/account/pet">
+                <Link className="rc-btn rc-btn--one mb-3" to="/account/pets">
                   <FormattedMessage id="productFinder.createMyPetProfile" />
                 </Link>
               ) : (
                 <LoginButton
                   beforeLoginCallback={async () => {
-                    sessionItemRoyal.set('okta-redirectUrl', '/account/pet');
+                    sessionItemRoyal.set('okta-redirectUrl', '/account/pets');
                   }}
                   btnClass="rc-btn rc-btn--one mb-3"
                   history={props.history}

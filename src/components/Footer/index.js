@@ -28,12 +28,12 @@ class Footer extends React.Component {
       widget && widget.scrollIntoView();
     };
     return (
-      <footer class="rc-bg-colour--interface-dark" id="footer">
-        <div class="rc-max-width--xl rc-scroll--y">
-          <div class="rc-layout-container rc-three-column rc-md-up">
-            <div class="rc-column rc-text--right">
+      <footer className="rc-bg-colour--interface-dark" id="footer">
+        <div className="rc-max-width--xl rc-scroll--y">
+          <div className="rc-layout-container rc-three-column rc-md-up">
+            <div className="rc-column rc-text--right">
               <a
-                class="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3"
+                className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3"
                 href="#"
                 role="back to top"
               >
@@ -41,24 +41,24 @@ class Footer extends React.Component {
               </a>
             </div>
           </div>
-          <div class="rc-divider rc-md-up"></div>
-          <div class="rc-layout-container rc-one-column rc-padding-x--xs">
-            <div class="rc-column rc-padding-x--xs">
+          <div className="rc-divider rc-md-up"></div>
+          <div className="rc-layout-container rc-one-column rc-padding-x--xs">
+            <div className="rc-column rc-padding-x--xs">
               <nav
                 data-toggle-group="mobile"
                 data-toggle-effect="rc-expand--vertical"
-                class="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
+                className="rc-padding-x--xs--desktop rc-padding-x--none--mobile"
               >
                 <ul
-                  class="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
+                  className="rc-list rc-list--footer-columns rc-list--blank rc-list--align rc-list--inverse"
                   role="menubar"
                 >
                   {this.state.cur_menubar.map((item, index) => {
                     return (
-                      <li class="rc-list__item rc-list__item--group">
+                      <li className="rc-list__item rc-list__item--group">
                         <button
                           href="#"
-                          class="rc-list__header"
+                          className="rc-list__header"
                           role="menuitem"
                           data-toggle={`nav-footer-list-${index}`}
                           id={`nav-footer-${index}`}
@@ -66,14 +66,14 @@ class Footer extends React.Component {
                           <FormattedMessage id={item[0].titleId} />
                         </button>
                         <ul
-                          class="rc-list rc-list--blank rc-list--align"
+                          className="rc-list rc-list--blank rc-list--align"
                           role="menu"
                           id={`nav-footer-list-${index}`}
                           aria-labelledby={`nav-footer-${index}`}
                         >
                           {item[0].list.map((listItem) => {
                             return (
-                              <li class="rc-list__item">
+                              <li className="rc-list__item">
                                 {!!listItem.link ? (
                                   <Link
                                     className="rc-list__link text-decoration-none color-f6f6f6"
