@@ -119,7 +119,6 @@ class AdyenCreditCardForm extends React.Component {
   }
   handleSave = async () => {
     try {
-      debugger;
       // 如果勾选了保存信息按钮，则保存到后台，否则不需要保存信息到后台
       const { adyenFormData } = this.state;
       let tmpSelectedId = '';

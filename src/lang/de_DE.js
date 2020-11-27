@@ -786,6 +786,10 @@ const de_DE = {
   'account.myPayments': 'Meine Zahlungen',
   'account.myAddresses': 'Meine Adressen',
   breed: 'Rasse',
-  gender: 'Geschlecht'
+  gender: 'Geschlecht',
+  logisticsCompany: 'Logistics company',
+  logisticsRating: 'Logistics rating',
+  logisticsSingleNumber: 'Logistics single number',
+  'order.completeTip': 'The package was delivered by hand to the delivery address.',
 }
 export default de_DE;

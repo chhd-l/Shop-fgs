@@ -5,6 +5,7 @@ import { find } from 'lodash';
 import stores from '@/store';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const mapEnum = {
   1: { mark: '$', break: ' ', atEnd: false },
@@ -277,34 +278,45 @@ function getchilds(id, array) {
 export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
-  let goodsSeo = {},cateSeo={},pageSeo={},siteSeo={}
-  if(obj.goodsId){
-    goodsSeo = await getGoodsSeo(obj.goodsId)
+  let goodsSeo = {},
+    cateSeo = {},
+    pageSeo = {},
+    siteSeo = {};
+  if (obj.goodsId) {
+    goodsSeo = await getGoodsSeo(obj.goodsId);
   }
-  if(obj.categoryId){
-    cateSeo =  await getCateSeo(obj.categoryId)
+  if (obj.categoryId) {
+    cateSeo = await getCateSeo(obj.categoryId);
   }
-  if(obj.pageName){
-    pageSeo =  await getPageSeo(obj.pageName)
+  if (obj.pageName) {
+    pageSeo = await getPageSeo(obj.pageName);
   }
   if (!sessionStorage.getItem('seoInfo')) {
-    siteSeo =  await getSiteSeo()
+    siteSeo = await getSiteSeo();
+  } else {
+    siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'));
   }
-  else{
-    siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'))
-  }
-  
+
   setTimeout(() => {
     let seoInfo = {
-      title:goodsSeo.title||cateSeo.title|| pageSeo.title||siteSeo.title||'',
-      metaKeywords:goodsSeo.metaKeywords||cateSeo.metaKeywords|| pageSeo.metaKeywords||siteSeo.metaKeywords||'',
-      metaDescription:goodsSeo.metaDescription||cateSeo.metaDescription|| pageSeo.metaDescription||siteSeo.metaDescription||'',
-    }
-    changeTitleAndMeta(seoInfo)
+      title:
+        goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
+      metaKeywords:
+        goodsSeo.metaKeywords ||
+        cateSeo.metaKeywords ||
+        pageSeo.metaKeywords ||
+        siteSeo.metaKeywords ||
+        '',
+      metaDescription:
+        goodsSeo.metaDescription ||
+        cateSeo.metaDescription ||
+        pageSeo.metaDescription ||
+        siteSeo.metaDescription ||
+        ''
+    };
+    changeTitleAndMeta(seoInfo);
   }, 100);
-  
 }
-
 
 // export function setSeoConfig(
 //   obj = { goodsId: '', categoryId: '', pageName: '' }
@@ -341,67 +353,55 @@ export async function setSeoConfig(
 //   }
 // }
 async function getSiteSeo() {
-  let params = {
-    type: 4,
-    storeId: process.env.REACT_APP_STOREID
-  };
-  let res = await getSeoConfig(params)
-  if (res.code === 'K-000000') {
-    let seoInfo = res.context.seoSettingVO;
-    return seoInfo
-  }
-  else {
-    return {}
+  try {
+    const res = await getSeoConfig({
+      type: 4,
+      storeId: process.env.REACT_APP_STOREID
+    });
+    return res.context.seoSettingVO;
+  } catch (err) {
+    return {};
   }
 }
 
 async function getPageSeo(pageName) {
-  let params = {
-    type: 3,
-    pageName: pageName,
-    storeId: process.env.REACT_APP_STOREID
-  };
-  let res = await getSeoConfig(params)
-  if (res.code === 'K-000000') {
-    let seoInfo = res.context.seoSettingVO;
-    return seoInfo
-  }
-  else {
-    return {}
+  try {
+    const res = await getSeoConfig({
+      type: 3,
+      pageName: pageName,
+      storeId: process.env.REACT_APP_STOREID
+    });
+    return res.context.seoSettingVO;
+  } catch (err) {
+    return {};
   }
 }
-async function getCateSeo( categoryId) {
-  let params = {
-    type: 2,
-    storeCateId: categoryId,
-    storeId: process.env.REACT_APP_STOREID
-  };
-  let res = await getSeoConfig(params)
-  if (res.code === 'K-000000') {
-    let seoInfo = res.context.seoSettingVO;
-    return seoInfo
-  }
-  else {
-    return {}
+async function getCateSeo(categoryId) {
+  try {
+    const res = await getSeoConfig({
+      type: 2,
+      storeCateId: categoryId,
+      storeId: process.env.REACT_APP_STOREID
+    });
+    return res.context.seoSettingVO;
+  } catch (err) {
+    return {};
   }
 }
 async function getGoodsSeo(goodsId) {
-  let params = {
-    type: 1,
-    goodsId: goodsId,
-    storeId: process.env.REACT_APP_STOREID
-  };
-  let res = await getSeoConfig(params)
-  if (res.code === 'K-000000') {
-    let seoInfo = res.context.seoSettingVO;
-    return seoInfo
-  }
-  else {
-    return {}
+  try {
+    const res = await getSeoConfig({
+      type: 1,
+      goodsId: goodsId,
+      storeId: process.env.REACT_APP_STOREID
+    });
+    return res.context.seoSettingVO;
+  } catch (err) {
+    return {};
   }
 }
 
-//修改title和meta
+// 修改title和meta
 function changeTitleAndMeta(seoInfo) {
   if (seoInfo.title) {
     document.title = seoInfo.title;
@@ -421,4 +421,73 @@ function changeTitleAndMeta(seoInfo) {
       }
     }
   }
+}
+
+// 分发跳转prescriber/payment页面
+// 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
+export function distributeLinktoPrecriberOrPaymentPage({
+  configStore = {},
+  isLogin = false
+}) {
+  const {
+    autoAuditFlag,
+    AuditData = [],
+    loginCartData,
+    cartData
+  } = configStore;
+  // 不开启地图，跳过prescriber页面
+  if (!configStore.prescriberMap) {
+    return '/payment/payment';
+  }
+  // 校验审核
+  if (isLogin) {
+    let needPrescriber;
+    if (autoAuditFlag) {
+      needPrescriber =
+        loginCartData.filter((el) => el.prescriberFlag).length > 0;
+    } else {
+      needPrescriber = AuditData.length > 0;
+    }
+    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+      return '/payment/payment';
+    }
+  } else {
+    let needPrescriber;
+    if (autoAuditFlag) {
+      needPrescriber = cartData.filter((el) => el.prescriberFlag).length > 0;
+    } else {
+      needPrescriber = AuditData.length > 0;
+    }
+    if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+      return '/payment/payment';
+    }
+  }
+
+  // 校验本地prescriber缓存，有则跳过prescriber页面
+  if (
+    (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
+      localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
+    ((localItemRoyal.get(`rc-clinic-id-link`) &&
+      localItemRoyal.get(`rc-clinic-name-link`)) ||
+      (localItemRoyal.get(`rc-clinic-id-select`) &&
+        localItemRoyal.get(`rc-clinic-name-select`)) ||
+      (localItemRoyal.get(`rc-clinic-id-default`) &&
+        localItemRoyal.get(`rc-clinic-name-default`)))
+  ) {
+    if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+      if (clinicStore.linkClinicId) {
+        clinicStore.setSelectClinicId(clinicStore.linkClinicId);
+        clinicStore.setSelectClinicName(clinicStore.linkClinicName);
+      }
+    } else if (
+      !clinicStore.linkClinicId &&
+      !clinicStore.selectClinicId &&
+      clinicStore.defaultClinicId
+    ) {
+      clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
+      clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
+    }
+    return '/payment/payment';
+  }
+  return '/prescription';
 }

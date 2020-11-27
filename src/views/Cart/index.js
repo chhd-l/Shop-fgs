@@ -7,14 +7,14 @@ import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore')
+@inject('loginStore', 'configStore')
 @observer
 class Cart extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -25,12 +25,21 @@ class Cart extends React.Component {
     return this.props.loginStore.isLogin;
   }
   render() {
+    const { configStore, history, match } = this.props;
     return (
       <>
         {this.isLogin ? (
-          <LoginCart history={this.props.history} match={this.props.match} />
+          <LoginCart
+            history={history}
+            match={match}
+            configStore={configStore}
+          />
         ) : (
-          <UnloginCart history={this.props.history} match={this.props.match} />
+          <UnloginCart
+            history={history}
+            match={match}
+            configStore={configStore}
+          />
         )}
       </>
     );
