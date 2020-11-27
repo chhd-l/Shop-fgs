@@ -569,6 +569,10 @@ class PersonalDataEditForm extends React.Component {
                   <div className="invalid-feedback" style={{ display: 'none' }}>
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
+                  <div className="ui-lighter">
+                    <FormattedMessage id="example" />:{' '}
+                    <FormattedMessage id="examplePostCode" />
+                  </div>
                 </div>
                 <div className="form-group col-lg-6 required">
                   <label
