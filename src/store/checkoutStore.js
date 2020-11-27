@@ -153,7 +153,8 @@ class CheckoutStore {
         return {
           goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsNum: ele.quantity,
-          invalid: false
+          invalid: false,
+          goodsInfoFlag: ele.goodsInfoFlag
         };
       });
 

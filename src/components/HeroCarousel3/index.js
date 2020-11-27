@@ -161,7 +161,7 @@ class Carousel extends React.Component {
                   return (
                     <li key={index}>
                       {item.isVideo == 1 ? (
-                        <a href="javascript:;" className="videoURL">
+                        <a href="javascript:;" className="videoURL" style={{cursor:'default'}}>
                           <video autoPlay={true} muted={true} loop={true}>
                             <source src={item.webUrl} type="video/mp4" />
                           </video>
@@ -187,14 +187,14 @@ class Carousel extends React.Component {
                           </div>
                         </a>
                       ) : (
-                        <a href="#" className="imageURL">
+                        <a href="javascript:;" className="imageURL" style={{cursor:'default'}}>
                           <div
                             style={{
                               backgroundImage: 'url(' + item.webUrl + ')'
                             }}
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
-                            <Link to="/product-finder" className="category-btn">
+                            <Link to="/packmixfeedingwetdry" className="category-btn">
                               <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>

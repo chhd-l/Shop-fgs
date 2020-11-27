@@ -201,11 +201,11 @@ export const menubar = {
             messageId: 'aboutUs2'
           },
           {
-            link: '/ourValue',
+            link: '/Values',
             messageId: 'footer.ourValues'
           },
           {
-            url: '/qualitySafety',
+            link: '/qualitySafety',
             messageId: 'footer.qualityAndSafety'
           }
         ]
@@ -259,7 +259,7 @@ export const menubar = {
         titleId: 'AUTRES',
         list: [
           {
-            link:'/termsandconditions',
+            link:'/general-terms-conditions',
             messageId: 'Conditions Générales de Vente'
           }
         ]

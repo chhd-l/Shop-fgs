@@ -132,6 +132,11 @@ const breadcrumbNameMap = {
       name:'Nos valeurs'
     }
   ],
+  '/packmixfeedingwetdry':[
+    {
+      name:'Nos combinaisons de croquettes et de bouchées'
+    }
+  ],
   '/shipmentConditions': [
     {
       name: 'ShipmentConditions'

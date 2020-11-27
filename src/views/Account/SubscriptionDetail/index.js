@@ -167,7 +167,8 @@ class SubscriptionDetail extends React.Component {
       completedYear: {
         value: ''
       },
-      isActive: false
+      isActive: false,
+      isDataChange: false,
     };
   }
   componentWillUnmount() {
@@ -272,6 +273,7 @@ class SubscriptionDetail extends React.Component {
       // this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
       //await this.doUpdateDetail(param)
       await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
+      this.setState({isDataChange: true})
       //await this.getDetail()
     } catch (err) {
       this.showErrMsg(err.message);
@@ -297,7 +299,8 @@ class SubscriptionDetail extends React.Component {
         this.props.match.params.subscriptionNumber
       )
       let subDetail = res.context;
-      let { noStartYear, completedYear } = this.state
+      let noStartYear = {}
+      let completedYear = {}
       let noStartYearOption = []
       let completedYearOption = []
       let completeOption = new Set(subDetail.completedTradeList.map(el => {
@@ -313,9 +316,7 @@ class SubscriptionDetail extends React.Component {
       noStartOption.forEach(el => {
         noStartYearOption.push({name: el, value: el})
       })
-      noStartYear = { value: noStartYearOption[0]['value'] }
-      console.log(noStartYearOption, completedYearOption, noStartYear, completedYear, 'aaa')
-      
+      noStartYear = { value: noStartYearOption[0]['value'], name: noStartYearOption[0]['value'] }
 
       subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
         let filterData =
@@ -374,7 +375,6 @@ class SubscriptionDetail extends React.Component {
           );
         }
       }
-      console.log(subDetail, 'hehehe')
       this.setState(
         {
           subDetail: subDetail,
@@ -548,6 +548,7 @@ class SubscriptionDetail extends React.Component {
       completedYear,
       isActive
     } = this.state;
+    console.log(noStartYear, 'hahaha')
     return (
       <div className="subscriptionDetail">
         <div>
@@ -821,7 +822,7 @@ class SubscriptionDetail extends React.Component {
                                                 el.subscribeNum =
                                                   el.subscribeNum - 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail });
+                                                this.setState({ subDetail, isDataChange: true });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorInfo" />
@@ -891,7 +892,7 @@ class SubscriptionDetail extends React.Component {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail });
+                                                this.setState({ subDetail, isDataChange: true });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorMaxInfo" />
@@ -915,12 +916,12 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
-                                              textDecoration: 'line-through',
                                               verticalAlign: 'middle',
-                                              marginLeft: '8px'
+                                              marginLeft: '8px',
+                                              height: '25px'
                                             }}
                                           >
-                                            {formatMoney(el.originalPrice)}
+                                            {formatMoney(el.subscribePrice)}
                                           </span>
                                           <span
                                             class="price"
@@ -928,11 +929,15 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
+                                              textDecoration: 'line-through',
                                               verticalAlign: 'middle',
-                                              marginLeft: '8px'
+                                              marginLeft: '8px',
+                                              height: '11px',
+                                              color: '#aaa',
+                                              fontSize: '14px'
                                             }}
                                           >
-                                            {formatMoney(el.subscribePrice)}
+                                            {formatMoney(el.originalPrice)}
                                           </span>
                                         </div>
                                       </div>
@@ -1045,7 +1050,7 @@ class SubscriptionDetail extends React.Component {
                       </div>
                       <div
                         className="card-container"
-                        style={{ marginTop: '0', display: isMobile?'none': 'block'}}
+                        style={{ marginTop: '0', display: isMobile?'none': 'block', borderBottom: 'none'}}
                       >
                         {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
@@ -1116,7 +1121,7 @@ class SubscriptionDetail extends React.Component {
                                                 el.subscribeNum =
                                                   el.subscribeNum - 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail });
+                                                this.setState({ subDetail, isDataChange: true });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorInfo" />
@@ -1186,7 +1191,7 @@ class SubscriptionDetail extends React.Component {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail });
+                                                this.setState({ subDetail, isDataChange: true });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorMaxInfo" />
@@ -1210,12 +1215,12 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
-                                              textDecoration: 'line-through',
                                               verticalAlign: 'middle',
-                                              marginLeft: '8px'
+                                              marginLeft: '8px',
+                                              height: '25px'
                                             }}
                                           >
-                                            {formatMoney(el.originalPrice)}
+                                            {formatMoney(el.subscribePrice)}
                                           </span>
                                           <span
                                             class="price"
@@ -1223,11 +1228,15 @@ class SubscriptionDetail extends React.Component {
                                               display: 'inline-block',
                                               fontSize: '20px',
                                               fontWeight: '400',
+                                              textDecoration: 'line-through',
                                               verticalAlign: 'middle',
-                                              marginLeft: '8px'
+                                              marginLeft: '8px',
+                                              height: '11px',
+                                              color: '#aaa',
+                                              fontSize: '14px'
                                             }}
                                           >
-                                            {formatMoney(el.subscribePrice)}
+                                            {formatMoney(el.originalPrice)}
                                           </span>
                                         </div>
                                       </div>
@@ -1342,192 +1351,6 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                           ))}
-
-                        <div
-                          className="row rc-margin-x--none row align-items-center"
-                          style={{ padding: '1rem 0' }}
-                        >
-                          <div className="col-4 col-md-6">
-                            {/* <div
-                              className="footer"
-                              style={{
-                                marginTop: '10px',
-                                padding: '0 40px',
-                                display:
-                                  subDetail.subscribeStatus === '0'
-                                    ? 'block'
-                                    : 'none'
-                              }}
-                            >
-                              <span
-                                className="rc-input rc-input--inline rc-input--label"
-                                style={{
-                                  width: '180px',
-                                  verticalAlign: 'middle'
-                                }}
-                              >
-                                <input
-                                  className="rc-input__control"
-                                  id="id-text2"
-                                  type="text"
-                                  name="text"
-                                  placeholder={
-                                    this.props.intl.messages.promotionCode
-                                  }
-                                  value={this.state.promotionInputValue}
-                                  onChange={(e) => this.handlerChange(e)}
-                                />
-                                <label
-                                  className="rc-input__label"
-                                  for="id-text2"
-                                ></label>
-                              </span>
-                              <button
-                                className={[
-                                  'rc-btn',
-                                  'rc-btn--sm',
-                                  'rc-btn--two',
-                                  this.state.isClickApply &&
-                                    'ui-btn-loading ui-btn-loading-border-red'
-                                ].join(' ')}
-                                style={{ marginTop: '10px' }}
-                                onClick={async () => {
-                                  let result = {};
-                                  if (!this.state.promotionInputValue) return;
-                                  this.setState({
-                                    isClickApply: true,
-                                    isShowValidCode: false,
-                                    lastPromotionInputValue: this.state
-                                      .promotionInputValue
-                                  });
-                                  //会员
-                                  result = await this.doGetPromotionPrice(
-                                    this.state.promotionInputValue
-                                  );
-                                  if (
-                                    result.code === 'K-000000' &&
-                                    !result.context.promotionFlag
-                                  ) {
-                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
-                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                    this.setState({
-                                      discount,
-                                      promotionDesc:
-                                        result.context.promotionDesc
-                                    });
-                                  } else {
-                                    this.setState({
-                                      isShowValidCode: true
-                                    });
-                                  }
-                                  this.setState({
-                                    isClickApply: false,
-                                    promotionInputValue: '',
-                                    loading: false
-                                  });
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div> */}
-                          </div>
-                          <div className="col-4 col-md-1"></div>
-                          <div
-                            className="col-4 col-md-5"
-                            style={{ paddingLeft: '60px' }}
-                          >
-                            <div>
-                              <div className="flex-layout">
-                                <label
-                                  className=""
-                                  style={{ minWidth: '230px' }}
-                                >
-                                  <FormattedMessage id="subscription.total"></FormattedMessage>
-                                </label>
-                                <div className="text-right">
-                                  <b>{formatMoney(this.state.subTotal)}</b>
-                                </div>
-                              </div>
-                              {this.state.subDiscount ? (
-                                <div className="flex-layout">
-                                  <label
-                                    className="saveDiscount  red-text"
-                                    style={{ minWidth: '230px' }}
-                                  >
-                                    {this.state.promotionDesc}:
-                                  </label>
-                                  <div className="text-right red-text">
-                                    <b>
-                                      -{formatMoney(this.state.subDiscount)}
-                                    </b>
-                                  </div>
-                                </div>
-                              ) : null}
-                              {!this.state.isShowValidCode &&
-                                discount.map((el) => (
-                                  <div className="flex-layout">
-                                    <label className="saveDiscount  red-text">
-                                      {this.state.promotionDesc}
-                                    </label>
-                                    <div
-                                      className="text-right red-text"
-                                      style={{ position: 'relative' }}
-                                    >
-                                      <b>
-                                        -
-                                        {formatMoney(
-                                          this.state.promotionDiscount
-                                        )}
-                                      </b>
-                                      <span
-                                        style={{
-                                          position: 'absolute',
-                                          right: '-18px',
-                                          fontSize: '22px',
-                                          bottom: '5px',
-                                          cursor: 'pointer'
-                                        }}
-                                        onClick={() => {
-                                          discount.pop();
-                                          this.setState({
-                                            discount: discount
-                                          });
-                                        }}
-                                      >
-                                        x
-                                      </span>
-                                    </div>
-                                  </div>
-                                ))}
-                              <div className="flex-layout">
-                                <label
-                                  className=""
-                                  style={{ minWidth: '230px' }}
-                                >
-                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
-                                </label>
-                                <div className="text-right red-text">
-                                  <b>{formatMoney(this.state.subShipping)}</b>
-                                </div>
-                              </div>
-                              <div className="flex-layout">
-                                <label className="saveDiscount">
-                                  <b
-                                    style={{ fontSize: '20px', color: '#333' }}
-                                  >
-                                    Total
-                                  </b>
-                                  <span style={{ fontSize: '12px' }}>
-                                    (VAT included)
-                                  </span>
-                                </label>
-                                <div className="text-right">
-                                  <b>{formatMoney(this.state.subTradeTotal)}</b>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                       <div className="footerGroupButton" style={{display: isActive? 'block': 'none'}}>
                         <p>
@@ -1559,8 +1382,11 @@ class SubscriptionDetail extends React.Component {
                           {/* </div> */}
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <button
-                            class="rc-btn rc-btn--one"
+                            class={`rc-btn rc-btn--one ${this.state.isDataChange?'' : 'rc-btn-solid-disabled'}`}
                             onClick={async () => {
+                              if(!this.state.isDataChange) {
+                                return false
+                              }
                               try {
                                 // subDetail.goodsInfo = this.state.currentGoodsInfo;
                                 let param = {
@@ -1587,6 +1413,7 @@ class SubscriptionDetail extends React.Component {
                                 );
                                 this.setState({
                                   isChangeQuatity: false,
+                                  isDataChange: false,
                                 });
                               } catch (err) {
                                 this.showErrMsg(err.message);
@@ -1893,10 +1720,11 @@ class SubscriptionDetail extends React.Component {
                               >
                                 {
                                   this.state.activeTabIdx === 0 && noStartYearOption.length && completedYearOption.length?(
-                                    <Selection
-                                  optionList={noStartYearOption}
-                                  selectedItemData={noStartYear}
-                                  selectedItemChange={(el) => {
+                                  <Selection
+                                    optionList={noStartYearOption}
+                                    selectedItemData={noStartYear}
+                                    selectedItemChange={(el) => {
+                                      console.log(el,'hahaha')
                                     if(this.state.activeTabIdx === 0) {
                                       this.setState({noStartYear: el})
                                     }else {
@@ -1905,7 +1733,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
-                                  key={0}
+                                  key={noStartYear.value}
                                 />
                                   ): (
                                     <Selection
@@ -1920,7 +1748,7 @@ class SubscriptionDetail extends React.Component {
                                   }}
                                   customStyleType="select-one"
                                   type="freqency"
-                                  key={1}
+                                  key={completedYear.value}
                                 />
                                   )
                                 }
@@ -2568,7 +2396,7 @@ class SubscriptionDetail extends React.Component {
                                               )}
                                           </div>
                                         ):(
-                                          <div className="col-4 col-md-6">
+                                          <div className="col-4 col-md-7">
                                         <div
                                           className="rc-layout-container rc-five-column"
                                           style={{
@@ -2662,7 +2490,7 @@ class SubscriptionDetail extends React.Component {
                                         isMobile?(
                                           null
                                         ): (
-                                          <div className="col-4 col-md-4">
+                                          <div className="col-4 col-md-3">
                                             <div style={{ textAlign: 'center' }}>
                                               {
                                                 el.id?(

@@ -27,6 +27,8 @@ import {
 } from '@/utils/utils';
 import './index.less';
 
+import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
+
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -132,7 +134,8 @@ class List extends React.Component {
         titleData:
           state.cateName && state.cateDescription && state.cateImgList
             ? {
-                title: state.cateName,
+                cateName: state.cateName,
+                title: state.cateTitle,
                 description: state.cateDescription,
                 img: state.cateImgList
               }
@@ -586,7 +589,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: (titleData && titleData.title) || '' }].filter(
+            list={[{ name: (titleData && titleData.cateName) || '' }].filter(
               (el) => el.name
             )}
           />
@@ -716,23 +719,25 @@ class List extends React.Component {
                           </div>
                           <div className="col-12 col-md-4">
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em'
-                                }}
-                                customStyleType="select-one"
-                              />
+                              {sortList.length > 0 && (
+                                <Selection
+                                  key={sortList.length}
+                                  selectedItemChange={this.onSortChange}
+                                  optionList={sortList}
+                                  selectedItemData={{
+                                    value:
+                                      (selectedSortParam &&
+                                        selectedSortParam.value) ||
+                                      ''
+                                  }}
+                                  placeholder={<FormattedMessage id="sortBy" />}
+                                  customInnerStyle={{
+                                    paddingTop: '.7em',
+                                    paddingBottom: '.7em'
+                                  }}
+                                  customStyleType="select-one"
+                                />
+                              )}
                             </span>
                           </div>
                         </div>
@@ -960,6 +965,24 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
+            <div className="ml-4 mr-4 pl-4 pr-4">
+              <div className="row d-flex align-items-center">
+                <div className="col-12 col-md-6">
+                  <h1 className="rc-gamma rc-padding--none">
+                    <FormattedMessage id="productFinder.recoTitle" />
+                  </h1>
+                  <p>
+                    <FormattedMessage id="productFinder.recoDesc" />
+                  </p>
+                  <Link to="/product-finder" className="rc-btn rc-btn--one">
+                    <FormattedMessage id="productFinder.index" />
+                  </Link>
+                </div>
+                <div className="col-12 col-md-6">
+                  <img src={pfRecoImg} />
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         <div className="notate ml-2 mb-2">

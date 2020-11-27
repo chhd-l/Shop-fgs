@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
 import Header from '@/components/Header';
@@ -32,10 +32,11 @@ import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
-import { setSeoConfig } from '@/utils/utils';
 import {
-  updateBackendCart
-} from '@/api/cart';
+  setSeoConfig,
+  distributeLinktoPrecriberOrPaymentPage
+} from '@/utils/utils';
+import { updateBackendCart } from '@/api/cart';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -96,7 +97,7 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id)
@@ -314,6 +315,7 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
+    const { checkoutStore, loginStore, history } = this.props;debugger
     if (needLogin) {
       sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -357,7 +359,7 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
@@ -376,20 +378,26 @@ class Help extends React.Component {
       // });
       let handledData = res.context.goodsInfos;
       let AuditData = handledData.filter((el) => el.auditCatFlag);
-      this.props.checkoutStore.setAuditData(AuditData);
+      checkoutStore.setAuditData(AuditData);
       let autoAuditFlag = res.context.autoAuditFlag;
-      this.props.checkoutStore.setPetFlag(res.context.petFlag);
-      this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
+      checkoutStore.setPetFlag(res.context.petFlag);
+      checkoutStore.setAutoAuditFlag(autoAuditFlag);
       sessionItemRoyal.set(
         'recommend_product',
         JSON.stringify(inStockProducts)
       );
       if (!needLogin) {
-        this.props.history.push('/prescription');
+        const url = distributeLinktoPrecriberOrPaymentPage({
+          configStore,
+          isLogin: loginStore.isLogin
+        });
+        url && history.push(url);
+        // history.push('/prescription');
       }
     }
   }
   async hanldeClickSubmit() {
+    const { checkoutStore, loginStore, history } = this.props;
     let {
       currentModalObj,
       subDetail,
@@ -406,12 +414,12 @@ class Help extends React.Component {
             goodsCategory: '',
             goodsInfoFlag: 0
           });
-          await this.props.checkoutStore.updateLoginCart();
+          await checkoutStore.updateLoginCart();
         } catch (e) {
           this.setState({ buttonLoading: false });
         }
       }
-      this.props.history.push('/cart');
+      history.push('/cart');
     } else if (currentModalObj.type === 'payNow') {
       // for (let i = 0; i < inStockProducts.length; i++) {
       //   try {
@@ -420,15 +428,21 @@ class Help extends React.Component {
       //       goodsNum: inStockProducts[i].recommendationNumber,
       //       goodsCategory: ''
       //     });
-      //     await this.props.checkoutStore.updateLoginCart();
+      //     await checkoutStore.updateLoginCart();
       //   } catch (e) {
       //     this.setState({ buttonLoading: false });
       //   }
       // }
-      this.props.history.push('/prescription');
+      const url = distributeLinktoPrecriberOrPaymentPage({
+        configStore,
+        isLogin: loginStore.isLogin
+      });
+      url && history.push(url);
+      // history.push('/prescription');
     }
   }
   render(h) {
+    const { loginStore, history, configStore } = this.props;
     const event = {
       page: {
         type: 'Content',
@@ -559,7 +573,7 @@ class Help extends React.Component {
                     : 'rc-btn-solid-disabled'
                 }`}
                 onClick={() => {
-                  if (this.props.loginStore.isLogin) {
+                  if (loginStore.isLogin) {
                     this.hanldeLoginAddToCart();
                   } else {
                     this.hanldeUnloginAddToCart(productList, '/cart');
@@ -630,7 +644,7 @@ class Help extends React.Component {
                           </li>
                         ))}
                         <p ref="p" style={{ marginTop: '60px' }}>
-                          {this.props.loginStore.isLogin ? (
+                          {loginStore.isLogin ? (
                             <button
                               ref="loginButton"
                               className={`rc-btn rc-btn--one ${
@@ -652,13 +666,13 @@ class Help extends React.Component {
                                   ? ''
                                   : 'rc-btn-solid-disabled'
                               }`}
-                              history={this.props.history}
+                              history={history}
                             >
                               <FormattedMessage id="checkout" />
                             </LoginButton>
                           )}
                         </p>
-                        {!this.props.loginStore.isLogin && (
+                        {!loginStore.isLogin && (
                           <p>
                             <button
                               className={`rc-styled-link color-999`}
@@ -801,7 +815,7 @@ class Help extends React.Component {
                             <button
                               className="rc-btn rc-btn--two"
                               onClick={() => {
-                                this.props.history.push(
+                                history.push(
                                   '/details/' +
                                     productList[activeIndex].goodsInfo
                                       .goodsInfoId
@@ -896,7 +910,7 @@ class Help extends React.Component {
                         ref="p"
                         style={{ marginTop: '60px', textAlign: 'left' }}
                       >
-                        {this.props.loginStore.isLogin ? (
+                        {loginStore.isLogin ? (
                           <button
                             ref="loginButton"
                             className={`rc-btn rc-btn--one ${
@@ -916,12 +930,12 @@ class Help extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            history={this.props.history}
+                            history={history}
                           >
                             <FormattedMessage id="checkout" />
                           </LoginButton>
                         )}
-                        {!this.props.loginStore.isLogin && (
+                        {!loginStore.isLogin && (
                           <button
                             className={`rc-styled-link color-999`}
                             onClick={() => {
@@ -936,7 +950,7 @@ class Help extends React.Component {
                           </button>
                         )}
                       </p>
-                      {/* {!this.props.loginStore.isLogin && (
+                      {/* {!loginStore.isLogin && (
                         <p>
                           <button
                             className={`rc-styled-link color-999`}
@@ -1112,7 +1126,7 @@ class Help extends React.Component {
                             <button
                               className="rc-btn rc-btn--two mb-3 mt-2"
                               onClick={() => {
-                                this.props.history.push(
+                                history.push(
                                   '/details/' +
                                     productList[activeIndex].goodsInfo
                                       .goodsInfoId
@@ -1251,20 +1265,14 @@ class Help extends React.Component {
                                         <b style={{ color: '#00BCA3' }}>
                                           <FormattedMessage id="help.byTelephone" />
                                         </b>
-                                        <p>
-                                          {
-                                            this.props.configStore
-                                              .contactTimePeriod
-                                          }
-                                        </p>
+                                        <p>{configStore.contactTimePeriod}</p>
                                         <div className="rc-margin-top--xs">
                                           <p
                                             style={{ color: '#00BCA3' }}
                                             className="rc-numeric rc-md-up"
                                           >
                                             {
-                                              this.props.configStore
-                                                .storeContactPhoneNumber
+                                              configStore.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -1274,8 +1282,7 @@ class Help extends React.Component {
                                             className="rc-alpha rc-border--none rc-md-down"
                                           >
                                             {
-                                              this.props.configStore
-                                                .storeContactPhoneNumber
+                                              configStore.storeContactPhoneNumber
                                             }
                                           </p>
                                         </div>
@@ -1298,35 +1305,13 @@ class Help extends React.Component {
                                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div className="w-100">
                                         <b style={{ color: '#0087BD' }}>
-                                          <font
-                                            style={{ verticalAlign: 'inherit' }}
-                                          >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <FormattedMessage id="help.byEmail" />
-                                            </font>
-                                          </font>
+                                          <FormattedMessage id="help.byEmail" />
                                         </b>
                                         <p>
                                           <span
                                             style={{ color: 'rgb(0, 0, 0)' }}
                                           >
-                                            <font
-                                              style={{
-                                                verticalAlign: 'inherit'
-                                              }}
-                                            >
-                                              <font
-                                                style={{
-                                                  verticalAlign: 'inherit'
-                                                }}
-                                              >
-                                                <FormattedMessage id="help.tip3" />
-                                              </font>
-                                            </font>
+                                            <FormattedMessage id="help.tip3" />
                                           </span>
                                         </p>
                                         <div className="rc-margin-top--xs">
@@ -1336,10 +1321,7 @@ class Help extends React.Component {
                                               color: 'rgb(0, 135, 189)'
                                             }}
                                           >
-                                            {
-                                              this.props.configStore
-                                                .storeContactEmail
-                                            }
+                                            {configStore.storeContactEmail}
                                           </p>
                                         </div>
                                       </div>
@@ -1364,7 +1346,7 @@ class Help extends React.Component {
                                 }}
                               >
                                 <picture className="rc-card__image">
-                                  <img src={helpImg} alt=" " title=" " />
+                                  <img src={helpImg} alt="" title="" />
                                 </picture>
                               </div>
                             </div>

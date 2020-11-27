@@ -17,7 +17,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '2.5em', height: '2.5em' }}
+        style={{ width: '2.3rem', height: '2.3rem' }}
       >
         <use xlinkHref="#iconMyinformation" />
       </svg>
@@ -28,7 +28,11 @@ const itemList = [
   },
   {
     icon: (
-      <svg className="svg-icon account-home-icon" aria-hidden="true">
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '3.2rem', height: '3.2rem' }}
+      >
         <use xlinkHref="#iconMypets" />
       </svg>
     ),
@@ -38,7 +42,11 @@ const itemList = [
   },
   {
     icon: (
-      <svg className="svg-icon account-home-icon" aria-hidden="true">
+      <svg
+        className="svg-icon account-home-icon"
+        aria-hidden="true"
+        style={{ width: '5rem', height: '5rem' }}
+      >
         <use xlinkHref="#iconMyorders1" />
       </svg>
     ),
@@ -65,7 +73,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '6em', height: '6em' }}
+        style={{ width: '5rem', height: '5rem' }}
       >
         <use xlinkHref="#iconFAQ" />
       </svg>

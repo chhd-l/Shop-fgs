@@ -434,6 +434,7 @@ class Home extends React.Component {
             state: {
               cateIds: [ele.storeCateId],
               cateName: ele.cateName,
+              cateTitle: ele.cateTitle || ele.cateName,
               cateDescription: ele.cateDescription,
               cateImgList: ele.cateImgList
             }

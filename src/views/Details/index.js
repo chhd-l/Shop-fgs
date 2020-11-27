@@ -17,7 +17,8 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  getDictionary
+  getDictionary,
+  distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -81,7 +82,7 @@ function Advantage() {
     }[process.env.REACT_APP_LANG] || null
   );
 }
-@inject('checkoutStore', 'loginStore', 'headerCartStore')
+@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore')
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -143,7 +144,8 @@ class Details extends React.Component {
       },
       frequencyList: [],
       tabs: [],
-      reviewShow: false
+      reviewShow: false,
+      isShowPromotion: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -279,6 +281,11 @@ class Details extends React.Component {
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
+        if (item.goodsPromotion) {
+          this.setState({ isShowPromotion: true });
+        } else {
+          this.setState({ isShowPromotion: false });
+        }
       } else {
         item.selected = false;
       }
@@ -619,11 +626,18 @@ class Details extends React.Component {
     }
   }
   async hanldeLoginAddToCart({ redirect }) {
-    this.setState({ addToCartLoading: true });
-    const { quantity, form } = this.state;
-    const { sizeList } = this.state.details;
-    const currentSelectedSize = find(sizeList, (s) => s.selected);
     try {
+      const {
+        configStore,
+        checkoutStore,
+        history,
+        headerCartStore
+      } = this.props;
+      this.setState({ addToCartLoading: true });
+      const { quantity, form } = this.state;
+      const { sizeList } = this.state.details;
+      const currentSelectedSize = find(sizeList, (s) => s.selected);
+
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
@@ -638,16 +652,14 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
       await sitePurchase(param);
-      await this.checkoutStore.updateLoginCart();
-      this.props.headerCartStore.show();
+      await checkoutStore.updateLoginCart();
+      headerCartStore.show();
       setTimeout(() => {
-        this.props.headerCartStore.hide();
+        headerCartStore.hide();
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (
-          this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
-        ) {
+        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
@@ -662,13 +674,13 @@ class Details extends React.Component {
         }
 
         // 存在下架商品，不能下单
-        if (this.props.checkoutStore.offShelvesProNames.length) {
+        if (checkoutStore.offShelvesProNames.length) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorInfo4"
                 values={{
-                  val: this.props.checkoutStore.offShelvesProNames.join('/')
+                  val: checkoutStore.offShelvesProNames.join('/')
                 }}
               />
             )
@@ -677,13 +689,13 @@ class Details extends React.Component {
         }
 
         // 库存不够，不能下单
-        if (this.props.checkoutStore.outOfstockProNames.length) {
+        if (checkoutStore.outOfstockProNames.length) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorInfo2"
                 values={{
-                  val: this.props.checkoutStore.outOfstockProNames.join('/')
+                  val: checkoutStore.outOfstockProNames.join('/')
                 }}
               />
             )
@@ -693,22 +705,25 @@ class Details extends React.Component {
         // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({
-          goodsInfos: this.props.checkoutStore.loginCartData
+          goodsInfos: checkoutStore.loginCartData
         });
-        let handledData = this.props.checkoutStore.loginCartData.map(
-          (el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          }
-        );
-        this.props.checkoutStore.setLoginCartData(handledData);
+        let handledData = checkoutStore.loginCartData.map((el, i) => {
+          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+          return el;
+        });
+        checkoutStore.setLoginCartData(handledData);
         let AuditData = handledData.filter((el) => el.auditCatFlag);
-        this.props.checkoutStore.setAuditData(AuditData);
+        checkoutStore.setAuditData(AuditData);
         autoAuditFlag = res.context.autoAuditFlag;
-        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        this.props.checkoutStore.setPetFlag(res.context.petFlag);
-        this.props.history.push('/prescription');
+        checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        checkoutStore.setPetFlag(res.context.petFlag);
+        const url = distributeLinktoPrecriberOrPaymentPage({
+          configStore,
+          isLogin: this.isLogin
+        });
+        url && history.push(url);
+        // history.push('/prescription');
       }
     } catch (err) {
       console.log(err);
@@ -716,20 +731,26 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
+    const { configStore, checkoutStore, history, headerCartStore } = this.props;
+    const {
+      currentUnitPrice,
+      quantity,
+      instockStatus,
+      form,
+      details
+    } = this.state;
+    const { goodsId, sizeList } = details;
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
       throw new Error();
     }
-    const { history } = this.props;
-    const { currentUnitPrice, quantity, instockStatus, form } = this.state;
-    const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
-    let tmpData = Object.assign({}, this.state.details, {
+    let tmpData = Object.assign({}, details, {
       quantity: quantityNew
     });
     let cartDataCopy = cloneDeep(
-      toJS(this.checkoutStore.cartData).filter((el) => el)
+      toJS(checkoutStore.cartData).filter((el) => el)
     );
 
     if (!instockStatus || !quantityNew) {
@@ -816,12 +837,10 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
-    await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
+    await checkoutStore.updateUnloginCart(cartDataCopy);
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (
-        this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
-      ) {
+      if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
@@ -834,25 +853,25 @@ class Details extends React.Component {
         });
         throw new Error();
       }
-      if (this.props.checkoutStore.offShelvesProNames.length) {
+      if (checkoutStore.offShelvesProNames.length) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
               id="cart.errorInfo4"
               values={{
-                val: this.props.checkoutStore.offShelvesProNames.join('/')
+                val: checkoutStore.offShelvesProNames.join('/')
               }}
             />
           )
         });
         throw new Error();
       }
-      if (this.checkoutStore.outOfstockProNames.length) {
+      if (checkoutStore.outOfstockProNames.length) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
               id="cart.errorInfo2"
-              values={{ val: this.checkoutStore.outOfstockProNames.join('/') }}
+              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
             />
           )
         });
@@ -864,21 +883,19 @@ class Details extends React.Component {
         let autoAuditFlag = false;
         if (this.isLogin) {
           let res = await getProductPetConfig({
-            goodsInfos: this.props.checkoutStore.loginCartData
+            goodsInfos: checkoutStore.loginCartData
           });
-          let handledData = this.props.checkoutStore.loginCartData.map(
-            (el, i) => {
-              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-              return el;
-            }
-          );
-          this.props.checkoutStore.setLoginCartData(handledData);
+          let handledData = checkoutStore.loginCartData.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          });
+          checkoutStore.setLoginCartData(handledData);
           let AuditData = handledData.filter((el) => el.auditCatFlag);
-          this.props.checkoutStore.setAuditData(AuditData);
+          checkoutStore.setAuditData(AuditData);
           autoAuditFlag = res.context.autoAuditFlag;
         } else {
-          let paramData = this.props.checkoutStore.cartData.map((el) => {
+          let paramData = checkoutStore.cartData.map((el) => {
             el.goodsInfoId = el.sizeList.filter(
               (item) => item.selected
             )[0].goodsInfoId;
@@ -890,19 +907,24 @@ class Details extends React.Component {
             el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
             return el;
           });
-          this.props.checkoutStore.setCartData(handledData);
+          checkoutStore.setCartData(handledData);
           let AuditData = handledData.filter((el) => el.auditCatFlag);
-          this.props.checkoutStore.setAuditData(AuditData);
+          checkoutStore.setAuditData(AuditData);
           autoAuditFlag = res.context.autoAuditFlag;
-          this.props.checkoutStore.setPetFlag(res.context.petFlag);
+          checkoutStore.setPetFlag(res.context.petFlag);
         }
-        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        history.push('/prescription');
+        checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        const url = distributeLinktoPrecriberOrPaymentPage({
+          configStore,
+          isLogin: this.isLogin
+        });
+        url && history.push(url);
+        // history.push('/prescription');
       }
     }
-    this.props.headerCartStore.show();
+    headerCartStore.show();
     setTimeout(() => {
-      this.props.headerCartStore.hide();
+      headerCartStore.hide();
     }, 1000);
   }
 
@@ -928,9 +950,6 @@ class Details extends React.Component {
     this.setState({
       petModalVisible: false
     });
-  }
-  petComfirm() {
-    this.props.history.push('/prescription');
   }
   openNew() {
     this.setState({
@@ -984,7 +1003,8 @@ class Details extends React.Component {
       addToCartLoading,
       specList,
       form,
-      productRate
+      productRate,
+      instockStatus
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1136,6 +1156,7 @@ class Details extends React.Component {
                                     minImg={details.goodsImg}
                                     maxImg={details.goodsImg}
                                     config={this.state.imageMagnifierCfg.config}
+                                    isShowPromotion={this.state.isShowPromotion}
                                   />
                                 </div>
                               }
@@ -1201,38 +1222,37 @@ class Details extends React.Component {
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
-                              {/* todo */}
-                              <label
-                                className={`availability ${
-                                  1 ? 'outofstock' : 'instock'
-                                }`}
-                              >
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                {/* todo */}
-                                <div className={`${1 ? 'out-stock' : ''}`}>
-                                  <FormattedMessage id="details.inStock" />
-                                </div>
-                              </span>
-                              &nbsp; dispatched within 2 working days.
-                            </div>
-                            <div className="stock">
-                              <label className="availability out-stock">
-                                <span className="title-select"></span>
-                              </label>
-                              <span
-                                className="availability-msg"
-                                data-ready-to-order="true"
-                              >
-                                <div>
-                                  <FormattedMessage id="details.outStock" />
-                                </div>
-                              </span>
-                              &nbsp; dispatched within 2 working days.
+                              {instockStatus ? (
+                                <>
+                                  <label className={`availability instock`}>
+                                    <span className="title-select"></span>
+                                  </label>
+                                  <span
+                                    className="availability-msg"
+                                    data-ready-to-order="true"
+                                  >
+                                    {/* todo */}
+                                    <div>
+                                      <FormattedMessage id="details.inStock" />
+                                    </div>
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  <label className={`availability outofstock`}>
+                                    <span className="title-select"></span>
+                                  </label>
+                                  <span
+                                    className="availability-msg"
+                                    data-ready-to-order="true"
+                                  >
+                                    {/* todo */}
+                                    <div className={`out-stock`}>
+                                      <FormattedMessage id="details.outStock" />
+                                    </div>
+                                  </span>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -1740,7 +1760,9 @@ class Details extends React.Component {
                                   <button
                                     style={{ marginLeft: '10px' }}
                                     className={`rc-styled-link color-999 ${
-                                      addToCartLoading ? 'ui-btn-loading ui-btn-loading-border-red' : ''
+                                      addToCartLoading
+                                        ? 'ui-btn-loading ui-btn-loading-border-red'
+                                        : ''
                                     } ${btnStatus ? '' : 'rc-btn-disabled'}`}
                                     onClick={this.hanldeAddToCart.bind(this, {
                                       redirect: true

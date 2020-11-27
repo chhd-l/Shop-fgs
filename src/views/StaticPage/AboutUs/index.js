@@ -13,6 +13,7 @@ import dog from './images/dog.jpg';
 import { inject, observer } from 'mobx-react';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import { Link } from 'react-router-dom';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -143,15 +144,15 @@ class AboutUs extends React.Component {
                   <FormattedMessage id="aboutUs.ourValuesDetail" />
                 </p>
                 {this.props.intl.messages['aboutUs.learnMore'] ? (
-                  <a
+                  <Link
                     className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    href={process.env.REACT_APP_LANG === 'fr'?"/values-fr":'/tailorednutrition'}
+                    to={process.env.REACT_APP_LANG === 'fr'?"/values-fr":'/tailorednutrition'}
                   >
                     <FormattedMessage
                       id="aboutUs.learnMore"
                       defaultMessage={' '}
                     />
-                  </a>
+                  </Link>
                 ) : null}
               </div>
             </div>
@@ -176,15 +177,15 @@ class AboutUs extends React.Component {
                   <FormattedMessage id="aboutUs.FoodQualityandSafetyDetail" />
                 </p>
                 {this.props.intl.messages['aboutUs.learnMore'] ? (
-                  <a
+                  <Link
                     className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    href="/qualitySafety"
+                    to="/qualitySafety"
                   >
                     <FormattedMessage
                       id="aboutUs.learnMore"
                       defaultMessage={' '}
                     />
-                  </a>
+                  </Link>
                 ) : null}
               </div>
             </div>

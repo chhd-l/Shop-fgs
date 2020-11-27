@@ -10,8 +10,8 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
 import LoginButton from '@/components/LoginButton';
 
-import catImg from '@/assets/images/product-finder-cat2.png';
-import dogImg from '@/assets/images/product-finder-dog2.png';
+import catImg from '@/assets/images/product-finder-cat2.jpg';
+import dogImg from '@/assets/images/product-finder-dog2.jpg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -78,7 +78,7 @@ function PetJSX(props) {
                   {props.isLogin ? (
                     <Link
                       className="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      to="/account/pet"
+                      to="/account/pets"
                     >
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </Link>
@@ -87,7 +87,7 @@ function PetJSX(props) {
                       beforeLoginCallback={async () => {
                         sessionItemRoyal.set(
                           'okta-redirectUrl',
-                          '/account/pet'
+                          '/account/pets'
                         );
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"

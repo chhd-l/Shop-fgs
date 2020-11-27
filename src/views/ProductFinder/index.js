@@ -7,8 +7,8 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import { FormattedMessage } from 'react-intl';
 import Question from './modules/Question';
 
-import catImg from '@/assets/images/product-finder-cat.png';
-import dogImg from '@/assets/images/product-finder-dog.png';
+import catImg from '@/assets/images/product-finder-cat.jpg';
+import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;

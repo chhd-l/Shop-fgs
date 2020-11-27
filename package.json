@@ -63,7 +63,6 @@
     "react": "^16.13.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-app-polyfill": "^1.0.6",
-    "react-copy-to-clipboard": "^5.0.2",
     "react-datepicker": "^3.1.3",
     "react-dev-utils": "^10.2.1",
     "react-dom": "^16.13.1",
@@ -89,7 +88,6 @@
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
-    "webpackbar": "^5.0.0-3",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
@@ -107,7 +105,6 @@
     "build:uat": "dotenv -e .env.development node scripts/build.js",
     "build:uat_mx": "dotenv -e .env.development.mx node scripts/build.js",
     "build:uat_de": "dotenv -e .env.development.de node scripts/build.js",
-    "build:uat_fr": "dotenv -e .env.development.fr node scripts/build.js",
     "build:stg": "dotenv -e .env.stage node scripts/build.js",
     "build:stg_us": "dotenv -e .env.stage.us node scripts/build.js",
     "build:stg_mx": "dotenv -e .env.stage.mx node scripts/build.js",
@@ -213,6 +210,7 @@
     "react-google-tag-manager": "^2.2.1",
     "react-router-dom": "^5.1.2",
     "react-skeleton-loader": "^1.0.4",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpackbar": "^5.0.0-3"
   }
 }

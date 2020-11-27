@@ -12,8 +12,8 @@ import SearchAnswer from './SearchAnswer';
 import TextAnswer from './TextAnswer';
 import { query, edit, matchProducts } from '@/api/productFinder';
 
-import catImg from '@/assets/images/product-finder-cat.png';
-import dogImg from '@/assets/images/product-finder-dog.png';
+import catImg from '@/assets/images/product-finder-cat.jpg';
+import dogImg from '@/assets/images/product-finder-dog.jpg';
 import veterinaryImg from '@/assets/images/veterinary.png';
 import veterinaryProductImg from '@/assets/images/veterinary_product.png';
 
@@ -341,8 +341,35 @@ class Question extends React.Component {
     }
     switch (stepName) {
       case 'reasonForDiet':
-        tmpList.sort((a) => {
-          return a.key === 'none' ? 1 : a.key === 'healthIssues' ? 1 : -1;
+        // 写死排序
+        Array.from(tmpList, (ele) => {
+          switch (ele.key) {
+            case 'newPet':
+              ele.sort = 1;
+              break;
+            case 'trySomethingNew':
+              ele.sort = 2;
+              break;
+            case 'noLongerAYoung':
+              ele.sort = 3;
+              break;
+            case 'gettingOlder':
+              ele.sort = 4;
+              break;
+            case 'hasSensitivities':
+              ele.sort = 5;
+              break;
+            case 'healthIssues':
+              ele.sort = 6;
+              break;
+            case 'none':
+              ele.sort = 7;
+              break;
+          }
+          return ele;
+        });
+        tmpList.sort((a, b) => {
+          return a.sort - b.sort;
         });
         break;
       default:

@@ -51,11 +51,21 @@ export default class DropDownMenu extends React.Component {
     const { activeTopParentId } = this.props;
     const { currentDesc } = this.state;
     let descObj = null;
-    if (currentDesc && currentDesc.text && currentDesc.imageLink) {
-      descObj = { text: currentDesc.text, imageLink: currentDesc.imageLink };
-    } else if (item.navigationDesc && item.imageLink) {
-      descObj = { text: item.navigationDesc, imageLink: item.imageLink };
+    if (item.navigationDesc && item.imageLink) {
+      descObj = {
+        text: item.navigationDesc,
+        imageLink: item.imageLink
+      };
     }
+    if (currentDesc) {
+      if (currentDesc.text) {
+        descObj = Object.assign(descObj, { text: currentDesc.text });
+      }
+      if (currentDesc.imageLink) {
+        descObj = Object.assign(descObj, { imageLink: currentDesc.imageLink });
+      }
+    }
+
     return (
       <div
         className={`dropdown-nav d-flex ${
