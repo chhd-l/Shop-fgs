@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
 import BreadCrumbs from '@/components/BreadCrumbs';
-import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -17,8 +16,7 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  getDictionary,
-  distributeLinktoPrecriberOrPaymentPage
+  getDictionary
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -82,7 +80,7 @@ function Advantage() {
     }[process.env.REACT_APP_LANG] || null
   );
 }
-@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore')
+@inject('checkoutStore', 'loginStore', 'headerCartStore')
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -115,7 +113,6 @@ class Details extends React.Component {
       currentUnitPrice: 0,
       currentLinePrice: 0,
       currentSubscriptionPrice: 0,
-      currentSubscriptionStatus: 0,
       imageMagnifierCfg: {
         show: false
         // config: {},
@@ -144,13 +141,12 @@ class Details extends React.Component {
       },
       frequencyList: [],
       tabs: [],
-      reviewShow: false,
-      isShowPromotion: false
+      reviewShow: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
+    this.headerRef = React.createRef();
 
     this.specie = '';
     this.productRange = [];
@@ -159,14 +155,13 @@ class Details extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  async componentDidMount() {
-    
+  componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    await Promise.all([
+    Promise.all([
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
     ]).then((dictList) => {
@@ -196,119 +191,11 @@ class Details extends React.Component {
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
-      delete ele.value;
       return {
         value: ele.valueEn,
         ...ele
       };
     });
-  }
-  get btnStatus() {
-    const { details, quantity, instockStatus, initing } = this.state;
-    // displayFlag 是否展示在前台
-    // saleableFlag 是否可销售
-    // 不可销售且不展示在前台 则前台按钮置灰
-    return (
-      !initing &&
-      instockStatus &&
-      quantity &&
-      (details.saleableFlag || !details.displayFlag)
-    );
-  }
-  bundleMatchGoods() {
-    let {
-      specList,
-      details,
-      currentUnitPrice,
-      currentLinePrice,
-      currentSubscriptionPrice,
-      currentSubscriptionStatus,
-      stock
-    } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let baseSpecId = details.baseSpec;
-    // specList.map((el) => {
-    //   if (el.chidren.filter((item) => item.selected).length) {
-    //     selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-    //   }
-    //   return el;
-    // });
-    // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa')
-    
-    currentUnitPrice = details.goodsInfos[0].salePrice
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus
-    stock = details.goodsInfos[0].stock
-    details.sizeList[0].selected = true
-    // details.sizeList.map((item, i) => {
-    //   item.basePrice = 0;
-    //   details.goodsSpecDetails.map((el) => {
-    //     if (
-    //       el.specId === baseSpecId &&
-    //       item.mockSpecDetailIds.includes(el.specDetailId)
-    //     ) {
-    //       item.baseSpecLabel = el.detailName;
-    //     }
-    //     return el;
-    //   });
-    //   let specTextArr = [];
-    //   for (let specItem of specList) {
-    //     for (let specDetailItem of specItem.chidren) {
-    //       if (
-    //         item.mockSpecIds.includes(specDetailItem.specId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         specTextArr.push(specDetailItem.detailName);
-    //       }
-    //       // console.log(item.mo)
-    //       if (
-    //         item.mockSpecIds.includes(baseSpecId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         console.log(
-    //           specDetailItem.detailName,
-    //           'specDetailItem.detailName',
-    //           i
-    //         );
-    //         item.baseSpecLabel = specDetailItem.detailName;
-    //       }
-    //     }
-    //   }
-    //   item.specText = specTextArr.join(' ');
-    //   if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-    //     console.log(item, 'item');
-    //     item.selected = true;
-    //     currentUnitPrice = item.salePrice;
-    //     currentLinePrice = item.linePrice;
-    //     currentSubscriptionPrice = item.subscriptionPrice;
-    //     currentSubscriptionStatus = item.subscriptionStatus;
-    //     stock = item.stock;
-    //     if(item.goodsPromotion) {
-    //       this.setState({isShowPromotion: true})
-    //     }else {
-    //       this.setState({isShowPromotion: false})
-    //     }
-    //   } else {
-    //     item.selected = false;
-    //   }
-    //   return item;
-    // });
-    console.log(details, 'details');
-    this.setState(
-      {
-        details,
-        currentUnitPrice,
-        currentSubscriptionPrice,
-        currentSubscriptionStatus,
-        stock
-      },
-      () => {
-        this.updateInstockStatus();
-      }
-    );
   }
   matchGoods() {
     let {
@@ -317,7 +204,6 @@ class Details extends React.Component {
       currentUnitPrice,
       currentLinePrice,
       currentSubscriptionPrice,
-      currentSubscriptionStatus,
       stock
     } = this.state;
     let selectedArr = [];
@@ -369,18 +255,11 @@ class Details extends React.Component {
       }
       item.specText = specTextArr.join(' ');
       if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-        console.log(item, 'item');
         item.selected = true;
         currentUnitPrice = item.salePrice;
         currentLinePrice = item.linePrice;
         currentSubscriptionPrice = item.subscriptionPrice;
-        currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
-        if (item.goodsPromotion) {
-          this.setState({ isShowPromotion: true });
-        } else {
-          this.setState({ isShowPromotion: false });
-        }
       } else {
         item.selected = false;
       }
@@ -393,7 +272,6 @@ class Details extends React.Component {
         currentUnitPrice,
         currentLinePrice,
         currentSubscriptionPrice,
-        currentSubscriptionStatus,
         stock
       },
       () => {
@@ -413,6 +291,7 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
+          console.log(202, this);
           this.setState({
             productRate: res.context.goods.avgEvaluate,
             replyNum: res.context.goods.goodsEvaluateNum,
@@ -432,27 +311,27 @@ class Details extends React.Component {
         }
         if (res && res.context && res.context.goodsSpecDetails) {
           // 获取产品所属类别
-          // let tmpSpecie =
-          //   find(res.context.storeCates, (ele) =>
-          //     ele.cateName.toLowerCase().includes('dog')
-          //   ) && 'Dog';
-          // if (!tmpSpecie) {
-          //   tmpSpecie =
-          //     find(res.context.storeCates, (ele) =>
-          //       ele.cateName.toLowerCase().includes('cat')
-          //     ) && 'Cat';
-          // }
-          // this.specie = tmpSpecie;
+          let tmpSpecie =
+            find(res.context.storeCates, (ele) =>
+              ele.cateName.toLowerCase().includes('dog')
+            ) && 'Dog';
+          if (!tmpSpecie) {
+            tmpSpecie =
+              find(res.context.storeCates, (ele) =>
+                ele.cateName.toLowerCase().includes('cat')
+              ) && 'Cat';
+          }
+          this.specie = tmpSpecie;
 
           // 获取产品所属home页四个大类
-          // for (let item of res.context.storeCates) {
-          //   const t = find(STORE_CATE_ENUM, (ele) =>
-          //     ele.cateName.includes(item.cateName)
-          //   );
-          //   if (t) {
-          //     this.productRange.push(t.text);
-          //   }
-          // }
+          for (let item of res.context.storeCates) {
+            const t = find(STORE_CATE_ENUM, (ele) =>
+              ele.cateName.includes(item.cateName)
+            );
+            if (t) {
+              this.productRange.push(t.text);
+            }
+          }
           // 获取产品Dry/Wet属性
           // let tmpFormat = [];
           // queryProps().then((propsRes) => {
@@ -587,88 +466,10 @@ class Details extends React.Component {
             }
           );
         } else {
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
-
-          sizeList = goodsInfos.map((g) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
-            // }
-            return g;
-          });
-
-          // const selectedSize = find(sizeList, s => s.selected)
-
-          const { goodsDetailTab, tabs } = this.state;
-          try {
-            let tmpGoodsDetail = res.context.goods.goodsDetail;
-            if (tmpGoodsDetail) {
-              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              for (let key in tmpGoodsDetail) {
-                if (tmpGoodsDetail[key]) {
-                  goodsDetailTab.tabName.push(key);
-                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                  tabs.push({ show: false });
-                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                }
-              }
-            }
-            this.setState({
-              goodsDetailTab: goodsDetailTab,
-              tabs
-            });
-          } catch (err) {
-            getDict({
-              type: 'goodsDetailTab',
-              storeId: process.env.REACT_APP_STOREID
-            }).then((res) => {
-              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                (ele) => ele.name
-              );
-              this.setState({
-                goodsDetailTab: goodsDetailTab
-              });
-            });
-          }
-          let images = [];
-          if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-            if (res.context.images.length) {
-              images = res.context.images;
-            }
-          } else {
-            images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          }
-          this.setState(
-            {
-              details: Object.assign(
-                {},
-                this.state.details,
-                res.context.goods,
-                {
-                  sizeList,
-                  goodsInfos: res.context.goodsInfos,
-                  goodsSpecDetails: res.context.goodsSpecDetails,
-                  goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
-                }
-              ),
-              images: images
-            }, () => {
-              this.bundleMatchGoods()
-            }
-          )
           // 没有规格的情况
-          // this.setState({
-          //   errMsg: <FormattedMessage id="details.errMsg" />
-          // });
+          this.setState({
+            errMsg: <FormattedMessage id="details.errMsg" />
+          });
         }
       })
       .catch((e) => {
@@ -789,9 +590,14 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
-    const { loading } = this.state;
-    if (!this.btnStatus || loading) return false;
+    if (
+      !(!this.state.initing && this.state.instockStatus && this.state.quantity)
+    )
+      return;
     this.setState({ checkOutErrMsg: '' });
+    if (this.state.loading) {
+      return false;
+    }
     if (this.isLogin) {
       this.hanldeLoginAddToCart({ redirect });
     } else {
@@ -799,23 +605,11 @@ class Details extends React.Component {
     }
   }
   async hanldeLoginAddToCart({ redirect }) {
+    this.setState({ addToCartLoading: true });
+    const { quantity, form } = this.state;
+    const { sizeList } = this.state.details;
+    const currentSelectedSize = find(sizeList, (s) => s.selected);
     try {
-      const {
-        configStore,
-        checkoutStore,
-        history,
-        headerCartStore
-      } = this.props;
-      this.setState({ addToCartLoading: true });
-      const { quantity, form } = this.state;
-      const { sizeList } = this.state.details;
-      let currentSelectedSize
-      if(this.state.details.goodsSpecDetails) {
-        currentSelectedSize = find(sizeList, (s) => s.selected);
-      }else {
-        currentSelectedSize = sizeList[0]
-      }
-
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
@@ -825,19 +619,21 @@ class Details extends React.Component {
           this.format.join('&')
         ].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
-      };
-      if (parseInt(form.buyWay)) {
-        param.periodTypeId = form.frequencyId;
+      }
+      if(parseInt(form.buyWay)) {
+        param.periodTypeId = form.frequencyId
       }
       await sitePurchase(param);
-      await checkoutStore.updateLoginCart();
-      headerCartStore.show();
+      await this.checkoutStore.updateLoginCart();
+      this.props.headerCartStore.show();
       setTimeout(() => {
-        headerCartStore.hide();
+        this.props.headerCartStore.hide();
       }, 1000);
       this.setState({ addToCartLoading: false });
       if (redirect) {
-        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        if (
+          this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
+        ) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
@@ -852,13 +648,13 @@ class Details extends React.Component {
         }
 
         // 存在下架商品，不能下单
-        if (checkoutStore.offShelvesProNames.length) {
+        if (this.props.checkoutStore.offShelvesProNames.length) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorInfo4"
                 values={{
-                  val: checkoutStore.offShelvesProNames.join('/')
+                  val: this.props.checkoutStore.offShelvesProNames.join('/')
                 }}
               />
             )
@@ -867,13 +663,13 @@ class Details extends React.Component {
         }
 
         // 库存不够，不能下单
-        if (checkoutStore.outOfstockProNames.length) {
+        if (this.props.checkoutStore.outOfstockProNames.length) {
           this.setState({
             checkOutErrMsg: (
               <FormattedMessage
                 id="cart.errorInfo2"
                 values={{
-                  val: checkoutStore.outOfstockProNames.join('/')
+                  val: this.props.checkoutStore.outOfstockProNames.join('/')
                 }}
               />
             )
@@ -883,25 +679,22 @@ class Details extends React.Component {
         // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({
-          goodsInfos: checkoutStore.loginCartData
+          goodsInfos: this.props.checkoutStore.loginCartData
         });
-        let handledData = checkoutStore.loginCartData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          return el;
-        });
-        checkoutStore.setLoginCartData(handledData);
+        let handledData = this.props.checkoutStore.loginCartData.map(
+          (el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          }
+        );
+        this.props.checkoutStore.setLoginCartData(handledData);
         let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
+        this.props.checkoutStore.setAuditData(AuditData);
         autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        checkoutStore.setPetFlag(res.context.petFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        this.props.checkoutStore.setPetFlag(res.context.petFlag);
+        this.props.history.push('/prescription');
       }
     } catch (err) {
       console.log(err);
@@ -909,26 +702,20 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const { configStore, checkoutStore, history, headerCartStore } = this.props;
-    const {
-      currentUnitPrice,
-      quantity,
-      instockStatus,
-      form,
-      details
-    } = this.state;
-    const { goodsId, sizeList } = details;
     this.setState({ checkOutErrMsg: '' });
     if (this.state.loading) {
       throw new Error();
     }
+    const { history } = this.props;
+    const { currentUnitPrice, quantity, instockStatus, form } = this.state;
+    const { goodsId, sizeList } = this.state.details;
     const currentSelectedSize = find(sizeList, (s) => s.selected);
     let quantityNew = quantity;
-    let tmpData = Object.assign({}, details, {
+    let tmpData = Object.assign({}, this.state.details, {
       quantity: quantityNew
     });
     let cartDataCopy = cloneDeep(
-      toJS(checkoutStore.cartData).filter((el) => el)
+      toJS(this.checkoutStore.cartData).filter((el) => el)
     );
 
     if (!instockStatus || !quantityNew) {
@@ -954,12 +741,9 @@ class Details extends React.Component {
           this.setState({ addToCartLoading: false });
           return;
         }
-        tmpData = Object.assign(tmpData, {
-          quantity: quantityNew,
-          goodsInfoFlag: parseInt(form.buyWay)
-        });
-        if (parseInt(form.buyWay)) {
-          tmpData.periodTypeId = form.frequencyId;
+        tmpData = Object.assign(tmpData, { quantity: quantityNew, goodsInfoFlag: parseInt(form.buyWay) })
+        if(parseInt(form.buyWay)) {
+          tmpData.periodTypeId = form.frequencyId
         }
       }
     }
@@ -1001,8 +785,8 @@ class Details extends React.Component {
       selected: true,
       goodsInfoFlag: parseInt(form.buyWay)
     });
-    if (parseInt(form.buyWay)) {
-      tmpData.periodTypeId = form.frequencyId;
+    if(parseInt(form.buyWay)) {
+      tmpData.periodTypeId = form.frequencyId
     }
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
@@ -1015,10 +799,12 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
-    await checkoutStore.updateUnloginCart(cartDataCopy);
+    await this.props.checkoutStore.updateUnloginCart(cartDataCopy);
     this.setState({ addToCartLoading: false });
     if (redirect) {
-      if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+      if (
+        this.checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT
+      ) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
@@ -1031,25 +817,25 @@ class Details extends React.Component {
         });
         throw new Error();
       }
-      if (checkoutStore.offShelvesProNames.length) {
+      if (this.props.checkoutStore.offShelvesProNames.length) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
               id="cart.errorInfo4"
               values={{
-                val: checkoutStore.offShelvesProNames.join('/')
+                val: this.props.checkoutStore.offShelvesProNames.join('/')
               }}
             />
           )
         });
         throw new Error();
       }
-      if (checkoutStore.outOfstockProNames.length) {
+      if (this.checkoutStore.outOfstockProNames.length) {
         this.setState({
           checkOutErrMsg: (
             <FormattedMessage
               id="cart.errorInfo2"
-              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
+              values={{ val: this.checkoutStore.outOfstockProNames.join('/') }}
             />
           )
         });
@@ -1061,19 +847,21 @@ class Details extends React.Component {
         let autoAuditFlag = false;
         if (this.isLogin) {
           let res = await getProductPetConfig({
-            goodsInfos: checkoutStore.loginCartData
+            goodsInfos: this.props.checkoutStore.loginCartData
           });
-          let handledData = checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setLoginCartData(handledData);
+          let handledData = this.props.checkoutStore.loginCartData.map(
+            (el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            }
+          );
+          this.props.checkoutStore.setLoginCartData(handledData);
           let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
+          this.props.checkoutStore.setAuditData(AuditData);
           autoAuditFlag = res.context.autoAuditFlag;
         } else {
-          let paramData = checkoutStore.cartData.map((el) => {
+          let paramData = this.props.checkoutStore.cartData.map((el) => {
             el.goodsInfoId = el.sizeList.filter(
               (item) => item.selected
             )[0].goodsInfoId;
@@ -1085,31 +873,26 @@ class Details extends React.Component {
             el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
             return el;
           });
-          checkoutStore.setCartData(handledData);
+          this.props.checkoutStore.setCartData(handledData);
           let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
+          this.props.checkoutStore.setAuditData(AuditData);
           autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
+          this.props.checkoutStore.setPetFlag(res.context.petFlag);
         }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
+        this.props.checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        history.push('/prescription');
       }
     }
-    headerCartStore.show();
+    this.props.headerCartStore.show();
     setTimeout(() => {
-      headerCartStore.hide();
+      this.props.headerCartStore.hide();
     }, 1000);
   }
 
-  handleInputChange(e) {
-    let { form } = this.state;
-    form.buyWay = parseInt(e.currentTarget.value);
-    this.setState({ form });
+  handleInputChange (e) {
+    let { form } = this.state
+    form.buyWay = parseInt(e.currentTarget.value)
+    this.setState({form})
   }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
@@ -1128,6 +911,9 @@ class Details extends React.Component {
     this.setState({
       petModalVisible: false
     });
+  }
+  petComfirm() {
+    this.props.history.push('/prescription');
   }
   openNew() {
     this.setState({
@@ -1173,19 +959,24 @@ class Details extends React.Component {
       quantity,
       stock,
       quantityMinLimit,
+      instockStatus,
       currentUnitPrice,
       currentLinePrice,
       currentSubscriptionPrice,
-      currentSubscriptionStatus,
       errMsg,
       addToCartLoading,
       specList,
-      form,
-      productRate,
-      instockStatus
+      initing,
+      form
     } = this.state;
-
-    const btnStatus = this.btnStatus;
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    if (selectedSpecItem) {
+      console.log(
+        selectedSpecItem,
+        'selectedSpecItem',
+        String(parseFloat(selectedSpecItem.baseSpecLabel)).length
+      );
+    }
     let event;
     // let eEvents;
     // if (!this.state.initing) {
@@ -1228,6 +1019,7 @@ class Details extends React.Component {
           />
         ) : null} */}
         <Header
+          ref={this.headerRef}
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}
@@ -1252,9 +1044,7 @@ class Details extends React.Component {
           <main className="rc-content--fixed-header ">
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
-                {/* <BreadCrumbs /> */}
-                {/* todo 接口有返回salescatogery类别吗 */}
-                <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
+                <BreadCrumbs />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     <div
@@ -1286,18 +1076,18 @@ class Details extends React.Component {
                               style={{ verticalAlign: 'middle' }}
                             >
                               <Rate
-                                def={productRate}
+                                def={this.state.productRate}
                                 disabled={true}
                                 marginSize="sRate"
                               />
                             </div>
-                            <span
+                            <a
                               className="comments rc-margin-left--xs rc-text-colour--text"
                               onClick={this.handleAClick.bind(this)}
                             >
                               ({this.state.replyNum})
                               {/* <FormattedMessage id="reviews" /> */}
-                            </span>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -1334,7 +1124,6 @@ class Details extends React.Component {
                                     minImg={details.goodsImg}
                                     maxImg={details.goodsImg}
                                     config={this.state.imageMagnifierCfg.config}
-                                    isShowPromotion={this.state.isShowPromotion}
                                   />
                                 </div>
                               }
@@ -1373,8 +1162,7 @@ class Details extends React.Component {
                                     style={{ verticalAlign: 'middle' }}
                                   >
                                     <Rate
-                                      def={productRate}
-                                      key={productRate}
+                                      def={this.state.productRate}
                                       disabled={true}
                                       marginSize="sRate"
                                     />
@@ -1400,37 +1188,18 @@ class Details extends React.Component {
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
                             <div className="stock">
-                              {instockStatus ? (
-                                <>
-                                  <label className={`availability instock`}>
-                                    <span className="title-select"></span>
-                                  </label>
-                                  <span
-                                    className="availability-msg"
-                                    data-ready-to-order="true"
-                                  >
-                                    {/* todo */}
-                                    <div>
-                                      <FormattedMessage id="details.inStock" />
-                                    </div>
-                                  </span>
-                                </>
-                              ) : (
-                                <>
-                                  <label className={`availability outofstock`}>
-                                    <span className="title-select"></span>
-                                  </label>
-                                  <span
-                                    className="availability-msg"
-                                    data-ready-to-order="true"
-                                  >
-                                    {/* todo */}
-                                    <div className={`out-stock`}>
-                                      <FormattedMessage id="details.outStock" />
-                                    </div>
-                                  </span>
-                                </>
-                              )}
+                              <label className="availability instock">
+                                <span className="title-select"></span>
+                              </label>
+                              <span
+                                className="availability-msg"
+                                data-ready-to-order="true"
+                              >
+                                <div>
+                                  <FormattedMessage id="details.inStock" />
+                                </div>
+                              </span>
+                              &nbsp; dispatched within 2 working days.
                             </div>
                           </div>
                         </div>
@@ -1528,14 +1297,7 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7'
-                            }}
-                          >
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1549,9 +1311,7 @@ class Details extends React.Component {
                                         name="buyWay"
                                         value="0"
                                         key="1"
-                                        onChange={(event) =>
-                                          this.handleInputChange(event)
-                                        }
+                                        onChange={(event) => this.handleInputChange(event)}
                                         checked
                                       />
                                     )}
@@ -1570,6 +1330,11 @@ class Details extends React.Component {
                                     </span>
                                   </label>
                                 </div>
+                                <br />
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  -4$
+                                </b>{' '}
+                                for your 1st order
                               </div>
                               <div
                                 className="price"
@@ -1590,19 +1355,8 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7',
-                              height: '100px'
-                            }}
-                          >
-                            <div
-                              className="radioBox"
-                              style={{ paddingTop: '1rem' }}
-                            >
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                            <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
@@ -1614,9 +1368,7 @@ class Details extends React.Component {
                                       name="buyWay"
                                       value="0"
                                       key="0"
-                                      onChange={(event) =>
-                                        this.handleInputChange(event)
-                                      }
+                                      onChange={(event) => this.handleInputChange(event)}
                                       // checked
                                       defaultChecked
                                     />
@@ -1633,6 +1385,11 @@ class Details extends React.Component {
                                   </span>
                                 </label>
                               </div>
+                              <br />
+                              <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                -4$
+                              </b>{' '}
+                              for your 1st order
                             </div>
                             <div className="freqency">
                               <span
@@ -1646,148 +1403,31 @@ class Details extends React.Component {
                             </div>
                           </div>
                         )}
-                        {currentSubscriptionStatus ? (
-                          /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                            navigator.userAgent
-                          ) ? (
-                            <div
-                              className="buyMethod rc-margin-bottom--xs"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7'
-                              }}
-                            >
-                              <div className="buyMethodInnerBox">
-                                <div className="radioBox">
-                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                    <FormattedMessage id="email">
-                                      {(txt) => (
-                                        <input
-                                          className="rc-input__radio"
-                                          id="optsemail"
-                                          type="radio"
-                                          alt={txt}
-                                          name="buyWay"
-                                          value="1"
-                                          key="1"
-                                          onChange={(event) =>
-                                            this.handleInputChange(event)
-                                          }
-                                          checked
-                                        />
-                                      )}
-                                    </FormattedMessage>
-                                    <label
-                                      className="rc-input__label--inline"
-                                      htmlFor="optsemail"
-                                    >
-                                      <span
-                                        style={{
-                                          fontWeight: '400',
-                                          color: '#333'
-                                        }}
-                                      >
-                                        <FormattedMessage id="autoship" />
-                                        <span
-                                          className="info-tooltip delivery-method-tooltip"
-                                          onMouseEnter={() => {
-                                            this.setState({
-                                              toolTipVisible: true
-                                            });
-                                          }}
-                                          onMouseLeave={() => {
-                                            this.setState({
-                                              toolTipVisible: false
-                                            });
-                                          }}
-                                        >
-                                          i
-                                        </span>
-                                        <ConfirmTooltip
-                                          arrowStyle={{ left: '65%' }}
-                                          display={this.state.toolTipVisible}
-                                          cancelBtnVisible={false}
-                                          confirmBtnVisible={false}
-                                          updateChildDisplay={(status) =>
-                                            this.setState({
-                                              toolTipVisible: status
-                                            })
-                                          }
-                                          content={
-                                            <FormattedMessage id="subscription.promotionTip2" />
-                                          }
-                                        />
-                                      </span>
-                                    </label>
-                                  </div>
-                                  <br />
-                                  Save&nbsp;
-                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                    {formatMoney(
-                                      currentUnitPrice -
-                                        quantity * currentSubscriptionPrice
-                                    )}
-                                  </b>
-                                  &nbsp; on this subscription.
-                                </div>
-                                <div className="price">
-                                  {formatMoney(currentSubscriptionPrice || 0)}
-                                </div>
-                              </div>
-                              <div className="freqency">
-                                <span>Delivery every:</span>
-                                <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: '100px'
-                                  }}
-                                  selectedItemChange={(data) =>
-                                    this.handleSelectedItemChange(data)
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyVal
-                                  }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            <div
-                              className="buyMethod rc-margin-bottom--xs"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7'
-                              }}
-                            >
-                              <div
-                                className="radioBox"
-                                style={{ paddingTop: '1rem' }}
-                              >
+                        {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
+                          navigator.userAgent
+                        ) ? (
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                            <div className="buyMethodInnerBox">
+                              <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input
                                         className="rc-input__radio"
-                                        id="type_frequency"
+                                        id="optsemail"
                                         type="radio"
                                         alt={txt}
                                         name="buyWay"
                                         value="1"
                                         key="1"
-                                        onChange={(event) =>
-                                          this.handleInputChange(event)
-                                        }
-                                        // checked
+                                        onChange={(event) => this.handleInputChange(event)}
+                                        checked
                                       />
                                     )}
                                   </FormattedMessage>
                                   <label
                                     className="rc-input__label--inline"
-                                    htmlFor="type_frequency"
+                                    htmlFor="optsemail"
                                   >
                                     <span
                                       style={{
@@ -1829,38 +1469,122 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                                 <br />
-                                {/* <div>
-                              Save&nbsp;
+                                Save extra{' '}
                                 <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
+                                  10%
                                 </b>
-                                &nbsp; on this subscription.
-                              </div> */}
-                              </div>
-                              <div className="freqency">
-                                <span>Delivery every:</span>
-                                <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: '100px'
-                                  }}
-                                  selectedItemChange={(data) =>
-                                    this.handleSelectedItemChange(data)
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyVal
-                                  }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
-                                />
                               </div>
                               <div className="price">
                                 {formatMoney(currentSubscriptionPrice || 0)}
                               </div>
                             </div>
-                          )
-                        ) : null}
+                            <div className="freqency">
+                              <span>Delivery every:</span> 
+                              <Selection
+                                customContainerStyle={{
+                                  display: 'inline-block',
+                                  marginLeft: '100px'
+                                }}
+                                selectedItemChange={(data) =>
+                                  this.handleSelectedItemChange(data)
+                                }
+                                optionList={this.computedList}
+                                selectedItemData={{
+                                  value: form.frequencyVal
+                                }}
+                                key={form.frequencyVal}
+                                customStyleType="select-one"
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                            <div className="radioBox">
+                              <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                <FormattedMessage id="email">
+                                  {(txt) => (
+                                    <input
+                                      className="rc-input__radio"
+                                      id="type_frequency"
+                                      type="radio"
+                                      alt={txt}
+                                      name="buyWay"
+                                      value="1"
+                                      key="1"
+                                      onChange={(event) => this.handleInputChange(event)}
+                                      // checked
+                                    />
+                                  )}
+                                </FormattedMessage>
+                                <label
+                                  className="rc-input__label--inline"
+                                  htmlFor="type_frequency"
+                                >
+                                  <span
+                                    style={{ fontWeight: '400', color: '#333' }}
+                                  >
+                                    <FormattedMessage id="autoship" />
+                                    <span
+                                      className="info-tooltip delivery-method-tooltip"
+                                      onMouseEnter={() => {
+                                        this.setState({
+                                          toolTipVisible: true
+                                        });
+                                      }}
+                                      onMouseLeave={() => {
+                                        this.setState({
+                                          toolTipVisible: false
+                                        });
+                                      }}
+                                    >
+                                      i
+                                    </span>
+                                    <ConfirmTooltip
+                                      arrowStyle={{ left: '65%' }}
+                                      display={this.state.toolTipVisible}
+                                      cancelBtnVisible={false}
+                                      confirmBtnVisible={false}
+                                      updateChildDisplay={(status) =>
+                                        this.setState({
+                                          toolTipVisible: status
+                                        })
+                                      }
+                                      content={
+                                        <FormattedMessage id="subscription.promotionTip2" />
+                                      }
+                                    />
+                                  </span>
+                                </label>
+                              </div>
+                              <br />
+                              Save extra{' '}
+                              <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                10%
+                              </b>
+                            </div>
+                            <div className="freqency">
+                              <span>Delivery every:</span>
+                              <Selection
+                                customContainerStyle={{
+                                  display: 'inline-block',
+                                  marginLeft: '100px'
+                                }}
+                                selectedItemChange={(data) =>
+                                  this.handleSelectedItemChange(data)
+                                }
+                                optionList={this.computedList}
+                                selectedItemData={{
+                                  value: form.frequencyVal
+                                }}
+                                key={form.frequencyVal}
+                                customStyleType="select-one"
+                              />
+                            </div>
+                            <div className="price">
+                              {formatMoney(currentSubscriptionPrice || 0)}
+                            </div>
+                          </div>
+                        )}
                         {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) && (
@@ -1869,34 +1593,18 @@ class Details extends React.Component {
                           // style={{ transform: 'translateY(-80px)' }}
                           >
                             <div
-                              className="rc-max-width--xl fullHeight justify-content-center text-right"
-                              style={{ marginTop: '20px' }}
+                              className="rc-max-width--xl fullHeight justify-content-center"
+                              style={{ textAlign: 'right', marginTop: '20px' }}
                             >
-                              {!this.isLogin &&
-                                (this.state.form.buyWay ? (
-                                  <span style={{ marginLeft: '10px' }}>
-                                    Autoship is possible only after registration
-                                  </span>
-                                ) : (
-                                  <button
-                                    style={{ marginLeft: '10px' }}
-                                    className={`rc-styled-link color-999 ${
-                                      addToCartLoading
-                                        ? 'ui-btn-loading ui-btn-loading-border-red'
-                                        : ''
-                                    } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                                    onClick={this.hanldeAddToCart.bind(this, {
-                                      redirect: true
-                                    })}
-                                  >
-                                    <FormattedMessage id="GuestCheckout" />
-                                  </button>
-                                ))}
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                                onClick={this.hanldeAddToCart}
+                                } ${
+                                  !initing && instockStatus && quantity
+                                    ? ''
+                                    : 'rc-btn-solid-disabled'
+                                }`}
+                                onClick={() => this.hanldeAddToCart()}
                               >
                                 <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                                 <span className="default-txt">
@@ -1908,14 +1616,18 @@ class Details extends React.Component {
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
                                   }`}
-                                  onClick={this.hanldeAddToCart.bind(this, {
-                                    redirect: true,
-                                    needLogin: false
-                                  })}
+                                  onClick={() =>
+                                    this.hanldeAddToCart({
+                                      redirect: true,
+                                      needLogin: false
+                                    })
+                                  }
                                 >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                                   <span className="default-txt">
                                     <FormattedMessage id="checkout" />
                                   </span>
@@ -1939,7 +1651,9 @@ class Details extends React.Component {
                                   btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
                                   } ${
-                                    btnStatus ? '' : 'rc-btn-solid-disabled'
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-solid-disabled'
                                   }`}
                                   history={this.props.history}
                                 >
@@ -1948,6 +1662,23 @@ class Details extends React.Component {
                                     <FormattedMessage id="checkout" />
                                   </span>
                                 </LoginButton>
+                              )}
+                              {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
+                                <button
+                                  style={{ marginLeft: '10px' }}
+                                  className={`rc-styled-link color-999 ${
+                                    addToCartLoading ? 'ui-btn-loading' : ''
+                                  } ${
+                                    !initing && instockStatus && quantity
+                                      ? ''
+                                      : 'rc-btn-disabled'
+                                  }`}
+                                  onClick={() =>
+                                    this.hanldeAddToCart({ redirect: true })
+                                  }
+                                >
+                                  <FormattedMessage id="GuestCheckout" />
+                                </button>)
                               )}
                             </div>
                           </div>
@@ -2127,7 +1858,7 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             {/* <div> */}
-            {/* <div
+              {/* <div
                 style={{
                   textAlign: 'center',
                   color: 'rgb(236, 0, 26)',
@@ -2139,20 +1870,15 @@ class Details extends React.Component {
               >
                 Recommanded for you
               </div> */}
-            {/* <HeroCarousel
+              {/* <HeroCarousel
                 history={this.props.history}
                 goodsId={this.state.goodsId}
                 key={this.state.goodsId}
               /> */}
-            {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-            <div>
-              <Carousel
-                location={this.props.location}
-                history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
-              />
-            </div>
+              {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+              <div>
+                <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
+              </div>
             {/* </div> */}
             <div
               className="sticky-addtocart"
@@ -2162,8 +1888,12 @@ class Details extends React.Component {
                 <button
                   className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                     addToCartLoading ? 'ui-btn-loading' : ''
-                  } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                  onClick={this.hanldeAddToCart}
+                  } ${
+                    !initing && instockStatus && quantity
+                      ? ''
+                      : 'rc-btn-solid-disabled'
+                  }`}
+                  onClick={() => this.hanldeAddToCart()}
                 >
                   <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
                   <span className="default-txt">
@@ -2174,11 +1904,14 @@ class Details extends React.Component {
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    onClick={this.hanldeAddToCart.bind(this, {
-                      redirect: true,
-                      needLogin: false
-                    })}
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
+                    onClick={() =>
+                      this.hanldeAddToCart({ redirect: true, needLogin: false })
+                    }
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
                     <span className="default-txt">
@@ -2200,7 +1933,11 @@ class Details extends React.Component {
                     }}
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ''
+                        : 'rc-btn-solid-disabled'
+                    }`}
                     history={this.props.history}
                   >
                     <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
@@ -2209,23 +1946,20 @@ class Details extends React.Component {
                     </span>
                   </LoginButton>
                 )}
-                {!this.isLogin &&
-                  (this.state.form.buyWay ? (
-                    <span style={{ marginLeft: '10px' }}>
-                      Autoship is possible only after registration
-                    </span>
-                  ) : (
-                    <button
-                      className={`rc-styled-link color-999 ${
-                        addToCartLoading ? 'ui-btn-loading' : ''
-                      } ${btnStatus ? '' : 'rc-btn-disabled'}`}
-                      onClick={this.hanldeAddToCart.bind(this, {
-                        redirect: true
-                      })}
-                    >
-                      <FormattedMessage id="GuestCheckout" />
-                    </button>
-                  ))}
+                {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
+                  <button
+                    className={`rc-styled-link color-999 ${
+                      addToCartLoading ? 'ui-btn-loading' : ''
+                    } ${
+                      !initing && instockStatus && quantity
+                        ? ''
+                        : 'rc-btn-disabled'
+                    }`}
+                    onClick={() => this.hanldeAddToCart({ redirect: true })}
+                  >
+                    <FormattedMessage id="GuestCheckout" />
+                  </button>)
+                )}
               </div>
             </div>
           </main>

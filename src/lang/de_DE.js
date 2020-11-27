@@ -439,6 +439,8 @@ const de_DE = {
   'order.returnOrderDetails': 'Details zur Rücksendung',
   'order.returnStatus': 'Rückgabestatus',
   'order.shippingStatus': 'Versandstatus',
+  'order.toBeDeliveredTip': 'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
+  'order.toBePaidTip': 'Ihre Bestellung wurde erfolgreich erstellt.',
   'order.viewOrder': 'Bestellung anzeigen',
   orders: 'Aufträge',
   'orderStatus.AUDIT': 'wird geliefert',
@@ -784,6 +786,10 @@ const de_DE = {
   'account.myPayments': 'Meine Zahlungen',
   'account.myAddresses': 'Meine Adressen',
   breed: 'Rasse',
-  gender: 'Geschlecht'
+  gender: 'Geschlecht',
+  logisticsCompany: 'Logistics company',
+  logisticsRating: 'Logistics rating',
+  logisticsSingleNumber: 'Logistics single number',
+  'order.completeTip': 'The package was delivered by hand to the delivery address.',
 }
 export default de_DE;

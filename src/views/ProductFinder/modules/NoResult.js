@@ -78,7 +78,7 @@ function PetJSX(props) {
                   {props.isLogin ? (
                     <Link
                       className="col-12 col-md-6 rc-btn rc-btn--one mb-3"
-                      to="/account/pet"
+                      to="/account/pets"
                     >
                       <FormattedMessage id="productFinder.createMyPetProfile" />
                     </Link>
@@ -87,7 +87,7 @@ function PetJSX(props) {
                       beforeLoginCallback={async () => {
                         sessionItemRoyal.set(
                           'okta-redirectUrl',
-                          '/account/pet'
+                          '/account/pets'
                         );
                       }}
                       btnClass="col-12 col-md-6 rc-btn rc-btn--one mb-3"

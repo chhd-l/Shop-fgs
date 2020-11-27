@@ -23,18 +23,20 @@ class CommunicationDataEditForm extends React.Component {
         let index = Number(
           e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id
         );
-
-        let arr = this.state.list[index].detailList.filter((item) => {
+        const { list } = this.state;
+        let arr = (list[index] || []).detailList.filter((item) => {
           return item.contentTitle === keyWords;
         });
 
-        let tempArr = [...this.state.list];
+        let tempArr = [...list];
         //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
-        tempArr[index].innerHtml = tempArr[index].innerHtml
-          ? ''
-          : arr[0]
-          ? arr[0].contentBody
-          : '';
+        if (tempArr[index]) {
+          tempArr[index].innerHtml = tempArr[index].innerHtml
+            ? ''
+            : arr[0]
+            ? arr[0].contentBody
+            : '';
+        }
 
         this.setState({ list: tempArr });
       }

@@ -37,7 +37,7 @@ const ProgressWithTooptip = (props) => {
           <div
             className="noUi-handle noUi-handle-lower"
             data-handle="0"
-            tabindex="0"
+            tabIndex="0"
             role="slider"
             aria-orientation="horizontal"
             aria-valuemin="0.0"

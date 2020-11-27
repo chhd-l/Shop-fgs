@@ -618,12 +618,19 @@ class Header extends React.Component {
     });
   }
   render() {
-    const { showMiniIcons, loginStore, configStore } = this.props;
+    const {
+      showMiniIcons,
+      showUserIcon,
+      loginStore,
+      configStore,
+      history
+    } = this.props;
     const {
       headerNavigationList,
       showSearchInput,
       keywords,
-      activeTopParentId
+      activeTopParentId,
+      showCenter
     } = this.state;
     return (
       <>
@@ -741,18 +748,20 @@ class Header extends React.Component {
                     </div>
                     {this.isLogin ? (
                       <LoginCart
-                        showSearchInput={this.state.showSearchInput}
-                        history={this.props.history}
+                        showSearchInput={showSearchInput}
+                        history={history}
+                        configStore={configStore}
                       />
                     ) : (
                       <UnloginCart
-                        showSearchInput={this.state.showSearchInput}
-                        history={this.props.history}
+                        showSearchInput={showSearchInput}
+                        history={history}
+                        configStore={configStore}
                       />
                     )}
                   </>
                 ) : null}
-                {this.props.showUserIcon ? (
+                {showUserIcon ? (
                   <span
                     id="main_mini_cart"
                     className="minicart inlineblock"
@@ -788,18 +797,16 @@ class Header extends React.Component {
 
                     {!this.isLogin ? (
                       <div
-                        className={[
-                          'popover',
-                          'popover-bottom',
-                          this.state.showCenter ? 'show' : ''
-                        ].join(' ')}
+                        className={`popover popover-bottom ${
+                          showCenter ? 'show' : ''
+                        }`}
                         style={{ minWidth: '13rem' }}
                       >
                         <div className="container cart">
                           <div className="login-style">
                             <LoginButton
                               btnStyle={{ width: '11rem', margin: '2rem 0' }}
-                              history={this.props.history}
+                              history={history}
                             />
                             {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
@@ -860,7 +867,7 @@ class Header extends React.Component {
                     ) : (
                       <div
                         className={`popover popover-bottom ${
-                          this.state.showCenter ? 'show' : ''
+                          showCenter ? 'show' : ''
                         }`}
                         style={{ minWidth: '13rem' }}
                         onMouseOver={this.handleMouseOver}
@@ -974,7 +981,7 @@ class Header extends React.Component {
             <div className="rc-sm-down">
               <form
                 className={`rc-header__search-bar headerSearch ${
-                  this.state.showSearchInput ? '' : 'rc-hidden'
+                  showSearchInput ? '' : 'rc-hidden'
                 }`}
                 role="search"
                 name="simpleSearch"

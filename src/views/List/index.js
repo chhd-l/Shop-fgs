@@ -719,23 +719,25 @@ class List extends React.Component {
                           </div>
                           <div className="col-12 col-md-4">
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em'
-                                }}
-                                customStyleType="select-one"
-                              />
+                              {sortList.length > 0 && (
+                                <Selection
+                                  key={sortList.length}
+                                  selectedItemChange={this.onSortChange}
+                                  optionList={sortList}
+                                  selectedItemData={{
+                                    value:
+                                      (selectedSortParam &&
+                                        selectedSortParam.value) ||
+                                      ''
+                                  }}
+                                  placeholder={<FormattedMessage id="sortBy" />}
+                                  customInnerStyle={{
+                                    paddingTop: '.7em',
+                                    paddingBottom: '.7em'
+                                  }}
+                                  customStyleType="select-one"
+                                />
+                              )}
                             </span>
                           </div>
                         </div>

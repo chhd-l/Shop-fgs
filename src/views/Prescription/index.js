@@ -100,8 +100,6 @@ class Prescription extends React.Component {
       },
       loading: true
     };
-    this.headerRef = React.createRef();
-    this.inputRef = React.createRef();
   }
   componentDidMount() {
     setSeoConfig()
@@ -344,7 +342,6 @@ class Prescription extends React.Component {
                     <FormattedMessage id="searchPrescriber">
                       {(txt) => (
                         <input
-                          ref={this.inputRef}
                           className="search-field"
                           type="search"
                           autoComplete="off"
