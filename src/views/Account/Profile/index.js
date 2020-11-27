@@ -112,7 +112,7 @@ class AccountProfile extends React.Component {
             rfc: context.reference,
             address1: context.address1,
             address2: context.address2,
-            postCode: context.postCode,
+            postCode: context.postalCode,
             communicationEmail: context.communicationEmail,
             communicationPhone: context.communicationPhone
           },

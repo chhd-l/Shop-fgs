@@ -130,7 +130,7 @@ class PersonalDataEditForm extends React.Component {
         reference: form.rfc,
         address1: form.address1,
         address2: form.address2,
-        postCode: form.postCode,
+        postalCode: form.postCode,
         cityId: form.city,
         communicationEmail: form.communicationEmail,
         communicationPhone: form.communicationPhone
