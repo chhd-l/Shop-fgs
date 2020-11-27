@@ -81,9 +81,9 @@ class TermsCommon extends Component {
           id={this.props.id}
         />
         {process.env.REACT_APP_LANG === 'de' ? (
-          <div style={{ paddingLeft: '20px' }}>
-            <a href="/Widerrufsbelehrung" style={{ color: '#7F6666' }}>
-              Hier finden Sie Information zulhrem Widerrufsrecht
+          <div style={{ paddingLeft: '20px',marginTop:'20px'}}>
+            <a href="javascript:;" style={{ color: '#7F6666',cursor:'default' }}>
+              Informationen zu Ihrem Widerrufsrecht finden Sie <a href="https://shopstg.royalcanin.com/de/Widerrufsbelehrung" className="rc-styled-link">hier</a>
             </a>
           </div>
         ) : null}
