@@ -916,11 +916,12 @@ class Details extends React.Component {
       quantity,
       instockStatus,
       form,
-      details
+      details,
+      loading
     } = this.state;
     const { goodsId, sizeList } = details;
     this.setState({ checkOutErrMsg: '' });
-    if (this.state.loading) {
+    if (!this.btnStatus || loading) {
       throw new Error();
     }
     const currentSelectedSize = find(sizeList, (s) => s.selected);
@@ -1881,8 +1882,7 @@ class Details extends React.Component {
                                   </span>
                                 ) : (
                                   <button
-                                    style={{ marginLeft: '10px' }}
-                                    className={`rc-styled-link color-999 ${
+                                    className={`rc-styled-link color-999 mr-2 ${
                                       addToCartLoading
                                         ? 'ui-btn-loading ui-btn-loading-border-red'
                                         : ''
