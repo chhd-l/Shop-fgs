@@ -3,20 +3,33 @@ import { FormattedMessage } from 'react-intl';
 import { findUserSelectedList, userBindConsent } from '@/api/consent';
 import { withOktaAuth } from '@okta/okta-react';
 import Consent from '@/components/Consent';
-import Loading from '@/components/Loading';
+import { updateCustomerBaseInfo } from '@/api/user';
 import classNames from 'classnames';
 
 class CommunicationDataEditForm extends React.Component {
+  static defaultProps = {
+    originData: null
+  };
   constructor(props) {
     super(props);
     this.state = {
+      data: null,
       editFormVisible: false,
       list: [],
       isLoading: false,
-      saveLoading: false
+      saveLoading: false,
+      form: { communicationPhone: '', communicationEmail: '' },
+      errorMsg: ''
     };
+    this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
+      this
+    );
   }
   componentDidMount() {
+    const { data } = this.props;
+    this.setState({
+      form: Object.assign({}, data)
+    });
     document.getElementById('wrap').addEventListener('click', (e) => {
       if (e.target.localName === 'span') {
         let keyWords = e.target.innerText;
@@ -85,25 +98,43 @@ class CommunicationDataEditForm extends React.Component {
   };
   //保存
   handleSave = async () => {
-    try {
-      this.setState({
-        saveLoading: true
+    const { form } = this.state;
+    this.setState({
+      saveLoading: true
+    });
+    let oktaToken = 'Bearer ' + this.props.authState.accessToken;
+    let submitParam = this.bindSubmitParam(this.state.list);
+    Promise.all([
+      updateCustomerBaseInfo(
+        Object.assign({}, this.props.originData, {
+          communicationEmail: form.communicationEmail,
+          communicationPhone: form.communicationPhone
+        })
+      ),
+      userBindConsent({ ...submitParam, ...{ oktaToken } })
+    ])
+      .then(async (res) => {
+        await this.init();
+        this.handleCancel();
+        this.setState({
+          saveLoading: false
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          errorMsg: err.message,
+          saveLoading: false
+        });
+        setTimeout(() => {
+          this.setState({
+            errorMsg: ''
+          });
+        }, 3000);
       });
-      let oktaToken = 'Bearer ' + this.props.authState.accessToken;
-      let submitParam = this.bindSubmitParam(this.state.list);
-      await userBindConsent({ ...submitParam, ...{ oktaToken } });
-      await this.init();
-      this.handleCancel();
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      this.setState({
-        saveLoading: false
-      });
-    }
   };
   handleCancel = () => {
     this.changeEditFormVisible(false);
+    this.setState({ form: Object.assign({}, this.props.data) });
   };
   //从子组件传回
   sendList = (list) => {
@@ -123,8 +154,13 @@ class CommunicationDataEditForm extends React.Component {
   handleClickGoBack = () => {
     this.changeEditFormVisible(false);
   };
+  handleCommunicationCheckBoxChange(item) {
+    let { form } = this.state;
+    form[item.type] = !+form[item.type] ? '1' : '0';
+    this.setState({ form });
+  }
   render() {
-    const { editFormVisible } = this.state;
+    const { editFormVisible, list, form, errorMsg } = this.state;
     const createMarkup = (text) => ({ __html: text });
     const curPageAtCover = !editFormVisible;
     return (
@@ -143,7 +179,7 @@ class CommunicationDataEditForm extends React.Component {
                 >
                   <use xlinkHref="#iconcommunication" />
                 </svg>
-                <FormattedMessage id="account.consents" />
+                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
               </h5>
             ) : (
               <h5
@@ -151,7 +187,7 @@ class CommunicationDataEditForm extends React.Component {
                 onClick={this.handleClickGoBack}
               >
                 <span>&larr; </span>
-                <FormattedMessage id="account.consents" />
+                <FormattedMessage id="account.myCommunicationPreferencesTitle" />
               </h5>
             )}
 
@@ -175,53 +211,119 @@ class CommunicationDataEditForm extends React.Component {
               'border-0': editFormVisible
             })}
           />
-          <div class="pl-3 pr-3 pb-3">
-            <span className="rc-meta">
+          <div className="pl-3 pr-3 pb-3">
+            <div
+              className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                errorMsg ? '' : 'hidden'
+              }`}
+            >
+              <aside
+                className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                role="alert"
+              >
+                <span className="pl-0">{errorMsg}</span>
+                <button
+                  className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                  aria-label="Close"
+                  onClick={() => {
+                    this.setState({ errorMsg: '' });
+                  }}
+                >
+                  <span className="rc-screen-reader-text">
+                    <FormattedMessage id="close" />
+                  </span>
+                </button>
+              </aside>
+            </div>
+
+            <span className={`rc-meta ${editFormVisible ? 'hidden' : ''}`}>
               <b>
-                <FormattedMessage id="account.consentsDetail" />
+                <FormattedMessage id="account.myCommunicationPreferencesDesc" />
               </b>
             </span>
             <div
               className={`row rc-padding-top--xs rc-margin-left--none rc-padding-left--none contactPreferenceContainer ${
                 editFormVisible ? 'hidden' : ''
               }`}
-            ></div>
-            <div id="wrap" style={{ marginLeft: '30px' }}>
-              {/* checkbox组 */}
-              <Consent
-                list={this.state.list}
-                sendList={this.sendList}
-                disabled={!this.state.editFormVisible}
-                checkboxPadding={'10px'}
-                zoom={'150%'}
-                key={'profile'}
-              />
-              {/* 取消和保存 按钮 */}
-              <div
-                className={`text-right contactPreferenceFormBtn ${
-                  editFormVisible ? '' : 'hidden'
-                }`}
-              >
-                <span
-                  className="rc-styled-link editPersonalInfoBtn"
-                  name="contactPreference"
-                  onClick={this.handleCancel}
-                >
-                  <FormattedMessage id="cancel" />
-                </span>
-                &nbsp;
-                <FormattedMessage id="or" />
-                &nbsp;
-                <button
-                  className={classNames('rc-btn', 'rc-btn--one', 'submitBtn', {
-                    'ui-btn-loading': this.state.saveLoading
-                  })}
-                  name="contactPreference"
-                  type="submit"
-                  onClick={this.handleSave}
-                >
-                  <FormattedMessage id="save" />
-                </button>
+            />
+            <div className={`${editFormVisible ? '' : 'hidden'}`}>
+              <span className={`rc-meta`}>
+                <b>
+                  <FormattedMessage id="account.myCommunicationPreferencesContent1" />
+                </b>
+              </span>
+              <div>
+                <label className="form-control-label rc-input--full-width w-100">
+                  <FormattedMessage id="account.preferredMethodOfCommunication" />
+                </label>
+                {[
+                  { type: 'communicationPhone', langKey: 'phone' },
+                  { type: 'communicationEmail', langKey: 'email' }
+                ].map((ele, idx) => (
+                  <div className="rc-input rc-input--inline" key={idx}>
+                    <input
+                      type="checkbox"
+                      className="rc-input__checkbox"
+                      id={`basicinfo-communication-checkbox-${ele.type}`}
+                      onChange={this.handleCommunicationCheckBoxChange.bind(
+                        this,
+                        ele
+                      )}
+                      checked={+form[ele.type] || false}
+                    />
+                    <label
+                      className="rc-input__label--inline text-break"
+                      htmlFor={`basicinfo-communication-checkbox-${ele.type}`}
+                    >
+                      <FormattedMessage id={ele.langKey} />
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              <span className={`rc-meta`}>
+                <b>
+                  <FormattedMessage id="account.myCommunicationPreferencesContent2" />
+                </b>
+              </span>
+              <div id="wrap" style={{ marginLeft: '30px' }}>
+                {/* checkbox组 */}
+                <Consent
+                  list={list}
+                  sendList={this.sendList}
+                  disabled={!editFormVisible}
+                  checkboxPadding={'10px'}
+                  zoom={'150%'}
+                  key={'profile'}
+                />
+                {/* 取消和保存 按钮 */}
+                <div className={`text-right contactPreferenceFormBtn`}>
+                  <span
+                    className="rc-styled-link editPersonalInfoBtn"
+                    name="contactPreference"
+                    onClick={this.handleCancel}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </span>
+                  &nbsp;
+                  <FormattedMessage id="or" />
+                  &nbsp;
+                  <button
+                    className={classNames(
+                      'rc-btn',
+                      'rc-btn--one',
+                      'submitBtn',
+                      {
+                        'ui-btn-loading': this.state.saveLoading
+                      }
+                    )}
+                    name="contactPreference"
+                    type="submit"
+                    onClick={this.handleSave}
+                  >
+                    <FormattedMessage id="save" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

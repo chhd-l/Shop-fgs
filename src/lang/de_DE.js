@@ -24,7 +24,10 @@ const de_DE = {
   'account.dateTip': 'Bitte wählen Sie ein vergangenes Datum.',
   'account.dog': 'Hund',
   'account.Email': 'E-Mail Adresse',
-  'account.consentsDetail': 'Zustimmt Detail',
+  'account.myCommunicationPreferencesTitle': 'Meine Kommunikationspräferenzen',
+  'account.myCommunicationPreferencesDesc': 'Befolgen Sie die Informationen von Royal Canin in der Mitteilung',
+  'account.myCommunicationPreferencesContent1': 'Bevorzugte Kommunikationsmethode',
+  'account.myCommunicationPreferencesContent2': 'Einwilligungen zur Kommunikation erteilt',
   'account.preferredMethodOfCommunication': 'Bevorzugte Kommunikationsmethode',
   'account.enterBirthDare': 'Geben Sie das Geburtsdatum Ihres Tieres an.',
   'account.features': 'Zu welchem Krankheitsbild hat Ihre Tierarztpraxis eine Nahrung empfohlen?',
@@ -791,5 +794,6 @@ const de_DE = {
   logisticsRating: 'Logistics rating',
   logisticsSingleNumber: 'Logistics single number',
   'order.completeTip': 'The package was delivered by hand to the delivery address.',
+  setAsDefault: 'Als Standard festlegen'
 }
 export default de_DE;

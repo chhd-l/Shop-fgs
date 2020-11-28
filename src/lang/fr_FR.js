@@ -24,7 +24,6 @@ const fr_FR = {
   'account.dateTip': 'Veuillez sélectionner une date passée.',
   'account.dog': 'Chien',
   'account.Email': 'Adresse e-mail',
-  'account.consentsDetail': 'Détails du consentement',
   'account.preferredMethodOfCommunication': 'Méthode de communication préférée',
   'account.enterBirthDare': 'Veuillez saisir la date de naissance de votre animal.',
   'account.faqTip': 'Si vous avez des questions, nous sommes toujours prêts à vous aider, vous et votre animal',
@@ -58,7 +57,10 @@ const fr_FR = {
   'account.petsTip': "Créez et gérez vos profils d'animaux.",
   'account.petsTitle': 'Mes animaux de compagnie',
   'account.preferredContactMethod': 'Type de contact préféré',
-  'account.consents': 'Mes consentements',
+  'account.myCommunicationPreferencesTitle': 'Mes préférences de communication',
+  'account.myCommunicationPreferencesDesc': 'Suivez les informations de Royal Canin sur la communication',
+  'account.myCommunicationPreferencesContent1': 'Méthode de communication préférée',
+  'account.myCommunicationPreferencesContent2': 'Consentements donnés pour la communication',
   'account.profile': 'Mon information',
   'account.profileTip': 'Voir ou mettre à jour vos informations personnelles.',
   'account.requiredFields': 'Champs obligatoires',
@@ -250,7 +252,7 @@ const fr_FR = {
   enterPasswordAgain: 'Entrez à nouveau le nouveau mot de passe',
   every: 'Tout',
   example: 'Exemple',
-  examplePhone: '06 23 45 67 89',
+  examplePhone: '06 23 45 67 89 (tel. mobile pour un meilleur suivi de votre commande)',
   examplePostCode: '12345',
   expirationDateIsInvalid: "La date d'expiration de votre carte n'est pas valide",
   'faq.frequentQuestions': 'Questions fréquemment posées',
@@ -1028,6 +1030,8 @@ const fr_FR = {
   year: 'Année',
   next: 'Suivant',
   breed: 'Race',
-  gender: 'Le genre'
+  gender: 'Le genre',
+  home: 'Accueil',
+  setAsDefault: 'Définir par défaut'
 }
 export default fr_FR;

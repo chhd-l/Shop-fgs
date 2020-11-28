@@ -24,7 +24,6 @@ const en_US = {
   'account.dateTip': 'Please select a past date.',
   'account.dog': 'Dog',
   'account.Email': 'E-mail',
-  'account.consentsDetail': 'Consents detail',
   'account.preferredMethodOfCommunication': 'Preferred method of communication',
   'account.enterBirthDare': 'Enter the date of birth of your pet.',
   'account.faqTip': 'If you have any questions, we are always ready to help you and your pet',
@@ -58,7 +57,10 @@ const en_US = {
   'account.petsTip': "Create and manage your pet's profile to maintain its best health possible",
   'account.petsTitle': 'My pets',
   'account.preferredContactMethod': 'Preferred Contact Method',
-  'account.consents': 'My consents',
+  'account.myCommunicationPreferencesTitle': 'My communication preferences',
+  'account.myCommunicationPreferencesDesc': 'Follow the Royal Canin information on the commuication',
+  'account.myCommunicationPreferencesContent1': 'Perferred method of communication',
+  'account.myCommunicationPreferencesContent2': 'Consents given for communication',
   'account.profile': 'My information',
   'account.profileTip': 'Show and update your personal information',
   'account.requiredFields': 'Required fields',
@@ -832,6 +834,7 @@ const en_US = {
   yourPasswordNotVerified: 'Your password has not been verified',
   'productFinder.searchResultWarningTip1': "The recommendations provided here are for informational purpose only.It should not be considered as guarantee for what may be best for your indivaidual pet.",
   breed: 'Breed',
-  gender: 'Gender'
+  gender: 'Gender',
+  setAsDefault: 'Set as default'
 }
 export default en_US;

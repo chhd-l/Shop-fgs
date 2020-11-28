@@ -24,7 +24,6 @@ const tr_TR = {
   'account.dateTip': 'Lütfen geçmiş bir tarih seçin.',
   'account.dog': 'Köpek',
   'account.Email': 'E-posta',
-  'account.consentsDetail': 'Onay ayrıntısı',
   'account.preferredMethodOfCommunication': 'Tercih edilen iletişim yöntemi',
   'account.enterBirthDare': 'Evcil hayvanınızın doğum tarihini girin.',
   'account.features': 'Evcil hayvanınızın hangi özel ihtiyaçları var?',
@@ -48,7 +47,10 @@ const tr_TR = {
   'account.pets': 'Evcil Hayvanlar',
   'account.petsTip': 'Evcil hayvan profillerinizi oluşturun ve yönetin.',
   'account.preferredContactMethod': 'Tercih Edilen İletişim Yöntemi',
-  'account.consents': 'Rızalarım',
+  'account.myCommunicationPreferencesTitle': 'İletişim tercihlerim',
+  'account.myCommunicationPreferencesDesc': 'İletişimde Royal Canin bilgilerini takip edin',
+  'account.myCommunicationPreferencesContent1': 'Tercih edilen iletişim yöntemi',
+  'account.myCommunicationPreferencesContent2': 'İletişim için verilen onaylar',
   'account.profile': 'Benim bilgim',
   'account.profileTip': 'Kişisel bilgilerinizi görüntüleyin ve düzenleyin.',
   'account.requiredFields': 'Zorunlu Alanlar',
@@ -697,7 +699,8 @@ const tr_TR = {
   yourEmailNotVerified: 'E-posta doğrulanmadı!',
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
   breed: 'Doğurmak',
-  gender: 'Cinsiyet'  
+  gender: 'Cinsiyet',
+  setAsDefault: 'Varsayılan olarak ayarla'
 }
 
 export default tr_TR;
