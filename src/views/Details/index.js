@@ -1,6 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -160,7 +161,6 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -236,13 +236,13 @@ class Details extends React.Component {
     // });
     // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa')
-    
-    currentUnitPrice = details.goodsInfos[0].salePrice
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus
-    stock = details.goodsInfos[0].stock
-    details.sizeList[0].selected = true
+    console.log(details, 'detailsaaa');
+
+    currentUnitPrice = details.goodsInfos[0].salePrice;
+    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
+    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    stock = details.goodsInfos[0].stock;
+    details.sizeList[0].selected = true;
     // details.sizeList.map((item, i) => {
     //   item.basePrice = 0;
     //   details.goodsSpecDetails.map((el) => {
@@ -661,10 +661,11 @@ class Details extends React.Component {
                 }
               ),
               images: images
-            }, () => {
-              this.bundleMatchGoods()
+            },
+            () => {
+              this.bundleMatchGoods();
             }
-          )
+          );
           // 没有规格的情况
           // this.setState({
           //   errMsg: <FormattedMessage id="details.errMsg" />
@@ -809,11 +810,11 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: true });
       const { quantity, form } = this.state;
       const { sizeList } = this.state.details;
-      let currentSelectedSize
-      if(this.state.details.goodsSpecDetails) {
+      let currentSelectedSize;
+      if (this.state.details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
-      }else {
-        currentSelectedSize = sizeList[0]
+      } else {
+        currentSelectedSize = sizeList[0];
       }
 
       let param = {
@@ -1168,6 +1169,7 @@ class Details extends React.Component {
   render() {
     const createMarkup = (text) => ({ __html: text });
     const {
+      goodsId,
       details,
       images,
       quantity,
@@ -1994,18 +1996,20 @@ class Details extends React.Component {
                           }`}
                         ></span>
                       </div>
-                      <div className={`rc-list__content `}>
+                      <div className={`rc-list__content`}>
                         <p
                           dangerouslySetInnerHTML={{
                             __html: this.state.goodsDetailTab.tabContent[index]
                           }}
-                        ></p>
-                        <img
-                          src={
-                            this.state.goodsDetailTab.tabContent[index].imgUl
-                          }
-                          alt=""
-                        ></img>
+                        />
+                        <LazyLoad height={200}>
+                          <img
+                            src={
+                              this.state.goodsDetailTab.tabContent[index].imgUl
+                            }
+                            alt=""
+                          />
+                        </LazyLoad>
                       </div>
                     </div>
                   </dl>
@@ -2047,7 +2051,11 @@ class Details extends React.Component {
                             dangerouslySetInnerHTML={{ __html: <Reviews id={this.state.goodsId} isLogin={this.isLogin} /> }}
                           ></p> */}
                     <p>
-                      <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
+                      <Reviews
+                        id={goodsId}
+                        key={goodsId}
+                        isLogin={this.isLogin}
+                      />
                     </p>
                     {/* <img src={this.state.goodsDetailTab.tabContent[index].imgUl} alt=""></img> */}
                   </div>
@@ -2124,7 +2132,7 @@ class Details extends React.Component {
                   : 'block'
               }}
             >
-              <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
+              <Reviews id={goodsId} key={goodsId} isLogin={this.isLogin} />
             </div>
             {/* <div> */}
             {/* <div
@@ -2149,8 +2157,8 @@ class Details extends React.Component {
               <Carousel
                 location={this.props.location}
                 history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
+                goodsId={goodsId}
+                key={goodsId}
               />
             </div>
             {/* </div> */}

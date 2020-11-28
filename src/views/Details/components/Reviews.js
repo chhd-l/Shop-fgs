@@ -3,15 +3,19 @@ import Pagination from '@/components/Pagination';
 import Rate from '@/components/Rate';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
-import Selection from '@/components/Selection';
+import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
 @injectIntl
 class Reviews extends React.Component {
+  static defaultProps = {
+    id: null,
+    isLogin: false
+  };
   constructor(props) {
     super(props);
     this.state = {
-      id: null,
+      id: this.props.id,
       goodsEvaluatesList: [],
       evaluatesCurrentPage: 1,
       valuatesTotalPages: 0,
@@ -22,19 +26,10 @@ class Reviews extends React.Component {
       imgList: -1,
       total: 0
     };
+    this.handleDirectionClick = this.handleDirectionClick.bind(this);
   }
-
-  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.id && nextProps.id !== this.state.id) {
-      this.setState(
-        {
-          id: nextProps.id
-        },
-        () => {
-          this.getGoodsEvaluates(1, 5, null);
-        }
-      );
-    }
+  componentDidMount() {
+    this.state.id && this.getGoodsEvaluates(1, 5, null);
   }
 
   sortByChange(e) {
@@ -107,12 +102,9 @@ class Reviews extends React.Component {
       default:
         break;
     }
-    let res;
-    if (this.props.isLogin) {
-      res = await getLoginGoodsEvaluate(parmas);
-    } else {
-      res = await getUnLoginGoodsEvaluate(parmas);
-    }
+    let res = await (this.props.isLogin
+      ? getLoginGoodsEvaluate
+      : getUnLoginGoodsEvaluate)(parmas);
     if (res.context && res.context.goodsEvaluateVOPage) {
       let obj = res.context.goodsEvaluateVOPage;
       let list = obj.content;
@@ -145,7 +137,6 @@ class Reviews extends React.Component {
   }
 
   handleImgClick(j, imgList) {
-    console.log('被点击的是：', j);
     this.setState({
       showPicIndex: j,
       imgList
@@ -160,8 +151,6 @@ class Reviews extends React.Component {
   }
 
   handleDirectionClick(direction) {
-    console.log('点击方向是：', direction);
-    console.log('当前是第', this.state.showPicIndex);
     if (direction > 0) {
       if (this.state.showPicIndex + 1 === this.state.imgList.length) {
         this.setState({
@@ -207,38 +196,38 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const data = this.state;
+    const { data, imgList, showPicIndex, total } = this.state;
     return (
       <div>
-        {this.state.showPicIndex >= 0 && this.state.imgList ? (
+        {showPicIndex >= 0 && imgList ? (
           <div>
             <div className="showBigImg">
               <div
                 className="direction rc-icon rc-left rc-iconography  "
-                onClick={() => this.handleDirectionClick(-1)}
-              ></div>
-              <img
-                alt=""
-                style={{ maxWidth: '100%', maxHeight: '100%' }}
-                src={this.state.imgList[this.state.showPicIndex].artworkUrl}
-              ></img>
+                onClick={this.handleDirectionClick.bind(this, -1)}
+              />
+              <LazyLoad height={200}>
+                <img
+                  alt=""
+                  style={{ maxWidth: '100%', maxHeight: '100%' }}
+                  src={imgList[showPicIndex].artworkUrl}
+                />
+              </LazyLoad>
+
               {/* <span className="desc" style={{position:"absolute",width:"100%",bottom:'10%'}}>{this.state.showPicIndex + 1} of {this.state.imgList.length}</span> */}
               <div
                 className="cancelIcon rc-icon rc-close--sm rc-iconography  "
                 onClick={this.handleCancelMask.bind(this)}
-              ></div>
+              />
               <div
                 className="direction rc-icon rc-right rc-iconography  "
-                onClick={() => this.handleDirectionClick(1)}
-              ></div>
+                onClick={this.handleDirectionClick.bind(this, 1)}
+              />
             </div>
-            <div
-              className="Mask"
-              onClick={this.handleCancelMask.bind(this)}
-            ></div>
+            <div className="Mask" onClick={this.handleCancelMask.bind(this)} />
           </div>
         ) : null}
-        {!data.noData ? (
+        {data && !data.noData ? (
           <div className="commentBox">
             {/* <div>
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
@@ -286,7 +275,7 @@ class Reviews extends React.Component {
                     </span>
                   </form>
                 </div> */}
-                <div className="commentNum">{this.state.total} Reviews</div>
+                <div className="commentNum">{total} Reviews</div>
               </div>
 
               <div
@@ -348,21 +337,23 @@ class Reviews extends React.Component {
                                       if (j < 3) {
                                         // 评论显示九宫格
                                         return (
-                                          <img
-                                            alt=""
-                                            className="rc-img--square rc-img--square-custom mr-1"
-                                            src={img.artworkUrl}
-                                            key={j}
-                                            style={{
-                                              width: '120px',
-                                              height: '120px'
-                                            }}
-                                            onClick={this.handleImgClick.bind(
-                                              this,
-                                              j,
-                                              item.evaluateImageList
-                                            )}
-                                          />
+                                          <LazyLoad height={200}>
+                                            <img
+                                              alt=""
+                                              className="rc-img--square rc-img--square-custom mr-1"
+                                              src={img.artworkUrl}
+                                              key={j}
+                                              style={{
+                                                width: '120px',
+                                                height: '120px'
+                                              }}
+                                              onClick={this.handleImgClick.bind(
+                                                this,
+                                                j,
+                                                item.evaluateImageList
+                                              )}
+                                            />
+                                          </LazyLoad>
                                         );
                                       } else {
                                         return null;

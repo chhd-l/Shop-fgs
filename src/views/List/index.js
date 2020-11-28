@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
@@ -25,6 +26,7 @@ import {
   getDictionary,
   setSeoConfig
 } from '@/utils/utils';
+import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -403,7 +405,12 @@ class List extends React.Component {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele);
+              let ret = Object.assign({}, ele, {
+                // 最低marketPrice对应的划线价
+                miLinePrice: ele.goodsInfos.sort(
+                  (a, b) => a.marketPrice - b.marketPrice
+                )[0].linePrice
+              });
               const tmpItem = find(
                 res.context.goodsList,
                 (g) => g.goodsId === ele.id
@@ -416,7 +423,6 @@ class List extends React.Component {
                   avgEvaluate,
                   minMarketPrice,
                   goodsImg,
-                  miMarketPrice,
                   ...others
                 } = tmpItem;
                 ret = Object.assign(ret, {
@@ -780,31 +786,34 @@ class List extends React.Component {
                                     className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
                                     style={{ height: '15.7rem' }}
                                   >
-                                    <img
-                                      src={
-                                        item.goodsImg ||
-                                        item.goodsInfos.sort(
-                                          (a, b) =>
-                                            a.marketPrice - b.marketPrice
-                                        )[0].goodsInfoImg
-                                      }
-                                      srcSet={
-                                        item.goodsImg ||
-                                        item.goodsInfos.sort(
-                                          (a, b) =>
-                                            a.marketPrice - b.marketPrice
-                                        )[0].goodsInfoImg
-                                      }
-                                      alt={item.goodsName}
-                                      title={item.goodsName}
-                                      className="ImgFitScreen pt-3"
-                                      style={{
-                                        maxWidth: '50%',
-                                        maxHeight: '100%',
-                                        width: 'auto',
-                                        height: 'auto'
-                                      }}
-                                    />
+                                    <LazyLoad height={200}>
+                                      <img
+                                        src={
+                                          item.goodsImg ||
+                                          item.goodsInfos.sort(
+                                            (a, b) =>
+                                              a.marketPrice - b.marketPrice
+                                          )[0].goodsInfoImg ||
+                                          IMG_DEFAULT
+                                        }
+                                        srcSet={
+                                          item.goodsImg ||
+                                          item.goodsInfos.sort(
+                                            (a, b) =>
+                                              a.marketPrice - b.marketPrice
+                                          )[0].goodsInfoImg
+                                        }
+                                        alt={item.goodsName}
+                                        title={item.goodsName}
+                                        className="ImgFitScreen pt-3 mh-100"
+                                        style={{
+                                          maxWidth: '50%',
+                                          width: 'auto',
+                                          height: 'auto',
+                                          margin: '0 auto'
+                                        }}
+                                      />
+                                    </LazyLoad>
                                   </div>
                                 </picture>
                                 <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
@@ -828,9 +837,7 @@ class List extends React.Component {
                                       {item.goodsSubtitle}
                                     </div>
                                   </div>
-                                  <div
-                                    className={`rc-card__price text-center RateFitScreen`}
-                                  >
+                                  <div className="rc-card__price text-center RateFitScreen">
                                     <div className="display-inline">
                                       <Rate
                                         def={item.avgEvaluate}
@@ -854,9 +861,7 @@ class List extends React.Component {
                                   </div>
                                   <div className="d-flex justify-content-center">
                                     <div className="rc-card__price text-left PriceFitScreen">
-                                      <div
-                                        className={`rc-full-width PriceFitScreen`}
-                                      >
+                                      <div className="rc-full-width PriceFitScreen">
                                         <span
                                           style={{
                                             color: '#323232',
@@ -865,42 +870,17 @@ class List extends React.Component {
                                         >
                                           {/* 最低marketPrice */}
                                           {formatMoney(item.miMarketPrice)}{' '}
-                                          {/* 划线价 */}
-                                          {item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].linePrice &&
-                                          item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].linePrice > 0 ? (
-                                            <span
-                                              className="text-line-through rc-text-colour--text font-weight-lighter"
-                                              style={{
-                                                fontSize: '.8em'
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                item.goodsInfos.sort(
-                                                  (a, b) =>
-                                                    a.marketPrice -
-                                                    b.marketPrice
-                                                )[0].linePrice
-                                              )}
-                                            </span>
-                                          ) : null}
+                                          {/* 最低划线价 */}
+                                          {item.miLinePrice &&
+                                          item.miLinePrice > 0
+                                            ? formatMoney(item.miLinePrice)
+                                            : null}
+                                          ||
                                         </span>
                                       </div>
-                                      {find(
-                                        item.goodsInfos,
-                                        (ele) => ele.subscriptionStatus
-                                      ) &&
-                                      Math.min.apply(
-                                        null,
-                                        item.goodsInfos
-                                          .filter((g) => g.subscriptionStatus)
-                                          .map((g) => g.subscriptionPrice || 0)
-                                      ) > 0 ? (
+                                      {/* 最低订阅价 */}
+                                      {item.miSubscriptionPrice &&
+                                      item.miSubscriptionPrice > 0 ? (
                                         <div className="range position-relative SePriceScreen">
                                           <span
                                             style={{
@@ -909,17 +889,7 @@ class List extends React.Component {
                                             }}
                                           >
                                             {formatMoney(
-                                              Math.min.apply(
-                                                null,
-                                                item.goodsInfos
-                                                  .filter(
-                                                    (g) => g.subscriptionStatus
-                                                  )
-                                                  .map(
-                                                    (g) =>
-                                                      g.subscriptionPrice || 0
-                                                  )
-                                              )
+                                              item.miSubscriptionPrice
                                             )}{' '}
                                           </span>
                                           <span
@@ -979,7 +949,9 @@ class List extends React.Component {
                   </Link>
                 </div>
                 <div className="col-12 col-md-6">
-                  <img src={pfRecoImg} />
+                  <LazyLoad height={200}>
+                    <img src={pfRecoImg} />
+                  </LazyLoad>
                 </div>
               </div>
             </div>
