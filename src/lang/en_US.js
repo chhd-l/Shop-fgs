@@ -813,7 +813,7 @@ const en_US = {
   uNeedHelp: 'You need help?',
   unfoldAddress: 'Unfold Address',
   unkown: 'Unkown',
-  unLoginSubscriptionTips: 'Subscription is possible only after registration',
+  unLoginSubscriptionTips: 'Autoship is possible only after registration',
   userAgreement: 'User Agreement',
   viewAll: 'View all products',
   viewAllResults: 'View all results',

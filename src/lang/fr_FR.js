@@ -814,7 +814,7 @@ const fr_FR = {
   uNeedHelp: "Vous avez besoin d'aide?",
   unfoldAddress: "Déplier l'adresse",
   unkown: 'Inconnu',
-  unLoginSubscriptionTips: "Un abonnement n'est possible qu'après inscription.",
+  unLoginSubscriptionTips: "La livraison automatique n'est possible qu'après l'enregistrement",
   userAgreement: "Conditions d'utilisation",
   viewAll: 'Voir tous les produits',
   "viewAllResults": "afficher tous les résultats",

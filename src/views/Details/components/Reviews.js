@@ -6,6 +6,7 @@ import { getLoginGoodsEvaluate, getUnLoginGoodsEvaluate } from '@/api/details';
 import LazyLoad from 'react-lazyload';
 import '../index.css';
 import Skeleton from 'react-skeleton-loader';
+import { getDeviceType } from '@/utils/utils';
 @injectIntl
 class Reviews extends React.Component {
   static defaultProps = {
@@ -24,11 +25,13 @@ class Reviews extends React.Component {
       noData: true,
       showPicIndex: -1,
       imgList: -1,
-      total: 0
+      total: 0,
+      isMobile: false
     };
     this.handleDirectionClick = this.handleDirectionClick.bind(this);
   }
   componentDidMount() {
+    this.setState({ isMobile: getDeviceType() !== 'PC' });
     this.state.id && this.getGoodsEvaluates(1, 5, null);
   }
 
@@ -196,7 +199,7 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { data, imgList, showPicIndex, total } = this.state;
+    const { data, imgList, showPicIndex, total, isMobile } = this.state;
     return (
       <div>
         {showPicIndex >= 0 && imgList ? (
@@ -233,9 +236,7 @@ class Reviews extends React.Component {
               <div className="rc-padding-bottom--xs rc-bg-colour--brand4 "></div>
             </div> */}
             <div>
-              {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                navigator.userAgent
-              ) && (
+              {!isMobile && (
                 <div className="rc-max-width--xl rc-padding-x--sm">
                   <div
                     className="rc-column padl0"

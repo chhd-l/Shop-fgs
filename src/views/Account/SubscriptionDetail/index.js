@@ -11,7 +11,7 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp';
 import Selection from '@/components/Selection';
-import { getDictionary, dynamicLoadCss } from '@/utils/utils';
+import { getDictionary, dynamicLoadCss, getDeviceType } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import subscriptionIcon from './images/subscription.png';
 import pauseIcon from './images/pause.png';
@@ -168,7 +168,7 @@ class SubscriptionDetail extends React.Component {
         value: ''
       },
       isActive: false,
-      isDataChange: false,
+      isDataChange: false
     };
   }
   componentWillUnmount() {
@@ -176,10 +176,7 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-      navigator.userAgent)) {
-        this.setState({isMobile: true})
-      }
+    this.setState({ isMobile: getDeviceType !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -273,7 +270,7 @@ class SubscriptionDetail extends React.Component {
       // this.showErrMsg(this.props.intl.messages.saveSuccessfullly, 'success', () => this.getDetail());
       //await this.doUpdateDetail(param)
       await this.doGetPromotionPrice(this.state.lastPromotionInputValue);
-      this.setState({isDataChange: true})
+      this.setState({ isDataChange: true });
       //await this.getDetail()
     } catch (err) {
       this.showErrMsg(err.message);
@@ -297,26 +294,33 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: true });
       const res = await getSubDetail(
         this.props.match.params.subscriptionNumber
-      )
+      );
       let subDetail = res.context;
-      let noStartYear = {}
-      let completedYear = {}
-      let noStartYearOption = []
-      let completedYearOption = []
-      let completeOption = new Set(subDetail.completedTradeList.map(el => {
-        return el.tradeState.createTime.split('-')[0]
-      }))
-      let noStartOption = new Set(subDetail.noStartTradeList.map(el => {
-        return el.tradeItems[0].nextDeliveryTime.split('-')[0]
-      }))
-      completeOption.forEach(el => {
-        completedYearOption.push({name: el, value: el})
-      })
-      completedYear = { value: completedYearOption[0]['value'] }
-      noStartOption.forEach(el => {
-        noStartYearOption.push({name: el, value: el})
-      })
-      noStartYear = { value: noStartYearOption[0]['value'], name: noStartYearOption[0]['value'] }
+      let noStartYear = {};
+      let completedYear = {};
+      let noStartYearOption = [];
+      let completedYearOption = [];
+      let completeOption = new Set(
+        subDetail.completedTradeList.map((el) => {
+          return el.tradeState.createTime.split('-')[0];
+        })
+      );
+      let noStartOption = new Set(
+        subDetail.noStartTradeList.map((el) => {
+          return el.tradeItems[0].nextDeliveryTime.split('-')[0];
+        })
+      );
+      completeOption.forEach((el) => {
+        completedYearOption.push({ name: el, value: el });
+      });
+      completedYear = { value: completedYearOption[0]['value'] };
+      noStartOption.forEach((el) => {
+        noStartYearOption.push({ name: el, value: el });
+      });
+      noStartYear = {
+        value: noStartYearOption[0]['value'],
+        name: noStartYearOption[0]['value']
+      };
 
       subDetail.goodsInfo = subDetail.goodsInfo.map((el) => {
         let filterData =
@@ -548,7 +552,7 @@ class SubscriptionDetail extends React.Component {
       completedYear,
       isActive
     } = this.state;
-    console.log(noStartYear, 'hahaha')
+    console.log(noStartYear, 'hahaha');
     return (
       <div className="subscriptionDetail">
         <div>
@@ -580,20 +584,18 @@ class SubscriptionDetail extends React.Component {
               <div className="rc-layout-container rc-five-column">
                 {/* {this.state.loading ? <Loading positionFixed="true" /> : null} */}
                 {/* <SideMenu type="Subscription" /> */}
-                {
-                  isMobile? (
-                    <div className="col-12 rc-md-down">
-                          <Link to="/account/subscription">
-                            <span className="red">&lt;</span>
-                            <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                              <FormattedMessage id="subscription" />
-                            </span>
-                          </Link>
-                        </div>
-                  ): (
-                    <SideMenu type="Subscription" />
-                  )
-                }
+                {isMobile ? (
+                  <div className="col-12 rc-md-down">
+                    <Link to="/account/subscription">
+                      <span className="red">&lt;</span>
+                      <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                        <FormattedMessage id="subscription" />
+                      </span>
+                    </Link>
+                  </div>
+                ) : (
+                  <SideMenu type="Subscription" />
+                )}
                 <div
                   className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                   style={{ display: type === 'PaymentComp' ? 'block' : 'none' }}
@@ -748,7 +750,10 @@ class SubscriptionDetail extends React.Component {
                   style={{ display: type === 'main' ? 'block' : 'none' }}
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap rc-margin-bottom--xs">
-                    <h4 className="rc-delta font-weight-normal mb-2" style={{color: '#666'}}>
+                    <h4
+                      className="rc-delta font-weight-normal mb-2"
+                      style={{ color: '#666' }}
+                    >
                       {/* <FormattedMessage id="subscription" /> */}
                       {/* {subDetail.subscribeId && (
                         <img
@@ -756,23 +761,36 @@ class SubscriptionDetail extends React.Component {
                           src={subscriptionIcon}
                         />
                       )} */}
-                      {subDetail.subscribeId
-                        ? (<span>{`${subDetail.subscribeId}`}</span>)
-                        : null}
-                      {subDetail.subscribeId?(isActive?(
-                        <span style={{background: '#E0F3D4',
-                          color: '#47B700',
-                          fontSize: '14px',
-                          padding: '0 5px',
-                          marginLeft: '10px'}}>Active</span>
-                      ): (
-                        <span style={{background: '#FCEBD4',
-                          color: '#ED8A00',
-                          fontSize: '14px',
-                          padding: '0 5px',
-                          marginLeft: '10px'}}>Inactive</span>
-                      )): null}
-                      
+                      {subDetail.subscribeId ? (
+                        <span>{`${subDetail.subscribeId}`}</span>
+                      ) : null}
+                      {subDetail.subscribeId ? (
+                        isActive ? (
+                          <span
+                            style={{
+                              background: '#E0F3D4',
+                              color: '#47B700',
+                              fontSize: '14px',
+                              padding: '0 5px',
+                              marginLeft: '10px'
+                            }}
+                          >
+                            Active
+                          </span>
+                        ) : (
+                          <span
+                            style={{
+                              background: '#FCEBD4',
+                              color: '#ED8A00',
+                              fontSize: '14px',
+                              padding: '0 5px',
+                              marginLeft: '10px'
+                            }}
+                          >
+                            Inactive
+                          </span>
+                        )
+                      ) : null}
                     </h4>
                   </div>
                   {/* <hr className="rc-margin-top---none" /> */}
@@ -788,25 +806,36 @@ class SubscriptionDetail extends React.Component {
                       </div>
                     )}
                     <div className={`${this.state.loading ? 'hidden' : ''} `}>
-                      <div className="mobileGoodsBox" style={{display: isMobile?'block': 'none'}}>
-                        {
-                          subDetail.goodsInfo &&
+                      <div
+                        className="mobileGoodsBox"
+                        style={{ display: isMobile ? 'block' : 'none' }}
+                      >
+                        {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
-                            <div className="goodsItem rc-card-content" style={{border: '1px solid #d7d7d7', padding: '12px'}}>
-                              <div style={{display: 'flex'}}>
-                              <img src={el.goodsPic} style={{width: '100px'}}/>
-                              <div className="v-center" style={{flex: '1'}}>
-                              <h3
-                                style={{
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  overflowWrap: 'normal',
-                                  color: '#e2001a'
-                                }}
-                              >
-                                {el.goodsName}
-                              </h3>
-                              {/* <p
+                            <div
+                              className="goodsItem rc-card-content"
+                              style={{
+                                border: '1px solid #d7d7d7',
+                                padding: '12px'
+                              }}
+                            >
+                              <div style={{ display: 'flex' }}>
+                                <img
+                                  src={el.goodsPic}
+                                  style={{ width: '100px' }}
+                                />
+                                <div className="v-center" style={{ flex: '1' }}>
+                                  <h3
+                                    style={{
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      overflowWrap: 'normal',
+                                      color: '#e2001a'
+                                    }}
+                                  >
+                                    {el.goodsName}
+                                  </h3>
+                                  {/* <p
                                 style={{
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -815,149 +844,149 @@ class SubscriptionDetail extends React.Component {
                               >
                                 Dog food
                               </p> */}
-                              <p
-                                style={{
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  marginBottom: '8px'
-                                }}
-                              >
-                                {el.specText}
-                              </p>
+                                  <p
+                                    style={{
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      marginBottom: '8px'
+                                    }}
+                                  >
+                                    {el.specText}
+                                  </p>
+                                </div>
                               </div>
+                              <div style={{ marginTop: '15px' }}>
+                                <div>
+                                  <span
+                                    className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                                    style={{ marginLeft: '-8px' }}
+                                    onClick={() => {
+                                      if (el.subscribeNum > 1) {
+                                        el.subscribeNum = el.subscribeNum - 1;
+                                        this.doGetPromotionPrice();
+                                        this.setState({
+                                          subDetail,
+                                          isDataChange: true
+                                        });
+                                      } else {
+                                        this.showErrMsg(
+                                          <FormattedMessage id="cart.errorInfo" />
+                                        );
+                                      }
+                                    }}
+                                  ></span>
+                                  <input
+                                    className="rc-quantity__input"
+                                    id="quantity"
+                                    name="quantity"
+                                    min="1"
+                                    max="899"
+                                    maxLength="5"
+                                    onChange={(e) => {
+                                      this.setState({
+                                        errorShow: false
+                                      });
+                                      const val = e.target.value;
+                                      let { currentGoodsInfo } = this.state;
+                                      if (val === '') {
+                                        el.subscribeNum = 1;
+                                        this.setState({
+                                          currentGoodsInfo
+                                        });
+                                      } else {
+                                        let tmp = parseInt(val);
+                                        if (isNaN(tmp)) {
+                                          tmp = 1;
+                                          this.showErrMsg(
+                                            <FormattedMessage id="cart.errorInfo" />
+                                          );
+                                        }
+                                        if (tmp < 1) {
+                                          tmp = 1;
+                                          this.showErrMsg(
+                                            <FormattedMessage id="cart.errorInfo" />
+                                          );
+                                        }
+                                        if (tmp > 30) {
+                                          tmp = 30;
+                                          this.showErrMsg(
+                                            <FormattedMessage id="cart.errorMaxInfo" />
+                                          );
+                                        }
+                                        el.subscribeNum = tmp;
+                                        this.setState({
+                                          currentGoodsInfo
+                                        });
+                                        // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
+                                      }
+                                      //数量变更后
+                                      subDetail.goodsInfo[index].subscribeNum =
+                                        el.subscribeNum;
+                                      this.onQtyChange();
+                                    }}
+                                    value={el.subscribeNum}
+                                  />
+                                  <span
+                                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                                    onClick={() => {
+                                      if (el.subscribeNum < 30) {
+                                        el.subscribeNum = el.subscribeNum + 1;
+                                        this.doGetPromotionPrice();
+                                        this.setState({
+                                          subDetail,
+                                          isDataChange: true
+                                        });
+                                      } else {
+                                        this.showErrMsg(
+                                          <FormattedMessage id="cart.errorMaxInfo" />
+                                        );
+                                      }
+                                    }}
+                                  ></span>
+                                  <span
+                                    style={{
+                                      display: 'inline-block',
+                                      fontSize: '22px',
+                                      lineHeight: '40px',
+                                      verticalAlign: 'middle'
+                                    }}
+                                  >
+                                    =
+                                  </span>
+                                  <span
+                                    class="price"
+                                    style={{
+                                      display: 'inline-block',
+                                      fontSize: '20px',
+                                      fontWeight: '400',
+                                      verticalAlign: 'middle',
+                                      marginLeft: '8px',
+                                      height: '25px'
+                                    }}
+                                  >
+                                    {formatMoney(el.subscribePrice)}
+                                  </span>
+                                  <span
+                                    class="price"
+                                    style={{
+                                      display: 'inline-block',
+                                      fontSize: '20px',
+                                      fontWeight: '400',
+                                      textDecoration: 'line-through',
+                                      verticalAlign: 'middle',
+                                      marginLeft: '8px',
+                                      height: '11px',
+                                      color: '#aaa',
+                                      fontSize: '14px'
+                                    }}
+                                  >
+                                    {formatMoney(el.originalPrice)}
+                                  </span>
+                                </div>
                               </div>
-                              <div style={{marginTop: '15px'}}>
-                                        <div>
-                                          <span
-                                            className="rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                                            style={{ marginLeft: '-8px' }}
-                                            onClick={() => {
-                                              if (el.subscribeNum > 1) {
-                                                el.subscribeNum =
-                                                  el.subscribeNum - 1;
-                                                this.doGetPromotionPrice();
-                                                this.setState({ subDetail, isDataChange: true });
-                                              } else {
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorInfo" />
-                                                );
-                                              }
-                                            }}
-                                          ></span>
-                                          <input
-                                            className="rc-quantity__input"
-                                            id="quantity"
-                                            name="quantity"
-                                            min="1"
-                                            max="899"
-                                            maxLength="5"
-                                            onChange={(e) => {
-                                              this.setState({
-                                                errorShow: false
-                                              });
-                                              const val = e.target.value;
-                                              let {
-                                                currentGoodsInfo
-                                              } = this.state;
-                                              if (val === '') {
-                                                el.subscribeNum = 1;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                              } else {
-                                                let tmp = parseInt(val);
-                                                if (isNaN(tmp)) {
-                                                  tmp = 1;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                                if (tmp < 1) {
-                                                  tmp = 1;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorInfo" />
-                                                  );
-                                                }
-                                                if (tmp > 30) {
-                                                  tmp = 30;
-                                                  this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorMaxInfo" />
-                                                  );
-                                                }
-                                                el.subscribeNum = tmp;
-                                                this.setState({
-                                                  currentGoodsInfo
-                                                });
-                                                // this.updateBackendCart({ goodsInfoId: item.goodsInfoId, goodsNum: item.buyCount, verifyStock: false })
-                                              }
-                                              //数量变更后
-                                              subDetail.goodsInfo[
-                                                index
-                                              ].subscribeNum =
-                                                el.subscribeNum;
-                                              this.onQtyChange();
-                                            }}
-                                            value={el.subscribeNum}
-                                          />
-                                          <span
-                                            className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                                            onClick={() => {
-                                              if (el.subscribeNum < 30) {
-                                                el.subscribeNum =
-                                                  el.subscribeNum + 1;
-                                                this.doGetPromotionPrice();
-                                                this.setState({ subDetail, isDataChange: true });
-                                              } else {
-                                                this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorMaxInfo" />
-                                                );
-                                              }
-                                            }}
-                                          ></span>
-                                          <span
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '22px',
-                                              lineHeight: '40px',
-                                              verticalAlign: 'middle'
-                                            }}
-                                          >
-                                            =
-                                          </span>
-                                          <span
-                                            class="price"
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '20px',
-                                              fontWeight: '400',
-                                              verticalAlign: 'middle',
-                                              marginLeft: '8px',
-                                              height: '25px'
-                                            }}
-                                          >
-                                            {formatMoney(el.subscribePrice)}
-                                          </span>
-                                          <span
-                                            class="price"
-                                            style={{
-                                              display: 'inline-block',
-                                              fontSize: '20px',
-                                              fontWeight: '400',
-                                              textDecoration: 'line-through',
-                                              verticalAlign: 'middle',
-                                              marginLeft: '8px',
-                                              height: '11px',
-                                              color: '#aaa',
-                                              fontSize: '14px'
-                                            }}
-                                          >
-                                            {formatMoney(el.originalPrice)}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div
-                                // className="col-4 col-md-5"
-                                // style={{ paddingLeft: '60px' }}
+                              <div
+                              // className="col-4 col-md-5"
+                              // style={{ paddingLeft: '60px' }}
                               >
                                 <div className="rc-card-content">
                                   <b
@@ -1059,12 +1088,15 @@ class SubscriptionDetail extends React.Component {
                                 </div>
                               </div>
                             </div>
-                          ))
-                        }
+                          ))}
                       </div>
                       <div
                         className="card-container"
-                        style={{ marginTop: '0', display: isMobile?'none': 'block', borderBottom: 'none'}}
+                        style={{
+                          marginTop: '0',
+                          display: isMobile ? 'none' : 'block',
+                          borderBottom: 'none'
+                        }}
                       >
                         {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
@@ -1128,14 +1160,19 @@ class SubscriptionDetail extends React.Component {
                                       <div>
                                         <div>
                                           <span
-                                            className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${isActive?'': 'disabled'}`}
+                                            className={`rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus ${
+                                              isActive ? '' : 'disabled'
+                                            }`}
                                             style={{ marginLeft: '-8px' }}
                                             onClick={() => {
                                               if (el.subscribeNum > 1) {
                                                 el.subscribeNum =
                                                   el.subscribeNum - 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail, isDataChange: true });
+                                                this.setState({
+                                                  subDetail,
+                                                  isDataChange: true
+                                                });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorInfo" />
@@ -1192,20 +1229,24 @@ class SubscriptionDetail extends React.Component {
                                               //数量变更后
                                               subDetail.goodsInfo[
                                                 index
-                                              ].subscribeNum =
-                                                el.subscribeNum;
+                                              ].subscribeNum = el.subscribeNum;
                                               this.onQtyChange();
                                             }}
                                             value={el.subscribeNum}
                                           />
                                           <span
-                                            className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${isActive?'': 'disabled'}`}
+                                            className={`rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus ${
+                                              isActive ? '' : 'disabled'
+                                            }`}
                                             onClick={() => {
                                               if (el.subscribeNum < 30) {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
-                                                this.setState({ subDetail, isDataChange: true });
+                                                this.setState({
+                                                  subDetail,
+                                                  isDataChange: true
+                                                });
                                               } else {
                                                 this.showErrMsg(
                                                   <FormattedMessage id="cart.errorMaxInfo" />
@@ -1366,7 +1407,10 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           ))}
                       </div>
-                      <div className="footerGroupButton" style={{display: isActive? 'block': 'none'}}>
+                      <div
+                        className="footerGroupButton"
+                        style={{ display: isActive ? 'block' : 'none' }}
+                      >
                         <p>
                           {/* <div className="col-12 col-md-2"> */}
                           <img
@@ -1396,10 +1440,14 @@ class SubscriptionDetail extends React.Component {
                           {/* </div> */}
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <button
-                            class={`rc-btn rc-btn--one ${this.state.isDataChange?'' : 'rc-btn-solid-disabled'}`}
+                            class={`rc-btn rc-btn--one ${
+                              this.state.isDataChange
+                                ? ''
+                                : 'rc-btn-solid-disabled'
+                            }`}
                             onClick={async () => {
-                              if(!this.state.isDataChange) {
-                                return false
+                              if (!this.state.isDataChange) {
+                                return false;
                               }
                               try {
                                 // subDetail.goodsInfo = this.state.currentGoodsInfo;
@@ -1427,7 +1475,7 @@ class SubscriptionDetail extends React.Component {
                                 );
                                 this.setState({
                                   isChangeQuatity: false,
-                                  isDataChange: false,
+                                  isDataChange: false
                                 });
                               } catch (err) {
                                 this.showErrMsg(err.message);
@@ -1441,9 +1489,7 @@ class SubscriptionDetail extends React.Component {
                         </p>
                       </div>
 
-                      <h4 className="h4">
-                        Transaction information
-                      </h4>
+                      <h4 className="h4">Transaction information</h4>
                       <div className="row text-left text-break editCard ml-0 mr-0">
                         <div
                           className="col-12 col-md-4 mb-2"
@@ -1678,9 +1724,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         )}
                       </div>
-                      <h4 class="h4">
-                        My Autoship Order
-                      </h4>
+                      <h4 class="h4">My Autoship Order</h4>
 
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
@@ -1727,46 +1771,45 @@ class SubscriptionDetail extends React.Component {
                               <span
                                 style={{
                                   display: 'inline-block',
-                                  width: isMobile?'auto': '230px',
+                                  width: isMobile ? 'auto' : '230px',
                                   borderBottom: '1px solid #aaa',
                                   textAlign: 'left'
                                 }}
                               >
-                                {
-                                  this.state.activeTabIdx === 0 && noStartYearOption.length && completedYearOption.length?(
+                                {this.state.activeTabIdx === 0 &&
+                                noStartYearOption.length &&
+                                completedYearOption.length ? (
                                   <Selection
                                     optionList={noStartYearOption}
                                     selectedItemData={noStartYear}
                                     selectedItemChange={(el) => {
-                                      console.log(el,'hahaha')
-                                    if(this.state.activeTabIdx === 0) {
-                                      this.setState({noStartYear: el})
-                                    }else {
-                                      this.setState({completedYear: el})
-                                    }
-                                  }}
-                                  customStyleType="select-one"
-                                  type="freqency"
-                                  key={noStartYear.value}
-                                />
-                                  ): (
-                                    <Selection
-                                  optionList={completedYearOption}
-                                  selectedItemData={completedYear}
-                                  selectedItemChange={(el) => {
-                                    if(this.state.activeTabIdx === 0) {
-                                      this.setState({noStartYear: el})
-                                    }else {
-                                      this.setState({completedYear: el})
-                                    }
-                                  }}
-                                  customStyleType="select-one"
-                                  type="freqency"
-                                  key={completedYear.value}
-                                />
-                                  )
-                                }
-                                
+                                      console.log(el, 'hahaha');
+                                      if (this.state.activeTabIdx === 0) {
+                                        this.setState({ noStartYear: el });
+                                      } else {
+                                        this.setState({ completedYear: el });
+                                      }
+                                    }}
+                                    customStyleType="select-one"
+                                    type="freqency"
+                                    key={noStartYear.value}
+                                  />
+                                ) : (
+                                  <Selection
+                                    optionList={completedYearOption}
+                                    selectedItemData={completedYear}
+                                    selectedItemChange={(el) => {
+                                      if (this.state.activeTabIdx === 0) {
+                                        this.setState({ noStartYear: el });
+                                      } else {
+                                        this.setState({ completedYear: el });
+                                      }
+                                    }}
+                                    customStyleType="select-one"
+                                    type="freqency"
+                                    key={completedYear.value}
+                                  />
+                                )}
                               </span>
                             </div>
                             <div
@@ -1775,498 +1818,586 @@ class SubscriptionDetail extends React.Component {
                             >
                               {this.state.activeTabIdx === 0 &&
                                 subDetail.noStartTradeList &&
-                                subDetail.noStartTradeList.filter(el => el.tradeItems[0].nextDeliveryTime.split('-')[0] === noStartYear.value).map((el) => (
-                                  <>
+                                subDetail.noStartTradeList
+                                  .filter(
+                                    (el) =>
+                                      el.tradeItems[0].nextDeliveryTime.split(
+                                        '-'
+                                      )[0] === noStartYear.value
+                                  )
+                                  .map((el) => (
+                                    <>
+                                      <div className="card-container">
+                                        <div className="card rc-margin-y--none ml-0">
+                                          <div
+                                            className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                            style={{
+                                              background: '#f9f9f9',
+                                              height: '60px',
+                                              padding: 0
+                                            }}
+                                          >
+                                            <div
+                                              className={`${
+                                                isMobile ? 'col-9' : 'col-md-3'
+                                              }`}
+                                              style={{ paddingLeft: '20px' }}
+                                            >
+                                              shipment on:
+                                              <span
+                                                style={{
+                                                  color: '#e2001a',
+                                                  fontWeight: '400',
+                                                  marginLeft: '5px'
+                                                }}
+                                              >
+                                                <DatePicker
+                                                  className="receiveDate subs-receiveDate"
+                                                  placeholder="Select Date"
+                                                  dateFormat="yyyy-MM-dd"
+                                                  minDate={this.state.minDate}
+                                                  selected={
+                                                    el.tradeItems
+                                                      ? new Date(
+                                                          el.tradeItems[0].nextDeliveryTime
+                                                        )
+                                                      : new Date()
+                                                  }
+                                                  onChange={(date) =>
+                                                    this.onDateChange(
+                                                      date,
+                                                      el.tradeItems.map(
+                                                        (el) => {
+                                                          return {
+                                                            skuId: el.skuId
+                                                          };
+                                                        }
+                                                      )
+                                                    )
+                                                  }
+                                                  disabled={true}
+                                                />
+                                              </span>
+                                            </div>
+                                            <div
+                                              className={`${
+                                                isMobile ? 'col-0' : 'col-md-5'
+                                              }`}
+                                            ></div>
+                                            <div
+                                              className={`changeDate ${
+                                                isMobile
+                                                  ? 'col-0'
+                                                  : 'col-md-3 pl-4'
+                                              }`}
+                                              style={{
+                                                textAlign: 'right',
+                                                paddingRight: '20px'
+                                              }}
+                                            >
+                                              {isActive ? (
+                                                <>
+                                                  <img
+                                                    src={dateIcon}
+                                                    style={{
+                                                      width: '20px',
+                                                      display: 'inline'
+                                                    }}
+                                                  />
+                                                  <span
+                                                    style={{
+                                                      color: '#666',
+                                                      fontWeight: '400',
+                                                      marginLeft: '5px',
+                                                      borderBottom:
+                                                        '1px solid #666',
+                                                      cursor: 'pointer'
+                                                    }}
+                                                  >
+                                                    <DatePicker
+                                                      className="receiveDate subs-receiveDate"
+                                                      placeholder="Select Date"
+                                                      dateFormat="yyyy-MM-dd"
+                                                      minDate={
+                                                        this.state.minDate
+                                                      }
+                                                      selected={
+                                                        el.tradeItems
+                                                          ? new Date(
+                                                              el.tradeItems[0].nextDeliveryTime
+                                                            )
+                                                          : new Date()
+                                                      }
+                                                      onChange={(date) =>
+                                                        this.onDateChange(
+                                                          date,
+                                                          el.tradeItems.map(
+                                                            (el) => {
+                                                              return {
+                                                                skuId: el.skuId
+                                                              };
+                                                            }
+                                                          )
+                                                        )
+                                                      }
+                                                    />
+                                                  </span>
+                                                </>
+                                              ) : null}
+                                            </div>
+                                            <div
+                                              className={`${
+                                                isMobile ? 'col-3' : 'col-md-1'
+                                              }`}
+                                              style={{ padding: 0 }}
+                                            >
+                                              {isActive ? (
+                                                <>
+                                                  <img
+                                                    style={{
+                                                      display: 'inline-block',
+                                                      width: '20px',
+                                                      marginRight: '5px'
+                                                    }}
+                                                    src={skipIcon}
+                                                  />
+                                                  <a
+                                                    class="rc-styled-link"
+                                                    href="#/"
+                                                    onClick={(e) => {
+                                                      e.preventDefault();
+                                                      this.setState({
+                                                        modalType: 'skipNext',
+                                                        modalShow: true,
+                                                        currentModalObj: this.state.modalList.filter(
+                                                          (el) =>
+                                                            el.type ===
+                                                            'skipNext'
+                                                        )[0],
+                                                        skipNextGoods: el.tradeItems.map(
+                                                          (el) => {
+                                                            return {
+                                                              skuId: el.skuId
+                                                            };
+                                                          }
+                                                        )
+                                                      });
+                                                    }}
+                                                  >
+                                                    Skip
+                                                  </a>
+                                                </>
+                                              ) : null}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        {el.tradeItems &&
+                                          el.tradeItems.map(
+                                            (tradeItem, index) => (
+                                              <div
+                                                className="row rc-margin-x--none row align-items-center"
+                                                style={{
+                                                  padding: '1rem 0',
+                                                  borderBottom:
+                                                    '1px solid #d7d7d7'
+                                                }}
+                                              >
+                                                <div
+                                                  className={`${
+                                                    isMobile ? 'col-8' : 'col-4'
+                                                  } col-md-4`}
+                                                >
+                                                  <div
+                                                    className="rc-layout-container rc-five-column"
+                                                    style={{
+                                                      paddingRight: isMobile
+                                                        ? '0'
+                                                        : '60px',
+                                                      paddingTop: '0'
+                                                    }}
+                                                  >
+                                                    <div
+                                                      className="rc-column flex-layout"
+                                                      style={{
+                                                        width: '80%',
+                                                        padding: 0
+                                                      }}
+                                                    >
+                                                      <img
+                                                        style={{
+                                                          width: '70px',
+                                                          margin: '0 10px'
+                                                        }}
+                                                        src={tradeItem.pic}
+                                                        alt=""
+                                                      />
+                                                      <div
+                                                        style={{
+                                                          width: '200px',
+                                                          paddingTop: '30px'
+                                                        }}
+                                                      >
+                                                        <h5
+                                                          style={{
+                                                            overflow: 'hidden',
+                                                            textOverflow:
+                                                              'ellipsis',
+                                                            overflowWrap:
+                                                              'normal',
+                                                            fontSize: '14px'
+                                                          }}
+                                                        >
+                                                          {tradeItem.skuName}
+                                                        </h5>
+                                                        <p
+                                                          style={{
+                                                            overflow: 'hidden',
+                                                            textOverflow:
+                                                              'ellipsis',
+                                                            marginBottom: '8px',
+                                                            fontSize: '14px'
+                                                          }}
+                                                        >
+                                                          {
+                                                            tradeItem.specDetails
+                                                          }{' '}
+                                                          {isMobile
+                                                            ? `x ${tradeItem.num}`
+                                                            : null}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  className={`${
+                                                    isMobile ? 'none' : 'col-4'
+                                                  } col-md-4`}
+                                                >
+                                                  <p
+                                                    style={{
+                                                      textAlign: 'center',
+                                                      marginBottom: '0',
+                                                      fontWeight: '400'
+                                                    }}
+                                                  >
+                                                    x {tradeItem.num}
+                                                  </p>
+                                                </div>
+                                                <div className="col-4 col-md-4">
+                                                  <p
+                                                    style={{
+                                                      textAlign: 'right',
+                                                      paddingRight: '10px',
+                                                      marginBottom: '0'
+                                                    }}
+                                                  >
+                                                    {formatMoney(
+                                                      tradeItem.subscriptionPrice
+                                                    )}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            )
+                                          )}
+                                        <div
+                                          className="row rc-margin-x--none row align-items-center"
+                                          style={{
+                                            padding: '1rem 0',
+                                            borderBottom: '1px solid #d7d7d7'
+                                          }}
+                                        >
+                                          <div
+                                            className={`${
+                                              isMobile ? 'col-12' : 'col-md-6'
+                                            }`}
+                                          >
+                                            <div
+                                              className="footer"
+                                              style={{
+                                                marginTop: '10px',
+                                                marginBottom: '10px',
+                                                padding: '0 40px',
+                                                display:
+                                                  subDetail.subscribeStatus ===
+                                                  '0'
+                                                    ? 'block'
+                                                    : 'none'
+                                              }}
+                                            >
+                                              <span
+                                                className="rc-input rc-input--inline rc-input--label"
+                                                style={{
+                                                  width: '170px',
+                                                  verticalAlign: 'middle'
+                                                }}
+                                              >
+                                                <input
+                                                  className="rc-input__control"
+                                                  id="id-text2"
+                                                  type="text"
+                                                  name="text"
+                                                  placeholder={
+                                                    this.props.intl.messages
+                                                      .promotionCode
+                                                  }
+                                                  value={
+                                                    this.state
+                                                      .promotionInputValue
+                                                  }
+                                                  onChange={(e) =>
+                                                    this.handlerChange(e)
+                                                  }
+                                                />
+                                                <label
+                                                  className="rc-input__label"
+                                                  for="id-text2"
+                                                ></label>
+                                              </span>
+                                              <button
+                                                className={[
+                                                  'rc-btn',
+                                                  'rc-btn--sm',
+                                                  'rc-btn--two',
+                                                  this.state.isClickApply &&
+                                                    'ui-btn-loading ui-btn-loading-border-red'
+                                                ].join(' ')}
+                                                style={{ marginTop: '10px' }}
+                                                onClick={async () => {
+                                                  let result = {};
+                                                  if (
+                                                    !this.state
+                                                      .promotionInputValue
+                                                  )
+                                                    return;
+                                                  this.setState({
+                                                    isClickApply: true,
+                                                    isShowValidCode: false,
+                                                    lastPromotionInputValue: this
+                                                      .state.promotionInputValue
+                                                  });
+                                                  //会员
+                                                  result = await this.doGetPromotionPrice(
+                                                    this.state
+                                                      .promotionInputValue
+                                                  );
+                                                  if (
+                                                    result.code ===
+                                                      'K-000000' &&
+                                                    !result.context
+                                                      .promotionFlag
+                                                  ) {
+                                                    //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
+                                                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+                                                    this.setState({
+                                                      discount,
+                                                      promotionDesc:
+                                                        result.context
+                                                          .promotionDesc
+                                                    });
+                                                  } else {
+                                                    this.setState({
+                                                      isShowValidCode: true
+                                                    });
+                                                  }
+                                                  this.setState({
+                                                    isClickApply: false,
+                                                    promotionInputValue: '',
+                                                    loading: false
+                                                  });
+                                                }}
+                                              >
+                                                Apply
+                                              </button>
+                                            </div>
+                                          </div>
+                                          <div
+                                            className={`${
+                                              isMobile ? 'col-12' : 'col-md-6'
+                                            }`}
+                                          >
+                                            <div
+                                              style={{
+                                                paddingLeft: isMobile
+                                                  ? '40px'
+                                                  : '200px',
+                                                paddingRight: isMobile
+                                                  ? '40px'
+                                                  : 0
+                                              }}
+                                            >
+                                              <div className="flex-layout">
+                                                <label
+                                                  className=""
+                                                  style={{
+                                                    minWidth: isMobile
+                                                      ? '210px'
+                                                      : '230px'
+                                                  }}
+                                                >
+                                                  <FormattedMessage id="subscription.total"></FormattedMessage>
+                                                </label>
+                                                <div className="text-right">
+                                                  <b>
+                                                    {formatMoney(
+                                                      el.tradePrice.goodsPrice
+                                                    )}
+                                                  </b>
+                                                </div>
+                                              </div>
+                                              {this.state.subDiscount ? (
+                                                <div className="flex-layout">
+                                                  <label
+                                                    className="saveDiscount  red-text"
+                                                    style={{
+                                                      minWidth: isMobile
+                                                        ? '210px'
+                                                        : '230px'
+                                                    }}
+                                                  >
+                                                    {this.state.promotionDesc}:
+                                                  </label>
+                                                  <div className="text-right red-text">
+                                                    <b>
+                                                      -
+                                                      {formatMoney(
+                                                        this.state.subDiscount
+                                                      )}
+                                                    </b>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+                                              {!this.state.isShowValidCode &&
+                                                discount.map((el) => (
+                                                  <div className="flex-layout">
+                                                    <label className="saveDiscount  red-text">
+                                                      {this.state.promotionDesc}
+                                                    </label>
+                                                    <div
+                                                      className="text-right red-text"
+                                                      style={{
+                                                        position: 'relative'
+                                                      }}
+                                                    >
+                                                      <b>
+                                                        -
+                                                        {formatMoney(
+                                                          this.state
+                                                            .promotionDiscount
+                                                        )}
+                                                      </b>
+                                                      <span
+                                                        style={{
+                                                          position: 'absolute',
+                                                          right: '-18px',
+                                                          fontSize: '22px',
+                                                          bottom: '5px',
+                                                          cursor: 'pointer'
+                                                        }}
+                                                        onClick={() => {
+                                                          discount.pop();
+                                                          this.setState({
+                                                            discount: discount
+                                                          });
+                                                        }}
+                                                      >
+                                                        x
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                ))}
+                                              <div className="flex-layout">
+                                                <label
+                                                  className=""
+                                                  style={{
+                                                    minWidth: isMobile
+                                                      ? '210px'
+                                                      : '230px'
+                                                  }}
+                                                >
+                                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                                </label>
+                                                <div className="text-right red-text">
+                                                  <b>
+                                                    {formatMoney(
+                                                      el.tradePrice
+                                                        .deliveryPrice
+                                                    )}
+                                                  </b>
+                                                </div>
+                                              </div>
+                                              <div className="flex-layout">
+                                                <label className="saveDiscount">
+                                                  <b
+                                                    style={{
+                                                      fontSize: '20px',
+                                                      color: '#333'
+                                                    }}
+                                                  >
+                                                    Total
+                                                  </b>
+                                                  <span
+                                                    style={{ fontSize: '12px' }}
+                                                  >
+                                                    (VAT included)
+                                                  </span>
+                                                </label>
+                                                <div className="text-right">
+                                                  <b>
+                                                    {formatMoney(
+                                                      el.tradePrice.totalPrice
+                                                    )}
+                                                  </b>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </>
+                                  ))}
+                              {this.state.activeTabIdx === 1 &&
+                                subDetail.completedTradeList &&
+                                subDetail.completedTradeList
+                                  .filter(
+                                    (el) =>
+                                      el.tradeState.createTime.split('-')[0] ===
+                                      completedYear.value
+                                  )
+                                  .map((el) => (
                                     <div className="card-container">
                                       <div className="card rc-margin-y--none ml-0">
                                         <div
                                           className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
                                           style={{
                                             background: '#f9f9f9',
-                                            height: '60px',
-                                            padding: 0
+                                            height: '75px'
                                           }}
                                         >
                                           <div
-                                          className={`${isMobile?'col-9': 'col-md-3'}`}
+                                            className={`${
+                                              isMobile ? 'col-5' : 'col-md-3'
+                                            }`}
                                             style={{ paddingLeft: '20px' }}
                                           >
-                                            shipment on:
+                                            shipment on:{' '}
                                             <span
                                               style={{
                                                 color: '#e2001a',
-                                                fontWeight: '400',
-                                                marginLeft: '5px'
+                                                fontWeight: '400'
                                               }}
                                             >
-                                              <DatePicker
-                                                className="receiveDate subs-receiveDate"
-                                                placeholder="Select Date"
-                                                dateFormat="yyyy-MM-dd"
-                                                minDate={this.state.minDate}
-                                                selected={
-                                                  el.tradeItems
-                                                    ? new Date(
-                                                        el.tradeItems[0].nextDeliveryTime
-                                                      )
-                                                    : new Date()
-                                                }
-                                                onChange={(date) =>
-                                                  this.onDateChange(
-                                                    date,
-                                                    el.tradeItems.map((el) => {
-                                                      return {
-                                                        skuId: el.skuId
-                                                      };
-                                                    })
-                                                  )
-                                                }
-                                                disabled={true}
-                                              />
+                                              {
+                                                el.tradeState.createTime.split(
+                                                  ' '
+                                                )[0]
+                                              }
                                             </span>
                                           </div>
-                                          <div className={`${isMobile?'col-0': 'col-md-5'}`}></div>
-                                          <div className={`changeDate ${isMobile?'col-0': 'col-md-3 pl-4'}`} style={{textAlign: 'right', paddingRight: '20px'}}>
-                                            {
-                                              isActive? (
-                                                <>
-                                                <img src={dateIcon} style={{width: '20px', display: 'inline'}}/>
-                                          <span
-                                              style={{
-                                                color: '#666',
-                                                fontWeight: '400',
-                                                marginLeft: '5px',
-                                                borderBottom: '1px solid #666',
-                                                cursor: 'pointer'
-                                              }}
-                                            >
-                                              <DatePicker
-                                                className="receiveDate subs-receiveDate"
-                                                placeholder="Select Date"
-                                                dateFormat="yyyy-MM-dd"
-                                                minDate={this.state.minDate}
-                                                selected={
-                                                  el.tradeItems
-                                                    ? new Date(
-                                                        el.tradeItems[0].nextDeliveryTime
-                                                      )
-                                                    : new Date()
-                                                }
-                                                onChange={(date) =>
-                                                  this.onDateChange(
-                                                    date,
-                                                    el.tradeItems.map((el) => {
-                                                      return {
-                                                        skuId: el.skuId
-                                                      };
-                                                    })
-                                                  )
-                                                }
-                                              />
-                                            </span>
-                                                </>
-                                              ): null
-                                            }
-                                            
-                                          </div>
-                                          <div className={`${isMobile?'col-3': 'col-md-1'}`} style={{padding: 0}}>
-                                            {
-                                              isActive?(
-                                                <>
-                                                <img
-                                              style={{
-                                                display: 'inline-block',
-                                                width: '20px',
-                                                marginRight: '5px'
-                                              }}
-                                              src={skipIcon}
-                                            />
-                                            <a
-                                              class="rc-styled-link"
-                                              href="#/"
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                this.setState({
-                                                  modalType: 'skipNext',
-                                                  modalShow: true,
-                                                  currentModalObj: this.state.modalList.filter(
-                                                    (el) =>
-                                                      el.type === 'skipNext'
-                                                  )[0],
-                                                  skipNextGoods: el.tradeItems.map(
-                                                    (el) => {
-                                                      return {
-                                                        skuId: el.skuId
-                                                      };
-                                                    }
-                                                  )
-                                                });
-                                              }}
-                                            >
-                                              Skip
-                                            </a>
-                                                </>
-                                              ): null
-                                            }
-                                            
-                                          </div>
-                                        </div>
-                                      </div>
-                                      {el.tradeItems &&
-                                        el.tradeItems.map(
-                                          (tradeItem, index) => (
-                                            <div
-                                              className="row rc-margin-x--none row align-items-center"
-                                              style={{
-                                                padding: '1rem 0',
-                                                borderBottom:
-                                                  '1px solid #d7d7d7'
-                                              }}
-                                            >
-                                              <div className={`${isMobile?'col-8': 'col-4'} col-md-4`}>
-                                                <div
-                                                  className="rc-layout-container rc-five-column"
-                                                  style={{
-                                                    paddingRight: isMobile?'0': '60px',
-                                                    paddingTop: '0'
-                                                  }}
-                                                >
-                                                  <div
-                                                    className="rc-column flex-layout"
-                                                    style={{
-                                                      width: '80%',
-                                                      padding: 0
-                                                    }}
-                                                  >
-                                                    <img
-                                                      style={{
-                                                        width: '70px',
-                                                        margin: '0 10px'
-                                                      }}
-                                                      src={tradeItem.pic}
-                                                      alt=""
-                                                    />
-                                                    <div
-                                                      style={{
-                                                        width: '200px',
-                                                        paddingTop: '30px'
-                                                      }}
-                                                    >
-                                                      <h5
-                                                        style={{
-                                                          overflow: 'hidden',
-                                                          textOverflow:
-                                                            'ellipsis',
-                                                          overflowWrap:
-                                                            'normal',
-                                                          fontSize: '14px'
-                                                        }}
-                                                      >
-                                                        {tradeItem.skuName}
-                                                      </h5>
-                                                      <p
-                                                        style={{
-                                                          overflow: 'hidden',
-                                                          textOverflow:
-                                                            'ellipsis',
-                                                          marginBottom: '8px',
-                                                          fontSize: '14px'
-                                                        }}
-                                                      >
-                                                        {tradeItem.specDetails} {isMobile?`x ${tradeItem.num}`: null}
-                                                      </p>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div className={`${isMobile?'none': 'col-4'} col-md-4`}>
-                                                <p
-                                                  style={{
-                                                    textAlign: 'center',
-                                                    marginBottom: '0',
-                                                    fontWeight: '400'
-                                                  }}
-                                                >
-                                                  x {tradeItem.num}
-                                                </p>
-                                              </div>
-                                              <div className="col-4 col-md-4">
-                                                <p
-                                                  style={{
-                                                    textAlign: 'right',
-                                                    paddingRight: '10px',
-                                                    marginBottom: '0'
-                                                  }}
-                                                >
-                                                  {formatMoney(
-                                                    tradeItem.subscriptionPrice
-                                                  )}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          )
-                                        )}
-                                      <div
-                                        className="row rc-margin-x--none row align-items-center"
-                                        style={{
-                                          padding: '1rem 0',
-                                          borderBottom: '1px solid #d7d7d7'
-                                        }}
-                                      >
-                                        <div className={`${isMobile?'col-12': 'col-md-6'}`}>
-                                          <div
-                                            className="footer"
-                                            style={{
-                                              marginTop: '10px',
-                                              marginBottom: '10px',
-                                              padding: '0 40px',
-                                              display:
-                                                subDetail.subscribeStatus ===
-                                                '0'
-                                                  ? 'block'
-                                                  : 'none'
-                                            }}
-                                          >
-                                            <span
-                                              className="rc-input rc-input--inline rc-input--label"
-                                              style={{
-                                                width: '170px',
-                                                verticalAlign: 'middle'
-                                              }}
-                                            >
-                                              <input
-                                                className="rc-input__control"
-                                                id="id-text2"
-                                                type="text"
-                                                name="text"
-                                                placeholder={
-                                                  this.props.intl.messages
-                                                    .promotionCode
-                                                }
-                                                value={
-                                                  this.state.promotionInputValue
-                                                }
-                                                onChange={(e) =>
-                                                  this.handlerChange(e)
-                                                }
-                                              />
-                                              <label
-                                                className="rc-input__label"
-                                                for="id-text2"
-                                              ></label>
-                                            </span>
-                                            <button
-                                              className={[
-                                                'rc-btn',
-                                                'rc-btn--sm',
-                                                'rc-btn--two',
-                                                this.state.isClickApply &&
-                                                  'ui-btn-loading ui-btn-loading-border-red'
-                                              ].join(' ')}
-                                              style={{ marginTop: '10px' }}
-                                              onClick={async () => {
-                                                let result = {};
-                                                if (
-                                                  !this.state
-                                                    .promotionInputValue
-                                                )
-                                                  return;
-                                                this.setState({
-                                                  isClickApply: true,
-                                                  isShowValidCode: false,
-                                                  lastPromotionInputValue: this
-                                                    .state.promotionInputValue
-                                                });
-                                                //会员
-                                                result = await this.doGetPromotionPrice(
-                                                  this.state.promotionInputValue
-                                                );
-                                                if (
-                                                  result.code === 'K-000000' &&
-                                                  !result.context.promotionFlag
-                                                ) {
-                                                  //表示输入apply promotionCode成功,promotionFlag为true表示无效代码
-                                                  discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                                                  this.setState({
-                                                    discount,
-                                                    promotionDesc:
-                                                      result.context
-                                                        .promotionDesc
-                                                  });
-                                                } else {
-                                                  this.setState({
-                                                    isShowValidCode: true
-                                                  });
-                                                }
-                                                this.setState({
-                                                  isClickApply: false,
-                                                  promotionInputValue: '',
-                                                  loading: false
-                                                });
-                                              }}
-                                            >
-                                              Apply
-                                            </button>
-                                          </div>
-                                        </div>
-                                        <div className={`${isMobile?'col-12': 'col-md-6'}`}>
-                                          <div style={{ paddingLeft: isMobile?'40px': '200px', paddingRight: isMobile?'40px': 0 }}>
-                                            <div className="flex-layout">
-                                              <label
-                                                className=""
-                                                style={{ minWidth: isMobile?'210px': '230px' }}
-                                              >
-                                                <FormattedMessage id="subscription.total"></FormattedMessage>
-                                              </label>
-                                              <div className="text-right">
-                                                <b>
-                                                  {formatMoney(
-                                                    el.tradePrice.goodsPrice
-                                                  )}
-                                                </b>
-                                              </div>
-                                            </div>
-                                            {this.state.subDiscount ? (
-                                              <div className="flex-layout">
-                                                <label
-                                                  className="saveDiscount  red-text"
-                                                  style={{ minWidth: isMobile?'210px': '230px' }}
-                                                >
-                                                  {this.state.promotionDesc}:
-                                                </label>
-                                                <div className="text-right red-text">
-                                                  <b>
-                                                    -
-                                                    {formatMoney(
-                                                      this.state.subDiscount
-                                                    )}
-                                                  </b>
-                                                </div>
-                                              </div>
-                                            ) : null}
-                                            {!this.state.isShowValidCode &&
-                                              discount.map((el) => (
-                                                <div className="flex-layout">
-                                                  <label className="saveDiscount  red-text">
-                                                    {this.state.promotionDesc}
-                                                  </label>
-                                                  <div
-                                                    className="text-right red-text"
-                                                    style={{
-                                                      position: 'relative'
-                                                    }}
-                                                  >
-                                                    <b>
-                                                      -
-                                                      {formatMoney(
-                                                        this.state
-                                                          .promotionDiscount
-                                                      )}
-                                                    </b>
-                                                    <span
-                                                      style={{
-                                                        position: 'absolute',
-                                                        right: '-18px',
-                                                        fontSize: '22px',
-                                                        bottom: '5px',
-                                                        cursor: 'pointer'
-                                                      }}
-                                                      onClick={() => {
-                                                        discount.pop();
-                                                        this.setState({
-                                                          discount: discount
-                                                        });
-                                                      }}
-                                                    >
-                                                      x
-                                                    </span>
-                                                  </div>
-                                                </div>
-                                              ))}
-                                            <div className="flex-layout">
-                                              <label
-                                                className=""
-                                                style={{ minWidth: isMobile?'210px': '230px' }}
-                                              >
-                                                <FormattedMessage id="subscription.shipping"></FormattedMessage>
-                                              </label>
-                                              <div className="text-right red-text">
-                                                <b>
-                                                  {formatMoney(
-                                                    el.tradePrice.deliveryPrice
-                                                  )}
-                                                </b>
-                                              </div>
-                                            </div>
-                                            <div className="flex-layout">
-                                              <label className="saveDiscount">
-                                                <b
-                                                  style={{
-                                                    fontSize: '20px',
-                                                    color: '#333'
-                                                  }}
-                                                >
-                                                  Total
-                                                </b>
-                                                <span
-                                                  style={{ fontSize: '12px' }}
-                                                >
-                                                  (VAT included)
-                                                </span>
-                                              </label>
-                                              <div className="text-right">
-                                                <b>
-                                                  {formatMoney(
-                                                    el.tradePrice.totalPrice
-                                                  )}
-                                                </b>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                ))}
-                              {this.state.activeTabIdx === 1 &&
-                                subDetail.completedTradeList &&
-                                subDetail.completedTradeList.filter(el => el.tradeState.createTime.split('-')[0] === completedYear.value).map((el) => (
-                                  <div className="card-container">
-                                    <div className="card rc-margin-y--none ml-0">
-                                      <div
-                                        className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
-                                        style={{
-                                          background: '#f9f9f9',
-                                          height: '75px'
-                                        }}
-                                      >
-                                        <div
-                                          className={`${isMobile?'col-5': 'col-md-3'}`}
-                                          style={{ paddingLeft: '20px' }}
-                                        >
-                                          shipment on:{' '}
-                                          <span
-                                            style={{
-                                              color: '#e2001a',
-                                              fontWeight: '400'
-                                            }}
-                                          >
-                                            {
-                                              el.tradeState.createTime.split(
-                                                ' '
-                                              )[0]
-                                            }
-                                          </span>
-                                        </div>
-                                        {
-                                          isMobile? null: (
+                                          {isMobile ? null : (
                                             <div className="col-12 col-md-4"></div>
-                                          )
-                                        }
-                                        {
-                                          isMobile?(
-                                            null
-                                          ): (
+                                          )}
+                                          {isMobile ? null : (
                                             <div className="col-12 col-md-3 pl-4">
                                               Promotion:{' '}
                                               <span
@@ -2275,37 +2406,57 @@ class SubscriptionDetail extends React.Component {
                                                   fontWeight: '400'
                                                 }}
                                               >
-                                                -{formatMoney(el.tradePrice.discountsPrice)}
-                                              </span>
-                                            </div>    
-                                          )
-                                        }
-                                        <div className="col-7 col-md-2" style={{padding: isMobile? '0': '0 15px'}}>
-                                          {
-                                            isMobile? (
-                                              <>
-                                              <div style={{ textAlign: 'right' }}>
-                                                {el.id? (
-                                                  <>
-                                                  <i className="greenCircle"></i>
-                                                  <span>{ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState}</span>
-                                                  <span className="rc-icon rc-right rc-iconography" onClick={(e) => {
-                                                    e.preventDefault();
-                                                    const { history } = this.props;
-                                                    history.push(
-                                                      `/account/orders-detail/${el.id}`
-                                                    );
-                                                  }}></span>
-                                                  </>  
-                                                ): (
-                                                  <>
-                                                  <i className="yellowCircle"></i>
-                                                  <span>Skiped</span>
-                                                  </>
+                                                -
+                                                {formatMoney(
+                                                  el.tradePrice.discountsPrice
                                                 )}
-                                              </div>
+                                              </span>
+                                            </div>
+                                          )}
+                                          <div
+                                            className="col-7 col-md-2"
+                                            style={{
+                                              padding: isMobile ? '0' : '0 15px'
+                                            }}
+                                          >
+                                            {isMobile ? (
+                                              <>
+                                                <div
+                                                  style={{ textAlign: 'right' }}
+                                                >
+                                                  {el.id ? (
+                                                    <>
+                                                      <i className="greenCircle"></i>
+                                                      <span>
+                                                        {ORDER_STATUS_ENUM[
+                                                          el.tradeState
+                                                            .flowState
+                                                        ] ||
+                                                          el.tradeState
+                                                            .flowState}
+                                                      </span>
+                                                      <span
+                                                        className="rc-icon rc-right rc-iconography"
+                                                        onClick={(e) => {
+                                                          e.preventDefault();
+                                                          const {
+                                                            history
+                                                          } = this.props;
+                                                          history.push(
+                                                            `/account/orders-detail/${el.id}`
+                                                          );
+                                                        }}
+                                                      ></span>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <i className="yellowCircle"></i>
+                                                      <span>Skiped</span>
+                                                    </>
+                                                  )}
+                                                </div>
                                               </>
-                                            ): (el.id?(
+                                            ) : el.id ? (
                                               <>
                                                 <img
                                                   style={{
@@ -2320,7 +2471,9 @@ class SubscriptionDetail extends React.Component {
                                                   href="#/"
                                                   onClick={(e) => {
                                                     e.preventDefault();
-                                                    const { history } = this.props;
+                                                    const {
+                                                      history
+                                                    } = this.props;
                                                     history.push(
                                                       `/account/orders-detail/${el.id}`
                                                     );
@@ -2330,23 +2483,20 @@ class SubscriptionDetail extends React.Component {
                                                   Order detail
                                                 </a>
                                               </>
-                                            ): null
-                                            )
-                                          }
+                                            ) : null}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    {/* {subDetail.goodsInfo &&
+                                      {/* {subDetail.goodsInfo &&
                                     subDetail.goodsInfo.map((el, index) => ( */}
-                                    <div
-                                      className="row rc-margin-x--none row align-items-center"
-                                      style={{
-                                        padding: '1rem 0',
-                                        borderBottom: '1px solid #d7d7d7'
-                                      }}
-                                    >
-                                      {
-                                        isMobile?(
+                                      <div
+                                        className="row rc-margin-x--none row align-items-center"
+                                        style={{
+                                          padding: '1rem 0',
+                                          borderBottom: '1px solid #d7d7d7'
+                                        }}
+                                      >
+                                        {isMobile ? (
                                           <div className="col-8 col-md-6">
                                             {el.tradeItems &&
                                               el.tradeItems.map(
@@ -2364,11 +2514,13 @@ class SubscriptionDetail extends React.Component {
                                                           alt=""
                                                         />
                                                         <div
-                                                         className="v-center"
+                                                          className="v-center"
                                                           style={{
                                                             width: '120px',
-                                                            verticalAlign: 'middle',
-                                                            display: 'inline-block'
+                                                            verticalAlign:
+                                                              'middle',
+                                                            display:
+                                                              'inline-block'
                                                           }}
                                                         >
                                                           <h5
@@ -2400,7 +2552,8 @@ class SubscriptionDetail extends React.Component {
                                                             {
                                                               tradeItem.specDetails
                                                             }
-                                                            &nbsp;&nbsp;x {tradeItem.num}
+                                                            &nbsp;&nbsp;x{' '}
+                                                            {tradeItem.num}
                                                           </p>
                                                         </div>
                                                       </>
@@ -2409,130 +2562,141 @@ class SubscriptionDetail extends React.Component {
                                                 }
                                               )}
                                           </div>
-                                        ):(
+                                        ) : (
                                           <div className="col-4 col-md-7">
-                                        <div
-                                          className="rc-layout-container rc-five-column"
-                                          style={{
-                                            paddingRight: '60px',
-                                            paddingTop: '0'
-                                          }}
-                                        >
-                                          <div
-                                            className="rc-column flex-layout"
-                                            style={{
-                                              width: '100%',
-                                              padding: 0
-                                            }}
-                                          >
-                                            {el.tradeItems &&
-                                              el.tradeItems.map(
-                                                (tradeItem, index) => {
-                                                  if (index < 2) {
-                                                    return (
-                                                      <>
-                                                        <img
-                                                          style={{
-                                                            width: '70px',
-                                                            margin: '0 10px'
-                                                          }}
-                                                          src={tradeItem.pic}
-                                                          alt=""
-                                                        />
-                                                        <div
-                                                          style={{
-                                                            width: '120px',
-                                                            paddingTop: '30px'
-                                                          }}
-                                                        >
-                                                          <h5
-                                                            style={{
-                                                              overflow:
-                                                                'hidden',
-                                                              textOverflow:
-                                                                'ellipsis',
-                                                              overflowWrap:
-                                                                'normal',
-                                                              fontSize: '14px',
-                                                              whiteSpace:
-                                                                'nowrap'
-                                                            }}
-                                                          >
-                                                            {tradeItem.skuName}
-                                                          </h5>
-                                                          <p
-                                                            style={{
-                                                              overflow:
-                                                                'hidden',
-                                                              textOverflow:
-                                                                'ellipsis',
-                                                              marginBottom:
-                                                                '8px',
-                                                              fontSize: '14px'
-                                                            }}
-                                                          >
-                                                            {
-                                                              tradeItem.specDetails
-                                                            } x {tradeItem.num}
-                                                          </p>
-                                                        </div>
-                                                      </>
-                                                    );
-                                                  }
-                                                }
-                                              )}
-                                            {el.tradeItems &&
-                                              el.tradeItems.length > 2 && (
-                                                <div
-                                                  style={{
-                                                    width: '120px',
-                                                    paddingTop: '30px',
-                                                    marginLeft: '40px',
-                                                    fontSize: '25px',
-                                                    fontWeight: 400
-                                                  }}
-                                                >
-                                                  ...
-                                                </div>
-                                              )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                        )
-                                      }
-                                      {
-                                        isMobile?(
-                                          null
-                                        ): (
-                                          <div className="col-4 col-md-3">
-                                            <div style={{ textAlign: 'center' }}>
-                                              {
-                                                el.id?(
-                                                  <>
-                                                  <i className="greenCircle"></i>
-                                                  <span>{ORDER_STATUS_ENUM[el.tradeState.flowState] || el.tradeState.flowState}</span>
-                                                  </>
-                                                ): (
-                                                  <>
-                                                  <i className="yellowCircle"></i>
-                                                  <span>Skiped</span>
-                                                  </>
-                                                )
-                                              }
+                                            <div
+                                              className="rc-layout-container rc-five-column"
+                                              style={{
+                                                paddingRight: '60px',
+                                                paddingTop: '0'
+                                              }}
+                                            >
+                                              <div
+                                                className="rc-column flex-layout"
+                                                style={{
+                                                  width: '100%',
+                                                  padding: 0
+                                                }}
+                                              >
+                                                {el.tradeItems &&
+                                                  el.tradeItems.map(
+                                                    (tradeItem, index) => {
+                                                      if (index < 2) {
+                                                        return (
+                                                          <>
+                                                            <img
+                                                              style={{
+                                                                width: '70px',
+                                                                margin: '0 10px'
+                                                              }}
+                                                              src={
+                                                                tradeItem.pic
+                                                              }
+                                                              alt=""
+                                                            />
+                                                            <div
+                                                              style={{
+                                                                width: '120px',
+                                                                paddingTop:
+                                                                  '30px'
+                                                              }}
+                                                            >
+                                                              <h5
+                                                                style={{
+                                                                  overflow:
+                                                                    'hidden',
+                                                                  textOverflow:
+                                                                    'ellipsis',
+                                                                  overflowWrap:
+                                                                    'normal',
+                                                                  fontSize:
+                                                                    '14px',
+                                                                  whiteSpace:
+                                                                    'nowrap'
+                                                                }}
+                                                              >
+                                                                {
+                                                                  tradeItem.skuName
+                                                                }
+                                                              </h5>
+                                                              <p
+                                                                style={{
+                                                                  overflow:
+                                                                    'hidden',
+                                                                  textOverflow:
+                                                                    'ellipsis',
+                                                                  marginBottom:
+                                                                    '8px',
+                                                                  fontSize:
+                                                                    '14px'
+                                                                }}
+                                                              >
+                                                                {
+                                                                  tradeItem.specDetails
+                                                                }{' '}
+                                                                x{' '}
+                                                                {tradeItem.num}
+                                                              </p>
+                                                            </div>
+                                                          </>
+                                                        );
+                                                      }
+                                                    }
+                                                  )}
+                                                {el.tradeItems &&
+                                                  el.tradeItems.length > 2 && (
+                                                    <div
+                                                      style={{
+                                                        width: '120px',
+                                                        paddingTop: '30px',
+                                                        marginLeft: '40px',
+                                                        fontSize: '25px',
+                                                        fontWeight: 400
+                                                      }}
+                                                    >
+                                                      ...
+                                                    </div>
+                                                  )}
+                                              </div>
                                             </div>
                                           </div>
-                                        )
-                                      }
-                                      <div
-                                        className="col-4 col-md-2"
-                                        style={{ textAlign: 'center' }}
-                                      >
-                                        {formatMoney(el.tradePrice.totalPrice)}
+                                        )}
+                                        {isMobile ? null : (
+                                          <div className="col-4 col-md-3">
+                                            <div
+                                              style={{ textAlign: 'center' }}
+                                            >
+                                              {el.id ? (
+                                                <>
+                                                  <i className="greenCircle"></i>
+                                                  <span>
+                                                    {ORDER_STATUS_ENUM[
+                                                      el.tradeState.flowState
+                                                    ] ||
+                                                      el.tradeState.flowState}
+                                                  </span>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <i className="yellowCircle"></i>
+                                                  <span>Skiped</span>
+                                                </>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                        <div
+                                          className="col-4 col-md-2"
+                                          style={{ textAlign: 'center' }}
+                                        >
+                                          {formatMoney(
+                                            el.tradePrice.totalPrice
+                                          )}
+                                        </div>
                                       </div>
+                                      {/* ))} */}
                                     </div>
-                                    {/* ))} */}
-                                  </div>
-                                ))}
+                                  ))}
                               {/* {this.state.goodsDetailTab.tabContent.map((ele, i) => (
                                   <div
                                     id={`tab__panel-${i}`}

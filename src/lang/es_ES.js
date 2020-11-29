@@ -790,7 +790,7 @@ const es_ES = {
   uNeedHelp: '¿Necesitas ayuda?',
   unfoldAddress: 'Dirección desplegada',
   unkown: 'Desconocido',
-  unLoginSubscriptionTips: 'La suscripción solo es posible después del registro',
+  unLoginSubscriptionTips: 'El autoenvío solo es posible después del registro',
   userAgreement: 'Acuerdo del Usuario',
   viewAllResults: 'Vea todos los resultados',
   viewResults: 'Ver resultados',

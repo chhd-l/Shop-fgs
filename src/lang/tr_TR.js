@@ -684,7 +684,7 @@ const tr_TR = {
   'twoPasswordsYouTypedDoNotMatch': 'Yazdığınız iki şifre eşleşmiyor!',
   type: 'TÜR',
   unfoldAddress: 'Açılmamış Adres',
-  unLoginSubscriptionTips: 'Abonelik ancak kayıt olduktan sonra mümkündür',
+  unLoginSubscriptionTips: 'Otomatik nakliye ancak kayıttan sonra mümkündür',
   userAgreement: 'Kullanıcı Sözleşmesi',
   viewAll: 'Ürünlere göz at',
   viewAllResults: 'Tüm sonuçları görüntüle',

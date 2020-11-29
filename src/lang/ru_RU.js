@@ -709,7 +709,7 @@ const ru_RU = {
     "twoPasswordsYouTypedDoNotMatch": "Два введенных вами пароля не совпадают!",
     'type': "ТИП",
     'unfoldAddress': "Развернуть адрес",
-    'unLoginSubscriptionTips': "Подписка возможна только после регистрации",
+    'unLoginSubscriptionTips': "Автодоставка возможна только после регистрации",
     'userAgreement': "Пользовательское Соглашение",
     viewAll: 'Посмотреть все',
     'viewAllResults': "Посмотреть все результаты",

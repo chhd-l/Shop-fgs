@@ -13,11 +13,11 @@ import noPet from '@/assets/images/noPet.jpg';
 import { Link } from 'react-router-dom';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
-import { setSeoConfig } from '@/utils/utils';
-import Female from '@/assets/images/female.png'
-import Male from '@/assets/images/male.png'
-import Cat from '@/assets/images/cat.png'
-import Dog from '@/assets/images/dog.png'
+import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import Female from '@/assets/images/female.png';
+import Male from '@/assets/images/male.png';
+import Cat from '@/assets/images/cat.png';
+import Dog from '@/assets/images/dog.png';
 
 @inject('loginStore')
 @observer
@@ -31,11 +31,8 @@ class Pet extends React.Component {
     };
   }
   componentDidMount() {
-    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-      navigator.userAgent)) {
-        this.setState({isMobile: true})
-      }
-    setSeoConfig()
+    this.setState({ isMobile: getDeviceType() !== 'PC' });
+    setSeoConfig();
     this.getPetList();
   }
   isHavePet() {
@@ -111,7 +108,7 @@ class Pet extends React.Component {
         theme: ''
       }
     };
-    let { isMobile } = this.state
+    let { isMobile, petList, loading } = this.state;
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
@@ -127,20 +124,18 @@ class Pet extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              {
-                isMobile? (
-                  <div className="col-12 rc-md-down">
-                        <Link to="/account">
-                          <span className="red">&lt;</span>
-                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                            <FormattedMessage id="home" />
-                          </span>
-                        </Link>
-                      </div>
-                ): (
-                  <SideMenu type="Pets" />
-                )
-              }
+              {isMobile ? (
+                <div className="col-12 rc-md-down">
+                  <Link to="/account">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                      <FormattedMessage id="home" />
+                    </span>
+                  </Link>
+                </div>
+              ) : (
+                <SideMenu type="Pets" />
+              )}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {/* <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 className="rc-delta rc-margin--none">
@@ -148,16 +143,15 @@ class Pet extends React.Component {
                   </h4>
                 </div> */}
                 <div className="content-asset">
-                  {this.state.loading ? (
+                  {loading ? (
                     <Skeleton
                       color="#f5f5f5"
                       width="100%"
                       height="50%"
                       count={5}
                     />
-                  ) : (
-                    this.state.petList.length <= 0? (
-                      <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                  ) : petList.length <= 0 ? (
+                    <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
@@ -179,72 +173,120 @@ class Pet extends React.Component {
                         <img src={noPet} alt="No pets" />
                       </div>
                     </div>
-                    ): (
-                      <div>
-                        <p className="title">Create and manage your pet's profile to maintain its best health possible</p>
-                        {
-                          /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                            navigator.userAgent
-                          )?(
-                            this.state.petList.map(el => (
-                              <div className="petItem">
-                                <div className="photo">
-                                  <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg && el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
+                  ) : (
+                    <div>
+                      <p className="title">
+                        Create and manage your pet's profile to maintain its
+                        best health possible
+                      </p>
+                      {isMobile
+                        ? petList.map((el) => (
+                            <div className="petItem">
+                              <div className="photo">
+                                <img
+                                  style={{ width: '90px', borderRadius: '50%' }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                />
+                              </div>
+                              <div className="content">
+                                <h1 className="name red">
+                                  {el.petsName}{' '}
+                                  <img
+                                    style={{ width: '20px' }}
+                                    src={!el.petsSex ? Male : Female}
+                                  />
+                                </h1>
+                                <div className="key">
+                                  <span>Birthday</span>
+                                  <span>Breed</span>
                                 </div>
-                                <div className="content">
-                                  <h1 className="name red">{el.petsName} <img style={{width: '20px'}} src={!el.petsSex?Male: Female}/></h1>
-                                  <div className="key">
-                                    <span>Birthday</span>
-                                    <span>Breed</span>
-                                  </div>
-                                  <div className="value">
-                                    <span>{el.birthOfPets}</span>
-                                    <span>{el.petsBreed}</span>
-                                  </div>
-                                </div>
-                                <div className="operation">
-                                  <a className="edit rc-styled-link" href="#/" onClick={(e) => {
-                                    e.preventDefault()
-                                    this.props.history.push('/account/pets/petForm/' + el.petsId)      
-                                  }}>Edit</a>
+                                <div className="value">
+                                  <span>{el.birthOfPets}</span>
+                                  <span>{el.petsBreed}</span>
                                 </div>
                               </div>
-                            ))
-                          ): (
-                            this.state.petList.map(el => (
-                              <div className="petItem">
-                                <div className="photo">
-                                  <img style={{width: '90px', borderRadius: '50%'}} src={(el.petsImg && el.petsImg.includes("https")?el.petsImg: null) || (el.petsType === 'cat'? Cat: Dog)}/>
+                              <div className="operation">
+                                <a
+                                  className="edit rc-styled-link"
+                                  href="#/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    this.props.history.push(
+                                      '/account/pets/petForm/' + el.petsId
+                                    );
+                                  }}
+                                >
+                                  Edit
+                                </a>
+                              </div>
+                            </div>
+                          ))
+                        : this.state.petList.map((el) => (
+                            <div className="petItem">
+                              <div className="photo">
+                                <img
+                                  style={{ width: '90px', borderRadius: '50%' }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                />
+                              </div>
+                              <div className="content">
+                                <h1 className="name red">
+                                  {el.petsName}{' '}
+                                  <img
+                                    style={{ width: '15px' }}
+                                    src={!el.petsSex ? Male : Female}
+                                  />
+                                </h1>
+                                <div className="key">
+                                  <span>Birthday</span>
+                                  <span>Breed</span>
                                 </div>
-                                <div className="content">
-                                  <h1 className="name red">{el.petsName} <img style={{width: '15px'}} src={!el.petsSex?Male: Female}/></h1>
-                                  <div className="key">
-                                    <span>Birthday</span>
-                                    <span>Breed</span>
-                                  </div>
-                                  <div className="value">
-                                    <span>{el.birthOfPets}</span>
-                                    <span>{el.petsBreed}</span>
-                                  </div>
-                                </div>
-                                <div className="operation">
-                                  <a className="edit rc-styled-link" href="#/" onClick={(e) => {
-                                    e.preventDefault()
-                                    this.props.history.push('/account/pets/petForm/' + el.petsId)      
-                                  }}>Edit</a>
+                                <div className="value">
+                                  <span>{el.birthOfPets}</span>
+                                  <span>{el.petsBreed}</span>
                                 </div>
                               </div>
-                            ))
-                          )
-                        }
-                        <div className="petItem addNew" onClick={() => {
-                          this.props.history.push('/account/pets/petForm')
-                        }} style={{textAlign: 'center', display: 'block', cursor: 'pointer'}}>
-                          <span style={{fontSize: '25px'}}>+</span> Add a new PET
-                        </div>
+                              <div className="operation">
+                                <a
+                                  className="edit rc-styled-link"
+                                  href="#/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    this.props.history.push(
+                                      '/account/pets/petForm/' + el.petsId
+                                    );
+                                  }}
+                                >
+                                  Edit
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                      <div
+                        className="petItem addNew"
+                        onClick={() => {
+                          this.props.history.push('/account/pets/petForm');
+                        }}
+                        style={{
+                          textAlign: 'center',
+                          display: 'block',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <span style={{ fontSize: '25px' }}>+</span> Add a new
+                        PET
                       </div>
-                    )
-                    
+                    </div>
                   )}
                 </div>
               </div>

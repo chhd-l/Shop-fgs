@@ -97,7 +97,7 @@ class SubscriptionSelect extends Component {
       this.updateFirstOrderDiscount();
     });
   }
-  handleSelectedItemChange(data) {
+  handleSelectedItemChange = (data) => {
     console.log(data);
     const { form } = this.state;
     form.frequencyVal = data.value;
@@ -106,7 +106,7 @@ class SubscriptionSelect extends Component {
     this.setState({ form: form }, () => {
       this.props.updateSelectedData(this.state.form);
     });
-  }
+  };
   render() {
     const { form } = this.state;
     return (
@@ -198,9 +198,7 @@ class SubscriptionSelect extends Component {
                   <FormattedMessage id="every" />
                 </span>
                 <Selection
-                  selectedItemChange={(data) =>
-                    this.handleSelectedItemChange(data)
-                  }
+                  selectedItemChange={this.handleSelectedItemChange}
                   optionList={this.computedList}
                   selectedItemData={{
                     value: form.frequencyVal

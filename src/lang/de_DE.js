@@ -739,7 +739,7 @@ const de_DE = {
   type: 'ART',
   unfoldAddress: 'Adresse entfalten',
   //qhx新增
-  unLoginSubscriptionTips: 'Ein Abonnement ist erst nach Anmeldung möglich.',
+  unLoginSubscriptionTips: 'Autoship ist erst nach Anmeldung möglich',
   userAgreement: 'Nutzungsbedingungen',
   viewAllResults: 'Alle Ergebnisse anzeigen',
   viewResults: 'Ergebnisse anzeigen',

@@ -875,7 +875,6 @@ class List extends React.Component {
                                           item.miLinePrice > 0
                                             ? formatMoney(item.miLinePrice)
                                             : null}
-                                          ||
                                         </span>
                                       </div>
                                       {/* 最低订阅价 */}
