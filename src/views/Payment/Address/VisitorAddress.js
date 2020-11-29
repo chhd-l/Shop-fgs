@@ -8,7 +8,7 @@ import { find } from 'lodash';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
-import "./VisitorAddress.css"
+import './VisitorAddress.css';
 
 /**
  * delivery/billing adress module - visitor
@@ -58,6 +58,7 @@ class VisitorAddress extends React.Component {
         console.log(err);
       }
     } else {
+      this.setState({ form: data });
       this.props.updateData(data);
     }
   };
@@ -146,9 +147,17 @@ class VisitorAddress extends React.Component {
     );
   };
   render() {
-    const { form } = this.state;
+    const { isOnepageCheckout } = this.props;
+    const { form, isValid } = this.state;
     const _editForm = (
-      <EditForm type="delivery" updateData={this.handleEditFormChange} />
+      <EditForm
+        type="delivery"
+        initData={form}
+        isLogin={false}
+        isOnepageCheckout={isOnepageCheckout}
+        key={isOnepageCheckout ? Object.values(form || {}).join('_') : 1}
+        updateData={this.handleEditFormChange}
+      />
     );
     const _sameAsCheckbox = this.props.type === 'delivery' && (
       <SameAsCheckbox updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal} />
@@ -161,7 +170,7 @@ class VisitorAddress extends React.Component {
           {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
         </div>
 
-        {this.props.isOnepageCheckout && !this.panelStatus.isPrepare ? (
+        {isOnepageCheckout && !this.panelStatus.isPrepare ? (
           <>
             {this.panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
@@ -170,7 +179,7 @@ class VisitorAddress extends React.Component {
                   <button
                     className="rc-btn rc-btn--one rc-btn--sm"
                     onClick={this.handleClickConfirm}
-                    disabled={!this.state.isValid}
+                    disabled={!isValid}
                   >
                     <FormattedMessage id="clinic.confirm" />
                   </button>
@@ -200,7 +209,7 @@ class VisitorAddress extends React.Component {
             {_sameAsCheckbox}
           </>
         ) : null}
-        {!this.props.isOnepageCheckout && (
+        {!isOnepageCheckout && (
           <>
             {_editForm}
             {_sameAsCheckbox}

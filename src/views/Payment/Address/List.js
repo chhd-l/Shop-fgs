@@ -246,7 +246,7 @@ class AddressList extends React.Component {
       deliveryAddress: data
     });
   };
-  async updateDeliveryAddress(data) {
+  updateDeliveryAddress = async (data) => {
     try {
       await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, saveErrorMsg: '' });
@@ -256,7 +256,7 @@ class AddressList extends React.Component {
     } finally {
       this.setState({ deliveryAddress: data });
     }
-  }
+  };
   scrollToTitle() {
     const widget = document.querySelector(`#J-address-title-${this.props.id}`);
     const headerWidget = document.querySelector('.rc-header__scrolled')
@@ -507,8 +507,11 @@ class AddressList extends React.Component {
         }`}
       >
         <EditForm
+          isLogin={true}
+          isOnepageCheckout={this.props.isOnepageCheckout}
           initData={deliveryAddress}
-          updateData={(data) => this.updateDeliveryAddress(data)}
+          key={Object.values(deliveryAddress || {}).join('_')}
+          updateData={this.updateDeliveryAddress}
         />
         {this.state.saveLoading ? <Loading positionAbsolute="true" /> : null}
         <div className="rc-layout-container">
