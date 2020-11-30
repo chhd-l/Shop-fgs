@@ -210,7 +210,9 @@ export function loadJS({
       callback();
     };
   }
-  script.src = url;
+  if (url) {
+    script.src = url;
+  }
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
