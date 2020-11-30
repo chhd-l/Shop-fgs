@@ -110,7 +110,7 @@ class List extends React.Component {
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;
-    const { category, keywords } = this.props.match.params;
+    const { category, keywords } = this.props.match.params;debugger
 
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数

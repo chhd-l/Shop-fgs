@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
-import { getDictionary, formatMoney } from '@/utils/utils';
+import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { getMarketingDiscount } from '@/api/payment';
 import './index.css';
 
@@ -32,17 +32,14 @@ class SubscriptionSelect extends Component {
   }
   async componentDidMount() {
     this.updateFirstOrderDiscount();
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict((res) => {
       this.setState(
         {
-          frequencyList: [...dictList[0], ...dictList[1]],
+          frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
           })
         },
         () => {

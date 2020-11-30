@@ -11,7 +11,12 @@ import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
 import AddressComp from './components/AddressComp';
 import Selection from '@/components/Selection';
-import { getDictionary, dynamicLoadCss, getDeviceType } from '@/utils/utils';
+import {
+  getDictionary,
+  dynamicLoadCss,
+  getDeviceType,
+  getFrequencyDict
+} from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import subscriptionIcon from './images/subscription.png';
 import pauseIcon from './images/pause.png';
@@ -182,18 +187,10 @@ class SubscriptionDetail extends React.Component {
         countryList: res
       });
     });
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState(
-        {
-          frequencyList: [...dictList[0], ...dictList[1]]
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res
+      });
     });
     setSeoConfig({
       goodsId: '',

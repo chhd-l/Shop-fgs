@@ -12,7 +12,12 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary, setSeoConfig } from '@/utils/utils';
+import {
+  formatMoney,
+  getDictionary,
+  setSeoConfig,
+  getFrequencyDict
+} from '@/utils/utils';
 import { find, findIndex } from 'lodash';
 import { queryCityNameById } from '@/api';
 import {
@@ -526,17 +531,12 @@ class AccountOrders extends React.Component {
     if (details.subscriptionResponseVO) {
       const cycleTypeId = details.subscriptionResponseVO.cycleTypeId;
 
-      let dictList = await Promise.all([
-        getDictionary({ type: 'Frequency_week' }),
-        getDictionary({ type: 'Frequency_month' })
-      ]);
+      const dictList = await getFrequencyDict();
       sessionItemRoyal.set(
         'rc-subform',
         JSON.stringify({
           buyWay: 'frequency',
-          frequencyName: [...dictList[0], ...dictList[1]].filter(
-            (el) => el.id === cycleTypeId
-          )[0].name,
+          frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0].name,
           frequencyId: cycleTypeId
         })
       );

@@ -493,12 +493,11 @@ export function distributeLinktoPrecriberOrPaymentPage({
 }
 
 export async function getFrequencyDict() {
-  Promise.all([
+  return Promise.all([
     getDictionary({ type: 'Frequency_day' }),
     getDictionary({ type: 'Frequency_week' }),
     getDictionary({ type: 'Frequency_month' })
   ]).then((res) => {
     return Promise.resolve(flatten(res));
-    // return flatten(res);
   });
 }

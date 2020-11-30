@@ -18,7 +18,6 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  getDictionary,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
@@ -182,27 +181,14 @@ class Details extends React.Component {
     //   return false;
     // }
     getFrequencyDict().then((res) => {
-      // debugger;
-    });
-    Promise.all([
-      getDictionary({ type: 'Frequency_day' }),
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      const tmpList = [...dictList[0], ...dictList[1], ...dictList[2]];
-      this.setState(
-        {
-          frequencyList: tmpList,
-          form: Object.assign(this.state.form, {
-            frequencyVal: tmpList[0] ? tmpList[0].valueEn : '',
-            frequencyName: tmpList[0] ? tmpList[0].name : '',
-            frequencyId: tmpList[0] ? tmpList[0].id : ''
-          })
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal: res[0] ? res[0].valueEn : '',
+          frequencyName: res[0] ? res[0].name : '',
+          frequencyId: res[0] ? res[0].id : ''
+        })
+      });
     });
     this.setState(
       { id: this.props.match.params.id, isMobile: getDeviceType() !== 'PC' },

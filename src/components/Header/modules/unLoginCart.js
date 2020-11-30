@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
-  getDictionary,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  getFrequencyDict
 } from '@/utils/utils';
 import { find } from 'lodash';
 import { inject, observer } from 'mobx-react';
@@ -28,19 +28,10 @@ class UnloginCart extends React.Component {
     };
   }
   async componentDidMount() {
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState(
-        {
-          frequencyList: [...dictList[0], ...dictList[1]]
-        },
-        () => {
-          console.log(this.state.frequencyList, 'frequencyList');
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    getFrequencyDict((res) => {
+      this.setState({
+        frequencyList: res
+      });
     });
     this.props.checkoutStore.updateUnloginCart();
   }

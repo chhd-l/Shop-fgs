@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { find } from 'lodash';
-import { formatMoney, getDictionary } from '@/utils/utils';
+import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -21,12 +21,9 @@ class PayProductInfo extends React.Component {
     };
   }
   async componentDidMount() {
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict((res) => {
       this.setState({
-        frequencyList: [...dictList[0], ...dictList[1]]
+        frequencyList: res
       });
     });
   }
@@ -49,7 +46,7 @@ class PayProductInfo extends React.Component {
   };
   getProductList(plist) {
     const { details } = this.props;
-    console.log(plist, details, 'hahaha')
+    console.log(plist, details, 'hahaha');
     const List = plist.map((item, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -85,8 +82,7 @@ class PayProductInfo extends React.Component {
                       <FormattedMessage id="item" values={{ val: item.num }} />
                     )}
                     <br />
-                    {details.subscriptionResponseVO &&
-                    item.goodsInfoFlag ? (
+                    {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :
                         {this.matchNamefromDict(

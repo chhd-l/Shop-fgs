@@ -16,7 +16,7 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  getDictionary
+  getFrequencyDict
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -161,17 +161,14 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict((res) => {
       this.setState(
         {
-          frequencyList: [...dictList[0], ...dictList[1]],
+          frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
           })
         },
         () => {
@@ -619,9 +616,9 @@ class Details extends React.Component {
           this.format.join('&')
         ].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
-      }
-      if(parseInt(form.buyWay)) {
-        param.periodTypeId = form.frequencyId
+      };
+      if (parseInt(form.buyWay)) {
+        param.periodTypeId = form.frequencyId;
       }
       await sitePurchase(param);
       await this.checkoutStore.updateLoginCart();
@@ -741,9 +738,12 @@ class Details extends React.Component {
           this.setState({ addToCartLoading: false });
           return;
         }
-        tmpData = Object.assign(tmpData, { quantity: quantityNew, goodsInfoFlag: parseInt(form.buyWay) })
-        if(parseInt(form.buyWay)) {
-          tmpData.periodTypeId = form.frequencyId
+        tmpData = Object.assign(tmpData, {
+          quantity: quantityNew,
+          goodsInfoFlag: parseInt(form.buyWay)
+        });
+        if (parseInt(form.buyWay)) {
+          tmpData.periodTypeId = form.frequencyId;
         }
       }
     }
@@ -785,8 +785,8 @@ class Details extends React.Component {
       selected: true,
       goodsInfoFlag: parseInt(form.buyWay)
     });
-    if(parseInt(form.buyWay)) {
-      tmpData.periodTypeId = form.frequencyId
+    if (parseInt(form.buyWay)) {
+      tmpData.periodTypeId = form.frequencyId;
     }
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
@@ -889,10 +889,10 @@ class Details extends React.Component {
     }, 1000);
   }
 
-  handleInputChange (e) {
-    let { form } = this.state
-    form.buyWay = parseInt(e.currentTarget.value)
-    this.setState({form})
+  handleInputChange(e) {
+    let { form } = this.state;
+    form.buyWay = parseInt(e.currentTarget.value);
+    this.setState({ form });
   }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
@@ -1297,7 +1297,14 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1311,7 +1318,9 @@ class Details extends React.Component {
                                         name="buyWay"
                                         value="0"
                                         key="1"
-                                        onChange={(event) => this.handleInputChange(event)}
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
                                         checked
                                       />
                                     )}
@@ -1355,7 +1364,14 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: !parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
@@ -1368,7 +1384,9 @@ class Details extends React.Component {
                                       name="buyWay"
                                       value="0"
                                       key="0"
-                                      onChange={(event) => this.handleInputChange(event)}
+                                      onChange={(event) =>
+                                        this.handleInputChange(event)
+                                      }
                                       // checked
                                       defaultChecked
                                     />
@@ -1406,7 +1424,14 @@ class Details extends React.Component {
                         {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
                           navigator.userAgent
                         ) ? (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
                             <div className="buyMethodInnerBox">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1420,7 +1445,9 @@ class Details extends React.Component {
                                         name="buyWay"
                                         value="1"
                                         key="1"
-                                        onChange={(event) => this.handleInputChange(event)}
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
                                         checked
                                       />
                                     )}
@@ -1479,7 +1506,7 @@ class Details extends React.Component {
                               </div>
                             </div>
                             <div className="freqency">
-                              <span>Delivery every:</span> 
+                              <span>Delivery every:</span>
                               <Selection
                                 customContainerStyle={{
                                   display: 'inline-block',
@@ -1498,7 +1525,14 @@ class Details extends React.Component {
                             </div>
                           </div>
                         ) : (
-                          <div className="buyMethod rc-margin-bottom--xs" style={{borderColor: parseInt(form.buyWay)?'#e2001a': '#d7d7d7'}}>
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
@@ -1511,7 +1545,9 @@ class Details extends React.Component {
                                       name="buyWay"
                                       value="1"
                                       key="1"
-                                      onChange={(event) => this.handleInputChange(event)}
+                                      onChange={(event) =>
+                                        this.handleInputChange(event)
+                                      }
                                       // checked
                                     />
                                   )}
@@ -1663,23 +1699,28 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )}
-                              {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
-                                <button
-                                  style={{ marginLeft: '10px' }}
-                                  className={`rc-styled-link color-999 ${
-                                    addToCartLoading ? 'ui-btn-loading' : ''
-                                  } ${
-                                    !initing && instockStatus && quantity
-                                      ? ''
-                                      : 'rc-btn-disabled'
-                                  }`}
-                                  onClick={() =>
-                                    this.hanldeAddToCart({ redirect: true })
-                                  }
-                                >
-                                  <FormattedMessage id="GuestCheckout" />
-                                </button>)
-                              )}
+                              {!this.isLogin &&
+                                (this.state.form.buyWay ? (
+                                  <span style={{ marginLeft: '10px' }}>
+                                    Autoship is possible only after registration
+                                  </span>
+                                ) : (
+                                  <button
+                                    style={{ marginLeft: '10px' }}
+                                    className={`rc-styled-link color-999 ${
+                                      addToCartLoading ? 'ui-btn-loading' : ''
+                                    } ${
+                                      !initing && instockStatus && quantity
+                                        ? ''
+                                        : 'rc-btn-disabled'
+                                    }`}
+                                    onClick={() =>
+                                      this.hanldeAddToCart({ redirect: true })
+                                    }
+                                  >
+                                    <FormattedMessage id="GuestCheckout" />
+                                  </button>
+                                ))}
                             </div>
                           </div>
                         )}
@@ -1858,7 +1899,7 @@ class Details extends React.Component {
               <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
             </div>
             {/* <div> */}
-              {/* <div
+            {/* <div
                 style={{
                   textAlign: 'center',
                   color: 'rgb(236, 0, 26)',
@@ -1870,15 +1911,20 @@ class Details extends React.Component {
               >
                 Recommanded for you
               </div> */}
-              {/* <HeroCarousel
+            {/* <HeroCarousel
                 history={this.props.history}
                 goodsId={this.state.goodsId}
                 key={this.state.goodsId}
               /> */}
-              {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
-              <div>
-                <Carousel location={this.props.location} history={this.props.history} goodsId={this.state.goodsId} key={this.state.goodsId}/>
-              </div>
+            {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
+            <div>
+              <Carousel
+                location={this.props.location}
+                history={this.props.history}
+                goodsId={this.state.goodsId}
+                key={this.state.goodsId}
+              />
+            </div>
             {/* </div> */}
             <div
               className="sticky-addtocart"
@@ -1946,20 +1992,25 @@ class Details extends React.Component {
                     </span>
                   </LoginButton>
                 )}
-                {!this.isLogin && (this.state.form.buyWay?(<span style={{marginLeft: '10px'}}>Autoship is possible only after registration</span>):(
-                  <button
-                    className={`rc-styled-link color-999 ${
-                      addToCartLoading ? 'ui-btn-loading' : ''
-                    } ${
-                      !initing && instockStatus && quantity
-                        ? ''
-                        : 'rc-btn-disabled'
-                    }`}
-                    onClick={() => this.hanldeAddToCart({ redirect: true })}
-                  >
-                    <FormattedMessage id="GuestCheckout" />
-                  </button>)
-                )}
+                {!this.isLogin &&
+                  (this.state.form.buyWay ? (
+                    <span style={{ marginLeft: '10px' }}>
+                      Autoship is possible only after registration
+                    </span>
+                  ) : (
+                    <button
+                      className={`rc-styled-link color-999 ${
+                        addToCartLoading ? 'ui-btn-loading' : ''
+                      } ${
+                        !initing && instockStatus && quantity
+                          ? ''
+                          : 'rc-btn-disabled'
+                      }`}
+                      onClick={() => this.hanldeAddToCart({ redirect: true })}
+                    >
+                      <FormattedMessage id="GuestCheckout" />
+                    </button>
+                  ))}
               </div>
             </div>
           </main>

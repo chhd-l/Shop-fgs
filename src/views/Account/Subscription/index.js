@@ -11,7 +11,7 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import { getDictionary, getDeviceType } from '@/utils/utils';
+import { getDictionary, getDeviceType, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
@@ -70,27 +70,15 @@ class Subscription extends React.Component {
     //   return false;
     // }
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    getDictionary({ type: 'Frequency_week' }).then((res) => {
-      let frequencyList = res.map((el) => {
-        return {
-          id: el.id,
-          name: el.name,
-          value: el.name
-        };
-      });
-      getDictionary({ type: 'Frequency_month' }).then((res) => {
-        frequencyList = frequencyList.concat(
-          res.map((el) => {
-            return {
-              id: el.id,
-              name: el.name,
-              value: el.name
-            };
-          })
-        );
-        this.setState({
-          frequencyList: frequencyList
-        });
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res.map((el) => {
+          return {
+            id: el.id,
+            name: el.name,
+            value: el.name
+          };
+        })
       });
     });
     this.getSubList();
