@@ -23,7 +23,7 @@ import {
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find } from 'lodash';
+import { cloneDeep, findIndex, find, flatten } from 'lodash';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
@@ -31,7 +31,7 @@ import './index.css';
 import './index.less';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, getFrequencyDict } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -181,17 +181,22 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    getFrequencyDict().then((res) => {
+      // debugger;
+    });
     await Promise.all([
+      getDictionary({ type: 'Frequency_day' }),
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
     ]).then((dictList) => {
+      const tmpList = [...dictList[0], ...dictList[1], ...dictList[2]];
       this.setState(
         {
-          frequencyList: [...dictList[0], ...dictList[1]],
+          frequencyList: tmpList,
           form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
+            frequencyVal: tmpList[0] ? tmpList[0].valueEn : '',
+            frequencyName: tmpList[0] ? tmpList[0].name : '',
+            frequencyId: tmpList[0] ? tmpList[0].id : ''
           })
         },
         () => {

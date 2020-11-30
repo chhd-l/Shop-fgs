@@ -1,7 +1,7 @@
 import { getStoreCate, getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
-import { find } from 'lodash';
+import { find, flatten } from 'lodash';
 import stores from '@/store';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -490,4 +490,15 @@ export function distributeLinktoPrecriberOrPaymentPage({
     return '/payment/payment';
   }
   return '/prescription';
+}
+
+export async function getFrequencyDict() {
+  Promise.all([
+    getDictionary({ type: 'Frequency_day' }),
+    getDictionary({ type: 'Frequency_week' }),
+    getDictionary({ type: 'Frequency_month' })
+  ]).then((res) => {
+    return Promise.resolve(flatten(res));
+    // return flatten(res);
+  });
 }
