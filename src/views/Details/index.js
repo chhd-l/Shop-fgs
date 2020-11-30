@@ -184,7 +184,7 @@ class Details extends React.Component {
     getFrequencyDict().then((res) => {
       // debugger;
     });
-    await Promise.all([
+    Promise.all([
       getDictionary({ type: 'Frequency_day' }),
       getDictionary({ type: 'Frequency_week' }),
       getDictionary({ type: 'Frequency_month' })
