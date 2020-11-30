@@ -238,7 +238,8 @@ class AccountOrders extends React.Component {
         if (
           tradeState.payState === 'PAID' &&
           tradeState.auditState === 'CHECKED' &&
-          tradeState.deliverStatus === 'SHIPPED'
+          (tradeState.deliverStatus === 'SHIPPED' ||
+            tradeState.deliverStatus === 'PART_SHIPPED')
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
@@ -799,10 +800,12 @@ class AccountOrders extends React.Component {
         </>
       );
     } else if (
-      tradeState.payState === 'PAID' &&
-      tradeState.auditState === 'CHECKED' &&
-      tradeState.deliverStatus === 'SHIPPED' &&
-      tradeState.flowState === 'DELIVERED'
+      (tradeState.payState === 'PAID' &&
+        tradeState.auditState === 'CHECKED' &&
+        tradeState.deliverStatus === 'SHIPPED' &&
+        tradeState.flowState === 'DELIVERED') ||
+      (tradeState.deliverStatus === 'PART_SHIPPED' &&
+        tradeState.flowState === 'DELIVERED_PART')
     ) {
       // 发货运输中
       ret = (
