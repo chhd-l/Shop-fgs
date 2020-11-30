@@ -102,7 +102,7 @@ class Prescription extends React.Component {
     };
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -430,9 +430,7 @@ class Prescription extends React.Component {
                       totalPage={this.state.totalPage}
                       defaultCurrentPage={this.state.current}
                       key={this.state.current}
-                      onPageNumChange={(params) =>
-                        this.hanldePageNumChange(params)
-                      }
+                      onPageNumChange={this.hanldePageNumChange}
                     />
                   </div>
                 </form>

@@ -41,7 +41,8 @@ function ListItem(props) {
         className="rc-card rc-card--product overflow-hidden"
         style={{ minHeight: '120px' }}
       >
-        {props.promotionJSX}
+        {props.leftPromotionJSX}
+        {props.rightPromotionJSX}
         <div className="fullHeight">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
@@ -110,7 +111,7 @@ class List extends React.Component {
     this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
     this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
     const { state } = this.props.history.location;
-    const { category, keywords } = this.props.match.params;debugger
+    const { category, keywords } = this.props.match.params;
 
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
@@ -409,7 +410,13 @@ class List extends React.Component {
                 // 最低marketPrice对应的划线价
                 miLinePrice: ele.goodsInfos.sort(
                   (a, b) => a.marketPrice - b.marketPrice
-                )[0].linePrice
+                )[0].linePrice,
+                taggingForText: (ele.taggingVOList || []).filter(
+                  (e) => e.taggingType === 'Text'
+                )[0],
+                taggingForImage: (ele.taggingVOList || []).filter(
+                  (e) => e.taggingType === 'Image'
+                )[0]
               });
               const tmpItem = find(
                 res.context.goodsList,
@@ -457,14 +464,14 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [], initingList: false });
       });
   }
-  hanldePageNumChange(params) {
+  hanldePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
       },
       () => this.getProductList()
     );
-  }
+  };
   hanldeItemClick(item) {
     const { history } = this.props;
     if (this.state.loading) {
@@ -769,13 +776,27 @@ class List extends React.Component {
                           : productList.map((item, i) => (
                               <ListItem
                                 key={item.id}
-                                promotionJSX={
-                                  find(
-                                    item.goodsInfos,
-                                    (ele) => ele.goodsPromotion
-                                  ) ? (
-                                    <div className="product-item-flag">
-                                      <FormattedMessage id="promotion" />
+                                leftPromotionJSX={
+                                  item.taggingForText ? (
+                                    <div
+                                      className="product-item-flag-text"
+                                      style={{
+                                        backgroundColor:
+                                          iitem.taggingForText.taggingFillColor,
+                                        color:
+                                          item.taggingForText.taggingFontColor
+                                      }}
+                                    >
+                                      {item.taggingForText.taggingName}
+                                    </div>
+                                  ) : null
+                                }
+                                rightPromotionJSX={
+                                  item.taggingForImage ? (
+                                    <div className="product-item-flag-image position-absolute">
+                                      <img
+                                        src={item.taggingForImage.taggingImgUrl}
+                                      />
                                     </div>
                                   ) : null
                                 }
@@ -923,9 +944,7 @@ class List extends React.Component {
                             defaultCurrentPage={this.state.currentPage}
                             key={this.state.currentPage}
                             totalPage={this.state.totalPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
+                            onPageNumChange={this.hanldePageNumChange}
                           />
                         </div>
                       </div>
@@ -937,9 +956,9 @@ class List extends React.Component {
             <div className="ml-4 mr-4 pl-4 pr-4">
               <div className="row d-flex align-items-center">
                 <div className="col-12 col-md-6">
-                  <h1 className="rc-gamma rc-padding--none">
+                  <p className="rc-gamma rc-padding--none">
                     <FormattedMessage id="productFinder.recoTitle" />
-                  </h1>
+                  </p>
                   <p>
                     <FormattedMessage id="productFinder.recoDesc" />
                   </p>

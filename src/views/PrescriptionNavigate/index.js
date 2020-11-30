@@ -108,7 +108,7 @@ class Prescription extends React.Component {
     };
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -407,9 +407,7 @@ class Prescription extends React.Component {
                                 : item.email}{' '}
                             </div>
                             <div className="zip-code">
-                              {item.primaryZip
-                                ? item.phone
-                                : null}
+                              {item.primaryZip ? item.phone : null}
                             </div>
                             <div
                               className="clinic-address ui-text-overflow-line2 text-break mr-3 mb-2"
@@ -428,9 +426,7 @@ class Prescription extends React.Component {
                       totalPage={this.state.totalPage}
                       defaultCurrentPage={this.state.current}
                       key={this.state.current}
-                      onPageNumChange={(params) =>
-                        this.hanldePageNumChange(params)
-                      }
+                      onPageNumChange={this.hanldePageNumChange}
                     />
                   </div>
                 </form>

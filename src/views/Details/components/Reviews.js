@@ -62,7 +62,7 @@ class Reviews extends React.Component {
     }
   }
 
-  hanldePageNumChange(params) {
+  hanldePageNumChange = (params) => {
     this.setState(
       {
         evaluatesCurrentPage: params.currentPage
@@ -75,7 +75,7 @@ class Reviews extends React.Component {
         });
       }
     );
-  }
+  };
 
   async getGoodsEvaluates(pageNum = 1, pageSize = 5, sort) {
     let parmas = {
@@ -381,9 +381,7 @@ class Reviews extends React.Component {
                         defaultCurrentPage={data.evaluatesCurrentPage}
                         key={data.evaluatesCurrentPage}
                         totalPage={data.valuatesTotalPages}
-                        onPageNumChange={(params) =>
-                          this.hanldePageNumChange(params)
-                        }
+                        onPageNumChange={this.hanldePageNumChange}
                       />
                     </div>
                   </div>

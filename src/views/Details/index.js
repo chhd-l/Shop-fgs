@@ -1270,54 +1270,53 @@ class Details extends React.Component {
                 <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    <div
-                      className="detailHeader mt-3"
-                      style={{
-                        display: !isMobile ? 'none' : 'block'
-                      }}
-                    >
-                      <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
-                      <h1
-                        className="rc-gamma ui-text-overflow-line2 text-break"
-                        title={details.goodsName}
-                      >
-                        {details.goodsName}
-                      </h1>
-                      <div className="desAndStars">
-                        <div className="des">
-                          <h3 className="text-break mb-1 mt-2">
-                            {details.goodsSubtitle}
-                          </h3>
-                        </div>
-                        <div className="stars">
-                          <div className="rc-card__price flex-inline">
-                            <div
-                              className="display-inline"
-                              style={{ verticalAlign: 'middle' }}
-                            >
-                              <Rate
-                                def={productRate}
-                                disabled={true}
-                                marginSize="sRate"
-                              />
+                    {isMobile && (
+                      <div className="detailHeader mt-3">
+                        <ErrMsgForCheckoutPanel
+                          checkOutErrMsg={checkOutErrMsg}
+                        />
+                        <h1
+                          className="rc-gamma ui-text-overflow-line2 text-break"
+                          title={details.goodsName}
+                        >
+                          {details.goodsName}
+                        </h1>
+                        <div className="desAndStars">
+                          <div className="des">
+                            <h3 className="text-break mb-1 mt-2">
+                              {details.goodsSubtitle}
+                            </h3>
+                          </div>
+                          <div className="stars">
+                            <div className="rc-card__price flex-inline">
+                              <div
+                                className="display-inline"
+                                style={{ verticalAlign: 'middle' }}
+                              >
+                                <Rate
+                                  def={productRate}
+                                  disabled={true}
+                                  marginSize="sRate"
+                                />
+                              </div>
+                              <span
+                                className="comments rc-margin-left--xs rc-text-colour--text"
+                                onClick={this.handleAClick.bind(this)}
+                              >
+                                ({this.state.replyNum})
+                                {/* <FormattedMessage id="reviews" /> */}
+                              </span>
                             </div>
-                            <span
-                              className="comments rc-margin-left--xs rc-text-colour--text"
-                              onClick={this.handleAClick.bind(this)}
-                            >
-                              ({this.state.replyNum})
-                              {/* <FormattedMessage id="reviews" /> */}
-                            </span>
                           </div>
                         </div>
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={createMarkup(
+                            details.goodsDescription
+                          )}
+                        />
                       </div>
-                      <div
-                        className="description"
-                        dangerouslySetInnerHTML={createMarkup(
-                          details.goodsDescription
-                        )}
-                      />
-                    </div>
+                    )}
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {this.state.loading ? (
@@ -1354,54 +1353,51 @@ class Details extends React.Component {
                       </div>
                       <div className="rc-column product-column">
                         <div className="wrap-short-des">
-                          <div
-                            className="detailHeader"
-                            style={{
-                              display: !isMobile ? 'block' : 'none'
-                            }}
-                          >
-                            <h1
-                              className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
-                              title={details.goodsName}
-                            >
-                              {details.goodsName}
-                            </h1>
-                            <div className="desAndStars rc-margin-bottom--xs">
-                              <div className="des">
-                                <h3 className="text-break mb-1 mt-2">
-                                  {details.goodsSubtitle}
-                                </h3>
-                              </div>
-                              <div className="stars">
-                                <div className="rc-card__price flex-inline">
-                                  <div
-                                    className="display-inline"
-                                    style={{ verticalAlign: 'middle' }}
-                                  >
-                                    <Rate
-                                      def={productRate}
-                                      key={productRate}
-                                      disabled={true}
-                                      marginSize="sRate"
-                                    />
+                          {!isMobile && (
+                            <div className="detailHeader">
+                              <h1
+                                className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
+                                title={details.goodsName}
+                              >
+                                {details.goodsName}
+                              </h1>
+                              <div className="desAndStars rc-margin-bottom--xs">
+                                <div className="des">
+                                  <h3 className="text-break mb-1 mt-2">
+                                    {details.goodsSubtitle}
+                                  </h3>
+                                </div>
+                                <div className="stars">
+                                  <div className="rc-card__price flex-inline">
+                                    <div
+                                      className="display-inline"
+                                      style={{ verticalAlign: 'middle' }}
+                                    >
+                                      <Rate
+                                        def={productRate}
+                                        key={productRate}
+                                        disabled={true}
+                                        marginSize="sRate"
+                                      />
+                                    </div>
+                                    <a
+                                      className="comments rc-margin-left--xs rc-text-colour--text"
+                                      onClick={this.handleAClick.bind(this)}
+                                    >
+                                      ({this.state.replyNum})
+                                      {/* <FormattedMessage id="reviews" /> */}
+                                    </a>
                                   </div>
-                                  <a
-                                    className="comments rc-margin-left--xs rc-text-colour--text"
-                                    onClick={this.handleAClick.bind(this)}
-                                  >
-                                    ({this.state.replyNum})
-                                    {/* <FormattedMessage id="reviews" /> */}
-                                  </a>
                                 </div>
                               </div>
+                              <div
+                                className="description"
+                                dangerouslySetInnerHTML={createMarkup(
+                                  details.goodsDescription
+                                )}
+                              />
                             </div>
-                            <div
-                              className="description"
-                              dangerouslySetInnerHTML={createMarkup(
-                                details.goodsDescription
-                              )}
-                            />
-                          </div>
+                          )}
                         </div>
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">
