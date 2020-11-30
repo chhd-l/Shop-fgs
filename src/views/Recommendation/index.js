@@ -106,6 +106,7 @@ class Help extends React.Component {
         console.log(res, 'aaa');
         let productList = res.context.recommendationGoodsInfoRels;
         // recommendationGoodsInfoRels
+        console.log(productList, 'productList')
         productList.map((el) => {
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
@@ -118,25 +119,28 @@ class Help extends React.Component {
             }
             return g;
           });
+          console.log(el, 'el')
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
-          specList.map((sItem) => {
-            sItem.chidren = specDetailList.filter((sdItem, i) => {
-              return sdItem.specId === sItem.specId;
+          if(specList) {
+            specList.map((sItem) => {
+              sItem.chidren = specDetailList.filter((sdItem, i) => {
+                return sdItem.specId === sItem.specId;
+              });
+              console.log(sItem, el, 'hhhh');
+  
+              sItem.chidren.map((child) => {
+                if (
+                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+                ) {
+                  console.log(child, 'child');
+                  child.selected = true;
+                }
+                return child;
+              });
+              return sItem;
             });
-            console.log(sItem, el, 'hhhh');
-
-            sItem.chidren.map((child) => {
-              if (
-                el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
-              ) {
-                console.log(child, 'child');
-                child.selected = true;
-              }
-              return child;
-            });
-            return sItem;
-          });
+          }
           el.goodsInfo.goods.goodsInfos = el.goodsInfos;
           el.goodsInfo.goods.goodsSpecDetails = el.goodsSpecDetails;
           el.goodsInfo.goods.goodsSpecs = specList;
@@ -154,7 +158,8 @@ class Help extends React.Component {
         });
       })
       .catch((err) => {
-        this.props.history.push('/');
+        console.log(err, 'err')
+        // this.props.history.push('/');
       });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -316,8 +321,7 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    const { checkoutStore, loginStore, history } = this.props;
-    debugger;
+    const { checkoutStore, loginStore, history } = this.props
     if (needLogin) {
       sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -390,7 +394,7 @@ class Help extends React.Component {
       );
       if (!needLogin) {
         const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
+          configStore: this.props.configStore,
           isLogin: loginStore.isLogin
         });
         url && history.push(url);
@@ -436,7 +440,7 @@ class Help extends React.Component {
       //   }
       // }
       const url = distributeLinktoPrecriberOrPaymentPage({
-        configStore,
+        configStore: this.props.configStore,
         isLogin: loginStore.isLogin
       });
       url && history.push(url);
