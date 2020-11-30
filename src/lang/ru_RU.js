@@ -24,7 +24,6 @@ const ru_RU = {
     "account.dateTip": "Пожалуйста, выберите прошедшую дату.",
     "account.dog": "Собака",
     "account.Email": "Эл. адрес",
-    'account.consentsDetail': 'Деталь согласия',
     'account.preferredMethodOfCommunication': 'Предпочитаемый способ связи',
     "account.enterBirthDare": "Введите дату рождения вашего питомца.",
     "account.features": "Какие особые потребности есть у вашего питомца?",
@@ -48,7 +47,10 @@ const ru_RU = {
     "account.pets": "Домашние питомцы",
     "account.petsTip": "Создавайте и управляйте профилями своих питомцев.",
     "account.preferredContactMethod": "Предпочтительный метод связи",
-    'account.consents': 'Мои согласия',
+    'account.myCommunicationPreferencesTitle': 'Мои предпочтения в общении',
+    'account.myCommunicationPreferencesDesc': 'Следите за информацией Royal Canin в общении',
+    'account.myCommunicationPreferencesContent1': 'Предпочитаемый способ связи',
+    'account.myCommunicationPreferencesContent2': 'Согласие на общение',
     "account.profile": "Моя информация",
     "account.profileTip": "Просмотр и редактирование вашей личной информации.",
     "account.requiredFields": "Обязательные поля",
@@ -707,7 +709,7 @@ const ru_RU = {
     "twoPasswordsYouTypedDoNotMatch": "Два введенных вами пароля не совпадают!",
     'type': "ТИП",
     'unfoldAddress': "Развернуть адрес",
-    'unLoginSubscriptionTips': "Подписка возможна только после регистрации",
+    'unLoginSubscriptionTips': "Автодоставка возможна только после регистрации",
     'userAgreement': "Пользовательское Соглашение",
     viewAll: 'Посмотреть все',
     'viewAllResults': "Посмотреть все результаты",
@@ -722,7 +724,8 @@ const ru_RU = {
     'yourEmailNotVerified': "Ваш адрес электронной почты не был подтвержден!",
     'yourPasswordNotVerified': "Ваш пароль не подтвержден",
     breed: 'Порода',
-    gender: 'Пол'
+    gender: 'Пол',
+    setAsDefault: 'Установить по умолчанию'
   }
   
   export default ru_RU;

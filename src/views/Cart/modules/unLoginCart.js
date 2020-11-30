@@ -9,7 +9,7 @@ import LoginButton from '@/components/LoginButton';
 import { Link } from 'react-router-dom';
 import {
   formatMoney,
-  getDictionary,
+  getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
@@ -116,17 +116,14 @@ class UnLoginCart extends React.Component {
     });
   }
   async componentDidMount() {
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict((res) => {
       this.setState(
         {
-          frequencyList: [...dictList[0], ...dictList[1]],
+          frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
           })
         },
         () => {
@@ -583,33 +580,34 @@ class UnLoginCart extends React.Component {
                               <i></i>
                             </span>
                           </div> */}
-                            {pitem.goodsSpecs && pitem.goodsSpecs.map((sItem, i) => (
-                              <div key={i} className="overflow-hidden">
-                                <div className="text-left ml-1">
-                                  {sItem.specName}:
-                                </div>
-                                {sItem.chidren.map((sdItem, i2) => (
-                                  <div
-                                    className={`rc-swatch__item ${
-                                      sdItem.selected ? 'selected' : ''
-                                    }`}
-                                    key={i2}
-                                    onClick={() =>
-                                      this.handleChooseSize(
-                                        sdItem,
-                                        pitem,
-                                        index
-                                      )
-                                    }
-                                  >
-                                    <span key={i2}>
-                                      {sdItem.detailName}
-                                      <i></i>
-                                    </span>
+                            {pitem.goodsSpecs &&
+                              pitem.goodsSpecs.map((sItem, i) => (
+                                <div key={i} className="overflow-hidden">
+                                  <div className="text-left ml-1">
+                                    {sItem.specName}:
                                   </div>
-                                ))}
-                              </div>
-                            ))}
+                                  {sItem.chidren.map((sdItem, i2) => (
+                                    <div
+                                      className={`rc-swatch__item ${
+                                        sdItem.selected ? 'selected' : ''
+                                      }`}
+                                      key={i2}
+                                      onClick={() =>
+                                        this.handleChooseSize(
+                                          sdItem,
+                                          pitem,
+                                          index
+                                        )
+                                      }
+                                    >
+                                      <span key={i2}>
+                                        {sdItem.detailName}
+                                        <i></i>
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
                           </div>
                         </div>
                       </div>
@@ -1397,7 +1395,7 @@ class UnLoginCart extends React.Component {
   }
   render() {
     const { productList, checkoutLoading } = this.state;
-    console.log(productList, 'productList')
+    console.log(productList, 'productList');
     const List = this.getProducts(this.state.productList);
     const event = {
       page: {

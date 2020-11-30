@@ -16,7 +16,8 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig
+  setSeoConfig,
+  getFrequencyDict
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
@@ -305,17 +306,13 @@ class AccountOrders extends React.Component {
       if (detailResCt.subscriptionResponseVO) {
         const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId;
 
-        let dictList = await Promise.all([
-          getDictionary({ type: 'Frequency_week' }),
-          getDictionary({ type: 'Frequency_month' })
-        ]);
+        const dictList = await getFrequencyDict();
         sessionItemRoyal.set(
           'rc-subform',
           JSON.stringify({
             buyWay: 'frequency',
-            frequencyName: [...dictList[0], ...dictList[1]].filter(
-              (el) => el.id === cycleTypeId
-            )[0].name,
+            frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0]
+              .name,
             frequencyId: cycleTypeId
           })
         );

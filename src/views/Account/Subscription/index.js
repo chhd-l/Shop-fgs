@@ -11,9 +11,9 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, getDeviceType, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
-import subscriptionIcon from './images/subscription.png'
+import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import { setSeoConfig } from '@/utils/utils';
@@ -59,37 +59,26 @@ class Subscription extends React.Component {
   }
 
   componentDidMount() {
-    setSeoConfig({goodsId:'',categoryId:'',pageName:'Subscription Page'})
+    setSeoConfig({
+      goodsId: '',
+      categoryId: '',
+      pageName: 'Subscription Page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-      navigator.userAgent)) {
-        this.setState({isMobile: true})
-      }
-    getDictionary({ type: 'Frequency_week' }).then((res) => {
-      let frequencyList = res.map((el) => {
-        return {
-          id: el.id,
-          name: el.name,
-          value: el.name
-        };
-      });
-      getDictionary({ type: 'Frequency_month' }).then((res) => {
-        frequencyList = frequencyList.concat(
-          res.map((el) => {
-            return {
-              id: el.id,
-              name: el.name,
-              value: el.name
-            };
-          })
-        );
-        this.setState({
-          frequencyList: frequencyList
-        });
+    this.setState({ isMobile: getDeviceType() !== 'PC' });
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res.map((el) => {
+          return {
+            id: el.id,
+            name: el.name,
+            value: el.name
+          };
+        })
       });
     });
     this.getSubList();
@@ -174,7 +163,7 @@ class Subscription extends React.Component {
         theme: ''
       }
     };
-    const { frequencyList, isMobile } = this.state
+    const { frequencyList, isMobile } = this.state;
     return (
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
@@ -190,20 +179,18 @@ class Subscription extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-            {
-                isMobile? (
-                  <div className="col-12 rc-md-down">
-                        <Link to="/account">
-                          <span className="red">&lt;</span>
-                          <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                            <FormattedMessage id="home" />
-                          </span>
-                        </Link>
-                      </div>
-                ): (
-                  <SideMenu type="Subscription" />
-                )
-              }
+              {isMobile ? (
+                <div className="col-12 rc-md-down">
+                  <Link to="/account">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                      <FormattedMessage id="home" />
+                    </span>
+                  </Link>
+                </div>
+              ) : (
+                <SideMenu type="Subscription" />
+              )}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div>
                   <h4 className="rc-delta rc-margin--none pb-2">
@@ -274,25 +261,32 @@ class Subscription extends React.Component {
                         {this.state.subList.map((subItem, i) => (
                           <div
                             className="card-container"
-                            style={{marginTop: '0', marginBottom: '20px'}}
+                            style={{ marginTop: '0', marginBottom: '20px' }}
                             key={subItem.subscribeId}
                           >
                             <div className="card rc-margin-y--none ml-0">
-                              <div className="card-header row rc-margin-x--none align-items-center pl-0 pr-0" style={{padding: '1rem 0'}}>
+                              <div
+                                className="card-header row rc-margin-x--none align-items-center pl-0 pr-0"
+                                style={{ padding: '1rem 0' }}
+                              >
                                 <div className="col-12 col-md-4">
-                                  <p style={{fontSize: '16px', fontWeight: '400', color: '#333', paddingLeft: '20px'}}>
+                                  <p
+                                    style={{
+                                      fontSize: '16px',
+                                      fontWeight: '400',
+                                      color: '#333',
+                                      paddingLeft: '20px'
+                                    }}
+                                  >
                                     {/* <img style={{display: 'inline-block', width: '20px', margin: '0 10px 0 20px'}} src={subscriptionIcon}/> */}
                                     {/* <FormattedMessage id="subscription.product" /> */}
                                     {subItem.subscribeId}
                                     {/* <br className="d-none d-md-block" /> */}
                                   </p>
                                 </div>
-                                <div className="col-4 col-md-2">
-                                </div>
-                                <div className="col-4 col-md-2">
-                                </div>
-                                <div className="col-4 col-md-2 pl-4">
-                                </div>
+                                <div className="col-4 col-md-2"></div>
+                                <div className="col-4 col-md-2"></div>
+                                <div className="col-4 col-md-2 pl-4"></div>
                                 {/* <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                   <img
                                     style={{
@@ -315,53 +309,109 @@ class Subscription extends React.Component {
                               <div className="col-4 col-md-4 d-flex flex-wrap">
                                 {subItem.goodsInfo &&
                                   subItem.goodsInfo.map((item) => (
-                                    <div style={{marginLeft: '20px'}}>
-
-                                    <img
-                                      style={{width: '70px', display: 'inline-block'}}
-                                      key={item.spuId}
-                                      src={item.goodsPic || IMG_DEFAULT}
-                                      alt={item.goodsName}
-                                      title={item.goodsName}
-                                    />
-                                    <span style={{display: 'inline-block', verticalAlign: 'middle', fontSize: '12px', marginLeft: '10px'}}>
-                                      <p style={{fontSize: '16px', fontWeight: '400', color: '#333', marginBottom: '5px'}}>{item.goodsName}</p>
-                                      <p>{item.specText} - {item.subscribeNum} product</p>
-                                      <p>Frequency: {frequencyList.filter(el => el.id === item.periodTypeId).length? frequencyList.filter(el => el.id === item.periodTypeId)[0].value: ''}</p>
-                                    </span>
+                                    <div style={{ marginLeft: '20px' }}>
+                                      <img
+                                        style={{
+                                          width: '70px',
+                                          display: 'inline-block'
+                                        }}
+                                        key={item.spuId}
+                                        src={item.goodsPic || IMG_DEFAULT}
+                                        alt={item.goodsName}
+                                        title={item.goodsName}
+                                      />
+                                      <span
+                                        style={{
+                                          display: 'inline-block',
+                                          verticalAlign: 'middle',
+                                          fontSize: '12px',
+                                          marginLeft: '10px'
+                                        }}
+                                      >
+                                        <p
+                                          style={{
+                                            fontSize: '16px',
+                                            fontWeight: '400',
+                                            color: '#333',
+                                            marginBottom: '5px'
+                                          }}
+                                        >
+                                          {item.goodsName}
+                                        </p>
+                                        <p>
+                                          {item.specText} - {item.subscribeNum}{' '}
+                                          product
+                                        </p>
+                                        <p>
+                                          Frequency:{' '}
+                                          {frequencyList.filter(
+                                            (el) => el.id === item.periodTypeId
+                                          ).length
+                                            ? frequencyList.filter(
+                                                (el) =>
+                                                  el.id === item.periodTypeId
+                                              )[0].value
+                                            : ''}
+                                        </p>
+                                      </span>
                                     </div>
-                                    
                                   ))}
-                                  
                               </div>
                               <div
                                 className="col-4 col-md-2"
                                 style={{ whiteSpace: 'nowrap' }}
                               >
-                                <img src={autoshipIcon} style={{width: '40px', display: 'inline-block'}}/>
-                                <span style={{display: 'inline-block', verticalAlign: 'middle', fontSize: '12px', marginLeft: '10px'}}>
-                                <p>Autoship started</p>
-                                <p style={{color: '#666', fontSize: '16px'}}>{subItem.createTime.split(' ')[0]}</p>
+                                <img
+                                  src={autoshipIcon}
+                                  style={{
+                                    width: '40px',
+                                    display: 'inline-block'
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    display: 'inline-block',
+                                    verticalAlign: 'middle',
+                                    fontSize: '12px',
+                                    marginLeft: '10px'
+                                  }}
+                                >
+                                  <p>Autoship started</p>
+                                  <p
+                                    style={{ color: '#666', fontSize: '16px' }}
+                                  >
+                                    {subItem.createTime.split(' ')[0]}
+                                  </p>
                                 </span>
-                                
                               </div>
                               <div className="col-4 col-md-2">
                                 {/* {subItem.frequency} */}
                               </div>
                               <div className="col-4 col-md-2">
-                              {subItem.subscribeStatus === '0' ? (
-                                <div><i className="greenCircle"></i><FormattedMessage id="active" /></div>
-                                  
+                                {subItem.subscribeStatus === '0' ? (
+                                  <div>
+                                    <i className="greenCircle"></i>
+                                    <FormattedMessage id="active" />
+                                  </div>
                                 ) : (
-                                  <div><i className="yellowCircle"></i><FormattedMessage id="inactive" /></div>
+                                  <div>
+                                    <i className="yellowCircle"></i>
+                                    <FormattedMessage id="inactive" />
+                                  </div>
                                 )}
                               </div>
                               <div className="col-4 col-md-2">
-                                
-                                <button class="rc-btn rc-btn--two rc-btn--sm" onClick={() => {
-                                  localItemRoyal.set('subDetail', subItem)
-                                  this.props.history.push(`/account/subscription-detail/${subItem.subscribeId}`)
-                                }}>Manage</button>
+                                <button
+                                  class="rc-btn rc-btn--two rc-btn--sm"
+                                  onClick={() => {
+                                    localItemRoyal.set('subDetail', subItem);
+                                    this.props.history.push(
+                                      `/account/subscription-detail/${subItem.subscribeId}`
+                                    );
+                                  }}
+                                >
+                                  Manage
+                                </button>
                               </div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
                             </div>

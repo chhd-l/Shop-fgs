@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import {
   formatMoney,
   mergeUnloginCartData,
-  getDictionary,
+  getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
@@ -69,23 +69,15 @@ class LoginCart extends React.Component {
     this.gotoDetails = this.gotoDetails.bind(this);
   }
   async componentDidMount() {
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState(
-        {
-          frequencyList: [...dictList[0], ...dictList[1]],
-          form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
-          })
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal: res[0] ? res[0].valueEn : '',
+          frequencyName: res[0] ? res[0].name : '',
+          frequencyId: res[0] ? res[0].id : ''
+        })
+      });
     });
 
     // 合并购物车(登录后合并非登录态的购物车数据)
@@ -535,33 +527,34 @@ class LoginCart extends React.Component {
                               <i></i>
                             </span>
                           </div> */}
-                            {pitem.goodsSpecs && pitem.goodsSpecs.map((sItem, i) => (
-                              <div key={i} className="overflow-hidden">
-                                <div className="text-left ml-1">
-                                  {sItem.specName}:
-                                </div>
-                                {sItem.chidren.map((sdItem, i2) => (
-                                  <div
-                                    className={`rc-swatch__item ${
-                                      sdItem.selected ? 'selected' : ''
-                                    }`}
-                                    key={i2}
-                                    onClick={() =>
-                                      this.handleChooseSize(
-                                        sdItem,
-                                        pitem,
-                                        index
-                                      )
-                                    }
-                                  >
-                                    <span key={i2}>
-                                      {sdItem.detailName}
-                                      <i></i>
-                                    </span>
+                            {pitem.goodsSpecs &&
+                              pitem.goodsSpecs.map((sItem, i) => (
+                                <div key={i} className="overflow-hidden">
+                                  <div className="text-left ml-1">
+                                    {sItem.specName}:
                                   </div>
-                                ))}
-                              </div>
-                            ))}
+                                  {sItem.chidren.map((sdItem, i2) => (
+                                    <div
+                                      className={`rc-swatch__item ${
+                                        sdItem.selected ? 'selected' : ''
+                                      }`}
+                                      key={i2}
+                                      onClick={() =>
+                                        this.handleChooseSize(
+                                          sdItem,
+                                          pitem,
+                                          index
+                                        )
+                                      }
+                                    >
+                                      <span key={i2}>
+                                        {sdItem.detailName}
+                                        <i></i>
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              ))}
                           </div>
                         </div>
                       </div>

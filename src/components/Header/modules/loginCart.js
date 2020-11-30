@@ -4,8 +4,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
   formatMoney,
-  getDictionary,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  getFrequencyDict
 } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -29,19 +29,10 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this);
   }
   async componentDidMount() {
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState(
-        {
-          frequencyList: [...dictList[0], ...dictList[1]]
-        },
-        () => {
-          console.log(this.state.frequencyList, 'frequencyList');
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res
+      });
     });
     const pathname = this.props.history.location.pathname;
     if (

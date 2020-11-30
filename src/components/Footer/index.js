@@ -55,7 +55,7 @@ class Footer extends React.Component {
                 >
                   {this.state.cur_menubar.map((item, index) => {
                     return (
-                      <li className="rc-list__item rc-list__item--group">
+                      <li className="rc-list__item rc-list__item--group" key={index}>
                         <button
                           href="#"
                           className="rc-list__header"
@@ -71,9 +71,9 @@ class Footer extends React.Component {
                           id={`nav-footer-list-${index}`}
                           aria-labelledby={`nav-footer-${index}`}
                         >
-                          {item[0].list.map((listItem) => {
+                          {item[0].list.map((listItem, i) => {
                             return (
-                              <li className="rc-list__item">
+                              <li className="rc-list__item" key={i}>
                                 {!!listItem.link ? (
                                   <Link
                                     className="rc-list__link text-decoration-none color-f6f6f6"

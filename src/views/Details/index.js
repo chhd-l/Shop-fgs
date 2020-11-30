@@ -1,6 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
@@ -17,12 +18,11 @@ import PetModal from '@/components/PetModal';
 import {
   formatMoney,
   translateHtmlCharater,
-  getDictionary,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find } from 'lodash';
+import { cloneDeep, findIndex, find, flatten } from 'lodash';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
@@ -30,7 +30,7 @@ import './index.css';
 import './index.less';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, getFrequencyDict } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -82,6 +82,20 @@ function Advantage() {
     }[process.env.REACT_APP_LANG] || null
   );
 }
+
+function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
+  return (
+    <div className={`text-break mt-2 mb-2 ${checkOutErrMsg ? '' : 'hidden'}`}>
+      <aside
+        className="rc-alert rc-alert--error rc-alert--with-close"
+        role="alert"
+      >
+        <span className="pl-0">{checkOutErrMsg}</span>
+      </aside>
+    </div>
+  );
+}
+
 @inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore')
 @injectIntl
 @observer
@@ -145,7 +159,8 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isShowPromotion: false
+      isShowPromotion: false,
+      isMobile: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -160,32 +175,24 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    await Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState(
-        {
-          frequencyList: [...dictList[0], ...dictList[1]],
-          form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
-          })
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal: res[0] ? res[0].valueEn : '',
+          frequencyName: res[0] ? res[0].name : '',
+          frequencyId: res[0] ? res[0].id : ''
+        })
+      });
     });
-    this.setState({ id: this.props.match.params.id }, () =>
-      this.queryDetails()
+    this.setState(
+      { id: this.props.match.params.id, isMobile: getDeviceType() !== 'PC' },
+      () => this.queryDetails()
     );
   }
   get isLogin() {
@@ -236,13 +243,13 @@ class Details extends React.Component {
     // });
     // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa')
-    
-    currentUnitPrice = details.goodsInfos[0].salePrice
-    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice
-    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus
-    stock = details.goodsInfos[0].stock
-    details.sizeList[0].selected = true
+    console.log(details, 'detailsaaa');
+
+    currentUnitPrice = details.goodsInfos[0].salePrice;
+    currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
+    currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
+    stock = details.goodsInfos[0].stock;
+    details.sizeList[0].selected = true;
     // details.sizeList.map((item, i) => {
     //   item.basePrice = 0;
     //   details.goodsSpecDetails.map((el) => {
@@ -661,10 +668,11 @@ class Details extends React.Component {
                 }
               ),
               images: images
-            }, () => {
-              this.bundleMatchGoods()
+            },
+            () => {
+              this.bundleMatchGoods();
             }
-          )
+          );
           // 没有规格的情况
           // this.setState({
           //   errMsg: <FormattedMessage id="details.errMsg" />
@@ -740,8 +748,7 @@ class Details extends React.Component {
       this.setState({ quantity: tmp }, () => this.updateInstockStatus());
     }
   }
-  handleSelectedItemChange(data) {
-    console.log(data);
+  handleSelectedItemChange = (data) => {
     const { form } = this.state;
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
@@ -749,7 +756,7 @@ class Details extends React.Component {
     this.setState({ form: form }, () => {
       // this.props.updateSelectedData(this.state.form);
     });
-  }
+  };
   handleChooseSize(sId, sdId) {
     let { specList } = this.state;
     specList
@@ -789,14 +796,16 @@ class Details extends React.Component {
     // );
   }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
-    const { loading } = this.state;
-    if (!this.btnStatus || loading) return false;
-    this.setState({ checkOutErrMsg: '' });
-    if (this.isLogin) {
-      this.hanldeLoginAddToCart({ redirect });
-    } else {
-      await this.hanldeUnloginAddToCart({ redirect, needLogin });
-    }
+    try {
+      const { loading } = this.state;
+      if (!this.btnStatus || loading) return false;
+      this.setState({ checkOutErrMsg: '' });
+      if (this.isLogin) {
+        this.hanldeLoginAddToCart({ redirect });
+      } else {
+        await this.hanldeUnloginAddToCart({ redirect, needLogin });
+      }
+    } catch (err) {}
   }
   async hanldeLoginAddToCart({ redirect }) {
     try {
@@ -809,11 +818,11 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: true });
       const { quantity, form } = this.state;
       const { sizeList } = this.state.details;
-      let currentSelectedSize
-      if(this.state.details.goodsSpecDetails) {
+      let currentSelectedSize;
+      if (this.state.details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
-      }else {
-        currentSelectedSize = sizeList[0]
+      } else {
+        currentSelectedSize = sizeList[0];
       }
 
       let param = {
@@ -838,46 +847,40 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorInfo3"
-                values={{
-                  val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-                }}
-              />
-            )
-          });
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo3"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          );
           return false;
         }
 
         // 存在下架商品，不能下单
         if (checkoutStore.offShelvesProNames.length) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorInfo4"
-                values={{
-                  val: checkoutStore.offShelvesProNames.join('/')
-                }}
-              />
-            )
-          });
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo4"
+              values={{
+                val: checkoutStore.offShelvesProNames.join('/')
+              }}
+            />
+          );
           return false;
         }
 
         // 库存不够，不能下单
         if (checkoutStore.outOfstockProNames.length) {
-          this.setState({
-            checkOutErrMsg: (
-              <FormattedMessage
-                id="cart.errorInfo2"
-                values={{
-                  val: checkoutStore.outOfstockProNames.join('/')
-                }}
-              />
-            )
-          });
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo2"
+              values={{
+                val: checkoutStore.outOfstockProNames.join('/')
+              }}
+            />
+          );
           return false;
         }
         // this.openPetModal()
@@ -915,11 +918,12 @@ class Details extends React.Component {
       quantity,
       instockStatus,
       form,
-      details
+      details,
+      loading
     } = this.state;
     const { goodsId, sizeList } = details;
     this.setState({ checkOutErrMsg: '' });
-    if (this.state.loading) {
+    if (!this.btnStatus || loading) {
       throw new Error();
     }
     const currentSelectedSize = find(sizeList, (s) => s.selected);
@@ -948,9 +952,7 @@ class Details extends React.Component {
         flag = false;
         quantityNew += historyItem.quantity;
         if (quantityNew > 30) {
-          this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />
-          });
+          this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxInfo" />);
           this.setState({ addToCartLoading: false });
           return;
         }
@@ -1008,9 +1010,7 @@ class Details extends React.Component {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
       if (cartDataCopy.length >= 30) {
-        this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
-        });
+        this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxCate" />);
         return;
       }
       cartDataCopy.push(tmpData);
@@ -1019,40 +1019,34 @@ class Details extends React.Component {
     this.setState({ addToCartLoading: false });
     if (redirect) {
       if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        this.setState({
-          checkOutErrMsg: (
-            <FormattedMessage
-              id="cart.errorInfo3"
-              values={{
-                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-              }}
-            />
-          )
-        });
+        this.showCheckoutErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo3"
+            values={{
+              val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+            }}
+          />
+        );
         throw new Error();
       }
       if (checkoutStore.offShelvesProNames.length) {
-        this.setState({
-          checkOutErrMsg: (
-            <FormattedMessage
-              id="cart.errorInfo4"
-              values={{
-                val: checkoutStore.offShelvesProNames.join('/')
-              }}
-            />
-          )
-        });
+        this.showCheckoutErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo4"
+            values={{
+              val: checkoutStore.offShelvesProNames.join('/')
+            }}
+          />
+        );
         throw new Error();
       }
       if (checkoutStore.outOfstockProNames.length) {
-        this.setState({
-          checkOutErrMsg: (
-            <FormattedMessage
-              id="cart.errorInfo2"
-              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-            />
-          )
-        });
+        this.showCheckoutErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo2"
+            values={{ val: checkoutStore.outOfstockProNames.join('/') }}
+          />
+        );
         throw new Error();
       }
       if (needLogin) {
@@ -1111,6 +1105,17 @@ class Details extends React.Component {
     form.buyWay = parseInt(e.currentTarget.value);
     this.setState({ form });
   }
+  showCheckoutErrMsg(msg) {
+    this.setState({
+      checkOutErrMsg: msg
+    });
+    if (this.state.isMobile) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }
   changeTab(e, i) {
     this.setState({ activeTabIdx: i });
   }
@@ -1167,7 +1172,9 @@ class Details extends React.Component {
   }
   render() {
     const createMarkup = (text) => ({ __html: text });
+    const { history, location, match } = this.props;
     const {
+      goodsId,
       details,
       images,
       quantity,
@@ -1182,7 +1189,13 @@ class Details extends React.Component {
       specList,
       form,
       productRate,
-      instockStatus
+      instockStatus,
+      goodsDetailTab,
+      tabs,
+      reviewShow,
+      activeTabIdx,
+      checkOutErrMsg,
+      isMobile
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1230,9 +1243,9 @@ class Details extends React.Component {
         <Header
           showMiniIcons={true}
           showUserIcon={true}
-          location={this.props.location}
-          history={this.props.history}
-          match={this.props.match}
+          location={location}
+          history={history}
+          match={match}
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
@@ -1258,15 +1271,12 @@ class Details extends React.Component {
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     <div
-                      className="detailHeader"
+                      className="detailHeader mt-3"
                       style={{
-                        display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                          navigator.userAgent
-                        )
-                          ? 'block'
-                          : 'none'
+                        display: !isMobile ? 'none' : 'block'
                       }}
                     >
+                      <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
                       <h1
                         className="rc-gamma ui-text-overflow-line2 text-break"
                         title={details.goodsName}
@@ -1347,11 +1357,7 @@ class Details extends React.Component {
                           <div
                             className="detailHeader"
                             style={{
-                              display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                                navigator.userAgent
-                              )
-                                ? 'none'
-                                : 'block'
+                              display: !isMobile ? 'block' : 'none'
                             }}
                           >
                             <h1
@@ -1524,10 +1530,7 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
-
-                        {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                          navigator.userAgent
-                        ) ? (
+                        {isMobile ? (
                           <div
                             className="buyMethod rc-margin-bottom--xs"
                             style={{
@@ -1647,9 +1650,7 @@ class Details extends React.Component {
                           </div>
                         )}
                         {currentSubscriptionStatus ? (
-                          /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                            navigator.userAgent
-                          ) ? (
+                          isMobile ? (
                             <div
                               className="buyMethod rc-margin-bottom--xs"
                               style={{
@@ -1742,8 +1743,8 @@ class Details extends React.Component {
                                     display: 'inline-block',
                                     marginLeft: '100px'
                                   }}
-                                  selectedItemChange={(data) =>
-                                    this.handleSelectedItemChange(data)
+                                  selectedItemChange={
+                                    this.handleSelectedItemChange
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
@@ -1844,8 +1845,8 @@ class Details extends React.Component {
                                     display: 'inline-block',
                                     marginLeft: '100px'
                                   }}
-                                  selectedItemChange={(data) =>
-                                    this.handleSelectedItemChange(data)
+                                  selectedItemChange={
+                                    this.handleSelectedItemChange
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
@@ -1861,26 +1862,20 @@ class Details extends React.Component {
                             </div>
                           )
                         ) : null}
-                        {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                          navigator.userAgent
-                        ) && (
+                        {!isMobile && (
                           <div
                           // className="sticky-addtocart"
                           // style={{ transform: 'translateY(-80px)' }}
                           >
-                            <div
-                              className="rc-max-width--xl fullHeight justify-content-center text-right"
-                              style={{ marginTop: '20px' }}
-                            >
+                            <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
                               {!this.isLogin &&
-                                (this.state.form.buyWay ? (
+                                (form.buyWay ? (
                                   <span style={{ marginLeft: '10px' }}>
-                                    Autoship is possible only after registration
+                                    <FormattedMessage id="unLoginSubscriptionTips" />
                                   </span>
                                 ) : (
                                   <button
-                                    style={{ marginLeft: '10px' }}
-                                    className={`rc-styled-link color-999 ${
+                                    className={`rc-styled-link color-999 mr-2 ${
                                       addToCartLoading
                                         ? 'ui-btn-loading ui-btn-loading-border-red'
                                         : ''
@@ -1941,15 +1936,18 @@ class Details extends React.Component {
                                   } ${
                                     btnStatus ? '' : 'rc-btn-solid-disabled'
                                   }`}
-                                  history={this.props.history}
+                                  history={history}
                                 >
-                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                                  <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
                                   <span className="default-txt">
                                     <FormattedMessage id="checkout" />
                                   </span>
                                 </LoginButton>
                               )}
                             </div>
+                            <ErrMsgForCheckoutPanel
+                              checkOutErrMsg={checkOutErrMsg}
+                            />
                           </div>
                         )}
                       </div>
@@ -1959,10 +1957,8 @@ class Details extends React.Component {
               </div>
             </div>
             <Advantage />
-            {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-              navigator.userAgent
-            ) &&
-              this.state.goodsDetailTab.tabName.map((ele, index) => (
+            {isMobile &&
+              goodsDetailTab.tabName.map((ele, index) => (
                 <>
                   <dl
                     data-toggle-group=""
@@ -1971,13 +1967,12 @@ class Details extends React.Component {
                   >
                     <div
                       className={`rc-list__accordion-item test-color 
-                  ${this.state.tabs[index].show ? 'showItem' : 'hiddenItem'}`}
+                  ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
                     >
                       <div
                         className="rc-list__header"
                         onClick={() => {
-                          this.state.tabs[index].show = !this.state.tabs[index]
-                            .show;
+                          tabs[index].show = !this.state.tabs[index].show;
                           this.setState({ tabs: this.state.tabs });
                         }}
                         style={{
@@ -1988,32 +1983,30 @@ class Details extends React.Component {
                         <div dangerouslySetInnerHTML={{ __html: ele }}></div>
                         <span
                           className={`icon-change ${
-                            this.state.tabs[index].show
+                            tabs[index].show
                               ? 'rc-icon rc-up rc-brand1'
                               : 'rc-icon rc-down rc-iconography'
                           }`}
                         ></span>
                       </div>
-                      <div className={`rc-list__content `}>
+                      <div className={`rc-list__content`}>
                         <p
                           dangerouslySetInnerHTML={{
-                            __html: this.state.goodsDetailTab.tabContent[index]
+                            __html: goodsDetailTab.tabContent[index]
                           }}
-                        ></p>
-                        <img
-                          src={
-                            this.state.goodsDetailTab.tabContent[index].imgUl
-                          }
-                          alt=""
-                        ></img>
+                        />
+                        <LazyLoad height={200}>
+                          <img
+                            src={goodsDetailTab.tabContent[index].imgUl}
+                            alt=""
+                          />
+                        </LazyLoad>
                       </div>
                     </div>
                   </dl>
                 </>
               ))}
-            {/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-              navigator.userAgent
-            ) && (
+            {isMobile && (
               <dl
                 data-toggle-group=""
                 data-toggle-effect="rc-expand--vertical"
@@ -2021,42 +2014,40 @@ class Details extends React.Component {
               >
                 <div
                   className={`rc-list__accordion-item test-color 
-                  ${this.state.reviewShow ? 'showItem' : 'hiddenItem'}`}
+                  ${reviewShow ? 'showItem' : 'hiddenItem'}`}
                 >
                   <div
-                    className="rc-list__header"
+                    className="rc-list__header d-flex justify-content-between"
                     onClick={() => {
                       this.setState({ reviewShow: !this.state.reviewShow });
                     }}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between'
-                    }}
                   >
-                    <div dangerouslySetInnerHTML={{ __html: 'Reviews' }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: 'Reviews' }} />
                     <span
                       className={`icon-change ${
-                        this.state.reviewShow
+                        reviewShow
                           ? 'rc-icon rc-up rc-brand1'
                           : 'rc-icon rc-down rc-iconography'
                       }`}
-                    ></span>
+                    />
                   </div>
                   <div className={`rc-list__content `}>
                     {/* <p
                             dangerouslySetInnerHTML={{ __html: <Reviews id={this.state.goodsId} isLogin={this.isLogin} /> }}
                           ></p> */}
                     <p>
-                      <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
+                      <Reviews
+                        id={goodsId}
+                        key={goodsId}
+                        isLogin={this.isLogin}
+                      />
                     </p>
                     {/* <img src={this.state.goodsDetailTab.tabContent[index].imgUl} alt=""></img> */}
                   </div>
                 </div>
               </dl>
             )}
-            {!/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-              navigator.userAgent
-            ) && this.state.goodsDetailTab.tabName.length ? (
+            {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
                 <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                   <div>
@@ -2066,25 +2057,21 @@ class Details extends React.Component {
                           className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank"
                           role="tablist"
                         >
-                          {this.state.goodsDetailTab.tabName.map(
-                            (ele, index) => (
-                              <li key={index}>
-                                <button
-                                  className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
-                                  data-toggle={`tab__panel-${index}`}
-                                  aria-selected={
-                                    this.state.activeTabIdx === index
-                                      ? 'true'
-                                      : 'false'
-                                  }
-                                  role="tab"
-                                  onClick={(e) => this.changeTab(e, index)}
-                                >
-                                  {ele}
-                                </button>
-                              </li>
-                            )
-                          )}
+                          {goodsDetailTab.tabName.map((ele, index) => (
+                            <li key={index}>
+                              <button
+                                className="rc-tab rc-btn rounded-0 border-top-0 border-right-0 border-left-0"
+                                data-toggle={`tab__panel-${index}`}
+                                aria-selected={
+                                  activeTabIdx === index ? 'true' : 'false'
+                                }
+                                role="tab"
+                                onClick={(e) => this.changeTab(e, index)}
+                              >
+                                {ele}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </nav>
                     </div>
@@ -2092,14 +2079,12 @@ class Details extends React.Component {
                       className="rc-tabs tabs-detail"
                       style={{ marginTop: '40px' }}
                     >
-                      {this.state.goodsDetailTab.tabContent.map((ele, i) => (
+                      {goodsDetailTab.tabContent.map((ele, i) => (
                         <div
                           id={`tab__panel-${i}`}
                           key={i}
                           className="rc-tabs__content__single clearfix benefits ingredients rc-showhide"
-                          aria-expanded={
-                            this.state.activeTabIdx === i ? 'true' : 'false'
-                          }
+                          aria-expanded={activeTabIdx === i ? 'true' : 'false'}
                         >
                           <div className="block">
                             <p
@@ -2117,14 +2102,10 @@ class Details extends React.Component {
             <div
               id="review-container"
               style={{
-                display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                  navigator.userAgent
-                )
-                  ? 'none'
-                  : 'block'
+                display: !isMobile ? 'none' : 'block'
               }}
             >
-              <Reviews id={this.state.goodsId} isLogin={this.isLogin} />
+              <Reviews id={goodsId} key={goodsId} isLogin={this.isLogin} />
             </div>
             {/* <div> */}
             {/* <div
@@ -2147,10 +2128,10 @@ class Details extends React.Component {
             {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
             <div>
               <Carousel
-                location={this.props.location}
-                history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
+                location={location}
+                history={history}
+                goodsId={goodsId}
+                key={goodsId}
               />
             </div>
             {/* </div> */}
@@ -2201,18 +2182,18 @@ class Details extends React.Component {
                     btnClass={`rc-btn rc-btn--one js-sticky-cta ${
                       addToCartLoading ? 'ui-btn-loading' : ''
                     } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                    history={this.props.history}
+                    history={history}
                   >
-                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon"></span>
+                    <span className="fa rc-icon rc-cart--xs rc-brand3 no-icon" />
                     <span className="default-txt">
                       <FormattedMessage id="checkout" />
                     </span>
                   </LoginButton>
                 )}
                 {!this.isLogin &&
-                  (this.state.form.buyWay ? (
+                  (form.buyWay ? (
                     <span style={{ marginLeft: '10px' }}>
-                      Autoship is possible only after registration
+                      <FormattedMessage id="unLoginSubscriptionTips" />
                     </span>
                   ) : (
                     <button

@@ -406,6 +406,11 @@ class Prescription extends React.Component {
                                 ? item.phone
                                 : item.email}{' '}
                             </div>
+                            <div className="zip-code">
+                              {item.primaryZip
+                                ? item.phone
+                                : null}
+                            </div>
                             <div
                               className="clinic-address ui-text-overflow-line2 text-break mr-3 mb-2"
                               title={item.location}

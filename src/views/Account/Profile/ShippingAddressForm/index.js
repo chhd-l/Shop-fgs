@@ -7,7 +7,7 @@ import { findIndex } from 'lodash';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
-import { getDictionary, validData,setSeoConfig } from '@/utils/utils';
+import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
@@ -55,7 +55,7 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -386,7 +386,7 @@ class ShippingAddressFrom extends React.Component {
                 <div className="form-group col-lg-6 pull-left required">
                   <label
                     className="form-control-label rc-full-width"
-                    htmlFor="address"
+                    htmlFor="lastName"
                   >
                     <FormattedMessage id="payment.lastName" />
                   </label>
@@ -416,48 +416,6 @@ class ShippingAddressFrom extends React.Component {
                         val: <FormattedMessage id="payment.lastName" />
                       }}
                     />
-                  </div>
-                </div>
-                <div className="col-lg-6 col-sm-12">
-                  <div className="form-group col-lg-12 pull-left no-padding required">
-                    <label className="form-control-label" htmlFor="country">
-                      <FormattedMessage id="payment.country" />
-                    </label>
-                    <span
-                      className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                      data-loc="countrySelect"
-                    >
-                      <Selection
-                        key={addressForm.country}
-                        selectedItemChange={(data) =>
-                          this.handleSelectedItemChange('country', data)
-                        }
-                        optionList={this.computedList('country')}
-                        selectedItemData={{
-                          value: addressForm.country
-                        }}
-                      />
-                    </span>
-                    <div className="invalid-feedback" />
-                  </div>
-                </div>
-                <div className="col-lg-6 col-sm-12">
-                  <div className="form-group col-lg-12 pull-left no-padding required">
-                    <label className="form-control-label" htmlFor="city">
-                      <FormattedMessage id="payment.city" />
-                    </label>
-                    <div data-js-dynamicselect="city" data-template="shipping">
-                      <span
-                        className="rc-select rc-full-width rc-input--full-width rc-select-processed"
-                        data-loc="citySelect"
-                      >
-                        <CitySearchSelection
-                          defaultValue={this.state.addressForm.cityName}
-                          onChange={this.handleCityInputChange}
-                        />
-                      </span>
-                    </div>
-                    <div className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="form-group col-lg-6 pull-left required">
@@ -520,6 +478,49 @@ class ShippingAddressFrom extends React.Component {
                     <label className="rc-input__label" htmlFor="address2" />
                   </span>
                 </div>
+
+                <div className="col-lg-6 col-sm-12">
+                  <div className="form-group col-lg-12 pull-left no-padding required">
+                    <label className="form-control-label" htmlFor="country">
+                      <FormattedMessage id="payment.country" />
+                    </label>
+                    <span
+                      className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                      data-loc="countrySelect"
+                    >
+                      <Selection
+                        key={addressForm.country}
+                        selectedItemChange={(data) =>
+                          this.handleSelectedItemChange('country', data)
+                        }
+                        optionList={this.computedList('country')}
+                        selectedItemData={{
+                          value: addressForm.country
+                        }}
+                      />
+                    </span>
+                    <div className="invalid-feedback" />
+                  </div>
+                </div>
+                <div className="col-lg-6 col-sm-12">
+                  <div className="form-group col-lg-12 pull-left no-padding required">
+                    <label className="form-control-label" htmlFor="city">
+                      <FormattedMessage id="payment.city" />
+                    </label>
+                    <div data-js-dynamicselect="city" data-template="shipping">
+                      <span
+                        className="rc-select rc-full-width rc-input--full-width rc-select-processed"
+                        data-loc="citySelect"
+                      >
+                        <CitySearchSelection
+                          defaultValue={this.state.addressForm.cityName}
+                          onChange={this.handleCityInputChange}
+                        />
+                      </span>
+                    </div>
+                    <div className="invalid-feedback" />
+                  </div>
+                </div>
                 <div className="form-group col-6 required d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
@@ -545,47 +546,6 @@ class ShippingAddressFrom extends React.Component {
                     <label className="rc-input__label" htmlFor="email" />
                   </span>
                 </div>
-                <div className="form-group col-6 required d-flex flex-column justify-content-between">
-                  <label
-                    className="form-control-label rc-full-width"
-                    htmlFor="phone"
-                  >
-                    <FormattedMessage id="payment.phoneNumber" />
-                  </label>
-                  <span
-                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
-                    style={{ maxWidth: '1000px' }}
-                    input-setup="true"
-                  >
-                    <input
-                      className="rc-input__control input__phoneField"
-                      id="phone"
-                      type="number"
-                      name="phoneNumber"
-                      value={addressForm.phoneNumber}
-                      onChange={this.handleInputChange}
-                      onBlur={this.inputBlur}
-                      maxLength="20"
-                      minLength="18"
-                    />
-                    <label className="rc-input__label" htmlFor="phone" />
-                  </span>
-                  {/* <div className="invalid-feedback">
-            <FormattedMessage
-              id="payment.errorInfo"
-              values={{
-                val: (
-                  <FormattedMessage id="payment.phoneNumber" />
-                ),
-              }}
-            />
-          </div> */}
-                  <span className="ui-lighter">
-                    <FormattedMessage id="example" />:{' '}
-                    <FormattedMessage id="examplePhone" />
-                  </span>
-                </div>
-
                 <div className="form-group col-6 required d-flex flex-column justify-content-between">
                   <div className="no-padding">
                     <label
@@ -634,7 +594,48 @@ class ShippingAddressFrom extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="form-group col-6 d-flex flex-column">
+                <div className="form-group col-6 required d-flex flex-column justify-content-between">
+                  <label
+                    className="form-control-label rc-full-width"
+                    htmlFor="phone"
+                  >
+                    <FormattedMessage id="payment.phoneNumber" />
+                  </label>
+                  <span
+                    className="rc-input rc-input--inline rc-input--label rc-margin--none rc-full-width"
+                    style={{ maxWidth: '1000px' }}
+                    input-setup="true"
+                  >
+                    <input
+                      className="rc-input__control input__phoneField"
+                      id="phone"
+                      type="number"
+                      name="phoneNumber"
+                      value={addressForm.phoneNumber}
+                      onChange={this.handleInputChange}
+                      onBlur={this.inputBlur}
+                      maxLength="20"
+                      minLength="18"
+                    />
+                    <label className="rc-input__label" htmlFor="phone" />
+                  </span>
+                  {/* <div className="invalid-feedback">
+            <FormattedMessage
+              id="payment.errorInfo"
+              values={{
+                val: (
+                  <FormattedMessage id="payment.phoneNumber" />
+                ),
+              }}
+            />
+          </div> */}
+                  <span className="ui-lighter">
+                    <FormattedMessage id="example" />:{' '}
+                    <FormattedMessage id="examplePhone" />
+                  </span>
+                </div>
+
+                {/* <div className="form-group col-6 d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="reference"
@@ -657,7 +658,7 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="reference" />
                   </span>
-                </div>
+                </div> */}
 
                 {addressForm.addressType === 'DELIVERY' ? (
                   <div className="form-group col-12 col-md-6">

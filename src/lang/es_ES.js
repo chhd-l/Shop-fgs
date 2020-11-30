@@ -58,7 +58,10 @@ const es_ES = {
   'account.petsTip': 'Crea y administra tus perfiles de mascotas.',
   'account.petsTitle': 'Mis mascotas',
   'account.preferredContactMethod': 'Método de Contacto Preferido',
-  'account.consents': 'Mis consentimientos',
+  'account.myCommunicationPreferencesTitle': 'Mis preferencias de comunicación',
+  'account.myCommunicationPreferencesDesc': 'Siga la información de Royal Canin sobre la comunicación.',
+  'account.myCommunicationPreferencesContent1': 'Perferred method of communication',
+  'account.myCommunicationPreferencesContent2': 'Consentimientos otorgados para la comunicación',
   'account.profile': 'Mi informacion',
   'account.profileTip': 'Ver y editar su información personal.',
   'account.requiredFields': 'Campos requeridos',
@@ -787,7 +790,7 @@ const es_ES = {
   uNeedHelp: '¿Necesitas ayuda?',
   unfoldAddress: 'Dirección desplegada',
   unkown: 'Desconocido',
-  unLoginSubscriptionTips: 'La suscripción solo es posible después del registro',
+  unLoginSubscriptionTips: 'El autoenvío solo es posible después del registro',
   userAgreement: 'Acuerdo del Usuario',
   viewAllResults: 'Vea todos los resultados',
   viewResults: 'Ver resultados',
@@ -807,6 +810,7 @@ const es_ES = {
   yourPasswordNotVerified: 'Tu contraseña no ha sido verificada',
   findTheRightDiet: 'Encuentra la comida adecuada',
   breed: 'Raza',
-  gender: 'Género'
+  gender: 'Género',
+  setAsDefault: 'Establecer por defecto'
 }
 export default es_ES;

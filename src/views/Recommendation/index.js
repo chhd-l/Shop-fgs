@@ -20,7 +20,7 @@ import de_recommendation3 from '@/assets/images/de_recommendation3.png';
 import de_recommendation4 from '@/assets/images/de_recommendation4.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
-import { formatMoney } from '@/utils/utils';
+import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
@@ -89,7 +89,8 @@ class Help extends React.Component {
       },
       outOfStockProducts: [],
       inStockProducts: [],
-      needLogin: false
+      needLogin: false,
+      isMobile: false
     };
   }
 
@@ -462,7 +463,8 @@ class Help extends React.Component {
       productList,
       activeIndex,
       prescriberInfo,
-      currentModalObj
+      currentModalObj,
+      isMobile
     } = this.state;
     let MaxLinePrice,
       MinLinePrice,
@@ -598,11 +600,7 @@ class Help extends React.Component {
                   <div
                     className="recommendProductInner"
                     style={{
-                      display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                        navigator.userAgent
-                      )
-                        ? 'none'
-                        : 'flex'
+                      display: isMobile ? 'none' : 'flex'
                     }}
                   >
                     <div className="left">
@@ -893,11 +891,7 @@ class Help extends React.Component {
                   <div
                     className="recommendProductInnerMobile"
                     style={{
-                      display: /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                        navigator.userAgent
-                      )
-                        ? 'block'
-                        : 'none'
+                      display: isMobile ? 'block' : 'none'
                     }}
                   >
                     <div className="top">

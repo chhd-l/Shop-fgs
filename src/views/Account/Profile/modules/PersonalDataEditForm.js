@@ -137,7 +137,7 @@ class PersonalDataEditForm extends React.Component {
       });
 
       await updateCustomerBaseInfo(param);
-      this.props.updateData(this.state.form);
+      this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {
       this.showErrMsg(err.message);
@@ -649,7 +649,8 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6">
+                
+                {/* <div className="form-group col-lg-6">
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
                   </label>
@@ -677,6 +678,7 @@ class PersonalDataEditForm extends React.Component {
                     </div>
                   ))}
                 </div>
+                 */}
                 {/* <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-input--full-width w-100"

@@ -118,21 +118,25 @@ class AdyenCreditCardList extends React.Component {
           });
         });
     } else {
-      let { memberUnsavedCardList, selectedId } = this.state;
-      // 删除了当前选中的未保存到数据库的卡 设置默认选择卡(下一个卡被选中)
-      if (el.id === selectedId) {
-        this.setState(
-          {
-            selectedId: memberUnsavedCardList.concat(cardList)[idx + 1].id
-          },
-          () => () => this.hanldeUpdateSelectedCardInfo()
-        );
-      }
+      let { memberUnsavedCardList, selectedId, cardList } = this.state;
+      let tmpSelectedId = selectedId;
       el.confirmTooltipVisible = false;
       memberUnsavedCardList.splice(idx, 1);
-      this.setState({
-        memberUnsavedCardList
-      });
+      // 删除了卡后，seletedId还是否存在于列表中，不存在则默认选中第一个了，否则选择为空了
+      const allCardList = memberUnsavedCardList.concat(cardList);
+      const selectedCard = allCardList.filter(
+        (ele) => ele.id === selectedId
+      )[0];
+      if (!selectedCard) {
+        tmpSelectedId = allCardList[0] ? allCardList[0].id : '';
+      }
+      this.setState(
+        {
+          memberUnsavedCardList,
+          selectedId: tmpSelectedId
+        },
+        () => this.hanldeUpdateSelectedCardInfo()
+      );
     }
   }
   hanldeClickCardItem(el) {

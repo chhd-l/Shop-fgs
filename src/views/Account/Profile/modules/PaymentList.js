@@ -1,5 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import LazyLoad from 'react-lazyload';
 import Loading from '@/components/Loading';
 import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
@@ -14,25 +15,33 @@ import { find } from 'lodash';
 function CardItem(props) {
   const { data } = props;
   return (
-    <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-4 h-100 d-flex align-items-center justify-content-between">
-      {props.removeBtnJSX}
-      <div className={`pt-3 pb-3`}>
+    <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
+      <div
+        className="position-absolute"
+        style={{ right: '2%', top: '1%', zIndex: 9 }}
+      >
+        {props.operateBtnJSX}
+      </div>
+      <div className={`pt-2 pb-2 w-100`}>
         <div className="row">
           <div className={`col-6 d-flex flex-column justify-content-center`}>
-            <img
-              className="PayCardImgFitScreen"
-              src={
-                CREDIT_CARD_IMG_ENUM[
-                  data.paymentMethod
-                    ? data.paymentMethod.vendor.toUpperCase()
-                    : ''
-                ] ||
-                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-              }
-              alt=""
-            />
+            <LazyLoad height={200}>
+              <img
+                className="PayCardImgFitScreen"
+                style={{ height: '5rem' }}
+                src={
+                  CREDIT_CARD_IMG_ENUM[
+                    data.paymentMethod
+                      ? data.paymentMethod.vendor.toUpperCase()
+                      : ''
+                  ] ||
+                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                }
+                alt=""
+              />
+            </LazyLoad>
           </div>
-          <div className="col-6">
+          <div className="col-6 pl-0 pr-0">
             <p className="mb-0">
               {data.paymentMethod
                 ? data.paymentMethod.holder_name
@@ -204,7 +213,7 @@ class AddressList extends React.Component {
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
-        className="rounded p-4 border"
+        className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
         onClick={this.handleClickAddBtn.bind(this, fromPage)}
         ref={(node) => {
           if (node) {
@@ -212,9 +221,12 @@ class AddressList extends React.Component {
             node.style.setProperty('border-style', 'dashed', 'important');
           }
         }}
+        style={{ lineHeight: 0.4 }}
       >
-        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
-        <FormattedMessage id="addANewPaymentMethod" />
+        <div>
+          <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+          <FormattedMessage id="addANewPaymentMethod" />
+        </div>
       </div>
     );
   };
@@ -312,15 +324,37 @@ class AddressList extends React.Component {
                   })}
                 >
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
-                    {creditCardList.map((el, i) => (
-                      <div className="col-12 col-md-4 p-2" key={i}>
+                    {creditCardList.map((el) => (
+                      <div className="col-12 col-md-4 p-2" key={el.id}>
                         <CardItem
                           data={el}
-                          removeBtnJSX={
-                            <div
-                              className="position-absolute"
-                              style={{ right: '2%', top: '1%', zIndex: 9 }}
-                            >
+                          operateBtnJSX={
+                            <>
+                              {/* {el.isDefault === 1 ? (
+                                <div
+                                  className="red"
+                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link red border-danger">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="ui-cursor-pointer"
+                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link">
+                                    <FormattedMessage id="setAsDefault" />
+                                  </span>
+                                </div>
+                              )} */}
                               <span
                                 className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}
                               >
@@ -345,7 +379,7 @@ class AddressList extends React.Component {
                                   }
                                 />
                               </span>
-                            </div>
+                            </>
                           }
                         />
                       </div>
