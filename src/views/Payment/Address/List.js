@@ -10,6 +10,7 @@ import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
+import DeEditForm from './DeEditForm';
 import Loading from '@/components/Loading';
 import SameAsCheckbox from './SameAsCheckbox';
 import './list.css';
@@ -506,13 +507,24 @@ class AddressList extends React.Component {
           addOrEdit || loading ? '' : 'hidden'
         }`}
       >
-        <EditForm
+        {
+          process.env.REACT_APP_LANG == 'de'
+          ?<DeEditForm
           isLogin={true}
           isOnepageCheckout={this.props.isOnepageCheckout}
           initData={deliveryAddress}
           key={Object.values(deliveryAddress || {}).join('_')}
           updateData={this.updateDeliveryAddress}
         />
+          :<EditForm
+            isLogin={true}
+            isOnepageCheckout={this.props.isOnepageCheckout}
+            initData={deliveryAddress}
+            key={Object.values(deliveryAddress || {}).join('_')}
+            updateData={this.updateDeliveryAddress}
+          />
+        }
+        
         {this.state.saveLoading ? <Loading positionAbsolute="true" /> : null}
         <div className="rc-layout-container">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
