@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
 import Modal from '@/components/Modal'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
+import { inject, observer } from 'mobx-react';
 
 import '../index.css'
 import { findIndex } from "lodash"
 
+
 const localItemRoyal = window.__.localItemRoyal;
 
-export default class SelectPetModal extends Component { // 新建Pet
+@inject(
+    'loginStore'
+  )
+@injectIntl
+@observer
+
+class SelectPetModal extends Component { // 新建Pet
 
     constructor() {
         super();
@@ -21,7 +29,10 @@ export default class SelectPetModal extends Component { // 新建Pet
     }
 
     componentDidMount() {
-        this.getPetList()
+        if(this.props.loginStore.isLogin) {
+            this.getPetList()
+        }
+        
     }
     newPet() {
         this.props.addPet()
@@ -196,3 +207,5 @@ export default class SelectPetModal extends Component { // 新建Pet
         )
     }
 }
+
+export default SelectPetModal

@@ -5,7 +5,7 @@ import { getDictionary } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
-import { getAddressList, deleteAddress } from '@/api/address';
+import { getAddressList, deleteAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -17,7 +17,13 @@ function CardItem(props) {
       className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100"
       onClick={props.handleClickCoverItem}
     >
-      {props.removeBtnJSX}
+      <div
+        className="position-absolute d-flex align-items-center"
+        style={{ right: '4%', top: '7%', zIndex: 9 }}
+      >
+        {props.operateBtnJSX}
+      </div>
+
       <div className="font-weight-normal">
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
@@ -29,11 +35,11 @@ function CardItem(props) {
         <div className="ccard-phone-title word-break">
           <div className="address-name">
             <span>{data.firstName + ' ' + data.lastName}</span>
-            {data.isDefaltAddress === 1 ? (
+            {/* {data.isDefaltAddress === 1 ? (
               <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
                 <FormattedMessage id="default" />
               </span>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
         <p className="mb-0">{data.consigneeNumber}</p>
@@ -66,6 +72,7 @@ class AddressList extends React.Component {
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
+    this.toggleSetDefault = this.toggleSetDefault.bind(this);
   }
   componentDidMount() {
     this.getAddressList();
@@ -75,8 +82,8 @@ class AddressList extends React.Component {
       });
     });
   }
-  getAddressList = async () => {
-    this.setState({ listLoading: true });
+  getAddressList = async ({ showLoading = false } = {}) => {
+    showLoading && this.setState({ listLoading: true });
     try {
       let res = await getAddressList();
       let addressList = res.context;
@@ -192,7 +199,7 @@ class AddressList extends React.Component {
   addBtnJSX = ({ fromPage }) => {
     return (
       <div
-        className="rounded p-4 border"
+        className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
         onClick={this.handleClickAddBtn.bind(this, fromPage)}
         ref={(node) => {
           if (node) {
@@ -201,11 +208,22 @@ class AddressList extends React.Component {
           }
         }}
       >
-        <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" />
         <FormattedMessage id="addANewAddress" />
       </div>
     );
   };
+  async toggleSetDefault(item, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    await editAddress(
+      Object.assign({}, item, {
+        isDefaltAddress: !item.isDefaltAddress ? 1 : 0
+      })
+    );
+    this.getAddressList({ showLoading: false });
+  }
   render() {
     const {
       listVisible,
@@ -280,7 +298,10 @@ class AddressList extends React.Component {
                   })}
                 >
                   {addressList.slice(0, 2).map((item, i) => (
-                    <div className="col-12 col-md-4 p-2" key={i}>
+                    <div
+                      className="col-12 col-md-4 p-2"
+                      key={item.deliveryAddressId}
+                    >
                       <CardItem
                         data={item}
                         handleClickCoverItem={this.handleClickCoverItem.bind(
@@ -310,17 +331,46 @@ class AddressList extends React.Component {
                 >
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {addressList.map((item, i) => (
-                      <div className="col-12 col-md-4 p-2" key={i}>
+                      <div
+                        className="col-12 col-md-6 p-2"
+                        key={item.deliveryAddressId}
+                      >
                         <CardItem
                           data={item}
-                          removeBtnJSX={
-                            <div
-                              className="position-absolute"
-                              style={{ right: '4%', top: '7%', zIndex: 9 }}
-                            >
-                              <span
-                                className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}
-                              >
+                          operateBtnJSX={
+                            <>
+                              {item.isDefaltAddress === 1 ? (
+                                <div
+                                  className="red"
+                                  onClick={this.toggleSetDefault.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link red border-danger">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="ui-cursor-pointer"
+                                  onClick={this.toggleSetDefault.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link">
+                                    <FormattedMessage id="setAsDefault" />
+                                  </span>
+                                </div>
+                              )}
+                              <span className="position-relative p-2 ui-cursor-pointer-pure">
                                 <span
                                   className="rc-styled-link"
                                   onClick={this.handleClickDeleteBtn.bind(
@@ -345,7 +395,7 @@ class AddressList extends React.Component {
                                   }
                                 />
                               </span>
-                            </div>
+                            </>
                           }
                           handleClickCoverItem={this.handleClickCoverItem.bind(
                             this,
@@ -359,7 +409,7 @@ class AddressList extends React.Component {
                         />
                       </div>
                     ))}
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>

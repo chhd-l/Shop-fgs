@@ -79,16 +79,16 @@ class MegaMenu extends React.Component {
           <>
             <ul className="rc-list rc-list--blank subcategories">
               {item.children.map((cItem, cIdx) => (
-                <li class="rc-list__item w-100" key={cIdx}>
+                <li className="rc-list__item w-100" key={cIdx}>
                   <dl
                     data-toggle-effect="rc-expand--vertical"
-                    class="custom-accordion rc-margin--none"
+                    className="custom-accordion rc-margin--none"
                     role="presentation"
                   >
-                    <div class="custom-accordion__item">
+                    <div className="custom-accordion__item">
                       <dt>
                         <button
-                          class="custom-accordion__button rc-list__header"
+                          className="custom-accordion__button rc-list__header"
                           role="menuitem"
                           aria-selected="false"
                           data-tab-init="true"
@@ -99,7 +99,7 @@ class MegaMenu extends React.Component {
                         >
                           {cItem.navigationName}
                           <span
-                            class={`rc-icon rc-iconography ${
+                            className={`rc-icon rc-iconography ${
                               cItem.expand ? 'rc-down--xs' : 'rc-right--xs'
                             }`}
                           />
@@ -109,20 +109,20 @@ class MegaMenu extends React.Component {
                         cItem.children.length > 0 &&
                         cItem.children.map((eItem, eIdx) => (
                           <dd
-                            class={`rc-list__content rc-bg-colour--brand4 rc-padding--none ${
+                            className={`rc-list__content rc-bg-colour--brand4 rc-padding--none ${
                               !!cItem.expand ? '' : 'hidden'
                             }`}
                             key={eIdx}
                           >
-                            <ul class="rc-list rc-list--blank subcategories">
-                              <li class="rc-list__item w-100">
+                            <ul className="rc-list rc-list--blank subcategories">
+                              <li className="rc-list__item w-100">
                                 <span
                                   onClick={this.handleClickNavItem.bind(
                                     this,
                                     eItem
                                   )}
                                   role="menuitem"
-                                  class="rc-list__link submenu-padding-mobile"
+                                  className="rc-list__link submenu-padding-mobile"
                                 >
                                   {eItem.navigationName}
                                 </span>
@@ -135,9 +135,9 @@ class MegaMenu extends React.Component {
                 </li>
               ))}
             </ul>
-            <li class="rc-list__item w-100">
+            <li className="rc-list__item w-100">
               <span
-                class="rc-list__header rc-list__link submenu-padding-mobile"
+                className="rc-list__header rc-list__link submenu-padding-mobile"
                 onClick={this.handleClickNavItem.bind(this, item)}
                 role="menuitem"
                 data-tab-init="true"
@@ -149,20 +149,20 @@ class MegaMenu extends React.Component {
         }
         assetContent={
           item.navigationDesc && item.imageLink ? (
-            <div class="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
-              <div class="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
-                <div class="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
+            <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
+              <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
+                <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
                   <p>{item.navigationDesc}</p>
                 </div>
                 <Link to="/product-finder" data-tab-init="true">
-                  <button class="rc-btn rc-btn--one" data-tab-init="true">
+                  <button className="rc-btn rc-btn--one" data-tab-init="true">
                     <FormattedMessage id="findTheRightDiet" />
                   </button>
                 </Link>
               </div>
-              <div class="mt-auto">
+              <div className="mt-auto">
                 <img
-                  class="pull-right rc-md-down lazyloaded"
+                  className="pull-right rc-md-down lazyloaded"
                   alt="Trouver l'alimentation adaptée"
                   src={item.imageLink}
                 />

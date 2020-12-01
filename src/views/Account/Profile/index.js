@@ -112,7 +112,7 @@ class AccountProfile extends React.Component {
             rfc: context.reference,
             address1: context.address1,
             address2: context.address2,
-            postCode: context.postCode,
+            postCode: context.postalCode,
             communicationEmail: context.communicationEmail,
             communicationPhone: context.communicationPhone
           },
@@ -214,6 +214,20 @@ class AccountProfile extends React.Component {
                       />
                     </PanleContainer>
 
+                    <PanleContainer
+                      customCls={classNames({
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'My addresses'
+                      })}
+                    >
+                      <AddressList
+                        updateEditOperationPanelName={
+                          this.updateEditOperationPanelName
+                        }
+                      />
+                    </PanleContainer>
+
                     {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' && (
                       <PanleContainer
                         loading={loading}
@@ -238,20 +252,6 @@ class AccountProfile extends React.Component {
                       customCls={classNames({
                         hidden:
                           editOperationPaneName &&
-                          editOperationPaneName !== 'My addresses'
-                      })}
-                    >
-                      <AddressList
-                        updateEditOperationPanelName={
-                          this.updateEditOperationPanelName
-                        }
-                      />
-                    </PanleContainer>
-
-                    <PanleContainer
-                      customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
                           editOperationPaneName !== 'My payments'
                       })}
                     >
@@ -271,6 +271,9 @@ class AccountProfile extends React.Component {
                       })}
                     >
                       <CommunicationDataEditForm
+                        originData={originData}
+                        data={personalData}
+                        key={Object.keys(personalData || {})}
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
                         }

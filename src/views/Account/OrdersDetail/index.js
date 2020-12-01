@@ -12,7 +12,12 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary,setSeoConfig } from '@/utils/utils';
+import {
+  formatMoney,
+  getDictionary,
+  setSeoConfig,
+  getFrequencyDict
+} from '@/utils/utils';
 import { find, findIndex } from 'lodash';
 import { queryCityNameById } from '@/api';
 import {
@@ -84,7 +89,7 @@ function LogisticsProgress(props) {
               />
             </svg>
 
-            <span className="ml-4 ui-text-overflow-line2">
+            <span className={`ml-4 ui-text-overflow-line2 ${!i ? 'red' : ''}`}>
               {item.details}
               {item.statusDescription}
             </span>
@@ -184,7 +189,7 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -233,7 +238,8 @@ class AccountOrders extends React.Component {
         if (
           tradeState.payState === 'PAID' &&
           tradeState.auditState === 'CHECKED' &&
-          tradeState.deliverStatus === 'SHIPPED'
+          (tradeState.deliverStatus === 'SHIPPED' ||
+            tradeState.deliverStatus === 'PART_SHIPPED')
         ) {
           queryLogistics(orderNumber).then((res) => {
             this.setState({
@@ -526,17 +532,12 @@ class AccountOrders extends React.Component {
     if (details.subscriptionResponseVO) {
       const cycleTypeId = details.subscriptionResponseVO.cycleTypeId;
 
-      let dictList = await Promise.all([
-        getDictionary({ type: 'Frequency_week' }),
-        getDictionary({ type: 'Frequency_month' })
-      ]);
+      const dictList = await getFrequencyDict();
       sessionItemRoyal.set(
         'rc-subform',
         JSON.stringify({
           buyWay: 'frequency',
-          frequencyName: [...dictList[0], ...dictList[1]].filter(
-            (el) => el.id === cycleTypeId
-          )[0].name,
+          frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0].name,
           frequencyId: cycleTypeId
         })
       );
@@ -722,8 +723,7 @@ class AccountOrders extends React.Component {
       canPayNow,
       payNowLoading,
       defaultLocalDateTime,
-      orderNumber,
-      logisticsList
+      orderNumber
     } = this.state;
     const tradeState = details.tradeState;
     let ret = null;
@@ -789,7 +789,7 @@ class AccountOrders extends React.Component {
                 aria-hidden="true"
                 style={{ width: '3.5em', height: '3.5em' }}
               >
-                <use xlinkHref="#iconPrescriptionDeclined" />
+                <use xlinkHref="#iconTobedelivered" />
               </svg>
             }
             title={<FormattedMessage id="subscription.toBeDelivered" />}
@@ -800,10 +800,12 @@ class AccountOrders extends React.Component {
         </>
       );
     } else if (
-      tradeState.payState === 'PAID' &&
-      tradeState.auditState === 'CHECKED' &&
-      tradeState.deliverStatus === 'SHIPPED' &&
-      tradeState.flowState === 'DELIVERED'
+      (tradeState.payState === 'PAID' &&
+        tradeState.auditState === 'CHECKED' &&
+        tradeState.deliverStatus === 'SHIPPED' &&
+        tradeState.flowState === 'DELIVERED') ||
+      (tradeState.deliverStatus === 'PART_SHIPPED' &&
+        tradeState.flowState === 'DELIVERED_PART')
     ) {
       // 发货运输中
       ret = (
@@ -911,7 +913,7 @@ class AccountOrders extends React.Component {
           history={this.props.history}
           match={this.props.match}
         />
-        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
+        <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 ord-detail">
           <BannerTip />
           <BreadCrumbs />
           <div className="p-md-2rem rc-max-width--xl">

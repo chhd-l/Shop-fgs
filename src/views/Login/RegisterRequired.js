@@ -9,6 +9,7 @@ import {
   userBindConsent,
   getStoreOpenConsentList
 } from '@/api/consent';
+import { distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 import Consent from '@/components/Consent';
 import { withOktaAuth } from '@okta/okta-react';
 import LoginButton from '@/components/LoginButton';
@@ -20,7 +21,8 @@ import Loading from '@/components/Loading';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore')
+@inject('loginStore', 'configStore')
+@observer
 class RegisterRequired extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -115,6 +117,7 @@ class RegisterRequired extends Component {
     this.setState({ list });
   };
   init = async () => {
+    const { history, configStore } = this.props;
     this.setState({
       circleLoading: true,
       styleObj: { display: 'none' },
@@ -122,13 +125,20 @@ class RegisterRequired extends Component {
     });
 
     try {
-      let result;
-
-      result = await findUserConsentList({});
+      const result = await findUserConsentList({});
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-        this.props.history.push(tmpUrl);
+        if (tmpUrl === '/prescription') {
+          const url = distributeLinktoPrecriberOrPaymentPage({
+            configStore,
+            isLogin: this.isLogin
+          });
+          url && history.push(url);
+          // history.push('/prescription');
+        } else {
+          history.push(tmpUrl);
+        }
       }
 
       // lastPath

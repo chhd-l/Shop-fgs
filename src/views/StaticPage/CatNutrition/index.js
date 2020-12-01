@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import Carouselem from '@/components/Carouselem';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -89,66 +90,7 @@ class CatNutrition extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Nos meilleures ventes</h4>
                           </div>
-                          <div class="rc-carousel rc-carousel--cards rc-match-heights" data-js-carousel="" data-rc-cards="true" data-rows="6" data-rc-prev="prev" data-rc-next="next">
-                              <div class="rc-carousel__card-gal">
-                                <article class="rc-card rc-card--b">
-                                  <button class="rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography" aria-label="Like">
-                                    <span class="rc-screen-reader-text">Like</span>
-                                  </button>
-                                  <picture class="rc-card__image">
-                                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text" />
-                                  </picture>
-                                  <div class="rc-card__body">
-                                    <header>
-                                      <p class="rc-card__meta">Meta 1</p>
-                                      <h1 class="rc-card__title">Headline</h1>
-                                    </header>
-                                  </div>
-                                </article>
-                                <article class="rc-card rc-card--b">
-                                  <button class="rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography" aria-label="Like">
-                                    <span class="rc-screen-reader-text">Like</span>
-                                  </button>
-                                  <picture class="rc-card__image">
-                                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text" />
-                                  </picture>
-                                  <div class="rc-card__body">
-                                    <header>
-                                      <p class="rc-card__meta">Meta 1</p>
-                                      <h1 class="rc-card__title">Headline</h1>
-                                    </header>
-                                  </div>
-                                </article>
-                                <article class="rc-card rc-card--b">
-                                  <button class="rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography" aria-label="Like">
-                                    <span class="rc-screen-reader-text">Like</span>
-                                  </button>
-                                  <picture class="rc-card__image">
-                                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text" />
-                                  </picture>
-                                  <div class="rc-card__body">
-                                    <header>
-                                      <p class="rc-card__meta">Meta 1</p>
-                                      <h1 class="rc-card__title">Headline</h1>
-                                    </header>
-                                  </div>
-                                </article>
-                                <article class="rc-card rc-card--b">
-                                  <button class="rc-card__action rc-btn rc-btn--action rc-btn--action--inverse rc-icon rc-like--xs rc-iconography" aria-label="Like">
-                                    <span class="rc-screen-reader-text">Like</span>
-                                  </button>
-                                  <picture class="rc-card__image">
-                                    <img src="https://placehold.it/800x600?text=4:3" alt="alt text" />
-                                  </picture>
-                                  <div class="rc-card__body">
-                                    <header>
-                                      <p class="rc-card__meta">Meta 1</p>
-                                      <h1 class="rc-card__title">Headline</h1>
-                                    </header>
-                                  </div>
-                                </article>            
-                              </div>
-                            </div>
+                          <Carouselem/>
                         </div>
                       </div>
                     </div>

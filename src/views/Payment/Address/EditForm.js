@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { find, findIndex } from 'lodash';
+import { findIndex } from 'lodash';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
@@ -11,11 +11,14 @@ const localItemRoyal = window.__.localItemRoyal;
 /**
  * add/edit address form - member/visitor
  */
-@inject('paymentStore', 'loginStore')
+@inject('paymentStore')
 @observer
 class EditForm extends React.Component {
   static defaultProps = {
-    type: 'billing'
+    type: 'billing',
+    initData: null,
+    isLogin: false,
+    isOnepageCheckout: false
   };
   constructor(props) {
     super(props);
@@ -36,15 +39,16 @@ class EditForm extends React.Component {
     };
   }
   componentDidMount() {
+    const { initData = {}, isLogin } = this.props;
     const { address } = this.state;
-    if (!this.isLogin) {
+    if (!isLogin) {
       let deliveryInfo = localItemRoyal.get('deliveryInfo');
       const tmpKey =
         this.props.type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
       if (deliveryInfo) {
         this.setState(
           {
-            address: Object.assign(deliveryInfo[tmpKey], {
+            address: Object.assign(address, initData, deliveryInfo[tmpKey], {
               country: process.env.REACT_APP_DEFAULT_COUNTRYID
             })
           },
@@ -54,9 +58,10 @@ class EditForm extends React.Component {
           }
         );
       } else {
-        address.country = process.env.REACT_APP_DEFAULT_COUNTRYID;
         this.setState({
-          address: address
+          address: Object.assign(address, initData, {
+            country: process.env.REACT_APP_DEFAULT_COUNTRYID
+          })
         });
       }
     }
@@ -65,19 +70,6 @@ class EditForm extends React.Component {
         countryList: res
       });
     });
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.initData &&
-      JSON.stringify(nextProps.initData) !== JSON.stringify(this.state.address)
-    ) {
-      this.setState({
-        address: Object.assign({}, nextProps.initData)
-      });
-    }
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
   }
   updateSelectedMobxData() {
     const tmpKey =
@@ -108,7 +100,8 @@ class EditForm extends React.Component {
     this.inputBlur(e);
     this.setState({ address: address }, () => {
       this.updateSelectedMobxData();
-      this.props.updateData(this.state.address);
+      if (!this.props.isOnepageCheckout)
+        this.props.updateData(this.state.address);
     });
   };
   inputBlur = (e) => {

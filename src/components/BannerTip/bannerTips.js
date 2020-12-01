@@ -7,19 +7,25 @@ export const bannerTips = () => {
   return (
     <div
       // id="bannerTip"
-      className="red font-weight-normal p-1 position-relative text-center pr-4 pl-4 rc-bg-colour--brand4"
+      className="red font-weight-normal p-1 position-relative text-center pl-2 pr-2 pr-md-4 pl-md-4 rc-bg-colour--brand4"
     >
       {process.env.REACT_APP_IS_PROMOTION === 'true' && (
         <div className="rc-bg-colour--brand4 text-center">
           <div className="rc-layout-container rc-content-h-middle">
             <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-              <span className="rc-icon rc-refresh rc-brand1 rc-iconography"></span>
+              <span className="rc-icon rc-refresh rc-brand1 rc-iconography" />
               <div className="d-flex align-items-center">
                 <span className="rc-margin-right--xs rc-margin-left--xs">
                   <FormattedMessage id="home.promotionTip" />
                 </span>
                 <div>
-                  <Link to="/subscription-landing" className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs" style={{minWidth:"110px"}}>En savoir plus</Link>
+                  <Link
+                    to="/subscription-landing"
+                    className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
+                    style={{ minWidth: '110px' }}
+                  >
+                    En savoir plus
+                  </Link>
                 </div>
               </div>
             </div>

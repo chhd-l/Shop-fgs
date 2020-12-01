@@ -16,7 +16,8 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig
+  setSeoConfig,
+  getFrequencyDict
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
@@ -305,17 +306,13 @@ class AccountOrders extends React.Component {
       if (detailResCt.subscriptionResponseVO) {
         const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId;
 
-        let dictList = await Promise.all([
-          getDictionary({ type: 'Frequency_week' }),
-          getDictionary({ type: 'Frequency_month' })
-        ]);
+        const dictList = await getFrequencyDict();
         sessionItemRoyal.set(
           'rc-subform',
           JSON.stringify({
             buyWay: 'frequency',
-            frequencyName: [...dictList[0], ...dictList[1]].filter(
-              (el) => el.id === cycleTypeId
-            )[0].name,
+            frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0]
+              .name,
             frequencyId: cycleTypeId
           })
         );
@@ -474,7 +471,8 @@ class AccountOrders extends React.Component {
       orderList,
       tabErrMsg,
       showOneOrderDetail,
-      curOneOrderDetails
+      curOneOrderDetails,
+      duringTimeOptions
     } = this.state;
     return (
       <div>
@@ -571,10 +569,8 @@ class AccountOrders extends React.Component {
                       <div className="col-10 order-0 order-md-1 col-md-4">
                         <div className="rc-select rc-full-width rc-input--full-width rc-select-processed mt-0 mb-2 mb-md-0">
                           <Selection
-                            optionList={this.state.duringTimeOptions}
-                            selectedItemChange={(data) =>
-                              this.handleDuringTimeChange(data)
-                            }
+                            optionList={duringTimeOptions}
+                            selectedItemChange={this.handleDuringTimeChange}
                             selectedItemData={{
                               value: this.state.form.period
                             }}

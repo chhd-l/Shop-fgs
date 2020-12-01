@@ -106,11 +106,9 @@ class Prescription extends React.Component {
       },
       loading: true
     };
-    this.headerRef = React.createRef();
-    this.inputRef = React.createRef();
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -347,7 +345,6 @@ class Prescription extends React.Component {
                     <FormattedMessage id="searchPrescriber">
                       {(txt) => (
                         <input
-                          ref={this.inputRef}
                           className="search-field"
                           type="search"
                           autoComplete="off"
@@ -409,6 +406,9 @@ class Prescription extends React.Component {
                                 ? item.phone
                                 : item.email}{' '}
                             </div>
+                            <div className="zip-code">
+                              {item.primaryZip ? item.phone : null}
+                            </div>
                             <div
                               className="clinic-address ui-text-overflow-line2 text-break mr-3 mb-2"
                               title={item.location}
@@ -426,9 +426,7 @@ class Prescription extends React.Component {
                       totalPage={this.state.totalPage}
                       defaultCurrentPage={this.state.current}
                       key={this.state.current}
-                      onPageNumChange={(params) =>
-                        this.hanldePageNumChange(params)
-                      }
+                      onPageNumChange={this.hanldePageNumChange}
                     />
                   </div>
                 </form>

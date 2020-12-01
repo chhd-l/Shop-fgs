@@ -121,7 +121,7 @@ class ClinicForm extends React.Component {
                 []
               ).map((ele) => Object.assign(ele, { name: ele.prescriberName }));
             }}
-            selectedItemChange={(data) => this.handleSelectedItemChange(data)}
+            selectedItemChange={this.handleSelectedItemChange}
             defaultValue={this.state.form.clinicName}
             key={this.state.form.clinicName}
             placeholder={this.props.intl.messages.enterClinicName}

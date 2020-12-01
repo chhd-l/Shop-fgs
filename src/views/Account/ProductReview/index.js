@@ -49,7 +49,7 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
-    setSeoConfig()
+    setSeoConfig();
   }
   showErrMsg(msg) {
     this.setState({
@@ -108,17 +108,16 @@ class ProductReview extends React.Component {
       console.log(res.message);
     }
   }
-  async handleSubmit() {
+  handleSubmit = async () => {
     try {
       await this.handleSubmitPromise();
     } catch (err) {
       this.showErrMsg(err.message);
     }
-  }
+  };
   async handleSubmitPromise() {
     try {
-      const { purchaseRate, logisticsRate } = this.state;
-      const list = this.state.reviewList;
+      const { purchaseRate, logisticsRate, reviewList: list } = this.state;
       const goodsParams = [];
       this.setState({
         isSubmit: true
@@ -439,7 +438,7 @@ class ProductReview extends React.Component {
                               className="rc-btn rc-btn--sm rc-btn--two"
                               name="contactPreference"
                               type="submit"
-                              onClick={() => this.handleSubmit()}
+                              onClick={this.handleSubmit}
                             >
                               <FormattedMessage id="submit" />
                             </button>

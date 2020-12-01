@@ -150,6 +150,7 @@ class CheckoutStore {
     let param = data
       .filter((ele) => ele.selected)
       .map((ele) => {
+        console.log(ele.sizeList, 'ssize')
         return {
           goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsNum: ele.quantity,

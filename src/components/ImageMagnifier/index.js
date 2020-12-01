@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
+// import noPic from './images/noPic.png'
+import noPic from './images/noPic1.png'
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
 

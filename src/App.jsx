@@ -79,7 +79,7 @@ import Page403 from '@/views/StaticPage/403';
 import Page500 from '@/views/StaticPage/500';
 import Help from '@/views/StaticPage/Help';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
-import TermsConditions from '@/views/StaticPage/TermsAndConditions'
+import TermsConditions from '@/views/StaticPage/TermsAndConditions';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
@@ -90,7 +90,7 @@ import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
-import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js'
+import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
@@ -156,16 +156,6 @@ const App = () => (
               <Route path="/requestinvoice" component={RequestInvoices} />
               <Route
                 exact
-                path="/list/:category"
-                render={(props) => (
-                  <List
-                    key={props.match.params.category + props.location.search}
-                    {...props}
-                  />
-                )}
-              />
-              <Route
-                exact
                 path="/list/:category/:keywords"
                 render={(props) => (
                   <List
@@ -201,9 +191,17 @@ const App = () => (
               />
 
               <Route exact path="/help" component={Help} />
-              <Route exact path="/general-terms-conditions"  component={TermsConditions}/>
+              <Route
+                exact
+                path="/general-terms-conditions"
+                component={TermsConditions}
+              />
               <Route exact path="/packmixfeedingwetdry" component={Packfeed} />
-              <Route exact path="/termsandconditions"  component={TermsConditions}/>
+              <Route
+                exact
+                path="/termsandconditions"
+                component={TermsConditions}
+              />
               <Route
                 exact
                 path="/FAQ/:catogery"
@@ -384,12 +382,20 @@ const App = () => (
               />
               <Route path="/aboutUs" exact component={AboutUs} />
               <Route path="/cat-nutrition" exact component={CatNutrition} />
-              <Route path="/cadeau-coussin-chat" exact component={CadeauCoussinChat} />
-              
-              <Route path="/promotion-refuge" exact component={PromotionRefuge} />
+              <Route
+                path="/cadeau-coussin-chat"
+                exact
+                component={CadeauCoussinChat}
+              />
+
+              <Route
+                path="/promotion-refuge"
+                exact
+                component={PromotionRefuge}
+              />
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values-fr" exact component={FR_Values} />
-              <Route path="/Values" exact component={RU_Values}/>
+              <Route path="/Values" exact component={RU_Values} />
               <Route
                 path="/tailorednutrition"
                 exact
@@ -407,8 +413,40 @@ const App = () => (
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
-
-              <Route path="*" component={Exception} />
+              <Route
+                path="/list/:category"
+                render={(props) => (<List
+                  key={
+                    props.match.params.category + props.location.search
+                  }
+                  {...props}
+                />)}
+              />
+              <Route
+                path="/"
+                render={(props) => {
+                  let routes = JSON.parse(
+                    sessionStorage.getItem('es-header-navigations')
+                  );
+                  let filterRoute = routes.filter(
+                    (el) => '/' + el.navigationName === props.location.pathname
+                  )[0];
+                  if (filterRoute) {
+                    return (
+                      <List
+                        key={
+                          props.match.params.category + props.location.search
+                        }
+                        {...props}
+                      />
+                    );
+                  } else if (/^.+[-].+/.test(props.location.pathname)) {
+                    return <Details key={props.match.params.id} {...props} />;
+                  } else {
+                    return <Route path="*" component={Exception} />;
+                  }
+                }}
+              />
             </Switch>
           </Security>
         </ScrollToTop>

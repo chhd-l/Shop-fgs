@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { find } from 'lodash';
-import { formatMoney, getDictionary } from '@/utils/utils';
+import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -18,12 +18,9 @@ class PayProductInfo extends React.Component {
     };
   }
   async componentDidMount() {
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict().then((res) => {
       this.setState({
-        frequencyList: [...dictList[0], ...dictList[1]]
+        frequencyList: res
       });
     });
   }
@@ -34,7 +31,7 @@ class PayProductInfo extends React.Component {
   }
   getProductList(plist) {
     const { details } = this.props;
-    console.log(details, details)
+    console.log(details, details);
     const List = plist.map((item, i) => {
       return (
         <div className="product-summary__products__item" key={i}>

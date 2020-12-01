@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import { Link } from 'react-router-dom';
 import './index.less';
 // import dog from '@/assets/images/animal-1.jpg';
 // import cat from '@/assets/images/animal-2.jpg';
@@ -14,7 +15,7 @@ import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
 import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, getDeviceType } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -103,7 +104,8 @@ class PetForm extends React.Component {
       breedListLoading: false,
       showBreedListNoneTip: false,
       specialNeedsDisable: false,
-      imgUrl: ''
+      imgUrl: '',
+      isMobile: false
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -124,7 +126,7 @@ class PetForm extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-
+    this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'dogSize' })
       .then((res) => {
         this.setState({
@@ -214,7 +216,9 @@ class PetForm extends React.Component {
               this.setState({
                 currentPetId: currentPet.petsId,
                 currentPet: currentPet,
-                imgUrl: currentPet.petsImg.includes('http')? currentPet.petsImg: ''
+                imgUrl: currentPet.petsImg.includes('http')
+                  ? currentPet.petsImg
+                  : ''
               });
             }
           } else {
@@ -832,7 +836,8 @@ class PetForm extends React.Component {
       currentPet,
       selectedSpecialNeedsObj,
       selectedSizeObj,
-      imgUrl
+      imgUrl,
+      isMobile
     } = this.state;
     return (
       <div className="petForm">
@@ -847,7 +852,19 @@ class PetForm extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Pets" />
+              {isMobile ? (
+                <div className="col-12 rc-md-down">
+                  <Link to="/account/pets">
+                    <span className="red">&lt;</span>
+                    <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
+                      <FormattedMessage id="pet" />
+                    </span>
+                  </Link>
+                </div>
+              ) : (
+                <SideMenu type="Pets" />
+              )}
+              {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 <div className="photoBox">
@@ -867,10 +884,10 @@ class PetForm extends React.Component {
                     handleChange={(data) => this.handelImgChange(data)}
                     geterrMessage={this.handleErrMessage}
                     showLoading={() => {
-                      this.setState({loading: true})
+                      this.setState({ loading: true });
                     }}
                     hiddenLoading={() => {
-                      this.setState({loading: false})
+                      this.setState({ loading: false });
                     }}
                   />
                 </div>
@@ -1123,13 +1140,11 @@ class PetForm extends React.Component {
                       </div>
                     </div>
                   )}
-                  {!this.state.isCat && !/Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                            navigator.userAgent
-                          )  && (
+                  {!this.state.isCat && !isMobile && (
                     <div
                       className="form-group col-lg-6 pull-left"
                       style={{ height: '86px' }}
-                    ></div>
+                    />
                   )}
 
                   <div className="form-group col-lg-6 pull-left">
@@ -1142,7 +1157,7 @@ class PetForm extends React.Component {
                     <span
                       className="rc-input rc-input--label rc-input--full-width"
                       input-setup="true"
-                      style={{marginBottom: '10px'}}
+                      style={{ marginBottom: '10px' }}
                     >
                       <input
                         type="text"
@@ -1270,7 +1285,7 @@ class PetForm extends React.Component {
                         Don't know
                       </label>
                     </div>
-                  {/* </div> */}
+                    {/* </div> */}
                   </div>
 
                   <div className="form-group col-lg-6 pull-left">
@@ -1325,7 +1340,7 @@ class PetForm extends React.Component {
                         <FormattedMessage id="noSpecialNeeds" />
                       </label>
                     </div>
-                  {/* </div> */}
+                    {/* </div> */}
                   </div>
                   {/* <div className="form-group col-lg-6 pull-left">
                     <div class="rc-input rc-input--inline">
@@ -1463,35 +1478,32 @@ class PetForm extends React.Component {
                     style={{ height: '40px' }}
                   ></div>
                   <div className="form-group col-lg-6 pull-left">
-                    {
-                      /Android|webOS|iPhone|iPod|BlackBerry/i.test(
-                        navigator.userAgent
-                      )?(
-                        <p style={{ textAlign: 'center' }}>
-                          <button
-                            class="rc-btn rc-btn--one"
-                            onClick={() => this.savePet()}
+                    {isMobile ? (
+                      <p style={{ textAlign: 'center' }}>
+                        <button
+                          class="rc-btn rc-btn--one"
+                          onClick={() => this.savePet()}
+                        >
+                          Save changes
+                        </button>
+                        <br />
+                        {this.props.match.params.id && (
+                          <a
+                            class="rc-styled-link"
+                            href="#/"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.delPets(currentPet);
+                            }}
                           >
-                            Save changes
-                          </button>
-                          <br/>
-                          {this.props.match.params.id && (
-                            <a
-                              class="rc-styled-link"
-                              href="#/"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.delPets(currentPet);
-                              }}
-                            >
-                              Delete Pet Profile
-                            </a>
-                          )}
-                        </p>
-                      ): (
-                        <p style={{ textAlign: 'right' }}>
-                      {this.props.match.params.id && (
-                        <a
+                            Delete Pet Profile
+                          </a>
+                        )}
+                      </p>
+                    ) : (
+                      <p style={{ textAlign: 'right' }}>
+                        {this.props.match.params.id && (
+                          <a
                             class="rc-styled-link"
                             href="#/"
                             onClick={(e) => {
@@ -1510,8 +1522,7 @@ class PetForm extends React.Component {
                           Save changes
                         </button>
                       </p>
-                      )
-                    }
+                    )}
                   </div>
                 </div>
               </div>

@@ -52,7 +52,6 @@ const  Carouselem = withRouter((props)=>{
               </header>
             </div>
           </article>
-
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
               <img src={imageappetite} alt="alt text"/>
@@ -65,7 +64,6 @@ const  Carouselem = withRouter((props)=>{
               </header>
             </div>
           </article>
-
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
               <img src={imageappetite} alt="alt text"/>

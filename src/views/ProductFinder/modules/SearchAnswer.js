@@ -139,20 +139,24 @@ class SearchAnswer extends React.Component {
               </div>
             </div>
           </div>
-          {/*  */}
-          <div
-            className={`content-section ${
-              form && (form.key === 'mixed race' || form.key === 'unknown')
-                ? ''
-                : 'hidden'
-            }`}
-          >
-            <RadioAnswer
-              config={configSizeAttach}
-              updateFormData={this.updateSizeFormData}
-              // updateSaveBtnStatus={this.updateSaveBtnStatus}
-            />
-          </div>
+          {/* 存在mix breed/unkown附加选项时，才显示 */}
+          {configSizeAttach && (
+            <div
+              className={`content-section ${
+                form && (form.key === 'mixed race' || form.key === 'unknown')
+                  ? ''
+                  : 'hidden'
+              }`}
+            >
+              (
+              <RadioAnswer
+                config={configSizeAttach}
+                updateFormData={this.updateSizeFormData}
+                // updateSaveBtnStatus={this.updateSaveBtnStatus}
+              />
+              )
+            </div>
+          )}
         </div>
       </>
     );

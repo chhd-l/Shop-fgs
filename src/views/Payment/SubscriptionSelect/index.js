@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
-import { getDictionary, formatMoney } from '@/utils/utils';
+import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { getMarketingDiscount } from '@/api/payment';
 import './index.css';
 
@@ -32,17 +32,14 @@ class SubscriptionSelect extends Component {
   }
   async componentDidMount() {
     this.updateFirstOrderDiscount();
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
+    getFrequencyDict((res) => {
       this.setState(
         {
-          frequencyList: [...dictList[0], ...dictList[1]],
+          frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: dictList[0][0].valueEn,
-            frequencyName: dictList[0][0].name,
-            frequencyId: dictList[0][0].id
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
           })
         },
         () => {
@@ -97,7 +94,7 @@ class SubscriptionSelect extends Component {
       this.updateFirstOrderDiscount();
     });
   }
-  handleSelectedItemChange(data) {
+  handleSelectedItemChange = (data) => {
     console.log(data);
     const { form } = this.state;
     form.frequencyVal = data.value;
@@ -106,7 +103,7 @@ class SubscriptionSelect extends Component {
     this.setState({ form: form }, () => {
       this.props.updateSelectedData(this.state.form);
     });
-  }
+  };
   render() {
     const { form } = this.state;
     return (
@@ -198,9 +195,7 @@ class SubscriptionSelect extends Component {
                   <FormattedMessage id="every" />
                 </span>
                 <Selection
-                  selectedItemChange={(data) =>
-                    this.handleSelectedItemChange(data)
-                  }
+                  selectedItemChange={this.handleSelectedItemChange}
                   optionList={this.computedList}
                   selectedItemData={{
                     value: form.frequencyVal

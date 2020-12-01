@@ -130,14 +130,14 @@ class PersonalDataEditForm extends React.Component {
         reference: form.rfc,
         address1: form.address1,
         address2: form.address2,
-        postCode: form.postCode,
+        postalCode: form.postCode,
         cityId: form.city,
         communicationEmail: form.communicationEmail,
         communicationPhone: form.communicationPhone
       });
 
       await updateCustomerBaseInfo(param);
-      this.props.updateData(this.state.form);
+      this.props.updateData();
       this.changeEditFormVisible(false);
     } catch (err) {
       this.showErrMsg(err.message);
@@ -569,6 +569,10 @@ class PersonalDataEditForm extends React.Component {
                   <div className="invalid-feedback" style={{ display: 'none' }}>
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
+                  <div className="ui-lighter">
+                    <FormattedMessage id="example" />:{' '}
+                    <FormattedMessage id="examplePostCode" />
+                  </div>
                 </div>
                 <div className="form-group col-lg-6 required">
                   <label
@@ -645,7 +649,8 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6">
+                
+                {/* <div className="form-group col-lg-6">
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />
                   </label>
@@ -673,6 +678,7 @@ class PersonalDataEditForm extends React.Component {
                     </div>
                   ))}
                 </div>
+                 */}
                 {/* <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-input--full-width w-100"
