@@ -160,6 +160,7 @@ class Confirmation extends React.Component {
         event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
         action: 'purchase',
         ecommerce: {
+          impressions: [],
           currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
           purchase: {
             actionField: {
