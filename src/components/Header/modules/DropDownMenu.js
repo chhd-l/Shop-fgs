@@ -57,13 +57,11 @@ export default class DropDownMenu extends React.Component {
         imageLink: item.imageLink
       };
     }
-    if (currentDesc) {
-      if (currentDesc.text) {
-        descObj = Object.assign(descObj, { text: currentDesc.text });
-      }
-      if (currentDesc.imageLink) {
-        descObj = Object.assign(descObj, { imageLink: currentDesc.imageLink });
-      }
+    if (currentDesc && (currentDesc.text || currentDesc.imageLink)) {
+      descObj = Object.assign(descObj, {
+        text: currentDesc.text || '',
+        imageLink: currentDesc.imageLink || ''
+      });
     }
 
     return (
