@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
 // import noPic from './images/noPic.png'
-import noPic from './images/noPic1.png'
+import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
 
 class ImageMagnifier extends Component {
+  static defaultProps = {
+    taggingForText: null,
+    taggingForImage: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -340,7 +344,7 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let { images, video } = this.props;
+    let { images, video, taggingForText, taggingForImage } = this.props;
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -348,13 +352,25 @@ class ImageMagnifier extends Component {
     }
     return (
       <div>
-        <div style={{ position: 'relative' }}>
+        <div className="position-relative">
           {/* <div className="bigImageOutBox" style={cssStyle.imgContainer}> */}
           <div className="bigImageOutBox" style={cssStyle.imgContainer}>
-          {this.props.isShowPromotion?(<div className="product-item-flag">
-                    <FormattedMessage id="promotion" />
-                    {/* Bundle -20% */}
-                  </div>): null}
+            {taggingForText ? (
+              <div
+                className="product-item-flag-text"
+                style={{
+                  backgroundColor: taggingForText.taggingFillColor,
+                  color: taggingForText.taggingFontColor
+                }}
+              >
+                {taggingForText.taggingName}
+              </div>
+            ) : null}
+            {taggingForImage ? (
+              <div className="product-item-flag-image position-absolute">
+                <img src={taggingForImage.taggingImgUrl} />
+              </div>
+            ) : null}
             <div
               className="bigImageInnerBox rc-loaded--final"
               style={{
@@ -380,7 +396,7 @@ class ImageMagnifier extends Component {
                     controlsList="nodownload"
                     onContextMenu="return false;"
                     controls
-                  ></video>
+                  />
                 </div>
               )}
             </div>
@@ -428,7 +444,7 @@ class ImageMagnifier extends Component {
               if (this.state.positionLeft === 0) return;
               this.setState({ positionLeft: this.state.positionLeft + 69 });
             }}
-          ></i>
+          />
           {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
@@ -475,7 +491,7 @@ class ImageMagnifier extends Component {
                     });
                   }}
                   src={video ? video : ''}
-                ></video>
+                />
               )}
             </div>
           </div>
@@ -491,7 +507,7 @@ class ImageMagnifier extends Component {
               if (this.state.positionLeft === (imgCount - 5) * -69) return;
               this.setState({ positionLeft: this.state.positionLeft - 69 });
             }}
-          ></i>
+          />
         </div>
       </div>
     );

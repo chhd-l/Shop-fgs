@@ -55,16 +55,18 @@ class Footer extends React.Component {
                 >
                   {this.state.cur_menubar.map((item, index) => {
                     return (
-                      <li className="rc-list__item rc-list__item--group" key={index}>
-                        <button
-                          href="#"
+                      <li
+                        className="rc-list__item rc-list__item--group"
+                        key={index}
+                      >
+                        <h3
                           className="rc-list__header"
                           role="menuitem"
                           data-toggle={`nav-footer-list-${index}`}
                           id={`nav-footer-${index}`}
                         >
                           <FormattedMessage id={item[0].titleId} />
-                        </button>
+                        </h3>
                         <ul
                           className="rc-list rc-list--blank rc-list--align"
                           role="menu"

@@ -811,6 +811,7 @@ const es_ES = {
   findTheRightDiet: 'Encuentra la comida adecuada',
   breed: 'Raza',
   gender: 'Género',
-  setAsDefault: 'Establecer por defecto'
+  setAsDefault: 'Establecer por defecto',
+  viewAll: 'Ver todos los productos'
 }
 export default es_ES;

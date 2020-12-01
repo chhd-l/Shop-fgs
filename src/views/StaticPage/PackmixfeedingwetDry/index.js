@@ -174,7 +174,7 @@ class Packfeed extends React.Component {
                 <div className="rc-card__body">
                   <header>
                     <h1 className="rc-card__title">Pack Persan Adulte</h1>
-                    <p className="rc-card__meta">À partir de 15 mois</p>
+                    <p className="rc-card__meta">À partir de 12 mois</p>
                     <h5>64,98 €</h5>
                   </header>
                 </div>

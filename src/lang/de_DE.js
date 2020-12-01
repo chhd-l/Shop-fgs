@@ -794,6 +794,8 @@ const de_DE = {
   xYears: '{val} Jahr (e)',
   yes: 'Ja',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
-  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert'
+  yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
+  viewAll: 'Alle Produkte anzeigen',
+  addANewPaymentMethod: 'Fügen Sie eine neue Zahlungsmethode hinzu',
 }
 export default de_DE;

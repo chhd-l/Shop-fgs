@@ -147,14 +147,14 @@ class Subscription extends React.Component {
       });
   }
 
-  hanldePageNumChange(params) {
+  hanldePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
       },
       () => this.getSubList()
     );
-  }
+  };
 
   render() {
     const event = {
@@ -431,9 +431,7 @@ class Subscription extends React.Component {
                           totalPage={this.state.totalPage}
                           defaultCurrentPage={this.state.currentPage}
                           key={this.state.currentPage}
-                          onPageNumChange={(params) =>
-                            this.hanldePageNumChange(params)
-                          }
+                          onPageNumChange={this.hanldePageNumChange}
                         />
                       </div>
                     ) : null}

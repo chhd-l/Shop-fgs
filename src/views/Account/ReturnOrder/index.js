@@ -46,14 +46,14 @@ export default class ReturnOrder extends React.Component {
 
     this.queryReturnList();
   }
-  hanldePageNumChange(params) {
+  hanldePageNumChange = (params) => {
     this.setState(
       {
         currentPage: params.currentPage
       },
       () => this.queryReturnList()
     );
-  }
+  };
   handleDuringTimeChange(e) {
     const { form } = this.state;
     form.duringTime = e.target.value;
@@ -288,9 +288,7 @@ export default class ReturnOrder extends React.Component {
                           <Pagination
                             loading={this.state.loading}
                             totalPage={this.state.totalPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
+                            onPageNumChange={this.hanldePageNumChange}
                           />
                         </div>
                       </>

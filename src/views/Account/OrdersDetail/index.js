@@ -1188,23 +1188,17 @@ class AccountOrders extends React.Component {
                                               </span>
 
                                               <span className="text-line-through ml-2">
-                                                {formatMoney(item.price)}
+                                                {formatMoney(
+                                                  item.originalPrice
+                                                )}
                                               </span>
                                             </>
                                           ) : (
-                                            formatMoney(item.price)
+                                            formatMoney(item.originalPrice)
                                           )}
                                         </div>
-                                        <div className="col-12 col-md-1 text-right text-md-left text-nowrap rc-md-up">
-                                          {details.subscriptionResponseVO &&
-                                          item.subscriptionStatus
-                                            ? formatMoney(
-                                                item.subscriptionPrice *
-                                                  item.num
-                                              )
-                                            : formatMoney(
-                                                item.price * item.num
-                                              )}
+                                        <div className="col-12 col-md-1 text-right text-md-left text-nowrap rc-md-up font-weight-normal">
+                                          {formatMoney(item.price)}
                                         </div>
                                       </div>
                                     </div>

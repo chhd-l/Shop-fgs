@@ -114,7 +114,9 @@ class Details extends React.Component {
         images: [],
         goodsCategory: '',
         goodsSpecDetails: [],
-        goodsSpecs: []
+        goodsSpecs: [],
+        taggingForText: null,
+        taggingForImage: null
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -159,7 +161,6 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isShowPromotion: false,
       isMobile: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
@@ -383,14 +384,10 @@ class Details extends React.Component {
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
-        if (item.goodsPromotion) {
-          this.setState({ isShowPromotion: true });
-        } else {
-          this.setState({ isShowPromotion: false });
-        }
       } else {
         item.selected = false;
       }
+
       return item;
     });
     console.log(details, 'details');
@@ -552,7 +549,7 @@ class Details extends React.Component {
                 (ele) => ele.name
               );
               this.setState({
-                goodsDetailTab: goodsDetailTab
+                goodsDetailTab
               });
             });
           }
@@ -582,9 +579,23 @@ class Details extends React.Component {
                     this.productRange.join('&'),
                     this.format.join('&')
                   ].join('/')
+                },
+                {
+                  taggingForText: (res.context.taggingList || []).filter(
+                    (e) =>
+                      e.taggingType === 'Text' &&
+                      e.showPage &&
+                      e.showPage.includes('PDP')
+                  )[0],
+                  taggingForImage: (res.context.taggingList || []).filter(
+                    (e) =>
+                      e.taggingType === 'Image' &&
+                      e.showPage &&
+                      e.showPage.includes('PDP')
+                  )[0]
                 }
               ),
-              images: images,
+              images,
               // images: res.context.images.concat(res.context.goodsInfos),
               // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
@@ -844,7 +855,7 @@ class Details extends React.Component {
       setTimeout(() => {
         headerCartStore.hide();
       }, 1000);
-      this.setState({ addToCartLoading: false });
+
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.showCheckoutErrMsg(
@@ -909,6 +920,8 @@ class Details extends React.Component {
     } catch (err) {
       console.log(err);
       this.setState({ errMsg: err.message.toString() });
+    } finally {
+      this.setState({ addToCartLoading: false });
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
@@ -1016,7 +1029,6 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     await checkoutStore.updateUnloginCart(cartDataCopy);
-    this.setState({ addToCartLoading: false });
     if (redirect) {
       if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.showCheckoutErrMsg(
@@ -1094,6 +1106,7 @@ class Details extends React.Component {
         // history.push('/prescription');
       }
     }
+    this.setState({ addToCartLoading: false });
     headerCartStore.show();
     setTimeout(() => {
       headerCartStore.hide();
@@ -1270,54 +1283,53 @@ class Details extends React.Component {
                 <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
-                    <div
-                      className="detailHeader mt-3"
-                      style={{
-                        display: !isMobile ? 'none' : 'block'
-                      }}
-                    >
-                      <ErrMsgForCheckoutPanel checkOutErrMsg={checkOutErrMsg} />
-                      <h1
-                        className="rc-gamma ui-text-overflow-line2 text-break"
-                        title={details.goodsName}
-                      >
-                        {details.goodsName}
-                      </h1>
-                      <div className="desAndStars">
-                        <div className="des">
-                          <h3 className="text-break mb-1 mt-2">
-                            {details.goodsSubtitle}
-                          </h3>
-                        </div>
-                        <div className="stars">
-                          <div className="rc-card__price flex-inline">
-                            <div
-                              className="display-inline"
-                              style={{ verticalAlign: 'middle' }}
-                            >
-                              <Rate
-                                def={productRate}
-                                disabled={true}
-                                marginSize="sRate"
-                              />
+                    {isMobile && (
+                      <div className="detailHeader mt-3">
+                        <ErrMsgForCheckoutPanel
+                          checkOutErrMsg={checkOutErrMsg}
+                        />
+                        <h1
+                          className="rc-gamma ui-text-overflow-line2 text-break"
+                          title={details.goodsName}
+                        >
+                          {details.goodsName}
+                        </h1>
+                        <div className="desAndStars">
+                          <div className="des">
+                            <h3 className="text-break mb-1 mt-2">
+                              {details.goodsSubtitle}
+                            </h3>
+                          </div>
+                          <div className="stars">
+                            <div className="rc-card__price flex-inline">
+                              <div
+                                className="display-inline"
+                                style={{ verticalAlign: 'middle' }}
+                              >
+                                <Rate
+                                  def={productRate}
+                                  disabled={true}
+                                  marginSize="sRate"
+                                />
+                              </div>
+                              <span
+                                className="comments rc-margin-left--xs rc-text-colour--text"
+                                onClick={this.handleAClick.bind(this)}
+                              >
+                                ({this.state.replyNum})
+                                {/* <FormattedMessage id="reviews" /> */}
+                              </span>
                             </div>
-                            <span
-                              className="comments rc-margin-left--xs rc-text-colour--text"
-                              onClick={this.handleAClick.bind(this)}
-                            >
-                              ({this.state.replyNum})
-                              {/* <FormattedMessage id="reviews" /> */}
-                            </span>
                           </div>
                         </div>
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={createMarkup(
+                            details.goodsDescription
+                          )}
+                        />
                       </div>
-                      <div
-                        className="description"
-                        dangerouslySetInnerHTML={createMarkup(
-                          details.goodsDescription
-                        )}
-                      />
-                    </div>
+                    )}
                     <div className="rc-layout-container rc-six-column">
                       <div className="rc-column rc-double-width carousel-column imageBox">
                         {this.state.loading ? (
@@ -1344,7 +1356,8 @@ class Details extends React.Component {
                                     minImg={details.goodsImg}
                                     maxImg={details.goodsImg}
                                     config={this.state.imageMagnifierCfg.config}
-                                    isShowPromotion={this.state.isShowPromotion}
+                                    taggingForText={details.taggingForText}
+                                    taggingForImage={details.taggingForImage}
                                   />
                                 </div>
                               }
@@ -1354,54 +1367,51 @@ class Details extends React.Component {
                       </div>
                       <div className="rc-column product-column">
                         <div className="wrap-short-des">
-                          <div
-                            className="detailHeader"
-                            style={{
-                              display: !isMobile ? 'block' : 'none'
-                            }}
-                          >
-                            <h1
-                              className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
-                              title={details.goodsName}
-                            >
-                              {details.goodsName}
-                            </h1>
-                            <div className="desAndStars rc-margin-bottom--xs">
-                              <div className="des">
-                                <h3 className="text-break mb-1 mt-2">
-                                  {details.goodsSubtitle}
-                                </h3>
-                              </div>
-                              <div className="stars">
-                                <div className="rc-card__price flex-inline">
-                                  <div
-                                    className="display-inline"
-                                    style={{ verticalAlign: 'middle' }}
-                                  >
-                                    <Rate
-                                      def={productRate}
-                                      key={productRate}
-                                      disabled={true}
-                                      marginSize="sRate"
-                                    />
+                          {!isMobile && (
+                            <div className="detailHeader">
+                              <h1
+                                className="rc-gamma ui-text-overflow-line2 text-break mb-0 rc-margin-bottom--xs"
+                                title={details.goodsName}
+                              >
+                                {details.goodsName}
+                              </h1>
+                              <div className="desAndStars rc-margin-bottom--xs">
+                                <div className="des">
+                                  <h3 className="text-break mb-1 mt-2">
+                                    {details.goodsSubtitle}
+                                  </h3>
+                                </div>
+                                <div className="stars">
+                                  <div className="rc-card__price flex-inline">
+                                    <div
+                                      className="display-inline"
+                                      style={{ verticalAlign: 'middle' }}
+                                    >
+                                      <Rate
+                                        def={productRate}
+                                        key={productRate}
+                                        disabled={true}
+                                        marginSize="sRate"
+                                      />
+                                    </div>
+                                    <a
+                                      className="comments rc-margin-left--xs rc-text-colour--text"
+                                      onClick={this.handleAClick.bind(this)}
+                                    >
+                                      ({this.state.replyNum})
+                                      {/* <FormattedMessage id="reviews" /> */}
+                                    </a>
                                   </div>
-                                  <a
-                                    className="comments rc-margin-left--xs rc-text-colour--text"
-                                    onClick={this.handleAClick.bind(this)}
-                                  >
-                                    ({this.state.replyNum})
-                                    {/* <FormattedMessage id="reviews" /> */}
-                                  </a>
                                 </div>
                               </div>
+                              <div
+                                className="description"
+                                dangerouslySetInnerHTML={createMarkup(
+                                  details.goodsDescription
+                                )}
+                              />
                             </div>
-                            <div
-                              className="description"
-                              dangerouslySetInnerHTML={createMarkup(
-                                details.goodsDescription
-                              )}
-                            />
-                          </div>
+                          )}
                         </div>
                         <div className="align-left flex rc-margin-bottom--xs">
                           <div className="stock__wrapper">

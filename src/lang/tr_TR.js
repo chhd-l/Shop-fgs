@@ -700,7 +700,8 @@ const tr_TR = {
   yourPasswordNotVerified: 'Şifreniz doğrulanmadı',
   breed: 'Doğurmak',
   gender: 'Cinsiyet',
-  setAsDefault: 'Varsayılan olarak ayarla'
+  setAsDefault: 'Varsayılan olarak ayarla',
+  addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
 }
 
 export default tr_TR;

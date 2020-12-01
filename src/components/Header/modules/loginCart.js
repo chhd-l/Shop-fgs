@@ -61,67 +61,76 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   async handleCheckout() {
-    const { configStore, checkoutStore, history, headerCartStore } = this.props;
-    this.setState({ checkoutLoading: true });
-    checkoutStore.updateLoginCart();
-    this.setState({ checkoutLoading: false });
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
+    try {
+      const {
+        configStore,
+        checkoutStore,
+        history,
+        headerCartStore
+      } = this.props;
+      this.setState({ checkoutLoading: true });
+      checkoutStore.updateLoginCart();
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo3"
+            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          />
+        );
+        return false;
+      }
 
-    // 存在下架商品，不能下单
-    if (checkoutStore.offShelvesProNames.length) {
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo4"
-          values={{
-            val: checkoutStore.offShelvesProNames.join('/')
-          }}
-        />
-      );
-      return false;
-    }
+      // 存在下架商品，不能下单
+      if (checkoutStore.offShelvesProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo4"
+            values={{
+              val: checkoutStore.offShelvesProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
 
-    // 库存不够，不能下单
-    if (checkoutStore.outOfstockProNames.length) {
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo2"
-          values={{
-            val: checkoutStore.outOfstockProNames.join('/')
-          }}
-        />
-      );
-      return false;
+      // 库存不够，不能下单
+      if (checkoutStore.outOfstockProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo2"
+            values={{
+              val: checkoutStore.outOfstockProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+      // this.openPetModal()
+      let autoAuditFlag = false;
+      let res = await getProductPetConfig({
+        goodsInfos: checkoutStore.loginCartData
+      });
+      let handledData = checkoutStore.loginCartData.map((el, i) => {
+        el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+        el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+        return el;
+      });
+      checkoutStore.setLoginCartData(handledData);
+      let AuditData = handledData.filter((el) => el.auditCatFlag);
+      checkoutStore.setAuditData(AuditData);
+      autoAuditFlag = res.context.autoAuditFlag;
+      checkoutStore.setAutoAuditFlag(autoAuditFlag);
+      checkoutStore.setPetFlag(res.context.petFlag);
+      const url = distributeLinktoPrecriberOrPaymentPage({
+        configStore,
+        isLogin: true
+      });
+      url && history.push(url);
+      // history.push('/prescription');
+    } catch (err) {
+    } finally {
+      this.setState({ checkoutLoading: false });
     }
-    // this.openPetModal()
-    let autoAuditFlag = false;
-    let res = await getProductPetConfig({
-      goodsInfos: checkoutStore.loginCartData
-    });
-    let handledData = checkoutStore.loginCartData.map((el, i) => {
-      el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-      el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-      return el;
-    });
-    checkoutStore.setLoginCartData(handledData);
-    let AuditData = handledData.filter((el) => el.auditCatFlag);
-    checkoutStore.setAuditData(AuditData);
-    autoAuditFlag = res.context.autoAuditFlag;
-    checkoutStore.setAutoAuditFlag(autoAuditFlag);
-    checkoutStore.setPetFlag(res.context.petFlag);
-    const url = distributeLinktoPrecriberOrPaymentPage({
-      configStore,
-      isLogin: true
-    });
-    url && history.push(url);
-    // history.push('/prescription');
   }
   openPetModal() {
     this.setState({
@@ -350,6 +359,10 @@ class LoginCart extends React.Component {
                                           <p className="line-item-attributes">
                                             Frq:{' '}
                                             {frequencyList.length &&
+                                              frequencyList.filter(
+                                                (el) =>
+                                                  el.id === item.periodTypeId
+                                              )[0] &&
                                               frequencyList.filter(
                                                 (el) =>
                                                   el.id === item.periodTypeId

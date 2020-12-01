@@ -57,13 +57,11 @@ export default class DropDownMenu extends React.Component {
         imageLink: item.imageLink
       };
     }
-    if (currentDesc) {
-      if (currentDesc.text) {
-        descObj = Object.assign(descObj, { text: currentDesc.text });
-      }
-      if (currentDesc.imageLink) {
-        descObj = Object.assign(descObj, { imageLink: currentDesc.imageLink });
-      }
+    if (currentDesc && (currentDesc.text || currentDesc.imageLink)) {
+      descObj = Object.assign(descObj, {
+        text: currentDesc.text || '',
+        imageLink: currentDesc.imageLink || ''
+      });
     }
 
     return (
@@ -183,7 +181,7 @@ export default class DropDownMenu extends React.Component {
           </ul>
         </div>
         {descObj ? (
-          <div className={`content-asset`}>
+          <div className={`content-asset`} style={{ width: '35%' }}>
             <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
               <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
                 <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
