@@ -395,9 +395,12 @@ class Prescription extends React.Component {
                           style={{ padding: '0 0 0 1rem' }}
                         >
                           <div onClick={() => this.handleItem(item)}>
+                            {/* clinic vet */}
                             <p style={{ margin: '.5rem 0 0 0' }}>
                               <FormattedMessage id="clinic.vet"></FormattedMessage>
                             </p>
+                            
+                            {/* prescriberName  Name of the clinic*/}
                             <h3 className="rc-card__title rc-delta click-btn clinic-title">
                               {item.prescriberName}
                             </h3>
@@ -406,9 +409,15 @@ class Prescription extends React.Component {
                                 ? item.phone
                                 : item.email}{' '}
                             </div>
-                            <div className="zip-code">
-                              {item.primaryZip ? item.phone : null}
+                            {/* primaryCity */}
+                            <div >
+                              {item.primaryCity ? item.primaryCity: null}
                             </div>
+                            {/* zip code */}
+                            <div className="zip-code">
+                              {item.primaryZip ? item.primaryZip : null}
+                            </div>
+                            {/* Street name */}
                             <div
                               className="clinic-address ui-text-overflow-line2 text-break mr-3 mb-2"
                               title={item.location}
