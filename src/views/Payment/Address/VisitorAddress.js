@@ -155,7 +155,6 @@ class VisitorAddress extends React.Component {
         initData={form}
         isLogin={false}
         isOnepageCheckout={isOnepageCheckout}
-        key={isOnepageCheckout ? Object.values(form || {}).join('_') : 1}
         updateData={this.handleEditFormChange}
       />
     );
