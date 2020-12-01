@@ -404,10 +404,13 @@ class Prescription extends React.Component {
                             <h3 className="rc-card__title rc-delta click-btn clinic-title">
                               {item.prescriberName}
                             </h3>
-                            <div className="clinic-phone">
+                            {/* <div className="clinic-phone">
                               {item.preferredChannel === 'phone'
                                 ? item.phone
                                 : item.email}{' '}
+                            </div> */}
+                            <div className="clinic-phone">
+                              {item.phone ? item.phone: null}
                             </div>
                             {/* primaryCity */}
                             <div >
