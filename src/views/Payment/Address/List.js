@@ -211,10 +211,6 @@ class AddressList extends React.Component {
       isDefalt: false
     };
 
-    this.setState({
-      addOrEdit: true
-    });
-    this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
     if (idx > -1) {
       const tmp = addressList[idx];
       tmpDeliveryAddress = {
@@ -236,7 +232,13 @@ class AddressList extends React.Component {
       {
         deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
       },
-      () => this.updateDeliveryAddress(this.state.deliveryAddress)
+      () => {
+        this.setState({
+          addOrEdit: true
+        });
+        this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
+        this.updateDeliveryAddress(this.state.deliveryAddress);
+      }
     );
     this.scrollToTitle();
   }
@@ -331,7 +333,7 @@ class AddressList extends React.Component {
       throw new Error(err.message);
     }
   }
-  async handleSave() {
+  handleSave = async () => {
     if (!this.state.isValid) {
       return false;
     }
@@ -342,7 +344,7 @@ class AddressList extends React.Component {
       this.setState({ saveLoading: false });
       this.scrollToTitle();
     }
-  }
+  };
   showErrMsg(msg) {
     this.setState({
       saveErrorMsg: msg
@@ -366,6 +368,9 @@ class AddressList extends React.Component {
       });
     }, 2000);
   }
+  toggleFoldBtn = () => {
+    this.setState((curState) => ({ foledMore: !curState.foledMore }));
+  };
   render() {
     const {
       deliveryAddress,
@@ -435,21 +440,19 @@ class AddressList extends React.Component {
     const _foldBtn = (
       <div
         className="text-center pt-2 pb-2 ui-cursor-pointer"
-        onClick={() => {
-          this.setState({ foledMore: !foledMore });
-        }}
+        onClick={this.toggleFoldBtn}
       >
         <span>
           {foledMore ? (
             <>
               <FormattedMessage id="moreAddress" />
               &nbsp;
-              <b className="addr-switch switch-on"></b>
+              <b className="addr-switch switch-on" />
             </>
           ) : (
             <>
               <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off"></b>
+              <b className="addr-switch switch-off" />
             </>
           )}
         </span>
@@ -485,7 +488,7 @@ class AddressList extends React.Component {
           className="mb-0"
           style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
         >
-          <i className="rc-icon rc-indoors--xs rc-iconography"></i>{' '}
+          <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
           <FormattedMessage id="payment.deliveryTitle" />
         </h5>
         <p
@@ -494,7 +497,7 @@ class AddressList extends React.Component {
           }`}
           onClick={() => this.addOrEditAddress()}
         >
-          <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
+          <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
           <span>
             <FormattedMessage id="newAddress" />
           </span>
@@ -507,26 +510,17 @@ class AddressList extends React.Component {
           addOrEdit || loading ? '' : 'hidden'
         }`}
       >
-        {
-          process.env.REACT_APP_LANG == 'de'
-          ?<DeEditForm
-          isLogin={true}
-          isOnepageCheckout={this.props.isOnepageCheckout}
-          initData={deliveryAddress}
-          key={Object.values(deliveryAddress || {}).join('_')}
-          updateData={this.updateDeliveryAddress}
-        />
-          :<EditForm
+        {addOrEdit && (
+          <EditForm
             isLogin={true}
             isOnepageCheckout={this.props.isOnepageCheckout}
             initData={deliveryAddress}
-            key={Object.values(deliveryAddress || {}).join('_')}
             updateData={this.updateDeliveryAddress}
           />
-        }
-        
+        )}
+
         {this.state.saveLoading ? <Loading positionAbsolute="true" /> : null}
-        <div className="rc-layout-container">
+        <div className="rc-layout-container ml-1 mr-1">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
             <div>
               {this.props.type === 'delivery' ? _defaultCheckBox : null}
@@ -545,7 +539,7 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={() => this.handleSave()}
+                    onClick={this.handleSave}
                     disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="save" />
@@ -563,7 +557,7 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={() => this.handleSave()}
+                    onClick={this.handleSave}
                     disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="save" />
@@ -577,7 +571,7 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={() => this.handleSave()}
+                    onClick={this.handleSave}
                     disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="clinic.confirm" />
@@ -588,7 +582,7 @@ class AddressList extends React.Component {
                     className="rc-btn rc-btn--one submitBtn"
                     name="contactPreference"
                     type="submit"
-                    onClick={() => this.handleSave()}
+                    onClick={this.handleSave}
                     disabled={!this.state.isValid}
                   >
                     <FormattedMessage id="clinic.confirm" />

@@ -855,7 +855,7 @@ class Details extends React.Component {
       setTimeout(() => {
         headerCartStore.hide();
       }, 1000);
-      this.setState({ addToCartLoading: false });
+
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           this.showCheckoutErrMsg(
@@ -920,6 +920,8 @@ class Details extends React.Component {
     } catch (err) {
       console.log(err);
       this.setState({ errMsg: err.message.toString() });
+    } finally {
+      this.setState({ addToCartLoading: false });
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
@@ -1027,7 +1029,6 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     await checkoutStore.updateUnloginCart(cartDataCopy);
-    this.setState({ addToCartLoading: false });
     if (redirect) {
       if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.showCheckoutErrMsg(
@@ -1105,6 +1106,7 @@ class Details extends React.Component {
         // history.push('/prescription');
       }
     }
+    this.setState({ addToCartLoading: false });
     headerCartStore.show();
     setTimeout(() => {
       headerCartStore.hide();
