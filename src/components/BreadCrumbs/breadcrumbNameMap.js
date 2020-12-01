@@ -109,7 +109,7 @@ const breadcrumbNameMap = {
   ],
   '/qualitySafety': [
     {
-      name: 'qualitySafety'
+      name: 'Qualité et sécurité alimentaire'
     }
   ],
   '/aboutUs': [
@@ -122,12 +122,12 @@ const breadcrumbNameMap = {
       name: 'tailorednutrition'
     }
   ],
-  '/termsandconditions':[
+  '/general-terms-conditions':[
     {
-      name:'termsandconditions'
+      name:'Conditions Générales De Vente'
     }
   ],
-  '/ourValue':[
+  '/Values':[
     {
       name:'Nos valeurs'
     }

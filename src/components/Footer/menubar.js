@@ -13,7 +13,7 @@ export const menubar = {
           },
           {
             link: '/qualitySafety',
-            messageId: 'footer.qualityAndSafety'
+            messageId: 'qualitySafety'
           },
           {
             link: '/tailorednutrition',
