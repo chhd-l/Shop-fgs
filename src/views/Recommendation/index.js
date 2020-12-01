@@ -292,9 +292,9 @@ class Help extends React.Component {
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= 30) {
+        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>
           });
           return;
         }

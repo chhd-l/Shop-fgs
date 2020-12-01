@@ -69,7 +69,7 @@ class LoginCart extends React.Component {
     this.gotoDetails = this.gotoDetails.bind(this);
   }
   async componentDidMount() {
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
         form: Object.assign(this.state.form, {
@@ -324,7 +324,7 @@ class LoginCart extends React.Component {
       return;
     }
     this.setState({ errorShow: false });
-    if (item.buyCount < 30) {
+    if (item.buyCount < process.env.REACT_APP_LIMITED_NUM) {
       item.buyCount++;
       this.updateBackendCart({
         goodsInfoId: item.goodsInfoId,
@@ -332,7 +332,7 @@ class LoginCart extends React.Component {
         verifyStock: false
       });
     } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />);
+      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
     }
   }
   subQuantity(item) {

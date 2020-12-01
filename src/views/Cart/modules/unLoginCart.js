@@ -116,20 +116,15 @@ class UnLoginCart extends React.Component {
     });
   }
   async componentDidMount() {
-    getFrequencyDict((res) => {
-      this.setState(
-        {
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    await getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal: res[0] ? res[0].valueEn : '',
+          frequencyName: res[0] ? res[0].name : '',
+          frequencyId: res[0] ? res[0].id : ''
+        })
+      });
     });
     this.setCartData();
   }
@@ -345,7 +340,7 @@ class UnLoginCart extends React.Component {
   }
   addQuantity(item) {
     this.setState({ errorShow: false });
-    if (item.quantity < 30) {
+    if (item.quantity < process.env.REACT_APP_LIMITED_NUM) {
       item.quantity++;
       this.setState(
         {
@@ -356,7 +351,7 @@ class UnLoginCart extends React.Component {
         }
       );
     } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" />);
+      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
     }
   }
   subQuantity(item) {
