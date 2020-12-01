@@ -114,7 +114,9 @@ class Details extends React.Component {
         images: [],
         goodsCategory: '',
         goodsSpecDetails: [],
-        goodsSpecs: []
+        goodsSpecs: [],
+        taggingForText: null,
+        taggingForImage: null
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -159,7 +161,6 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isShowPromotion: false,
       isMobile: false
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
@@ -383,14 +384,10 @@ class Details extends React.Component {
         currentSubscriptionPrice = item.subscriptionPrice;
         currentSubscriptionStatus = item.subscriptionStatus;
         stock = item.stock;
-        if (item.goodsPromotion) {
-          this.setState({ isShowPromotion: true });
-        } else {
-          this.setState({ isShowPromotion: false });
-        }
       } else {
         item.selected = false;
       }
+
       return item;
     });
     console.log(details, 'details');
@@ -552,7 +549,7 @@ class Details extends React.Component {
                 (ele) => ele.name
               );
               this.setState({
-                goodsDetailTab: goodsDetailTab
+                goodsDetailTab
               });
             });
           }
@@ -582,9 +579,23 @@ class Details extends React.Component {
                     this.productRange.join('&'),
                     this.format.join('&')
                   ].join('/')
+                },
+                {
+                  taggingForText: (res.context.taggingList || []).filter(
+                    (e) =>
+                      e.taggingType === 'Text' &&
+                      e.showPage &&
+                      e.showPage.includes('PDP')
+                  )[0],
+                  taggingForImage: (res.context.taggingList || []).filter(
+                    (e) =>
+                      e.taggingType === 'Image' &&
+                      e.showPage &&
+                      e.showPage.includes('PDP')
+                  )[0]
                 }
               ),
-              images: images,
+              images,
               // images: res.context.images.concat(res.context.goodsInfos),
               // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
               specList
@@ -1343,7 +1354,8 @@ class Details extends React.Component {
                                     minImg={details.goodsImg}
                                     maxImg={details.goodsImg}
                                     config={this.state.imageMagnifierCfg.config}
-                                    isShowPromotion={this.state.isShowPromotion}
+                                    taggingForText={details.taggingForText}
+                                    taggingForImage={details.taggingForImage}
                                   />
                                 </div>
                               }

@@ -23,6 +23,7 @@ class PaymentEditForm extends React.Component {
     super(props);
     this.state = {
       errorMsg: '',
+      saveLoading: false,
       creditCardInfoForm: {
         cardNumber: '',
         cardMmyy: '',
@@ -138,7 +139,7 @@ class PaymentEditForm extends React.Component {
     const { creditCardInfoForm } = this.state;
     const { messages } = this.props.intl;
     this.setState({
-      loading: true
+      saveLoading: true
     });
     try {
       let res;
@@ -208,7 +209,7 @@ class PaymentEditForm extends React.Component {
       this.showErrorMsg(errMsg);
     } finally {
       this.setState({
-        loading: false
+        saveLoading: false
       });
     }
   };
@@ -240,7 +241,8 @@ class PaymentEditForm extends React.Component {
       creditCardInfoForm,
       errorMsg,
       successMsg,
-      currentVendor
+      currentVendor,
+      saveLoading
     } = this.state;
     const { paymentType } = this.props;
     const CreditCardImg = (
@@ -596,7 +598,9 @@ class PaymentEditForm extends React.Component {
                     </span>
                     &nbsp;
                     <button
-                      className="rc-btn rc-btn--one submitBtn editAddress"
+                      className={`rc-btn rc-btn--one submitBtn editAddress ${
+                        saveLoading ? 'ui-btn-loading' : ''
+                      }`}
                       data-sav="false"
                       name="contactInformation"
                       type="submit"

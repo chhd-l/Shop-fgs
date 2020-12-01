@@ -412,10 +412,16 @@ class List extends React.Component {
                   (a, b) => a.marketPrice - b.marketPrice
                 )[0].linePrice,
                 taggingForText: (ele.taggingVOList || []).filter(
-                  (e) => e.taggingType === 'Text'
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
                 )[0],
                 taggingForImage: (ele.taggingVOList || []).filter(
-                  (e) => e.taggingType === 'Image'
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
                 )[0]
               });
               const tmpItem = find(
@@ -782,7 +788,7 @@ class List extends React.Component {
                                       className="product-item-flag-text"
                                       style={{
                                         backgroundColor:
-                                          iitem.taggingForText.taggingFillColor,
+                                          item.taggingForText.taggingFillColor,
                                         color:
                                           item.taggingForText.taggingFontColor
                                       }}

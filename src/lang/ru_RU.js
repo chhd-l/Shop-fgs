@@ -725,7 +725,8 @@ const ru_RU = {
     'yourPasswordNotVerified': "Ваш пароль не подтвержден",
     breed: 'Порода',
     gender: 'Пол',
-    setAsDefault: 'Установить по умолчанию'
+    setAsDefault: 'Установить по умолчанию',
+    addANewPaymentMethod: 'Добавить новый способ оплаты',
   }
   
   export default ru_RU;
