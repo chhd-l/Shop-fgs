@@ -189,7 +189,7 @@ class LoginCart extends React.Component {
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
       await this.updateCartCache();
-      this.setState({ checkoutLoading: false });
+
       // 价格未达到底限，不能下单
       if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         window.scrollTo({ behavior: 'smooth', top: 0 });
@@ -254,6 +254,7 @@ class LoginCart extends React.Component {
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+    } finally {
       this.setState({ checkoutLoading: false });
     }
   };

@@ -33,38 +33,43 @@ class EditForm extends React.Component {
         city: '',
         cityName: '',
         postCode: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        email: ''
       },
       countryList: []
     };
   }
   componentDidMount() {
-    const { initData = {}, isLogin } = this.props;
+    const { initData = {}, isLogin, type } = this.props;
     const { address } = this.state;
-    if (!isLogin) {
-      let deliveryInfo = localItemRoyal.get('deliveryInfo');
-      const tmpKey =
-        this.props.type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
-      if (deliveryInfo) {
-        this.setState(
-          {
-            address: Object.assign(address, initData, deliveryInfo[tmpKey], {
+    this.setState({ address: Object.assign(address, initData) }, () => {
+      const { address } = this.state;
+      if (!isLogin) {
+        let deliveryInfo = localItemRoyal.get('deliveryInfo');
+        const tmpKey =
+          type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
+        if (deliveryInfo) {
+          this.setState(
+            {
+              address: Object.assign(address, deliveryInfo[tmpKey], {
+                country: process.env.REACT_APP_DEFAULT_COUNTRYID
+              })
+            },
+            () => {
+              this.updateSelectedMobxData();
+              this.props.updateData(address);
+            }
+          );
+        } else {
+          this.setState({
+            address: Object.assign(address, {
               country: process.env.REACT_APP_DEFAULT_COUNTRYID
             })
-          },
-          () => {
-            this.updateSelectedMobxData();
-            this.props.updateData(this.state.address);
-          }
-        );
-      } else {
-        this.setState({
-          address: Object.assign(address, initData, {
-            country: process.env.REACT_APP_DEFAULT_COUNTRYID
-          })
-        });
+          });
+        }
       }
-    }
+    });
+
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -72,11 +77,12 @@ class EditForm extends React.Component {
     });
   }
   updateSelectedMobxData() {
-    const tmpKey =
-      this.props.type === 'delivery'
+    const { type, paymentStore } = this.props;
+    paymentStore[
+      type === 'delivery'
         ? 'updateSelectedDeliveryAddress'
-        : 'updateSelectedBillingAddress';
-    this.props.paymentStore[tmpKey](this.state.address);
+        : 'updateSelectedBillingAddress'
+    ](this.state.address);
   }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
@@ -89,19 +95,19 @@ class EditForm extends React.Component {
     return tmp;
   }
   deliveryInputChange = (e) => {
+    const { isOnepageCheckout } = this.props;
+    const { address } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     if (name === 'postCode') {
       value = value.replace(/\s+/g, '');
     }
-    const { address } = this.state;
     address[name] = value;
     this.inputBlur(e);
-    this.setState({ address: address }, () => {
+    this.setState({ address }, () => {
       this.updateSelectedMobxData();
-      if (!this.props.isOnepageCheckout)
-        this.props.updateData(this.state.address);
+      if (isOnepageCheckout) this.props.updateData(this.state.address);
     });
   };
   inputBlur = (e) => {
@@ -373,9 +379,9 @@ class EditForm extends React.Component {
                   }
                   optionList={this.computedList('country')}
                   selectedItemData={{
-                    value: this.state.address.country
+                    value: address.country
                   }}
-                  key={this.state.address.country}
+                  key={address.country}
                 />
               </span>
             </div>
@@ -393,8 +399,8 @@ class EditForm extends React.Component {
               </label>
               <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
                 <CitySearchSelection
-                  defaultValue={this.state.address.cityName}
-                  key={this.state.address.cityName}
+                  defaultValue={address.cityName}
+                  key={address.cityName}
                   onChange={this.handleCityInputChange}
                 />
               </span>
@@ -451,7 +457,7 @@ class EditForm extends React.Component {
                   name="address2"
                   maxLength="50"
                 />
-                <label className="rc-input__label" htmlFor="id-text1"></label>
+                <label className="rc-input__label" htmlFor="id-text1" />
               </span>
             </div>
           </div>

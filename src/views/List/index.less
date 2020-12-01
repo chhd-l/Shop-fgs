@@ -71,6 +71,7 @@
   top: 2%;
   width: 3.5rem;
   height: 3.5rem;
+  z-index: 3;
 }
 
 @media (max-width: 540px) {
@@ -118,10 +119,14 @@
     line-height: 1.2;
     min-height: 2rem;
   }
-  .product-item-flag {
+  .product-item-flag-text {
     width: 73%;
     left: -16%;
     top: 7%;
+  }
+  .product-item-flag-image {
+    width: 3rem;
+    height: 3rem;
   }
 }
 
@@ -133,13 +138,13 @@
   text-decoration: underline;
   color: #ed3832;
 }
-.back-link{
-    position: relative;
-    padding-left: 20px;
-    font-weight: 400;
+.back-link {
+  position: relative;
+  padding-left: 20px;
+  font-weight: 400;
 }
 .back-link:before {
-  content: "\203A";
+  content: '\203A';
   width: 10px;
   height: 10px;
   display: inline-block;

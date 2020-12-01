@@ -56,77 +56,86 @@ class UnloginCart extends React.Component {
     });
   }
   async handleCheckout({ needLogin = false } = {}) {
-    const { configStore, checkoutStore, history, headerCartStore } = this.props;
-    sessionItemRoyal.set('okta-redirectUrl', '/cart');
-    this.setState({ checkoutLoading: true });
-    checkoutStore.updateUnloginCart();
-    this.setState({ checkoutLoading: false });
-    if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo3"
-          values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
-        />
-      );
-      return false;
-    }
-
-    // 存在下架商品，不能下单
-    if (checkoutStore.offShelvesProNames.length) {
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo4"
-          values={{
-            val: checkoutStore.offShelvesProNames.join('/')
-          }}
-        />
-      );
-      return false;
-    }
-
-    if (checkoutStore.outOfstockProNames.length) {
-      console.log(checkoutStore.outOfstockProNames, 'names');
-      headerCartStore.setErrMsg(
-        <FormattedMessage
-          id="cart.errorInfo2"
-          values={{
-            val: checkoutStore.outOfstockProNames.join('/')
-          }}
-        />
-      );
-      return false;
-    }
-    if (needLogin) {
-      // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-    } else {
-      let autoAuditFlag = false;
-      if (this.isLogin) {
-      } else {
-        let paramData = checkoutStore.cartData.map((el) => {
-          el.goodsInfoId = el.sizeList.filter(
-            (item) => item.selected
-          )[0].goodsInfoId;
-          return el;
-        });
-        let res = await getProductPetConfig({ goodsInfos: paramData });
-        let handledData = paramData.map((el, i) => {
-          el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-          el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-          return el;
-        });
-        checkoutStore.setCartData(handledData);
-        let AuditData = handledData.filter((el) => el.auditCatFlag);
-        checkoutStore.setAuditData(AuditData);
-        autoAuditFlag = res.context.autoAuditFlag;
-        checkoutStore.setPetFlag(res.context.petFlag);
-      }
-      checkoutStore.setAutoAuditFlag(autoAuditFlag);
-      const url = distributeLinktoPrecriberOrPaymentPage({
+    try {
+      const {
         configStore,
-        isLogin: false
-      });
-      url && history.push(url);
-      // history.push('/prescription');
+        checkoutStore,
+        history,
+        headerCartStore
+      } = this.props;
+      sessionItemRoyal.set('okta-redirectUrl', '/cart');
+      this.setState({ checkoutLoading: true });
+      checkoutStore.updateUnloginCart();
+
+      if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo3"
+            values={{ val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }}
+          />
+        );
+        return false;
+      }
+
+      // 存在下架商品，不能下单
+      if (checkoutStore.offShelvesProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo4"
+            values={{
+              val: checkoutStore.offShelvesProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+
+      if (checkoutStore.outOfstockProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo2"
+            values={{
+              val: checkoutStore.outOfstockProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+      if (needLogin) {
+        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+      } else {
+        let autoAuditFlag = false;
+        if (this.isLogin) {
+        } else {
+          let paramData = checkoutStore.cartData.map((el) => {
+            el.goodsInfoId = el.sizeList.filter(
+              (item) => item.selected
+            )[0].goodsInfoId;
+            return el;
+          });
+          let res = await getProductPetConfig({ goodsInfos: paramData });
+          let handledData = paramData.map((el, i) => {
+            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+            return el;
+          });
+          checkoutStore.setCartData(handledData);
+          let AuditData = handledData.filter((el) => el.auditCatFlag);
+          checkoutStore.setAuditData(AuditData);
+          autoAuditFlag = res.context.autoAuditFlag;
+          checkoutStore.setPetFlag(res.context.petFlag);
+        }
+        checkoutStore.setAutoAuditFlag(autoAuditFlag);
+        const url = distributeLinktoPrecriberOrPaymentPage({
+          configStore,
+          isLogin: false
+        });
+        url && history.push(url);
+        // history.push('/prescription');
+      }
+    } catch (err) {
+    } finally {
+      this.setState({ checkoutLoading: false });
     }
   }
   openPetModal() {
