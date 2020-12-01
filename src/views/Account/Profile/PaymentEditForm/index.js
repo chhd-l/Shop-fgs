@@ -356,7 +356,7 @@ class PaymentEditForm extends React.Component {
                               alt="Card"
                               src={
                                 CREDIT_CARD_IMG_ENUM[
-                                  currentVendor.toUpperCase()
+                                  currentVendor && currentVendor.toUpperCase()
                                 ] ||
                                 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
