@@ -702,7 +702,7 @@ class List extends React.Component {
                       />
                     </aside>
                   </div>
-                  <div className={`rc-column rc-triple-width`}>
+                  <div className={`rc-column rc-triple-width rc-padding--none--mobile product-tiles-container`}>
                     {!loading && (
                       <>
                         <div className="row mb-3">
@@ -755,7 +755,8 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="row RowFitScreen">
+                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                        <article className='rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles '>
                         {loading
                           ? _loadingJXS
                           : productList.map((item, i) => (
@@ -778,6 +779,7 @@ class List extends React.Component {
                                     className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
                                     style={{ height: '15.7rem' }}
                                   >
+                                    {/*循环遍历的图片*/}
                                     <img
                                       src={
                                         item.goodsImg ||
@@ -807,49 +809,54 @@ class List extends React.Component {
                                 </picture>
                                 <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
                                   <div className="height-product-tile-plpOnly">
+                                    {/*商品名字*/}
                                     <header
                                       className="rc-text--center"
                                       style={{ height: '100px' }}
                                     >
                                       <h3
-                                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
+                                        className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
                                         title={item.goodsName}
                                       >
                                         {item.goodsName}
                                       </h3>
                                     </header>
+                                    {/*商品描述*/}
                                     <div
-                                      className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
-                                      title={item.goodsSubtitle}
-                                      style={{ color: '#4a4a4a' }}
-                                    >
-                                      {item.goodsSubtitle}
+                                        className={`rc-card__meta text-center col-12`}
+                                        title={item.goodsSubtitle}
+                                        style={{ color: '#4a4a4a' }}
+                                      >
+                                        {item.goodsSubtitle}
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    className={`rc-card__price text-center RateFitScreen`}
-                                  >
-                                    <div className="display-inline">
-                                      <Rate
-                                        def={item.avgEvaluate}
-                                        disabled={true}
-                                        marginSize="smallRate"
-                                      />
-                                    </div>
-                                    <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                      ({item.goodsEvaluateNum})
-                                    </span>
-                                  </div>
-                                  <div
+                                    {/*商品评分和评论数目*/}
+                                    {/*<div*/}
+                                    {/*  className={`rc-card__price text-center RateFitScreen`}*/}
+                                    {/*>*/}
+
+                                    {/*  <div className="display-inline">*/}
+                                    {/*    <Rate*/}
+                                    {/*      def={item.avgEvaluate}*/}
+                                    {/*      disabled={true}*/}
+                                    {/*      marginSize="smallRate"*/}
+                                    {/*    />*/}
+                                    {/*  </div>*/}
+                                    {/*  <span className="comments rc-margin-left--xs rc-text-colour--text">*/}
+                                    {/*    ({item.goodsEvaluateNum})*/}
+                                    {/*  </span>*/}
+                                    {/*</div>*/}
+                                    <div
                                     className="text-center NameFitScreen"
                                     style={{
                                       color: '#4a4a4a',
                                       opacity:
                                         item.goodsInfos.length > 1 ? 1 : 0
                                     }}
-                                  >
-                                    <FormattedMessage id="startFrom" />
-                                  </div>
+                                    >
+                                      <FormattedMessage id="startFrom" />
+                                    </div>
+                                  {/*商品价格*/}
                                   <div className="d-flex justify-content-center">
                                     <div className="rc-card__price text-left PriceFitScreen">
                                       <div
@@ -860,6 +867,7 @@ class List extends React.Component {
                                             color: '#323232',
                                             fontWeight: 400
                                           }}
+                                          className='value sales'
                                         >
                                           {/* 最低marketPrice */}
                                           {formatMoney(item.miMarketPrice)}{' '}
@@ -945,7 +953,9 @@ class List extends React.Component {
                                   </div>
                                 </div>
                               </ListItem>
+
                             ))}
+                        </article>
                         <div className="grid-footer rc-full-width">
                           <Pagination
                             loading={this.state.loading}

@@ -19,6 +19,8 @@ import wof from './images/wof.png'
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
+import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
+import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 
 @inject(
   'configStore',
@@ -31,7 +33,7 @@ class SubscriptionLanding extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    }) 
+    })
   }
   render(h) {
     const event = {
@@ -53,16 +55,17 @@ class SubscriptionLanding extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          <section
-            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
-          >
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              <FormattedMessage id="subscriptionLanding.title1" />
-            </h2>
-            <p style={{ fontSize: '18px', margin: '20px 0 0 0' }}>
-              <FormattedMessage id="subscriptionLanding.content1" />
-            </p>
-          </section>
+          <br/>
+          <br/>
+          <div className="rc-max-width--md text-center rc-padding-x--sm">
+            <h2 className="rc-beta text-center">Avec l'Abonnement, ils auront toujours ce dont ils ont besoin</h2>
+            <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
+              <p className='rc text-center'>Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait
+                partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a
+                besoin arrive directement à votre porte.</p>
+            </div>
+
+          </div>
 
           <div
             className="rc-layout-container rc-two-column"
@@ -124,9 +127,11 @@ class SubscriptionLanding extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="rc-column" style={{ height: '420px' }}>
-              <img src={autoship} style={{ width: '80%', height: '420px' }} alt="" />
+
+            <div className="rc-column">
+              <img src={autoship} />
             </div>
+
           </div>
           <section
             style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
@@ -200,66 +205,64 @@ class SubscriptionLanding extends React.Component {
             </div>
           </div>
 
-          <div style={{width:'100%',background:'#EEEEEE'}}>
-            <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-              <div
-                className="rc-layout-container rc-three-column"
-                style={{ padding: '20px 100px', background: '#eee' }}
-              >
-                <div className="rc-column" style={{ textAlign: 'center' }}>
-                  <img
-                    src={cat}
-                    style={{
-                      width: '90%',
-                      display: 'inline-block',
-                      marginBottom: '20px'
-                    }}
-                    alt=""
-                  />
-                </div>
-                <div className="rc-column" style={{ textAlign: 'center' }}>
-                  <h2 style={{ color: '#E2001A' }}>
-                    Commencez dès maintenant votre Abonnement
-                </h2>
-                  <p>
-                    Découvrez les meilleures options de nutrition pour votre animal
-                    et choisissez l'option Abonnement avant d'acheter.
-                </p>
-                  <div>
-                    <button
-                      className="rc-btn rc-btn--sm rc-btn--two"
-                      style={{padding:'6px 40px'}}
-                      onClick={() => {
-                        this.props.history.push('/list/cats');
-                      }}
-                    >
-                      Chat
-                  </button>{' '}
-                    <button
-                      className="rc-btn rc-btn--sm rc-btn--two"
-                      style={{padding:'6px 40px'}}
-                      onClick={() => {
-                        this.props.history.push('/list/dogs');
-                      }}
-                    >
-                      Chien
-                  </button>
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-categoryCtaBlock">
+                  <div className="rc-bg-colour--brand4">
+                    <div
+                      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                      <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
+                        <div className="col-12 col-md-4 order-1 order-md-0">
+                          <div className="rc-column rc-padding--none">
+                            <img className="mx-auto lazyloaded"
+                                 src={imagecat}>
+                            </img>
+                          </div>
+                          <div
+                            className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
+                            <a className="rc-btn rc-btn--sm rc-btn--two w-50"
+                               href="/">Chat</a>
+                          </div>
+                        </div>
+                        <div
+                          className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
+                          <div className="rc-gamma rc-text--center rc-margin-bottom--xs">Commencez dès maintenant votre
+                            Abonnement
+                          </div>
+                          <div
+                            className="rc-intro inherit-fontsize rc-text--center rc-padding-x--sm rc-margin-bottom--sm">
+                            <p>Découvrez les meilleures formules nutritionnelles et sélectionnez l'Abonnement avant
+                              d'acheter</p>
+                          </div>
+                          <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
+                            <a className="rc-btn rc-btn--sm rc-btn--two"
+                               href="/">Chat</a>
+                            <a className="rc-btn rc-btn--sm rc-btn--two"
+                               href="/">Chien</a>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-4 order-2 order-md-2">
+                          <div className="rc-column rc-padding--none">
+                            <img className="mx-auto lazyloaded"
+                                 src={imagedog}>
+                            </img>
+                          </div>
+                          <div
+                            className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
+                            <a className="rc-btn rc-btn--sm rc-btn--two w-50"
+                               href="/">Chien</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="rc-column" style={{ textAlign: 'center' }}>
-                  <img
-                    src={dog}
-                    style={{
-                      width: '90%',
-                      display: 'inline-block',
-                      marginBottom: '20px'
-                    }}
-                    alt=""
-                  />
                 </div>
               </div>
             </div>
           </div>
+
+
 
 
           <div className="help-page" style={{ marginBottom: '1rem' }}>
@@ -274,7 +277,7 @@ class SubscriptionLanding extends React.Component {
             </section>
             {
               process.env.REACT_APP_LANG == 'fr'
-              ? 
+              ?
               <Help/>
               :
               <div className="experience-region experience-main">
@@ -420,7 +423,7 @@ class SubscriptionLanding extends React.Component {
               </div>
 
             }
-            
+
           </div>
         </main>
 
