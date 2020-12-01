@@ -349,7 +349,10 @@ class LoginCart extends React.Component {
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
                                             Frq:{' '}
-                                            {frequencyList.length &&
+                                            {frequencyList.length && frequencyList.filter(
+                                                (el) =>
+                                                  el.id === item.periodTypeId
+                                              )[0] &&
                                               frequencyList.filter(
                                                 (el) =>
                                                   el.id === item.periodTypeId
