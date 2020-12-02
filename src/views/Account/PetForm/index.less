@@ -232,9 +232,16 @@
     border: 1px solid #d7d7d7;
     margin-top: 30px;
     .buttonBox {
+      // position: absolute;
+      // top: 50%;
+      // margin-top: -50px;
       position: absolute;
+      left: 50%;
+      width: 250px;
+      text-align: center;
+      margin-left: -125px;
       top: 50%;
-      margin-top: -50px;
+      margin-top: -100px;
     }
   }
 }
@@ -255,6 +262,9 @@
   }
   .react-datepicker-wrapper {
     height: 40px;
+  }
+  .required .rc-input label:after {
+    content: '';
   }
 }
 

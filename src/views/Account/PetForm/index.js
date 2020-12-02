@@ -70,7 +70,6 @@ class PetForm extends React.Component {
       loading: true,
       precent: 12.5,
       step: 1,
-
       currentStep: 'step1',
       showList: false,
       isDisabled: true,
@@ -293,6 +292,7 @@ class PetForm extends React.Component {
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
+    const { selectedSpecialNeeds } = this.state;
     let consumerAccount = '';
     if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount;
@@ -300,11 +300,29 @@ class PetForm extends React.Component {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       return;
     }
+
+
+    let validFiled = ['nickname', 'birthdate']
+    if(this.state.isPurebred) {
+      validFiled.push('breed')
+    }else if(!this.state.isCat){
+      validFiled.push('weight')
+    }
+    for(let i = 0; i < validFiled.length; i++) {
+      if(!this.state[validFiled[i]]) {
+        this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
+        return
+      }
+    }
+    if(!selectedSpecialNeeds.length) {
+      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
+      return 
+    }
+
     this.setState({
       loading: true
     });
 
-    const { selectedSpecialNeeds } = this.state;
     let customerPetsPropRelations = [];
     let propId = 100;
     for (let i = 0; i < selectedSpecialNeeds.length; i++) {
@@ -321,7 +339,7 @@ class PetForm extends React.Component {
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
-
+    
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
@@ -640,13 +658,16 @@ class PetForm extends React.Component {
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
       param.isUnknown = true;
-      param.isInputDisabled = true;
+      // param.isInputDisabled = true;
       param.breed = '';
     } else if (currentPet.petsBreed === 'mix Breed') {
       param.isMix = true;
       param.isUnknown = false;
-      param.isInputDisabled = true;
+      // param.isInputDisabled = true;
       param.breed = '';
+      param.isPurebred = false
+    }else {
+      param.isPurebred = true
     }
     let filterSize = this.sizeOptions.filter(
       (el) => el.name === currentPet.petsSizeValueName
@@ -903,10 +924,19 @@ class PetForm extends React.Component {
               {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: !isChoosePetType?'block': 'none'}}>
-                <h5 className="red">Choose my pet type</h5>
+                <h5 style={{color: '#333333', fontWeight: 400}}>New PET</h5>
                 <div class="content">
                   <img src={Banner_Dog} style={{left: '40px'}}/>
-                  <div className="buttonBox" style={{left: '350px'}}>
+                  <div className="buttonBox">
+                    <p style={{color: '#333333', fontWeight: 400, fontSize: '22px'}}>Choose your pet type</p>
+                    <p style={{color: '#E2001A', fontSize: '22px'}}>Your Pet is a…</p>
+                    <div>
+                      <button className="rc-btn rc-btn--sm rc-btn--one" style={{marginRight: '20px'}} onClick={() => {this.petTypeChange(false)}}>Dog</button>
+                      <button className="rc-btn rc-btn--sm rc-btn--one" onClick={() => {this.petTypeChange(true)}}>Cat</button>
+                    </div>
+                  </div>
+                  <img src={Banner_Cat} style={{right: '40px'}}/>
+                  {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
                     <span>
                       <button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {this.petTypeChange(false)}}>Dog</button>
@@ -918,10 +948,24 @@ class PetForm extends React.Component {
                     <span>
                       <button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {this.petTypeChange(true)}}>Cat</button>
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
-              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: isChoosePetType?'flex': 'none'}}>
+              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: isChoosePetType?'block': 'none'}}>
+                {/* 错误提示 */}
+                <div
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+                    this.state.errorMsg ? '' : 'hidden'
+                  }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close"
+                    role="alert"
+                  >
+                    {this.state.errorMsg}
+                  </aside>
+                </div>
+                <div style={{display: 'flex'}}>
                 <div className="photoBox">
                   <img
                     style={{
@@ -947,9 +991,9 @@ class PetForm extends React.Component {
                   />
                 </div>
                 <div className="formBox">
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
-                      className="form-control-label rc-full-width"
+                      className="form-control-label rc-full-width "
                       htmlFor="name"
                     >
                       <FormattedMessage id="name" />
@@ -985,7 +1029,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="gender"
@@ -1034,7 +1078,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="birthday"
@@ -1074,7 +1118,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="Is Purebred"
@@ -1092,7 +1136,8 @@ class PetForm extends React.Component {
                           name="Is Purebred"
                           onChange={(e) => {
                             this.setState({
-                              isPurebred: true
+                              isPurebred: true,
+                              weight: ''
                             })
                           }}
                         />
@@ -1110,7 +1155,8 @@ class PetForm extends React.Component {
                           name="Is Purebred"
                           onChange={(e) => {
                             this.setState({
-                              isPurebred: false
+                              isPurebred: false,
+                              breed: ''
                             })
                           }}
                         />
@@ -1222,8 +1268,8 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
-                  {!this.state.isPurebred? (
-                    <div className="form-group col-lg-6 pull-left">
+                  {!this.state.isPurebred? (!this.state.isCat?(
+                    <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
                         htmlFor="weight"
@@ -1251,8 +1297,8 @@ class PetForm extends React.Component {
                         />
                       </div>
                     </div>
-                  ): (
-                    <div className="form-group col-lg-6 pull-left">
+                  ): null): (
+                    <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="breed"
@@ -1393,7 +1439,7 @@ class PetForm extends React.Component {
                       </label>
                     </div> */}
                     {/* </div> */}
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="weight"
@@ -1524,7 +1570,7 @@ class PetForm extends React.Component {
                       </label>
                     </div>
                   </div> */}
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="sterilized"
@@ -1584,7 +1630,7 @@ class PetForm extends React.Component {
                     className="form-group col-lg-6 pull-left placehoder"
                     style={{ height: '40px' }}
                   ></div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     {isMobile ? (
                       <p style={{ textAlign: 'center' }}>
                         <button
@@ -1632,6 +1678,7 @@ class PetForm extends React.Component {
                     )}
                   </div>
                   
+                </div>
                 </div>
               </div>
             </div>
