@@ -55,155 +55,150 @@ class SubscriptionLanding extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          <br/>
-          <br/>
-          <div className="rc-max-width--md text-center rc-padding-x--sm">
-            <h2 className="rc-beta text-center">Avec l'Abonnement, ils auront toujours ce dont ils ont besoin</h2>
-            <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
-              <p className='rc text-center'>Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait
-                partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a
-                besoin arrive directement à votre porte.</p>
-            </div>
-
-          </div>
-
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px' }}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '420px'
-              }}
-            >
-              <div>
-                <div style={{ marginBottom: '16px' }}>
-                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description1" /></span>
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-pawListBlock">
+                  <div
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                    <div className="rc-max-width--lg rc-padding-y--sm">
+                      <div className="rc-max-width--md text-center rc-padding-x--sm">
+                        <h2 className="rc-beta text-center">Avec l'Abonnement, ils auront toujours ce dont ils ont
+                          besoin</h2>
+                        <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
+                          <p>Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie
+                            en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que
+                            tout ce dont il a besoin arrive directement à votre porte.</p>
+                        </div>
+                        <div className="d-block d-md-none rc-text--center">
+                          <a href="https://shop.royalcanin.fr/cats/">
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">Voir les
+                              formules pour chat
+                            </button>
+                          </a>
+                          <a href="https://shop.royalcanin.fr/dogs/">
+                            <button className="rc-btn rc-btn--one rc-margin-bottom--xs">Voir les formules pour chien
+                            </button>
+                          </a>
+                        </div>
+                      </div>
+                      <div
+                        className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+                        <div className="rc-column">
+                          <div className="rc-padding-y--lg--mobile rc-full-width">
+                            <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
+                              <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>10% de
+                                réduction sur toutes les commandes en Abonnement
+                              </li>
+                              <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Suspendre,
+                                modifier ou annuler à tout moment
+                              </li>
+                              <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Livraison
+                                offerte
+                              </li>
+                              <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Ligne
+                                d'assistance téléphonique gratuite sur la nutrition
+                              </li>
+                            </ul>
+                            <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
+                              <a href="https://shop.royalcanin.fr/cats/">
+                                <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">Voir les
+                                  formules pour chat
+                                </button>
+                              </a>
+                              <a href="https://shop.royalcanin.fr/dogs/">
+                                <button className="rc-btn rc-btn--one rc-margin-bottom--xs">Voir les formules pour
+                                  chien
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="rc-column">
+                          <img
+                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534"
+                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
+                            alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
+                            className="w-100 lazyloaded"
+                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
+                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534">
+                          </img>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description2" /></span>
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description3" /></span>
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                  <img src={wof} className="wof"></img><span><FormattedMessage id="subscriptionLanding.description4" /></span>
-                </div>
-                {/* <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <FormattedMessage id="subscriptionLanding.description2" />
-                </div>
-                <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <FormattedMessage id="subscriptionLanding.description3" />
-                </div>
-                <div>
-                  <i className="rc-icon rc-rate-fill--xs rc-brand1"></i>
-                  <FormattedMessage id="subscriptionLanding.description4" />
-                </div> */}
-                <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/cats');
-                    }}
-                  >
-                    <FormattedMessage id="subscriptionLanding.catButton" />
-                  </button>
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/dogs');
-                    }}
-                  >
-                    <FormattedMessage id="subscriptionLanding.dogButton" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="rc-column">
-              <img src={autoship} />
-            </div>
-
-          </div>
-          <section
-            style={{ textAlign: 'center', width: '50%', margin: '0 auto' }}
-          >
-            <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-              Comment cela fonctionne-t-il ?
-            </h2>
-          </section>
-          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-            <div
-              className="rc-layout-container rc-four-column"
-              style={{ padding: '20px' }}
-            >
-              <div className="rc-column" style={{ textAlign: 'center' }}>
-                <img
-                  src={icon1}
-                  style={{
-                    width: '180px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                  alt=""
-                />
-                <p>
-                  Ajoutez les produits nutritionnels <strong>répondant aux besoins de
-                  votre animal</strong> dans votre panier.
-                </p>
-              </div>
-              <div className="rc-column" style={{ textAlign: 'center' }}>
-                <img
-                  src={icon2}
-                  style={{
-                    width: '180px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                  alt=""
-                />
-                <p>
-                  Sélectionnez l<strong>'expédition automatique</strong> et entrez votre mode de
-                  paiement.
-                </p>
-              </div>
-              <div className="rc-column" style={{ textAlign: 'center' }}>
-                <img
-                  src={icon3}
-                  style={{
-                    width: '180px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                  alt=""
-                />
-                <p>
-                  <strong>Recevez votre produit automatiquement</strong> en fonction de votre
-                  calendrier.
-                </p>
-              </div>
-              <div className="rc-column" style={{ textAlign: 'center' }}>
-                <img
-                  src={icon4}
-                  style={{
-                    width: '180px',
-                    display: 'inline-block',
-                    marginBottom: '20px'
-                  }}
-                  alt=""
-                />
-                <p>Modifiez vos préférences à <strong>tout moment</strong>.</p>
               </div>
             </div>
           </div>
+
+          <div className="experience-component experience-layouts-1column">
+            <div className="row rc-margin-x--none">
+              <div className="rc-full-width">
+                <div className="experience-component experience-assets-twoColImgText">
+                  <div
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+                    <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
+                      <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">Comment cela
+                        fonctionne-t-il ?</h2>
+                    </div>
+                    <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <img className="m-auto w-auto lazyloaded"
+                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
+                               data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               alt="image-one" title="image-one"
+                               srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png">
+                          </img>
+                          </div>
+                        <p>Ajoutez les produits nutritionnels <strong>répondant aux besoins de votre
+                          animal</strong> dans votre panier.</p>
+                      </div>
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <img className="m-auto w-auto lazyloaded"
+                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
+                               data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               alt="image two" title="image two"
+                               srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png">
+                          </img>
+                        </div>
+                        <p>Sélectionnez l'<strong>expédition automatique</strong> et entrez votre mode de paiement.</p>
+                      </div>
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <img className="m-auto w-auto lazyloaded"
+                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
+                               data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               alt="image three" title="image three"
+                               srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png">
+                          </img>
+                          </div>
+                        <p><strong>Recevez votre produit automatiquement</strong> en fonction de votre calendrier.</p>
+                      </div>
+                      <div className="col-6 col-md-3 rc-column">
+                        <div className="rc-margin-bottom--sm">
+                          <img className="m-auto w-auto lazyloaded"
+                               data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
+                               data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               alt="image four" title="image four"
+                               srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                               src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png">
+                          </img>
+                        </div>
+                        <p>Modifiez vos préférences à <strong>tout moment</strong>.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
