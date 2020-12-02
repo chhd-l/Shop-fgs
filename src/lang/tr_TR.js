@@ -702,6 +702,7 @@ const tr_TR = {
   gender: 'Cinsiyet',
   setAsDefault: 'Varsayılan olarak ayarla',
   addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
+  mailAddress: 'Posta adresi'
 }
 
 export default tr_TR;

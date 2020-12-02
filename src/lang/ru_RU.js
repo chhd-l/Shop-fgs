@@ -727,6 +727,7 @@ const ru_RU = {
     gender: 'Пол',
     setAsDefault: 'Установить по умолчанию',
     addANewPaymentMethod: 'Добавить новый способ оплаты',
+    mailAddress: 'Почта Адрес'
   }
   
   export default ru_RU;

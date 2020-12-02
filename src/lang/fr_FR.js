@@ -1032,6 +1032,7 @@ const fr_FR = {
   breed: 'Race',
   gender: 'Le genre',
   home: 'Accueil',
-  setAsDefault: 'Définir par défaut'
+  setAsDefault: 'Définir par défaut',
+  mailAddress: 'Adresse mail'
 }
 export default fr_FR;
