@@ -484,7 +484,7 @@ class Home extends React.Component {
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
           to={{
             pathname: `/list${
-              ele.cateRouter.startsWith('/')
+              ele.cateRouter && ele.cateRouter.startsWith('/')
                 ? ele.cateRouter
                 : `/${ele.cateRouter}`
             }`,
