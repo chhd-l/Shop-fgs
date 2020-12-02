@@ -155,26 +155,21 @@ class Details extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
+  async componentDidMount() {
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    getFrequencyDict((res) => {
-      this.setState(
-        {
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        },
-        () => {
-          // this.props.updateSelectedData(this.state.form);
-        }
-      );
+    await getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal: res[0] ? res[0].valueEn : '',
+          frequencyName: res[0] ? res[0].name : '',
+          frequencyId: res[0] ? res[0].id : ''
+        })
+      });
     });
     this.setState({ id: this.props.match.params.id }, () =>
       this.queryDetails()
@@ -731,9 +726,9 @@ class Details extends React.Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if (quantityNew > 30) {
+        if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
           });
           this.setState({ addToCartLoading: false });
           return;
@@ -791,9 +786,9 @@ class Details extends React.Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if (cartDataCopy.length >= 30) {
+      if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>
         });
         return;
       }

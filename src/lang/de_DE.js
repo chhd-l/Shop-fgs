@@ -115,8 +115,8 @@ const de_DE = {
   'cart.errorInfo2': 'Sie können Ihre Bestellung nicht aufgeben, nicht vorrätiges Produkt:{val}',
   'cart.errorInfo3': '* Ihr Bestellbetrag hat noch nicht den Mindestbetrag für kostenlosen Versand erreicht ({val})',
   'cart.errorInfo4': 'Folgendes Produkt kann leider aktuell nicht bestellt warden: {val}',
-  'cart.errorMaxCate': 'Der Warenkorb darf 30 Artikel nicht überschreiten',
-  'cart.errorMaxInfo': 'Die Anzahl darf 30 nicht überschreiten',
+  'cart.errorMaxCate': 'Der Warenkorb darf {val} Artikel nicht überschreiten',
+  'cart.errorMaxInfo': 'Die Anzahl darf {val} nicht überschreiten',
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle': 'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 5% auf Ihre Bestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb: {val}',
@@ -797,5 +797,6 @@ const de_DE = {
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   viewAll: 'Alle Produkte anzeigen',
   addANewPaymentMethod: 'Fügen Sie eine neue Zahlungsmethode hinzu',
+  mailAddress: 'Mail Adresse'
 }
 export default de_DE;

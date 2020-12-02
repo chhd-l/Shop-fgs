@@ -105,8 +105,8 @@ const tr_TR = {
   'cart.errorInfo2': 'Stokta olmayan ürün siparişinizi veremezsiniz',
   'cart.errorInfo3': '* Sipariş tutarınız henüz ücretsiz gönderim için minimum tutara （{val} ulaşmadı',
   'cart.errorInfo4': 'Siparişinizi veremezsiniz, kapalı raf ürünü',
-  'cart.errorMaxCate': 'Alışveriş sepeti 30 öğeyi aşamaz',
-  'cart.errorMaxInfo': "Sayı 30'u geçemez",
+  'cart.errorMaxCate': 'Alışveriş sepeti {val} öğeyi aşamaz',
+  'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
   'cart.miniCartTitle': 'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
@@ -702,6 +702,7 @@ const tr_TR = {
   gender: 'Cinsiyet',
   setAsDefault: 'Varsayılan olarak ayarla',
   addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
+  mailAddress: 'Posta adresi'
 }
 
 export default tr_TR;

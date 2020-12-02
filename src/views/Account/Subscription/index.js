@@ -58,7 +58,7 @@ class Subscription extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     setSeoConfig({
       goodsId: '',
       categoryId: '',
@@ -70,7 +70,7 @@ class Subscription extends React.Component {
     //   return false;
     // }
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res.map((el) => {
           return {

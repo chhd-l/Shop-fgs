@@ -18,7 +18,7 @@ class PayProductInfo extends React.Component {
     };
   }
   async componentDidMount() {
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });

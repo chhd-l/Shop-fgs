@@ -32,7 +32,7 @@ class SubscriptionSelect extends Component {
   }
   async componentDidMount() {
     this.updateFirstOrderDiscount();
-    getFrequencyDict((res) => {
+    await getFrequencyDict((res) => {
       this.setState(
         {
           frequencyList: res,

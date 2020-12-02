@@ -1106,7 +1106,8 @@ class Payment extends React.Component {
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
       deliveryAddressId: deliveryAddress.addressId,
-      billAddressId: billingAddress.addressId
+      billAddressId: billingAddress.addressId,
+      promotionCode: this.state.promotionCode
     };
     if (this.state.needPrescriber) {
       param.clinicsId = this.props.clinicStore.selectClinicId;

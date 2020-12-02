@@ -348,6 +348,49 @@ function Share() {
   );
 }
 
+const DEFUALT_FILTER_MAP_FR = {
+  '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
+    {
+      attributeId: 'A20201125095502036',
+      filterType: '0',
+      attributeValues: ['Adulte', 'Sénior'],
+      attributeValueIdList: ['AV20201201094039317', 'AV20201201104729332']
+    }
+  ],
+  '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
+    {
+      attributeId: 'A20201125095502036',
+      filterType: '0',
+      attributeValues: [
+        'Adulte (1-7 ans)',
+        'Mature (7-12 ans)',
+        'Senior (+12 ans)'
+      ],
+      attributeValueIdList: [
+        'AV20201130020901915',
+        'AV20201201031532561',
+        'AV20201201031601509'
+      ]
+    }
+  ],
+  '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
+    {
+      attributeId: 'A20201125095502036',
+      filterType: '0',
+      attributeValues: ['Chiot de 0 à 2 mois', 'Chiot de plus de 2 mois'],
+      attributeValueIdList: ['AV20201201031615383', 'AV20201201031628573']
+    }
+  ],
+  '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
+    {
+      attributeId: 'A20201125095502036',
+      filterType: '0',
+      attributeValues: ['Chaton (0-4 mois)', 'Chaton (5 mois-1 an)'],
+      attributeValueIdList: ['AV202011250955020380', 'AV202011250955020401']
+    }
+  ]
+};
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -371,6 +414,7 @@ class Home extends React.Component {
           let tmpList = JSON.parse(ele.cateImg);
           ele.cateImgHome = tmpList[0].artworkUrl;
           ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
+          ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
         } catch (e) {}
         return ele;
       });
@@ -402,7 +446,7 @@ class Home extends React.Component {
           {(txt) => (
             <Link
               className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-              to={ele.url}
+              to={ele.cateRouter}
               title={txt}
             >
               <picture className="category-cards__card__img">
@@ -439,13 +483,18 @@ class Home extends React.Component {
         <Link
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
           to={{
-            pathname: `/list/${ele.cateName}`,
+            pathname: `/list${
+              ele.cateRouter && ele.cateRouter.startsWith('/')
+                ? ele.cateRouter
+                : `/${ele.cateRouter}`
+            }`,
             state: {
               cateIds: [ele.storeCateId],
               cateName: ele.cateName,
               cateTitle: ele.cateTitle || ele.cateName,
               cateDescription: ele.cateDescription,
-              cateImgList: ele.cateImgList
+              cateImgList: ele.cateImgList,
+              filters: ele.filters
             }
           }}
           title={ele.cateName}

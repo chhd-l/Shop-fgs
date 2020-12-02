@@ -181,7 +181,7 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
         form: Object.assign(this.state.form, {
@@ -964,8 +964,8 @@ class Details extends React.Component {
       if (historyItem) {
         flag = false;
         quantityNew += historyItem.quantity;
-        if (quantityNew > 30) {
-          this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxInfo" />);
+        if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
+          this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
           this.setState({ addToCartLoading: false });
           return;
         }
@@ -1022,8 +1022,8 @@ class Details extends React.Component {
     if (idx > -1) {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
-      if (cartDataCopy.length >= 30) {
-        this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxCate" />);
+      if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
+        this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>);
         return;
       }
       cartDataCopy.push(tmpData);

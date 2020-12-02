@@ -29,7 +29,7 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this);
   }
   async componentDidMount() {
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
