@@ -835,6 +835,7 @@ const en_US = {
   year: 'Year',
   yes: 'Yes',
   yourEmailNotVerified: 'Your email has not been verified!',
-  yourPasswordNotVerified: 'Your password has not been verified'
+  yourPasswordNotVerified: 'Your password has not been verified',
+  mailAddress: 'Mail address'
 }
 export default en_US;

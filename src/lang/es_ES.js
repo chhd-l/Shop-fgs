@@ -812,6 +812,7 @@ const es_ES = {
   breed: 'Raza',
   gender: 'Género',
   setAsDefault: 'Establecer por defecto',
-  viewAll: 'Ver todos los productos'
+  viewAll: 'Ver todos los productos',
+  mailAddress: 'Correo Electronico'
 }
 export default es_ES;
