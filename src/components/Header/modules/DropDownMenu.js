@@ -66,7 +66,7 @@ export default class DropDownMenu extends React.Component {
 
     return (
       <div
-        className={`dropdown-nav d-flex ${
+        className={`drop dropdown-nav d-flex ${
           activeTopParentId === item.id ? 'show' : ''
         }`}
         aria-hidden={activeTopParentId === item.id}

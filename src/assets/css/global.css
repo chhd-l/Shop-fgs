@@ -16027,6 +16027,11 @@ header .rc-list--inline .rc-list__item.dropdown {
   max-height: 258px
 }
 
+/* 给首页dropdown menu组件用 */
+.drop.dropdown-nav.show {
+  max-height: 558px
+}
+
 .dropdown-nav.show.full-width-asset {
   height: auto;
   min-height: 133px

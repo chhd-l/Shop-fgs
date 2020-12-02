@@ -215,8 +215,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'account.cat' },
-          { link: '/list/dogs', messageId: 'account.dog' },
+          { link: '/list/CHATS', messageId: 'account.cat' },
+          { link: '/list/CHIENS', messageId: 'account.dog' },
           {
             link: '/tailorednutrition',
             messageId: 'tailorednutrition'
