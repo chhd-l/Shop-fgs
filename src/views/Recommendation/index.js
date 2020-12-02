@@ -159,7 +159,7 @@ class Help extends React.Component {
       })
       .catch((err) => {
         console.log(err, 'err')
-        // this.props.history.push('/');
+        // this.props.history.push('/home');
       });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');

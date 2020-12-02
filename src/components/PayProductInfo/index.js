@@ -40,7 +40,6 @@ class PayProductInfo extends React.Component {
       //     ''
       // );
       sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-      sessionItemRoyal.set('rc-goods-name', item.spuName);
       this.props.history.push(`/details/${item.skuId}`);
     }
   };

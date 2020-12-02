@@ -404,7 +404,6 @@ class UnLoginCart extends React.Component {
   }
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    sessionItemRoyal.set('rc-goods-name', pitem.goodsName);
     this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {

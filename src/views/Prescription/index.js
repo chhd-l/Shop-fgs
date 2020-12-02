@@ -236,7 +236,7 @@ class Prescription extends React.Component {
     // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
-    this.props.history.push('/payment/payment');
+    this.props.history.push('/checkout');
   };
   getSonMess(center) {
     this.setState({

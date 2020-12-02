@@ -17,7 +17,7 @@ import {
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
-import { getDictionary, validData,setSeoConfig } from '@/utils/utils';
+import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -58,7 +58,7 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -192,29 +192,18 @@ class ShippingAddressFrom extends React.Component {
     this.setState({
       loading: true
     });
-    let params = {
+    await setDefaltAddress({
       deliveryAddressId: id
-    };
-    await setDefaltAddress(params)
+    })
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.showSuccessMsg(
-            res.message || this.props.intl.messages.setDefaltAddressSuccess
-          );
-          this.getAddressList();
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.setDefaltAddressFailed
-          );
-          this.setState({
-            loading: false
-          });
-        }
+        this.showSuccessMsg(
+          res.message || this.props.intl.messages.setDefaltAddressSuccess
+        );
+        this.getAddressList();
       })
       .catch((err) => {
         this.showErrorMsg(
-          err.message.toString() ||
-            this.props.intl.messages.setDefaltAddressFailed
+          err.message || this.props.intl.messages.setDefaltAddressFailed
         );
         this.setState({
           loading: false

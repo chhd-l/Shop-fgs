@@ -124,6 +124,18 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
+const routesHeaderNav = sessionItemRoyal.get('header-navigations')
+  ? JSON.parse(sessionItemRoyal.get('header-navigations'))
+  : [];
+const routesHomeNav = sessionItemRoyal.get('home-navigations')
+  ? JSON.parse(sessionItemRoyal.get('home-navigations'))
+  : [];
+const listRoutes = [
+  ...Array.from(new Set(routesHeaderNav.map((r) => r.navigationLink))),
+  ...Array.from(new Set(routesHomeNav.map((r) => r.cateRouter))),
+  ...['/cats', '/dogs']
+];
+
 const App = () => (
   <Provider {...stores}>
     <IntlProvider
@@ -139,7 +151,7 @@ const App = () => (
         <ScrollToTop>
           <Security {...config.oidc}>
             <Switch>
-              <Route exact path={'/'} component={Home} />
+              <Route exact path={'/home'} component={Home} />
               <Route
                 exact
                 path="/implicit/callback"
@@ -168,6 +180,13 @@ const App = () => (
               />
               <Route
                 exact
+                path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                render={(props) => (
+                  <List key={props.location.search} {...props} />
+                )}
+              />
+              <Route
+                exact
                 path="/details/:id"
                 render={(props) => (
                   <Details key={props.match.params.id} {...props} />
@@ -176,7 +195,7 @@ const App = () => (
               <Route exact path="/cart" component={Cart} />
               <Route
                 exact
-                path="/payment/:type"
+                path="/checkout"
                 render={(props) => (
                   <Payment key={props.match.params.type} {...props} />
                 )}
@@ -239,7 +258,7 @@ const App = () => (
               <Route path="/account/pets" exact component={AccountPets} />
               <Route path="/account/orders" exact component={AccountOrders} />
               <Route
-                path="/account/orders-detail/:orderNumber"
+                path="/account/orders/detail/:orderNumber"
                 exact
                 component={AccountOrdersDetail}
               />
@@ -282,7 +301,7 @@ const App = () => (
                 component={AccountSubscription}
               />
               <Route
-                path="/account/subscription-detail/:subscriptionNumber"
+                path="/account/subscription/order/detail/:subscriptionNumber"
                 exact
                 component={AccountSubscriptionDetail}
               />
@@ -329,7 +348,7 @@ const App = () => (
                 exact
                 path="/required"
                 render={(props) =>
-                  token ? <required {...props} /> : <Redirect to="/" />
+                  token ? <required {...props} /> : <Redirect to="/home" />
                 }
               /> */}
 
@@ -413,23 +432,28 @@ const App = () => (
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
+
+              {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 path="/list/:category"
-                render={(props) => (<List
-                  key={
-                    props.match.params.category + props.location.search
-                  }
-                  {...props}
-                />)}
+                render={(props) => (
+                  <List
+                    key={props.match.params.category + props.location.search}
+                    {...props}
+                  />
+                )}
               />
               <Route
                 path="/"
                 render={(props) => {
-                  let routes = JSON.parse(
-                    sessionStorage.getItem('es-header-navigations')
-                  );
-                  let filterRoute = routes.filter(
-                    (el) => '/' + el.navigationName === props.location.pathname
+                  const { location } = props;
+                  // 当前链接匹配router缓存，存在即跳转list页面
+                  let filterRoute = listRoutes.filter(
+                    (el) =>
+                      `${el && el.startsWith('/') ? el : `/${el}`}` ===
+                      decodeURIComponent(
+                        `${location.pathname}${location.search}`
+                      )
                   )[0];
                   if (filterRoute) {
                     return (
@@ -440,7 +464,7 @@ const App = () => (
                         {...props}
                       />
                     );
-                  } else if (/^.+[-].+/.test(props.location.pathname)) {
+                  } else if (/^.+[-].+/.test(location.pathname)) {
                     return <Details key={props.match.params.id} {...props} />;
                   } else {
                     return <Route path="*" component={Exception} />;

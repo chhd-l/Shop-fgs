@@ -37,7 +37,7 @@ class LoginCart extends React.Component {
     const pathname = this.props.history.location.pathname;
     if (
       !sessionItemRoyal.get('recommend_product') &&
-      pathname !== '/payment/payment'
+      pathname !== '/checkout'
     ) {
       this.checkoutStore.updateLoginCart();
     }

@@ -27,9 +27,6 @@ class Landing extends Component {
       ]
     };
   }
-  gotoShop = () => {
-    this.props.history.push('/');
-  };
   startLoading() {
     this.setState({ loading: true });
   }
@@ -118,7 +115,7 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {
@@ -153,12 +150,12 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <button
+              <Link
                 className="rc-btn rc-btn rc-btn--one"
-                onClick={this.gotoShop}
+                to="/home"
               >
                 Conoce la Tienda
-              </button>
+              </Link>
             </div>
 
             {/* 介绍 */}
@@ -203,7 +200,7 @@ class Landing extends Component {
               <div className="rc-column rc-quad-width">
                 {/* logo */}
                 <Link
-                  to="/"
+                  to="/home"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >

@@ -1,15 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
 
-function Exception() {
-  setSeoConfig()
+function Exception({ location, match, history }) {
+  setSeoConfig();
   return (
     <React.Fragment>
-      {/* <Header showMiniIcons={true} location={this.props.location} /> */}
+      <Header
+        showMiniIcons={false}
+        match={match}
+        location={location}
+        history={history}
+      />
       <div
         className="page rc-content--fixed-header"
         data-action="RedirectURL-Start"
@@ -178,7 +184,7 @@ function Exception() {
               </div>
             </div>
             <Link
-              to="/"
+              to="/home"
               className="rc-btn rc-btn--two"
               role="button"
               aria-pressed="true"

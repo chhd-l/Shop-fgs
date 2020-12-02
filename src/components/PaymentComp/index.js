@@ -534,7 +534,7 @@ class PaymentComp extends React.Component {
         this.initCardInfo();
         await this.getPaymentMethodList();
 
-        if (this.pathname === '/payment/payment') {
+        if (this.pathname === '/checkout') {
           let creditCardInfoForm = {};
           this.state.creditCardList.map((el) => {
             if (el.id === addRes.context.id) {
@@ -563,7 +563,7 @@ class PaymentComp extends React.Component {
         }
       } else {
         await this.getPaymentMethodList();
-        if (this.pathname !== '/payment/payment') {
+        if (this.pathname !== '/checkout') {
           let filterList = this.state.creditCardList.filter((el) => {
             if (el.isDefault === 1) {
               el.selected = true;
@@ -789,7 +789,7 @@ class PaymentComp extends React.Component {
               <div
                 className={`col-12 col-sm-9 flex-column justify-content-around`}
                 style={{
-                  display: pathname === '/payment/payment' ? 'flex ' : 'none '
+                  display: pathname === '/checkout' ? 'flex ' : 'none '
                 }}
               >
                 <div className="row ui-margin-top-1-md-down  PayCardBoxMargin">
@@ -901,7 +901,7 @@ class PaymentComp extends React.Component {
               <div
                 className={`col-12 col-sm-9 flex-column justify-content-around`}
                 style={{
-                  display: pathname !== '/payment/payment' ? 'flex ' : 'none'
+                  display: pathname !== '/checkout' ? 'flex ' : 'none'
                 }}
               >
                 <div className="row ui-margin-top-1-md-down">

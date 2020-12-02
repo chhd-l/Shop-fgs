@@ -22,7 +22,6 @@ class Filter extends React.Component {
     this.hanldeClickRemoveAll = this.hanldeClickRemoveAll.bind(this);
     this.handleClickValueItem = this.handleClickValueItem.bind(this);
   }
-  componentDidMount() {}
   get hasSelecedItems() {
     let ret = false;
     const { filterList } = this.state;

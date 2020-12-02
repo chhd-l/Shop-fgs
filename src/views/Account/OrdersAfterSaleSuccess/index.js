@@ -95,7 +95,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                     </Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <Link
-                      to="/"
+                      to="/home"
                       className="rc-meta rc-styled-link backtohome"
                       style={{ fontWeight: 500 }}
                     >

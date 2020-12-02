@@ -143,7 +143,6 @@ class Carousel extends React.Component {
     // );
     const { history, location } = this.props;
     sessionItemRoyal.set('recomment-preview', location.pathname);
-    sessionItemRoyal.set('rc-goods-name', item.goodsName);
 
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }

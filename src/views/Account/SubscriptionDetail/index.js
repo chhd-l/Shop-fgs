@@ -2440,7 +2440,7 @@ class SubscriptionDetail extends React.Component {
                                                             history
                                                           } = this.props;
                                                           history.push(
-                                                            `/account/orders-detail/${el.id}`
+                                                            `/account/orders/detail/${el.id}`
                                                           );
                                                         }}
                                                       ></span>
@@ -2472,7 +2472,7 @@ class SubscriptionDetail extends React.Component {
                                                       history
                                                     } = this.props;
                                                     history.push(
-                                                      `/account/orders-detail/${el.id}`
+                                                      `/account/orders/detail/${el.id}`
                                                     );
                                                   }}
                                                 >
