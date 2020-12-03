@@ -99,6 +99,7 @@ import RequestInvoices from '@/views/StaticPage/RequestInvoices';
 import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
+import register from '@/views/Register'
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -413,6 +414,7 @@ const App = () => (
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
+              <Route path="/register" component={register} />
               <Route
                 path="/list/:category"
                 render={(props) => (<List
