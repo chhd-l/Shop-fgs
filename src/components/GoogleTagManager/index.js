@@ -5,6 +5,15 @@ import { loadJS } from '@/utils/utils';
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
+  static defaultProps = {
+    searchEvents:{
+      search:{
+        query:"",
+        results:"",
+        type:""
+      }
+    }
+  }
   componentDidMount() {
     const event = {
       page: {
@@ -16,23 +25,31 @@ class GoogleTagManager extends React.Component {
         environment: process.env.REACT_APP_GA_ENV,
         country: process.env.REACT_APP_GA_COUNTRY,
         currency: process.env.REACT_APP_GA_CURRENCY_CODE
-      }
+      },
     };
     let userInfo = this.props.loginStore.userInfo;
+
     if (userInfo) {
       event.user = {
+        authentificationStatus:'not authenticated',
+        frequency:'prospect',
+        email:userInfo.email,
         id: userInfo.customerId,
         country: process.env.REACT_APP_GA_COUNTRY,
         locale: userInfo.city, // "es-MX"
         accountType: 'test'
       };
     }
+
     let additionalEvents = Object.assign(
       {},
       event,
-      this.props.additionalEvents
+      this.props.additionalEvents,
+      //this.props.searchEvents
     );
 
+    console.log(4444,additionalEvents)
+    
     loadJS({
       code: `window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(${JSON.stringify(additionalEvents)});`
@@ -44,6 +61,7 @@ class GoogleTagManager extends React.Component {
       window.dataLayer.push(${JSON.stringify(this.props.ecommerceEvents)});`
       });
     }
+    
     loadJS({
       code: `(function(w,d,s,l,i){w[l] = w[l] || [];
       w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });

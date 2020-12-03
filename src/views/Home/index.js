@@ -430,10 +430,15 @@ class Home extends React.Component {
     const { history, match, location } = this.props;
     const { categoryList, deviceType } = this.state;
     const curListNum = categoryList.length;
+
     const event = {
       page: {
+        error: '',
+        hitTimestamp: new Date(),
+        path:match.path,
         type: 'Homepage',
-        theme: ''
+        filters:'',
+        theme: '',
       }
     };
 
