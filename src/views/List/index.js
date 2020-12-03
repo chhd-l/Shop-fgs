@@ -490,8 +490,8 @@ class List extends React.Component {
       this.state.currentCatogery || ''
     );
     sessionItemRoyal.set('recomment-preview', location.pathname);
-    // history.push(`${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
-    history.push('/details/' + item.goodsInfos[0].goodsInfoId);
+    history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
+    // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   onSortChange = (data) => {
     this.setState({ selectedSortParam: data, currentPage: 1 }, () =>

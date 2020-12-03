@@ -144,6 +144,9 @@ class Carousel extends React.Component {
     const { history, location } = this.props;
     sessionItemRoyal.set('recomment-preview', location.pathname);
 
+    // this.props.history.push(
+    //   `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
+    // );
     history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   render() {
@@ -174,7 +177,7 @@ class Carousel extends React.Component {
                         <div>
                           {
                             (
-                              <p key={index} onClick={() => this.hanldeClick(item)} style={{ cursor: 'pointer' }}>
+                              <p key={index} onClick={this.hanldeClick.bind(this, item)} style={{ cursor: 'pointer' }}>
                               <div style={{ width: '150px', height: '180px', backgroundSize: '150px 180px', backgroundImage: 'url(' + item.goodsImg + ')', margin: '10px auto 0' }}></div>
                               <div className="goodsName">{item.goodsName}</div>
                               <div className="subtitle">{item.goodsSubtitle}</div>
