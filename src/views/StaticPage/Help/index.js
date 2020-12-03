@@ -11,6 +11,7 @@ import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -160,12 +161,14 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={callImg}
                                         alt="By telephone"
                                         title="By telephone"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -231,12 +234,14 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={emailImg}
                                         alt="By email"
                                         title="By email"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -257,7 +262,9 @@ class Help extends React.Component {
                                 }}
                               >
                                 <picture className="rc-card__image">
+                                  <LazyLoad>
                                   <img src={helpImg} alt=" " title=" " />
+                                  </LazyLoad>
                                 </picture>
                               </div>
                             </div>

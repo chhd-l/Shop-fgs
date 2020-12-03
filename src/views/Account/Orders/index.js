@@ -330,7 +330,7 @@ class AccountOrders extends React.Component {
         subscriptionPrice: order.tradePrice.subscriptionPrice
       });
 
-      this.props.history.push('/payment/payment');
+      this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
     } finally {
@@ -444,7 +444,7 @@ class AccountOrders extends React.Component {
               {(txt) => (
                 <Link
                   className="text-white"
-                  to={`/account/orders-detail/${order.id}`}
+                  to={`/account/orders/detail/${order.id}`}
                   title={txt}
                   alt={txt}
                 >
@@ -522,12 +522,9 @@ class AccountOrders extends React.Component {
                             <p>
                               <FormattedMessage id="account.orders.tips" />
                             </p>
-                            <button
-                              className="rc-btn rc-btn--one"
-                              onClick={() => this.props.history.push('/')}
-                            >
+                            <Link className="rc-btn rc-btn--one" to="/home">
                               <FormattedMessage id="account.orders.btns" />
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -649,7 +646,7 @@ class AccountOrders extends React.Component {
                                     <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                       <Link
                                         className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
-                                        to={`/account/orders-detail/${order.id}`}
+                                        to={`/account/orders/detail/${order.id}`}
                                       >
                                         <span className="medium pull-right--desktop rc-styled-link">
                                           <FormattedMessage id="order.orderDetails" />
@@ -719,7 +716,7 @@ class AccountOrders extends React.Component {
                                   {order.subscribeId ? (
                                     <div className="col-12 text-right rc-md-up">
                                       <Link
-                                        to={`/account/subscription-detail/${order.subscribeId}`}
+                                        to={`/account/subscription/order/detail/${order.subscribeId}`}
                                       >
                                         <span
                                           className="iconfont font-weight-bold red mr-1"
@@ -810,7 +807,7 @@ class AccountOrders extends React.Component {
                       {this.renderOperationBtns(curOneOrderDetails)}
                       {curOneOrderDetails.subscribeId ? (
                         <Link
-                          to={`/account/subscription-detail/${curOneOrderDetails.subscribeId}`}
+                          to={`/account/subscription/order/detail/${curOneOrderDetails.subscribeId}`}
                         >
                           <span
                             className="iconfont font-weight-bold red mr-1"

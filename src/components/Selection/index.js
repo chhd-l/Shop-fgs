@@ -74,6 +74,7 @@ export default class Selection extends React.Component {
   render() {
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
     const { optionList } = this.props;
+    console.log(optionList, 'optionList')
     return (
       <div
         onBlur={() => this.onBlurHandler()}

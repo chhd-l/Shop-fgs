@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { find } from 'lodash';
-import { formatMoney, getFrequencyDict } from '@/utils/utils';
+import { formatMoney, getDictionary } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
@@ -66,10 +67,12 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-
-    getFrequencyDict().then((res) => {
+    Promise.all([
+      getDictionary({ type: 'Frequency_week' }),
+      getDictionary({ type: 'Frequency_month' })
+    ]).then((dictList) => {
       this.setState({
-        frequencyList: res
+        frequencyList: [...dictList[0], ...dictList[1]]
       });
     });
     this.setState(
@@ -109,11 +112,13 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
+                <LazyLoad>
                 <img
                   className="product-image"
                   src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
                   alt=""
                 />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -164,11 +169,13 @@ class PayProductInfo extends React.Component {
       (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
     );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-    sessionItemRoyal.set('rc-goods-name', item.goodsName);
+    // this.props.history.push(
+    //   `/details/${
+    //     this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
+    //   }`
+    // );
     this.props.history.push(
-      `/details/${
-        this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
-      }`
+      `/${item.goodsName.toLowerCase().split(' ').join('-')}-${item.goodsNo}`
     );
   };
   getProductsForLogin(plist) {
@@ -179,7 +186,9 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img className="product-image" src={el.goodsInfoImg} alt="" />
+                <LazyLoad>
+                <img className="product-image" src={el.goodsInfoImg} alt=""/>
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">

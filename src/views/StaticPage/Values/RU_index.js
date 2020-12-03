@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
+import LazyLoad from 'react-lazyload';
 
 import './index.css';
 import { cloneDeep, findIndex, find } from 'lodash';
@@ -98,7 +99,9 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image1} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <div
@@ -106,11 +109,13 @@ class Help extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div className="rc-column">
+              <LazyLoad>
               <img
                 src={image2}
                 style={{ width: '100%', marginTop: '50px' }}
                 alt=""
               />
+              </LazyLoad>
             </div>
             <div
               className="rc-column"
@@ -164,7 +169,9 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image3} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <section

@@ -93,7 +93,7 @@ const LoginButton = (props) => {
   const login = async () => {
     try {
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set('okta-redirectUrl', '/');
+      sessionItemRoyal.set('okta-redirectUrl', '/home');
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       authService.login(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {}

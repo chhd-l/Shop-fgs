@@ -37,6 +37,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { updateBackendCart } from '@/api/cart';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -159,7 +160,7 @@ class Help extends React.Component {
       })
       .catch((err) => {
         console.log(err, 'err')
-        // this.props.history.push('/');
+        // this.props.history.push('/home');
       });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -292,9 +293,9 @@ class Help extends React.Component {
       if (idx > -1) {
         cartDataCopy.splice(idx, 1, tmpData);
       } else {
-        if (cartDataCopy.length >= 30) {
+        if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" />
+            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>
           });
           return;
         }
@@ -620,6 +621,7 @@ class Help extends React.Component {
                             className={`${i === activeIndex ? 'active' : ''}`}
                           >
                             <i></i>
+                            <LazyLoad>
                             <img
                               alt=""
                               src={
@@ -627,6 +629,7 @@ class Help extends React.Component {
                                 el.goodsInfo.goods.goodsImg
                               }
                             />
+                            </LazyLoad>
                             <div
                               style={{
                                 display: 'inline-block',
@@ -831,6 +834,7 @@ class Help extends React.Component {
                         </div>
                       </div>
                       <div className="description">
+                        <LazyLoad>
                         <img
                           alt=""
                           src={storeLogo}
@@ -840,6 +844,7 @@ class Help extends React.Component {
                             marginRight: '20px'
                           }}
                         />
+                        </LazyLoad>
                         <p
                           style={{
                             fontSize: '16px',
@@ -978,6 +983,7 @@ class Help extends React.Component {
                             className={`${i === activeIndex ? 'active' : ''}`}
                           >
                             <i></i>
+                            <LazyLoad>
                             <img
                               alt=""
                               style={{ height: '65px' }}
@@ -986,6 +992,7 @@ class Help extends React.Component {
                                 el.goodsInfo.goods.goodsImg
                               }
                             />
+                            </LazyLoad>
                             <span className="proName">
                               {el.goodsInfo.goodsInfoName}
                             </span>
@@ -1153,6 +1160,7 @@ class Help extends React.Component {
                       </div> */}
                       </div>
                       <div className="description">
+                        <LazyLoad>
                         <img
                           alt=""
                           src={storeLogo}
@@ -1162,6 +1170,7 @@ class Help extends React.Component {
                             marginRight: '20px'
                           }}
                         />
+                        </LazyLoad>
                         <p
                           style={{
                             fontSize: '16px',
@@ -1219,7 +1228,9 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={recommendation1} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <div className="help-page" style={{ marginBottom: '1rem' }}>
@@ -1288,12 +1299,14 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={callImg}
                                         alt="By telephone"
                                         title="By telephone"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -1326,12 +1339,14 @@ class Help extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={emailImg}
                                         alt="By email"
                                         title="By email"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -1345,7 +1360,9 @@ class Help extends React.Component {
                                 }}
                               >
                                 <picture className="rc-card__image">
+                                  <LazyLoad>
                                   <img src={helpImg} alt="" title="" />
+                                  </LazyLoad>
                                 </picture>
                               </div>
                             </div>
@@ -1372,13 +1389,19 @@ class Help extends React.Component {
             style={{ textAlign: 'center', display: 'flex' }}
           >
             <li>
+              <LazyLoad>
               <img src={cur_recommendation2} alt="" />
+              </LazyLoad>
             </li>
             <li>
+              <LazyLoad>
               <img src={cur_recommendation3} alt="" />
+              </LazyLoad>
             </li>
             <li>
+              <LazyLoad>
               <img src={cur_recommendation4} alt="" />
+              </LazyLoad>
             </li>
           </section>
           <section

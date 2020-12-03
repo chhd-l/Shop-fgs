@@ -628,6 +628,7 @@ export const ADYEN_CREDIT_CARD_BRANDS = {
   en: ['mc', 'visa', 'amex', 'discover']
 } || ['mc', 'visa', 'amex'];
 
+export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
 export const ADDRESS_RULE = [
   {
     key: 'firstName',
@@ -671,7 +672,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'email',
-    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
+    regExp: EMAIL_REGEXP,
     require: true,
     errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
       /{.+}/,
@@ -716,7 +717,7 @@ export const PAYMENT_METHOD_RULE = [
   },
   {
     key: 'email',
-    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
+    regExp: EMAIL_REGEXP,
     require: true,
     errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
       /{.+}/,
@@ -768,7 +769,7 @@ export const PRESONAL_INFO_RULE = [
   },
   {
     key: 'email',
-    regExp: /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/,
+    regExp: EMAIL_REGEXP,
     require: true,
     errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
       /{.+}/,
@@ -791,6 +792,5 @@ export const PRESONAL_INFO_RULE = [
       /{.+}/,
       CURRENT_LANGFILE['payment.postCode2']
     )
-  },
-  
+  }
 ];

@@ -13,6 +13,7 @@ import { FormattedMessage } from 'react-intl';
 import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -31,6 +32,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   } else {
     return (
       <div>
+        <LazyLoad>
         <img
           alt=""
           src={meImg}
@@ -48,6 +50,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
             maxWidth: 'none'
           }}
         />
+        </LazyLoad>
       </div>
     );
   }
@@ -236,7 +239,7 @@ class Prescription extends React.Component {
     // removeLinkClinicName();
     setSelectClinicId(item.id);
     setSelectClinicName(item.prescriberName);
-    this.props.history.push('/payment/payment');
+    this.props.history.push('/checkout');
   };
   getSonMess(center) {
     this.setState({
