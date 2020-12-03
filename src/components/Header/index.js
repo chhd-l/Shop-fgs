@@ -11,7 +11,7 @@ import {
 } from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
-import { getList, getLoginList, findSortList } from '@/api/list';
+import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
@@ -357,7 +357,7 @@ class Header extends React.Component {
       companyType: ''
     };
     try {
-      let res = await (this.isLogin ? getLoginList : getList)(params);
+      let res = await getList(params);
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
