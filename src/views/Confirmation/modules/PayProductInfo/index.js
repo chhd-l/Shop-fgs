@@ -40,12 +40,12 @@ class PayProductInfo extends React.Component {
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
                 <LazyLoad>
-                <img
-                  className="product-image"
-                  src={item.pic || IMG_DEFAULT}
-                  alt={item.spuName}
-                  title={item.spuName}
-                />
+                  <img
+                    className="product-image"
+                    src={item.pic || IMG_DEFAULT}
+                    alt={item.spuName}
+                    title={item.spuName}
+                  />
                 </LazyLoad>
               </div>
               <div className="wrap-item-title">

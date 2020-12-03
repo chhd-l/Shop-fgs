@@ -95,7 +95,6 @@ class EditForm extends React.Component {
     return tmp;
   }
   deliveryInputChange = (e) => {
-    const { isOnepageCheckout } = this.props;
     const { address } = this.state;
     const target = e.target;
     let value = target.type === 'checkbox' ? target.checked : target.value;
@@ -107,7 +106,7 @@ class EditForm extends React.Component {
     this.inputBlur(e);
     this.setState({ address }, () => {
       this.updateSelectedMobxData();
-      if (isOnepageCheckout) this.props.updateData(this.state.address);
+      this.props.updateData(this.state.address);
     });
   };
   inputBlur = (e) => {
@@ -301,6 +300,7 @@ class EditForm extends React.Component {
     );
   };
   render() {
+    const { isOnepageCheckout } = this.props;
     const { address } = this.state;
     return (
       <>
@@ -461,7 +461,7 @@ class EditForm extends React.Component {
               </span>
             </div>
           </div>
-          {this._emailPanelJSX()}
+          {/* {this._emailPanelJSX()} */}
           {this._phonePanelJSX()}
           {this._postCodeJSX()}
           <div className="col-12 col-md-6">

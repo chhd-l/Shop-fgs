@@ -14,10 +14,13 @@ import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('loginStore', 'paymentStore')
+@inject('paymentStore')
 @injectIntl
 @observer
 class PayOs extends React.Component {
+  static defaultProps = {
+    isLogin: false
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -49,15 +52,10 @@ class PayOs extends React.Component {
       requiredList: []
     };
   }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
   componentDidMount() {
+    const { isLogin } = this.props;
     const _this = this;
-    if (this.isLogin) {
+    if (isLogin) {
       loadJS({
         url: 'https://js.paymentsos.com/v2/0.0.1/token.min.js',
         callback: function () {
@@ -212,7 +210,7 @@ class PayOs extends React.Component {
       this.setState({ isValid: false });
     }
   }
-  handleClickCardConfirm() {
+  handleClickCardConfirm = () => {
     if (!this.state.isValid) {
       return false;
     }
@@ -251,8 +249,9 @@ class PayOs extends React.Component {
         this.props.endLoading();
       }
     }, 1000);
-  }
+  };
   clickPay = async () => {
+    const { isLogin } = this.props;
     if (!this.state.inited) {
       return false;
     }
@@ -265,7 +264,7 @@ class PayOs extends React.Component {
       }
       const { needReConfirmCVV } = this.props;
       let { payosdata, selectedCardInfo } = this.state;
-      if (this.isLogin) {
+      if (isLogin) {
         if (
           needReConfirmCVV &&
           (!selectedCardInfo ||
@@ -313,13 +312,14 @@ class PayOs extends React.Component {
     });
   };
   render() {
+    const { isLogin } = this.props;
     const { creditCardInfoForm } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <LazyLoad>
-            <img key={idx} className="logo-payment-card" src={el} alt=""/>
+            <img key={idx} className="logo-payment-card" src={el} alt="" />
           </LazyLoad>
         ))}
       </span>
@@ -327,7 +327,7 @@ class PayOs extends React.Component {
 
     return (
       <>
-        <div className="card payment-form ml-custom mr-custom Card-border p-3 rounded rc-border-all rc-border-colour--interface">
+        <div className="card payment-form 1ml-custom 1mr-custom Card-border 1p-3 rounded 1rc-border-all rc-border-colour--interface">
           <div className="card-body rc-padding--none">
             <form
               method="POST"
@@ -340,7 +340,7 @@ class PayOs extends React.Component {
                   className={`rc-list__accordion-item border-0`}
                   data-method-id="CREDIT_CARD"
                 >
-                  {this.isLogin ? (
+                  {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
                         getSelectedValue={this.onPaymentCompDataChange}
@@ -504,7 +504,7 @@ class PayOs extends React.Component {
                                 className="rc-btn rc-btn--two card-confirm"
                                 id="card-confirm"
                                 type="button"
-                                onClick={() => this.handleClickCardConfirm()}
+                                onClick={this.handleClickCardConfirm}
                                 disabled={!this.state.isValid}
                               >
                                 <FormattedMessage id="payment.confirmCard" />
@@ -537,19 +537,19 @@ class PayOs extends React.Component {
                         <div className="row">
                           <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
                             <LazyLoad>
-                            <img
-                              alt=""
-                              className="PayCardImgFitScreen"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  this.state.payosdata.vendor
-                                ]
-                                  ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.payosdata.vendor.toUpperCase()
-                                    ]
-                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
-                            />
+                              <img
+                                alt=""
+                                className="PayCardImgFitScreen"
+                                src={
+                                  CREDIT_CARD_IMG_ENUM[
+                                    this.state.payosdata.vendor
+                                  ]
+                                    ? CREDIT_CARD_IMG_ENUM[
+                                        this.state.payosdata.vendor.toUpperCase()
+                                      ]
+                                    : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                }
+                              />
                             </LazyLoad>
                           </div>
                           <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
@@ -592,13 +592,11 @@ class PayOs extends React.Component {
           </div>
         </div>
         {/* 条款 */}
-        <div className="ml-custom mr-custom payuCreditCard">
-          <TermsCommon
-            id={this.props.type}
-            listData={this.props.listData}
-            checkRequiredItem={this.checkRequiredItem}
-          />
-        </div>
+        <TermsCommon
+          id={this.props.type}
+          listData={this.props.listData}
+          checkRequiredItem={this.checkRequiredItem}
+        />
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"
@@ -677,7 +675,7 @@ class PayOs extends React.Component {
           </label>
         </div> */}
         {!this.props.isOnepageCheckout && (
-          <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+          <div className="place_order-btn pt-4">
             <div className="next-step-button">
               <div className="rc-text--right">
                 {this.state.inited ? (
