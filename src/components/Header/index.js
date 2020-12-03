@@ -11,7 +11,7 @@ import {
 } from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
-import { getList, getLoginList, findSortList } from '@/api/list';
+import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
@@ -27,12 +27,14 @@ import MegaMenuMobile from './modules/MegaMenuMobile';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import { loadJS } from '@/utils/utils';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
+@inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore','headerSearchStore')
 @injectIntl
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
@@ -51,7 +53,12 @@ class Header extends React.Component {
       result: null,
       isScrollToTop: true,
       headerNavigationList: [],
-      activeTopParentId: -1
+      activeTopParentId: -1,
+      event:{
+        search:{
+
+        }
+      }
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -82,6 +89,9 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    //进入这个页面 清除搜索埋点
+    this.props.headerSearchStore.clear()
+
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
       return false;
@@ -357,7 +367,7 @@ class Header extends React.Component {
       companyType: ''
     };
     try {
-      let res = await (this.isLogin ? getLoginList : getList)(params);
+      let res = await getList(params);
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -374,12 +384,25 @@ class Header extends React.Component {
                 ret = Object.assign(ret, {
                   goodsCateName: tmpItem.goodsCateName,
                   goodsSubtitle: tmpItem.goodsSubtitle,
-                  goodsImg: tmpItem.goodsImg
+                  goodsImg: tmpItem.goodsImg,
+                  goodsNo: tmpItem.goodsNo
                 });
               }
               return ret;
             });
           }
+          //搜索成功-埋点
+          this.props.headerSearchStore.getResult(keywords,goodsContent.length)
+          console.log('搜索成功-成功',this.props.headerSearchStore)
+          const {query,results,type} = this.props.headerSearchStore
+          this.state.event.search = {
+            query,
+            results,
+            type
+          }
+          dataLayer.push({'search': this.state.event.search}); 
+
+
           this.setState({
             result: Object.assign(
               {},
@@ -390,6 +413,18 @@ class Header extends React.Component {
             )
           });
         } else {
+           //搜索失败-埋点
+           this.props.headerSearchStore.getNoResult(keywords)
+           console.log('搜索失败-埋点',this.props.headerSearchStore)
+           const {query,results,type} = this.props.headerSearchStore
+           this.state.event.search = {
+            query,
+            results,
+            type
+          }
+          dataLayer.push({'search': this.state.event.search}); 
+
+
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
           });
@@ -404,7 +439,10 @@ class Header extends React.Component {
   }
   gotoDetails(item) {
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
-    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
+    this.props.history.push(
+      `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+    );
+    // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   clickLogin() {
     this.props.history.push('/login');
@@ -522,7 +560,6 @@ class Header extends React.Component {
       let filters = [];
       const pageVal = targetRes[0].valueEn;
       if (pageVal) linkObj = { pathname: `${item.navigationLink}` };
-      debugger;
       switch (pageVal) {
         case 'PLP':
         case 'SRP':
@@ -559,9 +596,12 @@ class Header extends React.Component {
             });
           }
           break;
-        // case 'PDP':
-        //   link = `/details/${item.paramsField}`;
-        //   break;
+        case 'PDP':
+          linkObj = Object.assign(linkObj, {
+            pathname: `${item.navigationLink}${item.paramsField}`
+          });
+          // link = `/details/${item.paramsField}`;
+          break;
         // case 'HP':
         //   link = '/';
         //   break;
@@ -643,6 +683,8 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
+        {/* 执行埋点 */}
+        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         <header className={`rc-header`} data-js-header-scroll>

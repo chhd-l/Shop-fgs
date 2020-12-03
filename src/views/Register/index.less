@@ -1,0 +1,72 @@
+@media (max-width: 640px) {
+  #registrationForm {
+    padding: 0;
+  }
+
+  #register .social-auth-button {
+      margin: 0 !important;
+  }
+}
+
+@media (min-width: 640px) {
+  #registrationForm {
+    padding: 0 7rem;
+  }
+}
+
+#register {
+  .social-auth-button {
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #fff;
+    display: block;
+    font-size: 13px;
+    line-height: 50px;
+    margin-top: 15px;
+    padding-left: 90px;
+    text-align: left;
+    text-decoration: none !important;
+    font-family: 'RC TYPE', Roboto, Avenir, Helvetica, Arial, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+  }
+
+  .social-auth-button.fecebookBtn {
+    background-color: #406094;
+    background: url(./../../assets/images/register/facebook_logo.png) no-repeat;
+    background: url(./../../assets/images/register/facebook_logo.png) no-repeat
+        10px,
+      linear-gradient(90deg, #304879 50px, #406094 0);
+    border: 1px solid #375685;
+    height: 40px !important;
+    line-height: 38px !important;
+    color: #fff !important;
+  }
+  .social-auth-button.googleBtn {
+    background-color: #fbfbfb;
+    background: url(./../../assets/images/register/google_logo.png) no-repeat
+        10px,
+      -webkit-linear-gradient(left, #fff 50px, #fbfbfb 0);
+    background: url(./../../assets/images/register/google_logo.png) no-repeat
+        10px,
+      linear-gradient(90deg, #fff 50px, #fbfbfb 0);
+    border: 1px solid #c3c3c3;
+    background-position: 15px 50%, 0 0;
+    color: #2f3f4a;
+    height: 40px !important;
+    line-height: 38px !important;
+  }
+  .auth-divider {
+    background-color: #a7a7a7;
+    height: 1px;
+    margin-bottom: 25px;
+    text-align: center;
+    padding: 0 5rem;
+  }
+  .auth-divider .auth-divider-text {
+    background-color: #fff;
+    position: relative;
+    top: -0.5em;
+    padding: 0 15px;
+  }
+}

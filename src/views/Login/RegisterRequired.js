@@ -195,14 +195,14 @@ class RegisterRequired extends Component {
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
       this.setState({
-        width: 300,
+        width: '300px',
         zoom: '120%',
         fontZoom: '100%'
       });
     }
     if (windowWidth >= 640) {
       this.setState({
-        width: 500,
+        width: '500px',
         zoom: '150%',
         fontZoom: '120%'
       });
@@ -235,6 +235,7 @@ class RegisterRequired extends Component {
     // }
   }
   componentWillUnmount() {
+    debugger
     localItemRoyal.set('isRefresh', true);
   }
   render() {
