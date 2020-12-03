@@ -26,7 +26,7 @@ class RouteFilter extends Component {
     }
     // 不开启地图，不进入此页面
     if (pathname === '/prescription' && !configStore.prescriberMap) {
-      this.props.history.replace('/payment/payment');
+      this.props.history.replace('/checkout');
       return false;
     }
 
@@ -45,7 +45,7 @@ class RouteFilter extends Component {
           !needPrescriber ||
           localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
         ) {
-          history.replace('/payment/payment');
+          history.replace('/checkout');
         }
       } else {
         let needPrescriber;
@@ -60,7 +60,7 @@ class RouteFilter extends Component {
           !needPrescriber ||
           localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
         ) {
-          history.replace('/payment/payment');
+          history.replace('/checkout');
         }
       }
     }
@@ -96,7 +96,7 @@ class RouteFilter extends Component {
           this.props.clinicStore.defaultClinicName
         );
       }
-      history.replace('/payment/payment');
+      history.replace('/checkout');
       return false;
     }
 
@@ -104,7 +104,7 @@ class RouteFilter extends Component {
       pathname.indexOf('/account') !== -1 &&
       !localItemRoyal.get('rc-token')
     ) {
-      history.push('/');
+      history.push('/home');
       return false;
     }
 
@@ -112,7 +112,7 @@ class RouteFilter extends Component {
       pathname === '/confirmation' &&
       !sessionItemRoyal.get('subOrderNumberList')
     ) {
-      history.push('/');
+      history.push('/home');
       return false;
     }
 
@@ -143,14 +143,14 @@ class RouteFilter extends Component {
       nextProps.location.pathname === '/prescription' &&
       !this.props.configStore.prescriberMap
     ) {
-      this.props.history.replace('/payment/payment');
+      this.props.history.replace('/checkout');
       return false;
     }
 
     if (nextProps.location.pathname === '/prescription') {
       console.log(toJS(this.props.checkoutStore.autoAuditFlag), 'AuditData');
       if (this.props.checkoutStore.autoAuditFlag) {
-        this.props.history.replace('/payment/payment');
+        this.props.history.replace('/checkout');
       }
 
       // if(this.isLogin) {
@@ -168,7 +168,7 @@ class RouteFilter extends Component {
       //   return false
       //   // this.AuditData = res.goodsInfos.filter(el => el.auditCatFlag)
       // }
-      // this.props.history.replace('/payment/payment');
+      // this.props.history.replace('/checkout');
       // return false;
     }
 
@@ -181,7 +181,7 @@ class RouteFilter extends Component {
         (localItemRoyal.get(`rc-clinic-id-default`) &&
           localItemRoyal.get(`rc-clinic-name-default`)))
     ) {
-      this.props.history.replace('/payment/payment');
+      this.props.history.replace('/checkout');
       return false;
     }
 
@@ -189,7 +189,7 @@ class RouteFilter extends Component {
       nextProps.location.pathname.indexOf('/account') !== -1 &&
       !localItemRoyal.get('rc-token')
     ) {
-      this.props.history.push('/');
+      this.props.history.push('/home');
       return false;
     }
 
@@ -197,7 +197,7 @@ class RouteFilter extends Component {
       nextProps.location.pathname === '/confirmation' &&
       !sessionItemRoyal.get('subOrderNumberList')
     ) {
-      this.props.history.push('/');
+      this.props.history.push('/home');
       return false;
     }
     return true;
@@ -211,7 +211,7 @@ class RouteFilter extends Component {
 
     // 离开某页面时 清除session/local storage数据
     if (isNavigateToOtherPage && prevPath) {
-      if (prevPath.includes('/payment/payment')) {
+      if (prevPath.includes('/checkout')) {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
         sessionItemRoyal.remove('rc-subform');
@@ -254,7 +254,7 @@ class RouteFilter extends Component {
       !localItemRoyal.get('rc-token') &&
       pathname.indexOf('/account') !== -1
     ) {
-      history.push('/');
+      history.push('/home');
     }
     if (
       //游客+从url输入required ===>直接跳回首页
@@ -262,7 +262,7 @@ class RouteFilter extends Component {
       pathname.indexOf('/required') !== -1 &&
       sessionItemRoyal.get('fromLoginPage') !== 'true'
     ) {
-      history.push('/');
+      history.push('/home');
     }
 
     if (window.location.href.indexOf('/#/') !== -1) {

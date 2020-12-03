@@ -7,6 +7,7 @@ import './index.less';
 import { customerInfoSave } from '@/api/landing';
 import Loading from '@/components/Loading';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -27,9 +28,6 @@ class Landing extends Component {
       ]
     };
   }
-  gotoShop = () => {
-    this.props.history.push('/');
-  };
   startLoading() {
     this.setState({ loading: true });
   }
@@ -118,7 +116,7 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {
@@ -153,12 +151,12 @@ class Landing extends Component {
 
             {/* go to shop按钮 */}
             <div style={{ textAlign: 'center', marginTop: '-31px' }}>
-              <button
+              <Link
                 className="rc-btn rc-btn rc-btn--one"
-                onClick={this.gotoShop}
+                to="/home"
               >
                 Conoce la Tienda
-              </button>
+              </Link>
             </div>
 
             {/* 介绍 */}
@@ -203,11 +201,12 @@ class Landing extends Component {
               <div className="rc-column rc-quad-width">
                 {/* logo */}
                 <Link
-                  to="/"
+                  to="/home"
                   className="header__nav__brand logo-home"
                   style={{ marginTop: '40px' }}
                 >
                   <span className="rc-screen-reader-text"></span>
+                  <LazyLoad>
                   <img
                     alt="Royal Canin"
                     src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
@@ -219,6 +218,7 @@ class Landing extends Component {
                       backgroundSize: 'cover'
                     }}
                   />
+                  </LazyLoad>
                 </Link>
                 <div className="form-margin-top">
                   {/* form */}

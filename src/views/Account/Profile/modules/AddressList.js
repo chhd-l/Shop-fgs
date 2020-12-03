@@ -5,7 +5,12 @@ import { getDictionary } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
-import { getAddressList, deleteAddress, editAddress } from '@/api/address';
+import {
+  getAddressList,
+  deleteAddress,
+  editAddress,
+  setDefaltAddress
+} from '@/api/address';
 import { queryCityNameById } from '@/api';
 import AddressEditForm from '../ShippingAddressForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
@@ -217,12 +222,10 @@ class AddressList extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    await editAddress(
-      Object.assign({}, item, {
-        isDefaltAddress: !item.isDefaltAddress ? 1 : 0
-      })
-    );
-    this.getAddressList({ showLoading: false });
+    if (!item.isDefaltAddress) {
+      await setDefaltAddress({ deliveryAddressId: item.deliveryAddressId });
+      this.getAddressList({ showLoading: false });
+    }
   }
   render() {
     const {

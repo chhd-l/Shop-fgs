@@ -13,7 +13,7 @@ import './index.less';
 // import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
-import { getPetList, addPet, petsById, delPets, editPets } from '@/api/pet';
+import { getPetList, addPet, petsById, delPets, editPets, getRecommendProducts } from '@/api/pet';
 import Loading from '@/components/Loading';
 import { getDictionary, getDeviceType } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
@@ -26,7 +26,10 @@ import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+import Banner_Cat from './images/banner_Cat.png'
+import Banner_Dog from './images/banner_Dog.png'
 import UploadImg from './components/ImgUpload';
+import Carousel from './components/Carousel';
 const lang = process.env.REACT_APP_LANG;
 
 switch (lang) {
@@ -67,7 +70,6 @@ class PetForm extends React.Component {
       loading: true,
       precent: 12.5,
       step: 1,
-
       currentStep: 'step1',
       showList: false,
       isDisabled: true,
@@ -105,7 +107,10 @@ class PetForm extends React.Component {
       showBreedListNoneTip: false,
       specialNeedsDisable: false,
       imgUrl: '',
-      isMobile: false
+      isMobile: false,
+      isChoosePetType: this.props.match.params.id?true: false,
+      isPurebred: true,
+      recommendData: []
     };
     this.nextStep = this.nextStep.bind(this);
     this.selectPetType = this.selectPetType.bind(this);
@@ -152,12 +157,19 @@ class PetForm extends React.Component {
     this.getPetList();
   }
   get specialNeedsOptions() {
-    return this.state.specialNeeds.map((ele) => {
+    let option = this.state.specialNeeds.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
       };
-    });
+    })
+    option.unshift({
+      name: 'Sin necesidades especiales',
+      valueEn: 'Sin necesidades especiales',
+      value: 'Sin necesidades especiales',
+    })
+    return option
   }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
@@ -280,6 +292,7 @@ class PetForm extends React.Component {
     this.props.history.push('/account/pets/');
   };
   savePet = async () => {
+    const { selectedSpecialNeeds } = this.state;
     let consumerAccount = '';
     if (this.getUserInfo() && this.getUserInfo().customerAccount) {
       consumerAccount = this.getUserInfo().customerAccount;
@@ -287,11 +300,29 @@ class PetForm extends React.Component {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       return;
     }
+
+
+    let validFiled = ['nickname', 'birthdate']
+    if(this.state.isPurebred) {
+      validFiled.push('breed')
+    }else if(!this.state.isCat){
+      validFiled.push('weight')
+    }
+    for(let i = 0; i < validFiled.length; i++) {
+      if(!this.state[validFiled[i]]) {
+        this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
+        return
+      }
+    }
+    if(!selectedSpecialNeeds.length) {
+      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
+      return 
+    }
+
     this.setState({
       loading: true
     });
 
-    const { selectedSpecialNeeds } = this.state;
     let customerPetsPropRelations = [];
     let propId = 100;
     for (let i = 0; i < selectedSpecialNeeds.length; i++) {
@@ -308,7 +339,7 @@ class PetForm extends React.Component {
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
-
+    
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
@@ -322,10 +353,10 @@ class PetForm extends React.Component {
       sterilized: this.state.isSterilized ? '0' : '1',
       storeId: process.env.REACT_APP_STOREID
     };
-    if (this.state.isUnknown) {
-      pets.petsBreed = 'unknown Breed';
-    }
-    if (this.state.isMix) {
+    // if (this.state.isUnknown) {
+    //   pets.petsBreed = 'unknown Breed';
+    // }
+    if (!this.state.isPurebred) {
       pets.petsBreed = 'mix Breed';
     }
     let param = {
@@ -627,13 +658,16 @@ class PetForm extends React.Component {
     if (currentPet.petsBreed === 'unknown Breed') {
       param.isMix = false;
       param.isUnknown = true;
-      param.isInputDisabled = true;
+      // param.isInputDisabled = true;
       param.breed = '';
     } else if (currentPet.petsBreed === 'mix Breed') {
       param.isMix = true;
       param.isUnknown = false;
-      param.isInputDisabled = true;
+      // param.isInputDisabled = true;
       param.breed = '';
+      param.isPurebred = false
+    }else {
+      param.isPurebred = true
     }
     let filterSize = this.sizeOptions.filter(
       (el) => el.name === currentPet.petsSizeValueName
@@ -650,18 +684,33 @@ class PetForm extends React.Component {
       param.selectedSpecialNeedsObj = Object.assign(
         this.state.selectedSpecialNeedsObj,
         {
-          value: this.specialNeedsOptions.filter(
-            (el) => el.name === currentPet.customerPetsPropRelations[0].propName
-          )[0].value
+          value: this.specialNeedsOptions.filter((el) => el.name === currentPet.customerPetsPropRelations[0].propName)[0].valueEn
         }
       );
       param.selectedSpecialNeeds = [
         currentPet.customerPetsPropRelations[0].propName
       ];
     } else {
-      param.specialNeedsDisable = true;
-      param.selectedSpecialNeeds = ['Sin necesidades especiales'];
+      param.selectedSpecialNeedsObj = {value: 'Sin necesidades especiales'}
     }
+    let params = {
+      breedCode: param.isPurebred?param.breed: 'mix Breed',
+      birth: param.birthdate,
+      petsType: param.isCat ? 'cat' : 'dog',
+      // mainReason: selectedSpecialNeedsObj
+      mainReason: param.selectedSpecialNeedsObj.value
+    }
+    getRecommendProducts(params).then(res => {
+      let result = res.context
+      if(result.otherProducts) {
+        let recommendData = result.otherProducts
+        recommendData.unshift(result.mainProduct)
+        // console.log(result.otherProducts.unshift(result.mainProduct), result,'hahahaa')
+        this.setState({
+          recommendData: recommendData
+        })
+      }
+    })
     this.setState(param);
   };
   getDict = (type, name) => {
@@ -767,29 +816,34 @@ class PetForm extends React.Component {
       });
     }
   }
-  petTypeChange(e) {
-    if (e.currentTarget.value === '0') {
-      this.setState({
-        isCat: true,
-        isDisabled: false
-      });
-    } else if (e.currentTarget.value === '1') {
-      this.setState({
-        isCat: false,
-        isDisabled: false
-      });
-    }
+  petTypeChange(isCat) {
+    this.setState({
+      isChoosePetType: true,
+      isCat: isCat,
+      isDisabled: false
+    });
+    // if (e.currentTarget.value === '0') {
+    //   this.setState({
+    //     isCat: true,
+    //     isDisabled: false
+    //   });
+    // } else if (e.currentTarget.value === '1') {
+    //   this.setState({
+    //     isCat: false,
+    //     isDisabled: false
+    //   });
+    // }
   }
   specialNeedsOptionsChange(data) {
     if (data.name === 'Sin necesidades especiales') {
       if (this.state.selectedSpecialNeeds[0] === 'Sin necesidades especiales') {
         this.setState({
-          specialNeedsDisable: false,
+          // specialNeedsDisable: false,
           selectedSpecialNeeds: []
         });
       } else {
         this.setState({
-          specialNeedsDisable: true,
+          // specialNeedsDisable: true,
           selectedSpecialNeeds: ['Sin necesidades especiales']
         });
       }
@@ -837,7 +891,8 @@ class PetForm extends React.Component {
       selectedSpecialNeedsObj,
       selectedSizeObj,
       imgUrl,
-      isMobile
+      isMobile,
+      isChoosePetType
     } = this.state;
     return (
       <div className="petForm">
@@ -866,7 +921,49 @@ class PetForm extends React.Component {
               )}
               {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
-              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+              <div className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: !isChoosePetType?'block': 'none'}}>
+                <h5 style={{color: '#333333', fontWeight: 400}}>New PET</h5>
+                <div class="content">
+                  <img src={Banner_Dog} style={{left: '40px'}}/>
+                  <div className="buttonBox">
+                    <p style={{color: '#333333', fontWeight: 400, fontSize: '22px'}}>Choose your pet type</p>
+                    <p style={{color: '#E2001A', fontSize: '22px'}}>Your Pet is a…</p>
+                    <div>
+                      <button className="rc-btn rc-btn--sm rc-btn--one" style={{marginRight: '20px'}} onClick={() => {this.petTypeChange(false)}}>Dog</button>
+                      <button className="rc-btn rc-btn--sm rc-btn--one" onClick={() => {this.petTypeChange(true)}}>Cat</button>
+                    </div>
+                  </div>
+                  <img src={Banner_Cat} style={{right: '40px'}}/>
+                  {/* <div className="buttonBox" style={{left: '350px'}}>
+                    <h4>I have a dog</h4>
+                    <span>
+                      <button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {this.petTypeChange(false)}}>Dog</button>
+                    </span>
+                  </div>
+                  <img src={Banner_Cat} style={{right: '40px'}}/>
+                  <div className="buttonBox" style={{right: '350px'}}>
+                    <h4>I have a cat</h4>
+                    <span>
+                      <button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {this.petTypeChange(true)}}>Cat</button>
+                    </span>
+                  </div> */}
+                </div>
+              </div>
+              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: isChoosePetType?'block': 'none'}}>
+                {/* 错误提示 */}
+                <div
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+                    this.state.errorMsg ? '' : 'hidden'
+                  }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close"
+                    role="alert"
+                  >
+                    {this.state.errorMsg}
+                  </aside>
+                </div>
+                <div style={{display: 'flex'}}>
                 <div className="photoBox">
                   <img
                     style={{
@@ -892,9 +989,9 @@ class PetForm extends React.Component {
                   />
                 </div>
                 <div className="formBox">
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
-                      className="form-control-label rc-full-width"
+                      className="form-control-label rc-full-width "
                       htmlFor="name"
                     >
                       <FormattedMessage id="name" />
@@ -930,7 +1027,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="gender"
@@ -979,7 +1076,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="birthday"
@@ -1019,7 +1116,66 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="Is Purebred"
+                    >
+                      <FormattedMessage id="Is Purebred" />
+                    </label>
+                    <div style={{ padding: '.5rem 0' }}>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="purebred"
+                          value="0"
+                          checked={this.state.isPurebred}
+                          type="radio"
+                          name="Is Purebred"
+                          onChange={(e) => {
+                            this.setState({
+                              isPurebred: true,
+                              weight: ''
+                            })
+                          }}
+                        />
+                        <label class="rc-input__label--inline" for="purebred">
+                          Yes
+                        </label>
+                      </div>
+                      <div class="rc-input rc-input--inline">
+                        <input
+                          class="rc-input__radio"
+                          id="noPurebred"
+                          value="1"
+                          checked={!this.state.isPurebred}
+                          type="radio"
+                          name="Is Purebred"
+                          onChange={(e) => {
+                            this.setState({
+                              isPurebred: false,
+                              breed: ''
+                            })
+                          }}
+                        />
+                        <label class="rc-input__label--inline" for="noPurebred">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="Is Purebred" />
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="Pet type"
@@ -1067,7 +1223,7 @@ class PetForm extends React.Component {
                         }}
                       />
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
@@ -1110,8 +1266,8 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
-                  {!this.state.isCat && (
-                    <div className="form-group col-lg-6 pull-left">
+                  {!this.state.isPurebred? (!this.state.isCat?(
+                    <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
                         htmlFor="weight"
@@ -1139,15 +1295,8 @@ class PetForm extends React.Component {
                         />
                       </div>
                     </div>
-                  )}
-                  {!this.state.isCat && !isMobile && (
-                    <div
-                      className="form-group col-lg-6 pull-left"
-                      style={{ height: '86px' }}
-                    />
-                  )}
-
-                  <div className="form-group col-lg-6 pull-left">
+                  ): null): (
+                    <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="breed"
@@ -1234,8 +1383,10 @@ class PetForm extends React.Component {
                         }}
                       />
                     </div>
-                    {/* <div className="form-group col-lg-6 pull-left"> */}
-                    <div class="rc-input rc-input--inline">
+                  </div>
+                  )}
+                  {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div class="rc-input rc-input--inline">
                       {this.state.isMix ? (
                         <input
                           class="rc-input__checkbox"
@@ -1259,8 +1410,8 @@ class PetForm extends React.Component {
                       <label class="rc-input__label--inline" for="Mix breed">
                         Mix breed
                       </label>
-                    </div>
-                    <div class="rc-input rc-input--inline">
+                    </div> */}
+                    {/* <div class="rc-input rc-input--inline">
                       {this.state.isUnknown ? (
                         <input
                           class="rc-input__checkbox"
@@ -1284,11 +1435,9 @@ class PetForm extends React.Component {
                       <label class="rc-input__label--inline" for="Don't know">
                         Don't know
                       </label>
-                    </div>
+                    </div> */}
                     {/* </div> */}
-                  </div>
-
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="weight"
@@ -1302,6 +1451,7 @@ class PetForm extends React.Component {
                       }
                       selectedItemData={{
                         value: selectedSpecialNeedsObj.value
+                        // value: ''
                       }}
                       disabled={this.state.specialNeedsDisable}
                       key={selectedSpecialNeedsObj.value}
@@ -1318,8 +1468,10 @@ class PetForm extends React.Component {
                         }}
                       />
                     </div>
-                    {/* <div className="form-group col-lg-6 pull-left"> */}
-                    <div class="rc-input rc-input--inline">
+                    
+                  </div>
+                  {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div class="rc-input rc-input--inline">
                       <input
                         class="rc-input__checkbox"
                         id="noSpecialNeeds"
@@ -1339,9 +1491,8 @@ class PetForm extends React.Component {
                       >
                         <FormattedMessage id="noSpecialNeeds" />
                       </label>
-                    </div>
+                    </div> */}
                     {/* </div> */}
-                  </div>
                   {/* <div className="form-group col-lg-6 pull-left">
                     <div class="rc-input rc-input--inline">
                       {this.state.isMix ? (
@@ -1417,10 +1568,10 @@ class PetForm extends React.Component {
                       </label>
                     </div>
                   </div> */}
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
-                      htmlFor="sterilized"
+                      // htmlFor="sterilized"
                     >
                       <FormattedMessage id="sterilized" />
                     </label>
@@ -1477,7 +1628,7 @@ class PetForm extends React.Component {
                     className="form-group col-lg-6 pull-left placehoder"
                     style={{ height: '40px' }}
                   ></div>
-                  <div className="form-group col-lg-6 pull-left">
+                  <div className="form-group col-lg-6 pull-left required">
                     {isMobile ? (
                       <p style={{ textAlign: 'center' }}>
                         <button
@@ -1524,9 +1675,22 @@ class PetForm extends React.Component {
                       </p>
                     )}
                   </div>
+                  
+                </div>
                 </div>
               </div>
             </div>
+            <div>
+                  {
+                    this.state.recommendData.length && this.state.isChoosePetType? (
+                      <Carousel
+                        location={this.props.location}
+                        history={this.props.history}
+                        recommendData={this.state.recommendData.length? this.state.recommendData: []}
+                      />
+                    ): null
+                  }
+                  </div>
           </div>
         </main>
         <Footer />

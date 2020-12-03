@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 class FrFaq extends Component {
     constructor(props){
@@ -23,7 +24,9 @@ class FrFaq extends Component {
                         <div className="rc-column rc-triple-width">
                             <div className="background-cover" style={{backgroundImage:"url('https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwbeb05de5/Help/02_help.jpg?sw=802&sh=336&sm=cut&sfrm=jpg')"}}>
                                 <picture className="rc-card__image">
-                                    <img className=" lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwbeb05de5/Help/02_help.jpg?sw=802&sh=336&sm=cut&sfrm=jpg"></img>
+                                    <LazyLoad>
+                                    <img className=" lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwbeb05de5/Help/02_help.jpg?sw=802&sh=336&sm=cut&sfrm=jpg"/>
+                                    </LazyLoad>
                                 </picture>
                             </div>
                         </div>
@@ -38,7 +41,9 @@ class FrFaq extends Component {
                                             </p>
                                         </div>
                                         <div className="rc-column rc-content-v-middle">
-                                            <img className="lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwae640ffa/Help/FAQ_icon@2x.jpg?sw=90&sfrm=jpg"></img>
+                                            <LazyLoad>
+                                            <img className="lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwae640ffa/Help/FAQ_icon@2x.jpg?sw=90&sfrm=jpg"/>
+                                            </LazyLoad>
                                         </div>
                                     </div>
                                 </div>

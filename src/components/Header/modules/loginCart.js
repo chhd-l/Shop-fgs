@@ -29,7 +29,7 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this);
   }
   async componentDidMount() {
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -37,7 +37,7 @@ class LoginCart extends React.Component {
     const pathname = this.props.history.location.pathname;
     if (
       !sessionItemRoyal.get('recommend_product') &&
-      pathname !== '/payment/payment'
+      pathname !== '/checkout'
     ) {
       this.checkoutStore.updateLoginCart();
     }

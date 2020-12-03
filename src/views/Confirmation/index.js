@@ -16,6 +16,7 @@ import { queryCityNameById } from '@/api';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -189,12 +190,14 @@ class Confirmation extends React.Component {
           <BannerTip />
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
+              <LazyLoad>
               <img
                 alt=""
                 src={successImg}
                 className="mb-3"
                 style={{ display: 'inline-block' }}
               />
+              </LazyLoad>
               <h4 className="rc-text-colour--iconography">
                 <b>
                   <FormattedMessage id="confirmation.info1" />
@@ -218,7 +221,7 @@ class Confirmation extends React.Component {
                     <FormattedMessage id="or" />
                     &nbsp;
                     <Link
-                      to="/"
+                      to="/home"
                       className="rc-meta rc-styled-link backtohome mb-0"
                     >
                       <FormattedMessage id="continueShopping" />
@@ -226,7 +229,7 @@ class Confirmation extends React.Component {
                   </>
                 ) : (
                   <Link
-                    to="/"
+                    to="/home"
                     className="rc-btn rc-btn--one"
                     style={{ transform: 'scale(.85)' }}
                   >
@@ -242,7 +245,7 @@ class Confirmation extends React.Component {
                     <b className="mb-3" style={{ display: 'inline-block' }}>
                       <FormattedMessage id="subscription.number" />:{' '}
                       <Link
-                        to={`/account/subscription-detail/${this.state.subNumber}`}
+                        to={`/account/subscription/order/detail/${this.state.subNumber}`}
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         {this.state.subNumber}
@@ -257,7 +260,7 @@ class Confirmation extends React.Component {
                       <FormattedMessage id="confirmation.orderNumber" />:{' '}
                       {this.state.paywithLogin ? (
                         <Link
-                          to={`/account/orders-detail/${ele}`}
+                          to={`/account/orders/detail/${ele}`}
                           className="rc-meta rc-styled-link backtohome mb-0"
                         >
                           {ele}
@@ -275,7 +278,7 @@ class Confirmation extends React.Component {
                     ? subOrderNumberList.map((ele, i) => (
                         <>
                           <Link
-                            to={`/account/orders-detail/${ele}`}
+                            to={`/account/orders/detail/${ele}`}
                             className="rc-meta rc-styled-link backtohome mb-0"
                           >
                             {ele}

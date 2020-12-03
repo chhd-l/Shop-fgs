@@ -126,8 +126,8 @@ const fr_FR = {
   'cart.errorInfo2': 'Vous ne pouvez pas passer votre commande, produit en rupture de stock: {val}',
   'cart.errorInfo3': "* Le montant de votre commande n'a pas encore atteint le montant minimum pour la livraison gratuite ({val})",
   'cart.errorInfo4': 'Vous ne pouvez pas passer votre commande: {val}',
-  'cart.errorMaxCate': 'Le panier ne doit pas dépasser 30 articles',
-  'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser 30',
+  'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
+  'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
   'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL',
   'cart.miniCartTitle': '10% de réduction sur le premier achat plus 5% de réduction sur chaque commande avec Autoship',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
@@ -669,7 +669,7 @@ const fr_FR = {
   'qualitySafety.shopCat': 'Acheter des formules pour chats',
   'qualitySafety.shopDog': 'Acheter des formules pour chiens',
   'qualitySafety.shopTile': 'Achetez des aliments sur mesure pour votre animal de compagnie',
-  'qualitySafety.title': 'Engagé pour la qualité et la sécurité alimentaire',
+  'qualitySafety.title': 'Engagement en faveur de la qualité et de la sécurité alimentaire',
   quantityCannotExceed10: 'La quantité ne peut pas dépasser 10',
   queryDataFailed: 'La requête des données a échoué',
   ratingGrade1: 'Le plus récent',
@@ -789,7 +789,7 @@ const fr_FR = {
   'tailorednutrition.formulasDetail': "Prenez l'exemple du berger allemand : il est particulièrement apprécié pour son courage, sa fidélité et son intelligence. Cependant, malgré sa grande force physique et mentale, le berger allemand est connu pour sa sensibilité digestive. Nous avons donc élaboré une formule adaptée qui contient des protéines facilement assimilables et des fibres spécifiques pour qu'il soit aussi fort à l'intérieur qu'à l'extérieur.",
   'tailorednutrition.formulasTitle': 'Formules élaborées',
   'tailorednutrition.natureDetail': 'Un jack russell en parfaite santé peut sauter à une hauteur équivalente à six fois sa taille. Favoriser son incroyable potentiel naturel avec des protéines et des antioxydants spécialement sélectionnés permet de répondre à ses besoins spécifiques.',
-  'tailorednutrition.natureTitle': 'Encourager leurs prédispositions naturelles',
+  'tailorednutrition.natureTitle': 'Nourrir leur santé',
   'tailorednutrition.nutritionDetail': "Nous concevons des aliments pour répondre avec une grande précision à des besoins uniques. Chaque aliment fournit à chaque chat ou chaque chien un complexe complet et équilibré de nutriments et d'acides aminés dont il a besoin pour soutenir sa musculature, préserver son organisme en bonne santé, l'aider à renforcer ses défenses naturelles.",
   'tailorednutrition.nutritionTitle': "Qu'est-ce qu'une alimentation sur mesure?",
   'tailorednutrition.result': 'Le résultat',
@@ -1032,6 +1032,7 @@ const fr_FR = {
   breed: 'Race',
   gender: 'Le genre',
   home: 'Accueil',
-  setAsDefault: 'Définir par défaut'
+  setAsDefault: 'Définir par défaut',
+  mailAddress: 'Adresse mail'
 }
 export default fr_FR;

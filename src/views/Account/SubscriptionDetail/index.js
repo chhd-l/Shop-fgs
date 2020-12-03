@@ -187,7 +187,7 @@ class SubscriptionDetail extends React.Component {
         countryList: res
       });
     });
-    getFrequencyDict().then((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -904,10 +904,10 @@ class SubscriptionDetail extends React.Component {
                                             <FormattedMessage id="cart.errorInfo" />
                                           );
                                         }
-                                        if (tmp > 30) {
-                                          tmp = 30;
+                                        if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+                                          tmp = process.env.REACT_APP_LIMITED_NUM;
                                           this.showErrMsg(
-                                            <FormattedMessage id="cart.errorMaxInfo" />
+                                            <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
                                           );
                                         }
                                         el.subscribeNum = tmp;
@@ -926,7 +926,7 @@ class SubscriptionDetail extends React.Component {
                                   <span
                                     className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                     onClick={() => {
-                                      if (el.subscribeNum < 30) {
+                                      if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
                                         el.subscribeNum = el.subscribeNum + 1;
                                         this.doGetPromotionPrice();
                                         this.setState({
@@ -935,7 +935,7 @@ class SubscriptionDetail extends React.Component {
                                         });
                                       } else {
                                         this.showErrMsg(
-                                          <FormattedMessage id="cart.errorMaxInfo" />
+                                          <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
                                         );
                                       }
                                     }}
@@ -1211,10 +1211,10 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="cart.errorInfo" />
                                                   );
                                                 }
-                                                if (tmp > 30) {
-                                                  tmp = 30;
+                                                if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+                                                  tmp = process.env.REACT_APP_LIMITED_NUM;
                                                   this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorMaxInfo" />
+                                                    <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
                                                   );
                                                 }
                                                 el.subscribeNum = tmp;
@@ -1236,7 +1236,7 @@ class SubscriptionDetail extends React.Component {
                                               isActive ? '' : 'disabled'
                                             }`}
                                             onClick={() => {
-                                              if (el.subscribeNum < 30) {
+                                              if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
@@ -1246,7 +1246,7 @@ class SubscriptionDetail extends React.Component {
                                                 });
                                               } else {
                                                 this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorMaxInfo" />
+                                                  <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
                                                 );
                                               }
                                             }}
@@ -2440,7 +2440,7 @@ class SubscriptionDetail extends React.Component {
                                                             history
                                                           } = this.props;
                                                           history.push(
-                                                            `/account/orders-detail/${el.id}`
+                                                            `/account/orders/detail/${el.id}`
                                                           );
                                                         }}
                                                       ></span>
@@ -2472,7 +2472,7 @@ class SubscriptionDetail extends React.Component {
                                                       history
                                                     } = this.props;
                                                     history.push(
-                                                      `/account/orders-detail/${el.id}`
+                                                      `/account/orders/detail/${el.id}`
                                                     );
                                                   }}
                                                 >

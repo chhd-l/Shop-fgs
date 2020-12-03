@@ -27,6 +27,7 @@ import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
+import LazyLoad from 'react-lazyload';
 import {
   postVisitorRegisterAndLogin,
   batchAdd,
@@ -1106,7 +1107,8 @@ class Payment extends React.Component {
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
       deliveryAddressId: deliveryAddress.addressId,
-      billAddressId: billingAddress.addressId
+      billAddressId: billingAddress.addressId,
+      promotionCode: this.state.promotionCode
     };
     if (this.state.needPrescriber) {
       param.clinicsId = this.props.clinicStore.selectClinicId;
@@ -1859,11 +1861,13 @@ class Payment extends React.Component {
                           ? this.props.checkoutStore.AuditData.map((el, i) => {
                               return (
                                 <div className="petProduct">
+                                  <LazyLoad>
                                   <img
                                     alt=""
                                     src={el.goodsInfoImg}
                                     style={{ float: 'left' }}
                                   />
+                                  </LazyLoad>
                                   <div
                                     style={{
                                       float: 'left',
@@ -1907,6 +1911,7 @@ class Payment extends React.Component {
                           : this.props.checkoutStore.AuditData.map((el, i) => {
                               return (
                                 <div className="petProduct" key={i}>
+                                  <LazyLoad>
                                   <img
                                     alt=""
                                     src={
@@ -1915,6 +1920,7 @@ class Payment extends React.Component {
                                     }
                                     style={{ float: 'left' }}
                                   />
+                                  </LazyLoad>
                                   <div
                                     style={{
                                       float: 'left',

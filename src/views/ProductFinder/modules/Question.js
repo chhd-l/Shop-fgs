@@ -16,6 +16,7 @@ import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import veterinaryImg from '@/assets/images/veterinary.png';
 import veterinaryProductImg from '@/assets/images/veterinary_product.png';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -473,6 +474,7 @@ class Question extends React.Component {
             )}
           </div>
           <div className="col-2 col-md-1 rc-md-up">
+            <LazyLoad>
             <img
               className="ui-cursor-pointer"
               src={helpImg}
@@ -480,6 +482,7 @@ class Question extends React.Component {
               onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
               alt=""
             />
+            </LazyLoad>
             <ConfirmTooltip
               arrowDirection="right"
               arrowStyle={{ top: '25%' }}
@@ -602,11 +605,13 @@ class Question extends React.Component {
             )}
           </div>
           <div className="col-12 col-md-6 order-0 order-md-1">
+            <LazyLoad>
             <img
               src={{ cat: catImg, dog: dogImg }[type]}
               className="p-f-q-avatar"
               alt=""
             />
+            </LazyLoad>
           </div>
         </div>
 
@@ -646,17 +651,21 @@ class Question extends React.Component {
                 </div>
               </div>
               <div className="col-12 col-md-6">
+                <LazyLoad>
                 <img
                   src={veterinaryImg}
                   className="rc-md-up"
                   style={{ width: '20%', margin: '0 auto' }}
                   alt=""
                 />
+                </LazyLoad>
+                <LazyLoad>
                 <img
                   className="mt-3 rc-full-width"
                   src={veterinaryProductImg}
                   alt=""
                 />
+                </LazyLoad>
               </div>
             </div>
           }

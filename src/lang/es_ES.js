@@ -125,8 +125,8 @@ const es_ES = {
   'cart.errorInfo2': 'No puede realizar su pedido, producto agotado: {val}',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ({val})',
   'cart.errorInfo4': 'No puede realizar su pedido, producto fuera de estantería: {val}',
-  'cart.errorMaxCate': 'El carrito de compras no puede exceder los 30 artículos.',
-  'cart.errorMaxInfo': 'El número no puede exceder de 30',
+  'cart.errorMaxCate': 'El carrito de compras no puede exceder los {val} artículos.',
+  'cart.errorMaxInfo': 'El número no puede exceder de {val}',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.miniCartTitle': '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
@@ -812,6 +812,7 @@ const es_ES = {
   breed: 'Raza',
   gender: 'Género',
   setAsDefault: 'Establecer por defecto',
-  viewAll: 'Ver todos los productos'
+  viewAll: 'Ver todos los productos',
+  mailAddress: 'Correo Electronico'
 }
 export default es_ES;

@@ -46,12 +46,14 @@ class HeroCarousel extends React.Component {
                   (
                   {
                     <span className="h-100">
+                      <a  href='/product-finder'>
                       <img
                         className="rc-md-down w-100"
                         src={el.mobiUrl}
                         style={{ maxHeight: '100%' }}
                         alt={i}
                       />
+                      </a>
                     </span>
                   }
                 </div>

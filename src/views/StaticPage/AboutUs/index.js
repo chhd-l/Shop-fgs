@@ -14,6 +14,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -58,218 +59,168 @@ class AboutUs extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
+          <br/>
           <BreadCrumbs />
-          <div
-            className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-            style={{
-              width: '50%',
-              margin: '20px auto 0'
-            }}
-          >
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close"
-              role="alert"
-            >
-              {this.state.errorMsg}
-            </aside>
-          </div>
-          <section
-            style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
-          >
-            <h2
-              style={{
-                color: '#E2001A',
-                marginTop: '40px',
-                fontSize: '2.5rem'
-              }}
-            >
-              <FormattedMessage id="aboutUs.title" defaultMessage={' '} />
-            </h2>
-            <p style={{ fontSize: '1.2rem' }}>
-              <FormattedMessage id="aboutUs.description" defaultMessage={' '} />
-            </p>
-          </section>
+          <div className="storefront-page">
+            <nav
+              className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
+              data-progress-setup="true">
 
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="aboutUs.history" defaultMessage={' '} />
-                </h2>
-                <p>
-                  <FormattedMessage id="aboutUs.historyDetail" />
-                </p>
+            </nav>
+            <div className="experience-region experience-main">
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-headingBlock">
+                      <div className="rc-max-width--md text-center rc-margin-y--md">
+                        <div className="rc-alpha inherit-fontsize">
+                          <h1>À propos de Royal Canin</h1>
+                        </div>
+                        <div
+                          className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                          <p>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
+                            Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins
+                            spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution
+                            efficace à leurs problèmes de santé.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="rc-column">
-              <img src={image1} style={{ width: '100%' }} alt="" />
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div
+                        className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                        <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
+                        <div className="row align-items-md-center">
+                          <div className=" col-12 col-lg-6">
+                            <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                              <h2 className="rc-beta markup-text">Notre histoire</h2>
+                              <p>Le vétérinaire Jean Cathary a fondé Royal Canin en France en 1968. Le Dr Cathary rêvait
+                                d’une entreprise qui produirait des aliments pour animaux en se basant sur la science,
+                                mais aussi sur des principes : mieux connaître les animaux, les respecter en toutes
+                                circonstances, et créer des aliments de qualité pour chiens et chats conçus en fonction
+                                de leurs besoins et non en fonction des désirs de leurs propriétaires.</p>
+                            </div>
+                          </div>
+                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                            <picture data-rc-feature-objectfillpolyfill-setup="true">
+
+                                    <img className="w-100 ls-is-cached lazyloaded"
+                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw087fcb82/About-us/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
+                                         alt="Notre histoire" title="Notre histoire"
+                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw087fcb82/About-us/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                            </picture>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div
+                        className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                        <a id="Nos valeurs" name="Nos valeurs" className="page-section-anchor" aria-hidden="true"></a>
+                        <div className="row align-items-md-center">
+                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                            <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                         <img className="w-100 ls-is-cached lazyloaded"
+                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc3acd034/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
+                                         alt="Les valeurs de Royal Canin" title="Les valeurs de Royal Canin"
+                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc3acd034/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                            </picture>
+                          </div>
+                          <div className=" col-12 col-lg-6">
+                            <div
+                              className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                              <h2 className="rc-beta markup-text">Nos valeurs</h2>
+                              <p>Découvrez comment nous incarnons ces valeurs tous les jours depuis 50 ans.</p>
+                              <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                 href="https://shop.royalcanin.fr/Values.html" title="En savoir plus">En savoir plus</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-contentBlock">
+                      <div
+                        className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--lg">
+                        <a id="Engagement en faveur de la qualité" name="Engagement en faveur de la qualité"
+                           className="page-section-anchor" aria-hidden="true"></a>
+                        <div className="row align-items-md-center">
+                          <div className=" col-12 col-lg-6">
+                            <div className="text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                              <h2 className="rc-beta markup-text">Engagement en faveur de la qualité</h2>
+                              <p>La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous
+                                faisons dans le monde.</p>
+                              <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                 href="https://shop.royalcanin.fr/Quality-safety.html" title="En savoir plus">En savoir
+                                plus</a>
+                            </div>
+                          </div>
+                          <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
+                            <picture data-rc-feature-objectfillpolyfill-setup="true">
+                                    <img className="w-100 ls-is-cached lazyloaded"
+                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6e30f99/About-us/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
+                                         alt="Engagement en faveur de la qualité"
+                                         title="Engagement en faveur de la qualité"
+                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6e30f99/About-us/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                            </picture>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-textContent">
+                      <div
+                        className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
+                        <h2>Incroyable jusque dans le moindre détail</h2><p>Découvrez en quoi notre passion pour la
+                        santé des animaux est à la base de tout ce que nous entreprenons.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width">
+                    <div className="experience-component experience-assets-singleYoutubeVideo">
+                      <div className="rc-max-width--md rc-padding-x--lg">
+                        <div className="rc-video-wrapper">
+                          <iframe
+                            src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&amp;origin=https%3A%2F%2Fshop.royalcanin.fr"
+                            title="making a better world for pets" allowFullScreen="" frameBorder="0"></iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="experience-component experience-layouts-1column">
+                <div className="row rc-margin-x--none">
+                  <div className="rc-full-width"></div>
+                </div>
+              </div>
             </div>
           </div>
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
-          >
-            <div className="rc-column">
-              <img
-                src={image2}
-                style={{ width: '100%', marginTop: '50px' }}
-                alt=""
-              />
-            </div>
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="aboutUs.ourValues" />
-                </h2>
-                <p>
-                  <FormattedMessage id="aboutUs.ourValuesDetail" />
-                </p>
-                {this.props.intl.messages['aboutUs.learnMore'] ? (
-                  <Link
-                    className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    to={process.env.REACT_APP_LANG === 'fr'?"/values-fr":'/tailorednutrition'}
-                  >
-                    <FormattedMessage
-                      id="aboutUs.learnMore"
-                      defaultMessage={' '}
-                    />
-                  </Link>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '20px 200px' }}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  <FormattedMessage id="aboutUs.FoodQualityandSafety" />
-                </h2>
-                <p>
-                  <FormattedMessage id="aboutUs.FoodQualityandSafetyDetail" />
-                </p>
-                {this.props.intl.messages['aboutUs.learnMore'] ? (
-                  <Link
-                    className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                    to="/qualitySafety"
-                  >
-                    <FormattedMessage
-                      id="aboutUs.learnMore"
-                      defaultMessage={' '}
-                    />
-                  </Link>
-                ) : null}
-              </div>
-            </div>
-            <div className="rc-column">
-              <img src={image3} style={{ width: '100%' }} alt="" />
-            </div>
-          </div>
-          <section
-            style={{ textAlign: 'center', width: '90%', margin: '80px auto' }}
-          >
-            <h2 style={{ fontSize: '2.5rem' }}>
-              <FormattedMessage id="aboutUs.IncredibleDetail" />
-            </h2>
-            <p>
-              <FormattedMessage id="aboutUs.SeeHowWeDo" />
-            </p>
-            <iframe
-              src="https://www.youtube.com/embed/FYwO1fiYoa8?enablejsapi=1&origin=https%3A%2F%2Fshop.royalcanin.fr"
-              width="608"
-              height="342"
-              title="making a better world for pets"
-              allowfullscreen=""
-              frameborder="0"
-            ></iframe>
-          </section>
-          <section
-            style={{ textAlign: 'left', width: '100%', margin: '0 auto',display:process.env.REACT_APP_LANG === 'fr'?'none':'block' }}
-          >
-            <h2
-              style={{
-                color: '#E2001A',
-                marginTop: '40px',
-                fontSize: '2.5rem',
-                paddingLeft: '200px'
-              }}
-            >
-              <FormattedMessage id="aboutUs.shopTile" />
-            </h2>
-            <div
-              className="rc-layout-container rc-two-column"
-              style={{ padding: '20px 200px' }}
-            >
-              <div
-                className="rc-column"
-                style={{ border: '1px solid #ccc', cursor: 'pointer' }}
-                onClick={() => {
-                  this.props.history.push('/list/dogs');
-                }}
-              >
-                <img src={dog} style={{ width: '100%' }} alt="" />
-                <p
-                  style={{
-                    color: '#E2001A',
-                    fontSize: '1.5rem',
-                    fontWeight: '400'
-                  }}
-                >
-                  <FormattedMessage id="aboutUs.shopDog" />
-                </p>
-              </div>
-              <div
-                className="rc-column"
-                style={{
-                  border: '1px solid #ccc',
-                  marginLeft: '20px',
-                  cursor: 'pointer'
-                }}
-                onClick={() => {
-                  this.props.history.push('/list/cats');
-                }}
-              >
-                <img src={cat} style={{ width: '100%' }} alt="" />
-                <p
-                  style={{
-                    color: '#E2001A',
-                    fontSize: '1.5rem',
-                    fontWeight: '400'
-                  }}
-                >
-                  <FormattedMessage id="aboutUs.shopCat" />
-                </p>
-              </div>
-            </div>
-          </section>
         </main>
         <Footer />
       </div>

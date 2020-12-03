@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Help from './Help';
 import LoginButton from '@/components/LoginButton';
+import LazyLoad from 'react-lazyload';
 
 import catImg from '@/assets/images/product-finder-cat2.jpg';
 import dogImg from '@/assets/images/product-finder-dog2.jpg';
@@ -25,6 +26,7 @@ function PetJSX(props) {
             <div className="row align-items-center text-break">
               <div className="col-12 col-md-6 row mt-4 mb-2 mb-md-4">
                 <div className="col-12 col-md-6 mb-4 mb-md-0">
+                  <LazyLoad>
                   <img
                     src={{ cat: catImg, dog: dogImg }[props.type]}
                     className="border"
@@ -35,6 +37,7 @@ function PetJSX(props) {
                     }}
                     alt=""
                   />
+                  </LazyLoad>
                 </div>
                 <div className="col-12 col-md-6 text-center text-md-left">
                   <div className="row">
@@ -233,7 +236,9 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-1 order-md-0">
+                          <LazyLoad>
                           <img src={catImg} alt="" />
+                          </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link
                               className="rc-btn rc-btn--one"
@@ -244,7 +249,9 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
+                          <LazyLoad>
                           <img src={dogImg} alt="" />
+                          </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link
                               className="rc-btn rc-btn--one"

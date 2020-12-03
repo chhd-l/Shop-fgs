@@ -1,11 +1,12 @@
 import React from 'react';
-import "./Carousel.css"
+import "./Carousel.less"
 import { animate } from "@/assets/js/animate"
-import { getGoodsRelation } from '@/api/details';
+// import { getGoodsRelation } from '@/api/details';
 import { chunk } from 'lodash';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
+import { getRecommendProducts } from '@/api/pet'
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -33,19 +34,20 @@ class Carousel extends React.Component {
     // this.setState({
     //   windowWidth
     // })
-    const { goodsId } = this.props
-    if (goodsId) {
-      getGoodsRelation(goodsId).then((res) => {
-        console.log(333, res)
-        this.setState({
-          goodsList: chunk(res.context.goods, 4)
-        }, () => {
-          console.log(747, this.state.goodsList)
-        })
-      })
-    }
-
+    // const { goodsId } = this.props
+    // if (goodsId) {
+    //   getGoodsRelation(goodsId).then((res) => {
+    //     console.log(333, res)
+    //     this.setState({
+    //       goodsList: chunk(res.context.goods, 4)
+    //     }, () => {
+    //       console.log(747, this.state.goodsList)
+    //     })
+    //   })
+    // }
+    // console.log(this.props,'props')
   }
+  
   changeCircles = () => {
     //得到元素
     var circles = document.getElementById("circles");
@@ -142,11 +144,15 @@ class Carousel extends React.Component {
     const { history, location } = this.props;
     sessionItemRoyal.set('recomment-preview', location.pathname);
 
-    history.push('/details/' + item.goodsInfoIds[0]);
+    // this.props.history.push(
+    //   `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
+    // );
+    history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   render() {
+    console.log(this.props.recommendData, 'recommendData')
     return (
-      <div style={{display:this.state.goodsList.length===0?'none':'block'}}>
+      <div style={{display:this.props.recommendData.length===0?'none':'block'}}>
         <div
           style={{
             textAlign: 'center',
@@ -165,69 +171,67 @@ class Carousel extends React.Component {
             <div class="m_unit" id="m_unit">
               <ul>
                 {
-                  this.state.goodsList.map((item, index) => {
+                  this.props.recommendData.length && this.props.recommendData.map((item, index) => {
                     return (
                       <li key={index}>
                         <div>
                           {
-                            item.map((item2, index2) => {
-                              return (
-                                <p key={index2} onClick={() => this.hanldeClick(item2)} style={{ cursor: 'pointer' }}>
-                                  <div style={{ width: '150px', height: '180px', backgroundSize: '150px 180px', backgroundImage: 'url(' + item2.goodsImg + ')', margin: '10px auto 0' }}></div>
-                                  <div className="goodsName">{item2.goodsName}</div>
-                                  <div className="subtitle">{item2.goodsSubtitle}</div>
-                                  <div
-                                    className='rete'
-                                  >
-                                    <div className="display-inline">
-                                      <Rate
-                                        def={item2.avgEvaluate}
-                                        disabled={true}
-                                        marginSize="smallRate"
-                                      />
+                            (
+                              <p key={index} onClick={this.hanldeClick.bind(this, item)} style={{ cursor: 'pointer' }}>
+                              <div style={{ width: '150px', height: '180px', backgroundSize: '150px 180px', backgroundImage: 'url(' + item.goodsImg + ')', margin: '10px auto 0' }}></div>
+                              <div className="goodsName">{item.goodsName}</div>
+                              <div className="subtitle">{item.goodsSubtitle}</div>
+                              <div
+                                className='rete'
+                              >
+                                <div className="display-inline">
+                                  <Rate
+                                    def={item.avgEvaluate}
+                                    disabled={true}
+                                    marginSize="smallRate"
+                                  />
+                                </div>
+                                <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                  ({item.goodsEvaluateNum})
+                              </span>
+                              </div>
+                              <div className="marketPrice">{formatMoney(item.minMarketPrice)}
+                              {item.minLinePrice&&<span>{formatMoney(item.minLinePrice)}</span>}
+                              </div>
+                              {
+                                item.minSubscriptionPrice
+                                  ?
+                                  <p className="subscriptionPrice">
+                                    <div>
+                                      {formatMoney(item.minSubscriptionPrice)}
+                                      <span
+                                        className="iconfont font-weight-bold red mr-1"
+                                        style={{
+                                          fontSize: '.65em',
+                                          marginLeft: '6px',
+                                          color:'#323232',
+                                          fontWeight:'bold'
+                                        }}
+                                      >
+                                        &#xe675;
+                                    </span>
+                                      <span
+                                        className="position-relative red-text position-absolute"
+                                        style={{
+                                          fontSize: '.7em',
+                                          whiteSpace: 'nowrap',
+                                          marginTop: '4px',
+                                          marginLeft: '4px',
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoshop" />
+                                      </span>
                                     </div>
-                                    <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                      ({item2.goodsEvaluateNum})
-                                  </span>
-                                  </div>
-                                  <div className="marketPrice">{formatMoney(item2.minMarketPrice)}
-                                  {item2.minLinePrice&&<span>{formatMoney(item2.minLinePrice)}</span>}
-                                  </div>
-                                  {
-                                    item2.minSubscriptionPrice
-                                      ?
-                                      <p className="subscriptionPrice">
-                                        <div>
-                                          {formatMoney(item2.minSubscriptionPrice)}
-                                          <span
-                                            className="iconfont font-weight-bold red mr-1"
-                                            style={{
-                                              fontSize: '.65em',
-                                              marginLeft: '6px',
-                                              color:'#323232',
-                                              fontWeight:'bold'
-                                            }}
-                                          >
-                                            &#xe675;
-                                        </span>
-                                          <span
-                                            className="position-relative red-text position-absolute"
-                                            style={{
-                                              fontSize: '.7em',
-                                              whiteSpace: 'nowrap',
-                                              marginTop: '4px',
-                                              marginLeft: '4px',
-                                            }}
-                                          >
-                                            <FormattedMessage id="autoshop" />
-                                          </span>
-                                        </div>
-                                      </p>
-                                      : null
-                                  }
-                                </p>
-                              )
-                            })
+                                  </p>
+                                  : null
+                              }
+                            </p>
+                            )
                           }
                         </div>
                       </li>
@@ -250,8 +254,6 @@ class Carousel extends React.Component {
           </div>
         </div>
       </div>
-
-
     )
   }
 }

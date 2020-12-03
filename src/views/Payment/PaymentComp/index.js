@@ -18,6 +18,7 @@ import {
 } from '@/utils/constant';
 import { validData } from '@/utils/utils';
 import './index.css';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -573,6 +574,7 @@ class PaymentComp extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+          <LazyLoad>
           <img
             alt=""
             key={idx}
@@ -580,6 +582,7 @@ class PaymentComp extends React.Component {
             className="logo-payment-card mr-1"
             src={el}
           />
+          </LazyLoad>
         ))}
       </span>
     );
@@ -763,6 +766,7 @@ class PaymentComp extends React.Component {
                         <div
                           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
                         >
+                          <LazyLoad>
                           <img
                             alt=""
                             className="PayCardImgFitScreen"
@@ -778,6 +782,7 @@ class PaymentComp extends React.Component {
                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />
+                          </LazyLoad>
                         </div>
                         <div
                           className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
@@ -955,6 +960,7 @@ class PaymentComp extends React.Component {
                       <span className="red">*</span>
                       <div className="cardFormBox">
                         <span className="cardImage">
+                          <LazyLoad>
                           <img
                             alt="Card"
                             src={
@@ -965,6 +971,7 @@ class PaymentComp extends React.Component {
                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />
+                          </LazyLoad>
                         </span>
                         <span className="cardForm">
                           <div className="row">

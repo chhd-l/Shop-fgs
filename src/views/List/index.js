@@ -2,7 +2,6 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
@@ -12,6 +11,7 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
+import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
 import { find } from 'lodash';
 import {
@@ -26,7 +26,6 @@ import {
   getDictionary,
   setSeoConfig
 } from '@/utils/utils';
-import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
@@ -41,8 +40,7 @@ function ListItem(props) {
         className="rc-card rc-card--product overflow-hidden"
         style={{ minHeight: '120px' }}
       >
-        {props.leftPromotionJSX}
-        {props.rightPromotionJSX}
+        {props.promotionJSX}
         <div className="fullHeight">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
@@ -64,6 +62,7 @@ class List extends React.Component {
     this.state = {
       storeCateIds: [],
       category: '',
+      cateType: '',
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
@@ -108,10 +107,11 @@ class List extends React.Component {
     //   return false;
     // }
 
-    this.fidFromSearch = getParaByName(this.props.location.search, 'fid');
-    this.cidFromSearch = getParaByName(this.props.location.search, 'cid');
-    const { state } = this.props.history.location;
+    const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
+    this.fidFromSearch = getParaByName(search, 'fid');
+    this.cidFromSearch = getParaByName(search, 'cid');
+    const keywordsSearch = getParaByName(search, 'q');
 
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
@@ -149,7 +149,13 @@ class List extends React.Component {
     this.setState(
       {
         category,
-        keywords: category.toLocaleLowerCase() === 'keywords' ? keywords : ''
+        keywords:
+          category && category.toLocaleLowerCase() === 'keywords'
+            ? keywords
+            : keywordsSearch
+            ? keywordsSearch
+            : '',
+        cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
       },
       () => {
         this.initData();
@@ -268,6 +274,7 @@ class List extends React.Component {
   }
   async getProductList(type) {
     let {
+      cateType,
       currentPage,
       storeCateIds,
       keywords,
@@ -323,6 +330,20 @@ class List extends React.Component {
       return pItem;
     });
 
+    let urlPreVal = '';
+    goodsAttributesValueRelVOList.map((item, i) => {
+      urlPreVal += `${i ? '&' : ''}prefv${i + 1}=${item.attributeValues.join(
+        '|'
+      )}`;
+      return item;
+    });
+    // debugger;
+    // 点击filter，触发局部刷新或整页面刷新
+    // history.push(
+    //   `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`
+    //   // `${location.pathname}?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)`
+    // );
+
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
     for (const item of goodsFilterRelList) {
@@ -339,17 +360,14 @@ class List extends React.Component {
     }
 
     let params = {
+      cateType,
       storeId: process.env.REACT_APP_STOREID,
       // cateId: process.env.REACT_APP_CATEID,
       cateId: this.state.cateId || '',
       // cateId: this.state.cateId || process.env.REACT_APP_CATEID,
-      propDetails: [],
       pageNum: currentPage - 1,
-      brandIds: [],
       sortFlag: 11,
       pageSize: this.pageSize,
-      esGoodsInfoDTOList: [],
-      companyType: '',
       keywords,
       storeCateIds,
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
@@ -406,24 +424,7 @@ class List extends React.Component {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele, {
-                // 最低marketPrice对应的划线价
-                miLinePrice: ele.goodsInfos.sort(
-                  (a, b) => a.marketPrice - b.marketPrice
-                )[0].linePrice,
-                taggingForText: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Text' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
-                )[0],
-                taggingForImage: (ele.taggingVOList || []).filter(
-                  (e) =>
-                    e.taggingType === 'Image' &&
-                    e.showPage &&
-                    e.showPage.includes('PLP')
-                )[0]
-              });
+              let ret = Object.assign({}, ele);
               const tmpItem = find(
                 res.context.goodsList,
                 (g) => g.goodsId === ele.id
@@ -436,6 +437,8 @@ class List extends React.Component {
                   avgEvaluate,
                   minMarketPrice,
                   goodsImg,
+                  miMarketPrice,
+                  goodsNo,
                   ...others
                 } = tmpItem;
                 ret = Object.assign(ret, {
@@ -444,7 +447,8 @@ class List extends React.Component {
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,
-                  goodsImg
+                  goodsImg,
+                  goodsNo
                 });
               }
               return ret;
@@ -470,16 +474,16 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [], initingList: false });
       });
   }
-  hanldePageNumChange = (params) => {
+  hanldePageNumChange({ currentPage }) {
     this.setState(
       {
-        currentPage: params.currentPage
+        currentPage
       },
       () => this.getProductList()
     );
-  };
+  }
   hanldeItemClick(item) {
-    const { history } = this.props;
+    const { history, location } = this.props;
     if (this.state.loading) {
       return false;
     }
@@ -487,9 +491,9 @@ class List extends React.Component {
       'rc-goods-cate-name',
       this.state.currentCatogery || ''
     );
-    sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-    sessionItemRoyal.set('rc-goods-name', item.goodsName);
-    history.push('/details/' + item.goodsInfos[0].goodsInfoId);
+    sessionItemRoyal.set('recomment-preview', location.pathname);
+    history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
+    // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   onSortChange = (data) => {
     this.setState({ selectedSortParam: data, currentPage: 1 }, () =>
@@ -497,6 +501,7 @@ class List extends React.Component {
     );
   };
   updateOperatedFilterList = (data) => {
+    // 触发点击或跳转页面事件
     this.setState({ filterList: data, currentPage: 1 }, () => {
       this.getProductList();
     });
@@ -613,7 +618,7 @@ class List extends React.Component {
             )}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
-            <Link to="/" className="back-link">
+            <Link to="/home" className="back-link">
               Homepage
             </Link>
           </div>
@@ -631,7 +636,9 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <img src={titleData.img} className="mx-auto" alt="" />
+                  <LazyLoad>
+                    <img src={titleData.img} className="mx-auto" alt="" />
+                  </LazyLoad>
                 </div>
               </div>
             </div>
@@ -721,7 +728,9 @@ class List extends React.Component {
                       />
                     </aside>
                   </div>
-                  <div className={`rc-column rc-triple-width`}>
+                  <div
+                    className={`rc-column rc-triple-width rc-padding--none--mobile product-tiles-container`}
+                  >
                     {!loading && (
                       <>
                         <div className="row mb-3">
@@ -738,25 +747,23 @@ class List extends React.Component {
                           </div>
                           <div className="col-12 col-md-4">
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
-                              {sortList.length > 0 && (
-                                <Selection
-                                  key={sortList.length}
-                                  selectedItemChange={this.onSortChange}
-                                  optionList={sortList}
-                                  selectedItemData={{
-                                    value:
-                                      (selectedSortParam &&
-                                        selectedSortParam.value) ||
-                                      ''
-                                  }}
-                                  placeholder={<FormattedMessage id="sortBy" />}
-                                  customInnerStyle={{
-                                    paddingTop: '.7em',
-                                    paddingBottom: '.7em'
-                                  }}
-                                  customStyleType="select-one"
-                                />
-                              )}
+                              <Selection
+                                key={sortList.length}
+                                selectedItemChange={this.onSortChange}
+                                optionList={sortList}
+                                selectedItemData={{
+                                  value:
+                                    (selectedSortParam &&
+                                      selectedSortParam.value) ||
+                                    ''
+                                }}
+                                placeholder={<FormattedMessage id="sortBy" />}
+                                customInnerStyle={{
+                                  paddingTop: '.7em',
+                                  paddingBottom: '.7em'
+                                }}
+                                customStyleType="select-one"
+                              />
                             </span>
                           </div>
                         </div>
@@ -776,52 +783,41 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="row RowFitScreen">
-                        {loading
-                          ? _loadingJXS
-                          : productList.map((item, i) => (
-                              <ListItem
-                                key={item.id}
-                                leftPromotionJSX={
-                                  item.taggingForText ? (
+                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
+                          {loading
+                            ? _loadingJXS
+                            : productList.map((item, i) => (
+                                <ListItem
+                                  key={item.id}
+                                  promotionJSX={
+                                    find(
+                                      item.goodsInfos,
+                                      (ele) => ele.goodsPromotion
+                                    ) ? (
+                                      <div className="product-item-flag">
+                                        <FormattedMessage id="promotion" />
+                                      </div>
+                                    ) : null
+                                  }
+                                  onClick={this.hanldeItemClick.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <picture className="rc-card__image">
                                     <div
-                                      className="product-item-flag-text"
-                                      style={{
-                                        backgroundColor:
-                                          item.taggingForText.taggingFillColor,
-                                        color:
-                                          item.taggingForText.taggingFontColor
-                                      }}
+                                      className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                                      style={{ height: '15.7rem' }}
                                     >
-                                      {item.taggingForText.taggingName}
-                                    </div>
-                                  ) : null
-                                }
-                                rightPromotionJSX={
-                                  item.taggingForImage ? (
-                                    <div className="product-item-flag-image position-absolute">
-                                      <img
-                                        src={item.taggingForImage.taggingImgUrl}
-                                      />
-                                    </div>
-                                  ) : null
-                                }
-                                onClick={this.hanldeItemClick.bind(this, item)}
-                              >
-                                <picture className="rc-card__image">
-                                  <div
-                                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                                    style={{ height: '15.7rem' }}
-                                  >
-                                    <LazyLoad height={200}>
+                                      {/*循环遍历的图片*/}
                                       <img
                                         src={
                                           item.goodsImg ||
                                           item.goodsInfos.sort(
                                             (a, b) =>
                                               a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg ||
-                                          IMG_DEFAULT
+                                          )[0].goodsInfoImg
                                         }
                                         srcSet={
                                           item.goodsImg ||
@@ -832,125 +828,180 @@ class List extends React.Component {
                                         }
                                         alt={item.goodsName}
                                         title={item.goodsName}
-                                        className="ImgFitScreen pt-3 mh-100"
+                                        className="ImgFitScreen pt-3"
                                         style={{
                                           maxWidth: '50%',
+                                          maxHeight: '100%',
                                           width: 'auto',
-                                          height: 'auto',
-                                          margin: '0 auto'
+                                          height: 'auto'
                                         }}
                                       />
-                                    </LazyLoad>
-                                  </div>
-                                </picture>
-                                <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-                                  <div className="height-product-tile-plpOnly">
-                                    <header
-                                      className="rc-text--center"
-                                      style={{ height: '100px' }}
-                                    >
-                                      <h3
-                                        className="rc-card__title rc-gamma ui-text-overflow-line2 text-break mb-1 TitleFitScreen product-title"
-                                        title={item.goodsName}
+                                    </div>
+                                  </picture>
+                                  <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+                                    <div className="height-product-tile-plpOnly">
+                                      {/*商品名字*/}
+                                      <header
+                                        className="rc-text--center"
+                                        style={{ height: '100px' }}
                                       >
-                                        {item.goodsName}
-                                      </h3>
-                                    </header>
-                                    <div
-                                      className={`ui-text-overflow-line1 text-break sub-hover text-center SubTitleScreen`}
-                                      title={item.goodsSubtitle}
-                                      style={{ color: '#4a4a4a' }}
-                                    >
-                                      {item.goodsSubtitle}
-                                    </div>
-                                  </div>
-                                  <div className="rc-card__price text-center RateFitScreen">
-                                    <div className="display-inline">
-                                      <Rate
-                                        def={item.avgEvaluate}
-                                        disabled={true}
-                                        marginSize="smallRate"
-                                      />
-                                    </div>
-                                    <span className="comments rc-margin-left--xs rc-text-colour--text">
-                                      ({item.goodsEvaluateNum})
-                                    </span>
-                                  </div>
-                                  <div
-                                    className="text-center NameFitScreen"
-                                    style={{
-                                      color: '#4a4a4a',
-                                      opacity:
-                                        item.goodsInfos.length > 1 ? 1 : 0
-                                    }}
-                                  >
-                                    <FormattedMessage id="startFrom" />
-                                  </div>
-                                  <div className="d-flex justify-content-center">
-                                    <div className="rc-card__price text-left PriceFitScreen">
-                                      <div className="rc-full-width PriceFitScreen">
-                                        <span
-                                          style={{
-                                            color: '#323232',
-                                            fontWeight: 400
-                                          }}
+                                        <h3
+                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                          title={item.goodsName}
                                         >
-                                          {/* 最低marketPrice */}
-                                          {formatMoney(item.miMarketPrice)}{' '}
-                                          {/* 最低划线价 */}
-                                          {item.miLinePrice &&
-                                          item.miLinePrice > 0
-                                            ? formatMoney(item.miLinePrice)
-                                            : null}
-                                        </span>
+                                          {item.goodsName}
+                                        </h3>
+                                      </header>
+                                      {/*商品描述*/}
+                                      <div
+                                        className={`rc-card__meta text-center col-12`}
+                                        title={item.goodsSubtitle}
+                                        style={{ color: '#4a4a4a' }}
+                                      >
+                                        <h6>{item.goodsSubtitle}</h6>
                                       </div>
-                                      {/* 最低订阅价 */}
-                                      {item.miSubscriptionPrice &&
-                                      item.miSubscriptionPrice > 0 ? (
-                                        <div className="range position-relative SePriceScreen">
+                                    </div>
+                                    {/*商品评分和评论数目*/}
+                                    <div
+                                      className={`rc-card__price text-center RateFitScreen`}
+                                    >
+                                      <div>
+                                        <Rate
+                                          def={item.avgEvaluate}
+                                          disabled={true}
+                                          marginSize="smallRate"
+                                        />
+                                      </div>
+                                      <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                        ({item.goodsEvaluateNum})
+                                      </span>
+                                    </div>
+                                    <br />
+                                    <div
+                                      className="text-center NameFitScreen"
+                                      style={{
+                                        color: '#4a4a4a',
+                                        opacity:
+                                          item.goodsInfos.length > 1 ? 1 : 0
+                                      }}
+                                    >
+                                      <FormattedMessage id="startFrom" />
+                                    </div>
+                                    {/*商品价格*/}
+                                    <div className="d-flex justify-content-center">
+                                      <div className="rc-card__price text-left PriceFitScreen">
+                                        <div
+                                          className={`rc-full-width PriceFitScreen`}
+                                        >
                                           <span
                                             style={{
                                               color: '#323232',
                                               fontWeight: 400
                                             }}
+                                            className="value sales"
                                           >
+                                            {/* 最低marketPrice */}
                                             {formatMoney(
-                                              item.miSubscriptionPrice
+                                              item.miMarketPrice
                                             )}{' '}
-                                          </span>
-                                          <span
-                                            className="iconfont font-weight-bold red mr-1"
-                                            style={{
-                                              fontSize: '.65em'
-                                            }}
-                                          >
-                                            &#xe675;
-                                          </span>
-                                          <span
-                                            className="position-relative red-text position-absolute"
-                                            style={{
-                                              fontSize: '.7em',
-                                              top: '52%',
-                                              transform: 'translateY(-50%)',
-                                              whiteSpace: 'nowrap'
-                                            }}
-                                          >
-                                            <FormattedMessage id="autoshop" />
+                                            {/* 划线价 */}
+                                            {item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].linePrice &&
+                                            item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].linePrice > 0 ? (
+                                              <span
+                                                className="text-line-through rc-text-colour--text font-weight-lighter"
+                                                style={{
+                                                  fontSize: '.8em'
+                                                }}
+                                              >
+                                                {formatMoney(
+                                                  item.goodsInfos.sort(
+                                                    (a, b) =>
+                                                      a.marketPrice -
+                                                      b.marketPrice
+                                                  )[0].linePrice
+                                                )}
+                                              </span>
+                                            ) : null}
                                           </span>
                                         </div>
-                                      ) : null}
+                                        {find(
+                                          item.goodsInfos,
+                                          (ele) => ele.subscriptionStatus
+                                        ) &&
+                                        Math.min.apply(
+                                          null,
+                                          item.goodsInfos
+                                            .filter((g) => g.subscriptionStatus)
+                                            .map(
+                                              (g) => g.subscriptionPrice || 0
+                                            )
+                                        ) > 0 ? (
+                                          <div className="range position-relative SePriceScreen">
+                                            <span
+                                              style={{
+                                                color: '#323232',
+                                                fontWeight: 400
+                                              }}
+                                            >
+                                              {formatMoney(
+                                                Math.min.apply(
+                                                  null,
+                                                  item.goodsInfos
+                                                    .filter(
+                                                      (g) =>
+                                                        g.subscriptionStatus
+                                                    )
+                                                    .map(
+                                                      (g) =>
+                                                        g.subscriptionPrice || 0
+                                                    )
+                                                )
+                                              )}{' '}
+                                            </span>
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                    </div>
+                                    {/*商品价格截至*/}
+                                    <div className="text-center">
+                                      <span
+                                        className="iconfont font-weight-bold red mr-1"
+                                        style={{
+                                          fontSize: '.65em'
+                                        }}
+                                      >
+                                        &#xe675;
+                                      </span>
+                                      <span
+                                        className="red-text"
+                                        style={{
+                                          fontSize: '.7em',
+                                          transform: 'translateY(-50%)',
+                                          whiteSpace: 'nowrap'
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoshop" />
+                                      </span>
                                     </div>
                                   </div>
-                                </div>
-                              </ListItem>
-                            ))}
+                                </ListItem>
+                              ))}
+                        </article>
                         <div className="grid-footer rc-full-width">
                           <Pagination
                             loading={this.state.loading}
                             defaultCurrentPage={this.state.currentPage}
                             key={this.state.currentPage}
                             totalPage={this.state.totalPage}
-                            onPageNumChange={this.hanldePageNumChange}
+                            onPageNumChange={(params) =>
+                              this.hanldePageNumChange(params)
+                            }
                           />
                         </div>
                       </div>
@@ -962,9 +1013,9 @@ class List extends React.Component {
             <div className="ml-4 mr-4 pl-4 pr-4">
               <div className="row d-flex align-items-center">
                 <div className="col-12 col-md-6">
-                  <p className="rc-gamma rc-padding--none">
+                  <h1 className="rc-gamma rc-padding--none">
                     <FormattedMessage id="productFinder.recoTitle" />
-                  </p>
+                  </h1>
                   <p>
                     <FormattedMessage id="productFinder.recoDesc" />
                   </p>
@@ -973,7 +1024,7 @@ class List extends React.Component {
                   </Link>
                 </div>
                 <div className="col-12 col-md-6">
-                  <LazyLoad height={200}>
+                  <LazyLoad>
                     <img src={pfRecoImg} />
                   </LazyLoad>
                 </div>

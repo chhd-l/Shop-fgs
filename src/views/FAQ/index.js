@@ -6,6 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
+import LazyLoad from 'react-lazyload';
 
 import './index.less';
 import { setSeoConfig } from '../../utils/utils';
@@ -90,7 +91,13 @@ class FAQ extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
-        <Header history={this.props.history} match={this.props.match} />
+        <Header
+          showMiniIcons={true}
+          showUserIcon={true}
+          location={this.props.location}
+          history={this.props.history}
+          match={this.props.match}
+        />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <div
@@ -176,7 +183,9 @@ class FAQ extends React.Component {
                           <p
                             dangerouslySetInnerHTML={{ __html: item.answer }}
                           ></p>
-                          <img src={item.imgUl} alt=""></img>
+                          <LazyLoad>
+                            <img src={item.imgUl} alt=""/>
+                          </LazyLoad>
                         </div>
                       </div>
                     ))}

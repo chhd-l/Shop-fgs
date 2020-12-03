@@ -11,6 +11,7 @@ import { getDictionary } from '@/utils/utils';
 // import bg2 from "@/assets/images/login-bg2.png";
 import bg1 from '@/assets/images/login-bg3.jpg';
 import bg2 from '@/assets/images/register-bg1.jpg';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -325,6 +326,7 @@ class Login extends React.Component {
                   data="https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.svg?v=8-9-5"
                   type="image/svg+xml"
                 >
+                  <LazyLoad>
                   <img
                     src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-9-5"
                     width="150"
@@ -335,6 +337,7 @@ class Login extends React.Component {
                         'url(https://d1a19ys8w1wkc1.cloudfront.net/logo--primary.png?v=8-9-5)'
                     }}
                   />
+                  </LazyLoad>
                 </object>
               </div>
               <div
@@ -345,7 +348,9 @@ class Login extends React.Component {
               >
                 <div className="rc-column">
                   <h1 className="rc-espilon imgBox">
+                    <LazyLoad>
                     <img src={bg1} style={{ display: 'inline' }} alt="" />
+                    </LazyLoad>
                   </h1>
                 </div>
 
@@ -624,6 +629,7 @@ class Login extends React.Component {
                       </p>
                     </aside>
                   </div>
+                  <LazyLoad>
                   <img
                     src={bg2}
                     className="registerImg"
@@ -635,6 +641,7 @@ class Login extends React.Component {
                     }}
                     alt=""
                   />
+                  </LazyLoad>
                   <div className="rc-layout-container rc-two-column">
                     <div className="rc-column">
                       <div className="miaa_input required">
@@ -946,6 +953,7 @@ class Login extends React.Component {
                 </h3>
 
                 <div className="forgetBox" style={{ position: 'relative' }}>
+                  <LazyLoad>
                   <img
                     src={bg2}
                     className="registerImg"
@@ -957,6 +965,7 @@ class Login extends React.Component {
                     }}
                     alt=""
                   />
+                  </LazyLoad>
                   <p>
                     <FormattedMessage id="forgetPassword.forgetPasswordTip" />
                   </p>

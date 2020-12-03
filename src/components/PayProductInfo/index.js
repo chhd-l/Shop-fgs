@@ -21,7 +21,7 @@ class PayProductInfo extends React.Component {
     };
   }
   async componentDidMount() {
-    getFrequencyDict((res) => {
+    await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -40,8 +40,10 @@ class PayProductInfo extends React.Component {
       //     ''
       // );
       sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-      sessionItemRoyal.set('rc-goods-name', item.spuName);
-      this.props.history.push(`/details/${item.skuId}`);
+      // this.props.history.push(`/details/${item.skuId}`);
+      this.props.history.push(
+        `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
+      );
     }
   };
   getProductList(plist) {
@@ -65,7 +67,7 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={item.spuName}
-                    onClick={this.handleClickProName}
+                    onClick={this.handleClickProName.bind(this, item)}
                   >
                     <span className="light">{item.spuName}</span>
                   </div>

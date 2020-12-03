@@ -41,7 +41,7 @@ const BreadCrumbs = withRouter((props) => {
         <ul className="d-flex">
           <li>
             <Link
-              to="/"
+              to="/home"
               className="rc-styled-link rc-progress__breadcrumb mr-0"
               aria-label="Links to home page"
             >

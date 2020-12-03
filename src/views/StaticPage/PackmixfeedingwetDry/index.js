@@ -38,6 +38,7 @@ import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Carouselem from '@/components/Carouselem';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -82,6 +83,7 @@ class Packfeed extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
+          <BannerTip />
           <BreadCrumbs />
 
 
@@ -129,7 +131,9 @@ class Packfeed extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image1} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
 
           </div>
@@ -156,7 +160,9 @@ class Packfeed extends React.Component {
             <div className="rc-carousel__card-gal">
               <article className="rc-card rc-card--b">
               <picture className="rc-card__image">
+                <LazyLoad>
                 <img src={imagemain} alt="alt text"/>
+                </LazyLoad>
               </picture>
               <div className="rc-card__body">
                 <header>
@@ -169,19 +175,23 @@ class Packfeed extends React.Component {
 
               <article className="rc-card rc-card--b">
                 <picture className="rc-card__image">
+                  <LazyLoad>
                   <img src={imagePersan} alt="alt text"/>
+                  </LazyLoad>
                 </picture>
                 <div className="rc-card__body">
                   <header>
                     <h1 className="rc-card__title">Pack Persan Adulte</h1>
-                    <p className="rc-card__meta">À partir de 15 mois</p>
+                    <p className="rc-card__meta">À partir de 12 mois</p>
                     <h5>64,98 €</h5>
                   </header>
                 </div>
               </article>
               <article className="rc-card rc-card--b">
               <picture className="rc-card__image">
+                <LazyLoad>
                 <img src={imageBritish} alt="alt text"/>
+                </LazyLoad>
               </picture>
               <div className="rc-card__body">
                 <header>
@@ -193,7 +203,9 @@ class Packfeed extends React.Component {
             </article>
               <article className="rc-card rc-card--b">
               <picture className="rc-card__image">
+                <LazyLoad>
                 <img src={imageappetite} alt="alt text"/>
+                </LazyLoad>
               </picture>
               <div className="rc-card__body">
                 <header>
@@ -231,7 +243,9 @@ class Packfeed extends React.Component {
               <div className="rc-carousel__card-gal">
                 <article className="rc-card rc-card--b">
                   <picture className="rc-card__image">
+                    <LazyLoad>
                     <img src={imageMini} alt="alt text"/>
+                    </LazyLoad>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -244,7 +258,9 @@ class Packfeed extends React.Component {
 
                 <article className="rc-card rc-card--b">
                   <picture className="rc-card__image">
+                    <LazyLoad>
                     <img src={imageChihuahua} alt="alt text"/>
+                    </LazyLoad>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -256,7 +272,9 @@ class Packfeed extends React.Component {
                 </article>
                 <article className="rc-card rc-card--b">
                   <picture className="rc-card__image">
+                    <LazyLoad>
                     <img src={imageNutrition} alt="alt text"/>
+                    </LazyLoad>
                   </picture>
                   <div className="rc-card__body">
                     <header>
@@ -281,9 +299,9 @@ class Packfeed extends React.Component {
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
-                            <img className="mx-auto lazyloaded"
-                                 src={imagecat}>
-                            </img>
+                            <LazyLoad>
+                              <img className="mx-auto lazyloaded" src={imagecat}/>
+                            </LazyLoad>
                            </div>
                           <div
                             className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -310,9 +328,9 @@ class Packfeed extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
-                            <img className="mx-auto lazyloaded"
-                                 src={imagedog}>
-                            </img>
+                            <LazyLoad>
+                            <img className="mx-auto lazyloaded" src={imagedog}/>
+                            </LazyLoad>
                            </div>
                           <div
                             className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
@@ -343,9 +361,9 @@ class Packfeed extends React.Component {
                           className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div
                             className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-                            <img className="value-proposition__img lazyloaded"
-                                 src={image4B}>
-                            </img>
+                            <LazyLoad>
+                              <img className="value-proposition__img lazyloaded" src={image4B}/>
+                            </LazyLoad>
                             <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">Livraison gratuite et rapide</p>
                             </div>
@@ -355,9 +373,10 @@ class Packfeed extends React.Component {
                           className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div
                             className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+                              <LazyLoad>
                             <img className="value-proposition__img lazyloaded"
-                                 src={image4C}>
-                            </img>
+                                 src={image4C}/>
+                            </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">Paiement sécurisé</p>
                               </div>
@@ -367,10 +386,9 @@ class Packfeed extends React.Component {
                           className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div
                             className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-                            <img className="value-proposition__img lazyloaded"
-                                 src={image4D}>
-
-                            </img>
+                              <LazyLoad>
+                                <img className="value-proposition__img lazyloaded" src={image4D}/>
+                              </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">Qualité certifiée</p>
                               </div>
@@ -380,10 +398,9 @@ class Packfeed extends React.Component {
                           className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
                           <div
                             className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
-                            <img
-                                 src={image4E}>
-
-                            </img>
+                            <LazyLoad>
+                              <img src={image4E}/>
+                            </LazyLoad>
                               <div className="pl-3 d-flex align-items-center value-proposition__text">
                                 <p className="rc-margin-bottom--none rc-intro">La nutrition santé livrée à votre
                                   domicile
