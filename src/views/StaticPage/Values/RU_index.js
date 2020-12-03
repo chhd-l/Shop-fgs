@@ -54,21 +54,28 @@ class Help extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
+          <div style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}>
+
+          </div>
           <section
-            style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
+            style={{ textAlign: 'center' }}
           >
             <h2
               style={{
                 color: '#E2001A',
                 marginTop: '40px',
                 fontSize: '2.5rem'
+                , width: '60%', margin: '0 auto'
+
               }}
             >
               La santé est notre obsession
             </h2>
-            <p style={{ fontSize: '1.2rem' }}>
+            <br/>
+            <h2 style={{ fontSize: '1em',width:'100%'
+            }}>
               Tout ce que nous faisons est motivé par notre passion pour la santé et le bien-être de chaque chien et chat.
-            </p>
+            </h2>
           </section>
 
           <div
@@ -177,11 +184,11 @@ class Help extends React.Component {
           <section
             style={{ textAlign: 'center', width: '90%', margin: '80px auto' }}
           >
-            <h2 style={{ fontSize: '2.5rem' }}>Développement durable</h2>
+            <h2 style={{ fontSize: '2rem' ,color: '#666' }}>Développement durable</h2>
             <p>
               Grâce à notre approche en matière de développement durable, nous sommes sûrs d'offrir aux animaux, aux personnes et à la planète le respect qu’ils méritent.
             </p>
-            <h2 style={{ fontSize: '2.5rem' }}>Science, Santé et Nutrition</h2>
+            <h2 style={{ fontSize: '2rem',color: '#666' }}>Science, Santé et Nutrition</h2>
             <p>
               Notre travail s’appuie sur un vaste socle évolutif de connaissances scientifiques en matière de santé et de nutrition animale.
             </p>

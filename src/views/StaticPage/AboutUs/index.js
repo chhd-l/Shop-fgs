@@ -78,10 +78,10 @@ class AboutUs extends React.Component {
                         </div>
                         <div
                           className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                          <p>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
+                          <h2>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
                             Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins
                             spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution
-                            efficace à leurs problèmes de santé.</p>
+                            efficace à leurs problèmes de santé.</h2>
                         </div>
                       </div>
                     </div>

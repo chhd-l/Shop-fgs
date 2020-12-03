@@ -88,27 +88,13 @@ class Help extends React.Component {
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            <div
-                              className="rc-padding-bottom--none--mobile"
-                              style={{ width: '40%' }}
-                            >
-                              <h1
-                                className="rc-beta"
-                                style={{ margin: '0 0 0 1rem' }}
-                              >
-                                <font style={{ verticalAlign: 'inherit' }}>
-                                  <font style={{ verticalAlign: 'inherit' }}>
-                                    <FormattedMessage id="help.needHelp" />
-                                  </font>
-                                </font>
-                              </h1>
+                            <div className="rc-column rc-padding-bottom--none--mobile">
+                              <h1 className="rc-beta">Besoin d'aide ?</h1>
                             </div>
-                            <div style={{ width: '60%' }}>
+                            <div className="rc-column">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
-                                <p style={{marginLeft:'150px'}}>
-                                  <FormattedMessage id="help.tip1" />
-                                  <br />
-                                </p>
+                                <p>Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre
+                                  disposition pour répondre à toute demande.</p>
                               </div>
                             </div>
                           </div>
@@ -285,7 +271,7 @@ class Help extends React.Component {
             </div>
             :null
           }
-          
+
         </main>
 
         <Footer />

@@ -64,7 +64,7 @@ class QualitySafety extends React.Component {
                         <h1>Engagement en faveur de la qualité et de la sécurité alimentaire</h1>
                       </div>
                       <div
-                        className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                        className="rc-margin-left--lg text-center rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
                         <p>Au cours des cinquante dernières années, Royal Canin a placé la qualité nutritionnelle et la
                           sécurité des aliments au cœur de ses activités dans le monde entier. Cette attention portée au
                           moindre détail nous aide à fournir la nutrition santé la plus précise et la plus efficace pour
