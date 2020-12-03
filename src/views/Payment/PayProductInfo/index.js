@@ -171,7 +171,6 @@ class PayProductInfo extends React.Component {
       (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
     );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
-    sessionItemRoyal.set('rc-goods-name', item.goodsName);
     this.props.history.push(
       `/details/${
         this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId

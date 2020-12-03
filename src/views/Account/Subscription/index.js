@@ -406,7 +406,7 @@ class Subscription extends React.Component {
                                   onClick={() => {
                                     localItemRoyal.set('subDetail', subItem);
                                     this.props.history.push(
-                                      `/account/subscription-detail/${subItem.subscribeId}`
+                                      `/account/subscription/order/detail/${subItem.subscribeId}`
                                     );
                                   }}
                                 >

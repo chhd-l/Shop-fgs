@@ -439,7 +439,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
   } = configStore;
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
-    return '/payment/payment';
+    return '/checkout';
   }
   // 校验审核
   if (isLogin) {
@@ -451,7 +451,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
       needPrescriber = AuditData.length > 0;
     }
     if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/payment/payment';
+      return '/checkout';
     }
   } else {
     let needPrescriber;
@@ -461,7 +461,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
       needPrescriber = AuditData.length > 0;
     }
     if (!needPrescriber || localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-      return '/payment/payment';
+      return '/checkout';
     }
   }
 
@@ -489,7 +489,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
       clinicStore.setSelectClinicId(clinicStore.defaultClinicId);
       clinicStore.setSelectClinicName(clinicStore.defaultClinicName);
     }
-    return '/payment/payment';
+    return '/checkout';
   }
   return '/prescription';
 }

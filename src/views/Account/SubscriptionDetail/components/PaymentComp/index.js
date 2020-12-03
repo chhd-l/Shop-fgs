@@ -883,7 +883,7 @@ class PaymentComp extends React.Component {
           </div>
         )}
 
-        {/* {window.location.pathname !== "/payment/payment" && !this.state.isEdit && (
+        {/* {window.location.pathname !== "/checkout" && !this.state.isEdit && (
           <div
             className="addbox"
             onClick={() => {

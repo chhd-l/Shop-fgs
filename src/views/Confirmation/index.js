@@ -221,7 +221,7 @@ class Confirmation extends React.Component {
                     <FormattedMessage id="or" />
                     &nbsp;
                     <Link
-                      to="/"
+                      to="/home"
                       className="rc-meta rc-styled-link backtohome mb-0"
                     >
                       <FormattedMessage id="continueShopping" />
@@ -229,7 +229,7 @@ class Confirmation extends React.Component {
                   </>
                 ) : (
                   <Link
-                    to="/"
+                    to="/home"
                     className="rc-btn rc-btn--one"
                     style={{ transform: 'scale(.85)' }}
                   >
@@ -245,7 +245,7 @@ class Confirmation extends React.Component {
                     <b className="mb-3" style={{ display: 'inline-block' }}>
                       <FormattedMessage id="subscription.number" />:{' '}
                       <Link
-                        to={`/account/subscription-detail/${this.state.subNumber}`}
+                        to={`/account/subscription/order/detail/${this.state.subNumber}`}
                         className="rc-meta rc-styled-link backtohome mb-0"
                       >
                         {this.state.subNumber}
@@ -260,7 +260,7 @@ class Confirmation extends React.Component {
                       <FormattedMessage id="confirmation.orderNumber" />:{' '}
                       {this.state.paywithLogin ? (
                         <Link
-                          to={`/account/orders-detail/${ele}`}
+                          to={`/account/orders/detail/${ele}`}
                           className="rc-meta rc-styled-link backtohome mb-0"
                         >
                           {ele}
@@ -278,7 +278,7 @@ class Confirmation extends React.Component {
                     ? subOrderNumberList.map((ele, i) => (
                         <>
                           <Link
-                            to={`/account/orders-detail/${ele}`}
+                            to={`/account/orders/detail/${ele}`}
                             className="rc-meta rc-styled-link backtohome mb-0"
                           >
                             {ele}

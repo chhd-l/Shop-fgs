@@ -86,7 +86,7 @@ class RegisterRequired extends Component {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
       if (lastPath === 'pay') {
-        lastPath = '/payment/payment';
+        lastPath = '/checkout';
       }
       const isRequiredChecked = this.state.list
         .filter((item) => item.isRequired)
@@ -259,7 +259,7 @@ class RegisterRequired extends Component {
             }}
           >
             {/* Logo */}
-            <Link to="/" className="header__nav__brand logo-home pt-5">
+            <Link to="/home" className="header__nav__brand logo-home pt-5">
               <span className="rc-screen-reader-text"></span>
               <LazyLoad>
               <img

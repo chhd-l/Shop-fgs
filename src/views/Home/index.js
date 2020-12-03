@@ -16,6 +16,7 @@ import { setSeoConfig, getDeviceType } from '@/utils/utils';
 import { findStoreCateList } from '@/api/home';
 import './index.css';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 const CUR_STORE_CATOGERY =
@@ -418,6 +419,7 @@ class Home extends React.Component {
         } catch (e) {}
         return ele;
       });
+      sessionItemRoyal.set('home-navigations', JSON.stringify(tmpRes));
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
@@ -483,7 +485,7 @@ class Home extends React.Component {
         <Link
           className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
           to={{
-            pathname: `/list${
+            pathname: `${
               ele.cateRouter && ele.cateRouter.startsWith('/')
                 ? ele.cateRouter
                 : `/${ele.cateRouter}`

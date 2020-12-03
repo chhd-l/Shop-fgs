@@ -48,7 +48,7 @@ function Page500() {
               </div>
             </div>
             {/* <Link
-              to="/"
+              to="/home"
               className="rc-btn rc-btn--two"
               role="button"
               aria-pressed="true"

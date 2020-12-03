@@ -185,9 +185,8 @@ class Header extends React.Component {
   initNavigations = async () => {
     let res = await this.queryHeaderNavigations();
     if (res) {
-      let resList = generateOptions(res).filter((el) => el.enable);
       this.setState({
-        headerNavigationList: resList
+        headerNavigationList: generateOptions(res).filter((el) => el.enable)
       });
     }
   };
@@ -405,7 +404,6 @@ class Header extends React.Component {
   }
   gotoDetails(item) {
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
-    sessionItemRoyal.set('rc-goods-name', item.goodsName);
     this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   clickLogin() {
@@ -420,7 +418,7 @@ class Header extends React.Component {
     loginStore.removeUserInfo();
     checkoutStore.removeLoginCartData();
     loginStore.changeIsLogin(false);
-    history.push('/');
+    history.push('/home');
   }
   renderResultJsx() {
     const { result, keywords } = this.state;
@@ -481,7 +479,11 @@ class Header extends React.Component {
                 <div className="rc-margin-top--xs">
                   <Link
                     className="productName rc-large-body ui-cursor-pointer"
-                    to={`/list/keywords/${keywords}`}
+                    // to={`/list/keywords/${keywords}`}
+                    to={{
+                      pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                      search: `?q=${keywords}`
+                    }}
                   >
                     <b>
                       <FormattedMessage id="viewAllResults" /> (
@@ -514,11 +516,13 @@ class Header extends React.Component {
     if (item.interaction === 2) {
       return false;
     } else if (item.interaction === 0 && targetRes.length) {
-      let link = '';
+      let linkObj = null;
       let sortParam = null;
       let cateIds = [];
       let filters = [];
       const pageVal = targetRes[0].valueEn;
+      if (pageVal) linkObj = { pathname: `${item.navigationLink}` };
+      debugger;
       switch (pageVal) {
         case 'PLP':
         case 'SRP':
@@ -549,39 +553,43 @@ class Header extends React.Component {
               }
             }
           } catch (err) {}
-
-          if (pageVal === 'PLP') {
-            link = `/list/${item.navigationName}`;
-          } else {
-            link = `/list/keywords/${item.keywords}`;
+          if (pageVal === 'SRP') {
+            linkObj = Object.assign(linkObj, {
+              search: `?${item.keywords}`
+            });
           }
           break;
-        case 'PDP':
-          link = `/details/${item.paramsField}`;
-          break;
-        case 'HP':
-          link = '/';
-          break;
-        case 'SP':
-          link = `${
-            {
-              en: '/subscription-landing-us',
-              ru: '/subscription-landing-ru',
-              tr: '/subscription-landing-tr'
-            }[process.env.REACT_APP_LANG] || '/subscription-landing'
-          }`;
-          break;
-        case 'CUP':
-          link = '/help';
-          break;
+        // case 'PDP':
+        //   link = `/details/${item.paramsField}`;
+        //   break;
+        // case 'HP':
+        //   link = '/';
+        //   break;
+        // case 'SP':
+        //   link = `${
+        //     {
+        //       en: '/subscription-landing-us',
+        //       ru: '/subscription-landing-ru',
+        //       tr: '/subscription-landing-tr'
+        //     }[process.env.REACT_APP_LANG] || '/subscription-landing'
+        //   }`;
+        //   break;
+        // case 'CUP':
+        //   link = '/help';
+        //   break;
         default:
           break;
       }
-      if (link) {
-        this.props.history.push({
-          pathname: link,
+      if (linkObj) {
+        linkObj = Object.assign(linkObj, {
           state: { sortParam, cateIds, filters }
         });
+        this.props.history.push(linkObj);
+        // this.props.history.push({
+        //   pathname: link,
+        //   state: { sortParam, cateIds, filters },
+        //   search: `?${item.keywords}`
+        // });
       }
     }
   }
@@ -655,7 +663,7 @@ class Header extends React.Component {
               ) : null}
             </ul>
 
-            <Link to="/" className="header__nav__brand logo-home">
+            <Link to="/home" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text" />
               <object
                 id="header__logo"

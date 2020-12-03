@@ -559,7 +559,7 @@ class AccountOrders extends React.Component {
       subscriptionPrice: tradePrice.subscriptionPrice
     });
 
-    this.props.history.push('/payment/payment');
+    this.props.history.push('/checkout');
     this.setState({ payNowLoading: false });
   };
   handlePayNowTimeEnd = () => {
@@ -1075,7 +1075,7 @@ class AccountOrders extends React.Component {
                                     <FormattedMessage id="subscription.numberFirstWordUpperCase" />
                                     :<br />
                                     <Link
-                                      to={`/account/subscription-detail/${this.state.subNumber}`}
+                                      to={`/account/subscription/order/detail/${this.state.subNumber}`}
                                       className="rc-styled-link medium mb-0"
                                     >
                                       {this.state.subNumber}

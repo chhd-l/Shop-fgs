@@ -17,7 +17,7 @@ import { queryCityNameById } from '@/api';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';
-import { getDictionary,setSeoConfig } from '@/utils/utils';
+import { getDictionary, setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -57,7 +57,7 @@ class ShippingAddress extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -161,19 +161,10 @@ class ShippingAddress extends React.Component {
     };
     await setDefaltAddress(params)
       .then((res) => {
-        if (res.code === 'K-000000') {
-          this.showSuccessMsg(
-            res.message || this.props.intl.messages.setDefaltAddressSuccess
-          );
-          this.getAddressList();
-        } else {
-          this.showErrorMsg(
-            res.message || this.props.intl.messages.setDefaltAddressFailed
-          );
-          this.setState({
-            loading: false
-          });
-        }
+        this.showSuccessMsg(
+          res.message || this.props.intl.messages.setDefaltAddressSuccess
+        );
+        this.getAddressList();
       })
       .catch((err) => {
         this.showErrorMsg(this.props.intl.messages.setDefaltAddressFailed);
