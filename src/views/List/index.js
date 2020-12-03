@@ -447,7 +447,8 @@ class List extends React.Component {
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,
-                  goodsImg
+                  goodsImg,
+                  goodsNo
                 });
               }
               return ret;
