@@ -11,7 +11,7 @@ import {
 } from '@/utils/utils';
 import logoAnimatedPng from '@/assets/images/logo--animated.png';
 import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
-import { getList, getLoginList, findSortList } from '@/api/list';
+import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
@@ -367,7 +367,7 @@ class Header extends React.Component {
       companyType: ''
     };
     try {
-      let res = await (this.isLogin ? getLoginList : getList)(params);
+      let res = await getList(params);
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -384,7 +384,8 @@ class Header extends React.Component {
                 ret = Object.assign(ret, {
                   goodsCateName: tmpItem.goodsCateName,
                   goodsSubtitle: tmpItem.goodsSubtitle,
-                  goodsImg: tmpItem.goodsImg
+                  goodsImg: tmpItem.goodsImg,
+                  goodsNo: tmpItem.goodsNo
                 });
               }
               return ret;
@@ -438,7 +439,10 @@ class Header extends React.Component {
   }
   gotoDetails(item) {
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
-    this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
+    this.props.history.push(
+      `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+    );
+    // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   clickLogin() {
     this.props.history.push('/login');
@@ -556,7 +560,6 @@ class Header extends React.Component {
       let filters = [];
       const pageVal = targetRes[0].valueEn;
       if (pageVal) linkObj = { pathname: `${item.navigationLink}` };
-      debugger;
       switch (pageVal) {
         case 'PLP':
         case 'SRP':
@@ -593,9 +596,12 @@ class Header extends React.Component {
             });
           }
           break;
-        // case 'PDP':
-        //   link = `/details/${item.paramsField}`;
-        //   break;
+        case 'PDP':
+          linkObj = Object.assign(linkObj, {
+            pathname: `${item.navigationLink}${item.paramsField}`
+          });
+          // link = `/details/${item.paramsField}`;
+          break;
         // case 'HP':
         //   link = '/';
         //   break;

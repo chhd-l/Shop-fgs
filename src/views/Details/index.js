@@ -20,10 +20,9 @@ import {
   translateHtmlCharater,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find, flatten } from 'lodash';
-import { getDetails, getLoginDetails } from '@/api/details';
+import { cloneDeep, findIndex, find } from 'lodash';
+import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import './index.css';
@@ -161,7 +160,8 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isMobile: false
+      isMobile: false,
+      goodsNo: '' // SPU
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -181,6 +181,11 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    const { pathname } = this.props.location;
+    const goodsSpuNo =
+      pathname.split('-').reverse().length > 1
+        ? pathname.split('-').reverse()[0]
+        : '';
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res,
@@ -192,7 +197,11 @@ class Details extends React.Component {
       });
     });
     this.setState(
-      { id: this.props.match.params.id, isMobile: getDeviceType() !== 'PC' },
+      {
+        id: this.props.match.params.id,
+        isMobile: getDeviceType() !== 'PC',
+        goodsNo: goodsSpuNo || ''
+      },
       () => this.queryDetails()
     );
   }
@@ -406,9 +415,17 @@ class Details extends React.Component {
     );
   }
   async queryDetails() {
-    const { id } = this.state;
-    const tmpRequest = this.isLogin ? getLoginDetails : getDetails;
-    Promise.all([tmpRequest(id)])
+    const { id, goodsNo } = this.state;
+    let requestName;
+    let param;
+    if (goodsNo) {
+      requestName = getDetailsBySpuNo;
+      param = goodsNo;
+    } else {
+      requestName = this.isLogin ? getLoginDetails : getDetails;
+      param = id;
+    }
+    Promise.all([requestName(param)])
       .then((resList) => {
         const res = resList[0];
         if (res && res.context) {
@@ -965,7 +982,12 @@ class Details extends React.Component {
         flag = false;
         quantityNew += historyItem.quantity;
         if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
-          this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorMaxInfo"
+              values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+            />
+          );
           this.setState({ addToCartLoading: false });
           return;
         }
@@ -1023,7 +1045,12 @@ class Details extends React.Component {
       cartDataCopy.splice(idx, 1, tmpData);
     } else {
       if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
-        this.showCheckoutErrMsg(<FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>);
+        this.showCheckoutErrMsg(
+          <FormattedMessage
+            id="cart.errorMaxCate"
+            values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+          />
+        );
         return;
       }
       cartDataCopy.push(tmpData);

@@ -15,6 +15,7 @@ import { withOktaAuth } from '@okta/okta-react';
 import LoginButton from '@/components/LoginButton';
 import Skeleton from 'react-skeleton-loader';
 import Loading from '@/components/Loading';
+import LazyLoad from 'react-lazyload';
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -194,14 +195,14 @@ class RegisterRequired extends Component {
     var windowWidth = document.body.clientWidth;
     if (windowWidth < 640) {
       this.setState({
-        width: 300,
+        width: '300px',
         zoom: '120%',
         fontZoom: '100%'
       });
     }
     if (windowWidth >= 640) {
       this.setState({
-        width: 500,
+        width: '500px',
         zoom: '150%',
         fontZoom: '120%'
       });
@@ -234,6 +235,7 @@ class RegisterRequired extends Component {
     // }
   }
   componentWillUnmount() {
+    debugger
     localItemRoyal.set('isRefresh', true);
   }
   render() {
@@ -260,6 +262,7 @@ class RegisterRequired extends Component {
             {/* Logo */}
             <Link to="/home" className="header__nav__brand logo-home pt-5">
               <span className="rc-screen-reader-text"></span>
+              <LazyLoad>
               <img
                 alt="Royal Canin"
                 src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
@@ -271,6 +274,7 @@ class RegisterRequired extends Component {
                   backgroundSize: 'cover'
                 }}
               />
+              </LazyLoad>
             </Link>
             {/* Header title */}
             <h2

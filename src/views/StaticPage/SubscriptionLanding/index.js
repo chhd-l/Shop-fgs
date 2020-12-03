@@ -20,6 +20,7 @@ import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
+import LazyLoad from 'react-lazyload';
 
 @inject('configStore')
 @observer
@@ -236,10 +237,11 @@ class SubscriptionLanding extends React.Component {
                       <div className="row rc-max-width--lg rc-match-heights rc-padding-y--sm">
                         <div className="col-12 col-md-4 order-1 order-md-0">
                           <div className="rc-column rc-padding--none">
-                            <img
-                              className="mx-auto lazyloaded"
-                              src={imagecat}
-                            ></img>
+                            <LazyLoad>
+                            <img className="mx-auto lazyloaded"
+                                 src={imagecat}>
+                            </img>
+                            </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
@@ -275,10 +277,11 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
                           <div className="rc-column rc-padding--none">
-                            <img
-                              className="mx-auto lazyloaded"
-                              src={imagedog}
-                            ></img>
+                            <LazyLoad>
+                            <img className="mx-auto lazyloaded"
+                                 src={imagedog}>
+                            </img>
+                            </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
@@ -358,12 +361,14 @@ class SubscriptionLanding extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={callImg}
                                         alt="By telephone"
                                         title="By telephone"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -421,12 +426,14 @@ class SubscriptionLanding extends React.Component {
                                       </div>
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
+                                      <LazyLoad>
                                       <img
                                         className="align-self-center widthAuto"
                                         src={emailImg}
                                         alt="By email"
                                         title="By email"
                                       />
+                                      </LazyLoad>
                                     </div>
                                   </div>
                                 </div>
@@ -440,7 +447,9 @@ class SubscriptionLanding extends React.Component {
                                 }}
                               >
                                 <picture className="rc-card__image">
+                                  <LazyLoad>
                                   <img src={helpImg} alt=" " title=" " />
+                                  </LazyLoad>
                                 </picture>
                               </div>
                             </div>

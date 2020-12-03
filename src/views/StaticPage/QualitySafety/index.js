@@ -17,6 +17,7 @@ import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 class QualitySafety extends React.Component {
@@ -98,12 +99,13 @@ class QualitySafety extends React.Component {
                         </div>
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
-
+                                <LazyLoad>
                                   <img className="w-100 lazyloaded"
                                        data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwf48ac3b5/Quality-safety/DSC_1225Export_All_Lowres-1.jpg?sw=622&amp;sfrm=jpg"
                                        alt="Alimentation et processus de sécurité Royal Canin"
                                        title="Alimentation et processus de sécurité Royal Canin"
                                        src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwf48ac3b5/Quality-safety/DSC_1225Export_All_Lowres-1.jpg?sw=622&amp;sfrm=jpg"/>
+                                  </LazyLoad>
                           </picture>
                         </div>
                       </div>
@@ -122,9 +124,9 @@ class QualitySafety extends React.Component {
                       <div className="row align-items-md-center">
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
-
-                                  <img
-                                       src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb1da6192/Quality-safety/DSC_0847Export_All_Lowres.jpg?sw=622&amp;sfrm=jpg"/>
+                              <LazyLoad>
+                                <img src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb1da6192/Quality-safety/DSC_0847Export_All_Lowres.jpg?sw=622&amp;sfrm=jpg"/>
+                              </LazyLoad>
                           </picture>
                         </div>
                         <div className=" col-12 col-lg-6">
@@ -168,11 +170,12 @@ class QualitySafety extends React.Component {
                         </div>
                         <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                           <picture data-rc-feature-objectfillpolyfill-setup="true">
-
+                              <LazyLoad>
                                   <img className="w-100 ls-is-cached lazyloaded"
                                        data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw97202e87/Quality-safety/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg?sw=622&amp;sfrm=jpg"
                                        alt="Des matières premières de qualité" title="Des matières premières de qualité"
                                        src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw97202e87/Quality-safety/2015-Pet-Center-pictures-Campus-Royal-Canin-000004.jpg?sw=622&amp;sfrm=jpg"/>
+                                       </LazyLoad>
                           </picture>
                         </div>
                       </div>

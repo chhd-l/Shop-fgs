@@ -691,16 +691,14 @@ class PetForm extends React.Component {
         currentPet.customerPetsPropRelations[0].propName
       ];
     } else {
-      // param.specialNeedsDisable = true;
-      param.selectedSpecialNeeds = ['Sin necesidades especiales'];
+      param.selectedSpecialNeedsObj = {value: 'Sin necesidades especiales'}
     }
-
     let params = {
       breedCode: param.isPurebred?param.breed: 'mix Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj
-      mainReason: param.selectedSpecialNeedsObj.value 
+      mainReason: param.selectedSpecialNeedsObj.value
     }
     getRecommendProducts(params).then(res => {
       let result = res.context
@@ -1573,7 +1571,7 @@ class PetForm extends React.Component {
                   <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
-                      htmlFor="sterilized"
+                      // htmlFor="sterilized"
                     >
                       <FormattedMessage id="sterilized" />
                     </label>

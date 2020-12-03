@@ -11,6 +11,7 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
+import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
 import { find } from 'lodash';
 import {
@@ -446,7 +447,8 @@ class List extends React.Component {
                   subscriptionStatus,
                   avgEvaluate,
                   minMarketPrice,
-                  goodsImg
+                  goodsImg,
+                  goodsNo
                 });
               }
               return ret;
@@ -490,8 +492,8 @@ class List extends React.Component {
       this.state.currentCatogery || ''
     );
     sessionItemRoyal.set('recomment-preview', location.pathname);
-    // history.push(`${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
-    history.push('/details/' + item.goodsInfos[0].goodsInfoId);
+    history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
+    // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   onSortChange = (data) => {
     this.setState({ selectedSortParam: data, currentPage: 1 }, () =>
@@ -634,7 +636,9 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <img src={titleData.img} className="mx-auto" alt="" />
+                  <LazyLoad>
+                    <img src={titleData.img} className="mx-auto" alt="" />
+                  </LazyLoad>
                 </div>
               </div>
             </div>
@@ -1020,7 +1024,9 @@ class List extends React.Component {
                   </Link>
                 </div>
                 <div className="col-12 col-md-6">
-                  <img src={pfRecoImg} />
+                  <LazyLoad>
+                    <img src={pfRecoImg} />
+                  </LazyLoad>
                 </div>
               </div>
             </div>

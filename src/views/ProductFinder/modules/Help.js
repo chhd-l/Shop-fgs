@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 
 @inject('configStore')
 @observer
@@ -29,19 +30,23 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-padding-left--xs rc-lg-up">
+              <LazyLoad>
               <img
                 className="ls-is-cached lazyloaded"
                 data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                 alt="Par téléphone icon"
                 src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
               />
+              </LazyLoad>
             </div>
             <div className="rc-padding-left--xs rc-md-down">
+              <LazyLoad>
               <img
                 className="lazyload"
                 src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                 alt="Par téléphone icon"
               />
+              </LazyLoad>
             </div>
           </div>
         </div>
@@ -64,19 +69,23 @@ class Help extends React.Component {
               <div className="children-nomargin" />
             </div>
             <div className="rc-padding-left--xs rc-lg-up">
+              <LazyLoad>
               <img
                 className=" ls-is-cached lazyloaded"
                 data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                 alt="Par e-mail icon"
                 src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
               />
+              </LazyLoad>
             </div>
             <div className="rc-padding-left--xs rc-md-down">
+              <LazyLoad>
               <img
                 className="lazyload"
                 src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
                 alt="Par e-mail icon"
               />
+              </LazyLoad>
             </div>
           </Link>
         </div>

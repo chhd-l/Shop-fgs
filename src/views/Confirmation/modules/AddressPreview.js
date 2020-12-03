@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { getDictionary } from '@/utils/utils';
 import { find } from 'lodash';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
 
 class InfosPreview extends React.Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class InfosPreview extends React.Component {
             <div className="col-12 col-md-6 mb-3">
               <FormattedMessage id="payment.paymentInformation" />
               <br />
+              <LazyLoad>
               <img
                 alt=""
                 className="d-inline-block mr-1"
@@ -67,6 +69,7 @@ class InfosPreview extends React.Component {
                     : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
               />
+              </LazyLoad>
               {payRecord.last4Digits ? (
                 <>
                   <span className="medium">

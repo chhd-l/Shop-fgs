@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { find } from 'lodash';
 import { formatMoney, getDictionary } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
@@ -111,11 +112,13 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
+                <LazyLoad>
                 <img
                   className="product-image"
                   src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
                   alt=""
                 />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -158,9 +161,7 @@ class PayProductInfo extends React.Component {
     return List;
   }
   isSubscription(el) {
-    return (
-      el.goodsInfoFlag
-    );
+    return el.goodsInfoFlag;
   }
   handleClickProName = (item) => {
     sessionItemRoyal.set(
@@ -168,21 +169,26 @@ class PayProductInfo extends React.Component {
       (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
     );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
+    // this.props.history.push(
+    //   `/details/${
+    //     this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
+    //   }`
+    // );
     this.props.history.push(
-      `/details/${
-        this.isLogin ? item.goodsInfoId : item.sizeList[0].goodsInfoId
-      }`
+      `/${item.goodsName.toLowerCase().split(' ').join('-')}-${item.goodsNo}`
     );
   };
   getProductsForLogin(plist) {
-    console.log(toJS(plist), 'plist')
+    console.log(toJS(plist), 'plist');
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
+                <LazyLoad>
                 <img className="product-image" src={el.goodsInfoImg} alt=""/>
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -190,7 +196,9 @@ class PayProductInfo extends React.Component {
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName || el.goods.goodsName}
                   >
-                    <span className="light">{el.goodsName || el.goods.goodsName}</span>
+                    <span className="light">
+                      {el.goodsName || el.goods.goodsName}
+                    </span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
@@ -243,19 +251,24 @@ class PayProductInfo extends React.Component {
                     </span>
                   </div>
                 </div>
-                {
-                  el.goodsInfoFlag? (
-                    <div>
-                        <span
-                          className="iconfont font-weight-bold green"
-                          style={{ fontSize: '.8em' }}
-                        >
-                          &#xe675;
-                        </span>
-                        &nbsp; Vous avez économisé <span className="green">{formatMoney(el.buyCount * el.salePrice - el.buyCount * el.subscriptionPrice)}</span> avec labonnement
+                {el.goodsInfoFlag ? (
+                  <div>
+                    <span
+                      className="iconfont font-weight-bold green"
+                      style={{ fontSize: '.8em' }}
+                    >
+                      &#xe675;
+                    </span>
+                    &nbsp; Vous avez économisé{' '}
+                    <span className="green">
+                      {formatMoney(
+                        el.buyCount * el.salePrice -
+                          el.buyCount * el.subscriptionPrice
+                      )}
+                    </span>{' '}
+                    avec labonnement
                   </div>
-                  ): null
-                }
+                ) : null}
               </div>
             </div>
             <div className="item-options"></div>
@@ -326,7 +339,7 @@ class PayProductInfo extends React.Component {
                         placeholder={txt}
                         value={this.state.promotionInputValue}
                         onChange={(e) => this.handlerChange(e)}
-                        style={{background:'#eee'}}
+                        style={{ background: '#eee' }}
                       />
                     )}
                   </FormattedMessage>
@@ -542,7 +555,10 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
-          <div className="product-summary__total grand-total row leading-lines checkout--padding border-top" style={{paddingBottom:'5px'}}>
+          <div
+            className="product-summary__total grand-total row leading-lines checkout--padding border-top"
+            style={{ paddingBottom: '5px' }}
+          >
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -554,14 +570,20 @@ class PayProductInfo extends React.Component {
               </span>
             </div>
           </div>
-          {
-            process.env.REACT_APP_LANG == 'de'
-            ?
-            <div style={{fontSize:'12px',paddingLeft:'22px',paddingBottom:'10px',color:'#999',marginTop:'-5px'}}>{<FormattedMessage id="totalIncluMessage"/>}</div>
-            :
-            null
-          }
-          
+          {process.env.REACT_APP_LANG == 'de' ? (
+            <div
+              style={{
+                fontSize: '12px',
+                paddingLeft: '22px',
+                paddingBottom: '10px',
+                color: '#999',
+                marginTop: '-5px'
+              }}
+            >
+              {<FormattedMessage id="totalIncluMessage" />}
+            </div>
+          ) : null}
+
           {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 border-top pt-2">
               Promotion code({this.state.lastPromotionInputValue}) is not Valid
@@ -581,18 +603,19 @@ class PayProductInfo extends React.Component {
     return (
       <div className="rc-bg-colour--brand3" id="J_sidecart_container">
         {/* 法国环境不加固定定位 */}
-        {process.env.REACT_APP_LANG !== 'fr'&&this.sideCart({
-          className: 'hidden rc-md-up',
-          style: {
-            background: '#fff',
-            zIndex: 9,
-            width: 345,
-            maxHeight: '88vh',
-            overflowY: 'auto',
-            position: 'relative'
-          },
-          id: 'J_sidecart_fix'
-        })}
+        {process.env.REACT_APP_LANG !== 'fr' &&
+          this.sideCart({
+            className: 'hidden rc-md-up',
+            style: {
+              background: '#fff',
+              zIndex: 9,
+              width: 345,
+              maxHeight: '88vh',
+              overflowY: 'auto',
+              position: 'relative'
+            },
+            id: 'J_sidecart_fix'
+          })}
         {this.sideCart()}
       </div>
     );
