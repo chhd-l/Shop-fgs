@@ -371,7 +371,7 @@ class PayProductInfo extends React.Component {
                     }
                     if (
                       result.backCode === 'K-000000' &&
-                      result.context.promotionDiscount
+                      !result.context.promotionFlag
                     ) {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -447,7 +447,7 @@ class PayProductInfo extends React.Component {
                   style={{
                     display:
                       parseInt(this.discountPrice) > 0 &&
-                      this.state.discount.length === 0
+                      !this.props.checkoutStore.promotionCode
                         ? 'flex'
                         : 'none'
                   }}
@@ -476,8 +476,9 @@ class PayProductInfo extends React.Component {
 
                 {/* 显示 promotionCode */}
                 <div style={{ marginTop: '10px' }}>
-                  {!this.state.isShowValidCode &&
-                    this.state.discount.map((el) => (
+                  {!this.state.isShowValidCode && this.props.checkoutStore.promotionCode?
+                    // this.state.discount.map((el) => 
+                    (
                       <div
                         className="flex-layout"
                         style={{ marginRight: '18px' }}
@@ -525,7 +526,7 @@ class PayProductInfo extends React.Component {
                           </span>
                         </div>
                       </div>
-                    ))}
+                    ): null}
                 </div>
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">

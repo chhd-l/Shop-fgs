@@ -128,6 +128,7 @@ class LoginCart extends React.Component {
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+      console.log(err)
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -277,7 +278,7 @@ class LoginCart extends React.Component {
                   <span className="rc-meta">
                     <FormattedMessage
                       id="cart.totalProduct"
-                      values={{ val: cartData.length }}
+                      values={{ val: totalNum }}
                     />
                   </span>
                 </div>

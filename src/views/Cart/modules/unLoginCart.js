@@ -670,7 +670,9 @@ class UnLoginCart extends React.Component {
                           <LazyLoad>
                           <img src={cartImg} />
                           </LazyLoad>
-                          <FormattedMessage id="Single purchase" />
+                          <span>
+                            <FormattedMessage id="Single purchase" />  
+                          </span>
                         </span>
                       </div>
                       <div
@@ -868,10 +870,12 @@ class UnLoginCart extends React.Component {
                     <LazyLoad>
                     <img src={cartImg} />
                     </LazyLoad>
+                    <span style={{fontSize: '16px'}}>
                     <FormattedMessage id="Single purchase" />
+                    </span>
                   </span>
                 </div>
-                <div className="price singlePrice" style={{ fontSize: '22px' }}>
+                <div className="price singlePrice" style={{ fontSize: '18px' }}>
                   {formatMoney(
                     pitem.quantity *
                       pitem.sizeList.filter((el) => el.selected)[0].salePrice
@@ -942,12 +946,7 @@ class UnLoginCart extends React.Component {
                         }
                       />
                     </span>
-                    {/* </div> */}
                     <br />
-                    {/* Save extra{' '}
-                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                  10%
-                </b> */}
                     Save&nbsp;
                     <b className="product-pricing__card__head__price red  rc-padding-y--none">
                       {formatMoney(
@@ -986,7 +985,7 @@ class UnLoginCart extends React.Component {
                   </div>
                 </div>
                 <div className="freqency">
-                  <span>delivery every:</span>
+                  <span><FormattedMessage id="subscription.frequency" />:</span>
                   <Selection
                     customContainerStyle={{
                       display: 'inline-block',

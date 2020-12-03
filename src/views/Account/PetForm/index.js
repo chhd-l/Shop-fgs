@@ -173,6 +173,7 @@ class PetForm extends React.Component {
   }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
+      delete ele.value
       return {
         value: ele.valueEn,
         ...ele
@@ -855,7 +856,8 @@ class PetForm extends React.Component {
   }
   sizeOptionsChange(data) {
     this.setState({
-      weight: data.name
+      weight: data.name,
+      selectedSizeObj: {value: data.valueEn}
     });
   }
   breedCheckboxChange(e) {
@@ -1270,9 +1272,9 @@ class PetForm extends React.Component {
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
-                        htmlFor="weight"
+                        htmlFor="Size"
                       >
-                        <FormattedMessage id="Weight" />
+                        <FormattedMessage id="Size" />
                       </label>
                       <Selection
                         optionList={this.sizeOptions}
@@ -1290,7 +1292,7 @@ class PetForm extends React.Component {
                         <FormattedMessage
                           id="payment.errorInfo"
                           values={{
-                            val: <FormattedMessage id="weight" />
+                            val: <FormattedMessage id="Size" />
                           }}
                         />
                       </div>
@@ -1301,7 +1303,7 @@ class PetForm extends React.Component {
                       className="form-control-label rc-full-width"
                       htmlFor="breed"
                     >
-                      <FormattedMessage id="Breed" />
+                      <FormattedMessage id="breed" />
                     </label>
                     <span
                       className="rc-input rc-input--label rc-input--full-width"

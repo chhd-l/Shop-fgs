@@ -806,7 +806,7 @@ class LoginCart extends React.Component {
                   ) : null}
                 </div>
                 <div className="stock__wrapper">
-                  <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
+                  {/* <div className="stock" style={{ margin: '.5rem 0 -.4rem' }}>
                     <label
                       className={[
                         'availability',
@@ -836,7 +836,7 @@ class LoginCart extends React.Component {
                         )}
                       </div>
                     </span>
-                  </div>
+                  </div> */}
                   {/* <div className="promotion stock" style={{ marginTop: '7px', display: parseInt(this.discountPrice) > 0 ? 'inline-block' : 'none' }}>
                   <label className={['availability', pitem.addedFlag && pitem.buyCount <= pitem.stock ? 'instock' : 'outofstock'].join(' ')} >
                     <span><FormattedMessage id="promotion" /> :</span>
@@ -1116,6 +1116,14 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
+          {
+            this.state.isShowValidCode? (
+              <div className="red pl-3 pb-3 border-top pt-2">
+                Promotion code({this.state.lastPromotionInputValue}) is not Valid
+              </div>
+            ): null
+          }
+          
           <div className="row checkout-proccess">
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>

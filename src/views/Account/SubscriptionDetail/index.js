@@ -181,7 +181,7 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ isMobile: getDeviceType !== 'PC' });
+    this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -989,7 +989,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
@@ -1022,7 +1022,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     {/* Shipping Method: */}
@@ -1043,7 +1043,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     <img
@@ -1305,7 +1305,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     <FormattedMessage id="subscription.frequency"></FormattedMessage>
@@ -1339,7 +1339,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     {/* Shipping Method: */}
@@ -1360,7 +1360,7 @@ class SubscriptionDetail extends React.Component {
                                   <b
                                     style={{
                                       display: 'inline-block',
-                                      width: '200px'
+                                      width: '50%'
                                     }}
                                   >
                                     <img
@@ -1836,7 +1836,7 @@ class SubscriptionDetail extends React.Component {
                                           >
                                             <div
                                               className={`${
-                                                isMobile ? 'col-9' : 'col-md-3'
+                                                isMobile ? 'col-5' : 'col-md-3'
                                               }`}
                                               style={{ paddingLeft: '20px' }}
                                             >
@@ -1848,7 +1848,7 @@ class SubscriptionDetail extends React.Component {
                                                   marginLeft: '5px'
                                                 }}
                                               >
-                                                <DatePicker
+                                                {/* <DatePicker
                                                   className="receiveDate subs-receiveDate"
                                                   placeholder="Select Date"
                                                   dateFormat="yyyy-MM-dd"
@@ -1873,7 +1873,7 @@ class SubscriptionDetail extends React.Component {
                                                     )
                                                   }
                                                   disabled={true}
-                                                />
+                                                /> */}
                                               </span>
                                             </div>
                                             <div
@@ -1884,7 +1884,7 @@ class SubscriptionDetail extends React.Component {
                                             <div
                                               className={`changeDate ${
                                                 isMobile
-                                                  ? 'col-0'
+                                                  ? 'col-5'
                                                   : 'col-md-3 pl-4'
                                               }`}
                                               style={{
@@ -1944,9 +1944,9 @@ class SubscriptionDetail extends React.Component {
                                             </div>
                                             <div
                                               className={`${
-                                                isMobile ? 'col-3' : 'col-md-1'
+                                                isMobile ? 'col-2' : 'col-md-1'
                                               }`}
-                                              style={{ padding: 0 }}
+                                              style={{ padding: 0}}
                                             >
                                               {isActive ? (
                                                 <>
@@ -2448,12 +2448,12 @@ class SubscriptionDetail extends React.Component {
                                                   ) : (
                                                     <>
                                                       <i className="yellowCircle"></i>
-                                                      <span>Skiped</span>
+                                                      <span style={{paddingRight: '30px'}}>Skiped</span>
                                                     </>
                                                   )}
                                                 </div>
                                               </>
-                                            ) : el.id ? (
+                                            ) : (el.id ? (
                                               <>
                                                 <img
                                                   style={{
@@ -2480,7 +2480,7 @@ class SubscriptionDetail extends React.Component {
                                                   Order detail
                                                 </a>
                                               </>
-                                            ) : null}
+                                            ) : null)}
                                           </div>
                                         </div>
                                       </div>

@@ -17,6 +17,8 @@ class CheckoutStore {
   @observable loadingCartData = false;
   @observable outOfstockProNames = [];
   @observable offShelvesProNames = [];
+  @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
+  // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
   @computed get tradePrice() {
     return this.cartPrice && this.cartPrice.tradePrice
@@ -52,6 +54,12 @@ class CheckoutStore {
     return this.cartPrice && this.cartPrice.promotionDiscount
       ? this.cartPrice.promotionDiscount
       : '';
+  }
+
+  @action.bound
+  setPromotionCode(data) {
+    this.promotionCode = data;
+    localItemRoyal.set('rc-promotionCode', data);
   }
 
   @action.bound
@@ -114,7 +122,7 @@ class CheckoutStore {
     localItemRoyal.set('goodsMarketingMap', data);
   }
   @action.bound
-  async updatePromotionFiled(data, promotionCode = '') {
+  async updatePromotionFiled(data, promotionCode = this.promotionCode) {
     let param = data.map((el) => {
       return {
         goodsInfoId: el.goodsInfoId,
@@ -128,6 +136,7 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
+    this.setPromotionCode(promotionCode)
     console.log(purchasesRes, 'purchasesRes')
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
@@ -143,7 +152,7 @@ class CheckoutStore {
     });
   }
   @action.bound
-  async updateUnloginCart(data, promotionCode = '') {
+  async updateUnloginCart(data, promotionCode = this.promotionCode) {
     if (!data) {
       data = this.cartData;
     }
@@ -167,17 +176,23 @@ class CheckoutStore {
     });
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
-
+    this.setPromotionCode(promotionCode)
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
-    this.setCartPrice({
+    let params = {
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
-      discountPrice: purchasesRes.discountPrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice
-    });
+    }
+    if(!promotionCode || !sitePurchasesRes.promotionFlag) {
+      params.discountPrice = sitePurchasesRes.discountPrice
+    }else {
+      params.discountPrice = this.discountPrice
+    }
+    this.setCartPrice(params)
+    
     // 更新stock值
     let tmpOutOfstockProNames = [];
     let tmpOffShelvesProNames = [];
@@ -220,7 +235,7 @@ class CheckoutStore {
   }
 
   @action
-  async updateLoginCart(promotionCode = '', subscriptionFlag = false) {
+  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false) {
     try {
       this.changeLoadingCartData(true);
       // 获取购物车列表
@@ -236,6 +251,7 @@ class CheckoutStore {
       });
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
+      this.setPromotionCode(promotionCode)
       runInAction(() => {
         let goodsList = siteMiniPurchasesRes.goodsList;
 
@@ -268,15 +284,21 @@ class CheckoutStore {
           });
         }
         this.setLoginCartData(goodsList);
-        this.setCartPrice({
+        let params = {
           totalPrice: sitePurchasesRes.totalPrice,
           tradePrice: sitePurchasesRes.tradePrice,
-          discountPrice: sitePurchasesRes.discountPrice,
+          // discountPrice: sitePurchasesRes.discountPrice,
           deliveryPrice: sitePurchasesRes.deliveryPrice,
           promotionDesc: sitePurchasesRes.promotionDesc,
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice
-        });
+        }
+        if(!promotionCode || !sitePurchasesRes.promotionFlag) {
+          params.discountPrice = sitePurchasesRes.discountPrice
+        }else {
+          params.discountPrice = this.discountPrice
+        }
+        this.setCartPrice(params)
         this.offShelvesProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => !ele.addedFlag)
           .map((ele) => ele.goodsInfoName + ' ' + ele.specText);

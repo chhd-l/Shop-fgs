@@ -305,7 +305,7 @@ class UnloginCart extends React.Component {
                   <span className="rc-meta">
                     <FormattedMessage
                       id="cart.totalProduct"
-                      values={{ val: this.selectedCartData.length }}
+                      values={{ val: this.totalNum }}
                     />
                   </span>
                 </div>

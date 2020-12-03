@@ -67,7 +67,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      promotionCode: '',
+      promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       deliveryAddress: {
         firstName: '',
