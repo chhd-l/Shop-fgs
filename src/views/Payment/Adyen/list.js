@@ -8,6 +8,7 @@ import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import { getPaymentMethod, deleteCard } from '@/api/payment';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 import './list.css';
 
 function CardItemCover({
@@ -210,6 +211,7 @@ class AdyenCreditCardList extends React.Component {
         <div
           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
         >
+          <LazyLoad>
           <img
             alt=""
             className={`PayCardImgFitScreen ${
@@ -229,6 +231,7 @@ class AdyenCreditCardList extends React.Component {
                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
             }
           />
+          </LazyLoad>
         </div>
         <div
           className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}

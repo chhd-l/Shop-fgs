@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Selection from '@/components/Selection';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { getMarketingDiscount } from '@/api/payment';
+import LazyLoad from 'react-lazyload';
 import './index.css';
 
 @injectIntl
@@ -213,6 +214,7 @@ class SubscriptionSelect extends Component {
                       )
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
+                          <LazyLoad>
                           <img
                             alt=""
                             className="width-sub-img  imgForSelect "
@@ -220,6 +222,7 @@ class SubscriptionSelect extends Component {
                             key={i}
                             src={ele.goodsInfoImg}
                           />
+                          </LazyLoad>
                         </div>
                       ))
                   : this.props.checkoutStore.loginCartData
@@ -229,6 +232,7 @@ class SubscriptionSelect extends Component {
                       )
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
+                          <LazyLoad>
                           <img
                             alt=""
                             className="width-sub-img  imgForSelect "
@@ -236,6 +240,7 @@ class SubscriptionSelect extends Component {
                             key={i}
                             src={ele.goodsInfoImg}
                           />
+                          </LazyLoad>
                         </div>
                       ))}
               </span>

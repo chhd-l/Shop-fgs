@@ -16,6 +16,7 @@ import { queryCityNameById } from '@/api';
 import { getOrderDetails, getPayRecord } from '@/api/order';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -189,12 +190,14 @@ class Confirmation extends React.Component {
           <BannerTip />
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
+              <LazyLoad>
               <img
                 alt=""
                 src={successImg}
                 className="mb-3"
                 style={{ display: 'inline-block' }}
               />
+              </LazyLoad>
               <h4 className="rc-text-colour--iconography">
                 <b>
                   <FormattedMessage id="confirmation.info1" />

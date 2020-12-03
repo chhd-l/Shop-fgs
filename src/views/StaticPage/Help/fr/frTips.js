@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 class FrTips extends Component {
     constructor(props){
@@ -26,7 +27,9 @@ class FrTips extends Component {
                         <div className="rc-column">
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ab75a25/Help/onlineshop_90x90.jpg?sw=100&sfrm=jpg"></img>
+                                    <LazyLoad>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ab75a25/Help/onlineshop_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">
                                     <header>
@@ -45,7 +48,9 @@ class FrTips extends Component {
                         <div className="rc-column">
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw27a53e96/Help/PETnutri_90x90.jpg?sw=100&sfrm=jpg"></img>
+                                    <LazyLoad>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw27a53e96/Help/PETnutri_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">
                                     <header>
@@ -64,7 +69,9 @@ class FrTips extends Component {
                         <div className="rc-column">
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2d75a203/Help/PETCARE_90x90.jpg?sw=100&sfrm=jpg"></img>
+                                    <LazyLoad>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2d75a203/Help/PETCARE_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">
                                     <header>

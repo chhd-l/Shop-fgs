@@ -22,6 +22,7 @@ import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
+import LazyLoad from 'react-lazyload';
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -456,6 +457,7 @@ class UnLoginCart extends React.Component {
           </div>
           <div className="d-flex pl-3">
             <div className="product-info__img w-100">
+              <LazyLoad>
               <img
                 className="product-image"
                 style={{ maxWidth: '100px' }}
@@ -466,6 +468,7 @@ class UnLoginCart extends React.Component {
                 alt={pitem.goodsName}
                 title={pitem.goodsName}
               />
+              </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
               <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
@@ -665,7 +668,9 @@ class UnLoginCart extends React.Component {
                             lineHeight: '56px'
                           }}
                         >
+                          <LazyLoad>
                           <img src={cartImg} />
+                          </LazyLoad>
                           <FormattedMessage id="Single purchase" />
                         </span>
                       </div>
@@ -709,7 +714,9 @@ class UnLoginCart extends React.Component {
                               marginTop: '5px'
                             }}
                           >
+                            <LazyLoad>
                             <img src={refreshImg} />
+                            </LazyLoad>
                             <FormattedMessage id="autoship" />
                             <span
                               className="info-tooltip delivery-method-tooltip"
@@ -859,7 +866,9 @@ class UnLoginCart extends React.Component {
                       lineHeight: '56px'
                     }}
                   >
+                    <LazyLoad>
                     <img src={cartImg} />
+                    </LazyLoad>
                     <FormattedMessage id="Single purchase" />
                   </span>
                 </div>
@@ -900,7 +909,9 @@ class UnLoginCart extends React.Component {
                         marginTop: '5px'
                       }}
                     >
+                      <LazyLoad>
                       <img src={refreshImg} />
+                      </LazyLoad>
                       <FormattedMessage id="autoship" />
                       <span
                         className="info-tooltip delivery-method-tooltip"
@@ -1519,7 +1530,9 @@ class UnLoginCart extends React.Component {
                         >
                           <div className="ui-item border radius-3">
                             <Link to="/list/dogs">
+                              <LazyLoad>
                               <img className="w-100" src={dogsImg} alt="Dog" />
+                              </LazyLoad>
                               <br />
                               <h4 className="card__title red">
                                 <FormattedMessage id="cart.dogDiet" />
@@ -1528,7 +1541,9 @@ class UnLoginCart extends React.Component {
                           </div>
                           <div className="ui-item border radius-3">
                             <Link to="/list/cats">
+                              <LazyLoad>
                               <img className="w-100" src={catsImg} alt="Cat" />
+                              </LazyLoad>
                               <br />
                               <h4 className="card__title red">
                                 <FormattedMessage id="cart.catDiet" />

@@ -13,6 +13,7 @@ import { formatMoney } from '@/utils/utils';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -32,11 +33,13 @@ function QListAndPetJSX(props) {
               {props.summaryIcon}
               <FormattedMessage id="productFinder.summary" />
             </p>
+            <LazyLoad>
             <img
               src={{ cat: catImg, dog: dogImg }[props.type]}
               style={{ width: '50%', margin: '0 auto' }}
               alt=""
             />
+            </LazyLoad>
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
               {questionlist.map((ele, i) => (
                 <li
@@ -67,6 +70,7 @@ function QListAndPetJSX(props) {
           <div className="border rounded pr-2 pl-2">
             <div className="row align-items-center mt-4 mb-2 mb-md-4">
               <div className="col-12 col-md-6 mb-4 mb-md-0">
+                <LazyLoad>
                 <img
                   src={{ cat: catImg, dog: dogImg }[props.type]}
                   className="border"
@@ -77,6 +81,7 @@ function QListAndPetJSX(props) {
                   }}
                   alt=""
                 />
+                </LazyLoad>
               </div>
               <div className="col-12 col-md-6 text-center text-md-left text-break">
                 <div className="row">
@@ -286,6 +291,7 @@ class ProductFinderResult extends React.Component {
                 <div className="p-f-result-box">
                   <div className="border rounded row pt-3 pb-3">
                     <div className="col-12 col-md-6">
+                      <LazyLoad>
                       <img
                         src={
                           productDetail.mainProduct.goodsImg ||
@@ -296,6 +302,7 @@ class ProductFinderResult extends React.Component {
                         className="p-img"
                         alt=""
                       />
+                      </LazyLoad>
                     </div>
                     <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
                       <header className="rc-text--center">
@@ -353,6 +360,7 @@ class ProductFinderResult extends React.Component {
                         style={{ flex: 1 }}
                       >
                         <div className="mb-3 p-f-product-img">
+                          <LazyLoad>
                           <img
                             src={
                               ele.goodsImg ||
@@ -363,6 +371,7 @@ class ProductFinderResult extends React.Component {
                             className="p-img"
                             alt=""
                           />
+                          </LazyLoad>
                         </div>
                         <div className="d-flex flex-column justify-content-center">
                           <header className="rc-text--center">

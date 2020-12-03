@@ -5,6 +5,7 @@ import { confirmAndCommit } from '@/api/payment';
 import { Link } from 'react-router-dom';
 import store from 'storejs';
 import TermsCommon from '../Terms/common';
+import LazyLoad from 'react-lazyload';
 
 class OxxoConfirm extends Component {
   constructor(props) {
@@ -126,7 +127,9 @@ class OxxoConfirm extends Component {
             </aside>
           </div>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <LazyLoad>
             <img src={oxxo} style={{ display: 'inline-block' }} alt=""/>
+            </LazyLoad>
           </div>
           <h6>
             <p>

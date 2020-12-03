@@ -14,6 +14,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -114,7 +115,9 @@ class AboutUs extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image1} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <div
@@ -122,11 +125,13 @@ class AboutUs extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div className="rc-column">
+              <LazyLoad>
               <img
                 src={image2}
                 style={{ width: '100%', marginTop: '50px' }}
                 alt=""
               />
+              </LazyLoad>
             </div>
             <div
               className="rc-column"
@@ -190,7 +195,9 @@ class AboutUs extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image3} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <section
@@ -235,7 +242,9 @@ class AboutUs extends React.Component {
                   this.props.history.push('/list/dogs');
                 }}
               >
+                <LazyLoad>
                 <img src={dog} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
                 <p
                   style={{
                     color: '#E2001A',
@@ -257,7 +266,9 @@ class AboutUs extends React.Component {
                   this.props.history.push('/list/cats');
                 }}
               >
+                <LazyLoad>
                 <img src={cat} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
                 <p
                   style={{
                     color: '#E2001A',

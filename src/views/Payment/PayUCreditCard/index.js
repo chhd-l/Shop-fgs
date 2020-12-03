@@ -10,6 +10,7 @@ import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -317,7 +318,9 @@ class PayOs extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <img key={idx} className="logo-payment-card" src={el} alt=""/>
+          <LazyLoad>
+            <img key={idx} className="logo-payment-card" src={el} alt=""/>
+          </LazyLoad>
         ))}
       </span>
     );
@@ -533,6 +536,7 @@ class PayOs extends React.Component {
                         </p>
                         <div className="row">
                           <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
+                            <LazyLoad>
                             <img
                               alt=""
                               className="PayCardImgFitScreen"
@@ -546,6 +550,7 @@ class PayOs extends React.Component {
                                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
                             />
+                            </LazyLoad>
                           </div>
                           <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
                             <div className="row creditCompleteInfo ui-margin-top-1-md-down">

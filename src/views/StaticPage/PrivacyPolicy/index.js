@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { setSeoConfig } from '@/utils/utils';
 import BannerTip from '@/components/BannerTip';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -355,10 +356,12 @@ class PrivacyPolicy extends React.Component {
                   Ícono es el siguiente:
                 </p>
                 <p>
+                  <LazyLoad>
                   <img
                     alt="logo"
                     src="https://www.mars.com/sites/g/files/jydpyr121/files/styles/thumbnail/public/advertising-option-icon_0.png?itok=r-ki3CVH"
                   />
+                  </LazyLoad>
                 </p>
                 <p>
                   Al hacer clic en el Ícono cuando aparece, puede revisar la

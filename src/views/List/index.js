@@ -11,6 +11,7 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
+import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
 import { find } from 'lodash';
 import {
@@ -612,7 +613,9 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <img src={titleData.img} className="mx-auto" alt="" />
+                  <LazyLoad>
+                    <img src={titleData.img} className="mx-auto" alt="" />
+                  </LazyLoad>
                 </div>
               </div>
             </div>
@@ -780,6 +783,7 @@ class List extends React.Component {
                                     style={{ height: '15.7rem' }}
                                   >
                                     {/*循环遍历的图片*/}
+                                    <LazyLoad>
                                     <img
                                       src={
                                         item.goodsImg ||
@@ -805,6 +809,7 @@ class List extends React.Component {
                                         height: 'auto'
                                       }}
                                     />
+                                    </LazyLoad>
                                   </div>
                                 </picture>
                                 <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
@@ -991,7 +996,9 @@ class List extends React.Component {
                   </Link>
                 </div>
                 <div className="col-12 col-md-6">
-                  <img src={pfRecoImg} />
+                  <LazyLoad>
+                    <img src={pfRecoImg} />
+                  </LazyLoad>
                 </div>
               </div>
             </div>

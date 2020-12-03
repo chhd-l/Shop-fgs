@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { getPetList } from '@/api/pet'
 import { getCustomerInfo } from "@/api/user"
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 
 import '../index.css'
 import { findIndex } from "lodash"
@@ -149,7 +150,11 @@ class SelectPetModal extends Component { // 新建Pet
                             {
                                 productList.length > 0 ?
                                     productList.map((item) =>
-                                        <div className="img-wrapper"><img className="rc-img--square rc-img--square-custom " src={item.goodsInfoImg} alt=""/></div>
+                                        <div className="img-wrapper">
+                                            <LazyLoad>
+                                            <img className="rc-img--square rc-img--square-custom " src={item.goodsInfoImg} alt=""/>
+                                            </LazyLoad>
+                                        </div>
                                     )
                                     : null
                             }

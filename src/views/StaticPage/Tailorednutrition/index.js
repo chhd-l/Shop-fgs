@@ -10,6 +10,7 @@ import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
+import LazyLoad from 'react-lazyload';
 
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -94,7 +95,9 @@ class Tailorednutrition extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image1} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <div
@@ -102,7 +105,9 @@ class Tailorednutrition extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div className="rc-column">
+              <LazyLoad>
               <img src={image2} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
             <div
               className="rc-column"
@@ -144,7 +149,9 @@ class Tailorednutrition extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={image3} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <div
@@ -152,7 +159,9 @@ class Tailorednutrition extends React.Component {
             style={{ padding: '20px 200px' }}
           >
             <div className="rc-column">
+              <LazyLoad>
               <img src={image4} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
             <div
               className="rc-column"
@@ -217,7 +226,9 @@ class Tailorednutrition extends React.Component {
                   this.props.history.push('/list/dogs');
                 }}
               >
+                <LazyLoad>
                 <img src={dog} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
                 <p
                   style={{
                     color: '#E2001A',
@@ -239,7 +250,9 @@ class Tailorednutrition extends React.Component {
                   this.props.history.push('/list/cats');
                 }}
               >
+                <LazyLoad>
                 <img src={cat} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
                 <p
                   style={{
                     color: '#E2001A',

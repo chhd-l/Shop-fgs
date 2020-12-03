@@ -29,6 +29,7 @@ import {
 import { getProductPetConfig } from '@/api/payment';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
+import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
 
@@ -417,6 +418,7 @@ class LoginCart extends React.Component {
           </div>
           <div className="d-flex pl-3">
             <div className="product-info__img w-100">
+              <LazyLoad>
               <img
                 className="product-image"
                 style={{ maxWidth: '100px' }}
@@ -424,6 +426,7 @@ class LoginCart extends React.Component {
                 alt={pitem.goodsName}
                 title={pitem.goodsName}
               />
+              </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
               <div
@@ -620,7 +623,9 @@ class LoginCart extends React.Component {
                             lineHeight: '56px'
                           }}
                         >
+                          <LazyLoad>
                           <img src={cartImg} />
+                          </LazyLoad>
                           <FormattedMessage id="Single purchase" />
                         </span>
                       </div>
@@ -663,7 +668,9 @@ class LoginCart extends React.Component {
                               marginTop: '5px'
                             }}
                           >
+                            <LazyLoad>
                             <img src={refreshImg} />
+                            </LazyLoad>
                             <FormattedMessage id="autoship" />
                             <span
                               className="info-tooltip delivery-method-tooltip"
@@ -1305,11 +1312,13 @@ class LoginCart extends React.Component {
                             >
                               <div className="ui-item border radius-3">
                                 <Link to="/list/dogs">
+                                  <LazyLoad>
                                   <img
                                     className="w-100"
                                     src={dogsImg}
                                     alt="Dog"
                                   />
+                                  </LazyLoad>
                                   <br />
                                   <h4 className="card__title red">
                                     <FormattedMessage id="cart.dogDiet" />
@@ -1318,11 +1327,13 @@ class LoginCart extends React.Component {
                               </div>
                               <div className="ui-item border radius-3">
                                 <Link to="/list/cats">
+                                  <LazyLoad>
                                   <img
                                     className="w-100"
                                     src={catsImg}
                                     alt="Cat"
                                   />
+                                  </LazyLoad>
                                   <br />
                                   <h4 className="card__title red">
                                     <FormattedMessage id="cart.catDiet" />

@@ -6,6 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import { FormattedMessage } from 'react-intl';
 import Question from './modules/Question';
+import LazyLoad from 'react-lazyload';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -69,10 +70,14 @@ class ProductFinder extends React.Component {
             <div className="rc-md-up">{btnJSX}</div>
           </div>
           <div className="col-6 col-md-4 order-1 order-md-0">
+            <LazyLoad>
             <img src={catImg} alt="" />
+            </LazyLoad>
           </div>
           <div className="col-6 col-md-4 order-2 order-md-2">
+            <LazyLoad>
             <img src={dogImg} alt="" />
+            </LazyLoad>
           </div>
         </div>
         <div className="next-step-button d-md-none">{btnJSX}</div>

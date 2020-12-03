@@ -6,6 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
+import LazyLoad from 'react-lazyload';
 
 import './index.less';
 import { setSeoConfig } from '../../utils/utils';
@@ -182,7 +183,9 @@ class FAQ extends React.Component {
                           <p
                             dangerouslySetInnerHTML={{ __html: item.answer }}
                           ></p>
-                          <img src={item.imgUl} alt=""></img>
+                          <LazyLoad>
+                            <img src={item.imgUl} alt=""/>
+                          </LazyLoad>
                         </div>
                       </div>
                     ))}
