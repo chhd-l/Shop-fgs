@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { find } from 'lodash';
 import { formatMoney, getDictionary } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
@@ -111,11 +112,13 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
+                <LazyLoad>
                 <img
                   className="product-image"
                   src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
                   alt=""
                 />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -183,7 +186,9 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img className="product-image" src={el.goodsInfoImg} alt="" />
+                <LazyLoad>
+                <img className="product-image" src={el.goodsInfoImg} alt=""/>
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">

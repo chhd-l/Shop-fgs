@@ -14,6 +14,7 @@ import { inject, observer } from 'mobx-react';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 

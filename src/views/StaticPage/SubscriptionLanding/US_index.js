@@ -14,6 +14,7 @@ import cat from './images/cat.png';
 import dog from './images/dog.png';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 import './index.css';
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -125,7 +126,9 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-column">
+              <LazyLoad>
               <img src={autoship} style={{ width: '100%' }} alt="" />
+              </LazyLoad>
             </div>
           </div>
           <section
@@ -140,6 +143,7 @@ class Help extends React.Component {
             style={{ padding: '20px 80px' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={icon1}
@@ -149,12 +153,14 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
               <p>
                 Find your <strong>handpicked nutrition products</strong> in your
                 cart.
               </p>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={icon2}
@@ -164,12 +170,14 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
               <p>
                 Select <strong>automatic shipping</strong> and input your
                 payment method.
               </p>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={icon3}
@@ -179,12 +187,14 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
               <p>
                 <strong>Receive your product automatically</strong> based on
                 your schedule. Change or cancel <strong>at any time</strong>.
               </p>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={icon4}
@@ -194,6 +204,7 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
               <p>
                 Get your exclusive<strong> Royal Canin Club perks</strong>,
                 including the Royal Canin Pet Advisor Live app.
@@ -205,6 +216,7 @@ class Help extends React.Component {
             style={{ padding: '20px', background: '#eee' }}
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={cat}
@@ -214,6 +226,7 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
             </div>
             <div
               className="rc-column"
@@ -244,6 +257,7 @@ class Help extends React.Component {
               </div>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
+              <LazyLoad>
               <img
                 alt=""
                 src={dog}
@@ -253,6 +267,7 @@ class Help extends React.Component {
                   marginBottom: '20px'
                 }}
               />
+              </LazyLoad>
             </div>
           </div>
           <div className="help-page" style={{ marginBottom: '1rem' }}>
@@ -292,6 +307,7 @@ class Help extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <LazyLoad>
                         <img
                           className="align-self-center widthAuto ls-is-cached lazyloaded"
                           data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
@@ -301,6 +317,7 @@ class Help extends React.Component {
                           srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
                           src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
                         />
+                        </LazyLoad>
                       </div>
                     </div>
                   </div>
@@ -332,6 +349,7 @@ class Help extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <LazyLoad>
                         <img
                           className="align-self-center widthAuto ls-is-cached lazyloaded"
                           data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
@@ -341,6 +359,7 @@ class Help extends React.Component {
                           srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
                           src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
                         />
+                        </LazyLoad>
                       </div>
                     </div>
                   </div>
@@ -375,6 +394,7 @@ class Help extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                        <LazyLoad>
                         <img
                           className="align-self-center widthAuto ls-is-cached lazyloaded"
                           data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
@@ -384,6 +404,7 @@ class Help extends React.Component {
                           srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
                           src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
                         />
+                        </LazyLoad>
                       </div>
                     </div>
                   </div>

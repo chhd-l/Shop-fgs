@@ -12,6 +12,7 @@ import { getPrescription, getAllPrescription } from '@/api/clinic';
 import meImg from '@/assets/images/map-default-marker.png';
 import initLocation from './location';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -29,6 +30,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
   } else {
     return (
       <div>
+        <LazyLoad>
         <img
           alt=""
           src={meImg}
@@ -46,6 +48,7 @@ const AnyReactComponent = ({ obj, show, sonMess, props }) => {
             maxWidth: 'none'
           }}
         />
+        </LazyLoad>
       </div>
     );
   }

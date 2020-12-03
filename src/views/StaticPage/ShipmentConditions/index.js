@@ -14,6 +14,7 @@ import image4 from './images/image4.jpeg';
 import image5 from './images/image5.jpeg';
 import image6 from './images/image6.jpeg';
 import image7 from './images/image7.jpeg';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 class Help extends React.Component {
@@ -52,7 +53,9 @@ class Help extends React.Component {
               style={{ padding: '20px' }}
             >
               <div className="rc-column rc-double-width">
+                <LazyLoad>
                 <img src={image1} alt="" />
+                </LazyLoad>
               </div>
               <div className="rc-column">
                 <div className="content1">
@@ -207,7 +210,9 @@ class Help extends React.Component {
                 </div>
               </div>
               <div className="rc-column">
+                <LazyLoad>
                 <img src={image2} alt="" />
+                </LazyLoad>
               </div>
             </div>
           </section>
@@ -226,7 +231,9 @@ class Help extends React.Component {
                   >
                     Вы можете изменить адрес доставки в пределах одного города.
                   </span>
+                  <LazyLoad>
                   <img style={{ marginTop: '20px' }} src={image3} alt="" />
+                  </LazyLoad>
                 </div>
               </div>
               <div className="rc-column">
@@ -242,7 +249,9 @@ class Help extends React.Component {
                   доступные по заказу пункты выдачи с подробным описанием
                   каждого пункта.
                 </span>
+                <LazyLoad>
                 <img style={{ marginTop: '20px' }} src={image4} alt="" />
+                </LazyLoad>
               </div>
             </div>
           </section>
@@ -265,7 +274,9 @@ class Help extends React.Component {
                 </div>
               </div>
               <div className="rc-column">
+                <LazyLoad>
                 <img src={image5} alt="" />
+                </LazyLoad>
               </div>
             </div>
           </section>
@@ -288,7 +299,9 @@ class Help extends React.Component {
                 </div>
               </div>
               <div className="rc-column">
+                <LazyLoad>
                 <img src={image6} alt="" />
+                </LazyLoad>
               </div>
             </div>
           </section>
@@ -297,7 +310,9 @@ class Help extends React.Component {
           >
             <div className="rc-layout-container" style={{ padding: '20px' }}>
               <div className="rc-column">
+                <LazyLoad>
                 <img style={{ width: '80%' }} src={image7} alt="" />
+                </LazyLoad>
               </div>
               <div className="rc-column">
                 <div style={{ marginTop: '80px' }}>

@@ -10,6 +10,7 @@ import image3 from './images/image3.jpg';
 import image4 from './images/image4.jpg';
 import cat from './images/cat.jpg';
 import dog from './images/dog.jpg';
+import LazyLoad from 'react-lazyload';
 
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
