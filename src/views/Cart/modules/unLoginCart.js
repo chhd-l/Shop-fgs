@@ -248,6 +248,7 @@ class UnLoginCart extends React.Component {
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
+          checkoutStore,
           isLogin: false
         });
         url && history.push(url);

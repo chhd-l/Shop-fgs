@@ -396,6 +396,7 @@ class Help extends React.Component {
       if (!needLogin) {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
+          checkoutStore,
           isLogin: loginStore.isLogin
         });
         url && history.push(url);
@@ -442,6 +443,7 @@ class Help extends React.Component {
       // }
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
+        checkoutStore,
         isLogin: loginStore.isLogin
       });
       url && history.push(url);

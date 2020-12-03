@@ -250,6 +250,7 @@ class LoginCart extends React.Component {
       checkoutStore.setPetFlag(res.context.petFlag);
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore,
+        checkoutStore,
         isLogin: true
       });
       url && history.push(url);

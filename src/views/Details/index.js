@@ -929,6 +929,7 @@ class Details extends React.Component {
         checkoutStore.setPetFlag(res.context.petFlag);
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
+          checkoutStore,
           isLogin: this.isLogin
         });
         url && history.push(url);
@@ -1127,6 +1128,7 @@ class Details extends React.Component {
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
+          checkoutStore,
           isLogin: this.isLogin
         });
         url && history.push(url);

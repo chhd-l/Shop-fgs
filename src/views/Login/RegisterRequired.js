@@ -22,7 +22,7 @@ import LazyLoad from 'react-lazyload';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'configStore')
+@inject('loginStore', 'configStore', 'checkoutStore')
 @observer
 class RegisterRequired extends Component {
   get isLogin() {
@@ -133,6 +133,7 @@ class RegisterRequired extends Component {
         if (tmpUrl === '/prescription') {
           const url = distributeLinktoPrecriberOrPaymentPage({
             configStore,
+            checkoutStore: this.props.checkoutStore,
             isLogin: this.isLogin
           });
           url && history.push(url);

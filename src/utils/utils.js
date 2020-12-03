@@ -429,6 +429,7 @@ function changeTitleAndMeta(seoInfo) {
 // 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
 export function distributeLinktoPrecriberOrPaymentPage({
   configStore = {},
+  checkoutStore,
   isLogin = false
 }) {
   const {
@@ -436,7 +437,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
     AuditData = [],
     loginCartData,
     cartData
-  } = configStore;
+  } = checkoutStore;
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
     return '/checkout';
