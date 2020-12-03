@@ -2089,9 +2089,16 @@ class SubscriptionDetail extends React.Component {
                                                       marginBottom: '0'
                                                     }}
                                                   >
+                                                    <span>
+                                                      {formatMoney(
+                                                        tradeItem.subscriptionPrice
+                                                      )}
+                                                    </span>
+                                                    <span style={{fontSize: '12px', textDecoration: 'line-through', marginLeft: '5px'}}>
                                                     {formatMoney(
-                                                      tradeItem.subscriptionPrice
-                                                    )}
+                                                        tradeItem.price
+                                                      )}
+                                                    </span>
                                                   </p>
                                                 </div>
                                               </div>
