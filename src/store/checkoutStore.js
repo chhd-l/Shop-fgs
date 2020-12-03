@@ -186,8 +186,8 @@ class CheckoutStore {
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice
     }
-    if(!promotionCode || !sitePurchasesRes.promotionFlag) {
-      params.discountPrice = sitePurchasesRes.discountPrice
+    if(!promotionCode || !purchasesRes.promotionFlag) {
+      params.discountPrice = purchasesRes.discountPrice
     }else {
       params.discountPrice = this.discountPrice
     }
