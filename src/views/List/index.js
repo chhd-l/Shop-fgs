@@ -840,8 +840,8 @@ class List extends React.Component {
                                     <div className="height-product-tile-plpOnly">
                                       {/*商品名字*/}
                                       <header
-                                        className="rc-text--center"
-                                        style={{ height: '100px' }}
+                                        className="rc-text--center "
+                                        style={{ height: '70px' }}
                                       >
                                         <h3
                                           className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
