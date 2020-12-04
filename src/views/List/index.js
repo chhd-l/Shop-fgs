@@ -137,11 +137,11 @@ class List extends React.Component {
         titleData:
           state.cateName && state.cateDescription && state.cateImgList
             ? {
-                cateName: state.cateName,
-                title: state.cateTitle,
-                description: state.cateDescription,
-                img: state.cateImgList
-              }
+              cateName: state.cateName,
+              title: state.cateTitle,
+              description: state.cateDescription,
+              img: state.cateImgList
+            }
             : null
       });
     }
@@ -153,8 +153,8 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
+              ? keywordsSearch
+              : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
       },
       () => {
@@ -681,9 +681,8 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       <Filters
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -709,9 +708,8 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       <Filters
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -783,11 +781,11 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
-                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
-                          {loading
-                            ? _loadingJXS
-                            : productList.map((item, i) => (
+                        <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                          <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
+                            {loading
+                              ? _loadingJXS
+                              : productList.map((item, i) => (
                                 <ListItem
                                   key={item.id}
                                   promotionJSX={
@@ -795,10 +793,10 @@ class List extends React.Component {
                                       item.goodsInfos,
                                       (ele) => ele.goodsPromotion
                                     ) ? (
-                                      <div className="product-item-flag">
-                                        <FormattedMessage id="promotion" />
-                                      </div>
-                                    ) : null
+                                        <div className="product-item-flag">
+                                          <FormattedMessage id="promotion" />
+                                        </div>
+                                      ) : null
                                   }
                                   onClick={this.hanldeItemClick.bind(
                                     this,
@@ -842,11 +840,11 @@ class List extends React.Component {
                                     <div className="height-product-tile-plpOnly">
                                       {/*商品名字*/}
                                       <header
-                                        className="rc-text--center"
-                                        style={{ height: '100px' }}
+                                        className="rc-text--center "
+                                        style={{ height: '70px' }}
                                       >
                                         <h3
-                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
                                           title={item.goodsName}
                                         >
                                           {item.goodsName}
@@ -858,7 +856,7 @@ class List extends React.Component {
                                         title={item.goodsSubtitle}
                                         style={{ color: '#4a4a4a' }}
                                       >
-                                        <h6>{item.goodsSubtitle}</h6>
+                                        <h6 className="second-title">{item.goodsSubtitle}</h6>
                                       </div>
                                     </div>
                                     {/*商品评分和评论数目*/}
@@ -909,63 +907,63 @@ class List extends React.Component {
                                               (a, b) =>
                                                 a.marketPrice - b.marketPrice
                                             )[0].linePrice &&
-                                            item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].linePrice > 0 ? (
-                                              <span
-                                                className="text-line-through rc-text-colour--text font-weight-lighter"
-                                                style={{
-                                                  fontSize: '.8em'
-                                                }}
-                                              >
-                                                {formatMoney(
-                                                  item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice
-                                                )}
-                                              </span>
-                                            ) : null}
+                                              item.goodsInfos.sort(
+                                                (a, b) =>
+                                                  a.marketPrice - b.marketPrice
+                                              )[0].linePrice > 0 ? (
+                                                <span
+                                                  className="text-line-through rc-text-colour--text font-weight-lighter"
+                                                  style={{
+                                                    fontSize: '.8em'
+                                                  }}
+                                                >
+                                                  {formatMoney(
+                                                    item.goodsInfos.sort(
+                                                      (a, b) =>
+                                                        a.marketPrice -
+                                                        b.marketPrice
+                                                    )[0].linePrice
+                                                  )}
+                                                </span>
+                                              ) : null}
                                           </span>
                                         </div>
                                         {find(
                                           item.goodsInfos,
                                           (ele) => ele.subscriptionStatus
                                         ) &&
-                                        Math.min.apply(
-                                          null,
-                                          item.goodsInfos
-                                            .filter((g) => g.subscriptionStatus)
-                                            .map(
-                                              (g) => g.subscriptionPrice || 0
-                                            )
-                                        ) > 0 ? (
-                                          <div className="range position-relative SePriceScreen">
-                                            <span
-                                              style={{
-                                                color: '#323232',
-                                                fontWeight: 400
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                Math.min.apply(
-                                                  null,
-                                                  item.goodsInfos
-                                                    .filter(
-                                                      (g) =>
-                                                        g.subscriptionStatus
-                                                    )
-                                                    .map(
-                                                      (g) =>
-                                                        g.subscriptionPrice || 0
-                                                    )
-                                                )
-                                              )}{' '}
-                                            </span>
-                                          </div>
-                                        ) : null}
+                                          Math.min.apply(
+                                            null,
+                                            item.goodsInfos
+                                              .filter((g) => g.subscriptionStatus)
+                                              .map(
+                                                (g) => g.subscriptionPrice || 0
+                                              )
+                                          ) > 0 ? (
+                                            <div className="range position-relative SePriceScreen">
+                                              <span
+                                                style={{
+                                                  color: '#323232',
+                                                  fontWeight: 400
+                                                }}
+                                              >
+                                                {formatMoney(
+                                                  Math.min.apply(
+                                                    null,
+                                                    item.goodsInfos
+                                                      .filter(
+                                                        (g) =>
+                                                          g.subscriptionStatus
+                                                      )
+                                                      .map(
+                                                        (g) =>
+                                                          g.subscriptionPrice || 0
+                                                      )
+                                                  )
+                                                )}{' '}
+                                              </span>
+                                            </div>
+                                          ) : null}
                                       </div>
                                     </div>
                                     {/*商品价格截至*/}
@@ -992,59 +990,66 @@ class List extends React.Component {
                                   </div>
                                 </ListItem>
                               ))}
-                        </article>
-                        <div className="grid-footer rc-full-width">
-                          <Pagination
-                            loading={this.state.loading}
-                            defaultCurrentPage={this.state.currentPage}
-                            key={this.state.currentPage}
-                            totalPage={this.state.totalPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
-                          />
+                          </article>
+                          <div className="grid-footer rc-full-width">
+                            <Pagination
+                              loading={this.state.loading}
+                              defaultCurrentPage={this.state.currentPage}
+                              key={this.state.currentPage}
+                              totalPage={this.state.totalPage}
+                              onPageNumChange={(params) =>
+                                this.hanldePageNumChange(params)
+                              }
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                 </div>
               </div>
             </section>
-            <div className="ml-4 mr-4 pl-4 pr-4">
-              <div className="row d-flex align-items-center">
-                <div className="col-12 col-md-6">
-                  <h1 className="rc-gamma rc-padding--none">
-                    <FormattedMessage id="productFinder.recoTitle" />
-                  </h1>
-                  <p>
-                    <FormattedMessage id="productFinder.recoDesc" />
-                  </p>
-                  <Link to="/product-finder" className="rc-btn rc-btn--one">
-                    <FormattedMessage id="productFinder.index" />
-                  </Link>
-                </div>
-                <div className="col-12 col-md-6">
-                  <LazyLoad>
-                    <img src={pfRecoImg} />
-                  </LazyLoad>
+            {process.env.REACT_APP_LANG === 'fr' && (
+              <div className="ml-4 mr-4 pl-4 pr-4">
+                <div className="row d-flex align-items-center">
+                  <div className="col-12 col-md-6">
+                    <h1 className="rc-gamma rc-padding--none">
+                      <FormattedMessage id="productFinder.recoTitle" />
+                    </h1>
+                    <p>
+                      <FormattedMessage id="productFinder.recoDesc" />
+                    </p>
+                    <Link to="/product-finder" className="rc-btn rc-btn--one">
+                      <FormattedMessage id="productFinder.index" />
+                    </Link>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <LazyLoad>
+                      <img src={pfRecoImg} />
+                    </LazyLoad>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
-        <div className="notate ml-2 mb-2">
-          <FormattedMessage
-            id="notate"
-            values={{
-              val: (
-                <Link className="rc-styled-link" to="/FAQ/all">
-                  Versandkosten
-                </Link>
-              )
-            }}
-            defaultMessage={' '}
-          />
-        </div>
+        {
+          process.env.REACT_APP_LANG == 'de' ? (
+            <div className="notate ml-2 mb-2">
+              <FormattedMessage
+                id="notate"
+                values={{
+                  val: (
+                    <Link className="rc-styled-link" to="/FAQ/all">
+                      Versandkosten
+                    </Link>
+                  )
+                }}
+                defaultMessage={' '}
+              />
+            </div>
+          ) : null
+        }
+
 
         <Footer />
       </div>

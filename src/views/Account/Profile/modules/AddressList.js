@@ -29,7 +29,7 @@ function CardItem(props) {
         {props.operateBtnJSX}
       </div>
 
-      <div className="font-weight-normal">
+      <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
         {data.type === 'DELIVERY' ? (
           <FormattedMessage id="deliveryAddress" />
         ) : (

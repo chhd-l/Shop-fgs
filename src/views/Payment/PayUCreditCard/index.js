@@ -312,7 +312,7 @@ class PayOs extends React.Component {
     });
   };
   render() {
-    const { isLogin } = this.props;
+    const { isLogin, billingJSX } = this.props;
     const { creditCardInfoForm } = this.state;
 
     const CreditCardImg = (
@@ -591,6 +591,7 @@ class PayOs extends React.Component {
             </form>
           </div>
         </div>
+        {billingJSX}
         {/* 条款 */}
         <TermsCommon
           id={this.props.type}

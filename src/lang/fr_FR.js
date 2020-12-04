@@ -226,7 +226,7 @@ const fr_FR = {
   'details.feedingRecommendations': "Recommandations d'alimentation",
   'details.ingredients': 'Ingrédients',
   'details.inStock': 'En stock',
-  'details.OffShelves': 'sur les étagères',
+  'details.OffShelves': 'Disponible',
   'details.OneOFF': 'Achat en un click',
   'details.outStock': 'En rupture',
   'details.Subscription': 'abonnement',

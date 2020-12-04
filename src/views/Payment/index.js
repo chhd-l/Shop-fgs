@@ -142,7 +142,7 @@ class Payment extends React.Component {
     setSeoConfig();
     if (this.isLogin) {
       // 登录情况下，删除email panel
-      paymentStore.removeEmailFromPanelItems()
+      paymentStore.removeEmailFromPanelItems();
 
       if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
         this.setState({
@@ -1533,24 +1533,95 @@ class Payment extends React.Component {
     ) : null;
   };
 
-  /**
-   * 渲染支付方式
-   */
-  renderPayTab = () => {
+  renderBillingJSX = () => {
     const {
-      paymentTypeVal,
-      subForm,
-      listData,
-      payWayObj,
       billingChecked,
       billingAddress,
       deliveryAddress,
       countryList
     } = this.state;
     return (
+      <>
+        <SameAsCheckbox
+          updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+        />
+        {billingChecked ? (
+          deliveryAddress.firstName ? (
+            <div className="ml-custom mr-custom">
+              <span className="medium">
+                {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
+              </span>
+              <br />
+              {[deliveryAddress.postCode, deliveryAddress.phoneNumber].join(
+                ', '
+              )}
+              <br />
+              {this.matchNamefromDict(
+                countryList,
+                deliveryAddress.country
+              )}{' '}
+              {deliveryAddress.cityName}
+              <br />
+              {deliveryAddress.address1}
+              <br />
+              {deliveryAddress.address2}
+              {deliveryAddress.address2 ? <br /> : null}
+              {deliveryAddress.rfc}
+            </div>
+          ) : null
+        ) : (
+          <div className="card-panel rc-bg-colour--brand3 rounded mb-3">
+            {this.isLogin ? (
+              <AddressList
+                id="2"
+                type="billing"
+                isOnepageCheckout={this.isOnepageCheckout}
+                visible={!billingChecked}
+                updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
+                  this.setState({ billingAddress: data });
+                }}
+              >
+                <div
+                  className="card-header bg-transparent position-relative pt-0 pb-0"
+                  style={{ zIndex: 2, width: '62%' }}
+                >
+                  <h5>
+                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
+                    <FormattedMessage id="payment.billTitle" />
+                  </h5>
+                </div>
+              </AddressList>
+            ) : (
+              <VisitorAddress
+                key={2}
+                titleVisible={false}
+                type="billing"
+                isOnepageCheckout={this.isOnepageCheckout}
+                initData={billingAddress}
+                updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
+                  this.setState({
+                    billingAddress: data
+                  });
+                }}
+              />
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
+
+  /**
+   * 渲染支付方式
+   */
+  renderPayTab = () => {
+    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
+    return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
-        className={`${
+        className={`pb-3 ${
           !this.isOnepageCheckout || !this.paymentMethodPanelStatus.isPrepare
             ? ''
             : 'hidden'
@@ -1583,8 +1654,8 @@ class Payment extends React.Component {
         </div>
         {/* ********************支付tab栏end********************************** */}
 
-        {/* ***********************支付选项卡的内容start******************************* */}
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+          {/* ***********************支付选项卡的内容start******************************* */}
           {/* oxxo */}
           <div
             className={`${
@@ -1625,6 +1696,7 @@ class Payment extends React.Component {
               }}
               isApplyCvv={false}
               needReConfirmCVV={true}
+              billingJSX={this.renderBillingJSX()}
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
           </div>
@@ -1691,77 +1763,11 @@ class Payment extends React.Component {
               }}
             />
           </div>
-        </div>
-        {/* ***********************支付选项卡的内容end******************************* */}
 
-        {/* billing address */}
-        <div className="ml-custom mr-custom">
-          <SameAsCheckbox
-            updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
-          />
-          {billingChecked ? (
-            deliveryAddress.firstName ? (
-              <div className="ml-custom mr-custom">
-                <span className="medium">
-                  {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
-                </span>
-                <br />
-                {[deliveryAddress.postCode, deliveryAddress.phoneNumber].join(
-                  ', '
-                )}
-                <br />
-                {this.matchNamefromDict(
-                  countryList,
-                  deliveryAddress.country
-                )}{' '}
-                {deliveryAddress.cityName}
-                <br />
-                {deliveryAddress.address1}
-                <br />
-                {deliveryAddress.address2}
-                {deliveryAddress.address2 ? <br /> : null}
-                {deliveryAddress.rfc}
-              </div>
-            ) : null
-          ) : (
-            <div className="card-panel rc-bg-colour--brand3 rounded mb-3">
-              {this.isLogin ? (
-                <AddressList
-                  id="2"
-                  type="billing"
-                  isOnepageCheckout={this.isOnepageCheckout}
-                  visible={!billingChecked}
-                  updateData={(data) => {
-                    this.props.paymentStore.updateSelectedBillingAddress(data);
-                    this.setState({ billingAddress: data });
-                  }}
-                >
-                  <div
-                    className="card-header bg-transparent position-relative pt-0 pb-0"
-                    style={{ zIndex: 2, width: '62%' }}
-                  >
-                    <h5>
-                      <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                      <FormattedMessage id="payment.billTitle" />
-                    </h5>
-                  </div>
-                </AddressList>
-              ) : (
-                <VisitorAddress
-                  key={2}
-                  type="billing"
-                  isOnepageCheckout={this.isOnepageCheckout}
-                  initData={billingAddress}
-                  updateData={(data) => {
-                    this.props.paymentStore.updateSelectedBillingAddress(data);
-                    this.setState({
-                      billingAddress: data
-                    });
-                  }}
-                />
-              )}
-            </div>
-          )}
+          {/* ***********************支付选项卡的内容end******************************* */}
+
+          {/* billing address */}
+          {this.isOnepageCheckout && this.renderBillingJSX()}
         </div>
       </div>
     );
@@ -1868,7 +1874,9 @@ class Payment extends React.Component {
     } = this.state;
 
     console.log(
-      toJS(this.props.checkoutStore.AuditData), this.checkoutWithClinic, this.isOnepageCheckout,
+      toJS(this.props.checkoutStore.AuditData),
+      this.checkoutWithClinic,
+      this.isOnepageCheckout,
       'this.props.checkoutStore.AuditData'
     );
     return (
@@ -2058,11 +2066,7 @@ class Payment extends React.Component {
                     </h5>
                   </div>
                 )}
-                <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
-                    this.isOnepageCheckout ? '' : 'pb-0'
-                  }`}
-                >
+                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
                       className="rc-icon rc-payment--sm rc-iconography"
