@@ -53,6 +53,14 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
   }
   componentDidMount() {
+    window.onload = function() {
+      //console.log(document.querySelectorAll('iframe'))
+      var arr = document.querySelectorAll('iframe')
+      for (let i of arr) {
+        console.log(i)
+      }
+    }
+
     if (this.isLogin) {
       this.queryList();
     } else {
@@ -166,6 +174,21 @@ class AdyenCreditCardList extends React.Component {
     var { updateSelectedCardInfo } = this.props;
     if (isLoadCvv) return; //防止重新加载
     let el = '#cvv_' + id;
+    var timer = null,
+      inputDom = null
+    const changeInputType = (inputEl)=>{
+      if(inputDom==null){
+        timer = setInterval(()=>{
+            let inputDom = document.querySelector(inputEl)
+            //encryptedSecurityCode
+            console.log(111,inputDom)
+            changeInputType(inputEl)
+          },1000)
+        }else{
+          clearInterval(timer)
+          console.log(555,inputDom)
+        }
+    }
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -187,6 +210,13 @@ class AdyenCreditCardList extends React.Component {
                 updateSelectedCardInfo(
                   find(cardList, (ele) => ele.id === id) || null
                 );
+              },
+              onLoad: (state)=>{
+                //let inputEl = el+" "+"#encryptedSecurityCode"
+                let inputEl = el
+                //changeInputType(inputEl)
+                // inputDom.setAttribute("type","password")
+                // console.log(inputDom.getAttribute("type"))
               }
             })
             .mount(el);

@@ -157,8 +157,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { url: process.env.REACT_APP_ACCESS_PATH+'list/cats', messageId: 'de_cats' },
-          { url: process.env.REACT_APP_ACCESS_PATH+'list/dogs', messageId: 'de_dogs' }
+          { link: '/cats', messageId: 'de_cats' },
+          { link: '/dogs', messageId: 'de_dogs' }
         ]
       }
     ],
@@ -215,8 +215,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/CHATS', messageId: 'account.cat' },
-          { link: '/list/CHIENS', messageId: 'account.dog' },
+          { link: '/cats', messageId: 'account.cat' },
+          { link: '/dogs', messageId: 'account.dog' },
           {
             link: '/tailorednutrition',
             messageId: 'tailorednutrition'
