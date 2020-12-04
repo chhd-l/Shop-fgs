@@ -1063,7 +1063,7 @@ class AccountOrders extends React.Component {
                             style={{ height: '.8rem' }}
                           />
                           <div className="row m-0 ml-2 mr-2 ml-md-0 mr-md-0">
-                            <div class="col-12 border table-header rounded mt-3 mt-md-0">
+                            <div className="col-12 border table-header rounded mt-3 mt-md-0">
                               <div className="row align-items-center pt-3 pb-2 pl-1 pr-1 pl-md-4 pr-md-4 pt-md-4 pb-md-3">
                                 <div className="col-12 col-md-4 text-left mb-2">
                                   <FormattedMessage id="order.orderNumber" />:
@@ -1207,7 +1207,7 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="pt-2 pb-2 pl-md-4 pr-md-4">
                                 <div className="row mt-2 text-left">
-                                  <div class="col-2 col-xxl-7 mb-2 rc-md-up">
+                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
                                   <div className="col-6 col-xxl-2 mb-2">

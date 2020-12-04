@@ -161,8 +161,8 @@ class Carousel extends React.Component {
         <div className='carousel-wrap'>
           <a href="javascript:;" className="leftBtn Btn rc-icon rc-left rc-iconography" id="leftBtn" onClick={this.leftBtnClick}></a>
           <a href="javascript:;" className="rightBtn Btn  rc-icon  rc-right rc-iconography" id="rightBtn" onClick={this.rightBtnClick}></a>
-          <div class="carousel" id="carousel">
-            <div class="m_unit" id="m_unit">
+          <div className="carousel" id="carousel">
+            <div className="m_unit" id="m_unit">
               <ul>
                 {
                   this.state.goodsList.map((item, index) => {
@@ -237,7 +237,7 @@ class Carousel extends React.Component {
               </ul>
             </div>
           </div>
-          <div class="circles" id="circles">
+          <div className="circles" id="circles">
             <ol>
               {
                 this.state.goodsList.map((item, index) => {

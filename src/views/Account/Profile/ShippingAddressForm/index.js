@@ -339,7 +339,7 @@ class ShippingAddressFrom extends React.Component {
                       />
                       <label
                         className="rc-input__label--inline"
-                        for={`account-info-address-${item.type}-${i}`}
+                        htmlFor={`account-info-address-${item.type}-${i}`}
                       >
                         <FormattedMessage id={item.langKey} />
                       </label>

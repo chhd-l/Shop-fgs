@@ -117,7 +117,7 @@ function Consent2() {
           />
           <label
             className="rc-input__label--inline"
-            for="Method_of_payment-creditcard"
+            htmlFor="Method_of_payment-creditcard"
             style="cursor: default;"
           >
             Kart Bilgileri

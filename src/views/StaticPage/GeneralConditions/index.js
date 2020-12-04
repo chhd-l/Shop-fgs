@@ -46,7 +46,7 @@ class Help extends React.Component {
               Пользовательское соглашение
             </h2>
           </section>
-          <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  ">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  ">
             <p>
               Настоящее Пользовательское соглашение («Соглашение»)
               определяет&nbsp;

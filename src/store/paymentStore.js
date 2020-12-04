@@ -27,12 +27,12 @@ class PaymentStore {
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'billingAddr',
+      key: 'paymentMethod',
       order: 4,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'paymentMethod',
+      key: 'billingAddr',
       order: 5,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },

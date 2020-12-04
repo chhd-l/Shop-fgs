@@ -116,7 +116,7 @@ class AdyenCommonPay extends Component {
                       id="street"
                       style={{ marginBottom: '18px' }}
                     >
-                      <label className="address-label" for="street">
+                      <label className="address-label" htmlFor="street">
                         <FormattedMessage id="email" />
                         <span className="red">*</span>
                       </label>

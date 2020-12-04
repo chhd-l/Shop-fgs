@@ -301,7 +301,7 @@ class Subscription extends React.Component {
                                     }}
                                     src={cancelIcon}
                                   />
-                                  <a class="rc-styled-link" href="#/">
+                                  <a className="rc-styled-link" href="#/">
                                     Cancel Autoship
                                   </a>
                                 </div> */}
@@ -407,7 +407,7 @@ class Subscription extends React.Component {
                               </div>
                               <div className="col-4 col-md-2">
                                 <button
-                                  class="rc-btn rc-btn--two rc-btn--sm"
+                                  className="rc-btn rc-btn--two rc-btn--sm"
                                   onClick={() => {
                                     localItemRoyal.set('subDetail', subItem);
                                     this.props.history.push(

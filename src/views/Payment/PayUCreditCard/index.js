@@ -318,8 +318,8 @@ class PayOs extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <LazyLoad>
-            <img key={idx} className="logo-payment-card" src={el} alt="" />
+          <LazyLoad key={idx}>
+            <img className="logo-payment-card" src={el} alt="" />
           </LazyLoad>
         ))}
       </span>

@@ -1629,9 +1629,9 @@ class Payment extends React.Component {
       >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom`}>
-          {Object.entries(payWayObj).map((item) => {
+          {Object.entries(payWayObj).map((item, i) => {
             return (
-              <div className="rc-input rc-input--inline">
+              <div className="rc-input rc-input--inline" key={i}>
                 <input
                   className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
@@ -1644,7 +1644,7 @@ class Payment extends React.Component {
                 />
                 <label
                   className="rc-input__label--inline"
-                  for={`payment-info-${item[1].id}`}
+                  htmlFor={`payment-info-${item[1].id}`}
                 >
                   <FormattedMessage id={item[1].id} />
                 </label>

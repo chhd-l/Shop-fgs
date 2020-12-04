@@ -1063,7 +1063,7 @@ class LoginCart extends React.Component {
                 )}
               </FormattedMessage>
 
-              <label className="rc-input__label" for="id-text2"></label>
+              <label className="rc-input__label" htmlFor="id-text2"></label>
             </span>
           </div>
           <div className="col-6 no-padding-left">

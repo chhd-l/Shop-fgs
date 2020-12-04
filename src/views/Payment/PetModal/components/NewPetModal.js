@@ -321,7 +321,7 @@ class NewPetModal extends Component {
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
-                      val: <FormattedMessage id="birthDate" />
+                      val: <FormattedMessage id="account.birthDate" />
                     }}
                   />
                 </div>

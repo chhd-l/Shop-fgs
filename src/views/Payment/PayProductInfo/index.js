@@ -344,7 +344,7 @@ class PayProductInfo extends React.Component {
                     )}
                   </FormattedMessage>
 
-                  <label className="rc-input__label" for="id-text2"></label>
+                  <label className="rc-input__label" htmlFor="id-text2"></label>
                 </span>
                 <button
                   id="promotionApply"

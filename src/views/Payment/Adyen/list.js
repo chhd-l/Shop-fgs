@@ -53,13 +53,13 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
   }
   componentDidMount() {
-    window.onload = function() {
+    window.onload = function () {
       //console.log(document.querySelectorAll('iframe'))
-      var arr = document.querySelectorAll('iframe')
+      var arr = document.querySelectorAll('iframe');
       for (let i of arr) {
-        console.log(i)
+        console.log(i);
       }
-    }
+    };
 
     if (this.isLogin) {
       this.queryList();
@@ -175,20 +175,20 @@ class AdyenCreditCardList extends React.Component {
     if (isLoadCvv) return; //防止重新加载
     let el = '#cvv_' + id;
     var timer = null,
-      inputDom = null
-    const changeInputType = (inputEl)=>{
-      if(inputDom==null){
-        timer = setInterval(()=>{
-            let inputDom = document.querySelector(inputEl)
-            //encryptedSecurityCode
-            console.log(111,inputDom)
-            changeInputType(inputEl)
-          },1000)
-        }else{
-          clearInterval(timer)
-          console.log(555,inputDom)
-        }
-    }
+      inputDom = null;
+    const changeInputType = (inputEl) => {
+      if (inputDom == null) {
+        timer = setInterval(() => {
+          let inputDom = document.querySelector(inputEl);
+          //encryptedSecurityCode
+          console.log(111, inputDom);
+          changeInputType(inputEl);
+        }, 1000);
+      } else {
+        clearInterval(timer);
+        console.log(555, inputDom);
+      }
+    };
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -211,9 +211,9 @@ class AdyenCreditCardList extends React.Component {
                   find(cardList, (ele) => ele.id === id) || null
                 );
               },
-              onLoad: (state)=>{
+              onLoad: (state) => {
                 //let inputEl = el+" "+"#encryptedSecurityCode"
-                let inputEl = el
+                let inputEl = el;
                 //changeInputType(inputEl)
                 // inputDom.setAttribute("type","password")
                 // console.log(inputDom.getAttribute("type"))
@@ -242,25 +242,25 @@ class AdyenCreditCardList extends React.Component {
           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
         >
           <LazyLoad>
-          <img
-            alt=""
-            className={`PayCardImgFitScreen ${
-              data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
-            }`}
-            src={
-              CREDIT_CARD_IMG_ENUM[
-                data.adyenPaymentMethod
-                  ? data.adyenPaymentMethod.name.toUpperCase()
-                  : ''
-              ]
-                ? CREDIT_CARD_IMG_ENUM[
-                    data.adyenPaymentMethod
-                      ? data.adyenPaymentMethod.name.toUpperCase()
-                      : ''
-                  ]
-                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-            }
-          />
+            <img
+              alt=""
+              className={`PayCardImgFitScreen ${
+                data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
+              }`}
+              src={
+                CREDIT_CARD_IMG_ENUM[
+                  data.adyenPaymentMethod
+                    ? data.adyenPaymentMethod.name.toUpperCase()
+                    : ''
+                ]
+                  ? CREDIT_CARD_IMG_ENUM[
+                      data.adyenPaymentMethod
+                        ? data.adyenPaymentMethod.name.toUpperCase()
+                        : ''
+                    ]
+                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+              }
+            />
           </LazyLoad>
         </div>
         <div
@@ -374,7 +374,7 @@ class AdyenCreditCardList extends React.Component {
       }
 
       return (
-        <>
+        <React.Fragment key={idx}>
           <CardItemCover
             key={el.id}
             selectedSts={el.id === selectedId}
@@ -383,7 +383,7 @@ class AdyenCreditCardList extends React.Component {
             {this.renderOneCard({ data: el })}
             {this.renderCardDeleteBtnJSX({ el, idx })}
           </CardItemCover>
-        </>
+        </React.Fragment>
       );
     });
     return (

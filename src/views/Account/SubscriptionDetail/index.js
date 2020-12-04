@@ -2136,7 +2136,7 @@ class SubscriptionDetail extends React.Component {
                                                 />
                                                 <label
                                                   className="rc-input__label"
-                                                  for="id-text2"
+                                                  htmlFor="id-text2"
                                                 ></label>
                                               </span>
                                               <button
