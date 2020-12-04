@@ -844,7 +844,7 @@ class List extends React.Component {
                                         style={{ height: '100px' }}
                                       >
                                         <h3
-                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
                                           title={item.goodsName}
                                         >
                                           {item.goodsName}
@@ -856,7 +856,7 @@ class List extends React.Component {
                                         title={item.goodsSubtitle}
                                         style={{ color: '#4a4a4a' }}
                                       >
-                                        <h6>{item.goodsSubtitle}</h6>
+                                        <h6 className="second-title">{item.goodsSubtitle}</h6>
                                       </div>
                                     </div>
                                     {/*商品评分和评论数目*/}
