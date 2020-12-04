@@ -34,7 +34,13 @@ import './index.css';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore','headerSearchStore')
+@inject(
+  'loginStore',
+  'clinicStore',
+  'configStore',
+  'checkoutStore',
+  'headerSearchStore'
+)
 @injectIntl
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
@@ -54,10 +60,8 @@ class Header extends React.Component {
       isScrollToTop: true,
       headerNavigationList: [],
       activeTopParentId: -1,
-      event:{
-        search:{
-
-        }
+      event: {
+        search: {}
       }
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -90,7 +94,7 @@ class Header extends React.Component {
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
-    this.props.headerSearchStore.clear()
+    this.props.headerSearchStore.clear();
 
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
@@ -392,16 +396,15 @@ class Header extends React.Component {
             });
           }
           //搜索成功-埋点
-          this.props.headerSearchStore.getResult(keywords,goodsContent.length)
-          console.log('搜索成功-成功',this.props.headerSearchStore)
-          const {query,results,type} = this.props.headerSearchStore
+          this.props.headerSearchStore.getResult(keywords, goodsContent.length);
+          console.log('搜索成功-成功', this.props.headerSearchStore);
+          const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
             results,
             type
-          }
-          dataLayer.push({'search': this.state.event.search}); 
-
+          };
+          dataLayer.push({ search: this.state.event.search });
 
           this.setState({
             result: Object.assign(
@@ -413,17 +416,16 @@ class Header extends React.Component {
             )
           });
         } else {
-           //搜索失败-埋点
-           this.props.headerSearchStore.getNoResult(keywords)
-           console.log('搜索失败-埋点',this.props.headerSearchStore)
-           const {query,results,type} = this.props.headerSearchStore
-           this.state.event.search = {
+          //搜索失败-埋点
+          this.props.headerSearchStore.getNoResult(keywords);
+          console.log('搜索失败-埋点', this.props.headerSearchStore);
+          const { query, results, type } = this.props.headerSearchStore;
+          this.state.event.search = {
             query,
             results,
             type
-          }
-          dataLayer.push({'search': this.state.event.search}); 
-
+          };
+          dataLayer.push({ search: this.state.event.search });
 
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -620,7 +622,7 @@ class Header extends React.Component {
         default:
           break;
       }
-      if (linkObj) {
+      if (linkObj && linkObj.pathname) {
         linkObj = Object.assign(linkObj, {
           state: { sortParam, cateIds, filters }
         });
