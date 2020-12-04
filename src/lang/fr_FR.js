@@ -1033,6 +1033,6 @@ const fr_FR = {
   gender: 'Le genre',
   home: 'Accueil',
   setAsDefault: 'Définir par défaut',
-  mailAddress: 'Adresse mail'
+  mailAddress: 'Adresse mail',
 }
 export default fr_FR;

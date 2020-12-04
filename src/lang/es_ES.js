@@ -368,7 +368,6 @@ const es_ES = {
   just: 'sólo',
   kitten: 'Gatito (0-1 años)',
   lastName: 'Apellido *',
-  learnMore: 'Aprende más',
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
   'list.errMsg2': 'No se encontraron productos, cambie las palabras clave y vuelva a intentarlo.',
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',

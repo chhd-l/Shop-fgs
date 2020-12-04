@@ -797,6 +797,6 @@ const de_DE = {
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   viewAll: 'Alle Produkte anzeigen',
   addANewPaymentMethod: 'Fügen Sie eine neue Zahlungsmethode hinzu',
-  mailAddress: 'Mail Adresse'
+  mailAddress: 'Mail Adresse',
 }
 export default de_DE;

@@ -1529,7 +1529,7 @@ class UnLoginCart extends React.Component {
                           style={{ margin: '0 10%' }}
                         >
                           <div className="ui-item border radius-3">
-                            <Link to="/list/dogs">
+                            <Link to="/dogs">
                               <LazyLoad>
                               <img className="w-100" src={dogsImg} alt="Dog" />
                               </LazyLoad>
@@ -1540,7 +1540,7 @@ class UnLoginCart extends React.Component {
                             </Link>
                           </div>
                           <div className="ui-item border radius-3">
-                            <Link to="/list/cats">
+                            <Link to="/cats">
                               <LazyLoad>
                               <img className="w-100" src={catsImg} alt="Cat" />
                               </LazyLoad>
