@@ -507,7 +507,7 @@ class UnLoginCart extends React.Component {
 
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                 <div style={{ maxWidth: '250px' }}>
-                  <div>{pitem.goodsSubtitle}</div>
+                  <div className="productGoodsSubtitle">{pitem.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     <div className="stock__wrapper">
                       <div className="stock">
@@ -1529,7 +1529,7 @@ class UnLoginCart extends React.Component {
                           style={{ margin: '0 10%' }}
                         >
                           <div className="ui-item border radius-3">
-                            <Link to="/list/dogs">
+                            <Link to="/dogs">
                               <LazyLoad>
                               <img className="w-100" src={dogsImg} alt="Dog" />
                               </LazyLoad>
@@ -1540,7 +1540,7 @@ class UnLoginCart extends React.Component {
                             </Link>
                           </div>
                           <div className="ui-item border radius-3">
-                            <Link to="/list/cats">
+                            <Link to="/cats">
                               <LazyLoad>
                               <img className="w-100" src={catsImg} alt="Cat" />
                               </LazyLoad>

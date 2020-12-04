@@ -396,7 +396,6 @@ const en_US = {
   just: 'Just',
   kitten: 'Kitten (0-1 year old)',
   lastName: 'Last Name *',
-  learnMore: 'Learn more',
   'list.errMsg': 'No products found, please change the search criteria and try again.',
   'list.errMsg2': 'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',
@@ -836,6 +835,9 @@ const en_US = {
   yes: 'Yes',
   yourEmailNotVerified: 'Your email has not been verified!',
   yourPasswordNotVerified: 'Your password has not been verified',
-  mailAddress: 'Mail address'
+  mailAddress: 'Mail address',
+  'account.startAutoShipping': 'Start Autoshipping',
+  'account.noSubscription': 'You did not discover our Autoship services yet ? AutoShip is a convenient way for you to get your orders delivered on a regular schedule. So, you save time and your pet never run out of food.',
+  'account.noSubscriptionTitle': 'Let\'s get started!',
 }
 export default en_US;

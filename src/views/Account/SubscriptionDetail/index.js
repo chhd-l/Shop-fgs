@@ -951,7 +951,7 @@ class SubscriptionDetail extends React.Component {
                                     =
                                   </span>
                                   <span
-                                    class="price"
+                                    className="price"
                                     style={{
                                       display: 'inline-block',
                                       fontSize: '20px',
@@ -964,7 +964,7 @@ class SubscriptionDetail extends React.Component {
                                     {formatMoney(el.subscribePrice)}
                                   </span>
                                   <span
-                                    class="price"
+                                    className="price"
                                     style={{
                                       display: 'inline-block',
                                       fontSize: '20px',
@@ -1262,7 +1262,7 @@ class SubscriptionDetail extends React.Component {
                                             =
                                           </span>
                                           <span
-                                            class="price"
+                                            className="price"
                                             style={{
                                               display: 'inline-block',
                                               fontSize: '20px',
@@ -1275,7 +1275,7 @@ class SubscriptionDetail extends React.Component {
                                             {formatMoney(el.subscribePrice)}
                                           </span>
                                           <span
-                                            class="price"
+                                            className="price"
                                             style={{
                                               display: 'inline-block',
                                               fontSize: '20px',
@@ -1419,7 +1419,7 @@ class SubscriptionDetail extends React.Component {
                             src={cancelIcon}
                           />
                           <a
-                            class="rc-styled-link"
+                            className="rc-styled-link"
                             href="#/"
                             onClick={(e) => {
                               e.preventDefault();
@@ -1437,7 +1437,7 @@ class SubscriptionDetail extends React.Component {
                           {/* </div> */}
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <button
-                            class={`rc-btn rc-btn--one ${
+                            className={`rc-btn rc-btn--one ${
                               this.state.isDataChange
                                 ? ''
                                 : 'rc-btn-solid-disabled'
@@ -1721,7 +1721,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         )}
                       </div>
-                      <h4 class="h4">My Autoship Order</h4>
+                      <h4 className="h4">My Autoship Order</h4>
 
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
@@ -1836,44 +1836,23 @@ class SubscriptionDetail extends React.Component {
                                           >
                                             <div
                                               className={`${
-                                                isMobile ? 'col-5' : 'col-md-3'
+                                                isMobile ? 'col-4' : 'col-md-3'
                                               }`}
-                                              style={{ paddingLeft: '20px' }}
+                                              style={{ padding: isMobile? '0 0 0 10px': '0 15px 0 20px' }}
                                             >
                                               shipment on:
+                                              <br/>
                                               <span
                                                 style={{
                                                   color: '#e2001a',
-                                                  fontWeight: '400',
-                                                  marginLeft: '5px'
+                                                  fontWeight: '400'
                                                 }}
                                               >
-                                                {/* <DatePicker
-                                                  className="receiveDate subs-receiveDate"
-                                                  placeholder="Select Date"
-                                                  dateFormat="yyyy-MM-dd"
-                                                  minDate={this.state.minDate}
-                                                  selected={
-                                                    el.tradeItems
-                                                      ? new Date(
-                                                          el.tradeItems[0].nextDeliveryTime
-                                                        )
-                                                      : new Date()
-                                                  }
-                                                  onChange={(date) =>
-                                                    this.onDateChange(
-                                                      date,
-                                                      el.tradeItems.map(
-                                                        (el) => {
-                                                          return {
-                                                            skuId: el.skuId
-                                                          };
-                                                        }
-                                                      )
-                                                    )
-                                                  }
-                                                  disabled={true}
-                                                /> */}
+                                                {
+                                                  el.tradeItems[0].nextDeliveryTime.split(
+                                                    ' '
+                                                  )[0]
+                                                }
                                               </span>
                                             </div>
                                             <div
@@ -1889,7 +1868,7 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{
                                                 textAlign: 'right',
-                                                paddingRight: '20px'
+                                                padding: isMobile? '0': '0 20px 0 15px'
                                               }}
                                             >
                                               {isActive ? (
@@ -1944,9 +1923,9 @@ class SubscriptionDetail extends React.Component {
                                             </div>
                                             <div
                                               className={`${
-                                                isMobile ? 'col-2' : 'col-md-1'
+                                                isMobile ? 'col-3' : 'col-md-1'
                                               }`}
-                                              style={{ padding: 0}}
+                                              style={{ padding: isMobile? '0 0 0 10px': '0'}}
                                             >
                                               {isActive ? (
                                                 <>
@@ -1959,7 +1938,7 @@ class SubscriptionDetail extends React.Component {
                                                     src={skipIcon}
                                                   />
                                                   <a
-                                                    class="rc-styled-link"
+                                                    className="rc-styled-link"
                                                     href="#/"
                                                     onClick={(e) => {
                                                       e.preventDefault();
@@ -2001,7 +1980,7 @@ class SubscriptionDetail extends React.Component {
                                               >
                                                 <div
                                                   className={`${
-                                                    isMobile ? 'col-8' : 'col-4'
+                                                    isMobile ? 'col-6' : 'col-4'
                                                   } col-md-4`}
                                                 >
                                                   <div
@@ -2081,7 +2060,9 @@ class SubscriptionDetail extends React.Component {
                                                     x {tradeItem.num}
                                                   </p>
                                                 </div>
-                                                <div className="col-4 col-md-4">
+                                                <div className={`${
+                                                    isMobile ? 'col-6' : 'col-4'
+                                                  } col-md-4`}>
                                                   <p
                                                     style={{
                                                       textAlign: 'right',
@@ -2132,7 +2113,7 @@ class SubscriptionDetail extends React.Component {
                                               <span
                                                 className="rc-input rc-input--inline rc-input--label"
                                                 style={{
-                                                  width: '170px',
+                                                  width: isMobile? '50%': '170px',
                                                   verticalAlign: 'middle'
                                                 }}
                                               >
@@ -2471,7 +2452,7 @@ class SubscriptionDetail extends React.Component {
                                                   src={dateIcon}
                                                 />
                                                 <a
-                                                  class="rc-styled-link"
+                                                  className="rc-styled-link"
                                                   href="#/"
                                                   onClick={(e) => {
                                                     e.preventDefault();
