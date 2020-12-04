@@ -1,5 +1,6 @@
 import { action, observable, computed } from 'mobx';
 import { find, findIndex } from 'lodash';
+import { act } from 'react-dom/test-utils';
 
 class PaymentStore {
   @observable deliveryAddress = null;
@@ -60,6 +61,12 @@ class PaymentStore {
 
   @computed get confirmationPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'confirmation').status;
+  }
+
+  @action.bound
+  removeEmailFromPanelItems() {debugger
+    const idx = this.panelStatus.findIndex((e) => e.key === 'email');
+    this.panelStatus.splice(idx, 1);
   }
 
   @action.bound

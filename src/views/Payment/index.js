@@ -141,6 +141,9 @@ class Payment extends React.Component {
     const { checkoutStore, paymentStore, clinicStore } = this.props;
     setSeoConfig();
     if (this.isLogin) {
+      // 登录情况下，删除email panel
+      paymentStore.removeEmailFromPanelItems()
+
       if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
         this.setState({
           subForm: {
@@ -173,7 +176,7 @@ class Payment extends React.Component {
         const nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(paymentStore.panelStatus),
           curKey: 'clinic'
-        });
+        });debugger
 
         // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
         if (!this.checkoutWithClinic || clinicStore.clinicName) {
