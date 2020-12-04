@@ -16,26 +16,35 @@ class PaymentStore {
       status: { isPrepare: false, isEdit: true, isCompleted: false }
     },
     {
-      key: 'deliveryAddr',
+      key: 'email',
       order: 2,
-      status: { isPrepare: true, isEdit: false, isCompleted: false }
+      status: { isPrepare: true, isEdit: true, isCompleted: false }
     },
     {
-      key: 'billingAddr',
+      key: 'deliveryAddr',
       order: 3,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'paymentMethod',
+      key: 'billingAddr',
       order: 4,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'confirmation',
+      key: 'paymentMethod',
       order: 5,
+      status: { isPrepare: true, isEdit: false, isCompleted: false }
+    },
+    {
+      key: 'confirmation',
+      order: 6,
       status: { isPrepare: true, isEdit: false }
     }
   ];
+
+  @computed get emailPanelStatus() {
+    return find(this.panelStatus, (ele) => ele.key === 'email').status;
+  }
 
   @computed get deliveryAddrPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'deliveryAddr').status;
@@ -111,14 +120,6 @@ class PaymentStore {
   @action.bound
   setBillingAddress(data) {
     this.deliveryAddress = data;
-  }
-
-  @action.bound
-  // 保存或编辑时，把地址更新为当前的
-  async saveAddress(interfaceName, params) {
-    await [interfaceName](params);
-    // 此时设置地址
-    //
   }
 
   @action.bound

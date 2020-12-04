@@ -81,7 +81,7 @@ class Consent extends Component {
                     style={{ marginLeft: `${checkboxPadding}` }}
                     dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
                   />
-                  {item.isRequired && !item.isChecked && (
+                  {/* {item.isRequired && !item.isChecked && (
                     <div className="d-flex">
                       <div>
                         <p style={{ width: '20px' }} />
@@ -90,10 +90,10 @@ class Consent extends Component {
                         className="red"
                         style={{ fontSize: '.9em', fontStyle: 'normal' }}
                       >
-                        {/* <FormattedMessage id="requiredConsentCheckedTip" /> */}
+                        <FormattedMessage id="requiredConsentCheckedTip" />
                       </em>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </label>
             </div>

@@ -670,15 +670,15 @@ export const ADDRESS_RULE = [
       CURRENT_LANGFILE['payment.city']
     )
   },
-  {
-    key: 'email',
-    regExp: EMAIL_REGEXP,
-    require: true,
-    errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
-      /{.+}/,
-      CURRENT_LANGFILE['email']
-    )
-  },
+  // {
+  //   key: 'email',
+  //   regExp: EMAIL_REGEXP,
+  //   require: true,
+  //   errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+  //     /{.+}/,
+  //     CURRENT_LANGFILE['email']
+  //   )
+  // },
   {
     key: 'phoneNumber',
     require: true,

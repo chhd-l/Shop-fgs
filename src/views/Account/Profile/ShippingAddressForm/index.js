@@ -521,7 +521,7 @@ class ShippingAddressFrom extends React.Component {
                     <div className="invalid-feedback" />
                   </div>
                 </div>
-                <div className="form-group col-6 required d-flex flex-column">
+                {/* <div className="form-group col-6 required d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="phone"
@@ -546,6 +546,7 @@ class ShippingAddressFrom extends React.Component {
                     <label className="rc-input__label" htmlFor="email" />
                   </span>
                 </div>
+                 */}
                 <div className="form-group col-6 required d-flex flex-column justify-content-between">
                   <div className="no-padding">
                     <label

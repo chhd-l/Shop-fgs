@@ -20,13 +20,14 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isOnepageCheckout: false,
-    updateSameAsCheckBoxVal: () => {}
+    updateSameAsCheckBoxVal: () => {},
+    initData: null
   };
   constructor(props) {
     super(props);
     this.state = {
       isValid: false,
-      form: null,
+      form: this.props.initData,
       countryList: [],
       billingChecked: true
     };
@@ -205,13 +206,13 @@ class VisitorAddress extends React.Component {
                 {form.rfc}
               </div>
             )}
-            {_sameAsCheckbox}
+            {/* {_sameAsCheckbox} */}
           </>
         ) : null}
         {!isOnepageCheckout && (
           <>
             {_editForm}
-            {_sameAsCheckbox}
+            {/* {_sameAsCheckbox} */}
           </>
         )}
       </>

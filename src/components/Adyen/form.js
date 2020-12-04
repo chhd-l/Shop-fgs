@@ -145,7 +145,6 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
       }
-      // 会员不保存情况下 怎么处理
       this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);
       this.props.updateSelectedId(tmpSelectedId);

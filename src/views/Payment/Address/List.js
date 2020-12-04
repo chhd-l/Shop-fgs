@@ -10,7 +10,6 @@ import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
-import DeEditForm from './DeEditForm';
 import Loading from '@/components/Loading';
 import SameAsCheckbox from './SameAsCheckbox';
 import './list.css';
