@@ -198,7 +198,9 @@ class AccountOrders extends React.Component {
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
               tradeState.deliverStatus === 'SHIPPED' &&
-              tradeState.flowState === 'DELIVERED'
+              tradeState.flowState === 'DELIVERED' &&
+              ele.tradeDelivers &&
+              ele.tradeDelivers.length
           });
         });
         if (this.state.initing) {
@@ -440,18 +442,36 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage id="trackDelivery">
-              {(txt) => (
-                <Link
-                  className="text-white"
-                  to={`/account/orders/detail/${order.id}`}
-                  title={txt}
-                  alt={txt}
-                >
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
+            {order.tradeDelivers[0] &&
+            order.tradeDelivers[0].trackingUrl ? null : (
+              <FormattedMessage id="trackDelivery">
+                {(txt) => (
+                  <>
+                    {order.tradeDelivers[0] &&
+                    order.tradeDelivers[0].trackingUrl ? (
+                      <a
+                        href={order.tradeDelivers[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </a>
+                    ) : (
+                      <Link
+                        className="text-white"
+                        to={`/account/orders/detail/${order.id}`}
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </Link>
+                    )}
+                  </>
+                )}
+              </FormattedMessage>
+            )}
           </button>
         ) : null}
       </>
