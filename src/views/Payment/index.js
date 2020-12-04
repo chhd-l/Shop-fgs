@@ -1325,7 +1325,7 @@ class Payment extends React.Component {
     const { guestEmail } = this.state;
     try {
       if (!this.state.tid) {
-        if (!guestEmail) {
+        if (!this.isLogin && !guestEmail) {
           throw new Error(
             this.props.intl.formatMessage(
               { id: 'EnterCorrectValue' },
