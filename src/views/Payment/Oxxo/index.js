@@ -99,6 +99,7 @@ class OxxoConfirm extends Component {
     );
   };
   render() {
+    const { billingJSX } = this.props;
     return (
       <>
         <div className="rounded mb-3">
@@ -178,6 +179,7 @@ class OxxoConfirm extends Component {
             />
           </p>
         </div>
+        {billingJSX}
         <div className="oxxo">
           <TermsCommon
             id={this.props.type}

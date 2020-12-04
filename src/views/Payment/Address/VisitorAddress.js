@@ -21,7 +21,8 @@ class VisitorAddress extends React.Component {
     type: 'delivery',
     isOnepageCheckout: false,
     updateSameAsCheckBoxVal: () => {},
-    initData: null
+    initData: null,
+    titleVisible: true
   };
   constructor(props) {
     super(props);
@@ -164,11 +165,13 @@ class VisitorAddress extends React.Component {
     );
     return (
       <>
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
-          {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
-          {this.panelStatus.isEdit && this._titleJSXForEdit()}
-          {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
-        </div>
+        {this.props.titleVisible && (
+          <div className="bg-transparent d-flex justify-content-between align-items-center">
+            {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
+            {this.panelStatus.isEdit && this._titleJSXForEdit()}
+            {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
+          </div>
+        )}
 
         {isOnepageCheckout && !this.panelStatus.isPrepare ? (
           <>
