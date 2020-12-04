@@ -1059,6 +1059,8 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     await checkoutStore.updateUnloginCart(cartDataCopy);
+    // debugger
+    try {
     if (redirect) {
       if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
         this.showCheckoutErrMsg(
@@ -1138,7 +1140,12 @@ class Details extends React.Component {
         // history.push('/prescription');
       }
     }
-    this.setState({ addToCartLoading: false });
+    } catch (err) {
+      console.log(err);
+      this.setState({ errMsg: err.message.toString() });
+    } finally {
+      this.setState({ addToCartLoading: false });
+    }
     headerCartStore.show();
     setTimeout(() => {
       headerCartStore.hide();
@@ -1597,7 +1604,7 @@ class Details extends React.Component {
                                         onChange={(event) =>
                                           this.handleInputChange(event)
                                         }
-                                        checked
+                                        defaultChecked
                                       />
                                     )}
                                   </FormattedMessage>
@@ -1717,7 +1724,6 @@ class Details extends React.Component {
                                           onChange={(event) =>
                                             this.handleInputChange(event)
                                           }
-                                          checked
                                         />
                                       )}
                                     </FormattedMessage>

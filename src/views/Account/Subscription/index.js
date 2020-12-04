@@ -16,6 +16,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
+import noSubscription from '@/assets/images/noSubscription.jpg';
 import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
@@ -191,12 +192,19 @@ class Subscription extends React.Component {
               ) : (
                 <SideMenu type="Subscription" />
               )}
+              {
+                
+              }
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                <div>
-                  <h4 className="rc-delta rc-margin--none pb-2">
-                    <FormattedMessage id="subscription" />
-                  </h4>
-                </div>
+                {
+                  this.state.subList.length? (
+                    <div>
+                      <h4 className="rc-delta rc-margin--none pb-2">
+                        <FormattedMessage id="subscription" />
+                      </h4>
+                    </div>
+                  ): null
+                }
                 {/* <div className="row justify-content-around">
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
@@ -278,10 +286,7 @@ class Subscription extends React.Component {
                                       paddingLeft: '20px'
                                     }}
                                   >
-                                    {/* <img style={{display: 'inline-block', width: '20px', margin: '0 10px 0 20px'}} src={subscriptionIcon}/> */}
-                                    {/* <FormattedMessage id="subscription.product" /> */}
                                     {subItem.subscribeId}
-                                    {/* <br className="d-none d-md-block" /> */}
                                   </p>
                                 </div>
                                 <div className="col-4 col-md-2"></div>
@@ -419,10 +424,35 @@ class Subscription extends React.Component {
                         ))}
                       </>
                     ) : (
-                      <div className="text-center mt-5">
-                        <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
-                        <FormattedMessage id="subscription.noDataTip" />
+                      // <div className="text-center mt-5">
+                      //   <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                      //   <FormattedMessage id="subscription.noDataTip" />
+                      // </div>
+                      <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                      <div className="rc-column">
+                        <img src={noSubscription} alt="No Subscription" style={{width: '100%'}} />
                       </div>
+                      <div className="rc-column">
+                        <div className="rc-padding-right-lg rc-padding-y--sm ">
+                          <h4 className="red" style={{fontSize: '20px', marginBottom: '20px'}}>
+                          <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
+                          </h4>
+                          <div className="children-nomargin">
+                            <p style={{ wordBreak: 'break-all', width: '90%' }}>
+                              <FormattedMessage id="account.noSubscription"></FormattedMessage>
+                            </p>
+                          </div>
+                          <div className="rc-margin-top--sm">
+                            <Link
+                              className="rc-btn rc-btn--one"
+                              to="/home"
+                            >
+                              <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     )}
                     {!this.state.errMsg && this.state.subList.length ? (
                       <div className="grid-footer rc-full-width mt-2">

@@ -798,5 +798,8 @@ const de_DE = {
   viewAll: 'Alle Produkte anzeigen',
   addANewPaymentMethod: 'Fügen Sie eine neue Zahlungsmethode hinzu',
   mailAddress: 'Mail Adresse',
+  'account.startAutoShipping': 'Starten Sie Autoshipping',
+  'account.noSubscription': 'Sie haben unsere Autoship-Services noch nicht entdeckt? AutoShip ist eine bequeme Möglichkeit, Ihre Bestellungen regelmäßig zu liefern. So sparen Sie Zeit und Ihrem Haustier geht nie das Futter aus.',
+  'account.noSubscriptionTitle': 'Lass uns anfangen!',
 }
 export default de_DE;

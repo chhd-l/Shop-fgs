@@ -507,7 +507,7 @@ class UnLoginCart extends React.Component {
 
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                 <div style={{ maxWidth: '250px' }}>
-                  <div>{pitem.goodsSubtitle}</div>
+                  <div className="productGoodsSubtitle">{pitem.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     <div className="stock__wrapper">
                       <div className="stock">

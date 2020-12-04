@@ -812,6 +812,9 @@ const es_ES = {
   gender: 'Género',
   setAsDefault: 'Establecer por defecto',
   viewAll: 'Ver todos los productos',
-  mailAddress: 'Correo Electronico'
+  mailAddress: 'Correo Electronico',
+  'account.startAutoShipping': 'Iniciar envío automático',
+  'account.noSubscription': '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
+  'account.noSubscriptionTitle': '¡Empecemos!',
 }
 export default es_ES;
