@@ -15,16 +15,17 @@ import icon4 from './images/icon4.png';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 import LazyLoad from 'react-lazyload';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     setSeoConfig({
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    })
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -89,30 +90,20 @@ class Help extends React.Component {
                   <i className="rc-icon rc-rate-fill--xs rc-brand1"></i><FormattedMessage id="subscriptionLanding.description4"/>
                 </div> */}
                 <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/cats');
-                    }}
-                  >
+                  <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
-                  </button>
+                  </Link>
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/dogs');
-                    }}
-                  >
+                  <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
             <div className="rc-column">
               <LazyLoad>
-              <img src={autoship} style={{ width: '100%' }} alt="" />
+                <img src={autoship} style={{ width: '100%' }} alt="" />
               </LazyLoad>
             </div>
           </div>
@@ -129,15 +120,15 @@ class Help extends React.Component {
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon1}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon1}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               {/* <p>Выберите подходящий рацион питания для Вашего питомца</p> */}
               <p>
@@ -147,30 +138,30 @@ class Help extends React.Component {
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon2}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon2}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               {/* <p>Выберите частоту отправки, адрес доставки и способ оплаты</p> */}
               <p>Выберите частоту отправки, адрес доставки и способ оплаты</p>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon3}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon3}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               {/* <p>Получайте заказ автоматически по Вашему расписанию</p> */}
               <p>
@@ -180,15 +171,15 @@ class Help extends React.Component {
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon4}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon4}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               {/* <p>Меняйте график доставки в любое время, когда захотите</p> */}
               <p>
@@ -281,12 +272,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={callImg}
-                                        alt="By telephone"
-                                        title="By telephone"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={callImg}
+                                          alt="By telephone"
+                                          title="By telephone"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -346,12 +337,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={emailImg}
-                                        alt="By email"
-                                        title="By email"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={emailImg}
+                                          alt="By email"
+                                          title="By email"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -367,7 +358,7 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                  <img src={helpImg} alt=" " title=" " />
+                                    <img src={helpImg} alt=" " title=" " />
                                   </LazyLoad>
                                 </picture>
                               </div>

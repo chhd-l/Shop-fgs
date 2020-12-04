@@ -26,17 +26,17 @@ function PetJSX(props) {
             <div className="row align-items-center text-break">
               <div className="col-12 col-md-6 row mt-4 mb-2 mb-md-4">
                 <div className="col-12 col-md-6 mb-4 mb-md-0">
-                  <LazyLoad>
-                  <img
-                    src={{ cat: catImg, dog: dogImg }[props.type]}
-                    className="border"
-                    style={{
-                      borderRadius: '50%',
-                      width: '50%',
-                      margin: '0 auto'
-                    }}
-                    alt=""
-                  />
+                  <LazyLoad style={{ height: '100%', width: '100%' }}>
+                    <img
+                      src={{ cat: catImg, dog: dogImg }[props.type]}
+                      className="border"
+                      style={{
+                        borderRadius: '50%',
+                        width: '50%',
+                        margin: '0 auto'
+                      }}
+                      alt=""
+                    />
                   </LazyLoad>
                 </div>
                 <div className="col-12 col-md-6 text-center text-md-left">
@@ -223,39 +223,39 @@ class ProductFinderNoResult extends React.Component {
                           <div className="rc-btn-group rc-md-up">
                             <Link
                               className="rc-btn rc-btn--one"
-                              to="/list/cats"
+                              to="/cats"
                             >
                               <FormattedMessage id="cats3" />
                             </Link>
                             <Link
                               className="rc-btn rc-btn--one"
-                              to="/list/dogs"
+                              to="/dogs"
                             >
                               <FormattedMessage id="dogs3" />
                             </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-1 order-md-0">
-                          <LazyLoad>
-                          <img src={catImg} alt="" />
+                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                            <img src={catImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link
                               className="rc-btn rc-btn--one"
-                              to="/list/cats"
+                              to="/cats"
                             >
                               <FormattedMessage id="cats3" />
                             </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
-                          <LazyLoad>
-                          <img src={dogImg} alt="" />
+                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                            <img src={dogImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
                             <Link
                               className="rc-btn rc-btn--one"
-                              to="/list/dogs"
+                              to="/dogs"
                             >
                               <FormattedMessage id="dogs3" />
                             </Link>

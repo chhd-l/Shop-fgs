@@ -112,7 +112,7 @@ class AddressList extends React.Component {
     }
   };
   changeEditFormVisible = (status) => {
-    this.setState({ editFormVisible: status });
+    this.setState({ editFormVisible: status, curAddressId: '' });
     this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
     window.scrollTo({
       top: 0,

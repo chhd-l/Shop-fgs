@@ -135,7 +135,7 @@ class ShippingAddressFrom extends React.Component {
   };
   handleSave = async () => {
     try {
-      let data = this.state.addressForm;
+      const { curType, addressForm: data } = this.state;
       this.setState({
         saveLoading: true
       });
@@ -158,7 +158,7 @@ class ShippingAddressFrom extends React.Component {
         provinceId: 0,
         rfc: data.rfc,
         email: data.email,
-        type: data.addressType
+        type: curType.toUpperCase()
       };
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       this.handleCancel();
@@ -665,7 +665,7 @@ class ShippingAddressFrom extends React.Component {
                   <div className="form-group col-12 col-md-6">
                     <div
                       className="rc-input rc-input--inline"
-                      onClick={() => this.isDefalt()}
+                      onClick={this.isDefalt}
                     >
                       <input
                         type="checkbox"

@@ -396,7 +396,6 @@ const en_US = {
   just: 'Just',
   kitten: 'Kitten (0-1 year old)',
   lastName: 'Last Name *',
-  learnMore: 'Learn more',
   'list.errMsg': 'No products found, please change the search criteria and try again.',
   'list.errMsg2': 'No products found, please change the keywords and try again.',
   'list.errMsg3': 'No filters found, please try again later.',

@@ -141,6 +141,9 @@ class Payment extends React.Component {
     const { checkoutStore, paymentStore, clinicStore } = this.props;
     setSeoConfig();
     if (this.isLogin) {
+      // 登录情况下，删除email panel
+      paymentStore.removeEmailFromPanelItems()
+
       if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
         this.setState({
           subForm: {
