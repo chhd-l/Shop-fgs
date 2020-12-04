@@ -441,7 +441,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
     cartData
   } = checkoutStore;
   console.log(toJS(AuditData) ,'sas')
-  debugger
+  // debugger
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
     return '/checkout';
