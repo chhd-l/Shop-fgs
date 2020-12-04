@@ -988,7 +988,9 @@ class Payment extends React.Component {
             rePaySubscribeId: err.errorData.subscribeId
           },
           () => {
-            this.state.tidList.length && this.queryOrderDetails();
+            this.state.tidList &&
+              this.state.tidList.length &&
+              this.queryOrderDetails();
           }
         );
       }
