@@ -1268,6 +1268,91 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
+                  {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div class="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Mix breed">
+                        Mix breed
+                      </label>
+                    </div> */}
+                    {/* <div class="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          class="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label class="rc-input__label--inline" for="Don't know">
+                        Don't know
+                      </label>
+                    </div> */}
+                    {/* </div> */}
+                  <div className="form-group col-lg-6 pull-left required">
+                    <label
+                      className="form-control-label rc-full-width"
+                      htmlFor="weight"
+                    >
+                      <FormattedMessage id="Special Need" />
+                    </label>
+                    <Selection
+                      optionList={this.specialNeedsOptions}
+                      selectedItemChange={(el) =>
+                        this.specialNeedsOptionsChange(el)
+                      }
+                      selectedItemData={{
+                        value: selectedSpecialNeedsObj.value
+                        // value: ''
+                      }}
+                      disabled={this.state.specialNeedsDisable}
+                      key={selectedSpecialNeedsObj.value}
+                      customStyleType="select-one"
+                    />
+                    <div
+                      className="invalid-feedback"
+                      style={{ display: 'none' }}
+                    >
+                      <FormattedMessage
+                        id="payment.errorInfo"
+                        values={{
+                          val: <FormattedMessage id="weight" />
+                        }}
+                      />
+                    </div>
+                    
+                  </div>
                   {!this.state.isPurebred? (!this.state.isCat?(
                     <div className="form-group col-lg-6 pull-left required">
                       <label
@@ -1297,7 +1382,9 @@ class PetForm extends React.Component {
                         />
                       </div>
                     </div>
-                  ): null): (
+                  ): (
+                    isMobile? null: (<div className="form-group col-lg-6 pull-left" style={{height: '85px'}}></div>)
+                  )): (
                     <div className="form-group col-lg-6 pull-left required">
                     <label
                       className="form-control-label rc-full-width"
@@ -1387,91 +1474,6 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   )}
-                  {/* <div className="form-group col-lg-6 pull-left"> */}
-                    {/* <div class="rc-input rc-input--inline">
-                      {this.state.isMix ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isMix}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Mix breed">
-                        Mix breed
-                      </label>
-                    </div> */}
-                    {/* <div class="rc-input rc-input--inline">
-                      {this.state.isUnknown ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isUnknown}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Don't know">
-                        Don't know
-                      </label>
-                    </div> */}
-                    {/* </div> */}
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="weight"
-                    >
-                      <FormattedMessage id="Special Need" />
-                    </label>
-                    <Selection
-                      optionList={this.specialNeedsOptions}
-                      selectedItemChange={(el) =>
-                        this.specialNeedsOptionsChange(el)
-                      }
-                      selectedItemData={{
-                        value: selectedSpecialNeedsObj.value
-                        // value: ''
-                      }}
-                      disabled={this.state.specialNeedsDisable}
-                      key={selectedSpecialNeedsObj.value}
-                      customStyleType="select-one"
-                    />
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="weight" />
-                        }}
-                      />
-                    </div>
-                    
-                  </div>
                   {/* <div className="form-group col-lg-6 pull-left"> */}
                     {/* <div class="rc-input rc-input--inline">
                       <input

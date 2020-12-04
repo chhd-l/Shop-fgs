@@ -571,13 +571,20 @@ class Details extends React.Component {
             });
           }
           let images = [];
-          if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-            if (res.context.images.length) {
-              images = res.context.images;
-            }
-          } else {
-            images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          }
+          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
+          //   if (res.context.images.length) {
+          //     images = res.context.images;
+          //   }
+          // } else {
+          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
+          // }
+          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
+          // if(filterImages.length) {
+          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)  
+          // }else {
+          //   ima
+          // }
+          images = res.context.goodsInfos
           this.setState(
             {
               details: Object.assign(
@@ -668,13 +675,14 @@ class Details extends React.Component {
             });
           }
           let images = [];
-          if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-            if (res.context.images.length) {
-              images = res.context.images;
-            }
-          } else {
-            images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-          }
+          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
+          //   if (res.context.images.length) {
+          //     images = res.context.images;
+          //   }
+          // } else {
+          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
+          // }
+          images = res.context.goodsInfos
           this.setState(
             {
               details: Object.assign(
@@ -1252,6 +1260,7 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let event;
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0]
     // let eEvents;
     // if (!this.state.initing) {
     //   event = {
@@ -1625,9 +1634,24 @@ class Details extends React.Component {
                               </div>
                               <div
                                 className="price"
-                                style={{ fontSize: '22px' }}
+                                style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}
                               >
-                                {formatMoney(currentUnitPrice)}
+                                <div>{formatMoney(currentUnitPrice)}</div>
+                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem? (<div style={{fontSize: '14px', color: '#999'}}>
+                                      {formatMoney(
+                                        (
+                                          currentUnitPrice /
+                                          parseFloat(
+                                            selectedSpecItem.baseSpecLabel
+                                          )
+                                        ).toFixed(2)
+                                      )}
+                                      /
+                                      {selectedSpecItem.baseSpecLabel &&
+                                        this.formatUnit(
+                                          selectedSpecItem.baseSpecLabel
+                                        )}
+                                  </div>): null}
                               </div>
                             </div>
                             <div
@@ -1669,7 +1693,6 @@ class Details extends React.Component {
                                       onChange={(event) =>
                                         this.handleInputChange(event)
                                       }
-                                      // checked
                                       defaultChecked
                                     />
                                   )}
@@ -1693,8 +1716,23 @@ class Details extends React.Component {
                                 Delivery 1 time only
                               </span>
                             </div>
-                            <div className="price" style={{ fontSize: '22px' }}>
-                              {formatMoney(currentUnitPrice)}
+                            <div className="price" style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}>
+                              <div>{formatMoney(currentUnitPrice)}</div>
+                              {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
+                                {formatMoney(
+                                  (
+                                    currentUnitPrice /
+                                    parseFloat(
+                                      selectedSpecItem.baseSpecLabel
+                                    )
+                                  ).toFixed(2)
+                                )}
+                                /
+                                {selectedSpecItem.baseSpecLabel &&
+                                  this.formatUnit(
+                                    selectedSpecItem.baseSpecLabel
+                                  )}
+                              </div>): null}
                             </div>
                           </div>
                         )}
@@ -1780,8 +1818,23 @@ class Details extends React.Component {
                                   </b>
                                   &nbsp; on this subscription.
                                 </div>
-                                <div className="price">
-                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
+                                  <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
+                                  {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
+                                              {formatMoney(
+                                                (
+                                                  currentSubscriptionPrice /
+                                                  parseFloat(
+                                                    selectedSpecItem.baseSpecLabel
+                                                  )
+                                                ).toFixed(2)
+                                              )}
+                                              /
+                                              {selectedSpecItem.baseSpecLabel &&
+                                                this.formatUnit(
+                                                  selectedSpecItem.baseSpecLabel
+                                                )}
+                                  </div>): null}
                                 </div>
                               </div>
                               <div className="freqency">
@@ -1830,7 +1883,6 @@ class Details extends React.Component {
                                         onChange={(event) =>
                                           this.handleInputChange(event)
                                         }
-                                        // checked
                                       />
                                     )}
                                   </FormattedMessage>
@@ -1904,8 +1956,23 @@ class Details extends React.Component {
                                   customStyleType="select-one"
                                 />
                               </div>
-                              <div className="price">
-                                {formatMoney(currentSubscriptionPrice || 0)}
+                              <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
+                                <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
+                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
+                                              {formatMoney(
+                                                (
+                                                  currentSubscriptionPrice /
+                                                  parseFloat(
+                                                    selectedSpecItem.baseSpecLabel
+                                                  )
+                                                ).toFixed(2)
+                                              )}
+                                              /
+                                              {selectedSpecItem.baseSpecLabel &&
+                                                this.formatUnit(
+                                                  selectedSpecItem.baseSpecLabel
+                                                )}
+                                </div>): null}
                               </div>
                             </div>
                           )
