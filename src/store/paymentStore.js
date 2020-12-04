@@ -64,7 +64,7 @@ class PaymentStore {
   }
 
   @action.bound
-  removeEmailFromPanelItems() {debugger
+  removeEmailFromPanelItems() {
     const idx = this.panelStatus.findIndex((e) => e.key === 'email');
     this.panelStatus.splice(idx, 1);
   }

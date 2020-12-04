@@ -176,7 +176,7 @@ class Payment extends React.Component {
         const nextConfirmPanel = searchNextConfirmPanel({
           list: toJS(paymentStore.panelStatus),
           curKey: 'clinic'
-        });debugger
+        });
 
         // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
         if (!this.checkoutWithClinic || clinicStore.clinicName) {
