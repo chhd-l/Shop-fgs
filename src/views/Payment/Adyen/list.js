@@ -190,6 +190,8 @@ class AdyenCreditCardList extends React.Component {
               }
             })
             .mount(el);
+            console.log(document.getElementById(el))
+            debugger
         }
       }
     });
