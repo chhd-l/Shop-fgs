@@ -623,9 +623,10 @@ export const ADYEN_CREDIT_CARD_IMGURL_ENUM =
     en: [visaImg, mastercardImg, discoverImg, amexImg]
   }[process.env.REACT_APP_LANG] || tmpArr;
 export const ADYEN_CREDIT_CARD_BRANDS = {
-  fr: ['mc', 'visa', 'amex', 'cartebancaire'],
+  fr: ['mc', 'visa', 'cartebancaire'],
   ru: ['mc', 'visa', 'amex', 'discover'],
-  en: ['mc', 'visa', 'amex', 'discover']
+  en: ['mc', 'visa', 'amex', 'discover'],
+  de: ['mc', 'visa'],
 } || ['mc', 'visa', 'amex'];
 
 export const EMAIL_REGEXP = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
