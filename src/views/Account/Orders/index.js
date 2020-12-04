@@ -122,7 +122,7 @@ class AccountOrders extends React.Component {
       duringTimeOptions
     });
   }
-  handleDuringTimeChange(data) {
+  handleDuringTimeChange = (data) => {
     // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
@@ -133,7 +133,7 @@ class AccountOrders extends React.Component {
       },
       () => this.queryOrderList()
     );
-  }
+  };
   handleInputChange(e) {
     const target = e.target;
     const { form } = this.state;
