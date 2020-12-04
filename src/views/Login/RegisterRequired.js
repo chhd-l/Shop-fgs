@@ -22,7 +22,7 @@ import LazyLoad from 'react-lazyload';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'configStore', 'checkoutStore')
+@inject('loginStore', 'configStore', 'checkoutStore', 'clinicStore')
 @observer
 class RegisterRequired extends Component {
   get isLogin() {
@@ -118,7 +118,7 @@ class RegisterRequired extends Component {
     this.setState({ list });
   };
   init = async () => {
-    const { history, configStore } = this.props;
+    const { history, configStore, clinicStore } = this.props;
     this.setState({
       circleLoading: true,
       styleObj: { display: 'none' },
@@ -134,6 +134,7 @@ class RegisterRequired extends Component {
           const url = distributeLinktoPrecriberOrPaymentPage({
             configStore,
             checkoutStore: this.props.checkoutStore,
+            clinicStore,
             isLogin: this.isLogin
           });
           url && history.push(url);

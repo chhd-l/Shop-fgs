@@ -1791,7 +1791,7 @@ class Payment extends React.Component {
     };
     const { paymentTypeVal } = this.state;
     console.log(
-      toJS(this.props.checkoutStore.AuditData),
+      toJS(this.props.checkoutStore.AuditData), this.checkoutWithClinic, this.isOnepageCheckout,
       'this.props.checkoutStore.AuditData'
     );
     return (

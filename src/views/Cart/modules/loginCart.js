@@ -35,7 +35,7 @@ import '../index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
 @observer
 class LoginCart extends React.Component {
@@ -186,7 +186,7 @@ class LoginCart extends React.Component {
   }
   handleCheckout = async () => {
     try {
-      const { configStore, checkoutStore, history } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       const { productList } = this.state;
       this.setState({ checkoutLoading: true });
       await this.updateCartCache();
@@ -251,6 +251,7 @@ class LoginCart extends React.Component {
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore,
         checkoutStore,
+        clinicStore,
         isLogin: true
       });
       url && history.push(url);

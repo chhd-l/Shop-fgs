@@ -42,7 +42,7 @@ import LazyLoad from 'react-lazyload';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
 @injectIntl
 @observer
@@ -322,7 +322,7 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    const { checkoutStore, loginStore, history } = this.props
+    const { checkoutStore, loginStore, history, clinicStore } = this.props
     if (needLogin) {
       sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -397,6 +397,7 @@ class Help extends React.Component {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
           checkoutStore,
+          clinicStore,
           isLogin: loginStore.isLogin
         });
         url && history.push(url);
@@ -405,7 +406,7 @@ class Help extends React.Component {
     }
   }
   async hanldeClickSubmit() {
-    const { checkoutStore, loginStore, history } = this.props;
+    const { checkoutStore, loginStore, history, clinicStore } = this.props;
     let {
       currentModalObj,
       subDetail,
@@ -444,6 +445,7 @@ class Help extends React.Component {
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
         checkoutStore,
+        clinicStore,
         isLogin: loginStore.isLogin
       });
       url && history.push(url);

@@ -95,7 +95,7 @@ function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
   );
 }
 
-@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore')
+@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore', 'clinicStore')
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -841,6 +841,7 @@ class Details extends React.Component {
         configStore,
         checkoutStore,
         history,
+        clinicStore,
         headerCartStore
       } = this.props;
       this.setState({ addToCartLoading: true });
@@ -930,6 +931,7 @@ class Details extends React.Component {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
+          clinicStore,
           isLogin: this.isLogin
         });
         url && history.push(url);
@@ -943,7 +945,7 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const { configStore, checkoutStore, history, headerCartStore } = this.props;
+    const { configStore, checkoutStore, history, headerCartStore, clinicStore } = this.props;
     const {
       currentUnitPrice,
       quantity,
@@ -1129,6 +1131,7 @@ class Details extends React.Component {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
+          clinicStore,
           isLogin: this.isLogin
         });
         url && history.push(url);

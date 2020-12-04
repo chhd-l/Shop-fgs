@@ -15,7 +15,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('checkoutStore', 'headerCartStore')
+@inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
 class UnloginCart extends React.Component {
   constructor(props) {
@@ -61,7 +61,8 @@ class UnloginCart extends React.Component {
         configStore,
         checkoutStore,
         history,
-        headerCartStore
+        headerCartStore,
+        clinicStore
       } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
@@ -129,6 +130,7 @@ class UnloginCart extends React.Component {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
+          clinicStore,
           isLogin: false
         });
         url && history.push(url);

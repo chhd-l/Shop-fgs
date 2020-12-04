@@ -28,7 +28,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @injectIntl
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore')
 @observer
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -167,7 +167,7 @@ class UnLoginCart extends React.Component {
   async handleCheckout({ needLogin = false } = {}) {
     try {
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
-      const { configStore, checkoutStore, history } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock();
       // 价格未达到底限，不能下单
@@ -249,6 +249,7 @@ class UnLoginCart extends React.Component {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
           checkoutStore,
+          clinicStore,
           isLogin: false
         });
         url && history.push(url);
