@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 

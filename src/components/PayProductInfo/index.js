@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 

@@ -1,7 +1,8 @@
-import { getStoreCate, getSeoConfig } from '@/api';
+import { getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
-import { find, flatten } from 'lodash';
+import find from 'lodash/find';
+import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
 

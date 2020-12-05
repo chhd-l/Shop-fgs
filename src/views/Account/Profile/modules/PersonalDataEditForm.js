@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { getDictionary, validData } from '@/utils/utils';

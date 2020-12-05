@@ -18,7 +18,8 @@ import {
   setSeoConfig,
   getFrequencyDict
 } from '@/utils/utils';
-import { find, findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import { queryCityNameById } from '@/api';
 import {
   getOrderDetails,

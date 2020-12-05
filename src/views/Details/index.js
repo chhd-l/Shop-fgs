@@ -21,15 +21,18 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
-import './index.css';
-import './index.less';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
 import { setSeoConfig, getDeviceType, getFrequencyDict } from '@/utils/utils';
+
+import './index.css';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -95,7 +98,13 @@ function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
   );
 }
 
-@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore', 'clinicStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'headerCartStore',
+  'configStore',
+  'clinicStore'
+)
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -580,11 +589,11 @@ class Details extends React.Component {
           // }
           // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
           // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)  
+          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
           // }else {
           //   ima
           // }
-          images = res.context.goodsInfos
+          images = res.context.goodsInfos;
           this.setState(
             {
               details: Object.assign(
@@ -682,7 +691,7 @@ class Details extends React.Component {
           // } else {
           //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
           // }
-          images = res.context.goodsInfos
+          images = res.context.goodsInfos;
           this.setState(
             {
               details: Object.assign(
@@ -953,7 +962,13 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const { configStore, checkoutStore, history, headerCartStore, clinicStore } = this.props;
+    const {
+      configStore,
+      checkoutStore,
+      history,
+      headerCartStore,
+      clinicStore
+    } = this.props;
     const {
       currentUnitPrice,
       quantity,
@@ -1069,85 +1084,85 @@ class Details extends React.Component {
     await checkoutStore.updateUnloginCart(cartDataCopy);
     // debugger
     try {
-    if (redirect) {
-      if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{
-              val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-            }}
-          />
-        );
-        throw new Error();
-      }
-      if (checkoutStore.offShelvesProNames.length) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        throw new Error();
-      }
-      if (checkoutStore.outOfstockProNames.length) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-          />
-        );
-        throw new Error();
-      }
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
-        let autoAuditFlag = false;
-        if (this.isLogin) {
-          let res = await getProductPetConfig({
-            goodsInfos: checkoutStore.loginCartData
-          });
-          let handledData = checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setLoginCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-        } else {
-          let paramData = checkoutStore.cartData.map((el) => {
-            el.goodsInfoId = el.sizeList.filter(
-              (item) => item.selected
-            )[0].goodsInfoId;
-            return el;
-          });
-          let res = await getProductPetConfig({ goodsInfos: paramData });
-          let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
+      if (redirect) {
+        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo3"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          );
+          throw new Error();
         }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
+        if (checkoutStore.offShelvesProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo4"
+              values={{
+                val: checkoutStore.offShelvesProNames.join('/')
+              }}
+            />
+          );
+          throw new Error();
+        }
+        if (checkoutStore.outOfstockProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo2"
+              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
+            />
+          );
+          throw new Error();
+        }
+        if (needLogin) {
+          // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        } else {
+          let autoAuditFlag = false;
+          if (this.isLogin) {
+            let res = await getProductPetConfig({
+              goodsInfos: checkoutStore.loginCartData
+            });
+            let handledData = checkoutStore.loginCartData.map((el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            });
+            checkoutStore.setLoginCartData(handledData);
+            let AuditData = handledData.filter((el) => el.auditCatFlag);
+            checkoutStore.setAuditData(AuditData);
+            autoAuditFlag = res.context.autoAuditFlag;
+          } else {
+            let paramData = checkoutStore.cartData.map((el) => {
+              el.goodsInfoId = el.sizeList.filter(
+                (item) => item.selected
+              )[0].goodsInfoId;
+              return el;
+            });
+            let res = await getProductPetConfig({ goodsInfos: paramData });
+            let handledData = paramData.map((el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            });
+            checkoutStore.setCartData(handledData);
+            let AuditData = handledData.filter((el) => el.auditCatFlag);
+            checkoutStore.setAuditData(AuditData);
+            autoAuditFlag = res.context.autoAuditFlag;
+            checkoutStore.setPetFlag(res.context.petFlag);
+          }
+          checkoutStore.setAutoAuditFlag(autoAuditFlag);
+          const url = distributeLinktoPrecriberOrPaymentPage({
+            configStore,
+            checkoutStore,
+            clinicStore,
+            isLogin: this.isLogin
+          });
+          url && history.push(url);
+          // history.push('/prescription');
+        }
       }
-    }
     } catch (err) {
       console.log(err);
       this.setState({ errMsg: err.message.toString() });
@@ -1260,7 +1275,7 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let event;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0]
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     // let eEvents;
     // if (!this.state.initing) {
     //   event = {
@@ -1634,24 +1649,35 @@ class Details extends React.Component {
                               </div>
                               <div
                                 className="price"
-                                style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}
+                                style={{
+                                  fontSize: '22px',
+                                  paddingTop:
+                                    process.env.REACT_APP_LANG === 'de'
+                                      ? '.5rem'
+                                      : '1.5rem'
+                                }}
                               >
                                 <div>{formatMoney(currentUnitPrice)}</div>
-                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem? (<div style={{fontSize: '14px', color: '#999'}}>
-                                      {formatMoney(
-                                        (
-                                          currentUnitPrice /
-                                          parseFloat(
-                                            selectedSpecItem.baseSpecLabel
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /
-                                      {selectedSpecItem.baseSpecLabel &&
-                                        this.formatUnit(
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentUnitPrice /
+                                        parseFloat(
                                           selectedSpecItem.baseSpecLabel
-                                        )}
-                                  </div>): null}
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                             <div
@@ -1716,23 +1742,35 @@ class Details extends React.Component {
                                 Delivery 1 time only
                               </span>
                             </div>
-                            <div className="price" style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}>
+                            <div
+                              className="price"
+                              style={{
+                                fontSize: '22px',
+                                paddingTop:
+                                  process.env.REACT_APP_LANG === 'de'
+                                    ? '.5rem'
+                                    : '1.5rem'
+                              }}
+                            >
                               <div>{formatMoney(currentUnitPrice)}</div>
-                              {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                {formatMoney(
-                                  (
-                                    currentUnitPrice /
-                                    parseFloat(
-                                      selectedSpecItem.baseSpecLabel
-                                    )
-                                  ).toFixed(2)
-                                )}
-                                /
-                                {selectedSpecItem.baseSpecLabel &&
-                                  this.formatUnit(
-                                    selectedSpecItem.baseSpecLabel
+                              {process.env.REACT_APP_LANG === 'de' &&
+                              selectedSpecItem ? (
+                                <div
+                                  style={{ fontSize: '14px', color: '#999' }}
+                                >
+                                  {formatMoney(
+                                    (
+                                      currentUnitPrice /
+                                      parseFloat(selectedSpecItem.baseSpecLabel)
+                                    ).toFixed(2)
                                   )}
-                              </div>): null}
+                                  /
+                                  {selectedSpecItem.baseSpecLabel &&
+                                    this.formatUnit(
+                                      selectedSpecItem.baseSpecLabel
+                                    )}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                         )}
@@ -1818,23 +1856,41 @@ class Details extends React.Component {
                                   </b>
                                   &nbsp; on this subscription.
                                 </div>
-                                <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
-                                  <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
-                                  {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                              {formatMoney(
-                                                (
-                                                  currentSubscriptionPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                              /
-                                              {selectedSpecItem.baseSpecLabel &&
-                                                this.formatUnit(
-                                                  selectedSpecItem.baseSpecLabel
-                                                )}
-                                  </div>): null}
+                                <div
+                                  className="price"
+                                  style={{
+                                    paddingTop:
+                                      process.env.REACT_APP_LANG === 'de'
+                                        ? '.5rem'
+                                        : '1.5rem'
+                                  }}
+                                >
+                                  <div>
+                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                  </div>
+                                  {process.env.REACT_APP_LANG === 'de' &&
+                                  selectedSpecItem ? (
+                                    <div
+                                      style={{
+                                        fontSize: '14px',
+                                        color: '#999'
+                                      }}
+                                    >
+                                      {formatMoney(
+                                        (
+                                          currentSubscriptionPrice /
+                                          parseFloat(
+                                            selectedSpecItem.baseSpecLabel
+                                          )
+                                        ).toFixed(2)
+                                      )}
+                                      /
+                                      {selectedSpecItem.baseSpecLabel &&
+                                        this.formatUnit(
+                                          selectedSpecItem.baseSpecLabel
+                                        )}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="freqency">
@@ -1956,23 +2012,38 @@ class Details extends React.Component {
                                   customStyleType="select-one"
                                 />
                               </div>
-                              <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
-                                <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
-                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                              {formatMoney(
-                                                (
-                                                  currentSubscriptionPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                              /
-                                              {selectedSpecItem.baseSpecLabel &&
-                                                this.formatUnit(
-                                                  selectedSpecItem.baseSpecLabel
-                                                )}
-                                </div>): null}
+                              <div
+                                className="price"
+                                style={{
+                                  paddingTop:
+                                    process.env.REACT_APP_LANG === 'de'
+                                      ? '.5rem'
+                                      : '1.5rem'
+                                }}
+                              >
+                                <div>
+                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                </div>
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentSubscriptionPrice /
+                                        parseFloat(
+                                          selectedSpecItem.baseSpecLabel
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                           )

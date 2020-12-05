@@ -13,7 +13,7 @@ import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
 import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getList,

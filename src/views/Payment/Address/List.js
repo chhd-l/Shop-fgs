@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary, validData } from '@/utils/utils';

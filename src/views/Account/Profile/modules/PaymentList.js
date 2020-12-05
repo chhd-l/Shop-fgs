@@ -15,7 +15,7 @@ import {
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 function CardItem(props) {
   const { data } = props;

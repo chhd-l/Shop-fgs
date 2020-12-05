@@ -1,6 +1,6 @@
 import { action, observable, computed } from 'mobx';
-import { find, findIndex } from 'lodash';
-import { act } from 'react-dom/test-utils';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 
 class PaymentStore {
   @observable deliveryAddress = null;

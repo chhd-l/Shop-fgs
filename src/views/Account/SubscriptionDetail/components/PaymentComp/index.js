@@ -1,7 +1,8 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { findIndex, find } from 'lodash';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import {

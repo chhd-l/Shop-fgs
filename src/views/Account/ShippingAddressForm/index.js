@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import {
   saveAddress,
   setDefaltAddress,

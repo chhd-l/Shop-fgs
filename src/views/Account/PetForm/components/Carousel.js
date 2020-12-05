@@ -2,7 +2,6 @@ import React from 'react';
 import "./Carousel.less"
 import { animate } from "@/assets/js/animate"
 // import { getGoodsRelation } from '@/api/details';
-import { chunk } from 'lodash';
 import Rate from '@/components/Rate';
 import { formatMoney } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';

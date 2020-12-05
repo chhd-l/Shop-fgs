@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import Loading from '@/components/Loading';
 import axios from 'axios';
 import { addOrUpdatePaymentMethod } from '@/api/payment';

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { formatMoney, getDictionary } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 

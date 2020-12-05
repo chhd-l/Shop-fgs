@@ -13,7 +13,9 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import { cloneDeep, find, findIndex } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import cartImg from './images/cart.png';

@@ -2,7 +2,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import React from 'react';
 import Rate from '@/components/Rate';
 import ImgUpload from '@/components/ImgUpload';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
+
 import '../index.css';
 @injectIntl
 class ReviewForm extends React.Component {

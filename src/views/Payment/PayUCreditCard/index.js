@@ -1,5 +1,5 @@
 import React from 'react';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import PaymentComp from '../PaymentComp';
 import {
   CREDIT_CARD_IMG_ENUM,

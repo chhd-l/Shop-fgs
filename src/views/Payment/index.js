@@ -1,6 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { findIndex, find } from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';

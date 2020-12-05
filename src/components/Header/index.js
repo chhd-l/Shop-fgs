@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import {

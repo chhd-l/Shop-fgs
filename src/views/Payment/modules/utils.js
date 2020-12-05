@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 /**
  * 查找下一个最近的未complete的panel

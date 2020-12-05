@@ -3,9 +3,9 @@ import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
+import findIndex from 'lodash/findIndex';
 
 import '../index.css';
-import { findIndex } from 'lodash';
 
 const localItemRoyal = window.__.localItemRoyal;
 

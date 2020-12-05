@@ -15,7 +15,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
 import refreshImg from './images/refresh.png';

@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
