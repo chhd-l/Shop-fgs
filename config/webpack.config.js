@@ -30,7 +30,7 @@ const { version } = require('os');
 const WebpackBar = require('webpackbar');
 const appPackageJson = require(paths.appPackageJson);
 
-const CompressionPlugin = require("compression-webpack-plugin");  //Gzip
+const CompressionPlugin = require('compression-webpack-plugin'); //Gzip
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -299,7 +299,7 @@ module.exports = function (webpackEnv) {
       splitChunks: {
         chunks: 'all',
         minSize: 30000, // 比特
-        maxSize: 102400,
+        maxSize: 204800,
         minChunks: 1,
         maxAsyncRequests: 5, // cpu拼合率 8 10
         maxInitialRequests: 5,
@@ -609,7 +609,7 @@ module.exports = function (webpackEnv) {
         threshold: 10240, // 只处理比这个值大的资源。按字节计算
         minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
       }),
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
