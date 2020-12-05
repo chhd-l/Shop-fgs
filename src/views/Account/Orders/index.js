@@ -22,7 +22,6 @@ import {
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import moment from 'moment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 

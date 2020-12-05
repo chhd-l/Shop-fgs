@@ -27,7 +27,7 @@ import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
@@ -809,10 +809,8 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    // const { form } = this.state
-    // form['birthdate'] = moment(date).format("YYYY-MM-DD")
     this.setState({
-      birthdate: moment(date).format('YYYY-MM-DD'),
+      birthdate: format(date, 'yyyy-mm-dd'),
       isDisabled: false
     });
   }

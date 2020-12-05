@@ -8,7 +8,7 @@ import { getCustomerInfo } from '@/api/user';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getDict } from '@/api/dict';
-import moment from 'moment';
+import { format } from 'date-fns';
 import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
 import './NewPetModal.css';
@@ -27,7 +27,7 @@ class NewPetModal extends Component {
       petForm: {
         petName: '',
         petType: 'cat',
-        // birthday: moment(new Date()).format('YYYY-MM-DD'),
+        // birthday: format(new Date(), 'yyyy-mm-dd'),
         birthday: '',
         breed: ''
       },
@@ -67,7 +67,7 @@ class NewPetModal extends Component {
         petForm: {
           petName: '',
           petType: 'cat',
-          // birthday: moment(new Date()).format('YYYY-MM-DD'),
+          // birthday: format(new Date(), 'yyyy-mm-dd'),
           birthday: '',
           breed: ''
         }
@@ -211,7 +211,7 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = moment(date).format('YYYY-MM-DD');
+      petForm['birthday'] = format(date, 'yyyy-mm-dd');
       isShowBirthErorr = false;
     } else {
       petForm['birthday'] = date;

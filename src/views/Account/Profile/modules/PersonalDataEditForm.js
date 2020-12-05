@@ -8,7 +8,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import classNames from 'classnames';
 
 class PersonalDataEditForm extends React.Component {
@@ -48,7 +48,7 @@ class PersonalDataEditForm extends React.Component {
     this.setState(
       {
         form: Object.assign({}, data, {
-          birthdate: moment(new Date()).format('YYYY-MM-DD')
+          birthdate: format(new Date(), 'yyyy-mm-dd')
         }),
         oldForm: Object.assign({}, data)
       },
@@ -171,7 +171,8 @@ class PersonalDataEditForm extends React.Component {
   }
   onDateChange(date) {
     const { form } = this.state;
-    form['birthdate'] = moment(date).format('YYYY-MM-DD');
+
+    form['birthdate'] = format(date, 'yyyy-mm-dd');
     this.setState({ form: form }, () => {
       this.validFormData();
     });
@@ -649,7 +650,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                
+
                 {/* <div className="form-group col-lg-6">
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />

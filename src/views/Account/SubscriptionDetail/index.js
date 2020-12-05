@@ -18,8 +18,6 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import subscriptionIcon from './images/subscription.png';
-import pauseIcon from './images/pause.png';
 import cancelIcon from './images/cancel.png';
 import skipIcon from './images/skip.png';
 import dateIcon from './images/date.png';
@@ -45,9 +43,8 @@ import {
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
 import { formatMoney } from '@/utils/utils';
-import resolve from 'resolve';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -225,7 +222,7 @@ class SubscriptionDetail extends React.Component {
   }
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = moment(date).format('YYYY-MM-DD');
+    subDetail.nextDeliveryTime = format(date, 'yyyy-mm-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -904,10 +901,21 @@ class SubscriptionDetail extends React.Component {
                                             <FormattedMessage id="cart.errorInfo" />
                                           );
                                         }
-                                        if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-                                          tmp = process.env.REACT_APP_LIMITED_NUM;
+                                        if (
+                                          tmp >
+                                          process.env.REACT_APP_LIMITED_NUM
+                                        ) {
+                                          tmp =
+                                            process.env.REACT_APP_LIMITED_NUM;
                                           this.showErrMsg(
-                                            <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                            <FormattedMessage
+                                              id="cart.errorMaxInfo"
+                                              values={{
+                                                val:
+                                                  process.env
+                                                    .REACT_APP_LIMITED_NUM
+                                              }}
+                                            />
                                           );
                                         }
                                         el.subscribeNum = tmp;
@@ -926,7 +934,10 @@ class SubscriptionDetail extends React.Component {
                                   <span
                                     className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                     onClick={() => {
-                                      if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
+                                      if (
+                                        el.subscribeNum <
+                                        process.env.REACT_APP_LIMITED_NUM
+                                      ) {
                                         el.subscribeNum = el.subscribeNum + 1;
                                         this.doGetPromotionPrice();
                                         this.setState({
@@ -935,7 +946,14 @@ class SubscriptionDetail extends React.Component {
                                         });
                                       } else {
                                         this.showErrMsg(
-                                          <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                          <FormattedMessage
+                                            id="cart.errorMaxInfo"
+                                            values={{
+                                              val:
+                                                process.env
+                                                  .REACT_APP_LIMITED_NUM
+                                            }}
+                                          />
                                         );
                                       }
                                     }}
@@ -1211,10 +1229,23 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="cart.errorInfo" />
                                                   );
                                                 }
-                                                if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-                                                  tmp = process.env.REACT_APP_LIMITED_NUM;
+                                                if (
+                                                  tmp >
+                                                  process.env
+                                                    .REACT_APP_LIMITED_NUM
+                                                ) {
+                                                  tmp =
+                                                    process.env
+                                                      .REACT_APP_LIMITED_NUM;
                                                   this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                                    <FormattedMessage
+                                                      id="cart.errorMaxInfo"
+                                                      values={{
+                                                        val:
+                                                          process.env
+                                                            .REACT_APP_LIMITED_NUM
+                                                      }}
+                                                    />
                                                   );
                                                 }
                                                 el.subscribeNum = tmp;
@@ -1236,7 +1267,11 @@ class SubscriptionDetail extends React.Component {
                                               isActive ? '' : 'disabled'
                                             }`}
                                             onClick={() => {
-                                              if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
+                                              if (
+                                                el.subscribeNum <
+                                                process.env
+                                                  .REACT_APP_LIMITED_NUM
+                                              ) {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
@@ -1246,7 +1281,14 @@ class SubscriptionDetail extends React.Component {
                                                 });
                                               } else {
                                                 this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                                  <FormattedMessage
+                                                    id="cart.errorMaxInfo"
+                                                    values={{
+                                                      val:
+                                                        process.env
+                                                          .REACT_APP_LIMITED_NUM
+                                                    }}
+                                                  />
                                                 );
                                               }
                                             }}
@@ -1838,10 +1880,14 @@ class SubscriptionDetail extends React.Component {
                                               className={`${
                                                 isMobile ? 'col-4' : 'col-md-3'
                                               }`}
-                                              style={{ padding: isMobile? '0 0 0 10px': '0 15px 0 20px' }}
+                                              style={{
+                                                padding: isMobile
+                                                  ? '0 0 0 10px'
+                                                  : '0 15px 0 20px'
+                                              }}
                                             >
                                               shipment on:
-                                              <br/>
+                                              <br />
                                               <span
                                                 style={{
                                                   color: '#e2001a',
@@ -1868,7 +1914,9 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{
                                                 textAlign: 'right',
-                                                padding: isMobile? '0': '0 20px 0 15px'
+                                                padding: isMobile
+                                                  ? '0'
+                                                  : '0 20px 0 15px'
                                               }}
                                             >
                                               {isActive ? (
@@ -1925,7 +1973,11 @@ class SubscriptionDetail extends React.Component {
                                               className={`${
                                                 isMobile ? 'col-3' : 'col-md-1'
                                               }`}
-                                              style={{ padding: isMobile? '0 0 0 10px': '0'}}
+                                              style={{
+                                                padding: isMobile
+                                                  ? '0 0 0 10px'
+                                                  : '0'
+                                              }}
                                             >
                                               {isActive ? (
                                                 <>
@@ -2060,9 +2112,11 @@ class SubscriptionDetail extends React.Component {
                                                     x {tradeItem.num}
                                                   </p>
                                                 </div>
-                                                <div className={`${
+                                                <div
+                                                  className={`${
                                                     isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}>
+                                                  } col-md-4`}
+                                                >
                                                   <p
                                                     style={{
                                                       textAlign: 'right',
@@ -2075,8 +2129,15 @@ class SubscriptionDetail extends React.Component {
                                                         tradeItem.subscriptionPrice
                                                       )}
                                                     </span>
-                                                    <span style={{fontSize: '12px', textDecoration: 'line-through', marginLeft: '5px'}}>
-                                                    {formatMoney(
+                                                    <span
+                                                      style={{
+                                                        fontSize: '12px',
+                                                        textDecoration:
+                                                          'line-through',
+                                                        marginLeft: '5px'
+                                                      }}
+                                                    >
+                                                      {formatMoney(
                                                         tradeItem.price
                                                       )}
                                                     </span>
@@ -2113,7 +2174,9 @@ class SubscriptionDetail extends React.Component {
                                               <span
                                                 className="rc-input rc-input--inline rc-input--label"
                                                 style={{
-                                                  width: isMobile? '50%': '170px',
+                                                  width: isMobile
+                                                    ? '50%'
+                                                    : '170px',
                                                   verticalAlign: 'middle'
                                                 }}
                                               >
@@ -2436,12 +2499,18 @@ class SubscriptionDetail extends React.Component {
                                                   ) : (
                                                     <>
                                                       <i className="yellowCircle"></i>
-                                                      <span style={{paddingRight: '30px'}}>Skiped</span>
+                                                      <span
+                                                        style={{
+                                                          paddingRight: '30px'
+                                                        }}
+                                                      >
+                                                        Skiped
+                                                      </span>
                                                     </>
                                                   )}
                                                 </div>
                                               </>
-                                            ) : (el.id ? (
+                                            ) : el.id ? (
                                               <>
                                                 <img
                                                   style={{
@@ -2468,7 +2537,7 @@ class SubscriptionDetail extends React.Component {
                                                   Order detail
                                                 </a>
                                               </>
-                                            ) : null)}
+                                            ) : null}
                                           </div>
                                         </div>
                                       </div>
