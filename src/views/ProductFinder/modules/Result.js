@@ -180,6 +180,9 @@ class ProductFinderResult extends React.Component {
       const genderItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'genderCode'
       );
+      const neuteredItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'neutered'
+      );
       this.setState({
         productDetail: JSON.parse(res),
         questionlist: parsedQuestionlist,
@@ -193,7 +196,9 @@ class ProductFinderResult extends React.Component {
           gender: genderItem.length
             ? genderItem[0].productFinderAnswerDetailsVO.suffix
             : '',
-          sterilized: ''
+          sterilized: neuteredItem.length
+            ? neuteredItem[0].productFinderAnswerDetailsVO.suffix
+            : ''
         },
         isLoading: false
       });

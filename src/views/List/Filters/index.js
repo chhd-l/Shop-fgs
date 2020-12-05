@@ -269,8 +269,10 @@ class Filter extends React.Component {
 
                       <ul
                         className={`rc-list__content rc-expand--vertical ${
-                          parentItem.expand ? 'expand' : ''
-                        }`}
+                          parentItem.attributeName === 'markPrice'
+                            ? 'list-price'
+                            : ''
+                        } ${parentItem.expand ? 'expand' : ''}`}
                         id={`accordion-content-${pIndex}`}
                       >
                         {parentItem.attributeName === 'markPrice' ? (

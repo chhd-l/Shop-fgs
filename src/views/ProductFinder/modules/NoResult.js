@@ -139,6 +139,9 @@ class ProductFinderNoResult extends React.Component {
       const genderItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'genderCode'
       );
+      const neuteredItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'neutered'
+      );
       this.setState({
         petBaseInfo: {
           age: ageItem.length
@@ -150,7 +153,9 @@ class ProductFinderNoResult extends React.Component {
           gender: genderItem.length
             ? genderItem[0].productFinderAnswerDetailsVO.suffix
             : '',
-          sterilized: ''
+          sterilized: neuteredItem.length
+            ? neuteredItem[0].productFinderAnswerDetailsVO.suffix
+            : ''
         }
       });
     }
@@ -221,16 +226,10 @@ class ProductFinderNoResult extends React.Component {
                             <FormattedMessage id="seeAllOurProducts" />
                           </h2>
                           <div className="rc-btn-group rc-md-up">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/cats"
-                            >
+                            <Link className="rc-btn rc-btn--one" to="/cats">
                               <FormattedMessage id="cats3" />
                             </Link>
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/dogs"
-                            >
+                            <Link className="rc-btn rc-btn--one" to="/dogs">
                               <FormattedMessage id="dogs3" />
                             </Link>
                           </div>
@@ -240,10 +239,7 @@ class ProductFinderNoResult extends React.Component {
                             <img src={catImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/cats"
-                            >
+                            <Link className="rc-btn rc-btn--one" to="/cats">
                               <FormattedMessage id="cats3" />
                             </Link>
                           </div>
@@ -253,10 +249,7 @@ class ProductFinderNoResult extends React.Component {
                             <img src={dogImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/dogs"
-                            >
+                            <Link className="rc-btn rc-btn--one" to="/dogs">
                               <FormattedMessage id="dogs3" />
                             </Link>
                           </div>
