@@ -55,10 +55,11 @@ class AdyenCreditCardList extends React.Component {
   componentDidMount() {
     window.onload = function () {
       //console.log(document.querySelectorAll('iframe'))
-      var arr = document.querySelectorAll('iframe');
-      for (let i of arr) {
-        console.log(i);
-      }
+      // var arr = document.querySelectorAll('iframe');
+      // for (let i of arr) {
+      //   console.log(i.contentWindow);
+
+      // }
     };
 
     if (this.isLogin) {

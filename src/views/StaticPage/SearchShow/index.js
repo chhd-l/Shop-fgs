@@ -15,15 +15,10 @@ class SearchShow extends React.Component {
         }
     }
     componentWillUnmount() {
-        localItemRoyal.set('isRefresh', true);
+
     }
     componentDidMount() {
         setSeoConfig();
-        // if (localItemRoyal.get('isRefresh')) {
-        //   localItemRoyal.remove('isRefresh');
-        //   window.location.reload();
-        //   return false;
-        // }
 
         const searchWords = this.props.match.params.searchWords//动态路由的参数
         this.setState({
