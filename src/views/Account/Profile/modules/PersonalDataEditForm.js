@@ -48,7 +48,7 @@ class PersonalDataEditForm extends React.Component {
     this.setState(
       {
         form: Object.assign({}, data, {
-          birthdate: format(new Date(), 'yyyy-mm-dd')
+          birthdate: format(new Date(), 'yyyy-MM-dd')
         }),
         oldForm: Object.assign({}, data)
       },
@@ -171,9 +171,8 @@ class PersonalDataEditForm extends React.Component {
   }
   onDateChange(date) {
     const { form } = this.state;
-
-    form['birthdate'] = format(date, 'yyyy-mm-dd');
-    this.setState({ form: form }, () => {
+    form['birthdate'] = format(date, 'yyyy-MM-dd');
+    this.setState({ form }, () => {
       this.validFormData();
     });
   }
