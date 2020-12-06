@@ -27,7 +27,7 @@ class NewPetModal extends Component {
       petForm: {
         petName: '',
         petType: 'cat',
-        // birthday: format(new Date(), 'yyyy-mm-dd'),
+        // birthday: format(new Date(), 'yyyy-MM-dd'),
         birthday: '',
         breed: ''
       },
@@ -67,7 +67,7 @@ class NewPetModal extends Component {
         petForm: {
           petName: '',
           petType: 'cat',
-          // birthday: format(new Date(), 'yyyy-mm-dd'),
+          // birthday: format(new Date(), 'yyyy-MM-dd'),
           birthday: '',
           breed: ''
         }
@@ -211,7 +211,7 @@ class NewPetModal extends Component {
     console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
     if (date) {
-      petForm['birthday'] = format(date, 'yyyy-mm-dd');
+      petForm['birthday'] = format(date, 'yyyy-MM-dd');
       isShowBirthErorr = false;
     } else {
       petForm['birthday'] = date;
