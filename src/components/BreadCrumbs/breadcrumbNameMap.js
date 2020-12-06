@@ -156,6 +156,11 @@ const breadcrumbNameMap = {
       href: '/product-finder'
     },
     { name: 'productFinder.resultPage' }
+  ],
+  '/searchShow/:searchWords':[
+    {
+      name:'searchShow'
+    }
   ]
 };
 

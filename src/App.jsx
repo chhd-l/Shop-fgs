@@ -94,6 +94,7 @@ import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.
 import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
+import SearchShow from '@/views/StaticPage/SearchShow';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
@@ -426,6 +427,7 @@ const App = () => (
                 component={Tailorednutrition}
               />
               <Route path="/qualitySafety" exact component={QualitySafety} />
+              <Route path="/searchShow/:searchWords" exact component={SearchShow} />
               <Route
                 path="/shipmentConditions"
                 exact

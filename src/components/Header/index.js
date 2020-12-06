@@ -328,6 +328,13 @@ class Header extends React.Component {
       result: null
     });
   }
+  handleSearch=(e)=>{
+    if(process.env.REACT_APP_LANG == 'fr'){
+      console.log(e.current.value)
+      this.props.history.push('/searchShow/'+e.current.value)
+    }
+    
+  }
   handleSearchInputChange(e) {
     this.setState(
       {
@@ -763,6 +770,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
+                              onClick={()=>this.handleSearch(this.inputRef)}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>
