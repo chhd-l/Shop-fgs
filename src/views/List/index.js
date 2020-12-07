@@ -65,6 +65,7 @@ class List extends React.Component {
       storeCateIds: [],
       category: '',
       cateType: '',
+      cateName: '',
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
@@ -144,7 +145,13 @@ class List extends React.Component {
                 description: state.cateDescription,
                 img: state.cateImgList
               }
-            : null
+            : null,
+        cateName:
+          state.cateName ||
+          {
+            '/cats': <FormattedMessage id="cats3" />,
+            '/dogs': <FormattedMessage id="dogs3" />
+          }[pathname]
       });
     }
 
@@ -557,7 +564,8 @@ class List extends React.Component {
       filterModalVisible,
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
-      keywords
+      keywords,
+      cateName
     } = this.state;
     let event;
     let eEvents;
@@ -632,9 +640,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: (titleData && titleData.cateName) || '' }].filter(
-              (el) => el.name
-            )}
+            list={[{ name: cateName || '' }].filter((el) => el.name)}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">

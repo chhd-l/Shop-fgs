@@ -448,7 +448,21 @@ class Details extends React.Component {
             replyNum: res.context.goods.goodsEvaluateNum,
             goodsId: res.context.goods.goodsId,
             minMarketPrice: res.context.goods.minMarketPrice,
-            minSubscriptionPrice: res.context.goods.minSubscriptionPrice
+            minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+            details: Object.assign(this.state.details, {
+              taggingForText: (res.context.taggingList || []).filter(
+                (e) =>
+                  e.taggingType === 'Text' &&
+                  e.showPage &&
+                  e.showPage.includes('PDP')
+              )[0],
+              taggingForImage: (res.context.taggingList || []).filter(
+                (e) =>
+                  e.taggingType === 'Image' &&
+                  e.showPage &&
+                  e.showPage.includes('PDP')
+              )[0]
+            })
           });
           setSeoConfig({
             goodsId: res.context.goods.goodsId,
@@ -563,7 +577,7 @@ class Details extends React.Component {
               }
             }
             this.setState({
-              goodsDetailTab: goodsDetailTab,
+              goodsDetailTab,
               tabs
             });
           } catch (err) {
@@ -612,20 +626,6 @@ class Details extends React.Component {
                     this.productRange.join('&'),
                     this.format.join('&')
                   ].join('/')
-                },
-                {
-                  taggingForText: (res.context.taggingList || []).filter(
-                    (e) =>
-                      e.taggingType === 'Text' &&
-                      e.showPage &&
-                      e.showPage.includes('PDP')
-                  )[0],
-                  taggingForImage: (res.context.taggingList || []).filter(
-                    (e) =>
-                      e.taggingType === 'Image' &&
-                      e.showPage &&
-                      e.showPage.includes('PDP')
-                  )[0]
                 }
               ),
               images,

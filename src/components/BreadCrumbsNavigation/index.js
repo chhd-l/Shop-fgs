@@ -25,7 +25,7 @@ function BreadCrumbsNavigation({ list }) {
                     {item.name}
                   </Link>
                 ) : (
-                  <span title={item.name}>{item.name}</span>
+                  <span>{item.name}</span>
                 )}
               </li>
               {index !== decoList.length - 1 && (
