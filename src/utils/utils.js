@@ -1,5 +1,6 @@
 import { getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
+import { findStoreCateList } from '@/api/home';
 import { getDict } from '@/api/dict';
 import find from 'lodash/find';
 import flatten from 'lodash/flatten';
@@ -441,7 +442,7 @@ export function distributeLinktoPrecriberOrPaymentPage({
     loginCartData,
     cartData
   } = checkoutStore;
-  console.log(toJS(AuditData) ,'sas')
+  console.log(toJS(AuditData), 'sas');
   // debugger
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
@@ -508,4 +509,21 @@ export async function getFrequencyDict() {
   ]).then((res) => {
     return Promise.resolve(flatten(res));
   });
+}
+
+/**
+ * 查询home页分类信息
+ */
+export async function queryStoreCateList() {
+  let ret = sessionItemRoyal.get('home-navigations');
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await findStoreCateList();
+    if (res.context) {
+      ret = res.context;
+      sessionItemRoyal.set('home-navigations', JSON.stringify(ret));
+    }
+  }
+  return ret;
 }

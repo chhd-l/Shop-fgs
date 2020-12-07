@@ -12,8 +12,7 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
-import { findStoreCateList } from '@/api/home';
+import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -410,8 +409,8 @@ class Home extends React.Component {
     // }
     this.setState({ deviceType: getDeviceType() });
     setSeoConfig({ pageName: 'Home Page' });
-    findStoreCateList().then((res) => {
-      let tmpRes = (res.context || []).map((ele) => {
+    queryStoreCateList().then((res) => {
+      let tmpRes = (res || []).map((ele) => {
         try {
           let tmpList = JSON.parse(ele.cateImg);
           ele.cateImgHome = tmpList[0].artworkUrl;
@@ -420,7 +419,6 @@ class Home extends React.Component {
         } catch (e) {}
         return ele;
       });
-      sessionItemRoyal.set('home-navigations', JSON.stringify(tmpRes));
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
@@ -436,10 +434,10 @@ class Home extends React.Component {
       page: {
         error: '',
         hitTimestamp: new Date(),
-        path:match.path,
+        path: match.path,
         type: 'Homepage',
-        filters:'',
-        theme: '',
+        filters: '',
+        theme: ''
       }
     };
 
