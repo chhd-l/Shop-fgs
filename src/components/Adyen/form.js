@@ -137,6 +137,8 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
+        this.props.paymentStore.updateFirstSavedCard(tmpSelectedId)
+        console.log(this.props.paymentStore.firstSavedCard)
         this.props.queryList();
         this.setState({ saveLoading: false });
       } else {
@@ -145,7 +147,6 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
       }
-      // 会员不保存情况下 怎么处理
       this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);
       this.props.updateSelectedId(tmpSelectedId);

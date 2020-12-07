@@ -219,7 +219,6 @@ class Question extends React.Component {
 
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
-      const statistics = res.context.statistics;
       if (!resContext.isEndOfTree) {
         const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({
@@ -245,12 +244,7 @@ class Question extends React.Component {
             },
             questionType: qRes.questionType,
 
-            progress: Math.round(
-              (statistics.nbStepPassed /
-                (statistics.nbStepPassed +
-                  statistics.maximumNbOfStepRemaining)) *
-                100
-            ),
+            progress: resContext.progressRate.replace(/%/g, ''),
             currentStepName: resContext.step.name,
             stepOrder: resContext.stepOrder,
             finderNumber: resContext.finderNumber,
@@ -279,7 +273,7 @@ class Question extends React.Component {
         localItemRoyal.remove(`pf-cache-${type}-question`);
         sessionItemRoyal.set(
           'pf-questionlist',
-          JSON.stringify(this.state.answerdQuestionList)
+          JSON.stringify(resContext.answerdQuestionList)
         );
         let tmpUrl;
         if (proRes.context && proRes.context.mainProduct) {
@@ -475,13 +469,13 @@ class Question extends React.Component {
           </div>
           <div className="col-2 col-md-1 rc-md-up">
             <LazyLoad>
-            <img
-              className="ui-cursor-pointer"
-              src={helpImg}
-              onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
-              onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
-              alt=""
-            />
+              <img
+                className="ui-cursor-pointer"
+                src={helpImg}
+                onMouseEnter={this.setIconToolTipVisible.bind(this, true)}
+                onMouseLeave={this.setIconToolTipVisible.bind(this, false)}
+                alt=""
+              />
             </LazyLoad>
             <ConfirmTooltip
               arrowDirection="right"
@@ -606,11 +600,11 @@ class Question extends React.Component {
           </div>
           <div className="col-12 col-md-6 order-0 order-md-1">
             <LazyLoad>
-            <img
-              src={{ cat: catImg, dog: dogImg }[type]}
-              className="p-f-q-avatar"
-              alt=""
-            />
+              <img
+                src={{ cat: catImg, dog: dogImg }[type]}
+                className="p-f-q-avatar"
+                alt=""
+              />
             </LazyLoad>
           </div>
         </div>
@@ -638,7 +632,7 @@ class Question extends React.Component {
                     target="_blank"
                     rel="nofollow"
                   >
-                    <FormattedMessage id="learnMore" />
+                    <FormattedMessage id="aboutUs.learnMore" />
                   </a>
                   <Link
                     className="rc-btn rc-btn--two"
@@ -652,19 +646,19 @@ class Question extends React.Component {
               </div>
               <div className="col-12 col-md-6">
                 <LazyLoad>
-                <img
-                  src={veterinaryImg}
-                  className="rc-md-up"
-                  style={{ width: '20%', margin: '0 auto' }}
-                  alt=""
-                />
+                  <img
+                    src={veterinaryImg}
+                    className="rc-md-up"
+                    style={{ width: '20%', margin: '0 auto' }}
+                    alt=""
+                  />
                 </LazyLoad>
                 <LazyLoad>
-                <img
-                  className="mt-3 rc-full-width"
-                  src={veterinaryProductImg}
-                  alt=""
-                />
+                  <img
+                    className="mt-3 rc-full-width"
+                    src={veterinaryProductImg}
+                    alt=""
+                  />
                 </LazyLoad>
               </div>
             </div>

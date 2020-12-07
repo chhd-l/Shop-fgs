@@ -70,7 +70,7 @@ export default class ImgUpload extends React.Component {
           className="d-flex flex-wrap"
         >
           <p style={{marginTop: '10px'}}>
-          <a class="rc-styled-link" href="#/" onClick={(e) => {
+          <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
                         this.uploadDom.current.click()
                       }}>Change picture</a>

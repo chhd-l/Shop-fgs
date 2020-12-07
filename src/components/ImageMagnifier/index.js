@@ -132,6 +132,7 @@ class ImageMagnifier extends Component {
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
     }
+    
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0;
       images.map((el, i) => {
@@ -159,24 +160,20 @@ class ImageMagnifier extends Component {
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
     }
-
-    console.log(currentImg, 'currentImg', images);
     this.setState({
       currentImg: currentImg
     });
     this.updataImg(nextProps);
     const { sizeList } = nextProps;
-    console.log(sizeList.filter((item) => item.selected));
     let selectedSizeInfo = sizeList.filter((item) => item.selected);
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
     }
-    if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
+    if (selectedSizeInfo.length) {
       let hoverIndex = 0;
       images.map((el, i) => {
         if (
-          el.artworkUrl === selectedSizeInfo[0].goodsInfoImg ||
-          el.goodsInfoImg === selectedSizeInfo[0].goodsInfoImg
+          selectedSizeInfo[0].goodsInfoId === el.goodsInfoId
         ) {
           hoverIndex = i;
         }
@@ -345,6 +342,7 @@ class ImageMagnifier extends Component {
       hoverIndex
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
+    console.log(images, 'images')
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -382,7 +380,7 @@ class ImageMagnifier extends Component {
                   <img
                     id="J_detail_img"
                     style={cssStyle.imgStyle}
-                    src={currentImg}
+                    src={currentImg || this.state.maxImg || noPic}
                     alt=""
                   />
                 </div>
@@ -425,7 +423,7 @@ class ImageMagnifier extends Component {
             <div style={cssStyle.magnifierContainer}>
               <img
                 style={cssStyle.imgStyle2}
-                src={currentImg}
+                src={currentImg || this.state.maxImg || noPic}
                 onLoad={this.handleImageLoaded.bind(this)}
                 onError={this.handleImageErrored.bind(this)}
                 alt=""
@@ -456,11 +454,10 @@ class ImageMagnifier extends Component {
                 left: this.state.positionLeft + 'px'
               }}
             >
-              {images &&
+              {images.filter(el => el.goodsInfoImg).length? (images &&
                 images.map((el, i) => (
                   <div
                     key={i}
-                    // className={`rc-img--square rc-img--square-custom ${(el.artworkUrl || el.goodsInfoImg) === currentImg ? 'hover' : ''}`}
                     className={`rc-img--square rc-img--square-custom ${
                       hoverIndex === i ? 'hover' : ''
                     }`}
@@ -469,10 +466,26 @@ class ImageMagnifier extends Component {
                     }
                     style={{
                       backgroundImage:
-                        'url(' + (el.artworkUrl || el.goodsInfoImg) + ')'
+                        'url(' + (el.artworkUrl || el.goodsInfoImg || noPic) + ')'
                     }}
                   ></div>
-                ))}
+                ))): (
+                  this.state.minImg? (<div
+                    className={`rc-img--square rc-img--square-custom hover`}
+                    style={{
+                      backgroundImage:
+                        'url(' + this.state.minImg + ')'
+                    }}
+                  ></div>): (
+                    <div
+                    className={`rc-img--square rc-img--square-custom hover`}
+                    style={{
+                      backgroundImage:
+                        'url(' + noPic + ')'
+                    }}
+                  ></div>
+                  )
+                )}
               {video && (
                 <video
                   className={`rc-img--square rc-img--square-custom ${

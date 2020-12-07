@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import Modal from '@/components/Modal';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import '../index.css';
 import { addPet } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getDict } from '@/api/dict';
-import moment from 'moment';
+import { format } from 'date-fns';
 import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
-import './NewPetModal.css'
+import './NewPetModal.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject(
-  'loginStore'
-)
+@inject('loginStore')
 @observer
 @injectIntl
-
 class NewPetModal extends Component {
   // 新建Pet
 
@@ -30,9 +27,9 @@ class NewPetModal extends Component {
       petForm: {
         petName: '',
         petType: 'cat',
-        // birthday: moment(new Date()).format('YYYY-MM-DD'),
+        // birthday: format(new Date(), 'yyyy-MM-dd'),
         birthday: '',
-        breed: '',
+        breed: ''
       },
       selectModalVisible: false,
       isShowBirthErorr: false,
@@ -61,20 +58,20 @@ class NewPetModal extends Component {
   }
   openSelectPetModal() {
     this.setState({
-      selectModalVisible: true,
+      selectModalVisible: true
     });
   }
   UNSAFE_componentWillReceiveProps(props) {
-    if(props.visible) {
+    if (props.visible) {
       this.setState({
         petForm: {
           petName: '',
           petType: 'cat',
-          // birthday: moment(new Date()).format('YYYY-MM-DD'),
+          // birthday: format(new Date(), 'yyyy-MM-dd'),
           birthday: '',
-          breed: '',
+          breed: ''
         }
-      })
+      });
     }
   }
   inputBlur(e) {
@@ -95,7 +92,7 @@ class NewPetModal extends Component {
     const { petForm } = this.state;
     const name = target.name;
     const value = target.value;
-    console.log(name, value)
+    console.log(name, value);
     petForm[name] = value;
     this.setState({ petForm: petForm });
     this.inputBlur(e);
@@ -124,27 +121,27 @@ class NewPetModal extends Component {
   };
 
   async addPet() {
-    let isFillAll = true
-    for(let k in this.state.petForm) {
-      if(!this.state.petForm[k]) {
-        isFillAll = false
-        if(k === 'petName') {
-          this.setState({isShowPetNameErorr: true})  
+    let isFillAll = true;
+    for (let k in this.state.petForm) {
+      if (!this.state.petForm[k]) {
+        isFillAll = false;
+        if (k === 'petName') {
+          this.setState({ isShowPetNameErorr: true });
         }
-        if(k === 'birthday') {
-          this.setState({isShowBirthErorr: true})
+        if (k === 'birthday') {
+          this.setState({ isShowBirthErorr: true });
         }
-        if(k === 'breed') {
-          this.setState({isShowBreedErorr: true})
+        if (k === 'breed') {
+          this.setState({ isShowBreedErorr: true });
         }
       }
     }
-    if(!isFillAll) {
-      return false
+    if (!isFillAll) {
+      return false;
     }
-    if(!this.props.loginStore.isLogin) {
-      this.props.confirm(this.state.petForm)
-      return
+    if (!this.props.loginStore.isLogin) {
+      this.props.confirm(this.state.petForm);
+      return;
     }
     const pets = {
       birthOfPets: this.state.petForm.birthday,
@@ -159,13 +156,13 @@ class NewPetModal extends Component {
     let res = await addPet(parmas);
     if (res.code === 'K-000000') {
       console.log('add pet success.', res);
-      this.props.confirm({value: res.context.result, name: pets.petsName });
+      this.props.confirm({ value: res.context.result, name: pets.petsName });
       this.props.close();
     } else {
     }
   }
   inputBreed = (e) => {
-    const { petForm } = this.state
+    const { petForm } = this.state;
     let isDisabled = true;
     let isUnknownDisabled = false;
     let showBreedList = false;
@@ -199,9 +196,9 @@ class NewPetModal extends Component {
             loading: false
           });
         }
-          // this.showErrorMsg(
-          //   res.message || this.props.intl.messages.getDataFailed
-          // );
+        // this.showErrorMsg(
+        //   res.message || this.props.intl.messages.getDataFailed
+        // );
       })
       .catch((err) => {
         // this.showErrorMsg(
@@ -211,14 +208,14 @@ class NewPetModal extends Component {
       });
   };
   onDateChange(date) {
-    console.log(date)
+    console.log(date);
     let { petForm, isShowBirthErorr } = this.state;
-    if(date) {
-      petForm['birthday'] = moment(date).format('YYYY-MM-DD');
-      isShowBirthErorr = false
-    }else {
-      petForm['birthday'] = date
-      isShowBirthErorr = true
+    if (date) {
+      petForm['birthday'] = format(date, 'yyyy-MM-dd');
+      isShowBirthErorr = false;
+    } else {
+      petForm['birthday'] = date;
+      isShowBirthErorr = true;
     }
     this.setState({ petForm, isShowBirthErorr });
   }
@@ -262,7 +259,12 @@ class NewPetModal extends Component {
                   />
                   <label className="rc-input__label" htmlFor="petName"></label>
                 </span>
-                <div className="invalid-feedback" style={{ display: this.state.isShowPetNameErorr? 'block': 'none' }}>
+                <div
+                  className="invalid-feedback"
+                  style={{
+                    display: this.state.isShowPetNameErorr ? 'block' : 'none'
+                  }}
+                >
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
@@ -298,8 +300,7 @@ class NewPetModal extends Component {
               </div>
             </div>
             <div className="row">
-
-            <div className="form-group col-lg-6">
+              <div className="form-group col-lg-6">
                 <label
                   className="form-control-label rc-full-width"
                   htmlFor="birthdate"
@@ -312,16 +313,19 @@ class NewPetModal extends Component {
                   placeholder="Select Date"
                   dateFormat="yyyy-MM-dd"
                   maxDate={new Date()}
-                  selected={
-                    form.birthday ? new Date(form.birthday) : ''
-                  }
+                  selected={form.birthday ? new Date(form.birthday) : ''}
                   onChange={(date) => this.onDateChange(date)}
                 />
-                <div className="invalid-feedback" style={{ display: this.state.isShowBirthErorr? 'block': 'none' }}>
+                <div
+                  className="invalid-feedback"
+                  style={{
+                    display: this.state.isShowBirthErorr ? 'block' : 'none'
+                  }}
+                >
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
-                      val: <FormattedMessage id="birthDate" />
+                      val: <FormattedMessage id="account.birthDate" />
                     }}
                   />
                 </div>
@@ -333,27 +337,37 @@ class NewPetModal extends Component {
                 >
                   <FormattedMessage id="breed" />
                 </label>
-                {
-                  this.props.visible && (
-                    <SearchSelection
-                      queryList={async ({ inputVal, pageNum }) => {
-                        console.log({ type: form.petType, name: inputVal })
-                        let res = await getDict({ type: form.petType === 'cat' ? 'catBreed_mx' : 'dogBreed_mx', name: inputVal })
-                          if (res.code === 'K-000000') {
-                            console.log(res.context.sysDictionaryVOS)
-                            return ((res.context && res.context.sysDictionaryVOS) || []).map((ele) =>
-                              Object.assign(ele, { name: ele.name })
-                            );
-                          }
-                      }}
-                      selectedItemChange={(data) => {
-                        form.breed = data.name
-                        this.setState({petForm: form, isShowBreedErorr: false})
-                      }}
-                    />
-                  )
-                }
-                <div className="invalid-feedback" style={{ display: this.state.isShowBreedErorr? 'block': 'none' }}>
+                {this.props.visible && (
+                  <SearchSelection
+                    queryList={async ({ inputVal, pageNum }) => {
+                      console.log({ type: form.petType, name: inputVal });
+                      let res = await getDict({
+                        type:
+                          form.petType === 'cat'
+                            ? 'catBreed_mx'
+                            : 'dogBreed_mx',
+                        name: inputVal
+                      });
+                      if (res.code === 'K-000000') {
+                        console.log(res.context.sysDictionaryVOS);
+                        return (
+                          (res.context && res.context.sysDictionaryVOS) ||
+                          []
+                        ).map((ele) => Object.assign(ele, { name: ele.name }));
+                      }
+                    }}
+                    selectedItemChange={(data) => {
+                      form.breed = data.name;
+                      this.setState({ petForm: form, isShowBreedErorr: false });
+                    }}
+                  />
+                )}
+                <div
+                  className="invalid-feedback"
+                  style={{
+                    display: this.state.isShowBreedErorr ? 'block' : 'none'
+                  }}
+                >
                   <FormattedMessage
                     id="payment.errorInfo"
                     values={{
@@ -370,4 +384,4 @@ class NewPetModal extends Component {
   }
 }
 
-export default NewPetModal
+export default NewPetModal;

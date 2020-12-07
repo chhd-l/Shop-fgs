@@ -26,9 +26,8 @@ class CommunicationDataEditForm extends React.Component {
     );
   }
   componentDidMount() {
-    const { data } = this.props;
     this.setState({
-      form: Object.assign({}, data)
+      form: Object.assign({}, this.props.data)
     });
     document.getElementById('wrap').addEventListener('click', (e) => {
       if (e.target.localName === 'span') {
@@ -37,9 +36,12 @@ class CommunicationDataEditForm extends React.Component {
           e.target.parentNode.parentNode.parentNode.parentNode.parentNode.id
         );
         const { list } = this.state;
-        let arr = (list[index] || []).detailList.filter((item) => {
-          return item.contentTitle === keyWords;
-        });
+        let arr = [];
+        if (list[index]) {
+          arr = list[index].detailList.filter((item) => {
+            return item.contentTitle === keyWords;
+          });
+        }
 
         let tempArr = [...list];
         //tempArr[index].innerHtml = arr.length!=0 ? arr[0].contentBody:''
@@ -115,6 +117,7 @@ class CommunicationDataEditForm extends React.Component {
     ])
       .then(async (res) => {
         await this.init();
+        this.props.updateData();
         this.handleCancel();
         this.setState({
           saveLoading: false
@@ -142,6 +145,11 @@ class CommunicationDataEditForm extends React.Component {
   };
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status });
+    if (status) {
+      this.setState({
+        form: Object.assign({}, this.props.data)
+      });
+    }
     this.props.updateEditOperationPanelName(status ? 'Communication' : '');
   };
   handleClickEditBtn = () => {

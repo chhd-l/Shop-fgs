@@ -1,8 +1,10 @@
-import { getStoreCate, getSeoConfig } from '@/api';
+import { getSeoConfig } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
-import { find, flatten } from 'lodash';
+import find from 'lodash/find';
+import flatten from 'lodash/flatten';
 import stores from '@/store';
+import { toJS } from 'mobx';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -429,6 +431,8 @@ function changeTitleAndMeta(seoInfo) {
 // 一旦正向流程跳转prescriber/payment页面，则需使用此方法，以替代routeFilter.js中的相关拦截，以此解决闪现/presciber页面的bug
 export function distributeLinktoPrecriberOrPaymentPage({
   configStore = {},
+  checkoutStore,
+  clinicStore,
   isLogin = false
 }) {
   const {
@@ -436,7 +440,9 @@ export function distributeLinktoPrecriberOrPaymentPage({
     AuditData = [],
     loginCartData,
     cartData
-  } = configStore;
+  } = checkoutStore;
+  console.log(toJS(AuditData) ,'sas')
+  // debugger
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
     return '/checkout';

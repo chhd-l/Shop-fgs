@@ -13,21 +13,28 @@ import './index.less';
 // import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
-import { getPetList, addPet, petsById, delPets, editPets, getRecommendProducts } from '@/api/pet';
+import {
+  getPetList,
+  addPet,
+  petsById,
+  delPets,
+  editPets,
+  getRecommendProducts
+} from '@/api/pet';
 import Loading from '@/components/Loading';
 import { getDictionary, getDeviceType } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
-import Banner_Cat from './images/banner_Cat.png'
-import Banner_Dog from './images/banner_Dog.png'
+import Banner_Cat from './images/banner_Cat.png';
+import Banner_Dog from './images/banner_Dog.png';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
 const lang = process.env.REACT_APP_LANG;
@@ -108,7 +115,7 @@ class PetForm extends React.Component {
       specialNeedsDisable: false,
       imgUrl: '',
       isMobile: false,
-      isChoosePetType: this.props.match.params.id?true: false,
+      isChoosePetType: this.props.match.params.id ? true : false,
       isPurebred: true,
       recommendData: []
     };
@@ -158,21 +165,22 @@ class PetForm extends React.Component {
   }
   get specialNeedsOptions() {
     let option = this.state.specialNeeds.map((ele) => {
-      delete ele.value
+      delete ele.value;
       return {
         value: ele.valueEn,
         ...ele
       };
-    })
+    });
     option.unshift({
       name: 'Sin necesidades especiales',
       valueEn: 'Sin necesidades especiales',
-      value: 'Sin necesidades especiales',
-    })
-    return option
+      value: 'Sin necesidades especiales'
+    });
+    return option;
   }
   get sizeOptions() {
     return this.state.sizeArr.map((ele) => {
+      delete ele.value;
       return {
         value: ele.valueEn,
         ...ele
@@ -301,22 +309,23 @@ class PetForm extends React.Component {
       return;
     }
 
-
-    let validFiled = ['nickname', 'birthdate']
-    if(this.state.isPurebred) {
-      validFiled.push('breed')
-    }else if(!this.state.isCat){
-      validFiled.push('weight')
+    let validFiled = ['nickname', 'birthdate'];
+    if (this.state.isPurebred) {
+      validFiled.push('breed');
+    } else if (!this.state.isCat) {
+      validFiled.push('weight');
     }
-    for(let i = 0; i < validFiled.length; i++) {
-      if(!this.state[validFiled[i]]) {
-        this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
-        return
+    for (let i = 0; i < validFiled.length; i++) {
+      if (!this.state[validFiled[i]]) {
+        this.showErrorMsg(
+          this.props.intl.messages.pleasecompleteTheRequiredItem
+        );
+        return;
       }
     }
-    if(!selectedSpecialNeeds.length) {
-      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem)
-      return 
+    if (!selectedSpecialNeeds.length) {
+      this.showErrorMsg(this.props.intl.messages.pleasecompleteTheRequiredItem);
+      return;
     }
 
     this.setState({
@@ -339,7 +348,7 @@ class PetForm extends React.Component {
       customerPetsPropRelations.push(prop);
       propId += 1;
     }
-    
+
     let pets = {
       birthOfPets: this.state.birthdate,
       petsId: this.state.currentPetId,
@@ -665,9 +674,9 @@ class PetForm extends React.Component {
       param.isUnknown = false;
       // param.isInputDisabled = true;
       param.breed = '';
-      param.isPurebred = false
-    }else {
-      param.isPurebred = true
+      param.isPurebred = false;
+    } else {
+      param.isPurebred = true;
     }
     let filterSize = this.sizeOptions.filter(
       (el) => el.name === currentPet.petsSizeValueName
@@ -684,33 +693,35 @@ class PetForm extends React.Component {
       param.selectedSpecialNeedsObj = Object.assign(
         this.state.selectedSpecialNeedsObj,
         {
-          value: this.specialNeedsOptions.filter((el) => el.name === currentPet.customerPetsPropRelations[0].propName)[0].valueEn
+          value: this.specialNeedsOptions.filter(
+            (el) => el.name === currentPet.customerPetsPropRelations[0].propName
+          )[0].valueEn
         }
       );
       param.selectedSpecialNeeds = [
         currentPet.customerPetsPropRelations[0].propName
       ];
     } else {
-      param.selectedSpecialNeedsObj = {value: 'Sin necesidades especiales'}
+      param.selectedSpecialNeedsObj = { value: 'Sin necesidades especiales' };
     }
     let params = {
-      breedCode: param.isPurebred?param.breed: 'mix Breed',
+      breedCode: param.isPurebred ? param.breed : 'mix Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj
       mainReason: param.selectedSpecialNeedsObj.value
-    }
-    getRecommendProducts(params).then(res => {
-      let result = res.context
-      if(result.otherProducts) {
-        let recommendData = result.otherProducts
-        recommendData.unshift(result.mainProduct)
+    };
+    getRecommendProducts(params).then((res) => {
+      let result = res.context;
+      if (result.otherProducts) {
+        let recommendData = result.otherProducts;
+        recommendData.unshift(result.mainProduct);
         // console.log(result.otherProducts.unshift(result.mainProduct), result,'hahahaa')
         this.setState({
           recommendData: recommendData
-        })
+        });
       }
-    })
+    });
     this.setState(param);
   };
   getDict = (type, name) => {
@@ -798,10 +809,8 @@ class PetForm extends React.Component {
     });
   };
   onDateChange(date) {
-    // const { form } = this.state
-    // form['birthdate'] = moment(date).format("YYYY-MM-DD")
     this.setState({
-      birthdate: moment(date).format('YYYY-MM-DD'),
+      birthdate: format(date, 'yyyy-MM-dd'),
       isDisabled: false
     });
   }
@@ -855,7 +864,8 @@ class PetForm extends React.Component {
   }
   sizeOptionsChange(data) {
     this.setState({
-      weight: data.name
+      weight: data.name,
+      selectedSizeObj: { value: data.valueEn }
     });
   }
   breedCheckboxChange(e) {
@@ -921,19 +931,47 @@ class PetForm extends React.Component {
               )}
               {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
-              <div className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: !isChoosePetType?'block': 'none'}}>
-                <h5 style={{color: '#333333', fontWeight: 400}}>New PET</h5>
-                <div class="content">
-                  <img src={Banner_Dog} style={{left: '40px'}}/>
+              <div
+                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+                style={{ display: !isChoosePetType ? 'block' : 'none' }}
+              >
+                <h5 style={{ color: '#333333', fontWeight: 400 }}>New PET</h5>
+                <div className="content">
+                  <img src={Banner_Dog} style={{ left: '40px' }} />
                   <div className="buttonBox">
-                    <p style={{color: '#333333', fontWeight: 400, fontSize: '22px'}}>Choose your pet type</p>
-                    <p style={{color: '#E2001A', fontSize: '22px'}}>Your Pet is a…</p>
+                    <p
+                      style={{
+                        color: '#333333',
+                        fontWeight: 400,
+                        fontSize: '22px'
+                      }}
+                    >
+                      Choose your pet type
+                    </p>
+                    <p style={{ color: '#E2001A', fontSize: '22px' }}>
+                      Your Pet is a…
+                    </p>
                     <div>
-                      <button className="rc-btn rc-btn--sm rc-btn--one" style={{marginRight: '20px'}} onClick={() => {this.petTypeChange(false)}}>Dog</button>
-                      <button className="rc-btn rc-btn--sm rc-btn--one" onClick={() => {this.petTypeChange(true)}}>Cat</button>
+                      <button
+                        className="rc-btn rc-btn--sm rc-btn--one"
+                        style={{ marginRight: '20px' }}
+                        onClick={() => {
+                          this.petTypeChange(false);
+                        }}
+                      >
+                        Dog
+                      </button>
+                      <button
+                        className="rc-btn rc-btn--sm rc-btn--one"
+                        onClick={() => {
+                          this.petTypeChange(true);
+                        }}
+                      >
+                        Cat
+                      </button>
                     </div>
                   </div>
-                  <img src={Banner_Cat} style={{right: '40px'}}/>
+                  <img src={Banner_Cat} style={{ right: '40px' }} />
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
                     <span>
@@ -949,7 +987,10 @@ class PetForm extends React.Component {
                   </div> */}
                 </div>
               </div>
-              <div className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop" style={{display: isChoosePetType?'block': 'none'}}>
+              <div
+                className="petFormBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+                style={{ display: isChoosePetType ? 'block' : 'none' }}
+              >
                 {/* 错误提示 */}
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
@@ -963,219 +1004,234 @@ class PetForm extends React.Component {
                     {this.state.errorMsg}
                   </aside>
                 </div>
-                <div style={{display: 'flex'}}>
-                <div className="photoBox">
-                  <img
-                    style={{
-                      width: '120px',
-                      marginTop: '40px',
-                      borderRadius: '50%'
-                    }}
-                    src={imgUrl || (this.state.isCat ? Cat : Dog)}
-                  />
-                  {/* <a class="rc-styled-link" href="#/" onClick={(e) => {
+                <div style={{ display: 'flex' }}>
+                  <div className="photoBox">
+                    <img
+                      style={{
+                        width: '120px',
+                        marginTop: '40px',
+                        borderRadius: '50%'
+                      }}
+                      src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                    />
+                    {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
                       }}>Change picture</a> */}
-                  <UploadImg
-                    tipVisible={false}
-                    handleChange={(data) => this.handelImgChange(data)}
-                    geterrMessage={this.handleErrMessage}
-                    showLoading={() => {
-                      this.setState({ loading: true });
-                    }}
-                    hiddenLoading={() => {
-                      this.setState({ loading: false });
-                    }}
-                  />
-                </div>
-                <div className="formBox">
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width "
-                      htmlFor="name"
-                    >
-                      <FormattedMessage id="name" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <input
-                        type="text"
-                        className="rc-input__control"
-                        id="firstName"
-                        name="firstName"
-                        required=""
-                        aria-required="true"
-                        style={{ padding: '.5rem 0' }}
-                        value={this.state.nickname}
-                        onChange={this.inputNickname}
-                        maxLength="50"
-                        autoComplete="address-line"
-                      />
-                      <label className="rc-input__label" htmlFor="name"></label>
-                    </span>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="name" />
-                        }}
-                      />
-                    </div>
+                    <UploadImg
+                      tipVisible={false}
+                      handleChange={(data) => this.handelImgChange(data)}
+                      geterrMessage={this.handleErrMessage}
+                      showLoading={() => {
+                        this.setState({ loading: true });
+                      }}
+                      hiddenLoading={() => {
+                        this.setState({ loading: false });
+                      }}
+                    />
                   </div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="gender"
-                    >
-                      <FormattedMessage id="Gender" />
-                    </label>
-                    <div style={{ padding: '.5rem 0' }}>
-                      <div class="rc-input rc-input--inline">
+                  <div className="formBox">
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width "
+                        htmlFor="name"
+                      >
+                        <FormattedMessage id="name" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                        input-setup="true"
+                      >
                         <input
-                          class="rc-input__radio"
-                          id="female"
-                          value="1"
-                          checked={!this.state.isMale}
-                          type="radio"
-                          name="gender"
-                          onChange={(e) => this.genderChange(e)}
+                          type="text"
+                          className="rc-input__control"
+                          id="firstName"
+                          name="firstName"
+                          required=""
+                          aria-required="true"
+                          style={{ padding: '.5rem 0' }}
+                          value={this.state.nickname}
+                          onChange={this.inputNickname}
+                          maxLength="50"
+                          autoComplete="address-line"
                         />
-                        <label class="rc-input__label--inline" for="female">
-                          Female
-                        </label>
-                      </div>
-                      <div class="rc-input rc-input--inline">
-                        <input
-                          class="rc-input__radio"
-                          id="male"
-                          value="0"
-                          checked={this.state.isMale}
-                          type="radio"
-                          name="gender"
-                          onChange={(e) => this.genderChange(e)}
-                        />
-                        <label class="rc-input__label--inline" for="male">
-                          Male
-                        </label>
-                      </div>
-                    </div>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="gender" />
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="birthday"
-                    >
-                      <FormattedMessage id="birthday" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-margin--none rc-input--full-width"
-                      input-setup="true"
-                    >
-                      <DatePicker
-                        className="receiveDate"
-                        placeholder="Select Date"
-                        dateFormat={curDatePickerCfg.format}
-                        locale={curDatePickerCfg.locale}
-                        maxDate={new Date()}
-                        selected={
-                          this.state.birthdate
-                            ? new Date(this.state.birthdate)
-                            : ''
-                        }
-                        onChange={(date) => this.onDateChange(date)}
-                      />
-                      <div className="invalid-birthdate invalid-feedback">
-                        <FormattedMessage id="account.dateTip" />
-                      </div>
-                    </span>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="birthday" />
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="Is Purebred"
-                    >
-                      <FormattedMessage id="Is Purebred" />
-                    </label>
-                    <div style={{ padding: '.5rem 0' }}>
-                      <div class="rc-input rc-input--inline">
-                        <input
-                          class="rc-input__radio"
-                          id="purebred"
-                          value="0"
-                          checked={this.state.isPurebred}
-                          type="radio"
-                          name="Is Purebred"
-                          onChange={(e) => {
-                            this.setState({
-                              isPurebred: true,
-                              weight: ''
-                            })
+                        <label
+                          className="rc-input__label"
+                          htmlFor="name"
+                        ></label>
+                      </span>
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
+                        <FormattedMessage
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="name" />
                           }}
                         />
-                        <label class="rc-input__label--inline" for="purebred">
-                          Yes
-                        </label>
                       </div>
-                      <div class="rc-input rc-input--inline">
-                        <input
-                          class="rc-input__radio"
-                          id="noPurebred"
-                          value="1"
-                          checked={!this.state.isPurebred}
-                          type="radio"
-                          name="Is Purebred"
-                          onChange={(e) => {
-                            this.setState({
-                              isPurebred: false,
-                              breed: ''
-                            })
+                    </div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="gender"
+                      >
+                        <FormattedMessage id="Gender" />
+                      </label>
+                      <div style={{ padding: '.5rem 0' }}>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="female"
+                            value="1"
+                            checked={!this.state.isMale}
+                            type="radio"
+                            name="gender"
+                            onChange={(e) => this.genderChange(e)}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="female"
+                          >
+                            Female
+                          </label>
+                        </div>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="male"
+                            value="0"
+                            checked={this.state.isMale}
+                            type="radio"
+                            name="gender"
+                            onChange={(e) => this.genderChange(e)}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="male"
+                          >
+                            Male
+                          </label>
+                        </div>
+                      </div>
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
+                        <FormattedMessage
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="gender" />
                           }}
                         />
-                        <label class="rc-input__label--inline" for="noPurebred">
-                          No
-                        </label>
                       </div>
                     </div>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="Is Purebred" />
-                        }}
-                      />
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="birthday"
+                      >
+                        <FormattedMessage id="birthday" />
+                      </label>
+                      <span
+                        className="rc-input rc-input--label rc-margin--none rc-input--full-width"
+                        input-setup="true"
+                      >
+                        <DatePicker
+                          className="receiveDate"
+                          placeholder="Select Date"
+                          dateFormat={curDatePickerCfg.format}
+                          locale={curDatePickerCfg.locale}
+                          maxDate={new Date()}
+                          selected={
+                            this.state.birthdate
+                              ? new Date(this.state.birthdate)
+                              : ''
+                          }
+                          onChange={(date) => this.onDateChange(date)}
+                        />
+                        <div className="invalid-birthdate invalid-feedback">
+                          <FormattedMessage id="account.dateTip" />
+                        </div>
+                      </span>
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
+                        <FormattedMessage
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="birthday" />
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  {/* <div className="form-group col-lg-6 pull-left">
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        htmlFor="Is Purebred"
+                      >
+                        <FormattedMessage id="Is Purebred" />
+                      </label>
+                      <div style={{ padding: '.5rem 0' }}>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="purebred"
+                            value="0"
+                            checked={this.state.isPurebred}
+                            type="radio"
+                            name="Is Purebred"
+                            onChange={(e) => {
+                              this.setState({
+                                isPurebred: true,
+                                weight: ''
+                              });
+                            }}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="purebred"
+                          >
+                            Yes
+                          </label>
+                        </div>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="noPurebred"
+                            value="1"
+                            checked={!this.state.isPurebred}
+                            type="radio"
+                            name="Is Purebred"
+                            onChange={(e) => {
+                              this.setState({
+                                isPurebred: false,
+                                breed: ''
+                              });
+                            }}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="noPurebred"
+                          >
+                            No
+                          </label>
+                        </div>
+                      </div>
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
+                        <FormattedMessage
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="Is Purebred" />
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {/* <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="Pet type"
@@ -1183,9 +1239,9 @@ class PetForm extends React.Component {
                       <FormattedMessage id="Pet type" />
                     </label>
                     <div style={{ padding: '.5rem 0' }}>
-                      <div class="rc-input rc-input--inline">
+                      <div className="rc-input rc-input--inline">
                         <input
-                          class="rc-input__radio"
+                          className="rc-input__radio"
                           id="cat"
                           value="0"
                           checked={this.state.isCat}
@@ -1193,13 +1249,13 @@ class PetForm extends React.Component {
                           name="petType"
                           onChange={(e) => this.petTypeChange(e)}
                         />
-                        <label class="rc-input__label--inline" for="cat">
+                        <label className="rc-input__label--inline" htmlFor="cat">
                           Cat
                         </label>
                       </div>
-                      <div class="rc-input rc-input--inline">
+                      <div className="rc-input rc-input--inline">
                         <input
-                          class="rc-input__radio"
+                          className="rc-input__radio"
                           id="dog"
                           value="1"
                           checked={!this.state.isCat}
@@ -1207,7 +1263,7 @@ class PetForm extends React.Component {
                           name="petType"
                           onChange={(e) => this.petTypeChange(e)}
                         />
-                        <label class="rc-input__label--inline" for="dog">
+                        <label className="rc-input__label--inline" htmlFor="dog">
                           Dog
                         </label>
                       </div>
@@ -1224,7 +1280,7 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
-                  {/* <div className="form-group col-lg-6 pull-left">
+                    {/* <div className="form-group col-lg-6 pull-left">
                     <label
                       className="form-control-label rc-full-width"
                       htmlFor="weight"
@@ -1266,21 +1322,76 @@ class PetForm extends React.Component {
                       />
                     </div>
                   </div> */}
-                  {!this.state.isPurebred? (!this.state.isCat?(
+                    {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div className="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Mix breed">
+                        Mix breed
+                      </label>
+                    </div> */}
+                    {/* <div className="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Don't know">
+                        Don't know
+                      </label>
+                    </div> */}
+                    {/* </div> */}
                     <div className="form-group col-lg-6 pull-left required">
                       <label
                         className="form-control-label rc-full-width"
                         htmlFor="weight"
                       >
-                        <FormattedMessage id="Weight" />
+                        <FormattedMessage id="Special Need" />
                       </label>
                       <Selection
-                        optionList={this.sizeOptions}
-                        selectedItemChange={(el) => this.sizeOptionsChange(el)}
+                        optionList={this.specialNeedsOptions}
+                        selectedItemChange={(el) =>
+                          this.specialNeedsOptionsChange(el)
+                        }
                         selectedItemData={{
-                          value: selectedSizeObj.value
+                          value: selectedSpecialNeedsObj.value
+                          // value: ''
                         }}
-                        key={selectedSizeObj.value}
+                        disabled={this.state.specialNeedsDisable}
+                        key={selectedSpecialNeedsObj.value}
                         customStyleType="select-one"
                       />
                       <div
@@ -1295,402 +1406,363 @@ class PetForm extends React.Component {
                         />
                       </div>
                     </div>
-                  ): null): (
-                    <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="breed"
-                    >
-                      <FormattedMessage id="Breed" />
-                    </label>
-                    <span
-                      className="rc-input rc-input--label rc-input--full-width"
-                      input-setup="true"
-                      style={{ marginBottom: '10px' }}
-                    >
-                      <input
-                        type="text"
-                        id="dog-breed"
-                        placeholder={this.props.intl.messages.enterDogBreed}
-                        className="form-control input-pet breed"
-                        value={this.state.breed}
-                        onChange={this.inputBreed}
-                        style={{
-                          display: this.state.isCat ? 'none' : null
-                        }}
-                        disabled={
-                          this.state.isInputDisabled ? 'disabled' : null
-                        }
-                      />
-
-                      <input
-                        type="text"
-                        id="cat-breed"
-                        placeholder={this.props.intl.messages.enterCatBreed}
-                        className="form-control input-pet breed"
-                        value={this.state.breed}
-                        onChange={this.inputBreed}
-                        style={{
-                          display: !this.state.isCat ? 'none' : null
-                        }}
-                        disabled={
-                          this.state.isInputDisabled ? 'disabled' : null
-                        }
-                        onBlur={() => {
-                          this.setState({ showBreedListNoneTip: false });
-                        }}
-                      />
-
-                      <div
-                        className={`select-breed ${
-                          this.state.showBreedList ? '' : 'hidden'
-                        }`}
-                      >
-                        {this.state.breedListLoading ? (
-                          <div className="m-1">
-                            <Skeleton color="#f5f5f5" width="95%" count={2} />
+                    {!this.state.isPurebred ? (
+                      !this.state.isCat ? (
+                        <div className="form-group col-lg-6 pull-left required">
+                          <label
+                            className="form-control-label rc-full-width"
+                            htmlFor="Size"
+                          >
+                            <FormattedMessage id="Size" />
+                          </label>
+                          <Selection
+                            optionList={this.sizeOptions}
+                            selectedItemChange={(el) =>
+                              this.sizeOptionsChange(el)
+                            }
+                            selectedItemData={{
+                              value: selectedSizeObj.value
+                            }}
+                            key={selectedSizeObj.value}
+                            customStyleType="select-one"
+                          />
+                          <div
+                            className="invalid-feedback"
+                            style={{ display: 'none' }}
+                          >
+                            <FormattedMessage
+                              id="payment.errorInfo"
+                              values={{
+                                val: <FormattedMessage id="Size" />
+                              }}
+                            />
                           </div>
-                        ) : null}
-                        {this.state.breedList.map((item, i) => (
-                          <option
-                            value={item.value}
-                            key={item.id}
-                            className={`pl-2 pr-1 ui-cursor-pointer ${
-                              i !== this.state.breedList.length - 1
-                                ? 'border-bottom'
-                                : ''
-                            }`}
-                            onClick={() => this.selectedBreed(item)}
-                            style={{ whiteSpace: 'initial' }}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                      </div>
-                      <label
-                        className="rc-input__label"
-                        htmlFor="breed"
-                      ></label>
-                    </span>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="breed" />
-                        }}
-                      />
-                    </div>
-                  </div>
-                  )}
-                  {/* <div className="form-group col-lg-6 pull-left"> */}
-                    {/* <div class="rc-input rc-input--inline">
-                      {this.state.isMix ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isMix}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Mix breed">
-                        Mix breed
-                      </label>
-                    </div> */}
-                    {/* <div class="rc-input rc-input--inline">
-                      {this.state.isUnknown ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isUnknown}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Don't know">
-                        Don't know
-                      </label>
-                    </div> */}
-                    {/* </div> */}
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      htmlFor="weight"
-                    >
-                      <FormattedMessage id="Special Need" />
-                    </label>
-                    <Selection
-                      optionList={this.specialNeedsOptions}
-                      selectedItemChange={(el) =>
-                        this.specialNeedsOptionsChange(el)
-                      }
-                      selectedItemData={{
-                        value: selectedSpecialNeedsObj.value
-                        // value: ''
-                      }}
-                      disabled={this.state.specialNeedsDisable}
-                      key={selectedSpecialNeedsObj.value}
-                      customStyleType="select-one"
-                    />
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="weight" />
-                        }}
-                      />
-                    </div>
-                    
-                  </div>
-                  {/* <div className="form-group col-lg-6 pull-left"> */}
-                    {/* <div class="rc-input rc-input--inline">
-                      <input
-                        class="rc-input__checkbox"
-                        id="noSpecialNeeds"
-                        value="in necesidades especiales"
-                        type="checkbox"
-                        name="noSpecialNeeds"
-                        checked={this.state.specialNeedsDisable}
-                        onClick={(e) =>
-                          this.specialNeedsOptionsChange({
-                            name: 'Sin necesidades especiales'
-                          })
-                        }
-                      />
-                      <label
-                        class="rc-input__label--inline"
-                        for="noSpecialNeeds"
-                      >
-                        <FormattedMessage id="noSpecialNeeds" />
-                      </label>
-                    </div> */}
-                    {/* </div> */}
-                  {/* <div className="form-group col-lg-6 pull-left">
-                    <div class="rc-input rc-input--inline">
-                      {this.state.isMix ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isMix}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Mix breed"
-                          value="Mix breed"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Mix breed">
-                        Mix breed
-                      </label>
-                    </div>
-                    <div class="rc-input rc-input--inline">
-                      {this.state.isUnknown ? (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          checked={this.state.isUnknown}
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      ) : (
-                        <input
-                          class="rc-input__checkbox"
-                          id="Don't know"
-                          value="Don't know"
-                          type="checkbox"
-                          name="breed"
-                          onClick={(e) => this.breedCheckboxChange(e)}
-                        />
-                      )}
-                      <label class="rc-input__label--inline" for="Don't know">
-                        Don't know
-                      </label>
-                    </div>
-                  </div> */}
-                  {/* <div className="form-group col-lg-6 pull-left">
-                    <div class="rc-input rc-input--inline">
-                      <input
-                        class="rc-input__checkbox"
-                        id="noSpecialNeeds"
-                        value="in necesidades especiales"
-                        type="checkbox"
-                        name="noSpecialNeeds"
-                        checked={this.state.specialNeedsDisable}
-                        onClick={(e) =>
-                          this.specialNeedsOptionsChange({
-                            name: 'Sin necesidades especiales'
-                          })
-                        }
-                      />
-                      <label
-                        class="rc-input__label--inline"
-                        for="noSpecialNeeds"
-                      >
-                        <FormattedMessage id="noSpecialNeeds" />
-                      </label>
-                    </div>
-                  </div> */}
-                  <div className="form-group col-lg-6 pull-left required">
-                    <label
-                      className="form-control-label rc-full-width"
-                      // htmlFor="sterilized"
-                    >
-                      <FormattedMessage id="sterilized" />
-                    </label>
-                    <div style={{ padding: '.5rem 0' }}>
-                      <div class="rc-input rc-input--inline">
-                        <input
-                          class="rc-input__radio"
-                          id="sterilized"
-                          value="1"
-                          checked={this.state.isSterilized}
-                          type="radio"
-                          name="sterilized"
-                          onChange={(e) => this.setSterilized(true)}
-                        />
-                        <label class="rc-input__label--inline" for="sterilized">
-                          Yes
-                        </label>
-                      </div>
-                      <div class="rc-input rc-input--inline">
-                        <input
-                          class="rc-input__radio"
-                          id="noSterilized"
-                          value="0"
-                          checked={!this.state.isSterilized}
-                          type="radio"
-                          name="sterilized"
-                          onChange={(e) => this.setSterilized(false)}
-                        />
-                        <label
-                          class="rc-input__label--inline"
-                          for="noSterilized"
-                        >
-                          No
-                        </label>
-                      </div>
-                    </div>
-                    <div
-                      className="invalid-feedback"
-                      style={{ display: 'none' }}
-                    >
-                      <FormattedMessage
-                        id="payment.errorInfo"
-                        values={{
-                          val: <FormattedMessage id="sterilized" />
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="form-group col-lg-6 pull-left placehoder"
-                    style={{ height: '86px' }}
-                  ></div>
-                  <div
-                    className="form-group col-lg-6 pull-left placehoder"
-                    style={{ height: '40px' }}
-                  ></div>
-                  <div className="form-group col-lg-6 pull-left required">
-                    {isMobile ? (
-                      <p style={{ textAlign: 'center' }}>
-                        <button
-                          class="rc-btn rc-btn--one"
-                          onClick={() => this.savePet()}
-                        >
-                          Save changes
-                        </button>
-                        <br />
-                        {this.props.match.params.id && (
-                          <a
-                            class="rc-styled-link"
-                            href="#/"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              this.delPets(currentPet);
-                            }}
-                          >
-                            Delete Pet Profile
-                          </a>
-                        )}
-                      </p>
+                        </div>
+                      ) : isMobile ? null : (
+                        <div
+                          className="form-group col-lg-6 pull-left"
+                          style={{ height: '85px' }}
+                        ></div>
+                      )
                     ) : (
-                      <p style={{ textAlign: 'right' }}>
-                        {this.props.match.params.id && (
-                          <a
-                            class="rc-styled-link"
-                            href="#/"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              this.delPets(currentPet);
-                            }}
-                          >
-                            Delete Pet Profile
-                          </a>
-                        )}
-                        <button
-                          class="rc-btn rc-btn--one"
-                          style={{ marginLeft: '35px' }}
-                          onClick={() => this.savePet()}
+                      <div className="form-group col-lg-6 pull-left required">
+                        <label
+                          className="form-control-label rc-full-width"
+                          htmlFor="breed"
                         >
-                          Save changes
-                        </button>
-                      </p>
+                          <FormattedMessage id="breed" />
+                        </label>
+                        <span
+                          className="rc-input rc-input--label rc-input--full-width"
+                          input-setup="true"
+                          style={{ marginBottom: '10px' }}
+                        >
+                          <input
+                            type="text"
+                            id="dog-breed"
+                            placeholder={this.props.intl.messages.enterDogBreed}
+                            className="form-control input-pet breed"
+                            value={this.state.breed}
+                            onChange={this.inputBreed}
+                            style={{
+                              display: this.state.isCat ? 'none' : null
+                            }}
+                            disabled={
+                              this.state.isInputDisabled ? 'disabled' : null
+                            }
+                          />
+
+                          <input
+                            type="text"
+                            id="cat-breed"
+                            placeholder={this.props.intl.messages.enterCatBreed}
+                            className="form-control input-pet breed"
+                            value={this.state.breed}
+                            onChange={this.inputBreed}
+                            style={{
+                              display: !this.state.isCat ? 'none' : null
+                            }}
+                            disabled={
+                              this.state.isInputDisabled ? 'disabled' : null
+                            }
+                            onBlur={() => {
+                              this.setState({ showBreedListNoneTip: false });
+                            }}
+                          />
+
+                          <div
+                            className={`select-breed ${
+                              this.state.showBreedList ? '' : 'hidden'
+                            }`}
+                          >
+                            {this.state.breedListLoading ? (
+                              <div className="m-1">
+                                <Skeleton
+                                  color="#f5f5f5"
+                                  width="95%"
+                                  count={2}
+                                />
+                              </div>
+                            ) : null}
+                            {this.state.breedList.map((item, i) => (
+                              <option
+                                value={item.value}
+                                key={item.id}
+                                className={`pl-2 pr-1 ui-cursor-pointer ${
+                                  i !== this.state.breedList.length - 1
+                                    ? 'border-bottom'
+                                    : ''
+                                }`}
+                                onClick={() => this.selectedBreed(item)}
+                                style={{ whiteSpace: 'initial' }}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                          </div>
+                          <label
+                            className="rc-input__label"
+                            htmlFor="breed"
+                          ></label>
+                        </span>
+                        <div
+                          className="invalid-feedback"
+                          style={{ display: 'none' }}
+                        >
+                          <FormattedMessage
+                            id="payment.errorInfo"
+                            values={{
+                              val: <FormattedMessage id="breed" />
+                            }}
+                          />
+                        </div>
+                      </div>
                     )}
+                    {/* <div className="form-group col-lg-6 pull-left"> */}
+                    {/* <div className="rc-input rc-input--inline">
+                      <input
+                        className="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </div> */}
+                    {/* </div> */}
+                    {/* <div className="form-group col-lg-6 pull-left">
+                    <div className="rc-input rc-input--inline">
+                      {this.state.isMix ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isMix}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Mix breed"
+                          value="Mix breed"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Mix breed">
+                        Mix breed
+                      </label>
+                    </div>
+                    <div className="rc-input rc-input--inline">
+                      {this.state.isUnknown ? (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          checked={this.state.isUnknown}
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      ) : (
+                        <input
+                          className="rc-input__checkbox"
+                          id="Don't know"
+                          value="Don't know"
+                          type="checkbox"
+                          name="breed"
+                          onClick={(e) => this.breedCheckboxChange(e)}
+                        />
+                      )}
+                      <label className="rc-input__label--inline" htmlFor="Don't know">
+                        Don't know
+                      </label>
+                    </div>
+                  </div> */}
+                    {/* <div className="form-group col-lg-6 pull-left">
+                    <div className="rc-input rc-input--inline">
+                      <input
+                        className="rc-input__checkbox"
+                        id="noSpecialNeeds"
+                        value="in necesidades especiales"
+                        type="checkbox"
+                        name="noSpecialNeeds"
+                        checked={this.state.specialNeedsDisable}
+                        onClick={(e) =>
+                          this.specialNeedsOptionsChange({
+                            name: 'Sin necesidades especiales'
+                          })
+                        }
+                      />
+                      <label
+                        className="rc-input__label--inline"
+                        htmlFor="noSpecialNeeds"
+                      >
+                        <FormattedMessage id="noSpecialNeeds" />
+                      </label>
+                    </div>
+                  </div> */}
+                    <div className="form-group col-lg-6 pull-left required">
+                      <label
+                        className="form-control-label rc-full-width"
+                        // htmlFor="sterilized"
+                      >
+                        <FormattedMessage id="sterilized" />
+                      </label>
+                      <div style={{ padding: '.5rem 0' }}>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="sterilized"
+                            value="1"
+                            checked={this.state.isSterilized}
+                            type="radio"
+                            name="sterilized"
+                            onChange={(e) => this.setSterilized(true)}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="sterilized"
+                          >
+                            Yes
+                          </label>
+                        </div>
+                        <div className="rc-input rc-input--inline">
+                          <input
+                            className="rc-input__radio"
+                            id="noSterilized"
+                            value="0"
+                            checked={!this.state.isSterilized}
+                            type="radio"
+                            name="sterilized"
+                            onChange={(e) => this.setSterilized(false)}
+                          />
+                          <label
+                            className="rc-input__label--inline"
+                            htmlFor="noSterilized"
+                          >
+                            No
+                          </label>
+                        </div>
+                      </div>
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: 'none' }}
+                      >
+                        <FormattedMessage
+                          id="payment.errorInfo"
+                          values={{
+                            val: <FormattedMessage id="sterilized" />
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="form-group col-lg-6 pull-left placehoder"
+                      style={{ height: '86px' }}
+                    ></div>
+                    <div
+                      className="form-group col-lg-6 pull-left placehoder"
+                      style={{ height: '40px' }}
+                    ></div>
+                    <div className="form-group col-lg-6 pull-left required">
+                      {isMobile ? (
+                        <p style={{ textAlign: 'center' }}>
+                          <button
+                            className="rc-btn rc-btn--one"
+                            onClick={() => this.savePet()}
+                          >
+                            Save changes
+                          </button>
+                          <br />
+                          {this.props.match.params.id && (
+                            <a
+                              className="rc-styled-link"
+                              href="#/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.delPets(currentPet);
+                              }}
+                            >
+                              Delete Pet Profile
+                            </a>
+                          )}
+                        </p>
+                      ) : (
+                        <p style={{ textAlign: 'right' }}>
+                          {this.props.match.params.id && (
+                            <a
+                              className="rc-styled-link"
+                              href="#/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.delPets(currentPet);
+                              }}
+                            >
+                              Delete Pet Profile
+                            </a>
+                          )}
+                          <button
+                            className="rc-btn rc-btn--one"
+                            style={{ marginLeft: '35px' }}
+                            onClick={() => this.savePet()}
+                          >
+                            Save changes
+                          </button>
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  
-                </div>
                 </div>
               </div>
             </div>
             <div>
-                  {
-                    this.state.recommendData.length && this.state.isChoosePetType? (
-                      <Carousel
-                        location={this.props.location}
-                        history={this.props.history}
-                        recommendData={this.state.recommendData.length? this.state.recommendData: []}
-                      />
-                    ): null
+              {this.state.recommendData.length && this.state.isChoosePetType ? (
+                <Carousel
+                  location={this.props.location}
+                  history={this.props.history}
+                  recommendData={
+                    this.state.recommendData.length
+                      ? this.state.recommendData
+                      : []
                   }
-                  </div>
+                />
+              ) : null}
+            </div>
           </div>
         </main>
         <Footer />

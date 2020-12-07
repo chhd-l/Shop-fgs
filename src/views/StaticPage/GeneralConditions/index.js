@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 
@@ -46,7 +45,7 @@ class Help extends React.Component {
               Пользовательское соглашение
             </h2>
           </section>
-          <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  ">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  ">
             <p>
               Настоящее Пользовательское соглашение («Соглашение»)
               определяет&nbsp;

@@ -156,16 +156,6 @@ const breadcrumbNameMap = {
       href: '/product-finder'
     },
     { name: 'productFinder.resultPage' }
-  ],
-  '/cadeau-coussin-chat':[
-    {
-      name:'Nos promotions Chat'
-    }
-  ],
-  '/cat-nutrition':[
-    {
-      name:'Nutrition chats'
-    }
   ]
 };
 

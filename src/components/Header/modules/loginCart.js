@@ -15,7 +15,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('checkoutStore', 'headerCartStore')
+@inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
 class LoginCart extends React.Component {
   constructor(props) {
@@ -66,7 +66,8 @@ class LoginCart extends React.Component {
         configStore,
         checkoutStore,
         history,
-        headerCartStore
+        headerCartStore,
+        clinicStore
       } = this.props;
       this.setState({ checkoutLoading: true });
       checkoutStore.updateLoginCart();
@@ -123,11 +124,14 @@ class LoginCart extends React.Component {
       checkoutStore.setPetFlag(res.context.petFlag);
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore,
+        checkoutStore,
+        clinicStore,
         isLogin: true
       });
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+      console.log(err)
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -277,7 +281,7 @@ class LoginCart extends React.Component {
                   <span className="rc-meta">
                     <FormattedMessage
                       id="cart.totalProduct"
-                      values={{ val: cartData.length }}
+                      values={{ val: totalNum }}
                     />
                   </span>
                 </div>

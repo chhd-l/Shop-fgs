@@ -12,7 +12,6 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { Button, Header } from 'semantic-ui-react';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { findUserConsentList } from '@/api/consent';
@@ -93,7 +92,7 @@ const LoginButton = (props) => {
   const login = async () => {
     try {
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set('okta-redirectUrl', '/home');
+      sessionItemRoyal.set('okta-redirectUrl', props.history.location.pathname);
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       authService.login(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {}

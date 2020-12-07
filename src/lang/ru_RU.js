@@ -727,7 +727,10 @@ const ru_RU = {
     gender: 'Пол',
     setAsDefault: 'Установить по умолчанию',
     addANewPaymentMethod: 'Добавить новый способ оплаты',
-    mailAddress: 'Почта Адрес'
+    mailAddress: 'Почта Адрес',
+    'account.startAutoShipping': 'Пачніце аўтадастаўку',
+    'account.noSubscription': 'Вы еще не узнали о наших услугах Autoship? AutoShip - это удобный способ регулярной доставки ваших заказов. Таким образом, вы экономите время, а у вашего питомца никогда не кончится еда.',
+    'account.noSubscriptionTitle': 'Давайте начнем!',
   }
   
   export default ru_RU;

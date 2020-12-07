@@ -33,12 +33,12 @@ function QListAndPetJSX(props) {
               {props.summaryIcon}
               <FormattedMessage id="productFinder.summary" />
             </p>
-            <LazyLoad>
-            <img
-              src={{ cat: catImg, dog: dogImg }[props.type]}
-              style={{ width: '50%', margin: '0 auto' }}
-              alt=""
-            />
+            <LazyLoad style={{ height: '100%', width: '100%' }}>
+              <img
+                src={{ cat: catImg, dog: dogImg }[props.type]}
+                style={{ width: '50%', margin: '0 auto' }}
+                alt=""
+              />
             </LazyLoad>
             <ul className="rc-list rc-list--blank rc-list--align ml-2 mr-2">
               {questionlist.map((ele, i) => (
@@ -70,17 +70,17 @@ function QListAndPetJSX(props) {
           <div className="border rounded pr-2 pl-2">
             <div className="row align-items-center mt-4 mb-2 mb-md-4">
               <div className="col-12 col-md-6 mb-4 mb-md-0">
-                <LazyLoad>
-                <img
-                  src={{ cat: catImg, dog: dogImg }[props.type]}
-                  className="border"
-                  style={{
-                    borderRadius: '50%',
-                    width: '50%',
-                    margin: '0 auto'
-                  }}
-                  alt=""
-                />
+                <LazyLoad style={{ height: '100%', width: '100%' }}>
+                  <img
+                    src={{ cat: catImg, dog: dogImg }[props.type]}
+                    className="border"
+                    style={{
+                      borderRadius: '50%',
+                      width: '50%',
+                      margin: '0 auto'
+                    }}
+                    alt=""
+                  />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6 text-center text-md-left text-break">
@@ -180,6 +180,9 @@ class ProductFinderResult extends React.Component {
       const genderItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'genderCode'
       );
+      const neuteredItem = parsedQuestionlist.filter(
+        (ele) => ele.questionName === 'neutered'
+      );
       this.setState({
         productDetail: JSON.parse(res),
         questionlist: parsedQuestionlist,
@@ -193,7 +196,9 @@ class ProductFinderResult extends React.Component {
           gender: genderItem.length
             ? genderItem[0].productFinderAnswerDetailsVO.suffix
             : '',
-          sterilized: ''
+          sterilized: neuteredItem.length
+            ? neuteredItem[0].productFinderAnswerDetailsVO.suffix
+            : ''
         },
         isLoading: false
       });
@@ -291,17 +296,17 @@ class ProductFinderResult extends React.Component {
                 <div className="p-f-result-box">
                   <div className="border rounded row pt-3 pb-3">
                     <div className="col-12 col-md-6">
-                      <LazyLoad>
-                      <img
-                        src={
-                          productDetail.mainProduct.goodsImg ||
-                          productDetail.mainProduct.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg
-                        }
-                        className="p-img"
-                        alt=""
-                      />
+                      <LazyLoad style={{ height: '100%', width: '100%' }}>
+                        <img
+                          src={
+                            productDetail.mainProduct.goodsImg ||
+                            productDetail.mainProduct.goodsInfos.sort(
+                              (a, b) => a.marketPrice - b.marketPrice
+                            )[0].goodsInfoImg
+                          }
+                          className="p-img"
+                          alt=""
+                        />
                       </LazyLoad>
                     </div>
                     <div className="col-12 col-md-6 d-flex flex-column justify-content-center">
@@ -360,17 +365,17 @@ class ProductFinderResult extends React.Component {
                         style={{ flex: 1 }}
                       >
                         <div className="mb-3 p-f-product-img">
-                          <LazyLoad>
-                          <img
-                            src={
-                              ele.goodsImg ||
-                              ele.goodsInfos.sort(
-                                (a, b) => a.marketPrice - b.marketPrice
-                              )[0].goodsInfoImg
-                            }
-                            className="p-img"
-                            alt=""
-                          />
+                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                            <img
+                              src={
+                                ele.goodsImg ||
+                                ele.goodsInfos.sort(
+                                  (a, b) => a.marketPrice - b.marketPrice
+                                )[0].goodsInfoImg
+                              }
+                              className="p-img"
+                              alt=""
+                            />
                           </LazyLoad>
                         </div>
                         <div className="d-flex flex-column justify-content-center">

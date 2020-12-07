@@ -3,9 +3,9 @@ import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
+import findIndex from 'lodash/findIndex';
 
 import '../index.css';
-import { findIndex } from 'lodash';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -23,22 +23,22 @@ export default class SelectPetModal extends Component {
   componentDidMount() {
     this.getPetList();
   }
-  newPet() {
+  newPet = () => {
     this.props.addPet();
-  }
+  };
   handelSelectPet(data) {
     this.setState({
       selectedPet: data
     });
   }
-  handelClose() {
+  handelClose = () => {
     this.props.close();
-  }
-  hanldeConfirm() {
+  };
+  hanldeConfirm = () => {
     //调用创建宠物和产品的接口
     console.log('产品，宠物关联成功', this.state.selectedPet);
     this.props.confirm();
-  }
+  };
   getUserInfo() {
     let userinfo = {};
     if (localItemRoyal.get('rc-userinfo')) {
@@ -94,7 +94,7 @@ export default class SelectPetModal extends Component {
     } else {
     }
   }
-  inputBlur(e) {
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -106,15 +106,15 @@ export default class SelectPetModal extends Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
-  handleInputChange(e) {
+  };
+  handleInputChange = (e) => {
     const target = e.target;
     const value = target.value;
     this.setState({
       selectedPet: value
     });
     this.inputBlur(e);
-  }
+  };
   render() {
     const productList = this.props.productList ? this.props.productList : [];
     return (
@@ -124,14 +124,14 @@ export default class SelectPetModal extends Component {
           modalTitle={<FormattedMessage id="petInfo" />}
           confirmBtnText={<FormattedMessage id="continue" />}
           cancelBtnVisible={false}
-          close={() => this.handelClose()}
-          hanldeClickConfirm={() => this.hanldeConfirm()}
+          close={this.handelClose}
+          hanldeClickConfirm={this.hanldeConfirm}
         >
           <div>
             <div className="img-box">
               {productList.length > 0
-                ? productList.map((item) => (
-                    <div className="img-wrapper">
+                ? productList.map((item, i) => (
+                    <div className="img-wrapper" key={i}>
                       <img
                         className="rc-img--square rc-img--square-custom "
                         src={item.goodsInfoImg}
@@ -146,7 +146,7 @@ export default class SelectPetModal extends Component {
                 <div className="address-add-btn">
                   <span
                     className="red font-weight-normal ui-cursor-pointer"
-                    onClick={() => this.newPet()}
+                    onClick={this.newPet}
                   >
                     <span className="d-flex align-items-center">
                       <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
@@ -175,12 +175,12 @@ export default class SelectPetModal extends Component {
                           data-js-select=""
                           id="petType"
                           value={this.state.selectedPet}
-                          onChange={(e) => this.handleInputChange(e)}
-                          onBlur={(e) => this.inputBlur(e)}
+                          onChange={this.handleInputChange}
+                          onBlur={this.inputBlur}
                           name="petType"
                         >
-                          {this.state.pets.map((item) => (
-                            <option value={item.value}> {item.name}</option>
+                          {this.state.pets.map((item, i) => (
+                            <option key={i} value={item.value}> {item.name}</option>
                           ))}
                         </select>
                       </span>

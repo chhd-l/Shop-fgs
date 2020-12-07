@@ -202,6 +202,12 @@ class RouteFilter extends Component {
     }
     return true;
   }
+  componentWillMount() {
+    if(window.location.pathname !== '/checkout') {
+      localItemRoyal.set('rc-promotionCode', '')
+      // localItemRoyal.remove('rc-totalInfo')
+    }
+  }
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
@@ -237,6 +243,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('product-finder-edit-order');
       }
     }
+    
     sessionItemRoyal.set('prevPath', curPath);
 
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口

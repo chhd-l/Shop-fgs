@@ -8,21 +8,13 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
+import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
-import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }

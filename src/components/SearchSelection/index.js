@@ -139,7 +139,7 @@ class SearchSelection extends React.Component {
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
           />
-          {this.props.customStyle && <label class="rc-input__label" />}
+          {this.props.customStyle && <label className="rc-input__label" />}
           {this.state.optionPanelVisible && (
             <div className="clnc-overlay border mt-1 position-absolute w-100">
               <ul

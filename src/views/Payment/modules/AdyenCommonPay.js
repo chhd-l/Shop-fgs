@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
-import { PAYMENT_METHOD_RULE } from '@/utils/constant';
-import { find } from 'lodash';
+import { EMAIL_REGEXP } from '@/utils/constant';
+import find from 'lodash/find';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl
@@ -31,8 +31,7 @@ class AdyenCommonPay extends Component {
   }
   //是否填写邮箱正确
   isTestMail() {
-    const emailRule = find(PAYMENT_METHOD_RULE, (ele) => ele.key === 'email');
-    if (emailRule && !emailRule.regExp.test(this.state.text)) {
+    if (!EMAIL_REGEXP.test(this.state.text)) {
       throw new Error(emailRule.errMsg);
     }
   }
@@ -102,103 +101,99 @@ class AdyenCommonPay extends Component {
     const { isEdit } = this.state;
     return (
       <>
-        <div className="checkout--padding ml-custom mr-custom pt-2 pb-2">
-          <div className="customer-form">
-            <div className="address">
-              {isEdit ? (
-                <>
-                  <form
-                    className="address-form"
-                    action="/destination"
-                    method="get"
-                  >
-                    <div className="address-line" id="addressLine2">
-                      <div
-                        className="address-input full-width"
-                        id="street"
-                        style={{ marginBottom: '18px' }}
-                      >
-                        <label className="address-label" for="street">
-                          <FormattedMessage id="email" />
-                          <span className="red">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Email"
-                          name="street"
-                          value={this.state.text}
-                          onChange={this.handleChange}
-                        />
-                      </div>
+        <div className="customer-form">
+          <div className="address">
+            {isEdit ? (
+              <>
+                <form
+                  className="address-form"
+                  action="/destination"
+                  method="get"
+                >
+                  <div className="address-line" id="addressLine2">
+                    <div
+                      className="address-input full-width"
+                      id="street"
+                      style={{ marginBottom: '18px' }}
+                    >
+                      <label className="address-label" htmlFor="street">
+                        <FormattedMessage id="email" />
+                        <span className="red">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Email"
+                        name="street"
+                        value={this.state.text}
+                        onChange={this.handleChange}
+                      />
                     </div>
-                  </form>
-                  <div className="overflow-hidden mb-1">
-                    <div className="text-right">
-                      {this.props.showCancelBtn && (
-                        <>
-                          <a
-                            className="rc-styled-link editPersonalInfoBtn"
-                            name="contactInformation"
-                            onClick={() => {
-                              this.props.updateFormVisible(false);
-                            }}
-                          >
-                            <FormattedMessage id="cancel" />
-                          </a>{' '}
-                          <FormattedMessage id="or" />{' '}
-                        </>
-                      )}
+                  </div>
+                </form>
+                <div className="overflow-hidden mb-1">
+                  <div className="text-right">
+                    {this.props.showCancelBtn && (
+                      <>
+                        <a
+                          className="rc-styled-link editPersonalInfoBtn"
+                          name="contactInformation"
+                          onClick={() => {
+                            this.props.updateFormVisible(false);
+                          }}
+                        >
+                          <FormattedMessage id="cancel" />
+                        </a>{' '}
+                        <FormattedMessage id="or" />{' '}
+                      </>
+                    )}
 
-                      <button
-                        className={`rc-btn rc-btn--one submitBtn editAddress ${
-                          this.state.saveLoading ? 'ui-btn-loading' : ''
-                        }`}
-                        data-sav="false"
-                        name="contactInformation"
-                        type="submit"
-                        disabled={!this.state.isValid}
-                        onClick={this.handleClickConfirm}
-                      >
-                        <FormattedMessage id="save" />
-                      </button>
-                    </div>
+                    <button
+                      className={`rc-btn rc-btn--one submitBtn editAddress ${
+                        this.state.saveLoading ? 'ui-btn-loading' : ''
+                      }`}
+                      data-sav="false"
+                      name="contactInformation"
+                      type="submit"
+                      disabled={!this.state.isValid}
+                      onClick={this.handleClickConfirm}
+                    >
+                      <FormattedMessage id="save" />
+                    </button>
                   </div>
-                </>
-              ) : (
-                <div className="d-flex justify-content-between align-items-start">
-                  <div>
-                    <label className="address-label">
-                      <FormattedMessage id="email" />
-                      <span className="red">*</span>
-                    </label>
-                    <br />
-                    {this.state.text}
-                  </div>
-                  <span
-                    className="rc-styled-link"
-                    onClick={(e) => {
-                      this.setState({ isEdit: true });
-                    }}
-                  >
-                    <FormattedMessage id="edit" />
-                  </span>
                 </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <div className="d-flex justify-content-between align-items-start">
+                <div>
+                  <label className="address-label">
+                    <FormattedMessage id="email" />
+                    <span className="red">*</span>
+                  </label>
+                  <br />
+                  {this.state.text}
+                </div>
+                <span
+                  className="rc-styled-link"
+                  onClick={(e) => {
+                    this.setState({ isEdit: true });
+                  }}
+                >
+                  <FormattedMessage id="edit" />
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {!this.props.isOnepageCheckout && (
           <>
             {/* <div className="pb-3" /> */}
-            <div className="ml-custom mr-custom">
-              <TermsCommon
-                id={this.props.type}
-                listData={this.props.listData}
-                checkRequiredItem={this.checkRequiredItem}
-              />
-            </div>
+            <TermsCommon
+              id={this.props.type}
+              listData={this.props.listData}
+              checkRequiredItem={this.checkRequiredItem}
+            />
             <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
               <div className="next-step-button">
                 <div className="rc-text--right">

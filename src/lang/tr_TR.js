@@ -702,7 +702,10 @@ const tr_TR = {
   gender: 'Cinsiyet',
   setAsDefault: 'Varsayılan olarak ayarla',
   addANewPaymentMethod: 'Yeni bir ödeme yöntemi ekleyin',
-  mailAddress: 'Posta adresi'
+  mailAddress: 'Posta adresi',
+  'account.startAutoShipping': 'Otomatik Gönderimi Başlat',
+  'account.noSubscription': 'Autoship hizmetlerimizi henüz keşfetmediniz mi? AutoShip, siparişlerinizi düzenli bir programa göre teslim etmenin uygun bir yoludur. Böylece zamandan tasarruf edersiniz ve evcil hayvanınızın yiyeceği asla bitmez.',
+  'account.noSubscriptionTitle': 'Başlayalım!',
 }
 
 export default tr_TR;

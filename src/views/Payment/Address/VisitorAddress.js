@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
@@ -20,13 +20,15 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isOnepageCheckout: false,
-    updateSameAsCheckBoxVal: () => {}
+    updateSameAsCheckBoxVal: () => {},
+    initData: null,
+    titleVisible: true
   };
   constructor(props) {
     super(props);
     this.state = {
       isValid: false,
-      form: null,
+      form: this.props.initData,
       countryList: [],
       billingChecked: true
     };
@@ -163,11 +165,13 @@ class VisitorAddress extends React.Component {
     );
     return (
       <>
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
-          {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
-          {this.panelStatus.isEdit && this._titleJSXForEdit()}
-          {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
-        </div>
+        {this.props.titleVisible && (
+          <div className="bg-transparent d-flex justify-content-between align-items-center">
+            {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
+            {this.panelStatus.isEdit && this._titleJSXForEdit()}
+            {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
+          </div>
+        )}
 
         {isOnepageCheckout && !this.panelStatus.isPrepare ? (
           <>
@@ -205,13 +209,13 @@ class VisitorAddress extends React.Component {
                 {form.rfc}
               </div>
             )}
-            {_sameAsCheckbox}
+            {/* {_sameAsCheckbox} */}
           </>
         ) : null}
         {!isOnepageCheckout && (
           <>
             {_editForm}
-            {_sameAsCheckbox}
+            {/* {_sameAsCheckbox} */}
           </>
         )}
       </>

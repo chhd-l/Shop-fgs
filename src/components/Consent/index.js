@@ -31,7 +31,7 @@ class Consent extends Component {
     return (
       <div
         className={`required-component ${autoClass}`}
-        style={{ width: `${width}px` }}
+        style={{ width: `${width}` }}
       >
         {list.map((item, index) => {
           return (
@@ -55,7 +55,7 @@ class Consent extends Component {
                 }}
                 checked={item.isChecked}
               />
-              <label htmlFor={`id-checkbox-cat-${id}-${item.id}`}>
+              <label htmlFor={`id-checkbox-cat-${id}-${item.id}`} style={{width: '100%'}}>
                 <div className="d-flex flex-column" style={{ zoom: fontZoom }}>
                   <div className="footer-checkbox" key={index}>
                     <div className="d-flex">
@@ -70,7 +70,6 @@ class Consent extends Component {
                             ? 'footer-checkbox-title mt'
                             : 'footer-checkbox-title'
                         }
-                        style={{ width: `${width}px` }}
                         dangerouslySetInnerHTML={createMarkup(
                           item.consentTitle
                         )}
@@ -82,7 +81,7 @@ class Consent extends Component {
                     style={{ marginLeft: `${checkboxPadding}` }}
                     dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
                   />
-                  {item.isRequired && !item.isChecked && (
+                  {/* {item.isRequired && !item.isChecked && (
                     <div className="d-flex">
                       <div>
                         <p style={{ width: '20px' }} />
@@ -91,10 +90,10 @@ class Consent extends Component {
                         className="red"
                         style={{ fontSize: '.9em', fontStyle: 'normal' }}
                       >
-                        {/* <FormattedMessage id="requiredConsentCheckedTip" /> */}
+                        <FormattedMessage id="requiredConsentCheckedTip" />
                       </em>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </label>
             </div>

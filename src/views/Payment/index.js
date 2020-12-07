@@ -1,6 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { findIndex, find } from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
@@ -17,11 +18,10 @@ import Loading from '@/components/Loading';
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
 import SubscriptionSelect from './SubscriptionSelect';
-import ClinicForm from './modules/ClinicForm';
 import PetModal from './PetModal';
-import OnePageClinicForm from './OnePage/ClinicForm';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
+import SameAsCheckbox from './Address/SameAsCheckbox';
 import { searchNextConfirmPanel } from './modules/utils';
 import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
@@ -43,6 +43,11 @@ import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
+
+import EmailForm from './modules/EmailForm';
+import ClinicForm from './modules/ClinicForm';
+import OnePageEmailForm from './OnePage/EmailForm';
+import OnePageClinicForm from './OnePage/ClinicForm';
 
 import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
@@ -67,7 +72,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      promotionCode: '',
+      promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       deliveryAddress: {
         firstName: '',
@@ -128,13 +133,18 @@ class Payment extends React.Component {
       requiredList: [],
       AuditData: [],
       needPrescriber: false,
-      unLoginBackPets: []
+      unLoginBackPets: [],
+      guestEmail: ''
     };
     this.timer = null;
   }
   async componentDidMount() {
+    const { checkoutStore, paymentStore, clinicStore } = this.props;
     setSeoConfig();
     if (this.isLogin) {
+      // 登录情况下，删除email panel
+      paymentStore.removeEmailFromPanelItems();
+
       if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
         this.setState({
           subForm: {
@@ -142,16 +152,6 @@ class Payment extends React.Component {
             frequencyName: '',
             frequencyId: ''
           }
-        });
-      }
-      if (this.props.checkoutStore.autoAuditFlag) {
-        this.setState({
-          needPrescriber:
-            this.loginCartData.filter((el) => el.prescriberFlag).length > 0
-        });
-      } else {
-        this.setState({
-          needPrescriber: this.props.checkoutStore.AuditData.length > 0
         });
       }
     } else {
@@ -164,17 +164,32 @@ class Payment extends React.Component {
           }
         });
       }
-      if (this.props.checkoutStore.autoAuditFlag) {
-        this.setState({
-          needPrescriber:
-            this.cartData.filter((el) => el.prescriberFlag).length > 0
-        });
-      } else {
-        this.setState({
-          needPrescriber: this.props.checkoutStore.AuditData.length > 0
-        });
-      }
     }
+    this.setState(
+      {
+        needPrescriber: checkoutStore.autoAuditFlag
+          ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+              (el) => el.prescriberFlag
+            ).length > 0
+          : checkoutStore.AuditData.length > 0
+      },
+      () => {
+        const nextConfirmPanel = searchNextConfirmPanel({
+          list: toJS(paymentStore.panelStatus),
+          curKey: 'clinic'
+        });
+
+        // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
+        if (!this.checkoutWithClinic || clinicStore.clinicName) {
+          paymentStore.setStsToCompleted({ key: 'clinic' });
+          paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+        } else {
+          // 把clinic置为edit状态
+          paymentStore.setStsToEdit({ key: 'clinic' });
+          paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+        }
+      }
+    );
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -240,8 +255,8 @@ class Payment extends React.Component {
         deliveryAddress.country = defaultCountryId;
         billingAddress.country = defaultCountryId;
         this.setState({
-          deliveryAddress: deliveryAddress,
-          billingAddress: billingAddress
+          deliveryAddress,
+          billingAddress
         });
       }
     }
@@ -253,17 +268,6 @@ class Payment extends React.Component {
       this.setState({
         subForm: cacheSubForm
       });
-    }
-    if (!this.checkoutWithClinic) {
-      const { paymentStore } = this.props;
-      // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: 'clinic'
-      });
-
-      paymentStore.setStsToCompleted({ key: 'clinic' });
-      paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
   }
   componentWillUnmount() {
@@ -507,17 +511,10 @@ class Payment extends React.Component {
     return this.props.checkoutStore.tradePrice;
   }
   get checkoutWithClinic() {
-    if (this.isLogin) {
-      return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-        this.state.needPrescriber
-      );
-    } else {
-      return (
-        process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-        this.state.needPrescriber
-      );
-    }
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      this.state.needPrescriber
+    );
   }
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
@@ -992,7 +989,9 @@ class Payment extends React.Component {
             rePaySubscribeId: err.errorData.subscribeId
           },
           () => {
-            this.state.tidList.length && this.queryOrderDetails();
+            this.state.tidList &&
+              this.state.tidList.length &&
+              this.queryOrderDetails();
           }
         );
       }
@@ -1077,12 +1076,16 @@ class Payment extends React.Component {
   packagePayParam() {
     const loginCartData = this.loginCartData;
     const cartData = this.cartData.filter((ele) => ele.selected);
+    const { clinicStore } = this.props;
     let {
       deliveryAddress,
       billingAddress,
       creditCardInfo,
       subForm,
-      payosdata
+      payosdata,
+      needPrescriber,
+      guestEmail,
+      promotionCode
     } = this.state;
     let param = {
       firstName: deliveryAddress.firstName,
@@ -1096,8 +1099,8 @@ class Payment extends React.Component {
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
       line2: deliveryAddress.address2,
-      recommendationId: this.props.clinicStore.linkClinicId,
-      recommendationName: this.props.clinicStore.linkClinicName,
+      recommendationId: clinicStore.linkClinicId,
+      recommendationName: clinicStore.linkClinicName,
       storeId: process.env.REACT_APP_STOREID,
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
@@ -1108,19 +1111,14 @@ class Payment extends React.Component {
       petsId: '1231',
       deliveryAddressId: deliveryAddress.addressId,
       billAddressId: billingAddress.addressId,
-      promotionCode: this.state.promotionCode
+      promotionCode,
+      guestEmail
     };
-    if (this.state.needPrescriber) {
-      param.clinicsId = this.props.clinicStore.selectClinicId;
-      param.clinicsName = this.props.clinicStore.selectClinicName;
+    if (needPrescriber) {
+      param.clinicsId = clinicStore.selectClinicId;
+      param.clinicsName = clinicStore.selectClinicName;
     }
 
-    // if (!this.checkoutWithClinic) {
-    //   param = Object.assign(param, {
-    //     clinicsId: 'FG20200914',
-    //     clinicsName: 'France Default'
-    //   });
-    // }
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
@@ -1244,6 +1242,7 @@ class Payment extends React.Component {
    */
   async saveAddressAndCommentPromise() {
     try {
+      const { configStore, clinicStore } = this.props;
       const { deliveryAddress, billingAddress, billingChecked } = this.state;
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
@@ -1292,18 +1291,15 @@ class Payment extends React.Component {
         billingChecked,
         deliveryAddress: tmpDeliveryAddress
       };
-
-      if (billingChecked) {
-        param.billingAddress = tmpDeliveryAddress;
-      } else {
-        param.billingAddress = tmpBillingAddress;
-      }
+      param.billingAddress = billingChecked
+        ? tmpDeliveryAddress
+        : tmpBillingAddress;
 
       // 未开启地图，需校验clinic
       if (
         this.checkoutWithClinic &&
-        !this.props.configStore.prescriberMap &&
-        (!this.props.clinicStore.clinicId || !this.props.clinicStore.clinicName)
+        !configStore.prescriberMap &&
+        (!clinicStore.clinicId || !clinicStore.clinicName)
       ) {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
@@ -1330,10 +1326,21 @@ class Payment extends React.Component {
   endLoading = () => {
     this.setState({ loading: false });
   };
-  // 验证地址信息/最低额度/超库存商品等
+  // 验证邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
+    const { guestEmail } = this.state;
     try {
       if (!this.state.tid) {
+        if (!this.isLogin && !guestEmail) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'EnterCorrectValue' },
+              {
+                val: this.props.intl.formatMessage({ id: 'email' })
+              }
+            )
+          );
+        }
         await this.saveAddressAndCommentPromise();
 
         // 价格未达到底限，不能下单
@@ -1372,16 +1379,20 @@ class Payment extends React.Component {
     }
   }
 
-  savePromotionCode(promotionCode) {
+  savePromotionCode = (promotionCode) => {
     this.setState({
       promotionCode
     });
-  }
+  };
   handlePaymentTypeChange(e) {
     this.setState({ paymentTypeVal: e.target.value });
   }
 
   updateSameAsCheckBoxVal = (val) => {
+    // 切换时，需更改 billing module的isPrepared = false, isEdit = true
+    if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
+      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
+    }
     this.setState({ billingChecked: val });
     if (val) {
       this.setState({
@@ -1393,8 +1404,9 @@ class Payment extends React.Component {
   /**
    * 渲染address panel
    */
-  _renderAddressPanel = () => {
-    const { deliveryAddress, billingAddress } = this.state;
+  renderAddressPanel = () => {
+    const { paymentStore } = this.props;
+    const { deliveryAddress } = this.state;
     return (
       <>
         <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
@@ -1403,7 +1415,7 @@ class Payment extends React.Component {
               id="1"
               isOnepageCheckout={this.isOnepageCheckout}
               updateData={(data) => {
-                this.props.paymentStore.updateSelectedDeliveryAddress(data);
+                paymentStore.updateSelectedDeliveryAddress(data);
                 this.setState({ deliveryAddress: data });
               }}
               updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
@@ -1413,9 +1425,9 @@ class Payment extends React.Component {
               key={1}
               type="delivery"
               isOnepageCheckout={this.isOnepageCheckout}
-              data={deliveryAddress}
+              initData={deliveryAddress}
               updateData={(data) => {
-                this.props.paymentStore.updateSelectedDeliveryAddress(data);
+                paymentStore.updateSelectedDeliveryAddress(data);
                 this.setState({
                   deliveryAddress: data
                 });
@@ -1424,45 +1436,6 @@ class Payment extends React.Component {
             />
           )}
         </div>
-        {!this.state.billingChecked && (
-          <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-            {this.isLogin ? (
-              <AddressList
-                id="2"
-                type="billing"
-                isOnepageCheckout={this.isOnepageCheckout}
-                visible={!this.state.billingChecked}
-                updateData={(data) => {
-                  this.props.paymentStore.updateSelectedBillingAddress(data);
-                  this.setState({ billingAddress: data });
-                }}
-              >
-                <div
-                  className="card-header bg-transparent position-relative pt-0 pb-0"
-                  style={{ zIndex: 2, width: '62%' }}
-                >
-                  <h5>
-                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                    <FormattedMessage id="payment.billTitle" />
-                  </h5>
-                </div>
-              </AddressList>
-            ) : (
-              <VisitorAddress
-                key={2}
-                type="billing"
-                isOnepageCheckout={this.isOnepageCheckout}
-                data={billingAddress}
-                updateData={(data) => {
-                  this.props.paymentStore.updateSelectedBillingAddress(data);
-                  this.setState({
-                    billingAddress: data
-                  });
-                }}
-              />
-            )}
-          </div>
-        )}
       </>
     );
   };
@@ -1470,7 +1443,7 @@ class Payment extends React.Component {
   /**
    * 渲染订阅/一次购买模式选择
    */
-  _renderSubSelect = () => {
+  renderSubSelect = () => {
     return this.isLogin &&
       find(
         this.state.recommend_data.length
@@ -1563,25 +1536,105 @@ class Payment extends React.Component {
     ) : null;
   };
 
+  renderBillingJSX = () => {
+    const {
+      billingChecked,
+      billingAddress,
+      deliveryAddress,
+      countryList
+    } = this.state;
+    return (
+      <>
+        <SameAsCheckbox
+          updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+        />
+        {billingChecked ? (
+          deliveryAddress.firstName ? (
+            <div className="ml-custom mr-custom">
+              <span className="medium">
+                {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
+              </span>
+              <br />
+              {[deliveryAddress.postCode, deliveryAddress.phoneNumber].join(
+                ', '
+              )}
+              <br />
+              {this.matchNamefromDict(
+                countryList,
+                deliveryAddress.country
+              )}{' '}
+              {deliveryAddress.cityName}
+              <br />
+              {deliveryAddress.address1}
+              <br />
+              {deliveryAddress.address2}
+              {deliveryAddress.address2 ? <br /> : null}
+              {deliveryAddress.rfc}
+            </div>
+          ) : null
+        ) : (
+          <div className="card-panel rc-bg-colour--brand3 rounded mb-3">
+            {this.isLogin ? (
+              <AddressList
+                id="2"
+                type="billing"
+                isOnepageCheckout={this.isOnepageCheckout}
+                visible={!billingChecked}
+                updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
+                  this.setState({ billingAddress: data });
+                }}
+              >
+                <div
+                  className="card-header bg-transparent position-relative pt-0 pb-0"
+                  style={{ zIndex: 2, width: '62%' }}
+                >
+                  <h5>
+                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
+                    <FormattedMessage id="payment.billTitle" />
+                  </h5>
+                </div>
+              </AddressList>
+            ) : (
+              <VisitorAddress
+                key={2}
+                titleVisible={false}
+                type="billing"
+                isOnepageCheckout={this.isOnepageCheckout}
+                initData={billingAddress}
+                updateData={(data) => {
+                  this.props.paymentStore.updateSelectedBillingAddress(data);
+                  this.setState({
+                    billingAddress: data
+                  });
+                }}
+              />
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
+
   /**
    * 渲染支付方式
    */
-  _renderPayTab = () => {
+  renderPayTab = () => {
     const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
-        className={`${
+        className={`pb-3 ${
           !this.isOnepageCheckout || !this.paymentMethodPanelStatus.isPrepare
             ? ''
             : 'hidden'
         }`}
       >
         {/* *******************支付tab栏start************************************ */}
-        <div className={`ml-custom mr-custom `}>
-          {Object.entries(payWayObj).map((item) => {
+        <div className={`ml-custom mr-custom`}>
+          {Object.entries(payWayObj).map((item, i) => {
             return (
-              <div className="rc-input rc-input--inline">
+              <div className="rc-input rc-input--inline" key={i}>
                 <input
                   className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
@@ -1594,7 +1647,7 @@ class Payment extends React.Component {
                 />
                 <label
                   className="rc-input__label--inline"
-                  for={`payment-info-${item[1].id}`}
+                  htmlFor={`payment-info-${item[1].id}`}
                 >
                   <FormattedMessage id={item[1].id} />
                 </label>
@@ -1604,116 +1657,132 @@ class Payment extends React.Component {
         </div>
         {/* ********************支付tab栏end********************************** */}
 
-        {/* ***********************支付选项卡的内容start******************************* */}
-        {/* oxxo */}
-        <div
-          className={`${this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}
-        >
-          <OxxoConfirm
-            type={'oxxo'}
-            listData={listData}
-            history={this.props.history}
-            startLoading={this.startLoading}
-            endLoading={this.endLoading}
-            clickPay={this.initCommonPay}
-          />
+        <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
+          {/* ***********************支付选项卡的内容start******************************* */}
+          {/* oxxo */}
+          <div
+            className={`${
+              this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'
+            }`}
+          >
+            <OxxoConfirm
+              type={'oxxo'}
+              listData={listData}
+              history={this.props.history}
+              startLoading={this.startLoading}
+              endLoading={this.endLoading}
+              clickPay={this.initCommonPay}
+            />
+          </div>
+          {/* payu creditCard */}
+          <div
+            className={`${paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'}`}
+          >
+            <PayUCreditCard
+              type={'PayUCreditCard'}
+              isLogin={this.isLogin}
+              isOnePageCheckout={this.isOnepageCheckout}
+              paymentTypeVal={paymentTypeVal}
+              listData={listData}
+              startLoading={this.startLoading}
+              endLoading={this.endLoading}
+              showErrorMsg={this.showErrorMsg}
+              clickPay={this.initCommonPay}
+              onVisitorPayosDataConfirm={(data) => {
+                this.setState({ payosdata: data });
+              }}
+              onVisitorCardInfoChange={(data) => {
+                this.setState({ creditCardInfo: data });
+              }}
+              onPaymentCompDataChange={(data) => {
+                this.setState({ selectedCardInfo: data });
+              }}
+              isApplyCvv={false}
+              needReConfirmCVV={true}
+              billingJSX={this.renderBillingJSX()}
+              selectedDeliveryAddress={this.selectedDeliveryAddress}
+            />
+          </div>
+          {/* adyenCreditCard */}
+          <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
+            <AdyenCreditCard
+              subBuyWay={subForm.buyWay}
+              listData={listData}
+              checkRequiredItem={this.checkRequiredItem}
+              clickPay={this.initCommonPay}
+              showErrorMsg={this.showErrorMsg}
+              updateAdyenPayParam={(data) => {
+                this.setState({ adyenPayParam: data });
+              }}
+              isOnepageCheckout={this.isOnepageCheckout}
+            />
+          </div>
+          {/* KlarnaPayLater */}
+          <div
+            className={`${
+              paymentTypeVal === 'adyenKlarnaPayLater' ? '' : 'hidden'
+            }`}
+          >
+            <AdyenCommonPay
+              type={'adyenKlarnaPayLater'}
+              isOnepageCheckout={this.isOnepageCheckout}
+              listData={listData}
+              clickPay={this.initCommonPay}
+              showErrorMsg={this.showErrorMsg}
+              updateEmail={(email) => {
+                this.setState({ email });
+              }}
+            />
+          </div>
+          {/* KlarnaPayNow  */}
+          <div
+            className={`${
+              paymentTypeVal === 'adyenKlarnaPayNow' ? '' : 'hidden'
+            }`}
+          >
+            <AdyenCommonPay
+              type={'adyenKlarnaPayNow'}
+              isOnepageCheckout={this.isOnepageCheckout}
+              listData={listData}
+              clickPay={this.initCommonPay}
+              showErrorMsg={this.showErrorMsg}
+              updateEmail={(email) => {
+                this.setState({ email });
+              }}
+            />
+          </div>
+          {/* Sofort */}
+          <div
+            className={`${paymentTypeVal === 'directEbanking' ? '' : 'hidden'}`}
+          >
+            <AdyenCommonPay
+              isOnepageCheckout={this.isOnepageCheckout}
+              type={'directEbanking'}
+              listData={listData}
+              clickPay={this.initCommonPay}
+              showErrorMsg={this.showErrorMsg}
+              updateEmail={(email) => {
+                this.setState({ email });
+              }}
+            />
+          </div>
+
+          {/* ***********************支付选项卡的内容end******************************* */}
+
+          {/* billing address */}
+          {this.isOnepageCheckout && this.renderBillingJSX()}
         </div>
-        {/* payu creditCard */}
-        <div
-          className={`${paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'}`}
-        >
-          <PayUCreditCard
-            type={'PayUCreditCard'}
-            isOnePageCheckout={this.isOnepageCheckout}
-            paymentTypeVal={paymentTypeVal}
-            listData={listData}
-            startLoading={this.startLoading}
-            endLoading={this.endLoading}
-            showErrorMsg={this.showErrorMsg}
-            clickPay={this.initCommonPay}
-            onVisitorPayosDataConfirm={(data) => {
-              this.setState({ payosdata: data });
-            }}
-            onVisitorCardInfoChange={(data) => {
-              this.setState({ creditCardInfo: data });
-            }}
-            onPaymentCompDataChange={(data) => {
-              this.setState({ selectedCardInfo: data });
-            }}
-            isApplyCvv={false}
-            needReConfirmCVV={true}
-            selectedDeliveryAddress={this.selectedDeliveryAddress}
-          />
-        </div>
-        {/* adyenCreditCard */}
-        <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
-          <AdyenCreditCard
-            subBuyWay={subForm.buyWay}
-            listData={listData}
-            checkRequiredItem={this.checkRequiredItem}
-            clickPay={this.initCommonPay}
-            showErrorMsg={this.showErrorMsg}
-            updateAdyenPayParam={(data) => {
-              this.setState({ adyenPayParam: data });
-            }}
-            isOnepageCheckout={this.isOnepageCheckout}
-          />
-        </div>
-        {/* KlarnaPayLater */}
-        <div
-          className={`${
-            paymentTypeVal === 'adyenKlarnaPayLater' ? '' : 'hidden'
-          }`}
-        >
-          <AdyenCommonPay
-            type={'adyenKlarnaPayLater'}
-            isOnepageCheckout={this.isOnepageCheckout}
-            listData={listData}
-            clickPay={this.initCommonPay}
-            showErrorMsg={this.showErrorMsg}
-            updateEmail={(email) => {
-              this.setState({ email });
-            }}
-          />
-        </div>
-        {/* KlarnaPayNow  */}
-        <div
-          className={`${
-            paymentTypeVal === 'adyenKlarnaPayNow' ? '' : 'hidden'
-          }`}
-        >
-          <AdyenCommonPay
-            type={'adyenKlarnaPayNow'}
-            isOnepageCheckout={this.isOnepageCheckout}
-            listData={listData}
-            clickPay={this.initCommonPay}
-            showErrorMsg={this.showErrorMsg}
-            updateEmail={(email) => {
-              this.setState({ email });
-            }}
-          />
-        </div>
-        {/* Sofort */}
-        <div
-          className={`${paymentTypeVal === 'directEbanking' ? '' : 'hidden'}`}
-        >
-          <AdyenCommonPay
-            isOnepageCheckout={this.isOnepageCheckout}
-            type={'directEbanking'}
-            listData={listData}
-            clickPay={this.initCommonPay}
-            showErrorMsg={this.showErrorMsg}
-            updateEmail={(email) => {
-              this.setState({ email });
-            }}
-          />
-        </div>
-        {/* ***********************支付选项卡的内容end******************************* */}
       </div>
     );
   };
 
-  closePetModal() {
+  matchNamefromDict = (dictList, id) => {
+    return find(dictList, (ele) => ele.id === id)
+      ? find(dictList, (ele) => ele.id === id).name
+      : id;
+  };
+
+  closePetModal = () => {
     if (this.state.isAdd === 2) {
       this.setState({
         isAdd: 0
@@ -1722,8 +1791,8 @@ class Payment extends React.Component {
     this.setState({
       petModalVisible: false
     });
-  }
-  petComfirm(data) {
+  };
+  petComfirm = (data) => {
     if (!this.isLogin) {
       this.props.checkoutStore.AuditData[
         this.state.currentProIndex
@@ -1764,24 +1833,27 @@ class Payment extends React.Component {
       }
     }
     this.closePetModal();
-  }
-  openNew() {
+  };
+  openNew = () => {
     this.setState({
       isAdd: 1
     });
     this.openPetModal();
-  }
-  closeNew() {
+  };
+  closeNew = () => {
     this.setState({
       isAdd: 2
     });
     this.openPetModal();
-  }
-  openPetModal() {
+  };
+  openPetModal = () => {
     this.setState({
       petModalVisible: true
     });
-  }
+  };
+  updateGuestEmail = ({ email: guestEmail }) => {
+    this.setState({ guestEmail });
+  };
   render() {
     const event = {
       page: {
@@ -1789,9 +1861,25 @@ class Payment extends React.Component {
         theme: ''
       }
     };
-    const { paymentTypeVal } = this.state;
+    const { history, location, checkoutStore } = this.props;
+    const {
+      loading,
+      errorMsg,
+      tid,
+      orderDetails,
+      payWayObj,
+      listData,
+      recommend_data,
+      subForm,
+      promotionCode,
+      petModalVisible,
+      isAdd
+    } = this.state;
+
     console.log(
       toJS(this.props.checkoutStore.AuditData),
+      this.checkoutWithClinic,
+      this.isOnepageCheckout,
       'this.props.checkoutStore.AuditData'
     );
     return (
@@ -1803,7 +1891,7 @@ class Payment extends React.Component {
           showUserIcon={true}
           match={this.props.match}
         />
-        {this.state.loading ? <Loading /> : null}
+        {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
           <BannerTip />
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
@@ -1813,165 +1901,175 @@ class Payment extends React.Component {
                 {/* 错误提示 */}
                 <div
                   className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    this.state.errorMsg ? '' : 'hidden'
+                    errorMsg ? '' : 'hidden'
                   }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
                     role="alert"
                   >
-                    {this.state.errorMsg}
+                    {errorMsg}
                   </aside>
                 </div>
-                {this.state.tid ? (
-                  <AddressPreview details={this.state.orderDetails} />
+                {tid ? (
+                  <AddressPreview details={orderDetails} />
                 ) : (
                   <>
                     <div className="shipping-form">
                       <div className="bg-transparent">
                         {this.checkoutWithClinic ? (
                           this.isOnepageCheckout ? (
-                            <OnePageClinicForm history={this.props.history} />
+                            <OnePageClinicForm history={history} />
                           ) : (
-                            <ClinicForm history={this.props.history} />
+                            <ClinicForm history={history} />
                           )
                         ) : null}
-                        {this._renderAddressPanel()}
+                        {!this.isLogin ? (
+                          this.isOnepageCheckout ? (
+                            <OnePageEmailForm
+                              history={history}
+                              onChange={this.updateGuestEmail}
+                            />
+                          ) : (
+                            <EmailForm
+                              history={history}
+                              onChange={this.updateGuestEmail}
+                            />
+                          )
+                        ) : null}
+
+                        {this.renderAddressPanel()}
                       </div>
                     </div>
-                    {/* {this._renderSubSelect()} */}
+                    {/* {this.renderSubSelect()} */}
                   </>
                 )}
-                {this.props.checkoutStore.petFlag &&
-                  this.props.checkoutStore.AuditData.length > 0 && (
-                    <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
-                      <h5
-                        className="ml-custom mr-custom"
-                        style={{ overflow: 'hidden' }}
-                      >
-                        <i
-                          className="rc-icon rc-payment--sm rc-iconography"
-                          style={{ transform: 'scale(.9)' }}
-                        ></i>{' '}
-                        <FormattedMessage id="Pet information" />
-                        <p>
-                          We need your pet information to authorize these items.
-                        </p>
-                        {this.isLogin
-                          ? this.props.checkoutStore.AuditData.map((el, i) => {
-                              return (
-                                <div className="petProduct">
-                                  <LazyLoad>
+                {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
+                  <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
+                    <h5
+                      className="ml-custom mr-custom"
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <i
+                        className="rc-icon rc-payment--sm rc-iconography"
+                        style={{ transform: 'scale(.9)' }}
+                      />{' '}
+                      <FormattedMessage id="Pet information" />
+                      <p>
+                        We need your pet information to authorize these items.
+                      </p>
+                      {this.isLogin
+                        ? checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct">
+                                <LazyLoad>
                                   <img
+                                    className="pull-left"
                                     alt=""
                                     src={el.goodsInfoImg}
-                                    style={{ float: 'left' }}
                                   />
-                                  </LazyLoad>
-                                  <div
-                                    style={{
-                                      float: 'left',
-                                      marginTop: '20px',
-                                      marginLeft: '20px'
-                                    }}
-                                  >
-                                    <p>
-                                      <span>Pet:</span>
-                                      <span>
-                                        {el.petName ? el.petName : 'required'}
-                                      </span>
-                                    </p>
-                                    <p>
-                                      <span>Qty:</span>
-                                      <span>{el.buyCount}</span>
-                                    </p>
-                                  </div>
-                                  <div
-                                    style={{
-                                      float: 'right',
-                                      marginTop: '30px',
-                                      marginLeft: '20px'
-                                    }}
-                                  >
-                                    <button
-                                      className="rc-btn rc-btn--sm rc-btn--one"
-                                      onClick={() => {
-                                        this.setState({
-                                          petModalVisible: true,
-                                          currentProIndex: i
-                                        });
-                                      }}
-                                    >
-                                      Select a pet
-                                    </button>
-                                  </div>
+                                </LazyLoad>
+
+                                <div
+                                  className="pull-left"
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petName ? el.petName : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.buyCount}</span>
+                                  </p>
                                 </div>
-                              );
-                            })
-                          : this.props.checkoutStore.AuditData.map((el, i) => {
-                              return (
-                                <div className="petProduct" key={i}>
-                                  <LazyLoad>
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })
+                        : checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct" key={i}>
+                                <LazyLoad>
                                   <img
                                     alt=""
                                     src={
                                       el.sizeList.filter((el) => el.selected)[0]
                                         .goodsInfoImg
                                     }
-                                    style={{ float: 'left' }}
+                                    className="pull-left"
                                   />
-                                  </LazyLoad>
-                                  <div
-                                    style={{
-                                      float: 'left',
-                                      marginTop: '20px',
-                                      marginLeft: '20px'
-                                    }}
-                                  >
-                                    <p>
-                                      <span>Pet:</span>
-                                      <span>
-                                        {el.petForm
-                                          ? el.petForm.petName
-                                          : 'required'}
-                                      </span>
-                                    </p>
-                                    <p>
-                                      <span>Qty:</span>
-                                      <span>{el.quantity}</span>
-                                    </p>
-                                  </div>
-                                  <div
-                                    style={{
-                                      float: 'right',
-                                      marginTop: '30px',
-                                      marginLeft: '20px'
-                                    }}
-                                  >
-                                    <button
-                                      id="selectPet"
-                                      className="rc-btn rc-btn--sm rc-btn--one"
-                                      onClick={() => {
-                                        this.setState({
-                                          petModalVisible: true,
-                                          currentProIndex: i
-                                        });
-                                      }}
-                                    >
-                                      Select a pet
-                                    </button>
-                                  </div>
+                                </LazyLoad>
+                                <div
+                                  className="pull-left"
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petForm
+                                        ? el.petForm.petName
+                                        : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.quantity}</span>
+                                  </p>
                                 </div>
-                              );
-                            })}
-                      </h5>
-                    </div>
-                  )}
-                <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 ${
-                    this.isOnepageCheckout ? '' : 'pb-0'
-                  }`}
-                >
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    id="selectPet"
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                    </h5>
+                  </div>
+                )}
+                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
                       className="rc-icon rc-payment--sm rc-iconography"
@@ -1980,7 +2078,7 @@ class Payment extends React.Component {
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
 
-                  {this._renderPayTab()}
+                  {this.renderPayTab()}
                 </div>
                 {this.isOnepageCheckout && (
                   <Confirmation
@@ -1990,19 +2088,19 @@ class Payment extends React.Component {
                       });
                       this.initCommonPay({
                         type: find(
-                          this.state.payWayObj,
+                          payWayObj,
                           (el) =>
                             el.paymentTypeVal === this.hasConfimedPaymentVal
                         )
                           ? find(
-                              this.state.payWayObj,
+                              payWayObj,
                               (el) =>
                                 el.paymentTypeVal === this.hasConfimedPaymentVal
                             ).paymentTypeVal
                           : ''
                       });
                     }}
-                    listData={this.state.listData}
+                    listData={listData}
                     checkRequiredItem={this.checkRequiredItem}
                   />
                 )}
@@ -2012,21 +2110,21 @@ class Payment extends React.Component {
                   <>
                     <RePayProductInfo
                       fixToHeader={true}
-                      details={this.state.orderDetails}
+                      details={orderDetails}
                       navigateToProDetails={true}
                     />
                   </>
                 ) : (
                   <PayProductInfo
-                    data={this.state.recommend_data}
+                    data={recommend_data}
                     ref="payProductInfo"
-                    location={this.props.location}
-                    history={this.props.history}
-                    frequencyName={this.state.subForm.frequencyName}
-                    buyWay={this.state.subForm.buyWay}
-                    sendPromotionCode={(e) => this.savePromotionCode(e)}
-                    promotionCode={this.state.promotionCode}
-                    operateBtnVisible={!this.state.tid}
+                    location={location}
+                    history={history}
+                    frequencyName={subForm.frequencyName}
+                    buyWay={subForm.buyWay}
+                    sendPromotionCode={this.savePromotionCode}
+                    promotionCode={promotionCode}
+                    operateBtnVisible={!tid}
                   />
                 )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
@@ -2036,12 +2134,12 @@ class Payment extends React.Component {
         </main>
         <Footer />
         <PetModal
-          visible={this.state.petModalVisible}
-          isAdd={this.state.isAdd}
-          openNew={() => this.openNew()}
-          closeNew={() => this.closeNew()}
-          confirm={(data) => this.petComfirm(data)}
-          close={() => this.closePetModal()}
+          visible={petModalVisible}
+          isAdd={isAdd}
+          openNew={this.openNew}
+          closeNew={this.closeNew}
+          confirm={this.petComfirm}
+          close={this.closePetModal}
         />
       </div>
     );
