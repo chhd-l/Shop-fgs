@@ -45,6 +45,8 @@ class AdyenCreditCard extends React.Component {
     });
   };
   updateSelectedCardInfo = (data) => {
+    console.log(data)
+    //debugger
     const { paymentStore, isOnepageCheckout } = this.props;
     const curPanelKey = 'paymentMethod';
     this.setState({ adyenPayParam: data, isValid: !!data });
@@ -92,7 +94,6 @@ class AdyenCreditCard extends React.Component {
     if (!this.state.isValid) {
       return false;
     }
-
     // 登录
     // 1 验证是否选了卡
     // 2 验证同意条款勾选情况

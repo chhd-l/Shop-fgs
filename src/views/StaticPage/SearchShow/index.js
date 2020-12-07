@@ -44,7 +44,7 @@ class SearchShow extends React.Component {
                     match={this.props.match}
                 />
                 <main className="rc-content--fixed-header rc-bg-colour--brand3">
-                    <BannerTip />
+                    {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
                     <BreadCrumbs />
 
                     <div className="search-results rc-padding--sm rc-max-width--xl">
@@ -86,7 +86,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                                                             <div>
                                                                 <b>Par mail</b>
                                                                 <div>
-                                                                    <a href="https://shop.royalcanin.fr/help/contact" className="rc-styled-link">Envoyer un email</a>
+                                                                    <a href="mailto:Envoyer un email" className="rc-styled-link">Envoyer un email</a>
                                                                 </div>
                                                             </div>
 

@@ -57,7 +57,7 @@ export default class Rate extends Component {
     const tooltip = this.props.tooltip ? this.props.tooltip : null;
     return (
       <div>
-        <div className="rate">
+        <div className="rate flex">
           {new Array(count).fill().map((item, index) => (
             <span
               key={index}
