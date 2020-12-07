@@ -11,7 +11,8 @@ class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
     fixToHeader: false,
-    navigateToProDetails: false // click product name navigate to product detail
+    navigateToProDetails: false, // click product name navigate to product detail
+    style: {}
   };
   constructor(props) {
     super(props);
@@ -256,7 +257,7 @@ class PayProductInfo extends React.Component {
         {this.sideCart()}
       </div>
     ) : (
-      this.sideCart()
+      <div style={{ ...this.props.style }}>{this.sideCart()}</div>
     );
   }
 }

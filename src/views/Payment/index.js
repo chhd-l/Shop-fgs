@@ -1620,7 +1620,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = () => {
-    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
+    const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
@@ -1770,7 +1770,7 @@ class Payment extends React.Component {
           {/* ***********************支付选项卡的内容end******************************* */}
 
           {/* billing address */}
-          {this.isOnepageCheckout && this.renderBillingJSX()}
+          {this.isOnepageCheckout && !tid && this.renderBillingJSX()}
         </div>
       </div>
     );
@@ -2106,10 +2106,11 @@ class Payment extends React.Component {
                 )}
               </div>
               <div className="rc-column pl-md-0">
-                {this.state.tid ? (
+                {tid ? (
                   <>
                     <RePayProductInfo
-                      fixToHeader={true}
+                      fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                      style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
                     />
@@ -2117,6 +2118,8 @@ class Payment extends React.Component {
                 ) : (
                   <PayProductInfo
                     data={recommend_data}
+                    fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                    style={{ background: '#fff' }}
                     ref="payProductInfo"
                     location={location}
                     history={history}
