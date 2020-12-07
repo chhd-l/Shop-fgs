@@ -4,6 +4,7 @@ import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
+import SocialRegister from './components/socialRegister'
 
 export default class Register extends Component {
   static propTypes = {
@@ -23,7 +24,8 @@ export default class Register extends Component {
       fontZoom: ''
     };
     this.sendList = this.sendList.bind(this);
-    this.init = this.init.bind(this);
+    this.init = this.init.bind(this);  
+    this.register = this.register.bind(this);   
   }
 
   componentDidMount() {
@@ -112,6 +114,10 @@ export default class Register extends Component {
   sendList = (list) => {
     this.setState({ list });
   };
+
+  register = async () => {
+
+  }
 
   render() {
     const url = this.props.match.url;
@@ -409,7 +415,7 @@ export default class Register extends Component {
                             type="button"
                             value="Créer votre compte Royal Canin"
                             className="rc-btn rc-btn--one rc-self-v-middle--mobile"
-                            disabled=""
+                            onClick={this.register}
                           >
                             Créer votre compte Royal Canin
                           </button>

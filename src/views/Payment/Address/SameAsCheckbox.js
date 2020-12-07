@@ -8,6 +8,7 @@ const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
 class SameAsCheckbox extends React.Component {
+  static defaultProps = { type: '' };
   constructor(props) {
     super(props);
     this.state = {
@@ -34,19 +35,21 @@ class SameAsCheckbox extends React.Component {
     return this.props.loginStore.isLogin;
   }
   billingCheckedChange = () => {
-    let { billingChecked } = this.state;
-    this.setState({ billingChecked: !billingChecked }, () => {
-      this.props.updateSameAsCheckBoxVal(this.state.billingChecked);
-    });
+    this.setState(
+      (curState) => ({ billingChecked: !curState.billingChecked }),
+      () => {
+        this.props.updateSameAsCheckBoxVal(this.state.billingChecked);
+      }
+    );
   };
   render() {
+    const { type } = this.props;
     return (
       <div className="billingCheckbox rc-margin-top--xs fit-mobile-billingCheckbox d-flex flex-wrap">
         <div>
           <input
             className="form-check-input"
-            id="id-checkbox-billing"
-            value="Cat"
+            id={`id-checkbox-billing-${type}`}
             type="checkbox"
             onChange={this.billingCheckedChange}
             checked={this.state.billingChecked}
@@ -54,7 +57,7 @@ class SameAsCheckbox extends React.Component {
           />
           <label
             className="rc-input__label--inline"
-            htmlFor="id-checkbox-billing"
+            htmlFor={`id-checkbox-billing-${type}`}
           >
             <FormattedMessage id="biliingAddressSameAs" />
           </label>
@@ -63,7 +66,7 @@ class SameAsCheckbox extends React.Component {
           <span>
             <FormattedMessage id="payment.normalDelivery2" />
           </span>
-          <span className="text-muted arrival-time ">
+          <span className="text-muted arrival-time">
             <FormattedMessage id="payment.normalDelivery3" />
           </span>
 
