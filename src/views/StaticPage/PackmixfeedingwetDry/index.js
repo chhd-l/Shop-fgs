@@ -59,7 +59,7 @@ class Packfeed extends React.Component {
           <BannerTip />
           <BreadCrumbs />
 
-          <div
+          {/* <div
             className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
               this.state.errorMsg ? '' : 'hidden'
             }`}
@@ -74,7 +74,7 @@ class Packfeed extends React.Component {
             >
               {this.state.errorMsg}
             </aside>
-          </div>
+          </div> */}
 
           <div
             className="rc-layout-container rc-two-column"

@@ -163,8 +163,9 @@ class AdyenCreditCardList extends React.Component {
   }
   hanldeUpdateSelectedCardInfo = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
-    console.log(memberUnsavedCardList)
-    //debugger
+    // console.log(cardList)
+    // console.log(memberUnsavedCardList)
+    // debugger
     this.props.updateSelectedCardInfo(
       find(
         cardList.concat(memberUnsavedCardList),
@@ -177,14 +178,14 @@ class AdyenCreditCardList extends React.Component {
     const { visitorAdyenFormData, selectedId, cardList } = this.state
     var { updateSelectedCardInfo } = this.props;
     // if (id === selectedId && visitorAdyenFormData && visitorAdyenFormData.encryptedSecurityCode) {
-    //   let result = find(cardList, (ele) => ele.id === id);
-    //   result.encryptedSecurityCode = visitorAdyenFormData.encryptedSecurityCode;
-    //   console.log(result)
-    //   console.log(find(cardList, (ele) => ele.id === id) || null)
-    //   console.log(visitorAdyenFormData)
-    //   debugger
+    //   // let result = find(cardList, (ele) => ele.id === id);
+    //   // result.encryptedSecurityCode = visitorAdyenFormData.encryptedSecurityCode;
+    //   // console.log(result)
+    //   // this.props.paymentStore.updateFirstSavedCardCvv(visitorAdyenFormData.encryptedSecurityCode)
+    //   // console.log(this.props.paymentStore.firstSavedCardCvv)
+    //   // debugger
     //   // updateSelectedCardInfo(
-    //   //   find(cardList, (ele) => ele.id === id) || null
+    //   //   result
     //   // )
     //   return
     // }
@@ -453,8 +454,6 @@ class AdyenCreditCardList extends React.Component {
   };
   updateAdyenPayParam = (data) => {
     let { cardList, memberUnsavedCardList } = this.state;
-    console.log(memberUnsavedCardList)
-    //debugger
     // 会员，选择不保存卡情况下，卡信息存储data字段中
     if (!data.storePaymentMethod) {
       this.setState({
