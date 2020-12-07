@@ -1536,7 +1536,7 @@ class Payment extends React.Component {
     ) : null;
   };
 
-  renderBillingJSX = () => {
+  renderBillingJSX = ({ type }) => {
     const {
       billingChecked,
       billingAddress,
@@ -1547,6 +1547,7 @@ class Payment extends React.Component {
       <>
         <SameAsCheckbox
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          type={type}
         />
         {billingChecked ? (
           deliveryAddress.firstName ? (
@@ -1584,17 +1585,7 @@ class Payment extends React.Component {
                   this.props.paymentStore.updateSelectedBillingAddress(data);
                   this.setState({ billingAddress: data });
                 }}
-              >
-                <div
-                  className="card-header bg-transparent position-relative pt-0 pb-0"
-                  style={{ zIndex: 2, width: '62%' }}
-                >
-                  <h5>
-                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                    <FormattedMessage id="payment.billTitle" />
-                  </h5>
-                </div>
-              </AddressList>
+              />
             ) : (
               <VisitorAddress
                 key={2}
@@ -1620,7 +1611,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = () => {
-    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
+    const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
@@ -1699,7 +1690,7 @@ class Payment extends React.Component {
               }}
               isApplyCvv={false}
               needReConfirmCVV={true}
-              billingJSX={this.renderBillingJSX()}
+              billingJSX={this.renderBillingJSX({ type: 'payu' })}
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
           </div>
@@ -1770,7 +1761,9 @@ class Payment extends React.Component {
           {/* ***********************支付选项卡的内容end******************************* */}
 
           {/* billing address */}
-          {this.isOnepageCheckout && this.renderBillingJSX()}
+          {this.isOnepageCheckout &&
+            !tid &&
+            this.renderBillingJSX({ type: 'common' })}
         </div>
       </div>
     );
@@ -2106,10 +2099,11 @@ class Payment extends React.Component {
                 )}
               </div>
               <div className="rc-column pl-md-0">
-                {this.state.tid ? (
+                {tid ? (
                   <>
                     <RePayProductInfo
-                      fixToHeader={true}
+                      fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                      style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
                     />
@@ -2117,6 +2111,8 @@ class Payment extends React.Component {
                 ) : (
                   <PayProductInfo
                     data={recommend_data}
+                    fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                    style={{ background: '#fff' }}
                     ref="payProductInfo"
                     location={location}
                     history={history}

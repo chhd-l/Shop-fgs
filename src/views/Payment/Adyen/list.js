@@ -14,14 +14,13 @@ import { roundToNearestMinutes } from 'date-fns';
 
 function CardItemCover({
   selectedSts,
-  hanldeClickCardItem = () => {},
+  hanldeClickCardItem = () => { },
   children
 }) {
   return (
     <div
-      className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-        selectedSts ? 'active border-blue' : ''
-      }`}
+      className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${selectedSts ? 'active border-blue' : ''
+        }`}
       onClick={hanldeClickCardItem}
     >
       <div className={`pt-3 pb-3`}>{children}</div>
@@ -29,11 +28,11 @@ function CardItemCover({
   );
 }
 
-@inject('loginStore','paymentStore')
+@inject('loginStore', 'paymentStore')
 @observer
 class AdyenCreditCardList extends React.Component {
   static defaultProps = {
-    updateSelectedCardInfo: () => {},
+    updateSelectedCardInfo: () => { },
     subBuyWay: '' // once/fre
   };
   constructor(props) {
@@ -89,7 +88,7 @@ class AdyenCreditCardList extends React.Component {
         (defaultItem && defaultItem.id) ||
         (cardList.length && cardList[0].id) ||
         '';
-
+      //debugger
       this.setState({ cardList, selectedId: tmpId }, () => () =>
         this.hanldeUpdateSelectedCardInfo()
       );
@@ -164,6 +163,8 @@ class AdyenCreditCardList extends React.Component {
   }
   hanldeUpdateSelectedCardInfo = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
+    console.log(memberUnsavedCardList)
+    //debugger
     this.props.updateSelectedCardInfo(
       find(
         cardList.concat(memberUnsavedCardList),
@@ -171,16 +172,25 @@ class AdyenCreditCardList extends React.Component {
       ) || null
     );
   };
-  loadCvv = ({ id, adyenPaymentMethod: { brand }, isLoadCvv }) => {
-    // if(id == this.props.paymentStore.firstSavedCard) {
-    //   debugger
-    //   return this.props.paymentStore.updateFirstSavedCard("")
-    // }
-    // debugger
-    var { cardList } = this.state;
+  loadCvv = (el) => {
+    const { id, adyenPaymentMethod: { brand }, isLoadCvv } = el
+    const { visitorAdyenFormData, selectedId, cardList } = this.state
     var { updateSelectedCardInfo } = this.props;
-    if (isLoadCvv) return; //防止重新加载
-    let el = '#cvv_' + id;
+    // if (id === selectedId && visitorAdyenFormData && visitorAdyenFormData.encryptedSecurityCode) {
+    //   let result = find(cardList, (ele) => ele.id === id);
+    //   result.encryptedSecurityCode = visitorAdyenFormData.encryptedSecurityCode;
+    //   console.log(result)
+    //   console.log(find(cardList, (ele) => ele.id === id) || null)
+    //   console.log(visitorAdyenFormData)
+    //   debugger
+    //   // updateSelectedCardInfo(
+    //   //   find(cardList, (ele) => ele.id === id) || null
+    //   // )
+    //   return
+    // }
+    
+    if (el.isLoadCvv) return; //防止重新加载
+    let element = '#cvv_' + id;
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -204,14 +214,10 @@ class AdyenCreditCardList extends React.Component {
                 );
               },
               onLoad: (state) => {
-                //let inputEl = el+" "+"#encryptedSecurityCode"
-                let inputEl = el;
-                //changeInputType(inputEl)
-                // inputDom.setAttribute("type","password")
-                // console.log(inputDom.getAttribute("type"))
+                el.isLoadCvv = true
               }
             })
-            .mount(el);
+            .mount(element);
         }
       }
     });
@@ -236,9 +242,8 @@ class AdyenCreditCardList extends React.Component {
           <LazyLoad>
             <img
               alt=""
-              className={`PayCardImgFitScreen ${
-                data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
-              }`}
+              className={`PayCardImgFitScreen ${data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
+                }`}
               src={
                 CREDIT_CARD_IMG_ENUM[
                   data.adyenPaymentMethod
@@ -246,10 +251,10 @@ class AdyenCreditCardList extends React.Component {
                     : ''
                 ]
                   ? CREDIT_CARD_IMG_ENUM[
-                      data.adyenPaymentMethod
-                        ? data.adyenPaymentMethod.name.toUpperCase()
-                        : ''
-                    ]
+                  data.adyenPaymentMethod
+                    ? data.adyenPaymentMethod.name.toUpperCase()
+                    : ''
+                  ]
                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
               }
             />
@@ -327,21 +332,21 @@ class AdyenCreditCardList extends React.Component {
     return this.isLogin ? (
       this.renderMemberCardPanel()
     ) : (
-      <>
-        {visitorAdyenFormData && (
-          <CardItemCover
-            selectedSts={visitorAdyenFormData.id === selectedId}
-            key={0}
-          >
-            {this.renderOneCard({
-              data: visitorAdyenFormData,
-              showLastFour: false
-            })}
-            {this.renderCardEditBtnJSX()}
-          </CardItemCover>
-        )}
-      </>
-    );
+        <>
+          {visitorAdyenFormData && (
+            <CardItemCover
+              selectedSts={visitorAdyenFormData.id === selectedId}
+              key={0}
+            >
+              {this.renderOneCard({
+                data: visitorAdyenFormData,
+                showLastFour: false
+              })}
+              {this.renderCardEditBtnJSX()}
+            </CardItemCover>
+          )}
+        </>
+      );
   };
   renderMemberCardPanel = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
@@ -362,12 +367,6 @@ class AdyenCreditCardList extends React.Component {
       if (el.adyenPaymentMethod !== null) {
         //判断是否是adyen支付
         this.loadCvv(el);
-        // if(el.id == this.props.paymentStore.firstSavedCard){
-        //   el.isLoadCvv = false;
-        // }else{
-        //   el.isLoadCvv = true;
-        // }
-        el.isLoadCvv = true;
       }
 
       return (
@@ -454,6 +453,8 @@ class AdyenCreditCardList extends React.Component {
   };
   updateAdyenPayParam = (data) => {
     let { cardList, memberUnsavedCardList } = this.state;
+    console.log(memberUnsavedCardList)
+    //debugger
     // 会员，选择不保存卡情况下，卡信息存储data字段中
     if (!data.storePaymentMethod) {
       this.setState({
@@ -515,18 +516,18 @@ class AdyenCreditCardList extends React.Component {
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           ) : !formVisible &&
             (cardList.length || memberUnsavedCardList.length) ? (
-            this.renderList()
-          ) : (
-            this.renderEditForm()
-          )
+                this.renderList()
+              ) : (
+                this.renderEditForm()
+              )
         ) : (
-          <>
-            {!formVisible && this.renderList()}
-            <div className={`${formVisible ? '' : 'hidden'}`}>
-              {this.renderEditForm()}
-            </div>
-          </>
-        )}
+            <>
+              {!formVisible && this.renderList()}
+              <div className={`${formVisible ? '' : 'hidden'}`}>
+                {this.renderEditForm()}
+              </div>
+            </>
+          )}
       </>
     );
   }

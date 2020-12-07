@@ -176,7 +176,7 @@ class Subscription extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -193,7 +193,7 @@ class Subscription extends React.Component {
                 <SideMenu type="Subscription" />
               )}
               {
-                
+
               }
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {
