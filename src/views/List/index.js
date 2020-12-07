@@ -888,30 +888,31 @@ class List extends React.Component {
                                   <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
                                     <div className="height-product-tile-plpOnly">
                                       {/*商品名字*/}
-                                      <header
+                                      {/* <header
                                         className="rc-text--center "
-                                        style={{ height: '70px' }}
+                                        // style={{ height: '70px' }}
+                                      ></header> */}
+                                      <h3
+                                        className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+                                        title={item.goodsName}
                                       >
-                                        <h3
-                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
-                                          title={item.goodsName}
-                                        >
-                                          {item.goodsName}
-                                        </h3>
-                                      </header>
+                                        {item.goodsName}
+                                      </h3>
                                       {/*商品描述*/}
-                                      <div
-                                        className={`rc-card__meta text-center col-12`}
-                                        title={item.goodsSubtitle}
+                                      <h6
+                                        className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
                                         style={{ color: '#4a4a4a' }}
+                                        title={item.goodsSubtitle}
                                       >
-                                        <h6 className="second-title">
-                                          {item.goodsSubtitle}
-                                        </h6>
-                                      </div>
+                                        {item.goodsSubtitle}
+                                      </h6>
                                     </div>
                                     {/*商品评分和评论数目*/}
-                                    <div style={{display:'flex',margin:'0 auto'}}
+                                    <div
+                                      style={{
+                                        display: 'flex',
+                                        margin: '0 auto'
+                                      }}
                                       className={`rc-card__price text-center RateFitScreen`}
                                     >
                                       <div>
@@ -921,7 +922,10 @@ class List extends React.Component {
                                           marginSize="smallRate"
                                         />
                                       </div>
-                                      <span className="comments rc-margin-left--xs rc-text-colour--text" style={{marginTop:'3px'}}>
+                                      <span
+                                        className="comments rc-margin-left--xs rc-text-colour--text"
+                                        style={{ marginTop: '3px' }}
+                                      >
                                         ({item.goodsEvaluateNum})
                                       </span>
                                     </div>
