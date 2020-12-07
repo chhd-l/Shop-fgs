@@ -4,6 +4,7 @@ import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
+import SocialRegister from './components/socialRegister'
 
 export default class Register extends Component {
   static propTypes = {
@@ -23,7 +24,8 @@ export default class Register extends Component {
       fontZoom: ''
     };
     this.sendList = this.sendList.bind(this);
-    this.init = this.init.bind(this);
+    this.init = this.init.bind(this);  
+    this.register = this.register.bind(this);   
   }
 
   componentDidMount() {
@@ -113,6 +115,10 @@ export default class Register extends Component {
     this.setState({ list });
   };
 
+  register = async () => {
+
+  }
+
   render() {
     const url = this.props.match.url;
     return (
@@ -122,7 +128,7 @@ export default class Register extends Component {
         <div id="register" class="page" style={this.state.styleObj}>
           <div class="rc-layout-container rc-padding--sm rc-reverse-layout-mobile rc-bg-colour--brand3 rc-margin-bottom--xs">
             <div class="rc-column rc-padding-top--lg--mobile">
-              <div class="rc-margin-bottom--sm text-center">
+              <div class="text-center">
                 <a
                   href="/home"
                   class="logo-home d-inline-block"
@@ -193,18 +199,7 @@ export default class Register extends Component {
                         Connectez-vous
                       </a>
                     </p>
-                    <div class="rc-two-column">
-                      <div class="rc-column">
-                        <p class="social-auth-button fecebookBtn">
-                          Sign in with Facebook
-                        </p>
-                      </div>
-                      <div class="rc-column">
-                        <p class="social-auth-button googleBtn">
-                          Sign in with Google
-                        </p>
-                      </div>
-                    </div>
+                    <SocialRegister/>
                     <div class="rc-column">
                       <p class="rc-margin-bottom--none text-center rc-padding--xs">
                         By continuing, you agree to our MARS privacy policy. We
@@ -409,7 +404,7 @@ export default class Register extends Component {
                             type="button"
                             value="Créer votre compte Royal Canin"
                             class="rc-btn rc-btn--one rc-self-v-middle--mobile"
-                            disabled=""
+                            onClick={this.register}
                           >
                             Créer votre compte Royal Canin
                           </button>
