@@ -631,7 +631,7 @@ const de_DE = {
   productRating: 'Produktbewertung',
   produtctNumber: 'Anzahl der Produkte',
   'profile.emailChoose': 'Ich willige darin ein, dass ROYAL CANIN meine E-Mail-Adresse zum Zwecke der Versendung von Newslettern verwenden darf. Der Newsletter beinhaltet u.a. News über ROYAL CANIN, über seine Produkte und Gutscheine. Die Einwilligung kann ich jederzeit und kostenlos gegenüber ROYAL CANIN durch Anklicken des Abmeldelinks am Ende jeder Newsletter-E-Mail, per E-Mail an {val1} oder schriftlich an ROYAL CANIN Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln widerrufen. Bis zum Widerruf der Einwilligung ist die Datenverarbeitung rechtmäßig. Weitere Informationen, z.B. zu eingesetzten Dienstleistern, Auswertung der Newsletterperformance und Speicherdauer finden Sie in unserer Datenschutzerklärung.',
-  promotion: 'Aktion',
+  promotion: 'Beförderung',
   promotionalCode: 'Gutscheincode',
   promotionCode: 'Gutscheincode',
   puppy: 'Welpe (0-1 Jahre alt)',

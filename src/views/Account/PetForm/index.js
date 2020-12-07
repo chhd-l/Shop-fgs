@@ -26,8 +26,8 @@ import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
-import Banner_Cat from './images/banner_Cat.png'
-import Banner_Dog from './images/banner_Dog.png'
+import Banner_Cat from './images/banner_Cat.jpg'
+import Banner_Dog from './images/banner_Dog.jpg'
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
 const lang = process.env.REACT_APP_LANG;

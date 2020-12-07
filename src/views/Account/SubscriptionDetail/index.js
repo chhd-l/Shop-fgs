@@ -9,7 +9,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import visaImg from '@/assets/images/credit-cards/visa.svg';
 import PaymentComp from './components/PaymentComp';
-import AddressComp from './components/AddressComp';
+import AddressComp from './components/AddressComp/index.js';
 import Selection from '@/components/Selection';
 import {
   getDictionary,
@@ -549,7 +549,7 @@ class SubscriptionDetail extends React.Component {
       completedYear,
       isActive
     } = this.state;
-    console.log(noStartYear, 'hahaha');
+    console.log(noStartYear,currentCardInfo, 'hahaha');
     return (
       <div className="subscriptionDetail">
         <div>
@@ -821,7 +821,7 @@ class SubscriptionDetail extends React.Component {
                                   src={el.goodsPic}
                                   style={{ width: '100px' }}
                                 />
-                                <div className="v-center" style={{ flex: '1' }}>
+                                <div className="v-center" style={{ flex: '1', paddingLeft: '10px' }}>
                                   <h3
                                     style={{
                                       overflow: 'hidden',
@@ -1633,7 +1633,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
-                        {currentCardInfo && (
+                        {(
                           <div
                             className="col-12 col-md-4 mb-2"
                             style={{ padding: '5px', paddingRight: '0' }}
@@ -2077,7 +2077,7 @@ class SubscriptionDetail extends React.Component {
                                                     </span>
                                                     <span style={{fontSize: '12px', textDecoration: 'line-through', marginLeft: '5px'}}>
                                                     {formatMoney(
-                                                        tradeItem.price
+                                                        tradeItem.originalPrice
                                                       )}
                                                     </span>
                                                   </p>
@@ -2216,13 +2216,14 @@ class SubscriptionDetail extends React.Component {
                                                   className=""
                                                   style={{
                                                     minWidth: isMobile
-                                                      ? '210px'
-                                                      : '230px'
+                                                      ? '0'
+                                                      : '230px',
+                                                    flex: isMobile? '1': 'inherit'
                                                   }}
                                                 >
                                                   <FormattedMessage id="subscription.total"></FormattedMessage>
                                                 </label>
-                                                <div className="text-right">
+                                                <div className="text-right" style={{flex: isMobile? '1': 'inherit'}}>
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
@@ -2236,17 +2237,19 @@ class SubscriptionDetail extends React.Component {
                                                     className="saveDiscount  red-text"
                                                     style={{
                                                       minWidth: isMobile
-                                                        ? '210px'
-                                                        : '230px'
+                                                        ? '0'
+                                                        : '230px',
+                                                      flex: isMobile? '1': 'inherit'
                                                     }}
                                                   >
                                                     {this.state.promotionDesc}:
                                                   </label>
-                                                  <div className="text-right red-text">
+                                                  <div className="text-right red-text" style={{flex: isMobile? '1': 'inherit'}}>
                                                     <b>
                                                       -
                                                       {formatMoney(
-                                                        this.state.subDiscount
+                                                        // this.state.subDiscount
+                                                        el.tradePrice.discountsPrice
                                                       )}
                                                     </b>
                                                   </div>
@@ -2255,13 +2258,14 @@ class SubscriptionDetail extends React.Component {
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el) => (
                                                   <div className="flex-layout">
-                                                    <label className="saveDiscount  red-text">
+                                                    <label className="saveDiscount  red-text" style={{flex: isMobile? '1': 'inherit'}}>
                                                       {this.state.promotionDesc}
                                                     </label>
                                                     <div
                                                       className="text-right red-text"
                                                       style={{
-                                                        position: 'relative'
+                                                        position: 'relative',
+                                                        flex: isMobile? '1': 'inherit'
                                                       }}
                                                     >
                                                       <b>
@@ -2296,13 +2300,14 @@ class SubscriptionDetail extends React.Component {
                                                   className=""
                                                   style={{
                                                     minWidth: isMobile
-                                                      ? '210px'
-                                                      : '230px'
+                                                      ? '0'
+                                                      : '230px',
+                                                    flex: isMobile? '1': 'inherit'
                                                   }}
                                                 >
                                                   <FormattedMessage id="subscription.shipping"></FormattedMessage>
                                                 </label>
-                                                <div className="text-right red-text">
+                                                <div className="text-right red-text" style={{flex: isMobile? '1': 'inherit'}}>
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice
@@ -2312,7 +2317,12 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               </div>
                                               <div className="flex-layout">
-                                                <label className="saveDiscount">
+                                                <label className="saveDiscount" style={{
+                                                    minWidth: isMobile
+                                                      ? '0'
+                                                      : '230px',
+                                                    flex: isMobile? '1': 'inherit'
+                                                  }}>
                                                   <b
                                                     style={{
                                                       fontSize: '20px',
@@ -2327,7 +2337,7 @@ class SubscriptionDetail extends React.Component {
                                                     (VAT included)
                                                   </span>
                                                 </label>
-                                                <div className="text-right">
+                                                <div className="text-right" style={{flex: isMobile? '1': 'inherit'}}>
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice

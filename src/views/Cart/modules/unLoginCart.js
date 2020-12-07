@@ -421,7 +421,7 @@ class UnLoginCart extends React.Component {
     );
   }
   getProducts(plist) {
-    const { checkoutLoading, form } = this.state;
+    const { checkoutLoading, form, isMobile } = this.state;
     console.log(toJS(plist), 'plist');
     const Lists = plist.map((pitem, index) => {
       // console.log(pitem.addedFlag, pitem.quantity, pitem.sizeList.filter(el => el.selected)[0].stock, 'aaaa')
@@ -506,7 +506,7 @@ class UnLoginCart extends React.Component {
               </span>
 
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div style={{ maxWidth: '250px' }}>
+                <div style={{ maxWidth: '250px', width: isMobile?'9rem': 'inherit' }}>
                   <div className="productGoodsSubtitle">{pitem.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     <div className="stock__wrapper">

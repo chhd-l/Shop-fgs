@@ -12,7 +12,8 @@ import {
   formatMoney,
   mergeUnloginCartData,
   getFrequencyDict,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  getDeviceType
 } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
 import { find } from 'lodash';
@@ -64,7 +65,8 @@ class LoginCart extends React.Component {
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false //是否显示无效promotionCode
+      isShowValidCode: false, //是否显示无效promotionCode
+      isMobile: getDeviceType() === 'H5'
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -148,11 +150,6 @@ class LoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
-      console.log(
-        this.computedList.filter((item) => item.id === el.periodTypeId)[0],
-        this.computedList[0],
-        'hahaha'
-      );
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
@@ -383,7 +380,7 @@ class LoginCart extends React.Component {
     // })
   }
   getProducts(plist) {
-    let { form } = this.state;
+    let { form, isMobile } = this.state;
     console.log(plist, 'ssss');
     const Lists = plist.map((pitem, index) => {
       return (
@@ -466,7 +463,7 @@ class LoginCart extends React.Component {
                 />
               </span>
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div style={{ maxWidth: '250px' }}>
+                <div style={{ maxWidth: '250px', width: isMobile?'9rem': 'inherit'}}>
                   <div className="productGoodsSubtitle">{pitem.goods.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     {/* <div className="stock__wrapper">

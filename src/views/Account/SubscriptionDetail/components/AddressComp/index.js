@@ -6,7 +6,8 @@ import {
   getAddressList,
   saveAddress,
   editAddress,
-  deleteAddress
+  deleteAddress,
+  setDefaltAddress
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary, validData } from '@/utils/utils';
@@ -14,8 +15,48 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import AddressForm from './form';
 import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
+import classNames from 'classnames';
 import './index.less';
 
+
+function CardItem(props) {
+  const { data } = props;
+  return (
+    <div
+      className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 ui-cursor-pointer-pure h-100 address-item ${
+        data.selected ? 'selected' : ''
+      }`}
+      // onClick={props.handleClickCoverItem}
+      onClick={props.handleClick}
+    >
+      <div
+        className="position-absolute d-flex align-items-center"
+        style={{ right: '4%', top: '7%', zIndex: 9 }}
+      >
+        {props.operateBtnJSX}
+      </div>
+
+      <div className="font-weight-normal mt-4 pt-2 mt-md-0 pt-md-0">
+        {data.type === 'DELIVERY' ? (
+          <FormattedMessage id="deliveryAddress" />
+        ) : (
+          <FormattedMessage id="billingAddress" />
+        )}
+      </div>
+      <div>
+        <div className="ccard-phone-title word-break">
+          <div className="address-name">
+            <span>{data.firstName + ' ' + data.lastName}</span>
+          </div>
+        </div>
+        <p className="mb-0">{data.consigneeNumber}</p>
+        <p className="mb-0">{props.countryName}</p>
+        <p className="mb-0">{data.cityName}</p>
+        <p className="mb-0">{data.address1}</p>
+      </div>
+    </div>
+  );
+}
 /**
  * address list(delivery/billing) - member
  */
@@ -108,20 +149,16 @@ class AddressList extends React.Component {
           addressList,
           (ele) => (ele.selected = ele.deliveryAddressId === selectedId)
         );
-        console.log(1);
       } else if (defaultAddressItem) {
-        console.log(2);
         Array.from(
           addressList,
           (ele) => (ele.selected = ele.isDefaltAddress === 1)
         );
         tmpId = defaultAddressItem.deliveryAddressId;
       } else if (addressList.length) {
-        console.log(3);
         // Array.from(addressList, (ele, i) => (ele.selected = !i));
         // tmpId = addressList[0].deliveryAddressId;
       }
-      console.log(4);
       let cityRes = await queryCityNameById({
         id: addressList.map((ele) => ele.cityId)
       });
@@ -243,7 +280,7 @@ class AddressList extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel() {
-    if (this.state.addressList.length) {
+    if (this.state.addOrEdit) {
       this.setState({ addOrEdit: false, saveErrorMsg: '' });
       this.scrollToTitle();
     } else {
@@ -379,6 +416,70 @@ class AddressList extends React.Component {
       addressList: addressList
     });
   }
+  addBtnJSX = ({ fromPage }) => {
+    return (
+      <div
+        className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
+        onClick={() => this.addOrEditAddress()}
+        ref={(node) => {
+          if (node) {
+            node.style.setProperty('border-width', '.1rem', 'important');
+            node.style.setProperty('border-style', 'dashed', 'important');
+          }
+        }}
+      >
+        <span className="rc-icon rc-plus--xs rc-iconography plus-icon mt-1" />
+        <FormattedMessage id="addANewAddress" />
+      </div>
+    );
+  };
+  async toggleSetDefault(item, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    if (!item.isDefaltAddress) {
+      await setDefaltAddress({ deliveryAddressId: item.deliveryAddressId });
+      // this.getAddressList({ showLoading: false });
+      this.queryAddressList()
+    }
+  }
+  getAddressList = async ({ showLoading = false } = {}) => {
+    showLoading && this.setState({ listLoading: true });
+    try {
+      let res = await getAddressList();
+      let addressList = res.context;
+      let cityRes = await queryCityNameById({
+        id: addressList.map((ele) => ele.cityId)
+      });
+      cityRes = cityRes.context.systemCityVO || [];
+      Array.from(addressList, (ele) => {
+        ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
+          ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
+          : ele.cityId;
+        return ele;
+      });
+      this.setState({
+        addressList,
+        listLoading: false
+      });
+    } catch (err) {
+      // this.showErrorMsg(err.message);
+      this.setState({ listLoading: false });
+    }
+  };
+  updateConfirmTooltipVisible = (el, status) => {
+    let { addressList } = this.state;
+    el.confirmTooltipVisible = status;
+    this.setState({
+      addressList
+    });
+  };
+  handleClickDeleteBtn(data, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.updateConfirmTooltipVisible(data, true);
+  }
   render() {
     let {
       deliveryAddress,
@@ -386,7 +487,8 @@ class AddressList extends React.Component {
       loading,
       foledMore,
       addressList,
-      isBillSame
+      isBillSame,
+      countryList
     } = this.state;
     return (
       <div className={`${this.props.visible ? '' : 'hidden'} addressComp`}>
@@ -396,13 +498,15 @@ class AddressList extends React.Component {
           style={{ overflow: 'hidden' }}
         >
           <h5
-            className="pull-left"
+            className="pull-left ui-cursor-pointer"
             style={{
               marginBottom: '0 !important',
               height: '100%',
               lineHeight: '36px'
             }}
+            onClick={() => this.handleClickCancel()}
           >
+            <span>&larr; </span>
             {this.props.type === 'delivery' ? (
               <FormattedMessage id="payment.deliveryTitle" />
             ) : (
@@ -492,19 +596,105 @@ class AddressList extends React.Component {
                           <FormattedMessage id="biliingAddressSameAs" />
                         </label>
                       </div>
-                      <p
-                        className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 d-flex align-items-center ${
-                          addOrEdit ? 'hidden' : ''
-                        }`}
-                        onClick={() => this.addOrEditAddress()}
-                      >
-                        <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-                        <span>
-                          <FormattedMessage id="newAddress" />
-                        </span>
-                      </p>
                     </div>
+                    <div
+                  className={classNames({
+                    // hidden: !listVisible || editFormVisible
+                  })}
+                >
+                  <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {addressList.map((item, i) => (
+                      <div
+                        className="col-12 col-md-6 p-2"
+                        key={item.deliveryAddressId}
+                      >
+                        <CardItem
+                          data={item}
+                          operateBtnJSX={
+                            <>
+                              {item.isDefaltAddress === 1 ? (
+                                <div
+                                  className="red"
+                                  onClick={this.toggleSetDefault.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link red border-danger">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="ui-cursor-pointer"
+                                  onClick={this.toggleSetDefault.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link">
+                                    <FormattedMessage id="setAsDefault" />
+                                  </span>
+                                </div>
+                              )}
+                              <span className="position-relative p-2 ui-cursor-pointer-pure">
+                                <span
+                                  className="rc-styled-link"
+                                  onClick={() => this.addOrEditAddress(i)}
+                                >
+                                  <FormattedMessage id="edit" />
+                                </span>
+                                {/* <span
+                                  className="rc-styled-link"
+                                  onClick={this.handleClickDeleteBtn.bind(
+                                    this,
+                                    item
+                                  )}
+                                >
+                                  <FormattedMessage id="delete" />
+                                </span> */}
+                                {/* <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: 'translate(-89%, 105%)'
+                                  }}
+                                  arrowStyle={{ left: '89%' }}
+                                  display={item.confirmTooltipVisible}
+                                  confirm={this.deleteCard.bind(this, item)}
+                                  updateChildDisplay={(status) =>
+                                    this.updateConfirmTooltipVisible(
+                                      item,
+                                      status
+                                    )
+                                  }
+                                /> */}
+                              </span>
+                            </>
+                          }
+                          // handleClickCoverItem={this.handleClickCoverItem.bind(
+                          //   this,
+                          //   item,
+                          //   'list'
+                          // )}
+                          handleClick={() => this.selectAddress(i)}
+                          countryName={this.getDictValue(
+                            countryList,
+                            item.countryId
+                          )}
+                        />
+                      </div>
+                    ))}
+                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                      {this.addBtnJSX({ fromPage: 'list' })}
+                    </div>
+                  </div>
+                </div>
+                    {/* {addressList.map((item, i) => (
                       <div
                         className={`address-item ${
                           item.selected ? 'selected' : ''
@@ -583,26 +773,8 @@ class AddressList extends React.Component {
                           </div>
                         </div>
                       </div>
-                    ))}
-                    {/* {
-                            addressList.length > 1 && <div
-                              className="text-center pt-2 pb-2 ui-cursor-pointer"
-                              onClick={() => { this.setState({ foledMore: !foledMore }) }}>
-                              <span>
-                                {
-                                  foledMore
-                                    ? <>
-                                      <FormattedMessage id="moreAddress" />&nbsp;
-                                      <b className="addr-switch switch-on"></b>
-                                    </>
-                                    : <>
-                                      <FormattedMessage id="unfoldAddress" />
-                                      <b className="addr-switch switch-off"></b>
-                                    </>
-                                }
-                              </span>
-                            </div>
-                          } */}
+                    ))} */}
+                   
                   </>
                 ) : (
                   <FormattedMessage id="order.noDataTip" />
@@ -625,11 +797,11 @@ class AddressList extends React.Component {
                   >
                     <FormattedMessage id="cancel" />
                   </a>
-                  &nbsp;
+                  &nbsp;&nbsp;
                   <span>
                     <FormattedMessage id="or" />
                   </span>
-                  &nbsp;
+                  &nbsp;&nbsp;
                   <button
                     className="rc-btn rc-btn--sm rc-btn--one"
                     onClick={() => {
@@ -695,9 +867,9 @@ class AddressList extends React.Component {
                         <div className="rc-md-up">
                           <a
                             className="rc-styled-link"
-                            onClick={() => this.handleClickCancel()}
+                            onClick={() => this.deleteAddress(addressList[this.currentOperateIdx])}
                           >
-                            <FormattedMessage id="cancel" />
+                            <FormattedMessage id="delete" />
                           </a>
                           &nbsp;
                           <FormattedMessage id="or" />

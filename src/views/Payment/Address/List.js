@@ -12,7 +12,7 @@ import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
 import SameAsCheckbox from './SameAsCheckbox';
-import './list.css';
+import './list.less';
 
 /**
  * address list(delivery/billing) - member
@@ -605,9 +605,8 @@ class AddressList extends React.Component {
     return (
       <>
         {this.props.children}
-        <div className={`mt-1 ${this.props.visible ? '' : 'hidden'}`}>
+        <div className={`mt-1 ${this.props.visible ? '' : 'hidden'} payment-addressList`}>
           {_title}
-
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               this.state.saveErrorMsg ? '' : 'hidden'

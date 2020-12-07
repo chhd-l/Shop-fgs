@@ -18,6 +18,62 @@ import {
   CREDIT_CARD_IMGURL_ENUM
 } from '@/utils/constant';
 import './index.css';
+import LazyLoad from 'react-lazyload'
+import classNames from 'classnames';
+
+
+function CardItem(props) {
+  const { data } = props;
+  console.log(data,'dagta')
+  return (
+    <div className={`rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between creditCompleteInfoBox ${data.selected? 'active border-blue border' : ''
+  }`} style={{position: 'relative'}} onClick={() => {
+      props.handleClick()
+    }}>
+      <div
+        className="position-absolute d-flex align-items-center"
+        style={{ right: '2%', top: '2%', zIndex: 9 }}
+      >
+        {props.operateBtnJSX}
+      </div>
+      <div className={`pt-4 pt-md-2 pb-2 w-100`}>
+        <div className="row">
+          <div className={`col-4 d-flex flex-column justify-content-center`}>
+            <LazyLoad height={200}>
+              <img
+                className="PayCardImgFitScreen"
+                style={{ height: '5rem' }}
+                src={
+                  CREDIT_CARD_IMG_ENUM[
+                    data.paymentMethod
+                      ? data.paymentMethod.vendor.toUpperCase()
+                      : ''
+                  ] ||
+                  'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                }
+                alt=""
+              />
+            </LazyLoad>
+          </div>
+          <div className="col-6 pl-0 pr-0">
+            <p className="mb-0">
+              {data.paymentMethod
+                ? data.paymentMethod.holder_name
+                : data.cardOwner}
+            </p>
+            <p className="mb-0">
+              ************
+              {data.paymentMethod ? data.paymentMethod.last_4_digits : ''}
+            </p>
+            <p className="mb-0">
+              {data.paymentMethod ? data.paymentMethod.card_type : ''}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 @inject('loginStore')
 @injectIntl
@@ -526,6 +582,32 @@ class PaymentComp extends React.Component {
       </div>
     );
   };
+  addBtnJSX = () => {
+    return (
+      <div
+        className="rounded p-4 border h-100 d-flex align-items-center justify-content-center"
+        // onClick={this.handleClickAddBtn.bind(this, fromPage)}
+        onClick={() => {
+          this.setState({ isEdit: true }, () => {
+            this.scrollToPaymentComp();
+          });
+          this.initCardInfo();
+        }}
+        ref={(node) => {
+          if (node) {
+            node.style.setProperty('border-width', '.1rem', 'important');
+            node.style.setProperty('border-style', 'dashed', 'important');
+          }
+        }}
+        style={{ lineHeight: 0.4 }}
+      >
+        <div>
+          <span className="rc-icon rc-plus--xs rc-iconography plus-icon" />
+          <FormattedMessage id="addANewPaymentMethod" />
+        </div>
+      </div>
+    );
+  };
   render() {
     let pathname = this.props.history.location.pathname;
     const { creditCardInfoForm, creditCardList, currentCardInfo } = this.state;
@@ -604,7 +686,88 @@ class PaymentComp extends React.Component {
             <>
               {this._renderErrJSX()}
 
-              {creditCardList.map((el, idx) => {
+              <div className={classNames('row', 'ml-0', 'mr-0')}>
+                    {creditCardList.map((el, idx) => (
+                      <div className="col-12 col-md-6 p-2" key={el.id}>
+                        <CardItem
+                          data={el}
+                          idx={idx}
+                          dataLength={creditCardList.length}
+                          handleClick={() => {
+                            if (creditCardList[idx].selected) return;
+                            creditCardList.map((el) => (el.selected = false));
+                            el.selected = true;
+                            // this.props.getSelectedValue &&
+                            //   this.props.getSelectedValue(el);
+                            this.props.getSelectedValue &&
+                              this.props.getSelectedValue({});
+                            this.setState({
+                              creditCardList,
+                              isCurrentCvvConfirm: false
+                            });
+                          }}
+                          operateBtnJSX={
+                            <>
+                              {el.isDefault === 1 ? (
+                                <div
+                                  className="red"
+                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link red border-danger">
+                                    <FormattedMessage id="default" />
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="ui-cursor-pointer"
+                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                >
+                                  <span className="iconfont mr-1">
+                                    &#xe68c;
+                                  </span>
+                                  <span className="rc-styled-link">
+                                    <FormattedMessage id="setAsDefault" />
+                                  </span>
+                                </div>
+                              )}
+                              <span
+                                className={`position-relative p-2 ui-cursor-pointer-pure`}
+                              >
+                                <span
+                                  className="rc-styled-link"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    this.updateConfirmTooltipVisible(el, true);
+                                  }}
+                                >
+                                  <FormattedMessage id="delete" />
+                                </span>
+                                <ConfirmTooltip
+                                  containerStyle={{
+                                    transform: 'translate(-89%, 105%)'
+                                  }}
+                                  arrowStyle={{ left: '89%' }}
+                                  display={el.confirmTooltipVisible}
+                                  confirm={(e) => this.deleteCard(el)}
+                                  updateChildDisplay={(status) =>
+                                    this.updateConfirmTooltipVisible(el, status)
+                                  }
+                                />
+                              </span>
+                            </>
+                          }
+                        />
+                      </div>
+                    ))}
+                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
+                      {this.addBtnJSX()}
+                    </div>
+                  </div>
+              {/* {creditCardList.map((el, idx) => {
                 return (
                   <div
                     className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
@@ -807,9 +970,9 @@ class PaymentComp extends React.Component {
                     </div>
                   </div>
                 );
-              })}
+              })} */}
 
-              <div
+              {/* <div
                 className={`p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal ${
                   this.state.inited
                     ? ''
@@ -839,7 +1002,7 @@ class PaymentComp extends React.Component {
                 <a className="rc-styled-link">
                   <FormattedMessage id="addNewCreditCard" />
                 </a>
-              </div>
+              </div> */}
             </>
           )
         ) : null}
