@@ -10,6 +10,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import { loadJS } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import './list.css';
+import { roundToNearestMinutes } from 'date-fns';
 
 function CardItemCover({
   selectedSts,
@@ -28,7 +29,7 @@ function CardItemCover({
   );
 }
 
-@inject('loginStore')
+@inject('loginStore','paymentStore')
 @observer
 class AdyenCreditCardList extends React.Component {
   static defaultProps = {
@@ -74,7 +75,7 @@ class AdyenCreditCardList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  queryList = async () => {
+  queryList = async (param) => {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
@@ -171,25 +172,15 @@ class AdyenCreditCardList extends React.Component {
     );
   };
   loadCvv = ({ id, adyenPaymentMethod: { brand }, isLoadCvv }) => {
+    // if(id == this.props.paymentStore.firstSavedCard) {
+    //   debugger
+    //   return this.props.paymentStore.updateFirstSavedCard("")
+    // }
+    // debugger
     var { cardList } = this.state;
     var { updateSelectedCardInfo } = this.props;
     if (isLoadCvv) return; //防止重新加载
     let el = '#cvv_' + id;
-    var timer = null,
-      inputDom = null;
-    const changeInputType = (inputEl) => {
-      if (inputDom == null) {
-        timer = setInterval(() => {
-          let inputDom = document.querySelector(inputEl);
-          //encryptedSecurityCode
-          console.log(111, inputDom);
-          changeInputType(inputEl);
-        }, 1000);
-      } else {
-        clearInterval(timer);
-        console.log(555, inputDom);
-      }
-    };
     loadJS({
       url:
         'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.js',
@@ -371,6 +362,11 @@ class AdyenCreditCardList extends React.Component {
       if (el.adyenPaymentMethod !== null) {
         //判断是否是adyen支付
         this.loadCvv(el);
+        // if(el.id == this.props.paymentStore.firstSavedCard){
+        //   el.isLoadCvv = false;
+        // }else{
+        //   el.isLoadCvv = true;
+        // }
         el.isLoadCvv = true;
       }
 
