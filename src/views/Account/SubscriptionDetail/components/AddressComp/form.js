@@ -403,8 +403,8 @@ export default class AddressForm extends React.Component {
           {this._postCodeJSX()}
         </div>
         {/* <div className="rc-layout-container"> */}
-          {/* {this._postCodeJSX()} */}
-          {/* <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+        {/* {this._postCodeJSX()} */}
+        {/* <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.rfc" />

@@ -549,7 +549,7 @@ class SubscriptionDetail extends React.Component {
       completedYear,
       isActive
     } = this.state;
-    console.log(noStartYear,currentCardInfo, 'hahaha');
+    console.log(noStartYear, currentCardInfo, 'hahaha');
     return (
       <div className="subscriptionDetail">
         <div>
@@ -821,7 +821,10 @@ class SubscriptionDetail extends React.Component {
                                   src={el.goodsPic}
                                   style={{ width: '100px' }}
                                 />
-                                <div className="v-center" style={{ flex: '1', paddingLeft: '10px' }}>
+                                <div
+                                  className="v-center"
+                                  style={{ flex: '1', paddingLeft: '10px' }}
+                                >
                                   <h3
                                     style={{
                                       overflow: 'hidden',
@@ -904,10 +907,21 @@ class SubscriptionDetail extends React.Component {
                                             <FormattedMessage id="cart.errorInfo" />
                                           );
                                         }
-                                        if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-                                          tmp = process.env.REACT_APP_LIMITED_NUM;
+                                        if (
+                                          tmp >
+                                          process.env.REACT_APP_LIMITED_NUM
+                                        ) {
+                                          tmp =
+                                            process.env.REACT_APP_LIMITED_NUM;
                                           this.showErrMsg(
-                                            <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                            <FormattedMessage
+                                              id="cart.errorMaxInfo"
+                                              values={{
+                                                val:
+                                                  process.env
+                                                    .REACT_APP_LIMITED_NUM
+                                              }}
+                                            />
                                           );
                                         }
                                         el.subscribeNum = tmp;
@@ -926,7 +940,10 @@ class SubscriptionDetail extends React.Component {
                                   <span
                                     className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                                     onClick={() => {
-                                      if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
+                                      if (
+                                        el.subscribeNum <
+                                        process.env.REACT_APP_LIMITED_NUM
+                                      ) {
                                         el.subscribeNum = el.subscribeNum + 1;
                                         this.doGetPromotionPrice();
                                         this.setState({
@@ -935,7 +952,14 @@ class SubscriptionDetail extends React.Component {
                                         });
                                       } else {
                                         this.showErrMsg(
-                                          <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                          <FormattedMessage
+                                            id="cart.errorMaxInfo"
+                                            values={{
+                                              val:
+                                                process.env
+                                                  .REACT_APP_LIMITED_NUM
+                                            }}
+                                          />
                                         );
                                       }
                                     }}
@@ -1211,10 +1235,23 @@ class SubscriptionDetail extends React.Component {
                                                     <FormattedMessage id="cart.errorInfo" />
                                                   );
                                                 }
-                                                if (tmp > process.env.REACT_APP_LIMITED_NUM) {
-                                                  tmp = process.env.REACT_APP_LIMITED_NUM;
+                                                if (
+                                                  tmp >
+                                                  process.env
+                                                    .REACT_APP_LIMITED_NUM
+                                                ) {
+                                                  tmp =
+                                                    process.env
+                                                      .REACT_APP_LIMITED_NUM;
                                                   this.showErrMsg(
-                                                    <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                                    <FormattedMessage
+                                                      id="cart.errorMaxInfo"
+                                                      values={{
+                                                        val:
+                                                          process.env
+                                                            .REACT_APP_LIMITED_NUM
+                                                      }}
+                                                    />
                                                   );
                                                 }
                                                 el.subscribeNum = tmp;
@@ -1236,7 +1273,11 @@ class SubscriptionDetail extends React.Component {
                                               isActive ? '' : 'disabled'
                                             }`}
                                             onClick={() => {
-                                              if (el.subscribeNum < process.env.REACT_APP_LIMITED_NUM) {
+                                              if (
+                                                el.subscribeNum <
+                                                process.env
+                                                  .REACT_APP_LIMITED_NUM
+                                              ) {
                                                 el.subscribeNum =
                                                   el.subscribeNum + 1;
                                                 this.doGetPromotionPrice();
@@ -1246,7 +1287,14 @@ class SubscriptionDetail extends React.Component {
                                                 });
                                               } else {
                                                 this.showErrMsg(
-                                                  <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+                                                  <FormattedMessage
+                                                    id="cart.errorMaxInfo"
+                                                    values={{
+                                                      val:
+                                                        process.env
+                                                          .REACT_APP_LIMITED_NUM
+                                                    }}
+                                                  />
                                                 );
                                               }
                                             }}
@@ -1633,7 +1681,7 @@ class SubscriptionDetail extends React.Component {
                             </div>
                           </div>
                         </div>
-                        {(
+                        {
                           <div
                             className="col-12 col-md-4 mb-2"
                             style={{ padding: '5px', paddingRight: '0' }}
@@ -1719,7 +1767,7 @@ class SubscriptionDetail extends React.Component {
                               </div>
                             </div>
                           </div>
-                        )}
+                        }
                       </div>
                       <h4 className="h4">My Autoship Order</h4>
 
@@ -1838,10 +1886,14 @@ class SubscriptionDetail extends React.Component {
                                               className={`${
                                                 isMobile ? 'col-4' : 'col-md-3'
                                               }`}
-                                              style={{ padding: isMobile? '0 0 0 10px': '0 15px 0 20px' }}
+                                              style={{
+                                                padding: isMobile
+                                                  ? '0 0 0 10px'
+                                                  : '0 15px 0 20px'
+                                              }}
                                             >
                                               shipment on:
-                                              <br/>
+                                              <br />
                                               <span
                                                 style={{
                                                   color: '#e2001a',
@@ -1868,7 +1920,9 @@ class SubscriptionDetail extends React.Component {
                                               }`}
                                               style={{
                                                 textAlign: 'right',
-                                                padding: isMobile? '0': '0 20px 0 15px'
+                                                padding: isMobile
+                                                  ? '0'
+                                                  : '0 20px 0 15px'
                                               }}
                                             >
                                               {isActive ? (
@@ -1925,7 +1979,11 @@ class SubscriptionDetail extends React.Component {
                                               className={`${
                                                 isMobile ? 'col-3' : 'col-md-1'
                                               }`}
-                                              style={{ padding: isMobile? '0 0 0 10px': '0'}}
+                                              style={{
+                                                padding: isMobile
+                                                  ? '0 0 0 10px'
+                                                  : '0'
+                                              }}
                                             >
                                               {isActive ? (
                                                 <>
@@ -2060,9 +2118,11 @@ class SubscriptionDetail extends React.Component {
                                                     x {tradeItem.num}
                                                   </p>
                                                 </div>
-                                                <div className={`${
+                                                <div
+                                                  className={`${
                                                     isMobile ? 'col-6' : 'col-4'
-                                                  } col-md-4`}>
+                                                  } col-md-4`}
+                                                >
                                                   <p
                                                     style={{
                                                       textAlign: 'right',
@@ -2075,8 +2135,15 @@ class SubscriptionDetail extends React.Component {
                                                         tradeItem.subscriptionPrice
                                                       )}
                                                     </span>
-                                                    <span style={{fontSize: '12px', textDecoration: 'line-through', marginLeft: '5px'}}>
-                                                    {formatMoney(
+                                                    <span
+                                                      style={{
+                                                        fontSize: '12px',
+                                                        textDecoration:
+                                                          'line-through',
+                                                        marginLeft: '5px'
+                                                      }}
+                                                    >
+                                                      {formatMoney(
                                                         tradeItem.originalPrice
                                                       )}
                                                     </span>
@@ -2113,7 +2180,9 @@ class SubscriptionDetail extends React.Component {
                                               <span
                                                 className="rc-input rc-input--inline rc-input--label"
                                                 style={{
-                                                  width: isMobile? '50%': '170px',
+                                                  width: isMobile
+                                                    ? '50%'
+                                                    : '170px',
                                                   verticalAlign: 'middle'
                                                 }}
                                               >
@@ -2218,12 +2287,21 @@ class SubscriptionDetail extends React.Component {
                                                     minWidth: isMobile
                                                       ? '0'
                                                       : '230px',
-                                                    flex: isMobile? '1': 'inherit'
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
                                                   }}
                                                 >
                                                   <FormattedMessage id="subscription.total"></FormattedMessage>
                                                 </label>
-                                                <div className="text-right" style={{flex: isMobile? '1': 'inherit'}}>
+                                                <div
+                                                  className="text-right"
+                                                  style={{
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
+                                                  }}
+                                                >
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
@@ -2239,17 +2317,27 @@ class SubscriptionDetail extends React.Component {
                                                       minWidth: isMobile
                                                         ? '0'
                                                         : '230px',
-                                                      flex: isMobile? '1': 'inherit'
+                                                      flex: isMobile
+                                                        ? '1'
+                                                        : 'inherit'
                                                     }}
                                                   >
                                                     {this.state.promotionDesc}:
                                                   </label>
-                                                  <div className="text-right red-text" style={{flex: isMobile? '1': 'inherit'}}>
+                                                  <div
+                                                    className="text-right red-text"
+                                                    style={{
+                                                      flex: isMobile
+                                                        ? '1'
+                                                        : 'inherit'
+                                                    }}
+                                                  >
                                                     <b>
                                                       -
                                                       {formatMoney(
                                                         // this.state.subDiscount
-                                                        el.tradePrice.discountsPrice
+                                                        el.tradePrice
+                                                          .discountsPrice
                                                       )}
                                                     </b>
                                                   </div>
@@ -2258,14 +2346,23 @@ class SubscriptionDetail extends React.Component {
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el) => (
                                                   <div className="flex-layout">
-                                                    <label className="saveDiscount  red-text" style={{flex: isMobile? '1': 'inherit'}}>
+                                                    <label
+                                                      className="saveDiscount  red-text"
+                                                      style={{
+                                                        flex: isMobile
+                                                          ? '1'
+                                                          : 'inherit'
+                                                      }}
+                                                    >
                                                       {this.state.promotionDesc}
                                                     </label>
                                                     <div
                                                       className="text-right red-text"
                                                       style={{
                                                         position: 'relative',
-                                                        flex: isMobile? '1': 'inherit'
+                                                        flex: isMobile
+                                                          ? '1'
+                                                          : 'inherit'
                                                       }}
                                                     >
                                                       <b>
@@ -2302,12 +2399,21 @@ class SubscriptionDetail extends React.Component {
                                                     minWidth: isMobile
                                                       ? '0'
                                                       : '230px',
-                                                    flex: isMobile? '1': 'inherit'
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
                                                   }}
                                                 >
                                                   <FormattedMessage id="subscription.shipping"></FormattedMessage>
                                                 </label>
-                                                <div className="text-right red-text" style={{flex: isMobile? '1': 'inherit'}}>
+                                                <div
+                                                  className="text-right red-text"
+                                                  style={{
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
+                                                  }}
+                                                >
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice
@@ -2317,12 +2423,17 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               </div>
                                               <div className="flex-layout">
-                                                <label className="saveDiscount" style={{
+                                                <label
+                                                  className="saveDiscount"
+                                                  style={{
                                                     minWidth: isMobile
                                                       ? '0'
                                                       : '230px',
-                                                    flex: isMobile? '1': 'inherit'
-                                                  }}>
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
+                                                  }}
+                                                >
                                                   <b
                                                     style={{
                                                       fontSize: '20px',
@@ -2337,7 +2448,14 @@ class SubscriptionDetail extends React.Component {
                                                     (VAT included)
                                                   </span>
                                                 </label>
-                                                <div className="text-right" style={{flex: isMobile? '1': 'inherit'}}>
+                                                <div
+                                                  className="text-right"
+                                                  style={{
+                                                    flex: isMobile
+                                                      ? '1'
+                                                      : 'inherit'
+                                                  }}
+                                                >
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice
@@ -2446,12 +2564,18 @@ class SubscriptionDetail extends React.Component {
                                                   ) : (
                                                     <>
                                                       <i className="yellowCircle"></i>
-                                                      <span style={{paddingRight: '30px'}}>Skiped</span>
+                                                      <span
+                                                        style={{
+                                                          paddingRight: '30px'
+                                                        }}
+                                                      >
+                                                        Skiped
+                                                      </span>
                                                     </>
                                                   )}
                                                 </div>
                                               </>
-                                            ) : (el.id ? (
+                                            ) : el.id ? (
                                               <>
                                                 <img
                                                   style={{
@@ -2478,7 +2602,7 @@ class SubscriptionDetail extends React.Component {
                                                   Order detail
                                                 </a>
                                               </>
-                                            ) : null)}
+                                            ) : null}
                                           </div>
                                         </div>
                                       </div>
