@@ -86,7 +86,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                                                             <div>
                                                                 <b>Par mail</b>
                                                                 <div>
-                                                                    <a href="https://shop.royalcanin.fr/help/contact" className="rc-styled-link">Envoyer un email</a>
+                                                                    <a href="mailto:Envoyer un email" className="rc-styled-link">Envoyer un email</a>
                                                                 </div>
                                                             </div>
 
