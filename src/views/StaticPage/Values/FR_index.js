@@ -11,6 +11,8 @@ import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
+import FrTips from '../Help/fr/frTips';
+import FrFaq from '../Help/fr/frFaq';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -45,7 +47,8 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
+
           <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
