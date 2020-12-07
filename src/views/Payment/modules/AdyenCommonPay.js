@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { find } from 'lodash';
+import { searchNextConfirmPanel } from '../modules/utils';
 
 @inject('loginStore', 'paymentStore')
 @injectIntl
@@ -93,7 +93,17 @@ class AdyenCommonPay extends Component {
 
     const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-    paymentStore.setStsToEdit({ key: 'confirmation' });
+    const isReadyPrev = isPrevReady({
+      list: toJS(paymentStore.panelStatus),
+      curKey: curPanelKey
+    });
+    // 下一个最近的未complete的panel
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: curPanelKey
+    });
+    isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    // paymentStore.setStsToEdit({ key: 'confirmation' });
     paymentStore.updateHasConfimedPaymentVal(this.props.type);
     this.props.updateEmail(this.state.text);
   };
@@ -116,7 +126,7 @@ class AdyenCommonPay extends Component {
                       id="street"
                       style={{ marginBottom: '18px' }}
                     >
-                      <label className="address-label" for="street">
+                      <label className="address-label" htmlFor="street">
                         <FormattedMessage id="email" />
                         <span className="red">*</span>
                       </label>

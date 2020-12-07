@@ -1,6 +1,6 @@
 import { action, observable, computed } from 'mobx';
-import { find, findIndex } from 'lodash';
-import { act } from 'react-dom/test-utils';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 
 class PaymentStore {
   @observable deliveryAddress = null;
@@ -27,12 +27,12 @@ class PaymentStore {
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'billingAddr',
+      key: 'paymentMethod',
       order: 4,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'paymentMethod',
+      key: 'billingAddr',
       order: 5,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
@@ -42,6 +42,8 @@ class PaymentStore {
       status: { isPrepare: true, isEdit: false }
     }
   ];
+
+  @observable firstSavedCardCvv = "";//当前保存卡的cvv
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -145,6 +147,11 @@ class PaymentStore {
       tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
     }
     this.selectedBillingAddress = tmpData;
+  }
+
+  @action
+  updateFirstSavedCardCvv(data){
+    this.firstSavedCardCvv = data
   }
 }
 export default PaymentStore;

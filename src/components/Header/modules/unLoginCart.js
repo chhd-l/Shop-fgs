@@ -7,7 +7,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';

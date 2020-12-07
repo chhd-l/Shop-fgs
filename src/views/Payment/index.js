@@ -1,6 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { findIndex, find } from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
@@ -21,7 +22,7 @@ import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
-import { searchNextConfirmPanel } from './modules/utils';
+import { searchNextConfirmPanel, isPrevReady } from './modules/utils';
 import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
@@ -988,7 +989,9 @@ class Payment extends React.Component {
             rePaySubscribeId: err.errorData.subscribeId
           },
           () => {
-            this.state.tidList.length && this.queryOrderDetails();
+            this.state.tidList &&
+              this.state.tidList.length &&
+              this.queryOrderDetails();
           }
         );
       }
@@ -1386,9 +1389,25 @@ class Payment extends React.Component {
   }
 
   updateSameAsCheckBoxVal = (val) => {
+    const { paymentStore } = this.props;
+    const curPanelKey = 'billingAddr';
     // 切换时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
-      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
+      this.props.paymentStore.setStsToEdit({ key: curPanelKey });
+    }
+
+    if (val) {
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+      const isReadyPrev = isPrevReady({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
     this.setState({ billingChecked: val });
     if (val) {
@@ -1533,7 +1552,7 @@ class Payment extends React.Component {
     ) : null;
   };
 
-  renderBillingJSX = () => {
+  renderBillingJSX = ({ type }) => {
     const {
       billingChecked,
       billingAddress,
@@ -1544,6 +1563,7 @@ class Payment extends React.Component {
       <>
         <SameAsCheckbox
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          type={type}
         />
         {billingChecked ? (
           deliveryAddress.firstName ? (
@@ -1581,17 +1601,7 @@ class Payment extends React.Component {
                   this.props.paymentStore.updateSelectedBillingAddress(data);
                   this.setState({ billingAddress: data });
                 }}
-              >
-                <div
-                  className="card-header bg-transparent position-relative pt-0 pb-0"
-                  style={{ zIndex: 2, width: '62%' }}
-                >
-                  <h5>
-                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                    <FormattedMessage id="payment.billTitle" />
-                  </h5>
-                </div>
-              </AddressList>
+              />
             ) : (
               <VisitorAddress
                 key={2}
@@ -1617,7 +1627,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = () => {
-    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
+    const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
@@ -1629,9 +1639,9 @@ class Payment extends React.Component {
       >
         {/* *******************支付tab栏start************************************ */}
         <div className={`ml-custom mr-custom`}>
-          {Object.entries(payWayObj).map((item) => {
+          {Object.entries(payWayObj).map((item, i) => {
             return (
-              <div className="rc-input rc-input--inline">
+              <div className="rc-input rc-input--inline" key={i}>
                 <input
                   className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
@@ -1644,7 +1654,7 @@ class Payment extends React.Component {
                 />
                 <label
                   className="rc-input__label--inline"
-                  for={`payment-info-${item[1].id}`}
+                  htmlFor={`payment-info-${item[1].id}`}
                 >
                   <FormattedMessage id={item[1].id} />
                 </label>
@@ -1696,7 +1706,7 @@ class Payment extends React.Component {
               }}
               isApplyCvv={false}
               needReConfirmCVV={true}
-              billingJSX={this.renderBillingJSX()}
+              billingJSX={this.renderBillingJSX({ type: 'payu' })}
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
           </div>
@@ -1767,7 +1777,9 @@ class Payment extends React.Component {
           {/* ***********************支付选项卡的内容end******************************* */}
 
           {/* billing address */}
-          {this.isOnepageCheckout && this.renderBillingJSX()}
+          {this.isOnepageCheckout &&
+            !tid &&
+            this.renderBillingJSX({ type: 'common' })}
         </div>
       </div>
     );
@@ -2103,10 +2115,11 @@ class Payment extends React.Component {
                 )}
               </div>
               <div className="rc-column pl-md-0">
-                {this.state.tid ? (
+                {tid ? (
                   <>
                     <RePayProductInfo
-                      fixToHeader={true}
+                      fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                      style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
                     />
@@ -2114,6 +2127,8 @@ class Payment extends React.Component {
                 ) : (
                   <PayProductInfo
                     data={recommend_data}
+                    fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                    style={{ background: '#fff' }}
                     ref="payProductInfo"
                     location={location}
                     history={history}

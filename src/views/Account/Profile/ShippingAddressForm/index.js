@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
@@ -339,7 +339,7 @@ class ShippingAddressFrom extends React.Component {
                       />
                       <label
                         className="rc-input__label--inline"
-                        for={`account-info-address-${item.type}-${i}`}
+                        htmlFor={`account-info-address-${item.type}-${i}`}
                       >
                         <FormattedMessage id={item.langKey} />
                       </label>

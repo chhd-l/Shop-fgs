@@ -1,6 +1,6 @@
 import { action, observable, computed, runInAction } from 'mobx';
 import { purchases, sitePurchases, siteMiniPurchases } from '@/api/cart';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { toJS } from 'mobx';
 
 const localItemRoyal = window.__.localItemRoyal;

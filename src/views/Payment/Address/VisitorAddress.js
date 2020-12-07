@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
@@ -72,7 +72,7 @@ class VisitorAddress extends React.Component {
 
     const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.state.billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 

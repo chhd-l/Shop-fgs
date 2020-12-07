@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import {
@@ -575,13 +575,13 @@ class PaymentComp extends React.Component {
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <LazyLoad>
-          <img
-            alt=""
-            key={idx}
-            style={{ width: '50px' }}
-            className="logo-payment-card mr-1"
-            src={el}
-          />
+            <img
+              alt=""
+              key={idx}
+              style={{ width: '50px' }}
+              className="logo-payment-card mr-1"
+              src={el}
+            />
           </LazyLoad>
         ))}
       </span>
@@ -767,21 +767,23 @@ class PaymentComp extends React.Component {
                           className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
                         >
                           <LazyLoad>
-                          <img
-                            alt=""
-                            className="PayCardImgFitScreen"
-                            src={
-                              CREDIT_CARD_IMG_ENUM[
-                                el.paymentMethod ? el.paymentMethod.vendor : ''
-                              ]
-                                ? CREDIT_CARD_IMG_ENUM[
-                                    el.paymentMethod
-                                      ? el.paymentMethod.vendor.toUpperCase()
-                                      : ''
-                                  ]
-                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                            }
-                          />
+                            <img
+                              alt=""
+                              className="PayCardImgFitScreen"
+                              src={
+                                CREDIT_CARD_IMG_ENUM[
+                                  el.paymentMethod
+                                    ? el.paymentMethod.vendor
+                                    : ''
+                                ]
+                                  ? CREDIT_CARD_IMG_ENUM[
+                                      el.paymentMethod
+                                        ? el.paymentMethod.vendor.toUpperCase()
+                                        : ''
+                                    ]
+                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                              }
+                            />
                           </LazyLoad>
                         </div>
                         <div
@@ -961,16 +963,16 @@ class PaymentComp extends React.Component {
                       <div className="cardFormBox">
                         <span className="cardImage">
                           <LazyLoad>
-                          <img
-                            alt="Card"
-                            src={
-                              CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                ? CREDIT_CARD_IMG_ENUM[
-                                    this.state.currentVendor.toUpperCase()
-                                  ]
-                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                            }
-                          />
+                            <img
+                              alt="Card"
+                              src={
+                                CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
+                                  ? CREDIT_CARD_IMG_ENUM[
+                                      this.state.currentVendor.toUpperCase()
+                                    ]
+                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                              }
+                            />
                           </LazyLoad>
                         </span>
                         <span className="cardForm">

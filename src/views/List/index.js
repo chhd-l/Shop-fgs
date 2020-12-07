@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
@@ -11,9 +12,9 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
-import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
-import { find } from 'lodash';
+import find from 'lodash/find';
+import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getList,
   getLoginList,
@@ -40,7 +41,8 @@ function ListItem(props) {
         className="rc-card rc-card--product overflow-hidden"
         style={{ minHeight: '120px' }}
       >
-        {props.promotionJSX}
+        {props.leftPromotionJSX}
+        {props.rightPromotionJSX}
         <div className="fullHeight">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
@@ -63,6 +65,7 @@ class List extends React.Component {
       storeCateIds: [],
       category: '',
       cateType: '',
+      cateName: '',
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
@@ -137,12 +140,18 @@ class List extends React.Component {
         titleData:
           state.cateName && state.cateDescription && state.cateImgList
             ? {
-              cateName: state.cateName,
-              title: state.cateTitle,
-              description: state.cateDescription,
-              img: state.cateImgList
-            }
-            : null
+                cateName: state.cateName,
+                title: state.cateTitle,
+                description: state.cateDescription,
+                img: state.cateImgList
+              }
+            : null,
+        cateName:
+          state.cateName ||
+          {
+            '/cats': <FormattedMessage id="cats3" />,
+            '/dogs': <FormattedMessage id="dogs3" />
+          }[pathname]
       });
     }
 
@@ -153,8 +162,8 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-              ? keywordsSearch
-              : '',
+            ? keywordsSearch
+            : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
       },
       () => {
@@ -424,7 +433,24 @@ class List extends React.Component {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele);
+              let ret = Object.assign({}, ele, {
+                // 最低marketPrice对应的划线价
+                miLinePrice: ele.goodsInfos.sort(
+                  (a, b) => a.marketPrice - b.marketPrice
+                )[0].linePrice,
+                taggingForText: (ele.taggingVOList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
+                )[0],
+                taggingForImage: (ele.taggingVOList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
+                )[0]
+              });
               const tmpItem = find(
                 res.context.goodsList,
                 (g) => g.goodsId === ele.id
@@ -538,7 +564,8 @@ class List extends React.Component {
       filterModalVisible,
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
-      keywords
+      keywords,
+      cateName
     } = this.state;
     let event;
     let eEvents;
@@ -613,9 +640,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: (titleData && titleData.cateName) || '' }].filter(
-              (el) => el.name
-            )}
+            list={[{ name: cateName || '' }].filter((el) => el.name)}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
@@ -681,8 +706,9 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters ${filterModalVisible ? 'active' : ''
-                        }`}
+                      className={`rc-filters ${
+                        filterModalVisible ? 'active' : ''
+                      }`}
                     >
                       <Filters
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -708,8 +734,9 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters ${filterModalVisible ? 'active' : ''
-                        }`}
+                      className={`rc-filters ${
+                        filterModalVisible ? 'active' : ''
+                      }`}
                     >
                       <Filters
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
@@ -781,22 +808,39 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                        <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
-                          <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
-                            {loading
-                              ? _loadingJXS
-                              : productList.map((item, i) => (
+                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
+                          {loading
+                            ? _loadingJXS
+                            : productList.map((item, i) => (
                                 <ListItem
                                   key={item.id}
-                                  promotionJSX={
-                                    find(
-                                      item.goodsInfos,
-                                      (ele) => ele.goodsPromotion
-                                    ) ? (
-                                        <div className="product-item-flag">
-                                          <FormattedMessage id="promotion" />
-                                        </div>
-                                      ) : null
+                                  leftPromotionJSX={
+                                    item.taggingForText ? (
+                                      <div
+                                        className="product-item-flag-text"
+                                        style={{
+                                          backgroundColor:
+                                            item.taggingForText
+                                              .taggingFillColor,
+                                          color:
+                                            item.taggingForText.taggingFontColor
+                                        }}
+                                      >
+                                        {item.taggingForText.taggingName}
+                                      </div>
+                                    ) : null
+                                  }
+                                  rightPromotionJSX={
+                                    item.taggingForImage ? (
+                                      <div className="product-item-flag-image position-absolute">
+                                        <img
+                                          src={
+                                            item.taggingForImage.taggingImgUrl
+                                          }
+                                        />
+                                      </div>
+                                    ) : null
                                   }
                                   onClick={this.hanldeItemClick.bind(
                                     this,
@@ -809,58 +853,66 @@ class List extends React.Component {
                                       style={{ height: '15.7rem' }}
                                     >
                                       {/*循环遍历的图片*/}
-                                      <img
-                                        src={
-                                          item.goodsImg ||
-                                          item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg
-                                        }
-                                        srcSet={
-                                          item.goodsImg ||
-                                          item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg
-                                        }
-                                        alt={item.goodsName}
-                                        title={item.goodsName}
-                                        className="ImgFitScreen pt-3"
-                                        style={{
-                                          maxWidth: '50%',
-                                          maxHeight: '100%',
-                                          width: 'auto',
-                                          height: 'auto'
-                                        }}
-                                      />
+                                      <LazyLoad style={{ width: '100%' }}>
+                                        <img
+                                          src={
+                                            item.goodsImg ||
+                                            item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].goodsInfoImg ||
+                                            IMG_DEFAULT
+                                          }
+                                          srcSet={
+                                            item.goodsImg ||
+                                            item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].goodsInfoImg ||
+                                            IMG_DEFAULT
+                                          }
+                                          alt={item.goodsName}
+                                          title={item.goodsName}
+                                          className="ImgFitScreen pt-3"
+                                          style={{
+                                            maxWidth: '50%',
+                                            maxHeight: '100%',
+                                            width: 'auto',
+                                            height: 'auto',
+                                            margin: 'auto'
+                                          }}
+                                        />
+                                      </LazyLoad>
                                     </div>
                                   </picture>
                                   <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
                                     <div className="height-product-tile-plpOnly">
                                       {/*商品名字*/}
-                                      <header
+                                      {/* <header
                                         className="rc-text--center "
-                                        style={{ height: '70px' }}
+                                        // style={{ height: '70px' }}
+                                      ></header> */}
+                                      <h3
+                                        className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+                                        title={item.goodsName}
                                       >
-                                        <h3
-                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
-                                          title={item.goodsName}
-                                        >
-                                          {item.goodsName}
-                                        </h3>
-                                      </header>
+                                        {item.goodsName}
+                                      </h3>
                                       {/*商品描述*/}
-                                      <div
-                                        className={`rc-card__meta text-center col-12`}
-                                        title={item.goodsSubtitle}
+                                      <h6
+                                        className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
                                         style={{ color: '#4a4a4a' }}
+                                        title={item.goodsSubtitle}
                                       >
-                                        <h6 className="second-title">{item.goodsSubtitle}</h6>
-                                      </div>
+                                        {item.goodsSubtitle}
+                                      </h6>
                                     </div>
                                     {/*商品评分和评论数目*/}
                                     <div
+                                      style={{
+                                        display: 'flex',
+                                        margin: '0 auto'
+                                      }}
                                       className={`rc-card__price text-center RateFitScreen`}
                                     >
                                       <div>
@@ -870,7 +922,10 @@ class List extends React.Component {
                                           marginSize="smallRate"
                                         />
                                       </div>
-                                      <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                      <span
+                                        className="comments rc-margin-left--xs rc-text-colour--text"
+                                        style={{ marginTop: '3px' }}
+                                      >
                                         ({item.goodsEvaluateNum})
                                       </span>
                                     </div>
@@ -903,67 +958,27 @@ class List extends React.Component {
                                               item.miMarketPrice
                                             )}{' '}
                                             {/* 划线价 */}
-                                            {item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].linePrice &&
-                                              item.goodsInfos.sort(
-                                                (a, b) =>
-                                                  a.marketPrice - b.marketPrice
-                                              )[0].linePrice > 0 ? (
-                                                <span
-                                                  className="text-line-through rc-text-colour--text font-weight-lighter"
-                                                  style={{
-                                                    fontSize: '.8em'
-                                                  }}
-                                                >
-                                                  {formatMoney(
-                                                    item.goodsInfos.sort(
-                                                      (a, b) =>
-                                                        a.marketPrice -
-                                                        b.marketPrice
-                                                    )[0].linePrice
-                                                  )}
-                                                </span>
-                                              ) : null}
+                                            {item.miLinePrice &&
+                                            item.miLinePrice > 0
+                                              ? formatMoney(item.miLinePrice)
+                                              : null}
                                           </span>
                                         </div>
-                                        {find(
-                                          item.goodsInfos,
-                                          (ele) => ele.subscriptionStatus
-                                        ) &&
-                                          Math.min.apply(
-                                            null,
-                                            item.goodsInfos
-                                              .filter((g) => g.subscriptionStatus)
-                                              .map(
-                                                (g) => g.subscriptionPrice || 0
-                                              )
-                                          ) > 0 ? (
-                                            <div className="range position-relative SePriceScreen">
-                                              <span
-                                                style={{
-                                                  color: '#323232',
-                                                  fontWeight: 400
-                                                }}
-                                              >
-                                                {formatMoney(
-                                                  Math.min.apply(
-                                                    null,
-                                                    item.goodsInfos
-                                                      .filter(
-                                                        (g) =>
-                                                          g.subscriptionStatus
-                                                      )
-                                                      .map(
-                                                        (g) =>
-                                                          g.subscriptionPrice || 0
-                                                      )
-                                                  )
-                                                )}{' '}
-                                              </span>
-                                            </div>
-                                          ) : null}
+                                        {item.miSubscriptionPrice &&
+                                        item.miSubscriptionPrice > 0 ? (
+                                          <div className="range position-relative SePriceScreen">
+                                            <span
+                                              style={{
+                                                color: '#323232',
+                                                fontWeight: 400
+                                              }}
+                                            >
+                                              {formatMoney(
+                                                item.miSubscriptionPrice
+                                              )}{' '}
+                                            </span>
+                                          </div>
+                                        ) : null}
                                       </div>
                                     </div>
                                     {/*商品价格截至*/}
@@ -990,20 +1005,18 @@ class List extends React.Component {
                                   </div>
                                 </ListItem>
                               ))}
-                          </article>
-                          <div className="grid-footer rc-full-width">
-                            <Pagination
-                              loading={this.state.loading}
-                              defaultCurrentPage={this.state.currentPage}
-                              key={this.state.currentPage}
-                              totalPage={this.state.totalPage}
-                              onPageNumChange={(params) =>
-                                this.hanldePageNumChange(params)
-                              }
-                            />
-                          </div>
+                        </article>
+                        <div className="grid-footer rc-full-width">
+                          <Pagination
+                            loading={this.state.loading}
+                            defaultCurrentPage={this.state.currentPage}
+                            key={this.state.currentPage}
+                            totalPage={this.state.totalPage}
+                            onPageNumChange={this.hanldePageNumChange}
+                          />
                         </div>
-                      )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1012,9 +1025,9 @@ class List extends React.Component {
               <div className="ml-4 mr-4 pl-4 pr-4">
                 <div className="row d-flex align-items-center">
                   <div className="col-12 col-md-6">
-                    <h1 className="rc-gamma rc-padding--none">
+                    <p className="rc-gamma rc-padding--none">
                       <FormattedMessage id="productFinder.recoTitle" />
-                    </h1>
+                    </p>
                     <p>
                       <FormattedMessage id="productFinder.recoDesc" />
                     </p>
@@ -1023,7 +1036,7 @@ class List extends React.Component {
                     </Link>
                   </div>
                   <div className="col-12 col-md-6">
-                    <LazyLoad>
+                    <LazyLoad height={200}>
                       <img src={pfRecoImg} />
                     </LazyLoad>
                   </div>
@@ -1032,24 +1045,21 @@ class List extends React.Component {
             )}
           </div>
         </main>
-        {
-          process.env.REACT_APP_LANG == 'de' ? (
-            <div className="notate ml-2 mb-2">
-              <FormattedMessage
-                id="notate"
-                values={{
-                  val: (
-                    <Link className="rc-styled-link" to="/FAQ/all">
-                      Versandkosten
-                    </Link>
-                  )
-                }}
-                defaultMessage={' '}
-              />
-            </div>
-          ) : null
-        }
-
+        {process.env.REACT_APP_LANG == 'de' ? (
+          <div className="notate ml-2 mb-2">
+            <FormattedMessage
+              id="notate"
+              values={{
+                val: (
+                  <Link className="rc-styled-link" to="/FAQ/all">
+                    Versandkosten
+                  </Link>
+                )
+              }}
+              defaultMessage={' '}
+            />
+          </div>
+        ) : null}
 
         <Footer />
       </div>

@@ -8,21 +8,15 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
+import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
-import { setSeoConfig } from '@/utils/utils';
+import FrTips from '../Help/fr/frTips';
+import FrFaq from '../Help/fr/frFaq';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -53,7 +47,8 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
+
           <BreadCrumbs />
           <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}

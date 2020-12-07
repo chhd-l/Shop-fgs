@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 

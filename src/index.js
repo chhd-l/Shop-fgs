@@ -6,8 +6,7 @@ import './index.css';
 import App from './App.jsx';
 //import * as serviceWorker from './serviceWorker';
 import '@/assets/css/checkout.css'
-// import 'semantic-ui-css/semantic.min.css';
-import './polyfills';
+// import './polyfills';
 //import registerServiceWorker from './registerServiceWorker';
 ReactDOM.render(
   <App />,

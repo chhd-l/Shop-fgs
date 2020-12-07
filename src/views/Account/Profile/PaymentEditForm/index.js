@@ -10,7 +10,7 @@ import {
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { validData, dynamicLoadCss } from '@/utils/utils';
 import axios from 'axios';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 
 @inject('loginStore')
 @injectIntl

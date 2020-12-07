@@ -22,7 +22,6 @@ import {
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import moment from 'moment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
@@ -505,7 +504,7 @@ class AccountOrders extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
           <div className="p-md-2rem rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">

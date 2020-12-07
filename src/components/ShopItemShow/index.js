@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter,link} from 'react-router-dom';
 import { FormattedMessage} from 'react-intl';
 import { STORE_CATE_ENUM } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import imagemain from '../../views/StaticPage/PackmixfeedingwetDry/images/Main-Coon-Adult-1-bis.jpg';
 
 const  ShopitemList = withRouter((props)=>{

@@ -1037,5 +1037,6 @@ const fr_FR = {
   'account.startAutoShipping': 'Lancer la livraison automatique',
   'account.noSubscription': 'Vous n\'avez pas encore découvert nos services de livraison automatique? La livraison automatique est un moyen pratique pour vous de faire livrer vos commandes selon un calendrier régulier. Ainsi, vous gagnez du temps et votre animal ne manque jamais de nourriture.',
   'account.noSubscriptionTitle': 'Commençons!',
+  'searchShow':'Résultats de la recherche'
 }
 export default fr_FR;

@@ -7,7 +7,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
@@ -21,15 +20,23 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import { getDetails, getLoginDetails, getDetailsBySpuNo } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
-import './index.css';
-import './index.less';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import { setSeoConfig, getDeviceType, getFrequencyDict } from '@/utils/utils';
+import {
+  setSeoConfig,
+  getDeviceType,
+  getFrequencyDict,
+  queryStoreCateList
+} from '@/utils/utils';
+
+import './index.css';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -95,7 +102,13 @@ function ErrMsgForCheckoutPanel({ checkOutErrMsg }) {
   );
 }
 
-@inject('checkoutStore', 'loginStore', 'headerCartStore', 'configStore', 'clinicStore')
+@inject(
+  'checkoutStore',
+  'loginStore',
+  'headerCartStore',
+  'configStore',
+  'clinicStore'
+)
 @injectIntl
 @observer
 class Details extends React.Component {
@@ -111,7 +124,6 @@ class Details extends React.Component {
         goodsDescription: '',
         sizeList: [],
         images: [],
-        goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: [],
         taggingForText: null,
@@ -161,16 +173,13 @@ class Details extends React.Component {
       tabs: [],
       reviewShow: false,
       isMobile: false,
-      goodsNo: '' // SPU
+      goodsNo: '', // SPU
+      breadCrumbs: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
-
-    this.specie = '';
-    this.productRange = [];
-    this.format = [];
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -434,13 +443,51 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          this.setState({
-            productRate: res.context.goods.avgEvaluate,
-            replyNum: res.context.goods.goodsEvaluateNum,
-            goodsId: res.context.goods.goodsId,
-            minMarketPrice: res.context.goods.minMarketPrice,
-            minSubscriptionPrice: res.context.goods.minSubscriptionPrice
-          });
+          this.setState(
+            {
+              productRate: res.context.goods.avgEvaluate,
+              replyNum: res.context.goods.goodsEvaluateNum,
+              goodsId: res.context.goods.goodsId,
+              minMarketPrice: res.context.goods.minMarketPrice,
+              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              details: Object.assign(this.state.details, {
+                taggingForText: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0],
+                taggingForImage: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0]
+              }),
+              breadCrumbs: [{ name: res.context.goods.goodsName }]
+            },
+            async () => {
+              const { breadCrumbs } = this.state;
+              const cateNameInfo = (res.context.storeCates || [])[0];
+              if (cateNameInfo && cateNameInfo.storeCateId) {
+                const res = await queryStoreCateList();
+                const matchedItem = (res || []).filter(
+                  (f) => f.storeCateId === cateNameInfo.storeCateId
+                )[0];
+                if (matchedItem) {
+                  this.setState({
+                    breadCrumbs: [
+                      {
+                        name: matchedItem.cateName,
+                        link: matchedItem.cateRouter
+                      },
+                      ...breadCrumbs
+                    ]
+                  });
+                }
+              }
+            }
+          );
           setSeoConfig({
             goodsId: res.context.goods.goodsId,
             categoryId: '',
@@ -452,68 +499,6 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goodsSpecDetails) {
-          // 获取产品所属类别
-          // let tmpSpecie =
-          //   find(res.context.storeCates, (ele) =>
-          //     ele.cateName.toLowerCase().includes('dog')
-          //   ) && 'Dog';
-          // if (!tmpSpecie) {
-          //   tmpSpecie =
-          //     find(res.context.storeCates, (ele) =>
-          //       ele.cateName.toLowerCase().includes('cat')
-          //     ) && 'Cat';
-          // }
-          // this.specie = tmpSpecie;
-
-          // 获取产品所属home页四个大类
-          // for (let item of res.context.storeCates) {
-          //   const t = find(STORE_CATE_ENUM, (ele) =>
-          //     ele.cateName.includes(item.cateName)
-          //   );
-          //   if (t) {
-          //     this.productRange.push(t.text);
-          //   }
-          // }
-          // 获取产品Dry/Wet属性
-          // let tmpFormat = [];
-          // queryProps().then((propsRes) => {
-          //   for (let item of res.context.goodsPropDetailRels) {
-          //     const t = find(
-          //       propsRes || [],
-          //       (ele) => ele.propId === item.propId
-          //     );
-          //     // 区分cat or dog(de)
-          //     if (t && t.propName.includes('Spezies')) {
-          //       const t3 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t3) {
-          //         this.specie =
-          //           { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-          //       }
-          //     }
-          //     if (
-          //       t &&
-          //       (t.propName.includes('Seco') ||
-          //         t.propName.includes('Technologie'))
-          //     ) {
-          //       const t2 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t2) {
-          //         tmpFormat.push(
-          //           { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-          //             t2.detailName
-          //           ] || ''
-          //         );
-          //       }
-          //     }
-          //   }
-          //   this.format = tmpFormat;
-          // });
-
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
@@ -554,7 +539,7 @@ class Details extends React.Component {
               }
             }
             this.setState({
-              goodsDetailTab: goodsDetailTab,
+              goodsDetailTab,
               tabs
             });
           } catch (err) {
@@ -580,11 +565,11 @@ class Details extends React.Component {
           // }
           // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
           // if(filterImages.length) {
-          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)  
+          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
           // }else {
           //   ima
           // }
-          images = res.context.goodsInfos
+          images = res.context.goodsInfos;
           this.setState(
             {
               details: Object.assign(
@@ -596,27 +581,6 @@ class Details extends React.Component {
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
                   goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
-                },
-                {
-                  taggingForText: (res.context.taggingList || []).filter(
-                    (e) =>
-                      e.taggingType === 'Text' &&
-                      e.showPage &&
-                      e.showPage.includes('PDP')
-                  )[0],
-                  taggingForImage: (res.context.taggingList || []).filter(
-                    (e) =>
-                      e.taggingType === 'Image' &&
-                      e.showPage &&
-                      e.showPage.includes('PDP')
-                  )[0]
                 }
               ),
               images,
@@ -682,7 +646,7 @@ class Details extends React.Component {
           // } else {
           //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
           // }
-          images = res.context.goodsInfos
+          images = res.context.goodsInfos;
           this.setState(
             {
               details: Object.assign(
@@ -694,16 +658,9 @@ class Details extends React.Component {
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
                   goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
                 }
               ),
-              images: images
+              images
             },
             () => {
               this.bundleMatchGoods();
@@ -789,7 +746,7 @@ class Details extends React.Component {
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
     form.frequencyId = data.id;
-    this.setState({ form: form }, () => {
+    this.setState({ form }, () => {
       // this.props.updateSelectedData(this.state.form);
     });
   };
@@ -852,11 +809,11 @@ class Details extends React.Component {
         clinicStore,
         headerCartStore
       } = this.props;
-      this.setState({ addToCartLoading: true });
-      const { quantity, form } = this.state;
-      const { sizeList } = this.state.details;
+      const { quantity, form, details } = this.state;
+      const { sizeList } = details;
       let currentSelectedSize;
-      if (this.state.details.goodsSpecDetails) {
+      this.setState({ addToCartLoading: true });
+      if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
         currentSelectedSize = sizeList[0];
@@ -865,11 +822,6 @@ class Details extends React.Component {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsCategory: [
-          this.specie,
-          this.productRange,
-          this.format.join('&')
-        ].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
       };
       if (parseInt(form.buyWay)) {
@@ -953,7 +905,13 @@ class Details extends React.Component {
     }
   }
   async hanldeUnloginAddToCart({ redirect = false, needLogin = false }) {
-    const { configStore, checkoutStore, history, headerCartStore, clinicStore } = this.props;
+    const {
+      configStore,
+      checkoutStore,
+      history,
+      headerCartStore,
+      clinicStore
+    } = this.props;
     const {
       currentUnitPrice,
       quantity,
@@ -1067,87 +1025,86 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     await checkoutStore.updateUnloginCart(cartDataCopy);
-    // debugger
     try {
-    if (redirect) {
-      if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo3"
-            values={{
-              val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
-            }}
-          />
-        );
-        throw new Error();
-      }
-      if (checkoutStore.offShelvesProNames.length) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo4"
-            values={{
-              val: checkoutStore.offShelvesProNames.join('/')
-            }}
-          />
-        );
-        throw new Error();
-      }
-      if (checkoutStore.outOfstockProNames.length) {
-        this.showCheckoutErrMsg(
-          <FormattedMessage
-            id="cart.errorInfo2"
-            values={{ val: checkoutStore.outOfstockProNames.join('/') }}
-          />
-        );
-        throw new Error();
-      }
-      if (needLogin) {
-        // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
-      } else {
-        let autoAuditFlag = false;
-        if (this.isLogin) {
-          let res = await getProductPetConfig({
-            goodsInfos: checkoutStore.loginCartData
-          });
-          let handledData = checkoutStore.loginCartData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setLoginCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-        } else {
-          let paramData = checkoutStore.cartData.map((el) => {
-            el.goodsInfoId = el.sizeList.filter(
-              (item) => item.selected
-            )[0].goodsInfoId;
-            return el;
-          });
-          let res = await getProductPetConfig({ goodsInfos: paramData });
-          let handledData = paramData.map((el, i) => {
-            el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
-            el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
-            return el;
-          });
-          checkoutStore.setCartData(handledData);
-          let AuditData = handledData.filter((el) => el.auditCatFlag);
-          checkoutStore.setAuditData(AuditData);
-          autoAuditFlag = res.context.autoAuditFlag;
-          checkoutStore.setPetFlag(res.context.petFlag);
+      if (redirect) {
+        if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo3"
+              values={{
+                val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+              }}
+            />
+          );
+          throw new Error();
         }
-        checkoutStore.setAutoAuditFlag(autoAuditFlag);
-        const url = distributeLinktoPrecriberOrPaymentPage({
-          configStore,
-          checkoutStore,
-          clinicStore,
-          isLogin: this.isLogin
-        });
-        url && history.push(url);
-        // history.push('/prescription');
+        if (checkoutStore.offShelvesProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo4"
+              values={{
+                val: checkoutStore.offShelvesProNames.join('/')
+              }}
+            />
+          );
+          throw new Error();
+        }
+        if (checkoutStore.outOfstockProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo2"
+              values={{ val: checkoutStore.outOfstockProNames.join('/') }}
+            />
+          );
+          throw new Error();
+        }
+        if (needLogin) {
+          // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
+        } else {
+          let autoAuditFlag = false;
+          if (this.isLogin) {
+            let res = await getProductPetConfig({
+              goodsInfos: checkoutStore.loginCartData
+            });
+            let handledData = checkoutStore.loginCartData.map((el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            });
+            checkoutStore.setLoginCartData(handledData);
+            let AuditData = handledData.filter((el) => el.auditCatFlag);
+            checkoutStore.setAuditData(AuditData);
+            autoAuditFlag = res.context.autoAuditFlag;
+          } else {
+            let paramData = checkoutStore.cartData.map((el) => {
+              el.goodsInfoId = el.sizeList.filter(
+                (item) => item.selected
+              )[0].goodsInfoId;
+              return el;
+            });
+            let res = await getProductPetConfig({ goodsInfos: paramData });
+            let handledData = paramData.map((el, i) => {
+              el.auditCatFlag = res.context.goodsInfos[i]['auditCatFlag'];
+              el.prescriberFlag = res.context.goodsInfos[i]['prescriberFlag'];
+              return el;
+            });
+            checkoutStore.setCartData(handledData);
+            let AuditData = handledData.filter((el) => el.auditCatFlag);
+            checkoutStore.setAuditData(AuditData);
+            autoAuditFlag = res.context.autoAuditFlag;
+            checkoutStore.setPetFlag(res.context.petFlag);
+          }
+          checkoutStore.setAutoAuditFlag(autoAuditFlag);
+          const url = distributeLinktoPrecriberOrPaymentPage({
+            configStore,
+            checkoutStore,
+            clinicStore,
+            isLogin: this.isLogin
+          });
+          url && history.push(url);
+          // history.push('/prescription');
+        }
       }
-    }
     } catch (err) {
       console.log(err);
       this.setState({ errMsg: err.message.toString() });
@@ -1255,18 +1212,18 @@ class Details extends React.Component {
       reviewShow,
       activeTabIdx,
       checkOutErrMsg,
-      isMobile
+      isMobile,
+      breadCrumbs
     } = this.state;
 
     const btnStatus = this.btnStatus;
     let event;
-    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0]
+    let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     // let eEvents;
     // if (!this.state.initing) {
     //   event = {
     //     page: {
     //       type: 'Product',
-    //       theme: this.specie
     //     }
     //   };
     //   eEvents = {
@@ -1281,7 +1238,6 @@ class Details extends React.Component {
     //             name: details.goodsName,
     //             price: currentUnitPrice,
     //             brand: 'Royal Canin',
-    //             category: this.specie,
     //             quantity: selectedSpecItem.buyCount,
     //             variant: selectedSpecItem.specText,
     //             club: 'no',
@@ -1328,7 +1284,7 @@ class Details extends React.Component {
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 {/* todo 接口有返回salescatogery类别吗 */}
-                <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
+                <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     {isMobile && (
@@ -1634,24 +1590,35 @@ class Details extends React.Component {
                               </div>
                               <div
                                 className="price"
-                                style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}
+                                style={{
+                                  fontSize: '22px',
+                                  paddingTop:
+                                    process.env.REACT_APP_LANG === 'de'
+                                      ? '.5rem'
+                                      : '1.5rem'
+                                }}
                               >
                                 <div>{formatMoney(currentUnitPrice)}</div>
-                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem? (<div style={{fontSize: '14px', color: '#999'}}>
-                                      {formatMoney(
-                                        (
-                                          currentUnitPrice /
-                                          parseFloat(
-                                            selectedSpecItem.baseSpecLabel
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /
-                                      {selectedSpecItem.baseSpecLabel &&
-                                        this.formatUnit(
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentUnitPrice /
+                                        parseFloat(
                                           selectedSpecItem.baseSpecLabel
-                                        )}
-                                  </div>): null}
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                             <div
@@ -1716,23 +1683,35 @@ class Details extends React.Component {
                                 Delivery 1 time only
                               </span>
                             </div>
-                            <div className="price" style={{ fontSize: '22px', paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem' }}>
+                            <div
+                              className="price"
+                              style={{
+                                fontSize: '22px',
+                                paddingTop:
+                                  process.env.REACT_APP_LANG === 'de'
+                                    ? '.5rem'
+                                    : '1.5rem'
+                              }}
+                            >
                               <div>{formatMoney(currentUnitPrice)}</div>
-                              {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                {formatMoney(
-                                  (
-                                    currentUnitPrice /
-                                    parseFloat(
-                                      selectedSpecItem.baseSpecLabel
-                                    )
-                                  ).toFixed(2)
-                                )}
-                                /
-                                {selectedSpecItem.baseSpecLabel &&
-                                  this.formatUnit(
-                                    selectedSpecItem.baseSpecLabel
+                              {process.env.REACT_APP_LANG === 'de' &&
+                              selectedSpecItem ? (
+                                <div
+                                  style={{ fontSize: '14px', color: '#999' }}
+                                >
+                                  {formatMoney(
+                                    (
+                                      currentUnitPrice /
+                                      parseFloat(selectedSpecItem.baseSpecLabel)
+                                    ).toFixed(2)
                                   )}
-                              </div>): null}
+                                  /
+                                  {selectedSpecItem.baseSpecLabel &&
+                                    this.formatUnit(
+                                      selectedSpecItem.baseSpecLabel
+                                    )}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                         )}
@@ -1818,23 +1797,41 @@ class Details extends React.Component {
                                   </b>
                                   &nbsp; on this subscription.
                                 </div>
-                                <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
-                                  <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
-                                  {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                              {formatMoney(
-                                                (
-                                                  currentSubscriptionPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                              /
-                                              {selectedSpecItem.baseSpecLabel &&
-                                                this.formatUnit(
-                                                  selectedSpecItem.baseSpecLabel
-                                                )}
-                                  </div>): null}
+                                <div
+                                  className="price"
+                                  style={{
+                                    paddingTop:
+                                      process.env.REACT_APP_LANG === 'de'
+                                        ? '.5rem'
+                                        : '1.5rem'
+                                  }}
+                                >
+                                  <div>
+                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                  </div>
+                                  {process.env.REACT_APP_LANG === 'de' &&
+                                  selectedSpecItem ? (
+                                    <div
+                                      style={{
+                                        fontSize: '14px',
+                                        color: '#999'
+                                      }}
+                                    >
+                                      {formatMoney(
+                                        (
+                                          currentSubscriptionPrice /
+                                          parseFloat(
+                                            selectedSpecItem.baseSpecLabel
+                                          )
+                                        ).toFixed(2)
+                                      )}
+                                      /
+                                      {selectedSpecItem.baseSpecLabel &&
+                                        this.formatUnit(
+                                          selectedSpecItem.baseSpecLabel
+                                        )}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="freqency">
@@ -1956,23 +1953,38 @@ class Details extends React.Component {
                                   customStyleType="select-one"
                                 />
                               </div>
-                              <div className="price" style={{paddingTop: process.env.REACT_APP_LANG === 'de'?'.5rem': '1.5rem'}}>
-                                <div>{formatMoney(currentSubscriptionPrice || 0)}</div>
-                                {process.env.REACT_APP_LANG === 'de' && selectedSpecItem?(<div style={{fontSize: '14px', color: '#999'}}>
-                                              {formatMoney(
-                                                (
-                                                  currentSubscriptionPrice /
-                                                  parseFloat(
-                                                    selectedSpecItem.baseSpecLabel
-                                                  )
-                                                ).toFixed(2)
-                                              )}
-                                              /
-                                              {selectedSpecItem.baseSpecLabel &&
-                                                this.formatUnit(
-                                                  selectedSpecItem.baseSpecLabel
-                                                )}
-                                </div>): null}
+                              <div
+                                className="price"
+                                style={{
+                                  paddingTop:
+                                    process.env.REACT_APP_LANG === 'de'
+                                      ? '.5rem'
+                                      : '1.5rem'
+                                }}
+                              >
+                                <div>
+                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                </div>
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentSubscriptionPrice /
+                                        parseFloat(
+                                          selectedSpecItem.baseSpecLabel
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                           )

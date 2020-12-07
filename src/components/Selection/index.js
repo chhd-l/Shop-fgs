@@ -1,5 +1,6 @@
 import React from 'react';
-import { find, findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import './index.css';
 
 export default class Selection extends React.Component {

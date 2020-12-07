@@ -3,13 +3,10 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl';
-import emailImg from '@/assets/images/emailus_icon@1x.jpg';
-import callImg from '@/assets/images/customer-service@2x.jpg';
-import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
-import './index.css'
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -56,19 +53,17 @@ class TermsConditions extends React.Component {
           match={this.props.match}
         />
 
-
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
           <BreadCrumbs />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">
-
               <div className="rc-padding--sm rc-padding-left--none">
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
-
-                      <h2 className="text-center"
+                      <h2
+                        className="text-center"
                         style={{
                           color: '#E2001A',
                           marginTop: '20px',
@@ -82,130 +77,135 @@ class TermsConditions extends React.Component {
                 </div>
 
                 <p>
-                  <FormattedMessage id="termsandconditions.information" values={{
-                    val1:(
-                      <strong>Conditions</strong>
-                    )
-                  }} />
+                  <FormattedMessage
+                    id="termsandconditions.information"
+                    values={{
+                      val1: <strong>Conditions</strong>
+                    }}
+                  />
                 </p>
                 <p>
-                  <h6 style={{
-                    color:'#606060',
-
-                  }}>
+                  <h6
+                    style={{
+                      color: '#606060'
+                    }}
+                  >
                     <strong>
-                      <FormattedMessage id="termsandconditions.paragraph2"/>
+                      <FormattedMessage id="termsandconditions.paragraph2" />
                     </strong>
                   </h6>
                   <FormattedMessage id="termsandconditions.paragraph3" />
                   <br />
 
                   <FormattedMessage id="termsandconditions.paragraph4" />
-                  <br/>
-                  <FormattedMessage id="termsandconditions.paragraph5" values={{
-                     val1:(
-                      <strong>04 66 73 03 00</strong>
-                    )
-                  }} />
+                  <br />
+                  <FormattedMessage
+                    id="termsandconditions.paragraph5"
+                    values={{
+                      val1: <strong>04 66 73 03 00</strong>
+                    }}
+                  />
                   <br />
                   <FormattedMessage id="termsandconditions.paragraph6" />
                 </p>
                 <p>
-                  <FormattedMessage id="termsandconditions.paragraph7" values={{
-                    val1:(
-                      <strong>Royal Canin</strong>
-                    )
-                  }}/>
+                  <FormattedMessage
+                    id="termsandconditions.paragraph7"
+                    values={{
+                      val1: <strong>Royal Canin</strong>
+                    }}
+                  />
                   <br />
                   <FormattedMessage id="termsandconditions.paragraph8" />
                 </p>
                 <p>
                   <FormattedMessage id="termsandconditions.paragraph9" />
                   <br />
-
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title1" />
+                    <FormattedMessage id="termsandconditions.title1" />
                   </h3>
-                  <br/>
+                  <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title1.1" />
+                    <FormattedMessage id="termsandconditions.title1.1" />
                   </h4>
                   <FormattedMessage id="termsandconditions.title1.1descripition" />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title1.2" />
+                    <FormattedMessage id="termsandconditions.title1.2" />
                   </h4>
 
                   <FormattedMessage id="termsandconditions.title1.2descripition" />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title1.3" />
+                    <FormattedMessage id="termsandconditions.title1.3" />
                   </h4>
-                  <FormattedMessage style={{
-                    'white-space': 'pre-wrap'
-                  }} id="termsandconditions.title1.3descripition" />
+                  <FormattedMessage
+                    style={{
+                      'white-space': 'pre-wrap'
+                    }}
+                    id="termsandconditions.title1.3descripition"
+                  />
                 </p>
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title2" />
+                    <FormattedMessage id="termsandconditions.title2" />
                   </h3>
                   <br />
                   <FormattedMessage id="termsandconditions.title2descripition" />
-
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title3" />
+                    <FormattedMessage id="termsandconditions.title3" />
                   </h3>
                   <h4>
-                  <FormattedMessage id="termsandconditions.title3.1" />
+                    <FormattedMessage id="termsandconditions.title3.1" />
                   </h4>
                   <FormattedMessage id="termsandconditions.title3.1descripition" />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title3.2" />
+                    <FormattedMessage id="termsandconditions.title3.2" />
                   </h4>
                   <FormattedMessage id="termsandconditions.title3.2descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title4" />
+                    <FormattedMessage id="termsandconditions.title4" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title4descripition" />
                 </p>
 
                 <p>
-                <h3>
-                <FormattedMessage id="termsandconditions.title5" />
-                </h3>
-                <FormattedMessage id="termsandconditions.title5descripition" />
+                  <h3>
+                    <FormattedMessage id="termsandconditions.title5" />
+                  </h3>
+                  <FormattedMessage id="termsandconditions.title5descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title6" />
+                    <FormattedMessage id="termsandconditions.title6" />
                   </h3>
                   <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title6.1" />
+                    <FormattedMessage id="termsandconditions.title6.1" />
                   </h4>
                   <FormattedMessage id="termsandconditions.title6.1descripition" />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <h4>
-                  <FormattedMessage id="termsandconditions.title6.2" />
+                    <FormattedMessage id="termsandconditions.title6.2" />
                   </h4>
                   <FormattedMessage id="termsandconditions.title6.2descripition" />
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   <h4>
                     <FormattedMessage id="termsandconditions.title6.3" />
                   </h4>
@@ -214,35 +214,35 @@ class TermsConditions extends React.Component {
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title7" />
+                    <FormattedMessage id="termsandconditions.title7" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title7descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title8" />
+                    <FormattedMessage id="termsandconditions.title8" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title8descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title9" />
+                    <FormattedMessage id="termsandconditions.title9" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title9descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title10" />
+                    <FormattedMessage id="termsandconditions.title10" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title10descripition" />
                 </p>
 
                 <p>
                   <h3>
-                  <FormattedMessage id="termsandconditions.title11" />
+                    <FormattedMessage id="termsandconditions.title11" />
                   </h3>
                   <FormattedMessage id="termsandconditions.title11descripition" />
                 </p>
@@ -250,7 +250,6 @@ class TermsConditions extends React.Component {
             </div>
           </div>
         </main>
-
 
         <Footer />
       </div>

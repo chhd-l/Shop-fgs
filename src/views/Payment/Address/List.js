@@ -3,7 +3,7 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary, validData } from '@/utils/utils';
@@ -56,10 +56,11 @@ class AddressList extends React.Component {
       billingChecked: true,
       isValid: false
     };
+    this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
   }
   async componentDidMount() {
-    await getDictionary({ type: 'country' }).then((res) => {
+    getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
       });
@@ -99,10 +100,14 @@ class AddressList extends React.Component {
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
+      let cityRes = [];
+      if (addressList.length) {
+        cityRes = await queryCityNameById({
+          id: addressList.map((ele) => ele.cityId)
+        });
+        cityRes = cityRes.context.systemCityVO || [];
+      }
+
       Array.from(addressList, (ele) => {
         ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
@@ -111,7 +116,7 @@ class AddressList extends React.Component {
       });
       this.setState(
         {
-          addressList: addressList,
+          addressList,
           addOrEdit: !addressList.length,
           selectedId: tmpId
         },
@@ -124,12 +129,12 @@ class AddressList extends React.Component {
           );
           updateData && updateData(tmpObj);
 
-          if (billingChecked) {
+          if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
             paymentStore.setStsToCompleted({ key: 'billingAddr' });
           }
 
           // 下一个最近的未complete的panel
-          let nextConfirmPanel = searchNextConfirmPanel({
+          const nextConfirmPanel = searchNextConfirmPanel({
             list: toJS(paymentStore.panelStatus),
             curKey: this.curPanelKey
           });
@@ -280,10 +285,10 @@ class AddressList extends React.Component {
     }
     return el.offsetTop;
   }
-  handleClickCancel() {
+  handleClickCancel = () => {
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
-  }
+  };
   async handleSavePromise() {
     try {
       this.setState({ saveLoading: true });
@@ -376,8 +381,11 @@ class AddressList extends React.Component {
       addOrEdit,
       loading,
       foledMore,
-      addressList
+      addressList,
+      saveErrorMsg,
+      successTipVisible
     } = this.state;
+
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${
@@ -391,14 +399,14 @@ class AddressList extends React.Component {
         onClick={(e) => this.selectAddress(e, i)}
       >
         <div className="row align-items-center pt-3 pb-3 ml-2 mr-2">
-          <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">
+          <div className="d-flex align-items-center justify-content-center col-2 col-md-1 address-name pl-0 pr-0">
             {item.selected ? (
               <svg width="24" height="32">
                 <path
                   d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
                   fill="#E2001A"
                   fillRule="evenodd"
-                ></path>
+                />
               </svg>
             ) : (
               <svg width="24" height="32">
@@ -406,7 +414,7 @@ class AddressList extends React.Component {
                   d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
                   fill="#c4c4c4"
                   fillRule="evenodd"
-                ></path>
+                />
               </svg>
             )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
@@ -428,7 +436,7 @@ class AddressList extends React.Component {
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
             <span
               className="addr-btn-edit border-left pl-2"
-              onClick={() => this.addOrEditAddress(i)}
+              onClick={this.addOrEditAddress.bind(i)}
             >
               <FormattedMessage id="edit" />
             </span>
@@ -471,7 +479,7 @@ class AddressList extends React.Component {
         }
         <label
           className={`rc-input__label--inline text-break`}
-          for="addr-default-checkbox"
+          htmlFor="addr-default-checkbox"
         >
           <FormattedMessage id="setDefaultAddress" />
         </label>
@@ -494,7 +502,7 @@ class AddressList extends React.Component {
           className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center ${
             addOrEdit ? 'hidden' : ''
           }`}
-          onClick={() => this.addOrEditAddress()}
+          onClick={this.addOrEditAddress}
         >
           <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
           <span>
@@ -529,7 +537,7 @@ class AddressList extends React.Component {
                 <div className="rc-md-up">
                   <span
                     className="rc-styled-link"
-                    onClick={() => this.handleClickCancel()}
+                    onClick={this.handleClickCancel}
                   >
                     <FormattedMessage id="cancel" />
                   </span>{' '}
@@ -547,7 +555,7 @@ class AddressList extends React.Component {
                 <div className="rc-md-down rc-full-width text-right">
                   <span
                     className="rc-styled-link"
-                    onClick={() => this.handleClickCancel()}
+                    onClick={this.handleClickCancel}
                   >
                     <FormattedMessage id="cancel" />
                   </span>{' '}
@@ -609,14 +617,14 @@ class AddressList extends React.Component {
           {_title}
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-              this.state.saveErrorMsg ? '' : 'hidden'
+              saveErrorMsg ? '' : 'hidden'
             }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
               role="alert"
             >
-              <span className="pl-0">{this.state.saveErrorMsg}</span>
+              <span className="pl-0">{saveErrorMsg}</span>
               <button
                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                 aria-label="Close"
@@ -632,7 +640,7 @@ class AddressList extends React.Component {
           </div>
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-              this.state.successTipVisible ? '' : 'hidden'
+              successTipVisible ? '' : 'hidden'
             }`}
             role="alert"
           >
@@ -666,13 +674,13 @@ class AddressList extends React.Component {
                 {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
                   <>
                     {_form}
-                    {_sameAsCheckbox}
+                    {/* {_sameAsCheckbox} */}
                   </>
                 ) : null}
                 {!this.props.isOnepageCheckout && (
                   <>
                     {_form}
-                    {_sameAsCheckbox}
+                    {/* {_sameAsCheckbox} */}
                   </>
                 )}
               </>

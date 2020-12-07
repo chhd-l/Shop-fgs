@@ -18,8 +18,6 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
-import subscriptionIcon from './images/subscription.png';
-import pauseIcon from './images/pause.png';
 import cancelIcon from './images/cancel.png';
 import skipIcon from './images/skip.png';
 import dateIcon from './images/date.png';
@@ -45,9 +43,8 @@ import {
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
 import { formatMoney } from '@/utils/utils';
-import resolve from 'resolve';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -225,7 +222,7 @@ class SubscriptionDetail extends React.Component {
   }
   onDateChange(date, goodsInfo) {
     let { subDetail } = this.state;
-    subDetail.nextDeliveryTime = moment(date).format('YYYY-MM-DD');
+    subDetail.nextDeliveryTime = format(date, 'yyyy-MM-dd');
     let param = {
       subscribeId: subDetail.subscribeId,
       nextDeliveryTime: subDetail.nextDeliveryTime,
@@ -2205,7 +2202,7 @@ class SubscriptionDetail extends React.Component {
                                                 />
                                                 <label
                                                   className="rc-input__label"
-                                                  for="id-text2"
+                                                  htmlFor="id-text2"
                                                 ></label>
                                               </span>
                                               <button

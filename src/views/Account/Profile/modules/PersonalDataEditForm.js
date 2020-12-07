@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
 import { getDictionary, validData } from '@/utils/utils';
@@ -8,7 +8,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
+import { format } from 'date-fns';
 import classNames from 'classnames';
 
 class PersonalDataEditForm extends React.Component {
@@ -48,7 +48,7 @@ class PersonalDataEditForm extends React.Component {
     this.setState(
       {
         form: Object.assign({}, data, {
-          birthdate: moment(new Date()).format('YYYY-MM-DD')
+          birthdate: format(new Date(), 'yyyy-MM-dd')
         }),
         oldForm: Object.assign({}, data)
       },
@@ -171,8 +171,8 @@ class PersonalDataEditForm extends React.Component {
   }
   onDateChange(date) {
     const { form } = this.state;
-    form['birthdate'] = moment(date).format('YYYY-MM-DD');
-    this.setState({ form: form }, () => {
+    form['birthdate'] = format(date, 'yyyy-MM-dd');
+    this.setState({ form }, () => {
       this.validFormData();
     });
   }
@@ -649,7 +649,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                
+
                 {/* <div className="form-group col-lg-6">
                   <label className="form-control-label rc-input--full-width w-100">
                     <FormattedMessage id="account.preferredMethodOfCommunication" />

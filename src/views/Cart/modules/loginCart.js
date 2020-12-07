@@ -16,7 +16,7 @@ import {
   getDeviceType
 } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
 import refreshImg from './images/refresh.png';
@@ -1060,7 +1060,7 @@ class LoginCart extends React.Component {
                 )}
               </FormattedMessage>
 
-              <label className="rc-input__label" for="id-text2"></label>
+              <label className="rc-input__label" htmlFor="id-text2"></label>
             </span>
           </div>
           <div className="col-6 no-padding-left">

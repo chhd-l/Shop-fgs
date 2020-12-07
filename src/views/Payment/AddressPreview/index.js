@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
 
 class InfosPreview extends React.Component {
@@ -29,7 +29,7 @@ class InfosPreview extends React.Component {
       <div className="card mb-3 shipping-summary checkout--padding">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
-            <i className="rc-icon rc-home--xs rc-iconography"></i>{' '}
+            <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
             <FormattedMessage id="payment.addressTitle" />
           </h5>
         </div>

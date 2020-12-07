@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 
@@ -11,7 +11,8 @@ class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
     fixToHeader: false,
-    navigateToProDetails: false // click product name navigate to product detail
+    navigateToProDetails: false, // click product name navigate to product detail
+    style: {}
   };
   constructor(props) {
     super(props);
@@ -256,7 +257,7 @@ class PayProductInfo extends React.Component {
         {this.sideCart()}
       </div>
     ) : (
-      this.sideCart()
+      <div style={{ ...this.props.style }}>{this.sideCart()}</div>
     );
   }
 }

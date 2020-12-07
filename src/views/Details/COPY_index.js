@@ -20,7 +20,9 @@ import {
 } from '@/utils/utils';
 import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { cloneDeep, findIndex, find } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import { getDetails, getLoginDetails } from '@/api/details';
 import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
@@ -728,7 +730,12 @@ class Details extends React.Component {
         quantityNew += historyItem.quantity;
         if (quantityNew > process.env.REACT_APP_LIMITED_NUM) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>
+            checkOutErrMsg: (
+              <FormattedMessage
+                id="cart.errorMaxInfo"
+                values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+              />
+            )
           });
           this.setState({ addToCartLoading: false });
           return;
@@ -788,7 +795,12 @@ class Details extends React.Component {
     } else {
       if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
         this.setState({
-          checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>
+          checkOutErrMsg: (
+            <FormattedMessage
+              id="cart.errorMaxCate"
+              values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+            />
+          )
         });
         return;
       }

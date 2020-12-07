@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import {
@@ -171,7 +171,7 @@ class Header extends React.Component {
           : {
               '/': '1',
               '/cart': '2',
-              '/payment/:type': '3',
+              '/checkout': '3',
               '/confirmation': '4'
             }[this.props.match && this.props.match.path] || ''
     });
@@ -327,6 +327,13 @@ class Header extends React.Component {
       keywords: '',
       result: null
     });
+  }
+  handleSearch=(e)=>{
+    if(process.env.REACT_APP_LANG == 'fr'){
+      console.log(e.current.value)
+      this.props.history.push('/searchShow/'+e.current.value)
+    }
+    
   }
   handleSearchInputChange(e) {
     this.setState(
@@ -763,6 +770,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
+                              onClick={()=>this.handleSearch(this.inputRef)}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>

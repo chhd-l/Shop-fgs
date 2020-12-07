@@ -4,20 +4,10 @@ import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
-import { FormattedMessage } from 'react-intl';
-import image1 from './images/image1.jpg';
-import image2 from './images/image2.jpg';
-import image3 from './images/image3.jpg';
-import image4 from './images/image4.jpg';
-import image5 from './images/image5.jpg';
-import cat from './images/cat.jpg';
-import dog from './images/dog.jpg';
-import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
-import { toJS } from 'mobx';
-import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 class QualitySafety extends React.Component {
@@ -51,7 +41,7 @@ class QualitySafety extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
           <BreadCrumbs />
 
           <div className="experience-region experience-main">
@@ -64,7 +54,7 @@ class QualitySafety extends React.Component {
                         <h1>Engagement en faveur de la qualité et de la sécurité alimentaire</h1>
                       </div>
                       <div
-                        className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
+                        className="rc-margin-left--lg text-center rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
                         <p>Au cours des cinquante dernières années, Royal Canin a placé la qualité nutritionnelle et la
                           sécurité des aliments au cœur de ses activités dans le monde entier. Cette attention portée au
                           moindre détail nous aide à fournir la nutrition santé la plus précise et la plus efficace pour

@@ -22,7 +22,13 @@ import config from './config';
 
 import '@/assets/iconfont/iconfont.css';
 import '@/assets/css/global.css';
-import ENUM_LANGFILE from '@/lang';
+import locales from '@/lang'; // ENUM_LANGFILE[process.env.REACT_APP_LANG]
+
+// const locales = {
+//   'en-US': require('./locales/en-US.js'),
+//   'zh-CN': require('./locales/zh-CN.js')
+// };
+
 import '@/utils/global';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'mobx-react';
@@ -88,6 +94,7 @@ import TR_GeneralConditions from '@/views/StaticPage/GeneralConditions/TR_index.
 import generalConditions from '@/views/StaticPage/GeneralConditions';
 import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
+import SearchShow from '@/views/StaticPage/SearchShow';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
@@ -99,7 +106,7 @@ import RequestInvoices from '@/views/StaticPage/RequestInvoices';
 import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
-import register from '@/views/Register'
+import register from '@/views/Register';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -139,10 +146,7 @@ const listRoutes = [
 
 const App = () => (
   <Provider {...stores}>
-    <IntlProvider
-      locale={process.env.REACT_APP_LANG}
-      messages={ENUM_LANGFILE[process.env.REACT_APP_LANG]}
-    >
+    <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
       <Router
         basename={process.env.REACT_APP_HOMEPAGE}
         path={'/'}
@@ -423,6 +427,7 @@ const App = () => (
                 component={Tailorednutrition}
               />
               <Route path="/qualitySafety" exact component={QualitySafety} />
+              <Route path="/searchShow/:searchWords" exact component={SearchShow} />
               <Route
                 path="/shipmentConditions"
                 exact
