@@ -60,7 +60,7 @@ class AddressList extends React.Component {
     this.timer = null;
   }
   async componentDidMount() {
-    await getDictionary({ type: 'country' }).then((res) => {
+    getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
       });
@@ -100,10 +100,14 @@ class AddressList extends React.Component {
         (ele) => (ele.selected = ele.deliveryAddressId === tmpId)
       );
 
-      let cityRes = await queryCityNameById({
-        id: addressList.map((ele) => ele.cityId)
-      });
-      cityRes = cityRes.context.systemCityVO || [];
+      let cityRes = [];
+      if (addressList.length) {
+        cityRes = await queryCityNameById({
+          id: addressList.map((ele) => ele.cityId)
+        });
+        cityRes = cityRes.context.systemCityVO || [];
+      }
+
       Array.from(addressList, (ele) => {
         ele.cityName = cityRes.filter((c) => c.id === ele.cityId).length
           ? cityRes.filter((c) => c.id === ele.cityId)[0].cityName
@@ -112,7 +116,7 @@ class AddressList extends React.Component {
       });
       this.setState(
         {
-          addressList: addressList,
+          addressList,
           addOrEdit: !addressList.length,
           selectedId: tmpId
         },
@@ -125,12 +129,12 @@ class AddressList extends React.Component {
           );
           updateData && updateData(tmpObj);
 
-          if (billingChecked) {
+          if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
             paymentStore.setStsToCompleted({ key: 'billingAddr' });
           }
 
           // 下一个最近的未complete的panel
-          let nextConfirmPanel = searchNextConfirmPanel({
+          const nextConfirmPanel = searchNextConfirmPanel({
             list: toJS(paymentStore.panelStatus),
             curKey: this.curPanelKey
           });
@@ -381,6 +385,7 @@ class AddressList extends React.Component {
       saveErrorMsg,
       successTipVisible
     } = this.state;
+
     const _list = addressList.map((item, i) => (
       <div
         className={`rounded address-item ${

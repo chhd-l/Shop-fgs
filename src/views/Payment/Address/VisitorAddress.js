@@ -72,7 +72,7 @@ class VisitorAddress extends React.Component {
 
     const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.state.billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 
