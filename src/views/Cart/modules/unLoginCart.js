@@ -13,7 +13,9 @@ import {
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
 import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import { cloneDeep, find, findIndex } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import cartImg from './images/cart.png';
@@ -28,7 +30,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @injectIntl
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore')
 @observer
 class UnLoginCart extends React.Component {
   constructor(props) {
@@ -167,7 +169,7 @@ class UnLoginCart extends React.Component {
   async handleCheckout({ needLogin = false } = {}) {
     try {
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
-      const { configStore, checkoutStore, history } = this.props;
+      const { configStore, checkoutStore, history, clinicStore } = this.props;
       this.setState({ checkoutLoading: true });
       await this.updateStock();
       // 价格未达到底限，不能下单
@@ -248,6 +250,8 @@ class UnLoginCart extends React.Component {
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
+          checkoutStore,
+          clinicStore,
           isLogin: false
         });
         url && history.push(url);
@@ -505,7 +509,7 @@ class UnLoginCart extends React.Component {
 
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
                 <div style={{ maxWidth: '250px' }}>
-                  <div>{pitem.goodsSubtitle}</div>
+                  <div className="productGoodsSubtitle">{pitem.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     <div className="stock__wrapper">
                       <div className="stock">
@@ -670,7 +674,9 @@ class UnLoginCart extends React.Component {
                           <LazyLoad>
                           <img src={cartImg} />
                           </LazyLoad>
-                          <FormattedMessage id="Single purchase" />
+                          <span>
+                            <FormattedMessage id="Single purchase" />  
+                          </span>
                         </span>
                       </div>
                       <div
@@ -868,10 +874,12 @@ class UnLoginCart extends React.Component {
                     <LazyLoad>
                     <img src={cartImg} />
                     </LazyLoad>
+                    <span style={{fontSize: '16px'}}>
                     <FormattedMessage id="Single purchase" />
+                    </span>
                   </span>
                 </div>
-                <div className="price singlePrice" style={{ fontSize: '22px' }}>
+                <div className="price singlePrice" style={{ fontSize: '18px' }}>
                   {formatMoney(
                     pitem.quantity *
                       pitem.sizeList.filter((el) => el.selected)[0].salePrice
@@ -942,12 +950,7 @@ class UnLoginCart extends React.Component {
                         }
                       />
                     </span>
-                    {/* </div> */}
                     <br />
-                    {/* Save extra{' '}
-                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                  10%
-                </b> */}
                     Save&nbsp;
                     <b className="product-pricing__card__head__price red  rc-padding-y--none">
                       {formatMoney(
@@ -986,7 +989,7 @@ class UnLoginCart extends React.Component {
                   </div>
                 </div>
                 <div className="freqency">
-                  <span>delivery every:</span>
+                  <span><FormattedMessage id="subscription.frequency" />:</span>
                   <Selection
                     customContainerStyle={{
                       display: 'inline-block',
@@ -1125,7 +1128,7 @@ class UnLoginCart extends React.Component {
                     />
                   )}
                 </FormattedMessage>
-                <label className="rc-input__label" for="id-text2"></label>
+                <label className="rc-input__label" htmlFor="id-text2"></label>
               </span>
             </div>
             <div className="col-6 no-padding-left">
@@ -1528,7 +1531,7 @@ class UnLoginCart extends React.Component {
                           style={{ margin: '0 10%' }}
                         >
                           <div className="ui-item border radius-3">
-                            <Link to="/list/dogs">
+                            <Link to="/dogs">
                               <LazyLoad>
                               <img className="w-100" src={dogsImg} alt="Dog" />
                               </LazyLoad>
@@ -1539,7 +1542,7 @@ class UnLoginCart extends React.Component {
                             </Link>
                           </div>
                           <div className="ui-item border radius-3">
-                            <Link to="/list/cats">
+                            <Link to="/cats">
                               <LazyLoad>
                               <img className="w-100" src={catsImg} alt="Cat" />
                               </LazyLoad>

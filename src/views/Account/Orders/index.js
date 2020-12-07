@@ -22,7 +22,6 @@ import {
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
-import moment from 'moment';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
 
@@ -122,7 +121,7 @@ class AccountOrders extends React.Component {
       duringTimeOptions
     });
   }
-  handleDuringTimeChange(data) {
+  handleDuringTimeChange = (data) => {
     // console.log("获取当前选择的天气",data,this.state.form.period)
     const { form } = this.state;
     form.period = data.value;
@@ -133,7 +132,7 @@ class AccountOrders extends React.Component {
       },
       () => this.queryOrderList()
     );
-  }
+  };
   handleInputChange(e) {
     const target = e.target;
     const { form } = this.state;
@@ -198,7 +197,9 @@ class AccountOrders extends React.Component {
               tradeState.payState === 'PAID' &&
               tradeState.auditState === 'CHECKED' &&
               tradeState.deliverStatus === 'SHIPPED' &&
-              tradeState.flowState === 'DELIVERED'
+              tradeState.flowState === 'DELIVERED' &&
+              ele.tradeDelivers &&
+              ele.tradeDelivers.length
           });
         });
         if (this.state.initing) {
@@ -440,18 +441,36 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            <FormattedMessage id="trackDelivery">
-              {(txt) => (
-                <Link
-                  className="text-white"
-                  to={`/account/orders/detail/${order.id}`}
-                  title={txt}
-                  alt={txt}
-                >
-                  {txt}
-                </Link>
-              )}
-            </FormattedMessage>
+            {order.tradeDelivers[0] &&
+            order.tradeDelivers[0].trackingUrl ? null : (
+              <FormattedMessage id="trackDelivery">
+                {(txt) => (
+                  <>
+                    {order.tradeDelivers[0] &&
+                    order.tradeDelivers[0].trackingUrl ? (
+                      <a
+                        href={order.tradeDelivers[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </a>
+                    ) : (
+                      <Link
+                        className="text-white"
+                        to={`/account/orders/detail/${order.id}`}
+                        title={txt}
+                        alt={txt}
+                      >
+                        {txt}
+                      </Link>
+                    )}
+                  </>
+                )}
+              </FormattedMessage>
+            )}
           </button>
         ) : null}
       </>

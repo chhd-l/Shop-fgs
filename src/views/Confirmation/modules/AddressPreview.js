@@ -1,11 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 
 class InfosPreview extends React.Component {
+  static defaultProps = {
+    payRecord: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -52,23 +55,21 @@ class InfosPreview extends React.Component {
               {details.buyerRemark}
             </div>
           ) : null}
-          {payRecord 
-          // && payRecord.paymentMethod !== 'ADYEN'
-           ? (
+          {payRecord && payRecord.last4Digits ? (
+            // && payRecord.paymentMethod !== 'ADYEN'
             <div className="col-12 col-md-6 mb-3">
               <FormattedMessage id="payment.paymentInformation" />
               <br />
-              <LazyLoad>
-              <img
-                alt=""
-                className="d-inline-block mr-1"
-                style={{ width: '20%' }}
-                src={
-                  CREDIT_CARD_IMG_ENUM[payRecord.vendor]
-                    ? CREDIT_CARD_IMG_ENUM[payRecord.vendor.toUpperCase()]
-                    : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                }
-              />
+              <LazyLoad style={{ width: '20%' }}>
+                <img
+                  alt=""
+                  className="d-inline-block mr-1"
+                  src={
+                    CREDIT_CARD_IMG_ENUM[payRecord.vendor]
+                      ? CREDIT_CARD_IMG_ENUM[payRecord.vendor.toUpperCase()]
+                      : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                  }
+                />
               </LazyLoad>
               {payRecord.last4Digits ? (
                 <>

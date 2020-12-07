@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import './index.css';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { saveAddress, getAddressById, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
@@ -135,7 +135,7 @@ class ShippingAddressFrom extends React.Component {
   };
   handleSave = async () => {
     try {
-      let data = this.state.addressForm;
+      const { curType, addressForm: data } = this.state;
       this.setState({
         saveLoading: true
       });
@@ -158,7 +158,7 @@ class ShippingAddressFrom extends React.Component {
         provinceId: 0,
         rfc: data.rfc,
         email: data.email,
-        type: data.addressType
+        type: curType.toUpperCase()
       };
       await (this.state.isAdd ? saveAddress : editAddress)(params);
       this.handleCancel();
@@ -339,7 +339,7 @@ class ShippingAddressFrom extends React.Component {
                       />
                       <label
                         className="rc-input__label--inline"
-                        for={`account-info-address-${item.type}-${i}`}
+                        htmlFor={`account-info-address-${item.type}-${i}`}
                       >
                         <FormattedMessage id={item.langKey} />
                       </label>
@@ -521,7 +521,7 @@ class ShippingAddressFrom extends React.Component {
                     <div className="invalid-feedback" />
                   </div>
                 </div>
-                <div className="form-group col-6 required d-flex flex-column">
+                {/* <div className="form-group col-6 required d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="phone"
@@ -546,6 +546,7 @@ class ShippingAddressFrom extends React.Component {
                     <label className="rc-input__label" htmlFor="email" />
                   </span>
                 </div>
+                 */}
                 <div className="form-group col-6 required d-flex flex-column justify-content-between">
                   <div className="no-padding">
                     <label
@@ -664,7 +665,7 @@ class ShippingAddressFrom extends React.Component {
                   <div className="form-group col-12 col-md-6">
                     <div
                       className="rc-input rc-input--inline"
-                      onClick={() => this.isDefalt()}
+                      onClick={this.isDefalt}
                     >
                       <input
                         type="checkbox"

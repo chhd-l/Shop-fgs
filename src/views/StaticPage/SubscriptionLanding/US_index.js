@@ -21,12 +21,12 @@ import './index.css';
 @observer
 @injectIntl
 class Help extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     setSeoConfig({
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    })
+    });
   }
   render(h) {
     const event = {
@@ -104,30 +104,20 @@ class Help extends React.Component {
                   recommendations for pet food and products as your pet grows.
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/cats');
-                    }}
-                  >
+                  <Link className="rc-btn rc-btn--one" to="/cats">
                     <FormattedMessage id="subscriptionLanding.catButton" />
-                  </button>
+                  </Link>
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                  <button
-                    className="rc-btn rc-btn--one"
-                    onClick={() => {
-                      this.props.history.push('/list/dogs');
-                    }}
-                  >
+                  <Link className="rc-btn rc-btn--one" to="/dogs">
                     <FormattedMessage id="subscriptionLanding.dogButton" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
             <div className="rc-column">
               <LazyLoad>
-              <img src={autoship} style={{ width: '100%' }} alt="" />
+                <img src={autoship} style={{ width: '100%' }} alt="" />
               </LazyLoad>
             </div>
           </div>
@@ -144,15 +134,15 @@ class Help extends React.Component {
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon1}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon1}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               <p>
                 Find your <strong>handpicked nutrition products</strong> in your
@@ -161,15 +151,15 @@ class Help extends React.Component {
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon2}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon2}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               <p>
                 Select <strong>automatic shipping</strong> and input your
@@ -178,15 +168,15 @@ class Help extends React.Component {
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon3}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon3}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               <p>
                 <strong>Receive your product automatically</strong> based on
@@ -195,15 +185,15 @@ class Help extends React.Component {
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={icon4}
-                style={{
-                  width: '100px',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={icon4}
+                  style={{
+                    width: '100px',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
               <p>
                 Get your exclusive<strong> Royal Canin Club perks</strong>,
@@ -217,15 +207,15 @@ class Help extends React.Component {
           >
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={cat}
-                style={{
-                  width: '100%',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={cat}
+                  style={{
+                    width: '100%',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
             </div>
             <div
@@ -238,35 +228,25 @@ class Help extends React.Component {
                 shipping at checkout.
               </p>
               <div>
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--two"
-                  onClick={() => {
-                    this.props.history.push('/list/cats');
-                  }}
-                >
+                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/cats">
                   Cat
-                </button>{' '}
-                <button
-                  className="rc-btn rc-btn--sm rc-btn--two"
-                  onClick={() => {
-                    this.props.history.push('/list/dogs');
-                  }}
-                >
+                </Link>{' '}
+                <Link className="rc-btn rc-btn--sm rc-btn--two" to="/dogs">
                   Dog
-                </button>
+                </Link>
               </div>
             </div>
             <div className="rc-column" style={{ textAlign: 'center' }}>
               <LazyLoad>
-              <img
-                alt=""
-                src={dog}
-                style={{
-                  width: '100%',
-                  display: 'inline-block',
-                  marginBottom: '20px'
-                }}
-              />
+                <img
+                  alt=""
+                  src={dog}
+                  style={{
+                    width: '100%',
+                    display: 'inline-block',
+                    marginBottom: '20px'
+                  }}
+                />
               </LazyLoad>
             </div>
           </div>
@@ -308,15 +288,15 @@ class Help extends React.Component {
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                         <LazyLoad>
-                        <img
-                          className="align-self-center widthAuto ls-is-cached lazyloaded"
-                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          alt="call us"
-                          title="call us"
-                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                        />
+                          <img
+                            className="align-self-center widthAuto ls-is-cached lazyloaded"
+                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            alt="call us"
+                            title="call us"
+                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwde2878c8/Subscription/customer-service@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          />
                         </LazyLoad>
                       </div>
                     </div>
@@ -350,15 +330,15 @@ class Help extends React.Component {
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                         <LazyLoad>
-                        <img
-                          className="align-self-center widthAuto ls-is-cached lazyloaded"
-                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          alt="email us"
-                          title="email us"
-                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                        />
+                          <img
+                            className="align-self-center widthAuto ls-is-cached lazyloaded"
+                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            alt="email us"
+                            title="email us"
+                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw70840603/Subscription/Emailus_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          />
                         </LazyLoad>
                       </div>
                     </div>
@@ -395,15 +375,15 @@ class Help extends React.Component {
                       </div>
                       <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                         <LazyLoad>
-                        <img
-                          className="align-self-center widthAuto ls-is-cached lazyloaded"
-                          data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                          data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          alt="faq"
-                          title="faq"
-                          srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
-                          src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
-                        />
+                          <img
+                            className="align-self-center widthAuto ls-is-cached lazyloaded"
+                            data-src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                            data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            alt="faq"
+                            title="faq"
+                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=jpg 2x"
+                            src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw2cc60c6d/Subscription/FAQ_icon@2x.png?sw=100&amp;sh=100&amp;sm=cut&amp;sfrm=jpg"
+                          />
                         </LazyLoad>
                       </div>
                     </div>

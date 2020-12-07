@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '@/components/Modal';
 import { FormattedMessage } from 'react-intl';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import '../index.css';
 import { addPet } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';

@@ -136,16 +136,14 @@ class AdyenCreditCard extends React.Component {
 
     return (
       <>
-        <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
-          {_errJSX}
-          <CardList
-            isOnepageCheckout={isOnepageCheckout}
-            updateSelectedCardInfo={this.updateSelectedCardInfo}
-            showErrorMsg={this.showErrorMsg}
-            subBuyWay={subBuyWay}
-            paymentStore={paymentStore}
-          />
-        </div>
+        {_errJSX}
+        <CardList
+          isOnepageCheckout={isOnepageCheckout}
+          updateSelectedCardInfo={this.updateSelectedCardInfo}
+          showErrorMsg={this.showErrorMsg}
+          subBuyWay={subBuyWay}
+          paymentStore={paymentStore}
+        />
 
         {!isOnepageCheckout && (
           <>

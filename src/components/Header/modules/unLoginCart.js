@@ -7,7 +7,7 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getFrequencyDict
 } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
 //import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
@@ -15,7 +15,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
-@inject('checkoutStore', 'headerCartStore')
+@inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
 class UnloginCart extends React.Component {
   constructor(props) {
@@ -61,7 +61,8 @@ class UnloginCart extends React.Component {
         configStore,
         checkoutStore,
         history,
-        headerCartStore
+        headerCartStore,
+        clinicStore
       } = this.props;
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       this.setState({ checkoutLoading: true });
@@ -128,6 +129,8 @@ class UnloginCart extends React.Component {
         checkoutStore.setAutoAuditFlag(autoAuditFlag);
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore,
+          checkoutStore,
+          clinicStore,
           isLogin: false
         });
         url && history.push(url);
@@ -305,7 +308,7 @@ class UnloginCart extends React.Component {
                   <span className="rc-meta">
                     <FormattedMessage
                       id="cart.totalProduct"
-                      values={{ val: this.selectedCartData.length }}
+                      values={{ val: this.totalNum }}
                     />
                   </span>
                 </div>

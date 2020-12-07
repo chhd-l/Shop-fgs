@@ -244,6 +244,9 @@
       margin-top: -100px;
     }
   }
+  .rc-input__control+.rc-input__label::after {
+    height: 1px;
+  }
 }
 .petForm {
   .react-datepicker-wrapper {
@@ -259,6 +262,8 @@
     width: 100%;
     height: 40px;
     padding: 0.5rem 0;
+    border: none;
+    border-bottom: 1px solid #d7d7d7;
   }
   .react-datepicker-wrapper {
     height: 40px;
@@ -269,7 +274,7 @@
 }
 
 .petForm .choices__inner {
-  height: 39px;
+  height: 38px;
   border-bottom: 1px solid #d7d7d7;
   border-radius: 0;
   box-sizing: border-box;

@@ -114,12 +114,12 @@ class Widerrufsbelehrung extends React.Component {
             <dl
               data-toggle-group=""
               data-toggle-effect="rc-expand--vertical"
-              class=""
+              className=""
             >
-              <div class="rc-list__accordion-item">
+              <div className="rc-list__accordion-item">
                 <dt>
                   <button
-                    class="rc-list__header"
+                    className="rc-list__header"
                     id="heading-73"
                     data-toggle="content-73"
                     data-js-open="true"
@@ -128,7 +128,7 @@ class Widerrufsbelehrung extends React.Component {
                   </button>
                 </dt>
                 <dd
-                  class="rc-list__content"
+                  className="rc-list__content"
                   id="content-73"
                   aria-labelledby="heading-73"
                 >
@@ -152,10 +152,10 @@ class Widerrufsbelehrung extends React.Component {
                   </p>
                 </dd>
               </div>
-              <div class="rc-list__accordion-item">
+              <div className="rc-list__accordion-item">
                 <dt>
                   <button
-                    class="rc-list__header"
+                    className="rc-list__header"
                     id="heading-250"
                     data-toggle="content-250"
                   >
@@ -163,7 +163,7 @@ class Widerrufsbelehrung extends React.Component {
                   </button>
                 </dt>
                 <dd
-                  class="rc-list__content"
+                  className="rc-list__content"
                   id="content-250"
                   aria-labelledby="heading-250"
                 >
@@ -180,10 +180,10 @@ class Widerrufsbelehrung extends React.Component {
                   </p>
                 </dd>
               </div>
-              <div class="rc-list__accordion-item">
+              <div className="rc-list__accordion-item">
                 <dt>
                   <button
-                    class="rc-list__header"
+                    className="rc-list__header"
                     id="heading-529"
                     data-toggle="content-529"
                   >
@@ -191,7 +191,7 @@ class Widerrufsbelehrung extends React.Component {
                   </button>
                 </dt>
                 <dd
-                  class="rc-list__content"
+                  className="rc-list__content"
                   id="content-529"
                   aria-labelledby="heading-529"
                 >
@@ -229,10 +229,10 @@ class Widerrufsbelehrung extends React.Component {
                   </p>
                 </dd>
               </div>
-              <div class="rc-list__accordion-item">
+              <div className="rc-list__accordion-item">
                 <dt>
                   <button
-                    class="rc-list__header"
+                    className="rc-list__header"
                     id="heading-530"
                     data-toggle="content-530"
                   >
@@ -240,7 +240,7 @@ class Widerrufsbelehrung extends React.Component {
                   </button>
                 </dt>
                 <dd
-                  class="rc-list__content"
+                  className="rc-list__content"
                   id="content-530"
                   aria-labelledby="heading-530"
                 >

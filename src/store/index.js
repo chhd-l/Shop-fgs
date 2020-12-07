@@ -5,6 +5,7 @@ import FrequencyStore from './frequencyStore';
 import ConfigStore from './configStore';
 import HeaderCartStore from './headerCartStore';
 import PaymentStore from './paymentStore';
+import HeaderSearchStore from './headerSearchStore';
 
 const stores = {
   loginStore: new LoginStore(),
@@ -13,7 +14,8 @@ const stores = {
   frequencyStore: new FrequencyStore(),
   configStore: new ConfigStore(),
   headerCartStore: new HeaderCartStore(),
-  paymentStore: new PaymentStore()
+  paymentStore: new PaymentStore(),
+  headerSearchStore: new HeaderSearchStore()
 };
 /// 默认导出接口
 export default stores;

@@ -22,7 +22,7 @@ class OxxoConfirm extends Component {
       requiredList: []
     };
   }
-  async clickPay() {
+  clickPay = async () => {
     // const { isEighteen, isReadPrivacyPolicy } = this.state;
     try {
       this.props.startLoading();
@@ -63,10 +63,10 @@ class OxxoConfirm extends Component {
       }
       this.props.endLoading();
     }
-  }
-  emailChange(e) {
+  };
+  emailChange = (e) => {
     this.setState({ email: e.target.value });
-  }
+  };
 
   showErrorMsg = (message) => {
     this.setState({
@@ -99,9 +99,10 @@ class OxxoConfirm extends Component {
     );
   };
   render() {
+    const { billingJSX } = this.props;
     return (
-      <div>
-        <div className="rounded rc-border-all rc-border-colour--interface checkout--padding ml-custom mr-custom mb-3">
+      <>
+        <div className="rounded mb-3">
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               this.state.errorMsg ? '' : 'hidden'
@@ -128,7 +129,7 @@ class OxxoConfirm extends Component {
           </div>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <LazyLoad>
-            <img src={oxxo} style={{ display: 'inline-block' }} alt=""/>
+              <img src={oxxo} style={{ display: 'inline-block' }} alt="" />
             </LazyLoad>
           </div>
           <h6>
@@ -153,7 +154,7 @@ class OxxoConfirm extends Component {
                   name="email"
                   maxLength="254"
                   value={this.state.email}
-                  onChange={(e) => this.emailChange(e)}
+                  onChange={this.emailChange}
                   style={{ width: '100%' }}
                 />
                 {this.state.showReqiredInfo ? (
@@ -178,7 +179,8 @@ class OxxoConfirm extends Component {
             />
           </p>
         </div>
-        <div className="ml-custom mr-custom oxxo">
+        {billingJSX}
+        <div className="oxxo">
           <TermsCommon
             id={this.props.type}
             listData={this.props.listData}
@@ -269,7 +271,7 @@ class OxxoConfirm extends Component {
         </div> */}
         {/* the end */}
 
-        <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
+        <div className="place_order-btn pt-4">
           <div className="next-step-button">
             <div className="rc-text--right">
               <button
@@ -278,14 +280,14 @@ class OxxoConfirm extends Component {
                 type="submit"
                 name="submit"
                 value="submit-shipping"
-                onClick={() => this.clickPay()}
+                onClick={this.clickPay}
               >
                 <FormattedMessage id="payment.further" />
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

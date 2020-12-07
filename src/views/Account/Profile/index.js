@@ -274,6 +274,7 @@ class AccountProfile extends React.Component {
                         originData={originData}
                         data={personalData}
                         key={Object.keys(personalData || {})}
+                        updateData={this.queryCustomerBaseInfo}
                         updateEditOperationPanelName={
                           this.updateEditOperationPanelName
                         }

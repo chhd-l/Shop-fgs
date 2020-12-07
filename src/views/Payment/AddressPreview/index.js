@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDictionary } from '@/utils/utils';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import Skeleton from 'react-skeleton-loader';
 
 class InfosPreview extends React.Component {

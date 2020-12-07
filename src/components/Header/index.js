@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import {
@@ -27,12 +27,20 @@ import MegaMenuMobile from './modules/MegaMenuMobile';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
+import GoogleTagManager from '@/components/GoogleTagManager';
+import { loadJS } from '@/utils/utils';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('loginStore', 'clinicStore', 'configStore', 'checkoutStore')
+@inject(
+  'loginStore',
+  'clinicStore',
+  'configStore',
+  'checkoutStore',
+  'headerSearchStore'
+)
 @injectIntl
 @observer // 将Casual类转化为观察者，只要被观察者跟新，组件将会刷新
 class Header extends React.Component {
@@ -51,7 +59,10 @@ class Header extends React.Component {
       result: null,
       isScrollToTop: true,
       headerNavigationList: [],
-      activeTopParentId: -1
+      activeTopParentId: -1,
+      event: {
+        search: {}
+      }
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -82,6 +93,9 @@ class Header extends React.Component {
     return this.props.loginStore.userInfo;
   }
   async componentDidMount() {
+    //进入这个页面 清除搜索埋点
+    this.props.headerSearchStore.clear();
+
     if (sessionItemRoyal.get('rc-token-lose')) {
       this.handleLogout();
       return false;
@@ -314,6 +328,13 @@ class Header extends React.Component {
       result: null
     });
   }
+  handleSearch=(e)=>{
+    if(process.env.REACT_APP_LANG == 'fr'){
+      console.log(e.current.value)
+      this.props.history.push('/searchShow/'+e.current.value)
+    }
+    
+  }
   handleSearchInputChange(e) {
     this.setState(
       {
@@ -381,6 +402,17 @@ class Header extends React.Component {
               return ret;
             });
           }
+          //搜索成功-埋点
+          this.props.headerSearchStore.getResult(keywords, goodsContent.length);
+          console.log('搜索成功-成功', this.props.headerSearchStore);
+          const { query, results, type } = this.props.headerSearchStore;
+          this.state.event.search = {
+            query,
+            results,
+            type
+          };
+          dataLayer.push({ search: this.state.event.search });
+
           this.setState({
             result: Object.assign(
               {},
@@ -391,6 +423,17 @@ class Header extends React.Component {
             )
           });
         } else {
+          //搜索失败-埋点
+          this.props.headerSearchStore.getNoResult(keywords);
+          console.log('搜索失败-埋点', this.props.headerSearchStore);
+          const { query, results, type } = this.props.headerSearchStore;
+          this.state.event.search = {
+            query,
+            results,
+            type
+          };
+          dataLayer.push({ search: this.state.event.search });
+
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
           });
@@ -586,7 +629,7 @@ class Header extends React.Component {
         default:
           break;
       }
-      if (linkObj) {
+      if (linkObj && linkObj.pathname) {
         linkObj = Object.assign(linkObj, {
           state: { sortParam, cateIds, filters }
         });
@@ -649,6 +692,8 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
+        {/* 执行埋点 */}
+        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         <header className={`rc-header`} data-js-header-scroll>
@@ -725,6 +770,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
+                              onClick={()=>this.handleSearch(this.inputRef)}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>

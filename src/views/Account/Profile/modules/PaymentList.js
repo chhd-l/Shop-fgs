@@ -6,25 +6,30 @@ import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
-import { getPaymentMethod, deleteCard, getWays } from '@/api/payment';
+import {
+  getPaymentMethod,
+  deleteCard,
+  getWays,
+  setDefaltCard
+} from '@/api/payment';
 import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import PaymentEditForm from '../PaymentEditForm';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 function CardItem(props) {
   const { data } = props;
   return (
     <div className="rc-bg-colour--brand4 rounded p-2 pl-3 pr-3 h-100 d-flex align-items-center justify-content-between">
       <div
-        className="position-absolute"
-        style={{ right: '2%', top: '1%', zIndex: 9 }}
+        className="position-absolute d-flex align-items-center"
+        style={{ right: '2%', top: '2%', zIndex: 9 }}
       >
         {props.operateBtnJSX}
       </div>
-      <div className={`pt-2 pb-2 w-100`}>
+      <div className={`pt-4 pt-md-2 pb-2 w-100`}>
         <div className="row">
-          <div className={`col-6 d-flex flex-column justify-content-center`}>
+          <div className={`col-4 d-flex flex-column justify-content-center`}>
             <LazyLoad height={200}>
               <img
                 className="PayCardImgFitScreen"
@@ -81,6 +86,7 @@ class AddressList extends React.Component {
     this.handleClickDeleteBtn = this.handleClickDeleteBtn.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.handleClickAddBtn = this.handleClickAddBtn.bind(this);
+    this.toggleSetDefault = this.toggleSetDefault.bind(this);
     this.timer = '';
   }
   componentDidMount() {
@@ -99,8 +105,8 @@ class AddressList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  getPaymentMethodList = async () => {
-    this.setState({ listLoading: true });
+  getPaymentMethodList = async ({ showLoading = true } = {}) => {
+    showLoading && this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : '',
@@ -238,6 +244,16 @@ class AddressList extends React.Component {
       </div>
     );
   };
+  async toggleSetDefault(item, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    debugger;
+    if (!item.isDefault) {
+      await setDefaltCard(item.id);
+      this.getPaymentMethodList({ showLoading: false });
+    }
+  }
   render() {
     const {
       listVisible,
@@ -358,15 +374,15 @@ class AddressList extends React.Component {
                 >
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {creditCardList.map((el) => (
-                      <div className="col-12 col-md-4 p-2" key={el.id}>
+                      <div className="col-12 col-md-6 p-2" key={el.id}>
                         <CardItem
                           data={el}
                           operateBtnJSX={
                             <>
-                              {/* {el.isDefault === 1 ? (
+                              {el.isDefault === 1 ? (
                                 <div
                                   className="red"
-                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                  onClick={this.toggleSetDefault.bind(this, el)}
                                 >
                                   <span className="iconfont mr-1">
                                     &#xe68c;
@@ -378,7 +394,7 @@ class AddressList extends React.Component {
                               ) : (
                                 <div
                                   className="ui-cursor-pointer"
-                                  // onClick={this.toggleSetDefault.bind(this, el)}
+                                  onClick={this.toggleSetDefault.bind(this, el)}
                                 >
                                   <span className="iconfont mr-1">
                                     &#xe68c;
@@ -387,9 +403,9 @@ class AddressList extends React.Component {
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
                                 </div>
-                              )} */}
+                              )}
                               <span
-                                className={`pull-right position-relative p-2 ui-cursor-pointer-pure`}
+                                className={`position-relative p-2 ui-cursor-pointer-pure`}
                               >
                                 <span
                                   className="rc-styled-link"
@@ -417,7 +433,7 @@ class AddressList extends React.Component {
                         />
                       </div>
                     ))}
-                    <div className="col-12 col-md-4 p-2 rounded text-center p-2 ui-cursor-pointer">
+                    <div className="col-12 col-md-6 p-2 rounded text-center p-2 ui-cursor-pointer">
                       {this.addBtnJSX({ fromPage: 'list' })}
                     </div>
                   </div>

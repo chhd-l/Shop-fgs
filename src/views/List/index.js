@@ -13,7 +13,8 @@ import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
 import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
-import { find } from 'lodash';
+import find from 'lodash/find';
+import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getList,
   getLoginList,
@@ -817,14 +818,16 @@ class List extends React.Component {
                                           item.goodsInfos.sort(
                                             (a, b) =>
                                               a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg
+                                          )[0].goodsInfoImg ||
+                                          IMG_DEFAULT
                                         }
                                         srcSet={
                                           item.goodsImg ||
                                           item.goodsInfos.sort(
                                             (a, b) =>
                                               a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg
+                                          )[0].goodsInfoImg ||
+                                          IMG_DEFAULT
                                         }
                                         alt={item.goodsName}
                                         title={item.goodsName}
@@ -842,11 +845,11 @@ class List extends React.Component {
                                     <div className="height-product-tile-plpOnly">
                                       {/*商品名字*/}
                                       <header
-                                        className="rc-text--center"
-                                        style={{ height: '100px' }}
+                                        className="rc-text--center "
+                                        style={{ height: '70px' }}
                                       >
                                         <h3
-                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop red-title"
                                           title={item.goodsName}
                                         >
                                           {item.goodsName}
@@ -858,7 +861,9 @@ class List extends React.Component {
                                         title={item.goodsSubtitle}
                                         style={{ color: '#4a4a4a' }}
                                       >
-                                        <h6>{item.goodsSubtitle}</h6>
+                                        <h6 className="second-title">
+                                          {item.goodsSubtitle}
+                                        </h6>
                                       </div>
                                     </div>
                                     {/*商品评分和评论数目*/}
@@ -1010,41 +1015,45 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
-            <div className="ml-4 mr-4 pl-4 pr-4">
-              <div className="row d-flex align-items-center">
-                <div className="col-12 col-md-6">
-                  <h1 className="rc-gamma rc-padding--none">
-                    <FormattedMessage id="productFinder.recoTitle" />
-                  </h1>
-                  <p>
-                    <FormattedMessage id="productFinder.recoDesc" />
-                  </p>
-                  <Link to="/product-finder" className="rc-btn rc-btn--one">
-                    <FormattedMessage id="productFinder.index" />
-                  </Link>
-                </div>
-                <div className="col-12 col-md-6">
-                  <LazyLoad>
-                    <img src={pfRecoImg} />
-                  </LazyLoad>
+            {process.env.REACT_APP_LANG === 'fr' && (
+              <div className="ml-4 mr-4 pl-4 pr-4">
+                <div className="row d-flex align-items-center">
+                  <div className="col-12 col-md-6">
+                    <h1 className="rc-gamma rc-padding--none">
+                      <FormattedMessage id="productFinder.recoTitle" />
+                    </h1>
+                    <p>
+                      <FormattedMessage id="productFinder.recoDesc" />
+                    </p>
+                    <Link to="/product-finder" className="rc-btn rc-btn--one">
+                      <FormattedMessage id="productFinder.index" />
+                    </Link>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <LazyLoad>
+                      <img src={pfRecoImg} />
+                    </LazyLoad>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
-        <div className="notate ml-2 mb-2">
-          <FormattedMessage
-            id="notate"
-            values={{
-              val: (
-                <Link className="rc-styled-link" to="/FAQ/all">
-                  Versandkosten
-                </Link>
-              )
-            }}
-            defaultMessage={' '}
-          />
-        </div>
+        {process.env.REACT_APP_LANG == 'de' ? (
+          <div className="notate ml-2 mb-2">
+            <FormattedMessage
+              id="notate"
+              values={{
+                val: (
+                  <Link className="rc-styled-link" to="/FAQ/all">
+                    Versandkosten
+                  </Link>
+                )
+              }}
+              defaultMessage={' '}
+            />
+          </div>
+        ) : null}
 
         <Footer />
       </div>

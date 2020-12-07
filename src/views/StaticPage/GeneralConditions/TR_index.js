@@ -47,7 +47,7 @@ class Help extends React.Component {
               Şartlar ve Koşullar
             </h1>
           </section>
-          <div class="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext text-center ">
             <h2 style={{ textAlign: 'center' }}>Geçerlilik Kapsamı</h2>
             <h3 style={{ textAlign: 'center' }}>
               <br />

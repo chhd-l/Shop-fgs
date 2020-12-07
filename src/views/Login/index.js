@@ -421,7 +421,7 @@ class Login extends React.Component {
                           type="text"
                           name="text"
                         />
-                        <label className="rc-input__label" for="email">
+                        <label className="rc-input__label" htmlFor="email">
                           <span className="rc-input__label-text">
                             Email Address
                           </span>
@@ -470,7 +470,7 @@ class Login extends React.Component {
                           type="text"
                           name="text"
                         />
-                        <label className="rc-input__label" for="password">
+                        <label className="rc-input__label" htmlFor="password">
                           <span className="rc-input__label-text">Password</span>
                         </label>
                       </span> */}
@@ -495,7 +495,7 @@ class Login extends React.Component {
                           />
                           <label
                             className="rc-input__label--inline"
-                            for="id-checkbox-cat"
+                            htmlFor="id-checkbox-cat"
                             style={{ color: '#666', fontSize: '14px' }}
                           >
                             <FormattedMessage id="rememberMe" />
@@ -865,7 +865,7 @@ class Login extends React.Component {
                   />
                   <label
                     className="rc-input__label--inline"
-                    for="id-checkbox-cat"
+                    htmlFor="id-checkbox-cat"
                     style={{ color: "#666", fontSize: "14px" }}
                   >
                     Remember Me

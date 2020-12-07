@@ -1,5 +1,5 @@
 .rc-filters__form .rc-list__header {
-  padding: 1.5rem 2rem 1.5rem .5rem;
+  padding: 1.5rem 2rem 1.5rem 0.5rem;
 }
 .rc-filters__form .rc-list__header::after {
   content: '';
@@ -15,10 +15,15 @@
   position: absolute;
   right: 1.5rem;
   top: 50%;
-  margin-top: -16px;  
+  margin-top: -16px;
 }
-.rc-list__content.expand {
-  max-height: 677px;
+.rc-list__content {
+  &.expand {
+    max-height: 677px;
+    &.list-price {
+      overflow: visible;
+    }
+  }
 }
 @media (max-width: 769px) {
   .rc-filters {
@@ -33,6 +38,6 @@
     left: 0;
     background: #fff;
     z-index: 58;
-    max-height: none!important;
+    max-height: none !important;
   }
 }

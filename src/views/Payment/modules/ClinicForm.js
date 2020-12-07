@@ -75,6 +75,8 @@ class ClinicForm extends React.Component {
     }, 500);
   }
   render() {
+    const { configStore, containerStyle, arrowStyle, clinicStore } = this.props;
+    const { form } = this.state;
     const defaultJSX = (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
@@ -93,7 +95,7 @@ class ClinicForm extends React.Component {
             <FormattedMessage id="edit" />
           </p>
         </div>
-        <div>{this.props.clinicStore.selectClinicName}</div>
+        <div>{clinicStore.selectClinicName}</div>
       </div>
     );
 
@@ -122,8 +124,8 @@ class ClinicForm extends React.Component {
               ).map((ele) => Object.assign(ele, { name: ele.prescriberName }));
             }}
             selectedItemChange={this.handleSelectedItemChange}
-            defaultValue={this.state.form.clinicName}
-            key={this.state.form.clinicName}
+            defaultValue={form.clinicName}
+            key={form.clinicName}
             placeholder={this.props.intl.messages.enterClinicName}
             customCls="flex-fill"
           />
@@ -144,13 +146,10 @@ class ClinicForm extends React.Component {
               >
                 <div
                   className="confirm-tool-content rc-bg-colour--brand4 p-3"
-                  style={this.props.containerStyle}
+                  style={containerStyle}
                   tabIndex="1"
                 >
-                  <div
-                    className="confirm-tool-arrow"
-                    style={this.props.arrowStyle}
-                  ></div>
+                  <div className="confirm-tool-arrow" style={arrowStyle} />
                   <div className="pt-1">
                     <FormattedMessage
                       id="noClinicTip"
@@ -176,7 +175,7 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{this.props.configStore.prescriberMap ? defaultJSX : searchJSX}</>;
+    return <>{configStore.prescriberMap ? defaultJSX : searchJSX}</>;
   }
 }
 

@@ -27,8 +27,9 @@ import { getRecommendationList } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
-import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import cloneDeep from 'lodash/cloneDeep';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
@@ -36,13 +37,14 @@ import {
   setSeoConfig,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import { updateBackendCart } from '@/api/cart';
 import LazyLoad from 'react-lazyload';
+
+import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-@inject('checkoutStore', 'loginStore', 'clinicStore')
+@inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
 @injectIntl
 @observer
@@ -107,7 +109,7 @@ class Help extends React.Component {
         console.log(res, 'aaa');
         let productList = res.context.recommendationGoodsInfoRels;
         // recommendationGoodsInfoRels
-        console.log(productList, 'productList')
+        console.log(productList, 'productList');
         productList.map((el) => {
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
@@ -120,19 +122,20 @@ class Help extends React.Component {
             }
             return g;
           });
-          console.log(el, 'el')
+          console.log(el, 'el');
           let specList = el.goodsSpecs;
           let specDetailList = el.goodsSpecDetails;
-          if(specList) {
+          if (specList) {
             specList.map((sItem) => {
               sItem.chidren = specDetailList.filter((sdItem, i) => {
                 return sdItem.specId === sItem.specId;
               });
               console.log(sItem, el, 'hhhh');
-  
+
               sItem.chidren.map((child) => {
                 if (
-                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) > -1
+                  el.goodsInfo.mockSpecDetailIds.indexOf(child.specDetailId) >
+                  -1
                 ) {
                   console.log(child, 'child');
                   child.selected = true;
@@ -159,7 +162,7 @@ class Help extends React.Component {
         });
       })
       .catch((err) => {
-        console.log(err, 'err')
+        console.log(err, 'err');
         // this.props.history.push('/home');
       });
     // if (localItemRoyal.get('isRefresh')) {
@@ -295,7 +298,12 @@ class Help extends React.Component {
       } else {
         if (cartDataCopy.length >= process.env.REACT_APP_LIMITED_CATE_NUM) {
           this.setState({
-            checkOutErrMsg: <FormattedMessage id="cart.errorMaxCate" values={{val: process.env.REACT_APP_LIMITED_CATE_NUM}}/>
+            checkOutErrMsg: (
+              <FormattedMessage
+                id="cart.errorMaxCate"
+                values={{ val: process.env.REACT_APP_LIMITED_CATE_NUM }}
+              />
+            )
           });
           return;
         }
@@ -322,7 +330,7 @@ class Help extends React.Component {
     }, 5000);
   };
   async buyNow(needLogin) {
-    const { checkoutStore, loginStore, history } = this.props
+    const { checkoutStore, loginStore, history, clinicStore } = this.props;
     if (needLogin) {
       sessionItemRoyal.set('okta-redirectUrl', '/prescription');
     }
@@ -396,6 +404,8 @@ class Help extends React.Component {
       if (!needLogin) {
         const url = distributeLinktoPrecriberOrPaymentPage({
           configStore: this.props.configStore,
+          checkoutStore,
+          clinicStore,
           isLogin: loginStore.isLogin
         });
         url && history.push(url);
@@ -404,7 +414,7 @@ class Help extends React.Component {
     }
   }
   async hanldeClickSubmit() {
-    const { checkoutStore, loginStore, history } = this.props;
+    const { checkoutStore, loginStore, history, clinicStore } = this.props;
     let {
       currentModalObj,
       subDetail,
@@ -442,6 +452,8 @@ class Help extends React.Component {
       // }
       const url = distributeLinktoPrecriberOrPaymentPage({
         configStore: this.props.configStore,
+        checkoutStore,
+        clinicStore,
         isLogin: loginStore.isLogin
       });
       url && history.push(url);
@@ -622,13 +634,13 @@ class Help extends React.Component {
                           >
                             <i></i>
                             <LazyLoad>
-                            <img
-                              alt=""
-                              src={
-                                el.goodsInfo.goodsInfoImg ||
-                                el.goodsInfo.goods.goodsImg
-                              }
-                            />
+                              <img
+                                alt=""
+                                src={
+                                  el.goodsInfo.goodsInfoImg ||
+                                  el.goodsInfo.goods.goodsImg
+                                }
+                              />
                             </LazyLoad>
                             <div
                               style={{
@@ -835,15 +847,15 @@ class Help extends React.Component {
                       </div>
                       <div className="description">
                         <LazyLoad>
-                        <img
-                          alt=""
-                          src={storeLogo}
-                          style={{
-                            float: 'left',
-                            width: '60px',
-                            marginRight: '20px'
-                          }}
-                        />
+                          <img
+                            alt=""
+                            src={storeLogo}
+                            style={{
+                              float: 'left',
+                              width: '60px',
+                              marginRight: '20px'
+                            }}
+                          />
                         </LazyLoad>
                         <p
                           style={{
@@ -984,14 +996,14 @@ class Help extends React.Component {
                           >
                             <i></i>
                             <LazyLoad>
-                            <img
-                              alt=""
-                              style={{ height: '65px' }}
-                              src={
-                                el.goodsInfo.goodsInfoImg ||
-                                el.goodsInfo.goods.goodsImg
-                              }
-                            />
+                              <img
+                                alt=""
+                                style={{ height: '65px' }}
+                                src={
+                                  el.goodsInfo.goodsInfoImg ||
+                                  el.goodsInfo.goods.goodsImg
+                                }
+                              />
                             </LazyLoad>
                             <span className="proName">
                               {el.goodsInfo.goodsInfoName}
@@ -1161,15 +1173,15 @@ class Help extends React.Component {
                       </div>
                       <div className="description">
                         <LazyLoad>
-                        <img
-                          alt=""
-                          src={storeLogo}
-                          style={{
-                            float: 'left',
-                            width: '40px',
-                            marginRight: '20px'
-                          }}
-                        />
+                          <img
+                            alt=""
+                            src={storeLogo}
+                            style={{
+                              float: 'left',
+                              width: '40px',
+                              marginRight: '20px'
+                            }}
+                          />
                         </LazyLoad>
                         <p
                           style={{
@@ -1229,7 +1241,7 @@ class Help extends React.Component {
             </div>
             <div className="rc-column">
               <LazyLoad>
-              <img src={recommendation1} style={{ width: '100%' }} alt="" />
+                <img src={recommendation1} style={{ width: '100%' }} alt="" />
               </LazyLoad>
             </div>
           </div>
@@ -1300,12 +1312,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={callImg}
-                                        alt="By telephone"
-                                        title="By telephone"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={callImg}
+                                          alt="By telephone"
+                                          title="By telephone"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -1340,12 +1352,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={emailImg}
-                                        alt="By email"
-                                        title="By email"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={emailImg}
+                                          alt="By email"
+                                          title="By email"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -1361,7 +1373,7 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                  <img src={helpImg} alt="" title="" />
+                                    <img src={helpImg} alt="" title="" />
                                   </LazyLoad>
                                 </picture>
                               </div>
@@ -1390,17 +1402,17 @@ class Help extends React.Component {
           >
             <li>
               <LazyLoad>
-              <img src={cur_recommendation2} alt="" />
+                <img src={cur_recommendation2} alt="" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-              <img src={cur_recommendation3} alt="" />
+                <img src={cur_recommendation3} alt="" />
               </LazyLoad>
             </li>
             <li>
               <LazyLoad>
-              <img src={cur_recommendation4} alt="" />
+                <img src={cur_recommendation4} alt="" />
               </LazyLoad>
             </li>
           </section>

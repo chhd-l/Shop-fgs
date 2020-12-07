@@ -50,7 +50,7 @@ function HealthNutrition() {
                     <div className="rc-hero rc-hero__layout--3">
                       <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                         <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                          <Link to="/list/dogs" title="SHOP DOG">
+                          <Link to="/dogs" title="SHOP DOG">
                             <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
                               <p>Canine Breed-Specific Nutrition</p>
                             </div>
@@ -59,7 +59,7 @@ function HealthNutrition() {
                             </p>
                           </Link>
                           <Link
-                            to="/list/dogs"
+                            to="/dogs"
                             className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific dog food for every breed","img":"[object Object]"}'
                             title="SHOP DOG"
@@ -67,7 +67,7 @@ function HealthNutrition() {
                             SHOP DOG
                           </Link>
                         </div>
-                        <Link to="/list/dogs" title="SHOP DOG">
+                        <Link to="/dogs" title="SHOP DOG">
                           <div className="rc-hero__section rc-hero__section--img">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <source
@@ -102,7 +102,7 @@ function HealthNutrition() {
                     <div className="rc-hero rc-hero__layout--3">
                       <div className="rc-hero__fg mini-carousel-slide rc-padding--xs">
                         <div className="rc-hero__section rc-hero__section--text rc-padding-bottom--xs">
-                          <Link to="/list/cats" title="SHOP CAT">
+                          <Link to="/cats" title="SHOP CAT">
                             <div className="rc-margin-bottom--xs mini-carousel__title inherit-fontsize children-nomargin">
                               <p>Feline Breed-Specific Nutrition</p>
                             </div>
@@ -111,7 +111,7 @@ function HealthNutrition() {
                             </p>
                           </Link>
                           <Link
-                            to="/list/cats"
+                            to="/cats"
                             className="rc-btn rc-btn--one rc-margin-y--xs gtm-mini-carousel-btn"
                             data-gtm='{"title":"Royal Canin specific cat food for every breed","img":"[object Object]"}'
                             title="SHOP CAT"
@@ -119,7 +119,7 @@ function HealthNutrition() {
                             SHOP CAT
                           </Link>
                         </div>
-                        <Link to="/list/cats" title="SHOP CAT">
+                        <Link to="/cats" title="SHOP CAT">
                           <div className="rc-hero__section rc-hero__section--img">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <source
@@ -349,6 +349,7 @@ function Share() {
   );
 }
 
+// 上线后修改id todo
 const DEFUALT_FILTER_MAP_FR = {
   '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
     {
@@ -430,10 +431,15 @@ class Home extends React.Component {
     const { history, match, location } = this.props;
     const { categoryList, deviceType } = this.state;
     const curListNum = categoryList.length;
+
     const event = {
       page: {
+        error: '',
+        hitTimestamp: new Date(),
+        path:match.path,
         type: 'Homepage',
-        theme: ''
+        filters:'',
+        theme: '',
       }
     };
 

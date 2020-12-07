@@ -3,14 +3,13 @@ import Skeleton from 'react-skeleton-loader';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { find } from 'lodash';
+import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
-import DeEditForm from './DeEditForm';
 import Loading from '@/components/Loading';
 import SameAsCheckbox from './SameAsCheckbox';
 import './list.css';
@@ -281,10 +280,10 @@ class AddressList extends React.Component {
     }
     return el.offsetTop;
   }
-  handleClickCancel() {
+  handleClickCancel = () => {
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
-  }
+  };
   async handleSavePromise() {
     try {
       this.setState({ saveLoading: true });
@@ -377,7 +376,9 @@ class AddressList extends React.Component {
       addOrEdit,
       loading,
       foledMore,
-      addressList
+      addressList,
+      saveErrorMsg,
+      successTipVisible
     } = this.state;
     const _list = addressList.map((item, i) => (
       <div
@@ -472,7 +473,7 @@ class AddressList extends React.Component {
         }
         <label
           className={`rc-input__label--inline text-break`}
-          for="addr-default-checkbox"
+          htmlFor="addr-default-checkbox"
         >
           <FormattedMessage id="setDefaultAddress" />
         </label>
@@ -530,7 +531,7 @@ class AddressList extends React.Component {
                 <div className="rc-md-up">
                   <span
                     className="rc-styled-link"
-                    onClick={() => this.handleClickCancel()}
+                    onClick={this.handleClickCancel}
                   >
                     <FormattedMessage id="cancel" />
                   </span>{' '}
@@ -548,7 +549,7 @@ class AddressList extends React.Component {
                 <div className="rc-md-down rc-full-width text-right">
                   <span
                     className="rc-styled-link"
-                    onClick={() => this.handleClickCancel()}
+                    onClick={this.handleClickCancel}
                   >
                     <FormattedMessage id="cancel" />
                   </span>{' '}
@@ -611,14 +612,14 @@ class AddressList extends React.Component {
 
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-              this.state.saveErrorMsg ? '' : 'hidden'
+              saveErrorMsg ? '' : 'hidden'
             }`}
           >
             <aside
               className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
               role="alert"
             >
-              <span className="pl-0">{this.state.saveErrorMsg}</span>
+              <span className="pl-0">{saveErrorMsg}</span>
               <button
                 className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
                 aria-label="Close"
@@ -634,7 +635,7 @@ class AddressList extends React.Component {
           </div>
           <aside
             className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-              this.state.successTipVisible ? '' : 'hidden'
+              successTipVisible ? '' : 'hidden'
             }`}
             role="alert"
           >
@@ -668,13 +669,13 @@ class AddressList extends React.Component {
                 {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
                   <>
                     {_form}
-                    {_sameAsCheckbox}
+                    {/* {_sameAsCheckbox} */}
                   </>
                 ) : null}
                 {!this.props.isOnepageCheckout && (
                   <>
                     {_form}
-                    {_sameAsCheckbox}
+                    {/* {_sameAsCheckbox} */}
                   </>
                 )}
               </>

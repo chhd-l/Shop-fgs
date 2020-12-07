@@ -2,7 +2,8 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import React from 'react';
 import Rate from '@/components/Rate';
 import ImgUpload from '@/components/ImgUpload';
-import { findIndex } from 'lodash';
+import findIndex from 'lodash/findIndex';
+
 import '../index.css';
 @injectIntl
 class ReviewForm extends React.Component {
@@ -118,7 +119,7 @@ class ReviewForm extends React.Component {
                 <div className="form-group col-lg-6 pull-left">
                   <label
                     className="form-control-label rc-full-width"
-                    for="reference"
+                    htmlFor="reference"
                   >
                     <FormattedMessage id="title" />
                   </label>
@@ -146,7 +147,7 @@ class ReviewForm extends React.Component {
                       onChange={(e) => this.handleTitleChange(e)}
                       onBlur={(e) => this.inputBlur(e)}
                     ></input>
-                    <label className="rc-input__label" for="reference"></label>
+                    <label className="rc-input__label" htmlFor="reference"></label>
                   </span>
                 </div>
               </div>

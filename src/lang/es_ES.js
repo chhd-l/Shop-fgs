@@ -368,7 +368,6 @@ const es_ES = {
   just: 'sólo',
   kitten: 'Gatito (0-1 años)',
   lastName: 'Apellido *',
-  learnMore: 'Aprende más',
   'list.errMsg': 'No se encontraron productos, cambie los criterios de búsqueda e intente nuevamente.',
   'list.errMsg2': 'No se encontraron productos, cambie las palabras clave y vuelva a intentarlo.',
   'list.errMsg3': 'No se encontraron filtros, intente más tarde',
@@ -813,6 +812,9 @@ const es_ES = {
   gender: 'Género',
   setAsDefault: 'Establecer por defecto',
   viewAll: 'Ver todos los productos',
-  mailAddress: 'Correo Electronico'
+  mailAddress: 'Correo Electronico',
+  'account.startAutoShipping': 'Iniciar envío automático',
+  'account.noSubscription': '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
+  'account.noSubscriptionTitle': '¡Empecemos!',
 }
 export default es_ES;

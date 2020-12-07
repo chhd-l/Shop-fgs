@@ -18,7 +18,11 @@ export default class PriceSlider extends React.Component {
         max={this.props.max}
         ariaLabel={['Lower thumb', 'Upper thumb']}
         ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
-        renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+        renderThumb={(props, state) => (
+          <div {...props}>
+            <span>{state.valueNow}</span>
+          </div>
+        )}
         pearling
         minDistance={10}
         onChange={this.props.onChange}

@@ -1,5 +1,6 @@
 import { action, observable, computed } from 'mobx';
-import { find, findIndex } from 'lodash';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 
 class PaymentStore {
   @observable deliveryAddress = null;
@@ -16,12 +17,12 @@ class PaymentStore {
       status: { isPrepare: false, isEdit: true, isCompleted: false }
     },
     {
-      key: 'deliveryAddr',
+      key: 'email',
       order: 2,
-      status: { isPrepare: true, isEdit: false, isCompleted: false }
+      status: { isPrepare: true, isEdit: true, isCompleted: false }
     },
     {
-      key: 'billingAddr',
+      key: 'deliveryAddr',
       order: 3,
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
@@ -31,11 +32,22 @@ class PaymentStore {
       status: { isPrepare: true, isEdit: false, isCompleted: false }
     },
     {
-      key: 'confirmation',
+      key: 'billingAddr',
       order: 5,
+      status: { isPrepare: true, isEdit: false, isCompleted: false }
+    },
+    {
+      key: 'confirmation',
+      order: 6,
       status: { isPrepare: true, isEdit: false }
     }
   ];
+
+  @observable firstSavedCard = "";//当前保存卡的卡号
+
+  @computed get emailPanelStatus() {
+    return find(this.panelStatus, (ele) => ele.key === 'email').status;
+  }
 
   @computed get deliveryAddrPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'deliveryAddr').status;
@@ -51,6 +63,12 @@ class PaymentStore {
 
   @computed get confirmationPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'confirmation').status;
+  }
+
+  @action.bound
+  removeEmailFromPanelItems() {
+    const idx = this.panelStatus.findIndex((e) => e.key === 'email');
+    this.panelStatus.splice(idx, 1);
   }
 
   @action.bound
@@ -114,14 +132,6 @@ class PaymentStore {
   }
 
   @action.bound
-  // 保存或编辑时，把地址更新为当前的
-  async saveAddress(interfaceName, params) {
-    await [interfaceName](params);
-    // 此时设置地址
-    //
-  }
-
-  @action.bound
   updateSelectedDeliveryAddress(data) {
     let tmpData = data;
     if (data && data.consigneeNumber) {
@@ -137,6 +147,11 @@ class PaymentStore {
       tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
     }
     this.selectedBillingAddress = tmpData;
+  }
+
+  @action
+  updateFirstSavedCard(data){
+    this.firstSavedCard = data
   }
 }
 export default PaymentStore;

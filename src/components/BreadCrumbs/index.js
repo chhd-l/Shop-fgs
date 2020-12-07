@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl';
 import { STORE_CATE_ENUM } from '@/utils/constant';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
