@@ -65,7 +65,7 @@ const de_DE = {
   'account.specialNeeds': 'Empfohlene Nahrung der Tierarztpraxis',
   'account.step': 'Schritt',
   'account.sterilized': 'Ist Ihr Tier kastriert oder sterilisiert?',
-  'account.subscription': 'Abonnement',
+  'account.subscription': 'Abonnieren',
   'account.subscriptionTip': 'Durchsuchen und Bearbeiten Sie bestehende Abos.',
   'account.subscriptionTitle': 'Meine Abonnements',
   'account.TheAddressBook': 'Das Adressbuch',

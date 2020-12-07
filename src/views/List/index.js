@@ -867,7 +867,7 @@ class List extends React.Component {
                                       </div>
                                     </div>
                                     {/*商品评分和评论数目*/}
-                                    <div
+                                    <div style={{display:'flex',margin:'0 auto'}}
                                       className={`rc-card__price text-center RateFitScreen`}
                                     >
                                       <div>
@@ -877,7 +877,7 @@ class List extends React.Component {
                                           marginSize="smallRate"
                                         />
                                       </div>
-                                      <span className="comments rc-margin-left--xs rc-text-colour--text">
+                                      <span className="comments rc-margin-left--xs rc-text-colour--text" style={{marginTop:'3px'}}>
                                         ({item.goodsEvaluateNum})
                                       </span>
                                     </div>
