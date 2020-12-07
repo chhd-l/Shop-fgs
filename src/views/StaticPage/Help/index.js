@@ -63,7 +63,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
           {/* <div className="rc-bg-colour--brand4 text-center" >
             <div className="rc-layout-container rc-content-h-middle">
               <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">

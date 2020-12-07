@@ -15,6 +15,7 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import Faq from '../../Payment/Fr/faq';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -58,7 +59,8 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+
+          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
           <br/>
           <BreadCrumbs />
           <div className="storefront-page">
