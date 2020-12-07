@@ -12,7 +12,9 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
-    operateBtnVisible: false
+    operateBtnVisible: false,
+    fixToHeader: false,
+    style: {}
   };
   constructor(props) {
     super(props);
@@ -113,11 +115,11 @@ class PayProductInfo extends React.Component {
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
                 <LazyLoad>
-                <img
-                  className="product-image"
-                  src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
-                  alt=""
-                />
+                  <img
+                    className="product-image"
+                    src={find(el.sizeList, (s) => s.selected).goodsInfoImg}
+                    alt=""
+                  />
                 </LazyLoad>
               </div>
               <div className="wrap-item-title">
@@ -187,7 +189,7 @@ class PayProductInfo extends React.Component {
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
                 <LazyLoad>
-                <img className="product-image" src={el.goodsInfoImg} alt=""/>
+                  <img className="product-image" src={el.goodsInfoImg} alt="" />
                 </LazyLoad>
               </div>
               <div className="wrap-item-title">
@@ -338,7 +340,7 @@ class PayProductInfo extends React.Component {
                         name="text"
                         placeholder={txt}
                         value={this.state.promotionInputValue}
-                        onChange={(e) => this.handlerChange(e)}
+                        onChange={this.handlerChange}
                         style={{ background: '#eee' }}
                       />
                     )}
@@ -484,57 +486,57 @@ class PayProductInfo extends React.Component {
 
                 {/* 显示 promotionCode */}
                 <div style={{ marginTop: '10px' }}>
-                  {!this.state.isShowValidCode && this.props.checkoutStore.promotionCode?
-                    // this.state.discount.map((el) => 
-                    (
+                  {!this.state.isShowValidCode &&
+                  this.props.checkoutStore.promotionCode ? (
+                    // this.state.discount.map((el) =>
+                    <div
+                      className="flex-layout"
+                      style={{ marginRight: '18px' }}
+                    >
+                      <label className="saveDiscount font14 red">
+                        {this.promotionDesc || (
+                          <FormattedMessage id="NoPromotionDesc" />
+                        )}
+                      </label>
                       <div
-                        className="flex-layout"
-                        style={{ marginRight: '18px' }}
+                        className="text-right red-text"
+                        style={{ position: 'relative', paddingTop: '7px' }}
                       >
-                        <label className="saveDiscount font14 red">
-                          {this.promotionDesc || (
-                            <FormattedMessage id="NoPromotionDesc" />
-                          )}
-                        </label>
-                        <div
-                          className="text-right red-text"
-                          style={{ position: 'relative', paddingTop: '7px' }}
+                        <b>-{formatMoney(this.discountPrice)}</b>
+                        <span
+                          style={{
+                            position: 'absolute',
+                            right: '-18px',
+                            fontSize: '18px',
+                            top: '6px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={async () => {
+                            let result = {};
+                            if (!this.isLogin) {
+                              //游客
+                              result = await checkoutStore.updateUnloginCart();
+                            } else {
+                              //会员
+                              result = await checkoutStore.updateLoginCart(
+                                '',
+                                this.props.buyWay === 'frequency'
+                              );
+                            }
+                            if (result.backCode === 'K-000000') {
+                              discount.pop();
+                              this.setState({
+                                discount: discount,
+                                isShowValidCode: false
+                              });
+                            }
+                          }}
                         >
-                          <b>-{formatMoney(this.discountPrice)}</b>
-                          <span
-                            style={{
-                              position: 'absolute',
-                              right: '-18px',
-                              fontSize: '18px',
-                              top: '6px',
-                              cursor: 'pointer'
-                            }}
-                            onClick={async () => {
-                              let result = {};
-                              if (!this.isLogin) {
-                                //游客
-                                result = await checkoutStore.updateUnloginCart();
-                              } else {
-                                //会员
-                                result = await checkoutStore.updateLoginCart(
-                                  '',
-                                  this.props.buyWay === 'frequency'
-                                );
-                              }
-                              if (result.backCode === 'K-000000') {
-                                discount.pop();
-                                this.setState({
-                                  discount: discount,
-                                  isShowValidCode: false
-                                });
-                              }
-                            }}
-                          >
-                            x
-                          </span>
-                        </div>
+                          x
+                        </span>
                       </div>
-                    ): null}
+                    </div>
+                  ) : null}
                 </div>
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
@@ -594,14 +596,14 @@ class PayProductInfo extends React.Component {
       </div>
     );
   }
-  handlerChange(e) {
+  handlerChange = (e) => {
     let promotionInputValue = e.target.value;
     this.setState({
       promotionInputValue
     });
-  }
+  };
   render() {
-    return (
+    return this.props.fixToHeader ? (
       <div className="rc-bg-colour--brand3" id="J_sidecart_container">
         {/* 法国环境不加固定定位 */}
         {process.env.REACT_APP_LANG !== 'fr' &&
@@ -619,6 +621,8 @@ class PayProductInfo extends React.Component {
           })}
         {this.sideCart()}
       </div>
+    ) : (
+      <div style={{ ...this.props.style }}>{this.sideCart()}</div>
     );
   }
 }

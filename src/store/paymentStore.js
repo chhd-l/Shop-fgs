@@ -43,6 +43,8 @@ class PaymentStore {
     }
   ];
 
+  @observable firstSavedCard = "";//当前保存卡的卡号
+
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
   }
@@ -145,6 +147,11 @@ class PaymentStore {
       tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
     }
     this.selectedBillingAddress = tmpData;
+  }
+
+  @action
+  updateFirstSavedCard(data){
+    this.firstSavedCard = data
   }
 }
 export default PaymentStore;

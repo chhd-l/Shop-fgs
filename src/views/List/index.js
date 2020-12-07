@@ -2,6 +2,7 @@ import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import BannerTip from '@/components/BannerTip';
@@ -11,7 +12,6 @@ import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
-import LazyLoad from 'react-lazyload';
 import Filters from './Filters';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
@@ -41,7 +41,8 @@ function ListItem(props) {
         className="rc-card rc-card--product overflow-hidden"
         style={{ minHeight: '120px' }}
       >
-        {props.promotionJSX}
+        {props.leftPromotionJSX}
+        {props.rightPromotionJSX}
         <div className="fullHeight">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
@@ -64,6 +65,7 @@ class List extends React.Component {
       storeCateIds: [],
       category: '',
       cateType: '',
+      cateName: '',
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
@@ -143,7 +145,13 @@ class List extends React.Component {
                 description: state.cateDescription,
                 img: state.cateImgList
               }
-            : null
+            : null,
+        cateName:
+          state.cateName ||
+          {
+            '/cats': <FormattedMessage id="cats3" />,
+            '/dogs': <FormattedMessage id="dogs3" />
+          }[pathname]
       });
     }
 
@@ -425,7 +433,24 @@ class List extends React.Component {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
             goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele);
+              let ret = Object.assign({}, ele, {
+                // 最低marketPrice对应的划线价
+                miLinePrice: ele.goodsInfos.sort(
+                  (a, b) => a.marketPrice - b.marketPrice
+                )[0].linePrice,
+                taggingForText: (ele.taggingVOList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
+                )[0],
+                taggingForImage: (ele.taggingVOList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PLP')
+                )[0]
+              });
               const tmpItem = find(
                 res.context.goodsList,
                 (g) => g.goodsId === ele.id
@@ -539,7 +564,8 @@ class List extends React.Component {
       filterModalVisible,
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
-      keywords
+      keywords,
+      cateName
     } = this.state;
     let event;
     let eEvents;
@@ -614,9 +640,7 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: (titleData && titleData.cateName) || '' }].filter(
-              (el) => el.name
-            )}
+            list={[{ name: cateName || '' }].filter((el) => el.name)}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
@@ -791,13 +815,30 @@ class List extends React.Component {
                             : productList.map((item, i) => (
                                 <ListItem
                                   key={item.id}
-                                  promotionJSX={
-                                    find(
-                                      item.goodsInfos,
-                                      (ele) => ele.goodsPromotion
-                                    ) ? (
-                                      <div className="product-item-flag">
-                                        <FormattedMessage id="promotion" />
+                                  leftPromotionJSX={
+                                    item.taggingForText ? (
+                                      <div
+                                        className="product-item-flag-text"
+                                        style={{
+                                          backgroundColor:
+                                            item.taggingForText
+                                              .taggingFillColor,
+                                          color:
+                                            item.taggingForText.taggingFontColor
+                                        }}
+                                      >
+                                        {item.taggingForText.taggingName}
+                                      </div>
+                                    ) : null
+                                  }
+                                  rightPromotionJSX={
+                                    item.taggingForImage ? (
+                                      <div className="product-item-flag-image position-absolute">
+                                        <img
+                                          src={
+                                            item.taggingForImage.taggingImgUrl
+                                          }
+                                        />
                                       </div>
                                     ) : null
                                   }
@@ -812,33 +853,36 @@ class List extends React.Component {
                                       style={{ height: '15.7rem' }}
                                     >
                                       {/*循环遍历的图片*/}
-                                      <img
-                                        src={
-                                          item.goodsImg ||
-                                          item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg ||
-                                          IMG_DEFAULT
-                                        }
-                                        srcSet={
-                                          item.goodsImg ||
-                                          item.goodsInfos.sort(
-                                            (a, b) =>
-                                              a.marketPrice - b.marketPrice
-                                          )[0].goodsInfoImg ||
-                                          IMG_DEFAULT
-                                        }
-                                        alt={item.goodsName}
-                                        title={item.goodsName}
-                                        className="ImgFitScreen pt-3"
-                                        style={{
-                                          maxWidth: '50%',
-                                          maxHeight: '100%',
-                                          width: 'auto',
-                                          height: 'auto'
-                                        }}
-                                      />
+                                      <LazyLoad style={{ width: '100%' }}>
+                                        <img
+                                          src={
+                                            item.goodsImg ||
+                                            item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].goodsInfoImg ||
+                                            IMG_DEFAULT
+                                          }
+                                          srcSet={
+                                            item.goodsImg ||
+                                            item.goodsInfos.sort(
+                                              (a, b) =>
+                                                a.marketPrice - b.marketPrice
+                                            )[0].goodsInfoImg ||
+                                            IMG_DEFAULT
+                                          }
+                                          alt={item.goodsName}
+                                          title={item.goodsName}
+                                          className="ImgFitScreen pt-3"
+                                          style={{
+                                            maxWidth: '50%',
+                                            maxHeight: '100%',
+                                            width: 'auto',
+                                            height: 'auto',
+                                            margin: 'auto'
+                                          }}
+                                        />
+                                      </LazyLoad>
                                     </div>
                                   </picture>
                                   <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
@@ -910,43 +954,14 @@ class List extends React.Component {
                                               item.miMarketPrice
                                             )}{' '}
                                             {/* 划线价 */}
-                                            {item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].linePrice &&
-                                            item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].linePrice > 0 ? (
-                                              <span
-                                                className="text-line-through rc-text-colour--text font-weight-lighter"
-                                                style={{
-                                                  fontSize: '.8em'
-                                                }}
-                                              >
-                                                {formatMoney(
-                                                  item.goodsInfos.sort(
-                                                    (a, b) =>
-                                                      a.marketPrice -
-                                                      b.marketPrice
-                                                  )[0].linePrice
-                                                )}
-                                              </span>
-                                            ) : null}
+                                            {item.miLinePrice &&
+                                            item.miLinePrice > 0
+                                              ? formatMoney(item.miLinePrice)
+                                              : null}
                                           </span>
                                         </div>
-                                        {find(
-                                          item.goodsInfos,
-                                          (ele) => ele.subscriptionStatus
-                                        ) &&
-                                        Math.min.apply(
-                                          null,
-                                          item.goodsInfos
-                                            .filter((g) => g.subscriptionStatus)
-                                            .map(
-                                              (g) => g.subscriptionPrice || 0
-                                            )
-                                        ) > 0 ? (
+                                        {item.miSubscriptionPrice &&
+                                        item.miSubscriptionPrice > 0 ? (
                                           <div className="range position-relative SePriceScreen">
                                             <span
                                               style={{
@@ -955,18 +970,7 @@ class List extends React.Component {
                                               }}
                                             >
                                               {formatMoney(
-                                                Math.min.apply(
-                                                  null,
-                                                  item.goodsInfos
-                                                    .filter(
-                                                      (g) =>
-                                                        g.subscriptionStatus
-                                                    )
-                                                    .map(
-                                                      (g) =>
-                                                        g.subscriptionPrice || 0
-                                                    )
-                                                )
+                                                item.miSubscriptionPrice
                                               )}{' '}
                                             </span>
                                           </div>
@@ -1004,9 +1008,7 @@ class List extends React.Component {
                             defaultCurrentPage={this.state.currentPage}
                             key={this.state.currentPage}
                             totalPage={this.state.totalPage}
-                            onPageNumChange={(params) =>
-                              this.hanldePageNumChange(params)
-                            }
+                            onPageNumChange={this.hanldePageNumChange}
                           />
                         </div>
                       </div>
@@ -1019,9 +1021,9 @@ class List extends React.Component {
               <div className="ml-4 mr-4 pl-4 pr-4">
                 <div className="row d-flex align-items-center">
                   <div className="col-12 col-md-6">
-                    <h1 className="rc-gamma rc-padding--none">
+                    <p className="rc-gamma rc-padding--none">
                       <FormattedMessage id="productFinder.recoTitle" />
-                    </h1>
+                    </p>
                     <p>
                       <FormattedMessage id="productFinder.recoDesc" />
                     </p>
@@ -1030,7 +1032,7 @@ class List extends React.Component {
                     </Link>
                   </div>
                   <div className="col-12 col-md-6">
-                    <LazyLoad>
+                    <LazyLoad height={200}>
                       <img src={pfRecoImg} />
                     </LazyLoad>
                   </div>

@@ -137,6 +137,8 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
+        this.props.paymentStore.updateFirstSavedCard(tmpSelectedId)
+        console.log(this.props.paymentStore.firstSavedCard)
         this.props.queryList();
         this.setState({ saveLoading: false });
       } else {

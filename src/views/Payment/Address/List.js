@@ -56,6 +56,7 @@ class AddressList extends React.Component {
       billingChecked: true,
       isValid: false
     };
+    this.addOrEditAddress = this.addOrEditAddress.bind(this);
     this.timer = null;
   }
   async componentDidMount() {
@@ -393,14 +394,14 @@ class AddressList extends React.Component {
         onClick={(e) => this.selectAddress(e, i)}
       >
         <div className="row align-items-center pt-3 pb-3 ml-2 mr-2">
-          <div className="d-flex align-items-center justify-content-between col-2 col-md-1 address-name">
+          <div className="d-flex align-items-center justify-content-center col-2 col-md-1 address-name pl-0 pr-0">
             {item.selected ? (
               <svg width="24" height="32">
                 <path
                   d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
                   fill="#E2001A"
                   fillRule="evenodd"
-                ></path>
+                />
               </svg>
             ) : (
               <svg width="24" height="32">
@@ -408,7 +409,7 @@ class AddressList extends React.Component {
                   d="M12 15c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4m0-15C5.383 0 0 5.109 0 11.388c0 5.227 7.216 16.08 9.744 19.47A2.793 2.793 0 0 0 12 32c.893 0 1.715-.416 2.256-1.142C16.784 27.468 24 16.615 24 11.388 24 5.109 18.617 0 12 0"
                   fill="#c4c4c4"
                   fillRule="evenodd"
-                ></path>
+                />
               </svg>
             )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
@@ -430,7 +431,7 @@ class AddressList extends React.Component {
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
             <span
               className="addr-btn-edit border-left pl-2"
-              onClick={() => this.addOrEditAddress(i)}
+              onClick={this.addOrEditAddress.bind(i)}
             >
               <FormattedMessage id="edit" />
             </span>
@@ -496,7 +497,7 @@ class AddressList extends React.Component {
           className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center ${
             addOrEdit ? 'hidden' : ''
           }`}
-          onClick={() => this.addOrEditAddress()}
+          onClick={this.addOrEditAddress}
         >
           <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus" />
           <span>
