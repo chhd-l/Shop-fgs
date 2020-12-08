@@ -211,6 +211,10 @@ class Help extends React.Component {
               animale.
             </p>
           </section>
+
+
+          
+
         </main>
         <Footer />
       </div>

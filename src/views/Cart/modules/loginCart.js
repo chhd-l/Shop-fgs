@@ -32,6 +32,7 @@ import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
+import BannerTip from '@/components/BannerTip';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -1270,7 +1271,7 @@ class LoginCart extends React.Component {
               </div>
             ): null
           }
-          
+
           <div className="row checkout-proccess">
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>
@@ -1366,6 +1367,7 @@ class LoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           }`}
         >
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {initLoading ? (
               <div className="mt-4">
