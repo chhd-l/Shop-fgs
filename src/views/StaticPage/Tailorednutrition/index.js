@@ -43,7 +43,7 @@ class Tailorednutrition extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
