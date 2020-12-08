@@ -34,6 +34,7 @@ import {
   getFrequencyDict,
   queryStoreCateList
 } from '@/utils/utils';
+import refreshImg from "./images/refresh.png"
 
 import './index.css';
 import './index.less';
@@ -1578,6 +1579,7 @@ class Details extends React.Component {
                                       className="rc-input__label--inline"
                                       htmlFor="type_frequency"
                                     >
+                                      <img class="refreshImg" src={refreshImg}/>
                                       <span
                                         style={{
                                           fontWeight: '400',
@@ -1618,14 +1620,24 @@ class Details extends React.Component {
                                     </label>
                                   </div>
                                   <br />
-                                  Save&nbsp;
+                                  <div className="discountBox">
+                                    Save extra&nbsp;
+                                    <b className="product-pricing__card__head__price rc-padding-y--none">
+                                      {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                      10%
+                                    </b>
+                                  </div>
+                                  <div className="freeshippingBox">
+                                    Free shipping
+                                  </div>
+                                  {/* Save&nbsp;
                                   <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                     {formatMoney(
                                       currentUnitPrice -
                                         quantity * currentSubscriptionPrice
                                     )}
-                                  </b>
-                                  &nbsp; on this subscription.
+                                  </b> */}
+                                  {/* &nbsp; on this subscription. */}
                                 </div>
                                 <div
                                   className="price"
@@ -1724,6 +1736,7 @@ class Details extends React.Component {
                                         color: '#333'
                                       }}
                                     >
+                                      <img class="refreshImg" src={refreshImg}/>
                                       <FormattedMessage id="autoship" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
@@ -1758,12 +1771,15 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                                 <br />
-                                <div>
-                              Save&nbsp;
-                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
+                                <div className="discountBox">
+                                Save extra&nbsp;
+                                <b className="product-pricing__card__head__price rc-padding-y--none">
+                                  {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                  10%
                                 </b>
-                                &nbsp; on this subscription.
+                              </div>
+                              <div className="freeshippingBox">
+                                Free shipping
                               </div>
                               </div>
                               <div className="freqency">
