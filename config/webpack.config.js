@@ -269,43 +269,23 @@ module.exports = function (webpackEnv) {
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-      // splitChunks: {
-      //   chunks: 'all',
-      //   // name: false,
-      //   cacheGroups: {
-      //     vendor: {
-      //       chunks: 'async',
-      //       minChunks: 2,
-      //       name: 'vendor',
-      //       test: /node_modules/
-      //     },
-      //     common: {
-      //       chunks: 'async',
-      //       minChunks: 2,
-      //       name: 'common',
-      //       reuseExistingChunk: true,
-      //       enforce: true // 我们的公用代码小于 30kb，这里强制分离
-      //     },
-      //     reactBase: {
-      //       test: (module) => {
-      //         return /react|redux|prop-types/.test(module.context);
-      //       }, // 直接使用 test 来做路径匹配，抽离react相关代码
-      //       chunks: 'initial',
-      //       name: 'reactBase',
-      //       priority: 10
-      //     }
-      //   }
-      // },
       splitChunks: {
         chunks: 'all',
-        minSize: 30000, // 比特
-        maxSize: 204800,
-        minChunks: 1,
-        maxAsyncRequests: 5, // cpu拼合率 8 10
-        maxInitialRequests: 5,
-        automaticNameDelimiter: '~',
-        name: true,
+        // name: false,
         cacheGroups: {
+          vendor: {
+            chunks: 'async',
+            minChunks: 2,
+            name: 'vendor',
+            test: /node_modules/
+          },
+          common: {
+            chunks: 'async',
+            minChunks: 2,
+            name: 'common',
+            reuseExistingChunk: true,
+            enforce: true // 我们的公用代码小于 30kb，这里强制分离
+          },
           reactBase: {
             test: (module) => {
               return /react|redux|prop-types/.test(module.context);
@@ -313,16 +293,36 @@ module.exports = function (webpackEnv) {
             chunks: 'initial',
             name: 'reactBase',
             priority: 10
-          },
-          default: {
-            test: function (module, chunks) {
-              return true;
-            },
-            priority: -20,
-            reuseExistingChunk: true
           }
         }
       },
+      // splitChunks: {
+      //   chunks: 'all',
+      //   minSize: 30000, // 比特
+      //   maxSize: 204800,
+      //   minChunks: 1,
+      //   maxAsyncRequests: 5, // cpu拼合率 8 10
+      //   maxInitialRequests: 5,
+      //   automaticNameDelimiter: '~',
+      //   name: true,
+      //   cacheGroups: {
+      //     reactBase: {
+      //       test: (module) => {
+      //         return /react|redux|prop-types/.test(module.context);
+      //       }, // 直接使用 test 来做路径匹配，抽离react相关代码
+      //       chunks: 'initial',
+      //       name: 'reactBase',
+      //       priority: 10
+      //     },
+      //     default: {
+      //       test: function (module, chunks) {
+      //         return true;
+      //       },
+      //       priority: -20,
+      //       reuseExistingChunk: true
+      //     }
+      //   }
+      // },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
@@ -609,7 +609,7 @@ module.exports = function (webpackEnv) {
         threshold: 10240, // 只处理比这个值大的资源。按字节计算
         minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
       }),
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
