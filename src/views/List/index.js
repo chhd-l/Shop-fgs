@@ -55,6 +55,35 @@ function ListItem(props) {
   );
 }
 
+function ProductFinderAd() {
+  return (
+    {
+      fr: (
+        <div className="ml-4 mr-4 pl-4 pr-4">
+          <div className="row d-flex align-items-center">
+            <div className="col-12 col-md-6">
+              <p className="rc-gamma rc-padding--none">
+                <FormattedMessage id="productFinder.recoTitle" />
+              </p>
+              <p>
+                <FormattedMessage id="productFinder.recoDesc" />
+              </p>
+              <Link to="/product-finder" className="rc-btn rc-btn--one">
+                <FormattedMessage id="productFinder.index" />
+              </Link>
+            </div>
+            <div className="col-12 col-md-6">
+              <LazyLoad height={200}>
+                <img src={pfRecoImg} />
+              </LazyLoad>
+            </div>
+          </div>
+        </div>
+      )
+    }[process.env.REACT_APP_LANG] || null
+  );
+}
+
 @inject('loginStore', 'configStore')
 @injectIntl
 @observer
@@ -500,14 +529,14 @@ class List extends React.Component {
         this.setState({ loading: false, productList: [], initingList: false });
       });
   }
-  hanldePageNumChange({ currentPage }) {
+  hanldePageNumChange = ({ currentPage }) => {
     this.setState(
       {
         currentPage
       },
       () => this.getProductList()
     );
-  }
+  };
   hanldeItemClick(item) {
     const { history, location } = this.props;
     if (this.state.loading) {
@@ -1021,28 +1050,7 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
-            {process.env.REACT_APP_LANG === 'fr' && (
-              <div className="ml-4 mr-4 pl-4 pr-4">
-                <div className="row d-flex align-items-center">
-                  <div className="col-12 col-md-6">
-                    <p className="rc-gamma rc-padding--none">
-                      <FormattedMessage id="productFinder.recoTitle" />
-                    </p>
-                    <p>
-                      <FormattedMessage id="productFinder.recoDesc" />
-                    </p>
-                    <Link to="/product-finder" className="rc-btn rc-btn--one">
-                      <FormattedMessage id="productFinder.index" />
-                    </Link>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <LazyLoad height={200}>
-                      <img src={pfRecoImg} />
-                    </LazyLoad>
-                  </div>
-                </div>
-              </div>
-            )}
+            <ProductFinderAd />
           </div>
         </main>
         {process.env.REACT_APP_LANG == 'de' ? (
