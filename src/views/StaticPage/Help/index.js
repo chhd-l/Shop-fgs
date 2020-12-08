@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
+import PhoneModal from './components/phoneModal.js'
 import FrTips from './fr/frTips'
 import FrFaq from './fr/frFaq'
 import Footer from '@/components/Footer';
@@ -22,7 +23,8 @@ class Help extends React.Component {
     super(props);
     this.state = {
       tel: '',
-      mailAddress: ''
+      mailAddress: '',
+      showModal:false
     };
   }
 
@@ -45,6 +47,10 @@ class Help extends React.Component {
 
     this.setState({ tel, mailAddress });
   }
+  mobileDial(phone){
+    console.log(phone)
+    this.setState({showModal:true})
+  }
   render(h) {
     const event = {
       page: {
@@ -53,7 +59,8 @@ class Help extends React.Component {
       }
     };
     return (
-      <div>
+      <div style={{width:'100%',height:'100%'}}>
+        {/* <PhoneModal/> */}
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -135,6 +142,8 @@ class Help extends React.Component {
                                           <p
                                             style={{ color: '#00BCA3' }}
                                             className="rc-alpha rc-border--none rc-md-down"
+                                            onClick={()=>this.mobileDial(this.props.configStore
+                                              .storeContactPhoneNumber)}
                                           >
                                             {/* 800 024 77 64 */}
                                             {/* <FormattedMessage id="help.mail" /> */}
