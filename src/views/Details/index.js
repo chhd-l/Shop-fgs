@@ -1643,9 +1643,9 @@ class Details extends React.Component {
                                   className="price"
                                   style={{
                                     paddingTop:
-                                      process.env.REACT_APP_LANG === 'de'
+                                      isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
                                         ? '.5rem'
-                                        : '1.5rem'
+                                        : '1.5rem')
                                   }}
                                 >
                                   <div>
@@ -1681,7 +1681,8 @@ class Details extends React.Component {
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
-                                    marginLeft: '100px'
+                                    marginLeft: isMobile?'50px': '100px',
+                                    height: isMobile?'70px': 'auto'
                                   }}
                                   selectedItemChange={
                                     this.handleSelectedItemChange
@@ -1787,7 +1788,8 @@ class Details extends React.Component {
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
-                                    marginLeft: '100px'
+                                    marginLeft: isMobile?'50px': '100px',
+                                    height: isMobile?'70px': 'auto'
                                   }}
                                   selectedItemChange={
                                     this.handleSelectedItemChange
@@ -1804,9 +1806,9 @@ class Details extends React.Component {
                                 className="price"
                                 style={{
                                   paddingTop:
-                                    process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
+                                  isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                  ? '.5rem'
+                                  : '1.5rem')
                                 }}
                               >
                                 <div>
@@ -1884,9 +1886,9 @@ class Details extends React.Component {
                                 style={{
                                   fontSize: '22px',
                                   paddingTop:
-                                    process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
+                                  isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                  ? '.5rem'
+                                  : '1.5rem')
                                 }}
                               >
                                 <div>{formatMoney(currentUnitPrice)}</div>
@@ -1978,9 +1980,9 @@ class Details extends React.Component {
                               style={{
                                 fontSize: '22px',
                                 paddingTop:
-                                  process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
+                                isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                ? '.5rem'
+                                : '1.5rem')
                               }}
                             >
                               <div>{formatMoney(currentUnitPrice)}</div>

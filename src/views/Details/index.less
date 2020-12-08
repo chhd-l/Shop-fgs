@@ -27,7 +27,7 @@
   }
 }
 
-.buyMethod {
+#Details .buyMethod {
   display: flex;
   // border: 1px solid #e2001a;
   border: 1px solid #aaa;
@@ -56,6 +56,10 @@
     padding-top: .5rem;
     font-weight: 400;
   }
+}
+#Details .choices__item.choices__item--choice.choices__item--selectable {
+  height: 60px;
+  line-height: 40px;
 }
 
 #Details .maxRate {
@@ -139,11 +143,24 @@
     }
 
   }
-
+  #Details .buyMethod .radioBox {
+    flex: 3;
+  }
+  #Details .price {
+    padding-top: .2rem;
+  }
   .imageBox {
     padding-top: 0 !important;
   }
-
+  #Details #Selection {
+    height: 100%;
+    .choices__inner {
+      height: 100%;
+    }
+  }
+  #Details .choices[data-type*=select-one]:after {
+    margin-top: 12.5px;
+  }
   .rc-layout-container {
     padding-top: 0 !important;
   }
