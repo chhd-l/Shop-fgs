@@ -10,7 +10,6 @@ import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
 
 import './index.css';
-import { cloneDeep, findIndex, find } from 'lodash';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';

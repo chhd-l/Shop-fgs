@@ -34,7 +34,7 @@ const BreadCrumbs = withRouter((props) => {
 
   return (
     <div
-      className="rc-bg-colour--brand3 rc-md-up"
+      className="rc-bg-colour--brand3"
       style={{ paddingTop: '1px' }}
     >
       <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">

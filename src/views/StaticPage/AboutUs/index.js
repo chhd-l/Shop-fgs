@@ -49,7 +49,7 @@ class AboutUs extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -59,7 +59,7 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-
+          <BannerTip/>
           {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
           <br/>
           <BreadCrumbs />

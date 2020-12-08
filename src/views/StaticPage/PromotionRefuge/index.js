@@ -63,7 +63,10 @@ class PromotionRefuge extends React.Component {
                             <source media="(min-width: 769px)" data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=600&sh=400&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=1200&sh=800&sm=cut&sfrm=png 2x" srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=600&sh=400&sm=cut&sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=1200&sh=800&sm=cut&sfrm=png 2x">
                             </source>
                             <LazyLoad>
-                            <img className="w-100 lazyloaded" data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=600&sh=400&sm=cut&sfrm=png" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa52ec6c0/promotion-refuge/20201019-Image-banner-LP.jpg?sw=600&sh=400&sm=cut&sfrm=png"/>
+                              <img className="w-100 lazyloaded"
+                                   data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc6e07ed3/promotion-refuge/Shelterspromo_fr.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=png"
+                                   alt="Adoption dans les refuges " title="Adoption dans les refuges "
+                                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc6e07ed3/promotion-refuge/Shelterspromo_fr.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=png"/>
                             </LazyLoad>
                           </picture>
                         </div>
@@ -235,7 +238,7 @@ class PromotionRefuge extends React.Component {
                                   <div>
                                     <b style={{color:'#00A4A6'}}>Par téléphone</b>
                                     <p>
-                                      Appel Gratuit (depuis un poste fixe) 
+                                      Appel Gratuit (depuis un poste fixe)
                                       <span style={{color:'rgb(23,43,77)'}}>De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi</span>
                                     </p>
                                     <div className="rc-margin-top--xs">
@@ -284,7 +287,7 @@ class PromotionRefuge extends React.Component {
                                   <div>
                                     <b style={{color:'#00A4A6'}}>Des questions?</b>
                                     <p>
-                                      Vous pouvez également consulter notre rubrique 
+                                      Vous pouvez également consulter notre rubrique
                                       <a href="https://staging-eu01-marsuk.demandware.net/on/demandware.store/Sites-Site/default/ViewLdsBusinessManagerScreen-PageDesigner/https://shop.royalcanin.fr/on/demandware.store/Sites-FR-Site/fr_FR/Page-Show?%2520%27cid%27=%2520%27faq%27" target="_self" data-link-type="page" data-link-label="FAQ" data-content-page-id="faq" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</a>qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>

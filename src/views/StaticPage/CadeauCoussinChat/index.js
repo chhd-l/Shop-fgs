@@ -71,6 +71,7 @@ class CadeauCoussinChat extends React.Component {
                         <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
                           <div
                             className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
+
                             <div className="rc-column">
                               <div className="rc-padding-y--lg--mobile rc-full-width">
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
@@ -93,6 +94,7 @@ class CadeauCoussinChat extends React.Component {
                                 </div>
                               </div>
                             </div>
+
                             <div className="rc-column">
                               <img
                                 data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=534"
