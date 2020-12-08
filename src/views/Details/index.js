@@ -164,7 +164,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 0, //0 - once/ 1 - frequency
+        buyWay: 1, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -1544,177 +1544,6 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
-                        {isMobile ? (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7'
-                            }}
-                          >
-                            <div className="buyMethodInnerBox">
-                              <div className="radioBox">
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                  <FormattedMessage id="email">
-                                    {(txt) => (
-                                      <input
-                                        className="rc-input__radio"
-                                        id="optsemail"
-                                        type="radio"
-                                        alt={txt}
-                                        name="buyWay"
-                                        value="0"
-                                        key="1"
-                                        onChange={(event) =>
-                                          this.handleInputChange(event)
-                                        }
-                                        defaultChecked
-                                      />
-                                    )}
-                                  </FormattedMessage>
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="optsemail"
-                                  >
-                                    <span
-                                      style={{
-                                        fontWeight: '400',
-                                        color: '#333'
-                                      }}
-                                    >
-                                      <FormattedMessage id="Single purchase" />
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                              <div
-                                className="price"
-                                style={{
-                                  fontSize: '22px',
-                                  paddingTop:
-                                    process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
-                                }}
-                              >
-                                <div>{formatMoney(currentUnitPrice)}</div>
-                                {process.env.REACT_APP_LANG === 'de' &&
-                                selectedSpecItem ? (
-                                  <div
-                                    style={{ fontSize: '14px', color: '#999' }}
-                                  >
-                                    {formatMoney(
-                                      (
-                                        currentUnitPrice /
-                                        parseFloat(
-                                          selectedSpecItem.baseSpecLabel
-                                        )
-                                      ).toFixed(2)
-                                    )}
-                                    /
-                                    {selectedSpecItem.baseSpecLabel &&
-                                      this.formatUnit(
-                                        selectedSpecItem.baseSpecLabel
-                                      )}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                            <div
-                              className="freqency"
-                              style={{ textAlign: 'center' }}
-                            >
-                              <span
-                                style={{ height: '73px', lineHeight: '55px' }}
-                              >
-                                Delivery 1 time only
-                              </span>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            className="buyMethod rc-margin-bottom--xs"
-                            style={{
-                              borderColor: !parseInt(form.buyWay)
-                                ? '#e2001a'
-                                : '#d7d7d7',
-                              height: '100px'
-                            }}
-                          >
-                            <div
-                              className="radioBox"
-                              style={{ paddingTop: '1rem' }}
-                            >
-                              <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                <FormattedMessage id="email">
-                                  {(txt) => (
-                                    <input
-                                      className="rc-input__radio"
-                                      id="type_once"
-                                      type="radio"
-                                      alt={txt}
-                                      name="buyWay"
-                                      value="0"
-                                      key="0"
-                                      onChange={(event) =>
-                                        this.handleInputChange(event)
-                                      }
-                                      defaultChecked
-                                    />
-                                  )}
-                                </FormattedMessage>
-                                <label
-                                  className="rc-input__label--inline"
-                                  htmlFor="type_once"
-                                >
-                                  <span
-                                    style={{ fontWeight: '400', color: '#333' }}
-                                  >
-                                    <FormattedMessage id="Single purchase" />
-                                  </span>
-                                </label>
-                              </div>
-                            </div>
-                            <div className="freqency">
-                              <span
-                                style={{ height: '73px', lineHeight: '55px' }}
-                              >
-                                Delivery 1 time only
-                              </span>
-                            </div>
-                            <div
-                              className="price"
-                              style={{
-                                fontSize: '22px',
-                                paddingTop:
-                                  process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
-                              }}
-                            >
-                              <div>{formatMoney(currentUnitPrice)}</div>
-                              {process.env.REACT_APP_LANG === 'de' &&
-                              selectedSpecItem ? (
-                                <div
-                                  style={{ fontSize: '14px', color: '#999' }}
-                                >
-                                  {formatMoney(
-                                    (
-                                      currentUnitPrice /
-                                      parseFloat(selectedSpecItem.baseSpecLabel)
-                                    ).toFixed(2)
-                                  )}
-                                  /
-                                  {selectedSpecItem.baseSpecLabel &&
-                                    this.formatUnit(
-                                      selectedSpecItem.baseSpecLabel
-                                    )}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-                        )}
                         {currentSubscriptionStatus ? (
                           isMobile ? (
                             <div
@@ -1732,7 +1561,7 @@ class Details extends React.Component {
                                       {(txt) => (
                                         <input
                                           className="rc-input__radio"
-                                          id="optsemail"
+                                          id="type_frequency"
                                           type="radio"
                                           alt={txt}
                                           name="buyWay"
@@ -1741,12 +1570,13 @@ class Details extends React.Component {
                                           onChange={(event) =>
                                             this.handleInputChange(event)
                                           }
+                                          defaultChecked
                                         />
                                       )}
                                     </FormattedMessage>
                                     <label
                                       className="rc-input__label--inline"
-                                      htmlFor="optsemail"
+                                      htmlFor="type_frequency"
                                     >
                                       <span
                                         style={{
@@ -1880,6 +1710,7 @@ class Details extends React.Component {
                                         onChange={(event) =>
                                           this.handleInputChange(event)
                                         }
+                                        defaultChecked
                                       />
                                     )}
                                   </FormattedMessage>
@@ -1927,13 +1758,13 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                                 <br />
-                                {/* <div>
+                                <div>
                               Save&nbsp;
                                 <b className="product-pricing__card__head__price red  rc-padding-y--none">
                                   {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
                                 </b>
                                 &nbsp; on this subscription.
-                              </div> */}
+                              </div>
                               </div>
                               <div className="freqency">
                                 <span>Delivery every:</span>
@@ -1989,6 +1820,175 @@ class Details extends React.Component {
                             </div>
                           )
                         ) : null}
+                        {isMobile ? (
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7'
+                            }}
+                          >
+                            <div className="buyMethodInnerBox">
+                              <div className="radioBox">
+                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                  <FormattedMessage id="email">
+                                    {(txt) => (
+                                      <input
+                                        className="rc-input__radio"
+                                        id="type_once"
+                                        type="radio"
+                                        alt={txt}
+                                        name="buyWay"
+                                        value="0"
+                                        key="0"
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
+                                      />
+                                    )}
+                                  </FormattedMessage>
+                                  <label
+                                    className="rc-input__label--inline"
+                                    htmlFor="type_once"
+                                  >
+                                    <span
+                                      style={{
+                                        fontWeight: '400',
+                                        color: '#333'
+                                      }}
+                                    >
+                                      <FormattedMessage id="singlePurchase" />
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div
+                                className="price"
+                                style={{
+                                  fontSize: '22px',
+                                  paddingTop:
+                                    process.env.REACT_APP_LANG === 'de'
+                                      ? '.5rem'
+                                      : '1.5rem'
+                                }}
+                              >
+                                <div>{formatMoney(currentUnitPrice)}</div>
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentUnitPrice /
+                                        parseFloat(
+                                          selectedSpecItem.baseSpecLabel
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                            <div
+                              className="freqency"
+                              style={{ textAlign: 'center' }}
+                            >
+                              <span
+                                style={{ height: '73px', lineHeight: '55px' }}
+                              >
+                                Delivery 1 time only
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            className="buyMethod rc-margin-bottom--xs"
+                            style={{
+                              borderColor: !parseInt(form.buyWay)
+                                ? '#e2001a'
+                                : '#d7d7d7',
+                              height: '100px'
+                            }}
+                          >
+                            <div
+                              className="radioBox"
+                              style={{ paddingTop: '1rem' }}
+                            >
+                              <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                <FormattedMessage id="email">
+                                  {(txt) => (
+                                    <input
+                                      className="rc-input__radio"
+                                      id="type_once"
+                                      type="radio"
+                                      alt={txt}
+                                      name="buyWay"
+                                      value="0"
+                                      key="0"
+                                      onChange={(event) =>
+                                        this.handleInputChange(event)
+                                      }
+                                    />
+                                  )}
+                                </FormattedMessage>
+                                <label
+                                  className="rc-input__label--inline"
+                                  htmlFor="type_once"
+                                >
+                                  <span
+                                    style={{ fontWeight: '400', color: '#333' }}
+                                  >
+                                    <FormattedMessage id="singlePurchase" />
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+                            <div className="freqency">
+                              <span
+                                style={{ height: '73px', lineHeight: '55px' }}
+                              >
+                                Delivery 1 time only
+                              </span>
+                            </div>
+                            <div
+                              className="price"
+                              style={{
+                                fontSize: '22px',
+                                paddingTop:
+                                  process.env.REACT_APP_LANG === 'de'
+                                    ? '.5rem'
+                                    : '1.5rem'
+                              }}
+                            >
+                              <div>{formatMoney(currentUnitPrice)}</div>
+                              {process.env.REACT_APP_LANG === 'de' &&
+                              selectedSpecItem ? (
+                                <div
+                                  style={{ fontSize: '14px', color: '#999' }}
+                                >
+                                  {formatMoney(
+                                    (
+                                      currentUnitPrice /
+                                      parseFloat(selectedSpecItem.baseSpecLabel)
+                                    ).toFixed(2)
+                                  )}
+                                  /
+                                  {selectedSpecItem.baseSpecLabel &&
+                                    this.formatUnit(
+                                      selectedSpecItem.baseSpecLabel
+                                    )}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+                        )}
                         {!isMobile && (
                           <div
                           // className="sticky-addtocart"
@@ -2014,6 +2014,7 @@ class Details extends React.Component {
                                     <FormattedMessage id="GuestCheckout" />
                                   </button>
                                 ))}
+                              &nbsp;&nbsp; 
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''

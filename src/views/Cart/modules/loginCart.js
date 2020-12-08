@@ -624,7 +624,7 @@ class LoginCart extends React.Component {
                           <LazyLoad>
                           <img src={cartImg} />
                           </LazyLoad>
-                          <FormattedMessage id="Single purchase" />
+                          <FormattedMessage id="singlePurchase" />
                         </span>
                       </div>
                       <div
@@ -810,7 +810,7 @@ class LoginCart extends React.Component {
                     <img src={cartImg} />
                     </LazyLoad>
                     <span style={{fontSize: '16px'}}>
-                    <FormattedMessage id="Single purchase" />
+                    <FormattedMessage id="singlePurchase" />
                     </span>
                   </span>
                 </div>
@@ -1139,7 +1139,7 @@ class LoginCart extends React.Component {
         {/* 显示订阅折扣 */}
         <div
           className={`row leading-lines shipping-item red ${
-            parseInt(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
           }`}
         >
           <div className="col-8">
@@ -1313,14 +1313,11 @@ class LoginCart extends React.Component {
         ele.mockSpecDetailIds.sort().toString() ===
           selectedSpecDetailId.sort().toString()
     )[0];
-    // this.setState({ deleteLoading: true })
-    // // 先删除改之前sku
-    // await deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
-    // // 再增加当前sku
-    // await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
     await switchSize({
       purchaseId: pitem.purchaseId,
-      goodsInfoId: selectedGoodsInfo.goodsInfoId
+      goodsInfoId: selectedGoodsInfo.goodsInfoId,
+      periodTypeId: pitem.periodTypeId,
+      goodsInfoFlag: pitem.goodsInfoFlag
     });
     this.updateCartCache();
     this.setState({ changSizeLoading: false });
