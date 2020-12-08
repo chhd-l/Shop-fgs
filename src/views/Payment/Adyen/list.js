@@ -89,7 +89,7 @@ class AdyenCreditCardList extends React.Component {
         (cardList.length && cardList[0].id) ||
         '';
       //debugger
-      this.setState({ cardList, selectedId: tmpId }, () => () =>
+      this.setState({ cardList, selectedId: tmpId }, () =>
         this.hanldeUpdateSelectedCardInfo()
       );
     } catch (err) {

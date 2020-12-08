@@ -74,16 +74,16 @@ class SubscriptionLanding extends React.Component {
                           </h2>
                         </div>
                         <div className="d-block d-md-none rc-text--center">
-                          <a href="https://shop.royalcanin.fr/cats/">
+                          <Link to="/cats">
                             <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                               Voir les formules pour chat
                             </button>
-                          </a>
-                          <a href="https://shop.royalcanin.fr/dogs/">
+                          </Link>
+                          <Link to="/dogs">
                             <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                               Voir les formules pour chien
                             </button>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
@@ -110,16 +110,16 @@ class SubscriptionLanding extends React.Component {
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
-                              <a href="https://shop.royalcanin.fr/cats/">
+                              <Link to="/cats">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                                   Voir les formules pour chat
                                 </button>
-                              </a>
-                              <a href="https://shop.royalcanin.fr/dogs/">
+                              </Link>
+                              <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                                   Voir les formules pour chien
                                 </button>
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
