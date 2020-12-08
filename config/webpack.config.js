@@ -297,27 +297,34 @@ module.exports = function (webpackEnv) {
       //   }
       // },
       splitChunks: {
-        chunks: 'all',
-        minSize: 30000, // 比特
-        maxSize: 204800,
-        minChunks: 1,
+        chunks: 'initial',
+        minSize: 92160, // 比特
+        maxSize: 1024000,
+        minChunks: 4,
         maxAsyncRequests: 5, // cpu拼合率 8 10
         maxInitialRequests: 5,
         automaticNameDelimiter: '~',
         name: true,
         cacheGroups: {
-          reactBase: {
-            test: (module) => {
-              return /react|redux|prop-types/.test(module.context);
-            }, // 直接使用 test 来做路径匹配，抽离react相关代码
-            chunks: 'initial',
-            name: 'reactBase',
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: 4,
             priority: 10
           },
+          // reactBase: {
+          //   test: (module) => {
+          //     return /react|redux|prop-types/.test(module.context);
+          //   }, // 直接使用 test 来做路径匹配，抽离react相关代码
+          //   chunks: 'initial',
+          //   name: 'reactBase',
+          //   priority: 10
+          // },
           default: {
             test: function (module, chunks) {
               return true;
             },
+            // minChunks: 2,
             priority: -20,
             reuseExistingChunk: true
           }
@@ -606,10 +613,10 @@ module.exports = function (webpackEnv) {
         filename: '[path].gz[query]', // 目标资源名称。[file] 会被替换成原资源。[path] 会被替换成原资源路径，[query] 替换成原查询字符串
         algorithm: 'gzip', // 算法
         test: new RegExp('\\.(js|css)$'), // 压缩 js 与 css
-        threshold: 10240, // 只处理比这个值大的资源。按字节计算
+        threshold: 102400, // 只处理比这个值大的资源。按字节计算
         minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
       }),
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

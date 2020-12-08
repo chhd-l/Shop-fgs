@@ -1,7 +1,10 @@
-.addressComp {
+
+.payment-addressList {
+
+
 .addr-container {
-  /* max-height: 400px;
-  overflow-y: auto; */
+  max-height: 400px;
+  overflow-y: auto;
 }
 .addr-container::-webkit-scrollbar {
   width: 10px;
@@ -16,10 +19,9 @@
   background: #ebebeb;
 }
 .address-item {
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   cursor: pointer;
   transition: all .3s ease-in-out;
-  // margin-top: 10px;
 }
 .address-item:hover,
 .address-item.selected {
@@ -53,6 +55,10 @@
   border-radius: 1em;
   border: 1px solid
 }
+.address-item .address-name:hover,
+.address-item.selected .address-name{
+  color: red
+}
 
 .addr-switch {
   display: inline-block;
@@ -61,7 +67,7 @@
   line-height: 10px;
   width: 9px;
   margin-left: 5px;
-  background: url(../../../../../assets/images/addr-i.png) no-repeat 0 0;
+  background: url(../../../assets/images/addr-i.png) no-repeat 0 0;
 }
 .addr-switch.switch-on {
   background-position: 0 0;
@@ -75,11 +81,5 @@
 }
 .address-btn-plus:after {
   transform: scale(.7);
-}
-.billingSame::before {
-  top: 7px;
-}
-.billingSame::after {
-  top: 2px !important;
 }
 }

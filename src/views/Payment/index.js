@@ -22,7 +22,7 @@ import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
-import { searchNextConfirmPanel } from './modules/utils';
+import { searchNextConfirmPanel, isPrevReady } from './modules/utils';
 import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
@@ -1389,9 +1389,25 @@ class Payment extends React.Component {
   }
 
   updateSameAsCheckBoxVal = (val) => {
+    const { paymentStore } = this.props;
+    const curPanelKey = 'billingAddr';
     // 切换时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
-      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
+      this.props.paymentStore.setStsToEdit({ key: curPanelKey });
+    }
+
+    if (val) {
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+      const isReadyPrev = isPrevReady({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
     this.setState({ billingChecked: val });
     if (val) {

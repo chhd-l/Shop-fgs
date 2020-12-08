@@ -19,15 +19,6 @@
 .height-product-tile-plpOnly.height-product-tile {
   position: relative;
 }
-.height-product-tile-plpOnly h3{
-  text-overflow: -o-ellipsis-lastline;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
 .display-inline {
   display: inline-block;
 }
@@ -55,9 +46,11 @@
 .margin-auto {
   margin: 0 auto;
 }
-.product-title {
-  line-height: 1.2;
-  min-height: 3.7rem;
+.height-product-tile-plpOnly {
+  .product-title {
+    line-height: 1.2 !important;
+    min-height: 3.7rem;
+  }
 }
 .product-item-flag-text {
   position: absolute;
@@ -124,9 +117,10 @@
   .FilterFitScreen {
     margin-bottom: -1rem;
   }
-  .product-title {
-    line-height: 1.2;
-    min-height: 2rem;
+  .height-product-tile-plpOnly {
+    .product-title {
+      min-height: 2rem;
+    }
   }
   .product-item-flag-text {
     width: 73%;
@@ -136,20 +130,6 @@
   .product-item-flag-image {
     width: 3rem;
     height: 3rem;
-  }
-  .red-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .second-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
   }
 }
 

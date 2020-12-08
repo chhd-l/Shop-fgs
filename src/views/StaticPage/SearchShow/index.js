@@ -52,7 +52,7 @@ class SearchShow extends React.Component {
                             <div className="noSearch-result">
                                 <div className="rc-text--center rc-text--center rc-padding-top--sm--mobile">
                                     <h2 className="rc-alpha rc-margin-bottom--none">Désolé!</h2>
-        <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">Aucun résultat ne correspond à votre recherche : <br className="d-block d-md-none" /><b>{this.state.searchWords}</b></div>
+        <div className="rc-gamma textColor rc-margin-bottom--none rc-padding-y--sm rc-padding-y--lg--mobile">Aucun résultat ne correspond à votre recherche : <br className="d-block d-md-none" />“<b>{this.state.searchWords}</b>”</div>
                                 </div>
                                 <div className="content-asset">
                                     <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--lg">
@@ -86,7 +86,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                                                             <div>
                                                                 <b>Par mail</b>
                                                                 <div>
-                                                                    <a href="mailto:Envoyer un email" className="rc-styled-link">Envoyer un email</a>
+                                                                    <a href="mailto:info.de@royalcanin.com" className="rc-styled-link">Envoyer un email</a>
                                                                 </div>
                                                             </div>
 

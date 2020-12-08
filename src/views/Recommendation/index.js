@@ -101,7 +101,9 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'SPT reco landing page'
+    });
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id)

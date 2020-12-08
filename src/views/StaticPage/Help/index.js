@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
+import PhoneModal from './components/phoneModal.js'
 import FrTips from './fr/frTips'
 import FrFaq from './fr/frFaq'
 import Footer from '@/components/Footer';
@@ -22,7 +23,9 @@ class Help extends React.Component {
     super(props);
     this.state = {
       tel: '',
-      mailAddress: ''
+      mailAddress: '',
+      showModal: false,
+      phone: ''
     };
   }
 
@@ -45,6 +48,13 @@ class Help extends React.Component {
 
     this.setState({ tel, mailAddress });
   }
+  mobileDial(phone) {
+    console.log(phone)
+    //this.setState({ showModal: true, phone })
+  }
+  cancelModal = () => {
+    this.setState({ showModal: false })
+  }
   render(h) {
     const event = {
       page: {
@@ -53,7 +63,10 @@ class Help extends React.Component {
       }
     };
     return (
-      <div>
+      <div style={{ width: '100%', height: '100%' }}>
+        {
+          this.state.showModal ? <PhoneModal cancelModal={this.cancelModal} phone={this.state.phone} /> : null
+        }
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -63,7 +76,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
+          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
           {/* <div className="rc-bg-colour--brand4 text-center" >
             <div className="rc-layout-container rc-content-h-middle">
               <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
@@ -132,9 +145,19 @@ class Help extends React.Component {
                                           </p>
                                         </div>
                                         <div className="rc-margin-top--xs">
+                                          <aside role="modal" class="rc-modal rc-hidden" data-modal-target="modal-example">
+                                            <div className="rc-modal__container">
+                                              <div className="rc-column rc-padding-bottom--none--mobile">
+                                                
+                                              </div>
+                                            </div>
+                                          </aside>
                                           <p
+                                            data-modal-trigger="modal-example"
                                             style={{ color: '#00BCA3' }}
                                             className="rc-alpha rc-border--none rc-md-down"
+                                            onClick={() => this.mobileDial(this.props.configStore
+                                              .storeContactPhoneNumber)}
                                           >
                                             {/* 800 024 77 64 */}
                                             {/* <FormattedMessage id="help.mail" /> */}
@@ -148,12 +171,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={callImg}
-                                        alt="By telephone"
-                                        title="By telephone"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={callImg}
+                                          alt="By telephone"
+                                          title="By telephone"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -201,12 +224,12 @@ class Help extends React.Component {
                                             className="rc-numeric rc-md-up"
                                             style={{
                                               color: 'rgb(0, 135, 189)',
-                                              whiteSpace:'nowrap'
+                                              whiteSpace: 'nowrap'
                                             }}
                                           >
                                             <a
                                               href={this.state.mailAddress}
-                                              style={{fontSize:'16px',borderBottom:'1px solid transparent'}}
+                                              style={{ fontSize: '16px', borderBottom: '1px solid transparent' }}
                                               className="rc-styled-link"
                                             >
                                               {/* <FormattedMessage id="help.email" /> */}
@@ -221,12 +244,12 @@ class Help extends React.Component {
                                     </div>
                                     <div className="rc-column rc-content-v-middle">
                                       <LazyLoad>
-                                      <img
-                                        className="align-self-center widthAuto"
-                                        src={emailImg}
-                                        alt="By email"
-                                        title="By email"
-                                      />
+                                        <img
+                                          className="align-self-center widthAuto"
+                                          src={emailImg}
+                                          alt="By email"
+                                          title="By email"
+                                        />
                                       </LazyLoad>
                                     </div>
                                   </div>
@@ -249,7 +272,7 @@ class Help extends React.Component {
                               >
                                 <picture className="rc-card__image">
                                   <LazyLoad>
-                                  <img src={helpImg} alt=" " title=" " />
+                                    <img src={helpImg} alt=" " title=" " />
                                   </LazyLoad>
                                 </picture>
                               </div>
@@ -264,12 +287,12 @@ class Help extends React.Component {
             </div>
           </div>
           {
-            process.env.REACT_APP_LANG == 'fr'?
-            <div>
-              <FrTips/>
-              <FrFaq/>
-            </div>
-            :null
+            process.env.REACT_APP_LANG == 'fr' ?
+              <div>
+                <FrTips />
+                <FrFaq />
+              </div>
+              : null
           }
 
         </main>

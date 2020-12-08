@@ -85,7 +85,7 @@ export default class Pagination extends Component {
             <div
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
               aria-label="Previous step"
-              onClick={() => this.handlePrevOrNextPage('prev')}
+              onClick={this.handlePrevOrNextPage.bind(this, 'prev')}
             ></div>
           )}
           <div className="d-flex align-items-center">
@@ -108,7 +108,7 @@ export default class Pagination extends Component {
           ) : (
             <span
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-right--xs rc-iconography"
-              onClick={() => this.handlePrevOrNextPage('next')}
+              onClick={this.handlePrevOrNextPage.bind(this, 'next')}
             />
           )}
         </div>
