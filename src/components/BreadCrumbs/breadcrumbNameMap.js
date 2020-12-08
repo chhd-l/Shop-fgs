@@ -137,11 +137,22 @@ const breadcrumbNameMap = {
       name:'Nos combinaisons de croquettes et de bouchées'
     }
   ],
+  '/FAQ/all':[
+    {
+      name:"FAQ"
+    }
+  ],
   '/shipmentConditions': [
     {
       name: 'ShipmentConditions'
     }
   ],
+  '/promotion-refuge':[{
+    name:'Nos promotions refuge'
+  }],
+  '/cadeau-coussin-chat':[{
+    name:'cadeau-coussin-chat'
+  }],
   '/product-finder': [{ name: 'productFinder.resultPage' }],
   '/product-finder-recommendation': [
     {
