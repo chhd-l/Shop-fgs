@@ -29,9 +29,43 @@ class Carousel extends React.Component {
     this.clickCircle = this.clickCircle.bind(this);
     this.resize = this.resize.bind(this);
   }
+  GABannerImpression(banners){
+    const promotions = banners.map((item,index)=>{
+      return {id:item.bannerId,name:item.bannerName,creative: '',position:`slide_${index}`,}
+    })
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
+      'ecommerce': {
+          'promoView': {
+              'promotions': promotions
+          }
+      }
+  });
+  }
+
+  GABannerClick = (idx) => {
+    const cur_banner = this.state.banner[idx]
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
+      'ecommerce': {
+        'promoClick': {
+          'promotions': [
+           {
+             'id': cur_banner.bannerId,            // Name or ID is required
+             'name': cur_banner.bannerName,
+             'creative': '',
+             'position': idx
+           }]
+        }
+      }  });
+  }
+
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context });
+      this.setState({ banner: res.context },()=>{
+        
+        this.GABannerImpression(this.state.banner)
+      });
     });
 
     this.screenChange()
@@ -66,6 +100,9 @@ class Carousel extends React.Component {
       circlesLis[i].className = '';
     }
     circlesLis[n].className = 'cur';
+
+     //点击banner埋点
+     this.GABannerClick(n)
   };
   leftBtnClick = () => {
     const { options } = this.state
@@ -84,10 +121,14 @@ class Carousel extends React.Component {
 
     //信号量的变化
     idx--;
+
     if (idx < 0) {
       idx = length - 1;
       m_unit.style.left = -options.width * length + 'px';
     }
+
+    
+    
 
     //改变小圆点
     this.changeCircles();
@@ -99,6 +140,9 @@ class Carousel extends React.Component {
       options.tween
     );
   };
+
+
+  
   rightBtnClick = () => {
     const { options } = this.state
     //得到元素
@@ -117,7 +161,7 @@ class Carousel extends React.Component {
 
     //信号量的变化
     idx++;
-
+    
     //改变小圆点
     this.changeCircles();
 
@@ -135,6 +179,7 @@ class Carousel extends React.Component {
         }
       }
     );
+
   };
   clickCircle(index) {
     const { options } = this.state
