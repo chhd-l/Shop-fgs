@@ -893,6 +893,12 @@ const de_DE = {
   yes: 'Ja',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
-  'singlePurchase': 'Einzelkauf'
+  'singlePurchase': 'Einzelkauf',
+  'deliveryOneTimeOnly': 'Lieferung nur 1 Mal',
+  'saveExtra': 'Sparen Sie zusätzlich {val}',
+  'freeShipping': 'Kostenloser Versand',
+  'addedtoCart': 'In den Warenkorb',
+  'continueMyPurchases': 'Setzen Sie meine Einkäufe fort',
+  'goToCart': 'Zum Warenkorb gehen',
 }
 export default de_DE;

@@ -1651,7 +1651,8 @@ class Details extends React.Component {
                               <span
                                 style={{ height: '73px', lineHeight: '55px' }}
                               >
-                                Delivery 1 time only
+                                <FormattedMessage id="deliveryOneTimeOnly"/>
+                                {/* Delivery 1 time only */}
                               </span>
                             </div>
                           </div>
@@ -1705,7 +1706,8 @@ class Details extends React.Component {
                               <span
                                 style={{ height: '73px', lineHeight: '55px' }}
                               >
-                                Delivery 1 time only
+                                <FormattedMessage id="deliveryOneTimeOnly"/>
+                                {/* Delivery 1 time only */}
                               </span>
                             </div>
                             <div
@@ -1817,25 +1819,6 @@ class Details extends React.Component {
                                       </span>
                                     </label>
                                   </div>
-                                  <br />
-                                  <div className="discountBox">
-                                    Save extra&nbsp;
-                                    <b className="product-pricing__card__head__price rc-padding-y--none">
-                                      {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
-                                      10%
-                                    </b>
-                                  </div>
-                                  <div className="freeshippingBox">
-                                    Free shipping
-                                  </div>
-                                  {/* Save&nbsp;
-                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                    {formatMoney(
-                                      currentUnitPrice -
-                                        quantity * currentSubscriptionPrice
-                                    )}
-                                  </b> */}
-                                  {/* &nbsp; on this subscription. */}
                                 </div>
                                 <div
                                   className="price"
@@ -1874,8 +1857,14 @@ class Details extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
+                              <div className="discountBox">
+                                    <FormattedMessage id="saveExtra" values={{val: '10%'}}/>
+                                  </div>
+                                  <div className="freeshippingBox">
+                                    <FormattedMessage id="freeShipping"/>
+                                  </div>
                               <div className="freqency">
-                                <span>Delivery every:</span>
+                                <span><FormattedMessage id="subscription.frequency" />:</span>
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
@@ -1974,18 +1963,19 @@ class Details extends React.Component {
                                 </div>
                                 <br />
                                 <div className="discountBox">
-                                Save extra&nbsp;
+                                  <FormattedMessage id="saveExtra" values={{val: '10%'}}/>
+                                {/* Save extra&nbsp;
                                 <b className="product-pricing__card__head__price rc-padding-y--none">
-                                  {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
                                   10%
-                                </b>
+                                </b> */}
                               </div>
                               <div className="freeshippingBox">
-                                Free shipping
+                              <FormattedMessage id="freeShipping"/>
                               </div>
                               </div>
                               <div className="freqency">
-                                <span>Delivery every:</span>
+                                <span><FormattedMessage id="subscription.frequency" />:</span>
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
@@ -2397,11 +2387,11 @@ class Details extends React.Component {
             <section class="rc-modal__content rc-scroll--y" style={{textAlign: 'center'}}>
               <div class="rc-margin-top--md" style={{textAlign: 'center'}}>
                 <svg t="1607498763458" class="icon" style={{width: '35px', height: '35px', marginBottom: '20px'}} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2968" width="200" height="200"><path d="M512 0C230.4 0 0 230.4 0 512c0 281.6 230.4 512 512 512 281.6 0 512-230.4 512-512C1024 230.4 793.6 0 512 0zM512 960c-249.6 0-448-204.8-448-448 0-249.6 204.8-448 448-448 249.6 0 448 198.4 448 448C960 761.6 761.6 960 512 960zM691.2 339.2 454.4 576 332.8 454.4c-19.2-19.2-51.2-19.2-76.8 0C243.2 480 243.2 512 262.4 531.2l153.6 153.6c19.2 19.2 51.2 19.2 70.4 0l51.2-51.2 224-224c19.2-19.2 25.6-51.2 0-70.4C742.4 320 710.4 320 691.2 339.2z" p-id="2969" fill="#47b800"></path></svg>
-                <p style={{color: '#47b800 !important'}}>Ajouté au panier</p>
-                <Link to="/home" style={{color: '#666', fontWeight: 400}}>Poursuivre mes achats</Link>
-                <p>ou</p>
+                <p style={{color: '#47b800 !important'}}><FormattedMessage id="addedtoCart"/></p>
+                <Link to="/home" style={{color: '#666', fontWeight: 400}}><FormattedMessage id="continueMyPurchases"/></Link>
+                <p><FormattedMessage id="or"/></p>
               </div>
-              <button class="rc-btn rc-btn--one" style={{fontWeight: 400}} onClick={() => this.props.history.push('/cart')}>Aller au panier</button>
+              <button class="rc-btn rc-btn--one" style={{fontWeight: 400}} onClick={() => this.props.history.push('/cart')}><FormattedMessage id="goToCart"/></button>
             </section>
           </div>
         </aside>
