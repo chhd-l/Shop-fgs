@@ -155,7 +155,7 @@ const fr_FR = {
   'clinic.navigate': 'Naviguer',
   'clinic.selectVetClinics': 'Choisissez des cliniques vétérinaires',
   'clinic.vet': 'Vétérinaire',
-  close: 'Conclure',
+  close: 'Fermer',
   club: 'club',
   comment: 'Commentaire',
   'comment.commentsTooLong': 'Les commentaires sur les produits ne peuvent pas dépasser 500 caractères',

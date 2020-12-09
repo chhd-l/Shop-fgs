@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict
+  getFrequencyDict,
+  getDeviceType
 } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -211,7 +212,7 @@ class LoginCart extends React.Component {
             </div>
           </div>
         ) : (
-          <div
+          getDeviceType() === 'PC'?(<div
             className={[
               'popover',
               'popover-bottom',
@@ -414,15 +415,8 @@ class LoginCart extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div>): null
         )}
-        {/* <PetModal visible={this.state.petModalVisible}
-          isAdd={this.state.isAdd}
-          productList={cartData}
-          openNew={() => this.openNew()}
-          closeNew={() => this.closeNew()}
-          confirm={() => this.petComfirm()}
-          close={() => this.closePetModal()} /> */}
       </span>
     );
   }

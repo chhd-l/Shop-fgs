@@ -150,7 +150,7 @@ export function Advantage() {
       fr: (
         <>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
                   style={{width:'90px'}}
@@ -171,7 +171,7 @@ export function Advantage() {
             </div>
           </div>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-center align-items-center w-100">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
                   className="value-proposition__img"
@@ -191,7 +191,7 @@ export function Advantage() {
             </div>
           </div>
           <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-center align-items-center w-100">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
                   className="value-proposition__img"
@@ -215,8 +215,8 @@ export function Advantage() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0  pl-md-2 pr-md-0 pr-xxl-3 pl-xxl-0 justify-content-center">
-            <div className="d-flex justify-content-center align-items-center w-100">
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
                   style={{width:'90px'}}

@@ -5,7 +5,8 @@ import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict
+  getFrequencyDict,
+  getDeviceType
 } from '@/utils/utils';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
@@ -214,7 +215,7 @@ class UnloginCart extends React.Component {
             </div>
           </div>
         ) : (
-          <div
+          getDeviceType() === 'PC'?(<div
             className={[
               'popover',
               'popover-bottom',
@@ -420,15 +421,8 @@ class UnloginCart extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div>): null
         )}
-        {/* <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.selectedCartData}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/> */}
       </span>
     );
   }

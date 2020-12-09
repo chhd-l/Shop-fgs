@@ -824,7 +824,7 @@ class Header extends React.Component {
                 ) : null}
                 {showUserIcon ? (
                   <>
-                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{this.userInfo && this.userInfo.firstName}</span>
+                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{getDeviceType() === 'PC' && this.userInfo && this.userInfo.firstName}</span>
                   <span
                     id="main_mini_cart"
                     className="minicart inlineblock"
