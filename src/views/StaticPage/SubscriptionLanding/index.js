@@ -52,7 +52,7 @@ class SubscriptionLanding extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
+          <BannerTip />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
               <div className="rc-full-width">
@@ -91,20 +91,20 @@ class SubscriptionLanding extends React.Component {
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 10% de réduction sur toutes les commandes en
                                 Abonnement
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Suspendre, modifier ou annuler à tout moment
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Livraison offerte
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Ligne d'assistance téléphonique gratuite sur la
                                 nutrition
                               </li>

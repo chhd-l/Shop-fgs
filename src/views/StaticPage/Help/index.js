@@ -13,6 +13,7 @@ import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import "./index.less"
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -25,7 +26,6 @@ class Help extends React.Component {
       tel: '',
       mailAddress: '',
       showModal: false,
-      phone: ''
     };
   }
 
@@ -48,9 +48,8 @@ class Help extends React.Component {
 
     this.setState({ tel, mailAddress });
   }
-  mobileDial(phone) {
-    console.log(phone)
-    //this.setState({ showModal: true, phone })
+  mobileDial=()=>{
+    this.setState({ showModal: true})
   }
   cancelModal = () => {
     this.setState({ showModal: false })
@@ -65,7 +64,7 @@ class Help extends React.Component {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         {
-          this.state.showModal ? <PhoneModal cancelModal={this.cancelModal} phone={this.state.phone} /> : null
+          this.state.showModal ? <PhoneModal cancelModal={this.cancelModal} /> : null
         }
         <GoogleTagManager additionalEvents={event} />
         <Header
@@ -145,22 +144,11 @@ class Help extends React.Component {
                                           </p>
                                         </div>
                                         <div className="rc-margin-top--xs">
-                                          <aside role="modal" class="rc-modal rc-hidden" data-modal-target="modal-example">
-                                            <div className="rc-modal__container">
-                                              <div className="rc-column rc-padding-bottom--none--mobile">
-                                                
-                                              </div>
-                                            </div>
-                                          </aside>
                                           <p
-                                            data-modal-trigger="modal-example"
                                             style={{ color: '#00BCA3' }}
                                             className="rc-alpha rc-border--none rc-md-down"
-                                            onClick={() => this.mobileDial(this.props.configStore
-                                              .storeContactPhoneNumber)}
+                                            onClick={this.mobileDial}
                                           >
-                                            {/* 800 024 77 64 */}
-                                            {/* <FormattedMessage id="help.mail" /> */}
                                             {
                                               this.props.configStore
                                                 .storeContactPhoneNumber
