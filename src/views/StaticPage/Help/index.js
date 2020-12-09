@@ -179,13 +179,14 @@ class Help extends React.Component {
                                           <font
                                             style={{ verticalAlign: 'inherit' }}
                                           >
-                                            <font
+                                            <a
+                                              href="mailto:byEmail"
                                               style={{
                                                 verticalAlign: 'inherit'
                                               }}
                                             >
                                               <FormattedMessage id="help.byEmail" />
-                                            </font>
+                                            </a>
                                           </font>
                                         </b>
                                         <p>

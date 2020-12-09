@@ -1227,9 +1227,14 @@ class Details extends React.Component {
       isMobile,
       breadCrumbs
     } = this.state;
+    const event = {
+      page: {
+        type: 'Product',
+        theme: this.specie,
+      }
+    };
 
     const btnStatus = this.btnStatus;
-    let event;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     // let eEvents;
     // if (!this.state.initing) {
@@ -1263,10 +1268,13 @@ class Details extends React.Component {
 
     return (
       <div id="Details">
+        <GoogleTagManager additionalEvents={event} />
         {/* {event ? (
           <GoogleTagManager
             additionalEvents={event}
             ecommerceEvents={eEvents}
+
+
           />
         ) : null} */}
         <Header

@@ -1,6 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import {
   formatMoney,
@@ -9,8 +10,6 @@ import {
   getDeviceType
 } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import PetModal from '@/components/PetModal';
 import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 
@@ -23,8 +22,6 @@ class LoginCart extends React.Component {
     super(props);
     this.state = {
       checkoutLoading: false,
-      petModalVisible: false,
-      isAdd: 0,
       frequencyList: []
     };
     this.handleCheckout = this.handleCheckout.bind(this);
@@ -107,7 +104,6 @@ class LoginCart extends React.Component {
         );
         return false;
       }
-      // this.openPetModal()
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
         goodsInfos: checkoutStore.loginCartData
@@ -132,37 +128,10 @@ class LoginCart extends React.Component {
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
       this.setState({ checkoutLoading: false });
     }
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
   }
   render() {
     const { totalNum, cartData, loading } = this;
@@ -189,21 +158,21 @@ class LoginCart extends React.Component {
         </Link>
         {!totalNum && !loading ? (
           <div
-            className={[
-              'popover',
-              'popover-bottom',
+            className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
-            ].join(' ')}
+            }`}
           >
             <div className="container cart">
               <div className="minicart__footer__msg text-center minicart-padding">
-                <span className="minicart__pointer"></span>
+                <span className="minicart__pointer" />
                 <div className="minicart__empty">
-                  <img
-                    className="cart-img"
-                    src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
-                    alt="Интернет-магазин ROYAL CANIN®"
-                  />
+                  <LazyLoad>
+                    <img
+                      className="cart-img"
+                      src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
+                      alt="Интернет-магазин ROYAL CANIN®"
+                    />
+                  </LazyLoad>
                   <p className="rc-delta">
                     <FormattedMessage id="header.basketEmpty" />
                   </p>
@@ -212,12 +181,11 @@ class LoginCart extends React.Component {
             </div>
           </div>
         ) : (
-          getDeviceType() === 'PC'?(<div
-            className={[
-              'popover',
-              'popover-bottom',
+          getDeviceType() === 'PC'?(
+          <div
+            className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
-            ].join(' ')}
+            }`}
             onMouseOver={() => {
               headerCartStore.show();
             }}
@@ -228,7 +196,7 @@ class LoginCart extends React.Component {
             <div className="container cart">
               <div>
                 <div className="minicart__header cart--head small">
-                  <span className="minicart__pointer"></span>
+                  <span className="minicart__pointer" />
                   <div className="d-flex minicart_freeshipping_info align-items-center">
                     <i className="rc-icon rc-incompatible--xs rc-brand3 rc-padding-right--xs"></i>
                     <p>
@@ -293,7 +261,7 @@ class LoginCart extends React.Component {
                       <Skeleton color="#f5f5f5" width="100%" count={2} />
                     </div>
                   ) : (
-                    cartData.map((item, idx) => (
+                    cartData.map((item) => (
                       <div className="minicart__product" key={item.goodsInfoId}>
                         <div>
                           <div className="product-summary__products__item">
