@@ -330,7 +330,8 @@ class Subscription extends React.Component {
                                           display: 'inline-block',
                                           verticalAlign: 'middle',
                                           fontSize: '12px',
-                                          marginLeft: '10px'
+                                          marginLeft: '10px',
+                                          width: isMobile?'auto': '250px'
                                         }}
                                       >
                                         <p

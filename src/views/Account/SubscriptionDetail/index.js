@@ -2079,7 +2079,9 @@ class SubscriptionDetail extends React.Component {
                                                               'ellipsis',
                                                             overflowWrap:
                                                               'normal',
-                                                            fontSize: '14px'
+                                                            fontSize: '14px',
+                                                            width: '95px',
+                                                            whiteSpace: 'nowrap'
                                                           }}
                                                         >
                                                           {tradeItem.skuName}
@@ -2323,7 +2325,7 @@ class SubscriptionDetail extends React.Component {
                                                         : 'inherit'
                                                     }}
                                                   >
-                                                    {this.state.promotionDesc}:
+                                                    <FormattedMessage id="promotion"></FormattedMessage>:
                                                   </label>
                                                   <div
                                                     className="text-right red-text"
@@ -2636,7 +2638,7 @@ class SubscriptionDetail extends React.Component {
                                                         <div
                                                           className="v-center"
                                                           style={{
-                                                            width: '120px',
+                                                            width: '95px',
                                                             verticalAlign:
                                                               'middle',
                                                             display:
