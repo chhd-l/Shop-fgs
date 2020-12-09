@@ -138,7 +138,7 @@ class Confirmation extends React.Component {
     if (!loading) {
       let products = details.tradeItems.map((item) => {
         return {
-          id: '',
+          id: '',//?
           name: item.spuName,
           price: item.price,
           brand: 'Royal Canin',
@@ -159,22 +159,23 @@ class Confirmation extends React.Component {
       };
       eEvents = {
         event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
-        action: 'purchase',
+        //action: 'purchase',
         ecommerce: {
-          impressions: [],
           currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          // impressions: [],
           purchase: {
             actionField: {
               id: this.state.totalTid,
               type: this.state.subNumber ? 'Subscription' : 'One-shot',
               revenue: details.tradePrice.totalPrice,
-              shipping: details.tradePrice.deliveryPrice,
-              coupon: 0
+              //shipping: details.tradePrice.deliveryPrice,
+              //coupon: 0
             },
             products
           }
         }
       };
+      console.log({eEvents})
     }
 
     return (
