@@ -731,7 +731,7 @@ class LoginCart extends React.Component {
                         </div>
                       </div>
                       <div className="freqency">
-                        <span>delivery every:</span>
+                        <span><FormattedMessage id="subscription.frequency" />:</span>
                         <Selection
                           customContainerStyle={{
                             display: 'inline-block',

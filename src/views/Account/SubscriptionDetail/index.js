@@ -2080,7 +2080,7 @@ class SubscriptionDetail extends React.Component {
                                                             overflowWrap:
                                                               'normal',
                                                             fontSize: '14px',
-                                                            width: '95px',
+                                                            width: isMobile?'95px': 'auto',
                                                             whiteSpace: 'nowrap'
                                                           }}
                                                         >
@@ -2718,7 +2718,7 @@ class SubscriptionDetail extends React.Component {
                                                             />
                                                             <div
                                                               style={{
-                                                                width: '120px',
+                                                                width: isMobile?'120px': 'auto',
                                                                 paddingTop:
                                                                   '30px'
                                                               }}

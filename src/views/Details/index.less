@@ -168,11 +168,47 @@
   .rc-content--fixed-header {
     padding-top: 5rem;
   }
-  #Details .buyMethod {
-    display: block;
-  }
   #Details .buyMethodInnerBox {
     display: flex;
+  }
+  #Details .choices[data-type*=select-one]:after {
+    margin-top: 3.5px;
+  }
+  #Details .buyMethod {
+    display: block;
+    // border: 1px solid #e2001a;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 15px 20px;
+  
+    .radioBox {
+      flex: 2;
+    }
+  
+    .freqency {
+      flex: 4;
+      height: 59px;
+      line-height: 39px;
+      // padding-top: .5rem;
+      > span {
+        flex: 1;
+      }
+      > div {
+        flex: 2;
+      }
+    }
+  
+    .price {
+      flex: 1;
+      padding-top: .5rem;
+      font-weight: 400;
+    }
+  }
+  #Details .desAndStars .stars {
+    padding-top: 0;
+  }
+  #Details .desAndStars .rate img {
+    width: 18px;
   }
 }
 
@@ -208,7 +244,8 @@
   .discountBox {
     color: #fff;
     background: #ec001a;
-    width: 100px;
+    // width: 100px;
+    padding: 0 10px;
     text-align: center;
     display: inline-block;
     font-size: 14px;
@@ -223,7 +260,8 @@
   }
   .freeshippingBox {
     color: #ec001a;
-    width: 100px;
+    // width: 100px;
+    padding: 0 10px;
     text-align: center;
     display: inline-block;
     font-size: 14px;
@@ -233,7 +271,7 @@
     font-weight: 400;
     border: 1px solid #aaa;
     vertical-align: middle;
-    margin-left: 10px;
+    margin-top: 5px;
   }
   .refreshImg {
     display: inline-block;
