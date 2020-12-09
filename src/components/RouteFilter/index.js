@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { loadJS, loadNoScriptIframeJS } from '@/utils/utils';
-import { inject, observer } from 'mobx-react';
-import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
+import { loadJS } from '@/utils/utils';
+import { inject } from 'mobx-react';
+import { findUserConsentList } from '@/api/consent';
 //import { getProductPetConfig } from '@/api/payment';
 import { toJS } from 'mobx';
 
@@ -14,121 +14,110 @@ class RouteFilter extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  UNSAFE_componentWillMount() {
-    const { history, location, configStore } = this.props;
-    const { pathname } = location;
-    // 默认了clinic后，再次编辑clinic
-    if (
-      pathname === '/prescription' &&
-      sessionItemRoyal.get('clinic-reselect') === 'true'
-    ) {
-      return false;
-    }
-    // 不开启地图，不进入此页面
-    if (pathname === '/prescription' && !configStore.prescriberMap) {
-      this.props.history.replace('/checkout');
-      return false;
-    }
+  // UNSAFE_componentWillMount() {
+  //   const { history, location, configStore } = this.props;
+  //   const { pathname } = location;
+  //   // 默认了clinic后，再次编辑clinic
+  //   if (
+  //     pathname === '/prescription' &&
+  //     sessionItemRoyal.get('clinic-reselect') === 'true'
+  //   ) {
+  //     return false;
+  //   }
+  //   // 不开启地图，不进入此页面
+  //   if (pathname === '/prescription' && !configStore.prescriberMap) {
+  //     this.props.history.replace('/checkout');
+  //     return false;
+  //   }
 
-    if (pathname === '/prescription') {
-      if (this.isLogin) {
-        let needPrescriber;
-        if (this.props.checkoutStore.autoAuditFlag) {
-          needPrescriber =
-            this.props.checkoutStore.loginCartData.filter(
-              (el) => el.prescriberFlag
-            ).length > 0;
-        } else {
-          needPrescriber = this.props.checkoutStore.AuditData.length > 0;
-        }
-        if (
-          !needPrescriber ||
-          localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-        ) {
-          history.replace('/checkout');
-        }
-      } else {
-        let needPrescriber;
-        if (this.props.checkoutStore.autoAuditFlag) {
-          needPrescriber =
-            this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
-              .length > 0;
-        } else {
-          needPrescriber = this.props.checkoutStore.AuditData.length > 0;
-        }
-        if (
-          !needPrescriber ||
-          localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
-        ) {
-          history.replace('/checkout');
-        }
-      }
-    }
-    if (
-      pathname === '/prescription' &&
-      (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
-        localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
-      ((localItemRoyal.get(`rc-clinic-id-link`) &&
-        localItemRoyal.get(`rc-clinic-name-link`)) ||
-        (localItemRoyal.get(`rc-clinic-id-select`) &&
-          localItemRoyal.get(`rc-clinic-name-select`)) ||
-        (localItemRoyal.get(`rc-clinic-id-default`) &&
-          localItemRoyal.get(`rc-clinic-name-default`)))
-    ) {
-      if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
-        if (this.props.clinicStore.linkClinicId) {
-          this.props.clinicStore.setSelectClinicId(
-            this.props.clinicStore.linkClinicId
-          );
-          this.props.clinicStore.setSelectClinicName(
-            this.props.clinicStore.linkClinicName
-          );
-        }
-      } else if (
-        !this.props.clinicStore.linkClinicId &&
-        !this.props.clinicStore.selectClinicId &&
-        this.props.clinicStore.defaultClinicId
-      ) {
-        this.props.clinicStore.setSelectClinicId(
-          this.props.clinicStore.defaultClinicId
-        );
-        this.props.clinicStore.setSelectClinicName(
-          this.props.clinicStore.defaultClinicName
-        );
-      }
-      history.replace('/checkout');
-      return false;
-    }
+  //   if (pathname === '/prescription') {
+  //     if (this.isLogin) {
+  //       let needPrescriber;
+  //       if (this.props.checkoutStore.autoAuditFlag) {
+  //         needPrescriber =
+  //           this.props.checkoutStore.loginCartData.filter(
+  //             (el) => el.prescriberFlag
+  //           ).length > 0;
+  //       } else {
+  //         needPrescriber = this.props.checkoutStore.AuditData.length > 0;
+  //       }
+  //       if (
+  //         !needPrescriber ||
+  //         localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+  //       ) {
+  //         history.replace('/checkout');
+  //       }
+  //     } else {
+  //       let needPrescriber;
+  //       if (this.props.checkoutStore.autoAuditFlag) {
+  //         needPrescriber =
+  //           this.props.checkoutStore.cartData.filter((el) => el.prescriberFlag)
+  //             .length > 0;
+  //       } else {
+  //         needPrescriber = this.props.checkoutStore.AuditData.length > 0;
+  //       }
+  //       if (
+  //         !needPrescriber ||
+  //         localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)
+  //       ) {
+  //         history.replace('/checkout');
+  //       }
+  //     }
+  //   }
+  //   if (
+  //     pathname === '/prescription' &&
+  //     (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) ||
+  //       localItemRoyal.get(`rc-linkedAuditAuthorityFlag`) === undefined) &&
+  //     ((localItemRoyal.get(`rc-clinic-id-link`) &&
+  //       localItemRoyal.get(`rc-clinic-name-link`)) ||
+  //       (localItemRoyal.get(`rc-clinic-id-select`) &&
+  //         localItemRoyal.get(`rc-clinic-name-select`)) ||
+  //       (localItemRoyal.get(`rc-clinic-id-default`) &&
+  //         localItemRoyal.get(`rc-clinic-name-default`)))
+  //   ) {
+  //     if (localItemRoyal.get(`rc-linkedAuditAuthorityFlag`)) {
+  //       if (this.props.clinicStore.linkClinicId) {
+  //         this.props.clinicStore.setSelectClinicId(
+  //           this.props.clinicStore.linkClinicId
+  //         );
+  //         this.props.clinicStore.setSelectClinicName(
+  //           this.props.clinicStore.linkClinicName
+  //         );
+  //       }
+  //     } else if (
+  //       !this.props.clinicStore.linkClinicId &&
+  //       !this.props.clinicStore.selectClinicId &&
+  //       this.props.clinicStore.defaultClinicId
+  //     ) {
+  //       this.props.clinicStore.setSelectClinicId(
+  //         this.props.clinicStore.defaultClinicId
+  //       );
+  //       this.props.clinicStore.setSelectClinicName(
+  //         this.props.clinicStore.defaultClinicName
+  //       );
+  //     }
+  //     history.replace('/checkout');
+  //     return false;
+  //   }
 
-    if (
-      pathname.indexOf('/account') !== -1 &&
-      !localItemRoyal.get('rc-token')
-    ) {
-      history.push('/home');
-      return false;
-    }
+  //   if (
+  //     pathname.indexOf('/account') !== -1 &&
+  //     !localItemRoyal.get('rc-token')
+  //   ) {
+  //     history.push('/home');
+  //     return false;
+  //   }
 
-    if (
-      pathname === '/confirmation' &&
-      !sessionItemRoyal.get('subOrderNumberList')
-    ) {
-      history.push('/home');
-      return false;
-    }
+  //   if (
+  //     pathname === '/confirmation' &&
+  //     !sessionItemRoyal.get('subOrderNumberList')
+  //   ) {
+  //     history.push('/home');
+  //     return false;
+  //   }
 
-    // if (deviceSessionId) {
-    //   loadJS({
-    //     url: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
-    //   });
-    //   loadNoScriptIframeJS({
-    //     style:
-    //       'width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;',
-    //     src: `https://maf.pagosonline.net/ws/fp/tags.js?id=${deviceSessionId}80200`
-    //   });
-    // }
-
-    return true;
-  }
+  //   return true;
+  // }
   // router refresh=true后，此生命周期无效
   async shouldComponentUpdate(nextProps) {
     // 默认了clinic后，再次编辑clinic
@@ -203,8 +192,8 @@ class RouteFilter extends Component {
     return true;
   }
   componentWillMount() {
-    if(window.location.pathname !== '/checkout') {
-      localItemRoyal.set('rc-promotionCode', '')
+    if (window.location.pathname !== '/checkout') {
+      localItemRoyal.set('rc-promotionCode', '');
       // localItemRoyal.remove('rc-totalInfo')
     }
   }
@@ -243,7 +232,7 @@ class RouteFilter extends Component {
         sessionItemRoyal.remove('product-finder-edit-order');
       }
     }
-    
+
     sessionItemRoyal.set('prevPath', curPath);
 
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
