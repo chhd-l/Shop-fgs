@@ -937,27 +937,30 @@ class List extends React.Component {
                                       </h6>
                                     </div>
                                     {/*商品评分和评论数目*/}
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        margin: '0 auto'
-                                      }}
-                                      className={`rc-card__price text-center RateFitScreen`}
-                                    >
-                                      <div>
-                                        <Rate
-                                          def={item.avgEvaluate}
-                                          disabled={true}
-                                          marginSize="smallRate"
-                                        />
+                                    {
+                                      process.env.REACT_APP_LANG == 'fr'?null:
+                                      <div
+                                          style={{
+                                            display: 'flex',
+                                            margin: '0 auto'
+                                          }}
+                                          className={`rc-card__price text-center RateFitScreen`}
+                                        >
+                                          <div>
+                                            <Rate
+                                              def={item.avgEvaluate}
+                                              disabled={true}
+                                              marginSize="smallRate"
+                                            />
+                                          </div>
+                                          <span
+                                            className="comments rc-margin-left--xs rc-text-colour--text"
+                                            style={{ marginTop: '3px' }}
+                                          >
+                                            ({item.goodsEvaluateNum})
+                                          </span>
                                       </div>
-                                      <span
-                                        className="comments rc-margin-left--xs rc-text-colour--text"
-                                        style={{ marginTop: '3px' }}
-                                      >
-                                        ({item.goodsEvaluateNum})
-                                      </span>
-                                    </div>
+                                    }
                                     <br />
                                     <div
                                       className="text-center NameFitScreen"

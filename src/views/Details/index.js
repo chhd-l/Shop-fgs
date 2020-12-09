@@ -789,6 +789,30 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
+  collectAddCar(details){ //加入购物车，埋点
+    console.log('添加购物车埋点',details)
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      'ecommerce': {
+        'add':{
+          'products':[{
+            'name': 'Mother and Babycat', 
+            'id': '1234', 
+            'club': 'yes', 
+            'type': 'subscription', 
+            'price': '12.05',
+            'brand': 'Royal Canin',
+            'category': 'Cat/{{Range}}/Dry',
+            'variant': '2',
+            'quantity': '1',
+            'recommendation':'recommended',
+            'sku':'XFGHUIY'
+          }]
+        }
+      }
+    })
+    console.log(dataLayer)
+  }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
     try {
       const { loading } = this.state;
@@ -811,6 +835,9 @@ class Details extends React.Component {
         headerCartStore
       } = this.props;
       const { quantity, form, details } = this.state;
+ 
+      this.collectAddCar(details)
+
       const { sizeList } = details;
       let currentSelectedSize;
       this.setState({ addToCartLoading: true });
@@ -922,6 +949,7 @@ class Details extends React.Component {
       loading
     } = this.state;
     const { goodsId, sizeList } = details;
+    this.collectAddCar(details)
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
       throw new Error();
@@ -1231,47 +1259,44 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    // let eEvents;
-    // if (!this.state.initing) {
-    //   event = {
-    //     page: {
-    //       type: 'Product',
-    //     }
-    //   };
-    //   eEvents = {
-    //     event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-    //     action: 'detail',
-    //     ecommerce: {
-    //       currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-    //       detail: {
-    //         products: [
-    //           {
-    //             id: '',
-    //             name: details.goodsName,
-    //             price: currentUnitPrice,
-    //             brand: 'Royal Canin',
-    //             quantity: selectedSpecItem.buyCount,
-    //             variant: selectedSpecItem.specText,
-    //             club: 'no',
-    //             sku: selectedSpecItem.goodsInfoId
-    //           }
-    //         ]
-    //       }
-    //     }
-    //   };
-    // }
+    let eEvents;
+    if (!this.state.initing) {
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+        //action: 'detail',
+        ecommerce: {
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          detail: {
+            actionField:  {
+              list: 'Related Items'
+            },
+            products: [
+              {
+                name: details.goodsName,
+                id: '',//?
+                club: 'no',//?
+                price: currentUnitPrice,
+                brand: 'Royal Canin',
+                category: '',//?
+                //quantity: selectedSpecItem.buyCount,
+                variant: selectedSpecItem.specText,
+                sku: selectedSpecItem.goodsInfoId
+              }
+            ]
+          }
+        }
+      };
+    }
 
     return (
       <div id="Details">
         <GoogleTagManager additionalEvents={event} />
-        {/* {event ? (
+        {event ? (
           <GoogleTagManager
             additionalEvents={event}
             ecommerceEvents={eEvents}
-
-
           />
-        ) : null} */}
+        ) : null}
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1394,7 +1419,7 @@ class Details extends React.Component {
                               >
                                 {details.goodsName}
                               </h1>
-                              <div className="desAndStars rc-margin-bottom--xs">
+                              <div className="desAndStars rc-margin-bottom--xs" style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'block'}}>
                                 <div className="des">
                                   <h3 className="text-break mb-1 mt-2">
                                     {details.goodsSubtitle}

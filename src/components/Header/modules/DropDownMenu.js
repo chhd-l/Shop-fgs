@@ -44,7 +44,27 @@ export default class DropDownMenu extends React.Component {
   hanldeListItemMouseOut = () => {
     this.props.updateActiveTopParentId(-1);
   };
+  // 点击subMenu埋点
+  GAClickSubMenu(interaction){
+    dataLayer.push(
+      {'event':`${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      interaction:{
+        category,
+        action,
+        label,
+        value},
+      })
+  }
   handleClickNavItem = (item) => {
+    // 点击subMenu埋点-start
+    let interaction = {
+      'category':'submenu',
+      'action':'submenu',
+      'label':item.navigationLink,
+      'value':item.navigationName
+    }
+    this.GAClickSubMenu(interaction)
+    // 点击subMenu埋点-end
     this.props.handleClickNavItem(item);
   };
   renderNormalMenu = (item, i) => {
