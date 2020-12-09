@@ -7,7 +7,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
-import BreadCrumbs from '@/components/BreadCrumbs';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
@@ -29,7 +28,13 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import { setSeoConfig, getDeviceType, getFrequencyDict } from '@/utils/utils';
+import {
+  setSeoConfig,
+  getDeviceType,
+  getFrequencyDict,
+  queryStoreCateList
+} from '@/utils/utils';
+import refreshImg from "./images/refresh.png"
 
 import './index.css';
 import './index.less';
@@ -120,7 +125,6 @@ class Details extends React.Component {
         goodsDescription: '',
         sizeList: [],
         images: [],
-        goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: [],
         taggingForText: null,
@@ -161,7 +165,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 0, //0 - once/ 1 - frequency
+        buyWay: 1, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -170,16 +174,13 @@ class Details extends React.Component {
       tabs: [],
       reviewShow: false,
       isMobile: false,
-      goodsNo: '' // SPU
+      goodsNo: '', // SPU
+      breadCrumbs: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
-
-    this.specie = '';
-    this.productRange = [];
-    this.format = [];
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -443,27 +444,51 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          this.setState({
-            productRate: res.context.goods.avgEvaluate,
-            replyNum: res.context.goods.goodsEvaluateNum,
-            goodsId: res.context.goods.goodsId,
-            minMarketPrice: res.context.goods.minMarketPrice,
-            minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
-            details: Object.assign(this.state.details, {
-              taggingForText: (res.context.taggingList || []).filter(
-                (e) =>
-                  e.taggingType === 'Text' &&
-                  e.showPage &&
-                  e.showPage.includes('PDP')
-              )[0],
-              taggingForImage: (res.context.taggingList || []).filter(
-                (e) =>
-                  e.taggingType === 'Image' &&
-                  e.showPage &&
-                  e.showPage.includes('PDP')
-              )[0]
-            })
-          });
+          this.setState(
+            {
+              productRate: res.context.goods.avgEvaluate,
+              replyNum: res.context.goods.goodsEvaluateNum,
+              goodsId: res.context.goods.goodsId,
+              minMarketPrice: res.context.goods.minMarketPrice,
+              minSubscriptionPrice: res.context.goods.minSubscriptionPrice,
+              details: Object.assign(this.state.details, {
+                taggingForText: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Text' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0],
+                taggingForImage: (res.context.taggingList || []).filter(
+                  (e) =>
+                    e.taggingType === 'Image' &&
+                    e.showPage &&
+                    e.showPage.includes('PDP')
+                )[0]
+              }),
+              breadCrumbs: [{ name: res.context.goods.goodsName }]
+            },
+            async () => {
+              const { breadCrumbs } = this.state;
+              const cateNameInfo = (res.context.storeCates || [])[0];
+              if (cateNameInfo && cateNameInfo.storeCateId) {
+                const res = await queryStoreCateList();
+                const matchedItem = (res || []).filter(
+                  (f) => f.storeCateId === cateNameInfo.storeCateId
+                )[0];
+                if (matchedItem) {
+                  this.setState({
+                    breadCrumbs: [
+                      {
+                        name: matchedItem.cateName,
+                        link: matchedItem.cateRouter
+                      },
+                      ...breadCrumbs
+                    ]
+                  });
+                }
+              }
+            }
+          );
           setSeoConfig({
             goodsId: res.context.goods.goodsId,
             categoryId: '',
@@ -475,68 +500,6 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goodsSpecDetails) {
-          // 获取产品所属类别
-          // let tmpSpecie =
-          //   find(res.context.storeCates, (ele) =>
-          //     ele.cateName.toLowerCase().includes('dog')
-          //   ) && 'Dog';
-          // if (!tmpSpecie) {
-          //   tmpSpecie =
-          //     find(res.context.storeCates, (ele) =>
-          //       ele.cateName.toLowerCase().includes('cat')
-          //     ) && 'Cat';
-          // }
-          // this.specie = tmpSpecie;
-
-          // 获取产品所属home页四个大类
-          // for (let item of res.context.storeCates) {
-          //   const t = find(STORE_CATE_ENUM, (ele) =>
-          //     ele.cateName.includes(item.cateName)
-          //   );
-          //   if (t) {
-          //     this.productRange.push(t.text);
-          //   }
-          // }
-          // 获取产品Dry/Wet属性
-          // let tmpFormat = [];
-          // queryProps().then((propsRes) => {
-          //   for (let item of res.context.goodsPropDetailRels) {
-          //     const t = find(
-          //       propsRes || [],
-          //       (ele) => ele.propId === item.propId
-          //     );
-          //     // 区分cat or dog(de)
-          //     if (t && t.propName.includes('Spezies')) {
-          //       const t3 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t3) {
-          //         this.specie =
-          //           { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-          //       }
-          //     }
-          //     if (
-          //       t &&
-          //       (t.propName.includes('Seco') ||
-          //         t.propName.includes('Technologie'))
-          //     ) {
-          //       const t2 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t2) {
-          //         tmpFormat.push(
-          //           { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-          //             t2.detailName
-          //           ] || ''
-          //         );
-          //       }
-          //     }
-          //   }
-          //   this.format = tmpFormat;
-          // });
-
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
@@ -619,13 +582,6 @@ class Details extends React.Component {
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
                   goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
                 }
               ),
               images,
@@ -703,16 +659,9 @@ class Details extends React.Component {
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
                   goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
                 }
               ),
-              images: images
+              images
             },
             () => {
               this.bundleMatchGoods();
@@ -798,7 +747,7 @@ class Details extends React.Component {
     form.frequencyVal = data.value;
     form.frequencyName = data.name;
     form.frequencyId = data.id;
-    this.setState({ form: form }, () => {
+    this.setState({ form }, () => {
       // this.props.updateSelectedData(this.state.form);
     });
   };
@@ -861,11 +810,11 @@ class Details extends React.Component {
         clinicStore,
         headerCartStore
       } = this.props;
-      this.setState({ addToCartLoading: true });
-      const { quantity, form } = this.state;
-      const { sizeList } = this.state.details;
+      const { quantity, form, details } = this.state;
+      const { sizeList } = details;
       let currentSelectedSize;
-      if (this.state.details.goodsSpecDetails) {
+      this.setState({ addToCartLoading: true });
+      if (details.goodsSpecDetails) {
         currentSelectedSize = find(sizeList, (s) => s.selected);
       } else {
         currentSelectedSize = sizeList[0];
@@ -874,11 +823,6 @@ class Details extends React.Component {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsCategory: [
-          this.specie,
-          this.productRange,
-          this.format.join('&')
-        ].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
       };
       if (parseInt(form.buyWay)) {
@@ -1082,7 +1026,6 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     await checkoutStore.updateUnloginCart(cartDataCopy);
-    // debugger
     try {
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
@@ -1270,7 +1213,8 @@ class Details extends React.Component {
       reviewShow,
       activeTabIdx,
       checkOutErrMsg,
-      isMobile
+      isMobile,
+      breadCrumbs
     } = this.state;
     const event = {
       page: {
@@ -1286,7 +1230,6 @@ class Details extends React.Component {
     //   event = {
     //     page: {
     //       type: 'Product',
-    //       theme: this.specie
     //     }
     //   };
     //   eEvents = {
@@ -1301,7 +1244,6 @@ class Details extends React.Component {
     //             name: details.goodsName,
     //             price: currentUnitPrice,
     //             brand: 'Royal Canin',
-    //             category: this.specie,
     //             quantity: selectedSpecItem.buyCount,
     //             variant: selectedSpecItem.specText,
     //             club: 'no',
@@ -1351,7 +1293,7 @@ class Details extends React.Component {
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 {/* todo 接口有返回salescatogery类别吗 */}
-                <BreadCrumbsNavigation list={[{ name: details.goodsName }]} />
+                <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
                     {isMobile && (
@@ -1611,6 +1553,299 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div>
+                        {currentSubscriptionStatus ? (
+                          isMobile ? (
+                            <div
+                              className="buyMethod rc-margin-bottom--xs"
+                              style={{
+                                borderColor: parseInt(form.buyWay)
+                                  ? '#e2001a'
+                                  : '#d7d7d7'
+                              }}
+                            >
+                              <div className="buyMethodInnerBox">
+                                <div className="radioBox">
+                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                    <FormattedMessage id="email">
+                                      {(txt) => (
+                                        <input
+                                          className="rc-input__radio"
+                                          id="type_frequency"
+                                          type="radio"
+                                          alt={txt}
+                                          name="buyWay"
+                                          value="1"
+                                          key="1"
+                                          onChange={(event) =>
+                                            this.handleInputChange(event)
+                                          }
+                                          defaultChecked
+                                        />
+                                      )}
+                                    </FormattedMessage>
+                                    <label
+                                      className="rc-input__label--inline"
+                                      htmlFor="type_frequency"
+                                    >
+                                      <img class="refreshImg" src={refreshImg}/>
+                                      <span
+                                        style={{
+                                          fontWeight: '400',
+                                          color: '#333'
+                                        }}
+                                      >
+                                        <FormattedMessage id="autoship" />
+                                        <span
+                                          className="info-tooltip delivery-method-tooltip"
+                                          onMouseEnter={() => {
+                                            this.setState({
+                                              toolTipVisible: true
+                                            });
+                                          }}
+                                          onMouseLeave={() => {
+                                            this.setState({
+                                              toolTipVisible: false
+                                            });
+                                          }}
+                                        >
+                                          i
+                                        </span>
+                                        <ConfirmTooltip
+                                          arrowStyle={{ left: '65%' }}
+                                          display={this.state.toolTipVisible}
+                                          cancelBtnVisible={false}
+                                          confirmBtnVisible={false}
+                                          updateChildDisplay={(status) =>
+                                            this.setState({
+                                              toolTipVisible: status
+                                            })
+                                          }
+                                          content={
+                                            <FormattedMessage id="subscription.promotionTip2" />
+                                          }
+                                        />
+                                      </span>
+                                    </label>
+                                  </div>
+                                  <br />
+                                  <div className="discountBox">
+                                    Save extra&nbsp;
+                                    <b className="product-pricing__card__head__price rc-padding-y--none">
+                                      {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                      10%
+                                    </b>
+                                  </div>
+                                  <div className="freeshippingBox">
+                                    Free shipping
+                                  </div>
+                                  {/* Save&nbsp;
+                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                    {formatMoney(
+                                      currentUnitPrice -
+                                        quantity * currentSubscriptionPrice
+                                    )}
+                                  </b> */}
+                                  {/* &nbsp; on this subscription. */}
+                                </div>
+                                <div
+                                  className="price"
+                                  style={{
+                                    paddingTop:
+                                      isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                        ? '.5rem'
+                                        : '1.5rem')
+                                  }}
+                                >
+                                  <div>
+                                    {formatMoney(currentSubscriptionPrice || 0)}
+                                  </div>
+                                  {process.env.REACT_APP_LANG === 'de' &&
+                                  selectedSpecItem ? (
+                                    <div
+                                      style={{
+                                        fontSize: '14px',
+                                        color: '#999'
+                                      }}
+                                    >
+                                      {formatMoney(
+                                        (
+                                          currentSubscriptionPrice /
+                                          parseFloat(
+                                            selectedSpecItem.baseSpecLabel
+                                          )
+                                        ).toFixed(2)
+                                      )}
+                                      /
+                                      {selectedSpecItem.baseSpecLabel &&
+                                        this.formatUnit(
+                                          selectedSpecItem.baseSpecLabel
+                                        )}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="freqency">
+                                <span>Delivery every:</span>
+                                <Selection
+                                  customContainerStyle={{
+                                    display: 'inline-block',
+                                    marginLeft: isMobile?'50px': '100px',
+                                    height: isMobile?'70px': 'auto'
+                                  }}
+                                  selectedItemChange={
+                                    this.handleSelectedItemChange
+                                  }
+                                  optionList={this.computedList}
+                                  selectedItemData={{
+                                    value: form.frequencyVal
+                                  }}
+                                  key={form.frequencyVal}
+                                  customStyleType="select-one"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              className="buyMethod rc-margin-bottom--xs"
+                              style={{
+                                borderColor: parseInt(form.buyWay)
+                                  ? '#e2001a'
+                                  : '#d7d7d7'
+                              }}
+                            >
+                              <div
+                                className="radioBox"
+                                style={{ paddingTop: '1rem' }}
+                              >
+                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                  <FormattedMessage id="email">
+                                    {(txt) => (
+                                      <input
+                                        className="rc-input__radio"
+                                        id="type_frequency"
+                                        type="radio"
+                                        alt={txt}
+                                        name="buyWay"
+                                        value="1"
+                                        key="1"
+                                        onChange={(event) =>
+                                          this.handleInputChange(event)
+                                        }
+                                        defaultChecked
+                                      />
+                                    )}
+                                  </FormattedMessage>
+                                  <label
+                                    className="rc-input__label--inline"
+                                    htmlFor="type_frequency"
+                                  >
+                                    <span
+                                      style={{
+                                        fontWeight: '400',
+                                        color: '#333'
+                                      }}
+                                    >
+                                      <img class="refreshImg" src={refreshImg}/>
+                                      <FormattedMessage id="autoship" />
+                                      <span
+                                        className="info-tooltip delivery-method-tooltip"
+                                        onMouseEnter={() => {
+                                          this.setState({
+                                            toolTipVisible: true
+                                          });
+                                        }}
+                                        onMouseLeave={() => {
+                                          this.setState({
+                                            toolTipVisible: false
+                                          });
+                                        }}
+                                      >
+                                        i
+                                      </span>
+                                      <ConfirmTooltip
+                                        arrowStyle={{ left: '65%' }}
+                                        display={this.state.toolTipVisible}
+                                        cancelBtnVisible={false}
+                                        confirmBtnVisible={false}
+                                        updateChildDisplay={(status) =>
+                                          this.setState({
+                                            toolTipVisible: status
+                                          })
+                                        }
+                                        content={
+                                          <FormattedMessage id="subscription.promotionTip2" />
+                                        }
+                                      />
+                                    </span>
+                                  </label>
+                                </div>
+                                <br />
+                                <div className="discountBox">
+                                Save extra&nbsp;
+                                <b className="product-pricing__card__head__price rc-padding-y--none">
+                                  {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                  10%
+                                </b>
+                              </div>
+                              <div className="freeshippingBox">
+                                Free shipping
+                              </div>
+                              </div>
+                              <div className="freqency">
+                                <span>Delivery every:</span>
+                                <Selection
+                                  customContainerStyle={{
+                                    display: 'inline-block',
+                                    marginLeft: isMobile?'50px': '100px',
+                                    height: isMobile?'70px': 'auto'
+                                  }}
+                                  selectedItemChange={
+                                    this.handleSelectedItemChange
+                                  }
+                                  optionList={this.computedList}
+                                  selectedItemData={{
+                                    value: form.frequencyVal
+                                  }}
+                                  key={form.frequencyVal}
+                                  customStyleType="select-one"
+                                />
+                              </div>
+                              <div
+                                className="price"
+                                style={{
+                                  paddingTop:
+                                  isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                  ? '.5rem'
+                                  : '1.5rem')
+                                }}
+                              >
+                                <div>
+                                  {formatMoney(currentSubscriptionPrice || 0)}
+                                </div>
+                                {process.env.REACT_APP_LANG === 'de' &&
+                                selectedSpecItem ? (
+                                  <div
+                                    style={{ fontSize: '14px', color: '#999' }}
+                                  >
+                                    {formatMoney(
+                                      (
+                                        currentSubscriptionPrice /
+                                        parseFloat(
+                                          selectedSpecItem.baseSpecLabel
+                                        )
+                                      ).toFixed(2)
+                                    )}
+                                    /
+                                    {selectedSpecItem.baseSpecLabel &&
+                                      this.formatUnit(
+                                        selectedSpecItem.baseSpecLabel
+                                      )}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          )
+                        ) : null}
                         {isMobile ? (
                           <div
                             className="buyMethod rc-margin-bottom--xs"
@@ -1627,22 +1862,21 @@ class Details extends React.Component {
                                     {(txt) => (
                                       <input
                                         className="rc-input__radio"
-                                        id="optsemail"
+                                        id="type_once"
                                         type="radio"
                                         alt={txt}
                                         name="buyWay"
                                         value="0"
-                                        key="1"
+                                        key="0"
                                         onChange={(event) =>
                                           this.handleInputChange(event)
                                         }
-                                        defaultChecked
                                       />
                                     )}
                                   </FormattedMessage>
                                   <label
                                     className="rc-input__label--inline"
-                                    htmlFor="optsemail"
+                                    htmlFor="type_once"
                                   >
                                     <span
                                       style={{
@@ -1650,7 +1884,7 @@ class Details extends React.Component {
                                         color: '#333'
                                       }}
                                     >
-                                      <FormattedMessage id="Single purchase" />
+                                      <FormattedMessage id="singlePurchase" />
                                     </span>
                                   </label>
                                 </div>
@@ -1660,9 +1894,9 @@ class Details extends React.Component {
                                 style={{
                                   fontSize: '22px',
                                   paddingTop:
-                                    process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
+                                  isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                  ? '.5rem'
+                                  : '1.5rem')
                                 }}
                               >
                                 <div>{formatMoney(currentUnitPrice)}</div>
@@ -1727,7 +1961,6 @@ class Details extends React.Component {
                                       onChange={(event) =>
                                         this.handleInputChange(event)
                                       }
-                                      defaultChecked
                                     />
                                   )}
                                 </FormattedMessage>
@@ -1738,7 +1971,7 @@ class Details extends React.Component {
                                   <span
                                     style={{ fontWeight: '400', color: '#333' }}
                                   >
-                                    <FormattedMessage id="Single purchase" />
+                                    <FormattedMessage id="singlePurchase" />
                                   </span>
                                 </label>
                               </div>
@@ -1755,9 +1988,9 @@ class Details extends React.Component {
                               style={{
                                 fontSize: '22px',
                                 paddingTop:
-                                  process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
+                                isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
+                                ? '.5rem'
+                                : '1.5rem')
                               }}
                             >
                               <div>{formatMoney(currentUnitPrice)}</div>
@@ -1782,280 +2015,6 @@ class Details extends React.Component {
                             </div>
                           </div>
                         )}
-                        {currentSubscriptionStatus ? (
-                          isMobile ? (
-                            <div
-                              className="buyMethod rc-margin-bottom--xs"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7'
-                              }}
-                            >
-                              <div className="buyMethodInnerBox">
-                                <div className="radioBox">
-                                  <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                    <FormattedMessage id="email">
-                                      {(txt) => (
-                                        <input
-                                          className="rc-input__radio"
-                                          id="optsemail"
-                                          type="radio"
-                                          alt={txt}
-                                          name="buyWay"
-                                          value="1"
-                                          key="1"
-                                          onChange={(event) =>
-                                            this.handleInputChange(event)
-                                          }
-                                        />
-                                      )}
-                                    </FormattedMessage>
-                                    <label
-                                      className="rc-input__label--inline"
-                                      htmlFor="optsemail"
-                                    >
-                                      <span
-                                        style={{
-                                          fontWeight: '400',
-                                          color: '#333'
-                                        }}
-                                      >
-                                        <FormattedMessage id="autoship" />
-                                        <span
-                                          className="info-tooltip delivery-method-tooltip"
-                                          onMouseEnter={() => {
-                                            this.setState({
-                                              toolTipVisible: true
-                                            });
-                                          }}
-                                          onMouseLeave={() => {
-                                            this.setState({
-                                              toolTipVisible: false
-                                            });
-                                          }}
-                                        >
-                                          i
-                                        </span>
-                                        <ConfirmTooltip
-                                          arrowStyle={{ left: '65%' }}
-                                          display={this.state.toolTipVisible}
-                                          cancelBtnVisible={false}
-                                          confirmBtnVisible={false}
-                                          updateChildDisplay={(status) =>
-                                            this.setState({
-                                              toolTipVisible: status
-                                            })
-                                          }
-                                          content={
-                                            <FormattedMessage id="subscription.promotionTip2" />
-                                          }
-                                        />
-                                      </span>
-                                    </label>
-                                  </div>
-                                  <br />
-                                  Save&nbsp;
-                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                    {formatMoney(
-                                      currentUnitPrice -
-                                        quantity * currentSubscriptionPrice
-                                    )}
-                                  </b>
-                                  &nbsp; on this subscription.
-                                </div>
-                                <div
-                                  className="price"
-                                  style={{
-                                    paddingTop:
-                                      process.env.REACT_APP_LANG === 'de'
-                                        ? '.5rem'
-                                        : '1.5rem'
-                                  }}
-                                >
-                                  <div>
-                                    {formatMoney(currentSubscriptionPrice || 0)}
-                                  </div>
-                                  {process.env.REACT_APP_LANG === 'de' &&
-                                  selectedSpecItem ? (
-                                    <div
-                                      style={{
-                                        fontSize: '14px',
-                                        color: '#999'
-                                      }}
-                                    >
-                                      {formatMoney(
-                                        (
-                                          currentSubscriptionPrice /
-                                          parseFloat(
-                                            selectedSpecItem.baseSpecLabel
-                                          )
-                                        ).toFixed(2)
-                                      )}
-                                      /
-                                      {selectedSpecItem.baseSpecLabel &&
-                                        this.formatUnit(
-                                          selectedSpecItem.baseSpecLabel
-                                        )}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div className="freqency">
-                                <span>Delivery every:</span>
-                                <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: '100px'
-                                  }}
-                                  selectedItemChange={
-                                    this.handleSelectedItemChange
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyVal
-                                  }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            <div
-                              className="buyMethod rc-margin-bottom--xs"
-                              style={{
-                                borderColor: parseInt(form.buyWay)
-                                  ? '#e2001a'
-                                  : '#d7d7d7'
-                              }}
-                            >
-                              <div
-                                className="radioBox"
-                                style={{ paddingTop: '1rem' }}
-                              >
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
-                                  <FormattedMessage id="email">
-                                    {(txt) => (
-                                      <input
-                                        className="rc-input__radio"
-                                        id="type_frequency"
-                                        type="radio"
-                                        alt={txt}
-                                        name="buyWay"
-                                        value="1"
-                                        key="1"
-                                        onChange={(event) =>
-                                          this.handleInputChange(event)
-                                        }
-                                      />
-                                    )}
-                                  </FormattedMessage>
-                                  <label
-                                    className="rc-input__label--inline"
-                                    htmlFor="type_frequency"
-                                  >
-                                    <span
-                                      style={{
-                                        fontWeight: '400',
-                                        color: '#333'
-                                      }}
-                                    >
-                                      <FormattedMessage id="autoship" />
-                                      <span
-                                        className="info-tooltip delivery-method-tooltip"
-                                        onMouseEnter={() => {
-                                          this.setState({
-                                            toolTipVisible: true
-                                          });
-                                        }}
-                                        onMouseLeave={() => {
-                                          this.setState({
-                                            toolTipVisible: false
-                                          });
-                                        }}
-                                      >
-                                        i
-                                      </span>
-                                      <ConfirmTooltip
-                                        arrowStyle={{ left: '65%' }}
-                                        display={this.state.toolTipVisible}
-                                        cancelBtnVisible={false}
-                                        confirmBtnVisible={false}
-                                        updateChildDisplay={(status) =>
-                                          this.setState({
-                                            toolTipVisible: status
-                                          })
-                                        }
-                                        content={
-                                          <FormattedMessage id="subscription.promotionTip2" />
-                                        }
-                                      />
-                                    </span>
-                                  </label>
-                                </div>
-                                <br />
-                                {/* <div>
-                              Save&nbsp;
-                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
-                                </b>
-                                &nbsp; on this subscription.
-                              </div> */}
-                              </div>
-                              <div className="freqency">
-                                <span>Delivery every:</span>
-                                <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: '100px'
-                                  }}
-                                  selectedItemChange={
-                                    this.handleSelectedItemChange
-                                  }
-                                  optionList={this.computedList}
-                                  selectedItemData={{
-                                    value: form.frequencyVal
-                                  }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
-                                />
-                              </div>
-                              <div
-                                className="price"
-                                style={{
-                                  paddingTop:
-                                    process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
-                                }}
-                              >
-                                <div>
-                                  {formatMoney(currentSubscriptionPrice || 0)}
-                                </div>
-                                {process.env.REACT_APP_LANG === 'de' &&
-                                selectedSpecItem ? (
-                                  <div
-                                    style={{ fontSize: '14px', color: '#999' }}
-                                  >
-                                    {formatMoney(
-                                      (
-                                        currentSubscriptionPrice /
-                                        parseFloat(
-                                          selectedSpecItem.baseSpecLabel
-                                        )
-                                      ).toFixed(2)
-                                    )}
-                                    /
-                                    {selectedSpecItem.baseSpecLabel &&
-                                      this.formatUnit(
-                                        selectedSpecItem.baseSpecLabel
-                                      )}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                          )
-                        ) : null}
                         {!isMobile && (
                           <div
                           // className="sticky-addtocart"
@@ -2081,6 +2040,7 @@ class Details extends React.Component {
                                     <FormattedMessage id="GuestCheckout" />
                                   </button>
                                 ))}
+                              &nbsp;&nbsp; 
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''

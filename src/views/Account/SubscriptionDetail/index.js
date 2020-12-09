@@ -1026,10 +1026,12 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     <Selection
                                       optionList={this.frequencyListOptions}
-                                      selectedItemChange={(el) => {
-                                        console.log(el);
-                                        el.periodTypeId = el.id;
-                                        el.periodTypeValue = el.valueEn;
+                                      selectedItemChange={(data) => {
+                                        if(el.periodTypeId !== data.id) {
+                                          el.periodTypeId = data.id;
+                                          el.periodTypeValue = data.valueEn;
+                                          this.setState({isDataChange: true})
+                                        }
                                       }}
                                       selectedItemData={{
                                         value: el.periodTypeValue
@@ -1366,10 +1368,12 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     <Selection
                                       optionList={this.frequencyListOptions}
-                                      selectedItemChange={(el) => {
-                                        console.log(el);
-                                        el.periodTypeId = el.id;
-                                        el.periodTypeValue = el.valueEn;
+                                      selectedItemChange={(data) => {
+                                        if(el.periodTypeId !== data.id) {
+                                          el.periodTypeId = data.id;
+                                          el.periodTypeValue = data.valueEn;
+                                          this.setState({isDataChange: true})
+                                        }
                                       }}
                                       selectedItemData={{
                                         value: el.periodTypeValue

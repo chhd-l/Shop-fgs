@@ -894,3 +894,8 @@ div.product-info .strike-through {
 .promotion .availability-msg {
   color: #ec001a !important;
 }
+
+.Carts .choices__item.choices__item--choice.choices__item--selectable {
+  height: 60px;
+  line-height: 40px;
+}

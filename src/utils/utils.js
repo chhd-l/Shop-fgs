@@ -86,6 +86,8 @@ export async function mergeUnloginCartData() {
       return {
         goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
         goodsNum: ele.quantity,
+        goodsInfoFlag: ele.goodsInfoFlag,
+        periodTypeId: ele.periodTypeId,
         invalid: false,
         goodsCategory: ele.goodsCategory
       };

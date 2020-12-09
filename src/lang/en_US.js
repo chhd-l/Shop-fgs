@@ -839,5 +839,6 @@ const en_US = {
   'account.startAutoShipping': 'Start Autoshipping',
   'account.noSubscription': 'You did not discover our Autoship services yet ? AutoShip is a convenient way for you to get your orders delivered on a regular schedule. So, you save time and your pet never run out of food.',
   'account.noSubscriptionTitle': 'Let\'s get started!',
+  'singlePurchase': 'Single purchase'
 }
 export default en_US;

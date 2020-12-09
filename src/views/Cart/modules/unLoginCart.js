@@ -675,7 +675,7 @@ class UnLoginCart extends React.Component {
                           <img src={cartImg} />
                           </LazyLoad>
                           <span>
-                            <FormattedMessage id="Single purchase" />  
+                            <FormattedMessage id="singlePurchase" />  
                           </span>
                         </span>
                       </div>
@@ -875,7 +875,7 @@ class UnLoginCart extends React.Component {
                     <img src={cartImg} />
                     </LazyLoad>
                     <span style={{fontSize: '16px'}}>
-                    <FormattedMessage id="Single purchase" />
+                    <FormattedMessage id="singlePurchase" />
                     </span>
                   </span>
                 </div>
@@ -1223,7 +1223,7 @@ class UnLoginCart extends React.Component {
           {/* 显示订阅折扣 */}
           <div
             className={`row leading-lines shipping-item red ${
-              parseInt(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+              parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
             }`}
           >
             <div className="col-8">

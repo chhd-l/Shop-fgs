@@ -12,7 +12,8 @@ import {
   formatMoney,
   mergeUnloginCartData,
   getFrequencyDict,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  getDeviceType
 } from '@/utils/utils';
 //import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
 import find from 'lodash/find';
@@ -65,7 +66,8 @@ class LoginCart extends React.Component {
       promotionInputValue: '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
-      isShowValidCode: false //是否显示无效promotionCode
+      isShowValidCode: false, //是否显示无效promotionCode
+      isMobile: getDeviceType() === 'H5'
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -149,11 +151,6 @@ class LoginCart extends React.Component {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
         this.computedList[0];
-      console.log(
-        this.computedList.filter((item) => item.id === el.periodTypeId)[0],
-        this.computedList[0],
-        'hahaha'
-      );
       el.form = {
         frequencyVal: filterData.valueEn,
         frequencyName: filterData.name,
@@ -384,7 +381,7 @@ class LoginCart extends React.Component {
     // })
   }
   getProducts(plist) {
-    let { form } = this.state;
+    let { form, isMobile } = this.state;
     console.log(plist, 'ssss');
     const Lists = plist.map((pitem, index) => {
       return (
@@ -467,7 +464,7 @@ class LoginCart extends React.Component {
                 />
               </span>
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div style={{ maxWidth: '250px' }}>
+                <div style={{ maxWidth: '250px', width: isMobile?'9rem': 'inherit'}}>
                   <div className="productGoodsSubtitle">{pitem.goods.goodsSubtitle}</div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     {/* <div className="stock__wrapper">
@@ -628,7 +625,7 @@ class LoginCart extends React.Component {
                           <LazyLoad>
                           <img src={cartImg} />
                           </LazyLoad>
-                          <FormattedMessage id="Single purchase" />
+                          <FormattedMessage id="singlePurchase" />
                         </span>
                       </div>
                       <div
@@ -814,7 +811,7 @@ class LoginCart extends React.Component {
                     <img src={cartImg} />
                     </LazyLoad>
                     <span style={{fontSize: '16px'}}>
-                    <FormattedMessage id="Single purchase" />
+                    <FormattedMessage id="singlePurchase" />
                     </span>
                   </span>
                 </div>
@@ -1143,7 +1140,7 @@ class LoginCart extends React.Component {
         {/* 显示订阅折扣 */}
         <div
           className={`row leading-lines shipping-item red ${
-            parseInt(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
           }`}
         >
           <div className="col-8">
@@ -1317,14 +1314,11 @@ class LoginCart extends React.Component {
         ele.mockSpecDetailIds.sort().toString() ===
           selectedSpecDetailId.sort().toString()
     )[0];
-    // this.setState({ deleteLoading: true })
-    // // 先删除改之前sku
-    // await deleteItemFromBackendCart({ goodsInfoIds: [pitem.goodsInfoId] })
-    // // 再增加当前sku
-    // await this.updateBackendCart({ goodsInfoId: selectedGoodsInfo.goodsInfoId, goodsNum: pitem.buyCount, verifyStock: false })
     await switchSize({
       purchaseId: pitem.purchaseId,
-      goodsInfoId: selectedGoodsInfo.goodsInfoId
+      goodsInfoId: selectedGoodsInfo.goodsInfoId,
+      periodTypeId: pitem.periodTypeId,
+      goodsInfoFlag: pitem.goodsInfoFlag
     });
     this.updateCartCache();
     this.setState({ changSizeLoading: false });

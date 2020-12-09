@@ -139,7 +139,7 @@ const de_DE = {
   cats: 'KATZEN',
   cats2: 'Katzen',
   cats3: 'Katze',
-  chang: 'Change',
+  chang: 'Veränderung',
   changeAnotherCard: 'Bitte versuchen Sie es mit einer anderen Karte erneut',
   changePassword: 'Ändere das Passwort',
   checkout: 'Weiter',
@@ -893,5 +893,6 @@ const de_DE = {
   yes: 'Ja',
   yourEmailNotVerified: 'Deine E-Mail ist nicht verifiziert worden!',
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
+  'singlePurchase': 'Einzelkauf'
 }
 export default de_DE;
