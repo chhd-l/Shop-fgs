@@ -353,41 +353,41 @@ const DEFUALT_FILTER_MAP_FR = {
   '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Adulte', 'Sénior'],
-      attributeValueIdList: ['AV20201201094039317', 'AV20201201104729332']
+      attributeValues: ['Adult', 'Senior'],
+      attributeValueIdList: ['AV202012080515164166', 'AV202012080524132476']
     }
   ],
   '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: [
-        'Adulte (1-7 ans)',
-        'Mature (7-12 ans)',
-        'Senior (+12 ans)'
-      ],
+      attributeValues: ['Adult', 'Mature', 'Senior'],
       attributeValueIdList: [
-        'AV20201130020901915',
-        'AV20201201031532561',
-        'AV20201201031601509'
+        'AV202012080515164166',
+        'AV202012080524106176',
+        'AV202012080524132476'
       ]
     }
   ],
   '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Chiot de 0 à 2 mois', 'Chiot de plus de 2 mois'],
-      attributeValueIdList: ['AV20201201031615383', 'AV20201201031628573']
+      attributeValues: ['Puppy'],
+      attributeValueIdList: ['AV202012080524104906']
     }
   ],
   '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Chaton (0-4 mois)', 'Chaton (5 mois-1 an)'],
-      attributeValueIdList: ['AV202011250955020380', 'AV202011250955020401']
+      attributeValues: ['Kitten'],
+      attributeValueIdList: ['AV202012080524128906']
     }
   ]
 };
