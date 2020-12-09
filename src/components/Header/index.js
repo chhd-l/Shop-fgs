@@ -62,7 +62,8 @@ class Header extends React.Component {
       activeTopParentId: -1,
       event: {
         search: {}
-      }
+      },
+      isSearchSuccess:false,//是否搜索成功
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -331,7 +332,11 @@ class Header extends React.Component {
   handleSearch=(e)=>{
     if(process.env.REACT_APP_LANG == 'fr'){
       console.log(e.current.value)
-      this.props.history.push('/searchShow/'+e.current.value)
+      if(this.state.isSearchSuccess){
+        this.props.history.push(`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`)
+      }else{
+        this.props.history.push('/searchShow/'+e.current.value)
+      }
     }
     
   }
@@ -405,6 +410,7 @@ class Header extends React.Component {
           //搜索成功-埋点
           this.props.headerSearchStore.getResult(keywords, goodsContent.length);
           console.log('搜索成功-成功', this.props.headerSearchStore);
+          this.setState({isSearchSuccess:true})
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
@@ -426,6 +432,7 @@ class Header extends React.Component {
           //搜索失败-埋点
           this.props.headerSearchStore.getNoResult(keywords);
           console.log('搜索失败-埋点', this.props.headerSearchStore);
+          this.setState({isSearchSuccess:false})
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
