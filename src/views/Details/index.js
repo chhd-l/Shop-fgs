@@ -1171,6 +1171,29 @@ class Details extends React.Component {
     this.openPetModal();
   }
   handleAClick() {
+    dataLayer.push({
+      event: '{{site.id}}eComProductView',
+      ecommerce: {
+        currencyCode:'TRY',
+        detail: {
+        actionField: {
+          list: 'Related Items'
+        },
+          products: [
+            {
+              id: '123',
+              name: 'Mother and Babycat',
+              price: '234',
+              brand: 'Royal Canin',
+              club: 'no',
+              category:'Cat/{{Range}}/Dry',
+              variant: '4.00 Kg',
+              sku: 'XFGHUIY',
+            }
+          ]
+    }}})
+
+
     if (this.state.replyNum > 0) {
       let el = document.getElementById('review-container');
       let length = this.getElementToPageTop(el);
@@ -1222,56 +1245,44 @@ class Details extends React.Component {
       isMobile,
       breadCrumbs
     } = this.state;
-    const event = {
-      page: {
-        type: 'Product',
-        theme: this.specie,
-      }
-    };
+
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    // let eEvents;
-    // if (!this.state.initing) {
-    //   event = {
-    //     page: {
-    //       type: 'Product',
-    //     }
-    //   };
-    //   eEvents = {
-    //     event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-    //     action: 'detail',
-    //     ecommerce: {
-    //       currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-    //       detail: {
-    //         products: [
-    //           {
-    //             id: '',
-    //             name: details.goodsName,
-    //             price: currentUnitPrice,
-    //             brand: 'Royal Canin',
-    //             quantity: selectedSpecItem.buyCount,
-    //             variant: selectedSpecItem.specText,
-    //             club: 'no',
-    //             sku: selectedSpecItem.goodsInfoId
-    //           }
-    //         ]
-    //       }
-    //     }
-    //   };
-    // }
+    let eEvents;
+    if (!this.state.initing) {
+      const event = {
+        page: {
+          type: 'Product',
+        }
+      };
+      eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+        action: 'detail',
+        ecommerce: {
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          detail: {
+            products: [
+              {
+                id: '123',
+                name: 'Mother and Babycat',
+                price: '234',
+                brand: 'Royal Canin',
+                club: 'no',
+                category:'Cat/{{Range}}/Dry',
+                variant: '4.00 Kg',
+                sku: 'XFGHUIY',
+              }
+            ]
+          }
+        }
+      };
+    }
 
     return (
       <div id="Details">
-        <GoogleTagManager additionalEvents={event} />
-        {/* {event ? (
-          <GoogleTagManager
-            additionalEvents={event}
-            ecommerceEvents={eEvents}
+        <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
 
-
-          />
-        ) : null} */}
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -2058,7 +2069,7 @@ class Details extends React.Component {
                                     <FormattedMessage id="GuestCheckout" />
                                   </button>
                                 ))}
-                              &nbsp;&nbsp; 
+                              &nbsp;&nbsp;
                               <button
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''

@@ -538,6 +538,26 @@ class List extends React.Component {
     );
   };
   hanldeItemClick(item) {
+    dataLayer.push({
+      event:'{{site.id}}eComProductImpression',
+    ecommerce:{
+    impressions: [
+        {
+          id: '',
+          name: 'Mother and Bayycat',
+          price: 'currentUnitPrice',
+          brand: 'Royal Canin',
+          category: 'Cat/{{Range}}/Dry',
+          list:'Related Items',
+          // quantity: selectedSpecItem.buyCount,
+          variant: '2.00Kg',
+          club: 'no',
+          sku: 'XFGHUIY',
+          flag:'best-seller'
+    }
+    ]
+    }
+  })
     const { history, location } = this.props;
     if (this.state.loading) {
       return false;
@@ -623,26 +643,31 @@ class List extends React.Component {
         page: {
           type,
           theme
-        }
+        },
+        impressions: {
+          name,
+        },
       };
     }
     if (!initingList) {
       eEvents = {
         event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
         ecommerce: {
-          // impressions: [
-          //   {
-          //     id: '',
-          //     name: item.goodsCategory,
-          //     price: currentUnitPrice,
-          //     brand: 'Royal Canin',
-          //     category: this.specie,
-          //     quantity: selectedSpecItem.buyCount,
-          //     variant: selectedSpecItem.specText,
-          //     club: 'no',
-          //     sku: selectedSpecItem.goodsInfoId
-          //   }
-          // ]
+          impressions: [
+            {
+              id: '',
+              name: 'Mother and Bayycat',
+              price: 'currentUnitPrice',
+              brand: 'Royal Canin',
+              category: 'Cat/{{Range}}/Dry',
+              list:'Related Items',
+              // quantity: selectedSpecItem.buyCount,
+              variant: '2.00Kg',
+              club: 'no',
+              sku: 'XFGHUIY',
+              flag:'best-seller'
+            }
+          ]
         }
       };
     }
@@ -658,7 +683,8 @@ class List extends React.Component {
       ));
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        <GoogleTagManager additionalEvents={event}
+                          ecommerceEvents={eEvents} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}

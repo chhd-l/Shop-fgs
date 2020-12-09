@@ -431,14 +431,14 @@ class Home extends React.Component {
     const curListNum = categoryList.length;
 
     const event = {
-      page: {
-        error: '',
-        hitTimestamp: new Date(),
-        path: match.path,
-        type: 'Homepage',
-        filters: '',
-        theme: ''
-      }
+        page: {
+          error: '',
+          hitTimestamp: new Date(),
+          path: match.path,
+          type: 'Homepage',
+          filters: '',
+          theme: ''
+        }
     };
 
     const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
