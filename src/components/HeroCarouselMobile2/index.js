@@ -65,7 +65,7 @@ class HeroCarousel extends React.Component {
       //     </Slider>
       //   </div>
       // </div>
-      <div data-js-carousel="" className="rc-carousel rc-carousel--hero">
+      <div data-js-carousel="" className="rc-carousel rc-carousel--hero" style={{marginLeft:0}}>
         <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
           <div className="rc-hero__fg">
             <div className="rc-hero__section rc-hero__section--img">
