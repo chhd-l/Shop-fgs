@@ -5,27 +5,49 @@ import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-//信号量
+// //信号量
 var idx = 0;
-var options = {
-  interval: 2000, //间隔时间
-  animatetime: 500,
-  tween: 'QuadEaseOut',
-  width: 1400
-};
+// var options = {
+//   interval: 2000, //间隔时间
+//   animatetime: 500,
+//   tween: 'QuadEaseOut',
+//   width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+// };
 
 class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      banner: []
+      banner: [],
+      options: {
+        interval: 2000, //间隔时间
+        animatetime: 500,
+        tween: 'QuadEaseOut',
+        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+      }
     };
     this.clickCircle = this.clickCircle.bind(this);
+    this.resize = this.resize.bind(this);
   }
   componentDidMount() {
     getBanner().then((res) => {
       this.setState({ banner: res.context });
     });
+
+    this.screenChange()
+  }
+  screenChange() {
+    window.addEventListener('resize', this.resize);
+  }
+  resize() {
+    this.setState({
+      options: {
+        interval: 2000, //间隔时间
+        animatetime: 500,
+        tween: 'QuadEaseOut',
+        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+      }
+    })
   }
   changeCircles = () => {
     //得到元素
@@ -46,6 +68,7 @@ class Carousel extends React.Component {
     circlesLis[n].className = 'cur';
   };
   leftBtnClick = () => {
+    const { options } = this.state
     //得到元素
     var m_unit = document.getElementById('m_unit');
     var imageUL = m_unit.getElementsByTagName('ul')[0];
@@ -77,6 +100,7 @@ class Carousel extends React.Component {
     );
   };
   rightBtnClick = () => {
+    const { options } = this.state
     //得到元素
     var circles = document.getElementById('circles');
     var m_unit = document.getElementById('m_unit');
@@ -113,6 +137,7 @@ class Carousel extends React.Component {
     );
   };
   clickCircle(index) {
+    const { options } = this.state
     //信号量就是自己的序号
     idx = index;
     //拉动

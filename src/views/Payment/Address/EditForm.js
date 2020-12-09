@@ -18,7 +18,8 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false
+    isOnepageCheckout: false,
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -139,7 +140,7 @@ class EditForm extends React.Component {
       this.props.updateData(this.state.address);
     });
   };
-  _emailPanelJSX = () => {
+  emailPanelJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -175,7 +176,7 @@ class EditForm extends React.Component {
       </div>
     );
   };
-  _postCodeJSX = () => {
+  postCodeJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -226,7 +227,7 @@ class EditForm extends React.Component {
       </div>
     );
   };
-  _phonePanelJSX = () => {
+  phonePanelJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -300,7 +301,6 @@ class EditForm extends React.Component {
     );
   };
   render() {
-    const { isOnepageCheckout } = this.props;
     const { address } = this.state;
     return (
       <>
@@ -367,7 +367,7 @@ class EditForm extends React.Component {
               </div>
             </div>
           </div>
-          
+
           <div className="col-12">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingAddress1">
@@ -463,9 +463,9 @@ class EditForm extends React.Component {
             </div>
           </div>
 
-          {/* {this._emailPanelJSX()} */}
-          {this._postCodeJSX()}
-          {this._phonePanelJSX()}
+          {/* {this.emailPanelJSX()} */}
+          {this.postCodeJSX()}
+          {this.phonePanelJSX()}
           {/* <div className="col-12 col-md-6">
             <div
               className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName"

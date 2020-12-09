@@ -144,11 +144,16 @@ class List extends React.Component {
     this.fidFromSearch = getParaByName(search, 'fid');
     this.cidFromSearch = getParaByName(search, 'cid');
     const keywordsSearch = getParaByName(search, 'q');
+    let cateName = {
+      '/cats': <FormattedMessage id="cats3" />,
+      '/dogs': <FormattedMessage id="dogs3" />
+    }[pathname];
 
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
     // 2 查询filterlist后，需初始化状态
     if (state) {
+      cateName = state.cateName;
       this.setState({
         selectedSortParam: state.sortParam || null,
         storeCateIds: state.cateIds || [],
@@ -174,19 +179,14 @@ class List extends React.Component {
                 description: state.cateDescription,
                 img: state.cateImgList
               }
-            : null,
-        cateName:
-          state.cateName ||
-          {
-            '/cats': <FormattedMessage id="cats3" />,
-            '/dogs': <FormattedMessage id="dogs3" />
-          }[pathname]
+            : null
       });
     }
 
     this.setState(
       {
         category,
+        cateName,
         keywords:
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
