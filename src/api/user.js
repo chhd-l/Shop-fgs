@@ -2,7 +2,8 @@
 import axios from '@/utils/request'
 
 const api = {
-  customerBase: '/customer/customerBase'
+  customerBase: '/customer/customerBase',
+  register: 'okta/register'
 }
 
 export default api
@@ -21,3 +22,12 @@ export function updateCustomerBaseInfo (parameter) {
     data: parameter
   })
 }
+
+export function oktaRegister (parameter) {
+  return axios({
+    url: `${api.register}`,
+    method: 'POST',
+    data: parameter
+  })
+}
+

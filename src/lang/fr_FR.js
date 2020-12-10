@@ -1037,6 +1037,35 @@ const fr_FR = {
   'account.startAutoShipping': 'Lancer la livraison automatique',
   'account.noSubscription': 'Vous n\'avez pas encore découvert nos services de livraison automatique? La livraison automatique est un moyen pratique pour vous de faire livrer vos commandes selon un calendrier régulier. Ainsi, vous gagnez du temps et votre animal ne manque jamais de nourriture.',
   'account.noSubscriptionTitle': 'Commençons!',
-  'searchShow':'Résultats de la recherche'
+  'searchShow':'Résultats de la recherche',
+
+
+  'registerDescription': '<p>Vos données personnelles sont collectées et traitées conformément à la déclaration de confidentialité de Royal Canin, disponible <a class="rc-styled-link  rc-text-colour--hyperlink" target="_blank" href="https://www.mars.com/privacy-policy-france">ici</a></p>',
+  'registerCloud': 'Architecture de référence Commerce Cloud Storefront',
+  'registerErrorMessage': ' Une erreur est survenue lors de la création de votre compte. Veuillez réessayer plus tard ou utiliser une adresse e-mail différente.',
+  'registerWelcome': 'Bienvenue chez',
+  'registerCompleteForm':'Afin de créer votre compte, veuillez compléter le formulaire ci-dessous.',
+  'registerHaveAccount': 'Vous avez déjà un compte ?',
+  'registerLoginIn': 'Connectez-vous',
+  'registerContinuing': 'En continuant, vous acceptez notre politique de confidentialité MARS. nous collectera et utilisera votre prénom, nom de famille et adresse e-mail pour vous offrir une expérience personnalisée.',
+  'registerOr': 'OU',
+  'registerFillIn': 'Merci de remplir ce champ.',
+  'registerName': 'Nom',
+  'registerEmail': 'Adresse e-mail',
+  'registerPassword': ' Mot de passe',
+  'registerTogglePassword': 'Basculer la visibilité du mot de passe',
+  'registerRules': 'Le mot de passe doit contenir au moins',
+  'registerLength': '8 caractères',
+  'registerLowercase': 'Une lettre minuscule',
+  'registerUppercase': 'Une lettre majuscule',
+  'registerAname': 'Un nombre',
+  'registerSpecial': 'Un caractère spécial',
+  'registerMandatory': ' Champ obligatoire',
+  'registerCreateYourAccout': 'Créer votre compte Royal Canin',
+  'registerFooter1': "Vous devez avoir 16 ans ou plus pour soumettre un formulaire. Vous pouvez nous contacter en écrivant à Royal Canin France, Service consommateur - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES ou par courriel à",
+  'registerFeckbook':'Se connecter avec Facebook',
+  'registerGoogle': 'Se connecter avec Google',
+  'registerPasswordFormat': "Le mot de passe n'est pas valide.",
+  'registerEmailFormate': "L'adresse e-mail ne correspond pas au format spécifié."
 }
 export default fr_FR;
