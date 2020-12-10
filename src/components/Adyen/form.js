@@ -9,6 +9,7 @@ import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
+import LazyLoad from 'react-lazyload';
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -171,6 +172,7 @@ class AdyenCreditCardForm extends React.Component {
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
             {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+              <LazyLoad>
               <img
                 key={idx}
                 style={{ width: '50px' }}
@@ -178,6 +180,7 @@ class AdyenCreditCardForm extends React.Component {
                 src={el}
                 alt=""
               />
+              </LazyLoad>
             ))}
           </span>
         </p>

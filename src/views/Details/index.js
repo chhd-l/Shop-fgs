@@ -1924,6 +1924,7 @@ class Details extends React.Component {
                                   values={{ val: '10%' }}
                                 />
                               </div>
+                              <br/>
                               <div className="freeshippingBox">
                                 <FormattedMessage id="freeShipping" />
                               </div>
@@ -1998,7 +1999,7 @@ class Details extends React.Component {
                                         class="refreshImg"
                                         src={refreshImg}
                                       />
-                                      <FormattedMessage id="autoship" />
+                                      <FormattedMessage id="autoship"/>
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
                                         onMouseEnter={() => {
@@ -2043,6 +2044,7 @@ class Details extends React.Component {
                                   10%
                                 </b> */}
                                 </div>
+                                <br/>
                                 <div className="freeshippingBox">
                                   <FormattedMessage id="freeShipping" />
                                 </div>

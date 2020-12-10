@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import Help from './Help';
+import LazyLoad from 'react-lazyload';
 
 /**
  * 渲染二级菜单
@@ -220,16 +221,20 @@ export default class DropDownMenu extends React.Component {
                 </Link>
               </div>
               <div className="mt-auto">
+                <LazyLoad>
                 <img
                   className="pull-right rc-lg-up ls-is-cached lazyloaded"
                   src={descObj.imageLink}
                   alt=""
                 />
+                </LazyLoad>
+                <LazyLoad>
                 <img
                   className="pull-right rc-md-down lazyload"
                   src={descObj.imageLink}
                   alt=""
                 />
+                </LazyLoad>
               </div>
             </div>
           </div>
