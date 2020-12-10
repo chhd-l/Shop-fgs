@@ -133,11 +133,6 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
 
     const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
@@ -538,26 +533,6 @@ class List extends React.Component {
     );
   };
   hanldeItemClick(item) {
-    dataLayer.push({
-      event:'{{site.id}}eComProductImpression',
-    ecommerce:{
-    impressions: [
-        {
-          id: '',
-          name: 'Mother and Bayycat',
-          price: 'currentUnitPrice',
-          brand: 'Royal Canin',
-          category: 'Cat/{{Range}}/Dry',
-          list:'Related Items',
-          // quantity: selectedSpecItem.buyCount,
-          variant: '2.00Kg',
-          club: 'no',
-          sku: 'XFGHUIY',
-          flag:'best-seller'
-    }
-    ]
-    }
-  })
     const { history, location } = this.props;
     if (this.state.loading) {
       return false;
@@ -655,15 +630,15 @@ class List extends React.Component {
         ecommerce: {
           impressions: [
             {
-              id: '',
               name: 'Mother and Bayycat',
-              price: 'currentUnitPrice',
+              id: '',
               brand: 'Royal Canin',
+              price: '',
+              club: 'no',
               category: 'Cat/{{Range}}/Dry',
               list:'Related Items',
-              // quantity: selectedSpecItem.buyCount,
               variant: '2.00Kg',
-              club: 'no',
+              position: 0,
               sku: 'XFGHUIY',
               flag:'best-seller'
             }

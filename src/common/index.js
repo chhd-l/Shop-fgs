@@ -80,6 +80,42 @@
                  }]
               }
             }  });
+
+            "dataLayer.push({
+                'event':'{{site.id}}eComProductImpression',
+                ‘ecommerce’:{
+                ‘impressions’: [ 
+                      { 
+                        ‘name’ : ‘Mother and Babycat’,
+                        ‘id’: ‘1234’, 
+                        ‘brand’: ‘Royal Canin’,
+                        'price': '12.05',
+                        'club': 'yes',
+                        ‘category’: 'Cat/{{Range}}/Dry',
+                        ‘list’: ‘Related Items’,
+                        'variant': '2.00 Kg',
+                        ‘position’ : 0,
+                         'sku':'XFGHUIY
+                         'flag':'best-seller'
+                    }
+               ... // can contain multiple products
+               ]
+             }
+            });"
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         
         
         
