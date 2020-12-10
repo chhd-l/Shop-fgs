@@ -18,6 +18,7 @@ import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 import './index.css';
 
@@ -315,6 +316,7 @@ class Subscription extends React.Component {
                                 {subItem.goodsInfo &&
                                   subItem.goodsInfo.map((item) => (
                                     <div style={{ marginLeft: '20px' }}>
+                                      <LazyLoad>
                                       <img
                                         style={{
                                           width: '70px',
@@ -325,6 +327,7 @@ class Subscription extends React.Component {
                                         alt={item.goodsName}
                                         title={item.goodsName}
                                       />
+                                      </LazyLoad>
                                       <span
                                         style={{
                                           display: 'inline-block',
@@ -367,6 +370,7 @@ class Subscription extends React.Component {
                                 className="col-4 col-md-2"
                                 style={{ whiteSpace: 'nowrap' }}
                               >
+                                <LazyLoad>
                                 <img
                                   src={autoshipIcon}
                                   style={{
@@ -374,6 +378,7 @@ class Subscription extends React.Component {
                                     display: 'inline-block'
                                   }}
                                 />
+                                </LazyLoad>
                                 <span
                                   style={{
                                     display: 'inline-block',
@@ -431,7 +436,9 @@ class Subscription extends React.Component {
                       // </div>
                       <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column">
+                        <LazyLoad>
                         <img src={noSubscription} alt="No Subscription" style={{width: '100%'}} />
+                        </LazyLoad>
                       </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">

@@ -37,6 +37,7 @@ import Banner_Cat from './images/banner_Cat.jpg'
 import Banner_Dog from './images/banner_Dog.jpg'
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
+import LazyLoad from 'react-lazyload';
 const lang = process.env.REACT_APP_LANG;
 
 switch (lang) {
@@ -937,7 +938,9 @@ class PetForm extends React.Component {
               >
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>New PET</h5>
                 <div className="content">
-                  <img src={Banner_Dog} style={{ left: '40px' }} />
+                  <LazyLoad>
+                  <img src={Banner_Dog} style={{ left: '40px' }} alt=""/>
+                  </LazyLoad>
                   <div className="buttonBox">
                     <p
                       style={{
@@ -971,7 +974,9 @@ class PetForm extends React.Component {
                       </button>
                     </div>
                   </div>
-                  <img src={Banner_Cat} style={{ right: '40px' }} />
+                  <LazyLoad>
+                  <img src={Banner_Cat} style={{ right: '40px' }} alt=""/>
+                  </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
                     <span>
@@ -1006,6 +1011,7 @@ class PetForm extends React.Component {
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div className="photoBox">
+                    <LazyLoad>
                     <img
                       style={{
                         width: '120px',
@@ -1013,7 +1019,9 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                      alt=""
                     />
+                    </LazyLoad>
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
                       }}>Change picture</a> */}

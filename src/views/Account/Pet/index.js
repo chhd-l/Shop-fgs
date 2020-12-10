@@ -18,6 +18,7 @@ import Female from '@/assets/images/female.png';
 import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
+import LazyLoad from 'react-lazyload';
 
 @inject('loginStore')
 @observer
@@ -170,7 +171,9 @@ class Pet extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column">
+                        <LazyLoad>
                         <img src={noPet} alt="No pets" />
+                        </LazyLoad>
                       </div>
                     </div>
                   ) : (
@@ -183,6 +186,7 @@ class Pet extends React.Component {
                         ? petList.map((el) => (
                             <div className="petItem">
                               <div className="photo">
+                                <LazyLoad>
                                 <img
                                   style={{ width: '90px', borderRadius: '50%' }}
                                   src={
@@ -192,14 +196,17 @@ class Pet extends React.Component {
                                     (el.petsType === 'cat' ? Cat : Dog)
                                   }
                                 />
+                                </LazyLoad>
                               </div>
                               <div className="content">
                                 <h1 className="name red">
                                   {el.petsName}{' '}
+                                  <LazyLoad>
                                   <img
                                     style={{ width: '20px' }}
                                     src={!el.petsSex ? Male : Female}
                                   />
+                                  </LazyLoad>
                                 </h1>
                                 <div className="key">
                                   <span>Birthday</span>
@@ -229,6 +236,7 @@ class Pet extends React.Component {
                         : this.state.petList.map((el) => (
                             <div className="petItem">
                               <div className="photo">
+                                <LazyLoad>
                                 <img
                                   style={{ width: '90px', borderRadius: '50%' }}
                                   src={
@@ -238,14 +246,17 @@ class Pet extends React.Component {
                                     (el.petsType === 'cat' ? Cat : Dog)
                                   }
                                 />
+                                </LazyLoad>
                               </div>
                               <div className="content">
                                 <h1 className="name red">
                                   {el.petsName}{' '}
+                                  <LazyLoad>
                                   <img
                                     style={{ width: '15px' }}
                                     src={!el.petsSex ? Male : Female}
                                   />
+                                  </LazyLoad>
                                 </h1>
                                 <div className="key">
                                   <span>Birthday</span>

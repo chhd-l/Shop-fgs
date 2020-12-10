@@ -1,6 +1,7 @@
 import React from 'react';
 import { uploadResource } from '@/api';
 import './index.less';
+import LazyLoad from 'react-lazyload';
 
 export default class ImgUpload extends React.Component {
   constructor(props) {
@@ -129,12 +130,14 @@ export default class ImgUpload extends React.Component {
             this.setState({ preImg: '' });
           }}
         >
+          <LazyLoad>
           <img
             className="img-pre"
             src={this.state.preImg}
             onClick={(e) => e.stopPropagation()}
             alt=""
           />
+          </LazyLoad>
         </div>
       </div>
     );

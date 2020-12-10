@@ -17,6 +17,7 @@ import {
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 import './index.css';
 
@@ -376,12 +377,14 @@ class OrdersAfterSale extends React.Component {
                                           </div>
                                         </div>
                                         <div className="col-12 col-md-10 d-flex">
+                                          <LazyLoad>
                                           <img
                                             className="img-fluid border"
                                             src={item.pic || IMG_DEFAULT}
                                             alt={item.spuName}
                                             title={item.spuName}
                                           />
+                                          </LazyLoad>
                                           <div className="m-1 color-999">
                                             <span>{item.spuName}</span>
                                             <br />

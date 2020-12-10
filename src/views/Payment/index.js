@@ -1627,6 +1627,7 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = () => {
+    const { checkoutStore } = this.props;
     const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
     return (
       <div
@@ -1722,6 +1723,7 @@ class Payment extends React.Component {
                 this.setState({ adyenPayParam: data });
               }}
               isOnepageCheckout={this.isOnepageCheckout}
+              checkoutStore={checkoutStore}
             />
           </div>
           {/* KlarnaPayLater */}
@@ -1960,8 +1962,12 @@ class Payment extends React.Component {
                       style={{ overflow: 'hidden' }}
                     >
                       <i
-                        className="rc-icon rc-payment--sm rc-iconography"
-                        style={{ transform: 'scale(.9)' }}
+                        className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                        style={{
+                          transform: 'scale(.8)',
+                          transformOrigin: 'left',
+                          marginRight: '-.1rem'
+                        }}
                       />{' '}
                       <FormattedMessage id="Pet information" />
                       <p>
@@ -2081,8 +2087,12 @@ class Payment extends React.Component {
                 <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
-                      className="rc-icon rc-payment--sm rc-iconography"
-                      style={{ transform: 'scale(.9)' }}
+                      className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                      style={{
+                        transform: 'scale(.8)',
+                        transformOrigin: 'left',
+                        marginRight: '-.1rem'
+                      }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
@@ -2111,6 +2121,7 @@ class Payment extends React.Component {
                     }}
                     listData={listData}
                     checkRequiredItem={this.checkRequiredItem}
+                    checkoutStore={checkoutStore}
                   />
                 )}
               </div>

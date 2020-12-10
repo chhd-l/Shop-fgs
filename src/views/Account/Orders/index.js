@@ -24,6 +24,7 @@ import { getOrderList, getOrderDetails } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.less';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -534,7 +535,9 @@ class AccountOrders extends React.Component {
                     <div className={`content-asset`}>
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
+                          <LazyLoad>
                           <img src={orderImg} className="w-100" alt="" />
+                          </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
                           <div>
@@ -703,12 +706,14 @@ class AccountOrders extends React.Component {
                                         key={item.oid}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-md-center">
+                                          <LazyLoad>
                                           <img
                                             className="ord-list-img-fluid"
                                             src={item.pic || IMG_DEFAULT}
                                             alt={item.spuName}
                                             title={item.spuName}
                                           />
+                                          </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-4">
                                           <span className="medium color-444 ui-text-overflow-line2">
@@ -795,12 +800,14 @@ class AccountOrders extends React.Component {
                     {curOneOrderDetails.tradeItems.map((item, idx) => (
                       <div className="row col-12 mb-2" key={idx}>
                         <div className="col-6 d-flex">
+                          <LazyLoad>
                           <img
                             className="ord-list-img-fluid"
                             src={item.pic || IMG_DEFAULT}
                             alt={item.spuName}
                             title={item.spuName}
                           />
+                          </LazyLoad>
                         </div>
                         <div className="col-6 d-flex align-items-center">
                           <div>

@@ -4,6 +4,7 @@ import Skeleton from 'react-skeleton-loader';
 import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -56,12 +57,14 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
+                <LazyLoad>
                 <img
                   className="product-image"
                   src={item.pic || IMG_DEFAULT}
                   alt={item.spuName}
                   title={item.spuName}
                 />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">

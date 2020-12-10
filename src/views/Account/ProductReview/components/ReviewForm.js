@@ -3,6 +3,7 @@ import React from 'react';
 import Rate from '@/components/Rate';
 import ImgUpload from '@/components/ImgUpload';
 import findIndex from 'lodash/findIndex';
+import LazyLoad from 'react-lazyload';
 
 import '../index.css';
 @injectIntl
@@ -155,11 +156,13 @@ class ReviewForm extends React.Component {
 
             <div className="rc-column text-right padb0">
               <div className="img-container">
+                <LazyLoad>
                 <img
                   className="product-img"
                   src={this.props.product.pic}
                   alt=""
                 />
+                </LazyLoad>
               </div>
             </div>
           </div>

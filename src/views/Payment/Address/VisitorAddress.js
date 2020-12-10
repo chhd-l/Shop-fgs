@@ -103,7 +103,7 @@ class VisitorAddress extends React.Component {
     return this.props.type === 'delivery' ? (
       <>
         <i
-          className={`qhx 11 rc-icon rc-health--xs ${
+          className={`rc-icon rc-health--xs rc-margin-right--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}
