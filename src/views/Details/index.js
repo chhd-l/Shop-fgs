@@ -14,6 +14,7 @@ import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
 import Rate from '@/components/Rate';
 import PetModal from '@/components/PetModal';
+import BannerTip from '@/components/BannerTip';
 import {
   formatMoney,
   translateHtmlCharater,
@@ -1322,6 +1323,7 @@ class Details extends React.Component {
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
+             <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div
                 className="rc-max-width--xl d-flex"
@@ -1336,6 +1338,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+             <BannerTip />
             <button ref="showModalButton" class="rc-btn rc-btn--one" data-modal-trigger="modal-example" style={{position: 'absolute', visibility: 'hidden'}}>Open standard modal</button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">

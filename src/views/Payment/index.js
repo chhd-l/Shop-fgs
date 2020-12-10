@@ -1902,7 +1902,7 @@ class Payment extends React.Component {
         />
         {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
-          <BannerTip />
+          {/* <BannerTip /> */}
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
