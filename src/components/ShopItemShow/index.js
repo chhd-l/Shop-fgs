@@ -3,6 +3,7 @@ import { withRouter,link} from 'react-router-dom';
 import { FormattedMessage} from 'react-intl';
 import find from 'lodash/find';
 import imagemain from '../../views/StaticPage/PackmixfeedingwetDry/images/Main-Coon-Adult-1-bis.jpg';
+import LazyLoad from 'react-lazyload';
 
 const  ShopitemList = withRouter((props)=>{
 
@@ -12,7 +13,9 @@ const  ShopitemList = withRouter((props)=>{
         <article className="rc-card rc-card--a">
 
           <picture className="rc-card__image">
+            <LazyLoad>
             <img src={imagemain} alt="A Dachshund jumping"/>
+            </LazyLoad>
           </picture>
           <div className="rc-card__body">
             <header >
@@ -28,7 +31,9 @@ const  ShopitemList = withRouter((props)=>{
         <article className="rc-card rc-card--a">
 
           <picture className="rc-card__image">
+            <LazyLoad>
             <img src={imagemain} alt="A Dachshund jumping"/>
+            </LazyLoad>
           </picture>
           <div className="rc-card__body">
             <header >
@@ -44,7 +49,9 @@ const  ShopitemList = withRouter((props)=>{
         <article className="rc-card rc-card--a">
 
           <picture className="rc-card__image">
+            <LazyLoad>
             <img src={imagemain} alt="A Dachshund jumping"/>
+            </LazyLoad>
           </picture>
           <div className="rc-card__body">
             <header >
@@ -60,7 +67,9 @@ const  ShopitemList = withRouter((props)=>{
         <article className="rc-card rc-card--a">
 
           <picture className="rc-card__image">
+            <LazyLoad>
             <img src={imagemain} alt="A Dachshund jumping"/>
+            </LazyLoad>
           </picture>
           <div className="rc-card__body">
             <header >
@@ -76,7 +85,9 @@ const  ShopitemList = withRouter((props)=>{
         <article className="rc-card rc-card--a">
 
           <picture className="rc-card__image">
+            <LazyLoad>
             <img src={imagemain} alt="A Dachshund jumping"/>
+            </LazyLoad>
           </picture>
           <div className="rc-card__body">
             <header >

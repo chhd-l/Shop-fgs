@@ -10,6 +10,7 @@ import { IMG_DEFAULT } from '@/utils/constant';
 import successImg from '@/assets/images/credit-cards/success.png';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -68,11 +69,13 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                   />
                 ) : details ? (
                   <React.Fragment>
+                    <LazyLoad>
                     <img
                       src={successImg}
                       alt=""
                       style={{ display: 'inline-block' }}
                     />
+                    </LazyLoad>
                     <h4>
                       <b>
                         The{' '}
@@ -108,6 +111,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                       <div className="info-container text-left">
                         {details.returnItems.map((item) => (
                           <div className="d-flex mb-1" key={item.skuId}>
+                            <LazyLoad>
                             <img
                               className="img-fluid border"
                               src={item.pic || IMG_DEFAULT}
@@ -115,6 +119,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
                               title={item.skuName}
                               style={{ width: '20%' }}
                             />
+                            </LazyLoad>
                             <span className="ml-2">
                               {item.skuName}
                               <br />

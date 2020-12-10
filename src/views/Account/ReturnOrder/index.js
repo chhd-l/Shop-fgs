@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { formatMoney, setSeoConfig } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -266,6 +267,7 @@ export default class ReturnOrder extends React.Component {
                             >
                               <div className="col-12 col-md-6 d-flex flex-wrap">
                                 {order.returnItems.map((item) => (
+                                  <LazyLoad>
                                   <img
                                     className="img-fluid"
                                     key={item.oid}
@@ -273,6 +275,7 @@ export default class ReturnOrder extends React.Component {
                                     alt={item.spuName}
                                     title={item.spuName}
                                   />
+                                  </LazyLoad>
                                 ))}
                               </div>
                               <div className="col-12 col-md-2">

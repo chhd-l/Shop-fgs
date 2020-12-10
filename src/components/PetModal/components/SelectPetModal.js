@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { getPetList } from '@/api/pet';
 import { getCustomerInfo } from '@/api/user';
 import findIndex from 'lodash/findIndex';
+import LazyLoad from 'react-lazyload';
 
 import '../index.css';
 
@@ -132,11 +133,13 @@ export default class SelectPetModal extends Component {
               {productList.length > 0
                 ? productList.map((item, i) => (
                     <div className="img-wrapper" key={i}>
+                      <LazyLoad>
                       <img
                         className="rc-img--square rc-img--square-custom "
                         src={item.goodsInfoImg}
                         alt=""
                       />
+                      </LazyLoad>
                     </div>
                   ))
                 : null}

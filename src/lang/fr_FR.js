@@ -129,7 +129,7 @@ const fr_FR = {
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
   'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL',
-  'cart.miniCartTitle': '10% de réduction sur le premier achat plus',
+  'cart.miniCartTitle': '10% de réduction sur toutes les commandes en Abonnement',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   cats: 'CHATS',

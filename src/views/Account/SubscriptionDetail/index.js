@@ -46,6 +46,7 @@ import { formatMoney } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -812,10 +813,12 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div style={{ display: 'flex' }}>
+                                <LazyLoad>
                                 <img
                                   src={el.goodsPic}
                                   style={{ width: '100px' }}
                                 />
+                                </LazyLoad>
                                 <div
                                   className="v-center"
                                   style={{ flex: '1', paddingLeft: '10px' }}
@@ -1067,6 +1070,7 @@ class SubscriptionDetail extends React.Component {
                                       width: '50%'
                                     }}
                                   >
+                                    <LazyLoad>
                                     <img
                                       src={dateIcon}
                                       style={{
@@ -1076,6 +1080,7 @@ class SubscriptionDetail extends React.Component {
                                         marginRight: '8px'
                                       }}
                                     />
+                                    </LazyLoad>
                                     <FormattedMessage id="Next shipment"></FormattedMessage>
                                     :
                                   </b>
@@ -1139,7 +1144,9 @@ class SubscriptionDetail extends React.Component {
                                     style={{ width: '80%', padding: 0 }}
                                   >
                                     <div className="img-container">
+                                      <LazyLoad>
                                       <img src={el.goodsPic} alt="" />
+                                      </LazyLoad>
                                     </div>
                                     <div
                                       className="v-center"
@@ -1410,6 +1417,7 @@ class SubscriptionDetail extends React.Component {
                                       width: '50%'
                                     }}
                                   >
+                                    <LazyLoad>
                                     <img
                                       src={dateIcon}
                                       style={{
@@ -1419,6 +1427,7 @@ class SubscriptionDetail extends React.Component {
                                         marginRight: '8px'
                                       }}
                                     />
+                                    </LazyLoad>
                                     <FormattedMessage id="Next shipment"></FormattedMessage>
                                     :
                                   </b>
@@ -1457,6 +1466,7 @@ class SubscriptionDetail extends React.Component {
                       >
                         <p>
                           {/* <div className="col-12 col-md-2"> */}
+                          <LazyLoad>
                           <img
                             style={{
                               display: 'inline-block',
@@ -1465,6 +1475,7 @@ class SubscriptionDetail extends React.Component {
                             }}
                             src={cancelIcon}
                           />
+                          </LazyLoad>
                           <a
                             className="rc-styled-link"
                             href="#/"
@@ -1548,6 +1559,7 @@ class SubscriptionDetail extends React.Component {
                           >
                             <div className="align-items-center">
                               {/* <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
+                              <LazyLoad>
                               <img
                                 src={deliveryIcon}
                                 style={{
@@ -1556,6 +1568,7 @@ class SubscriptionDetail extends React.Component {
                                   display: 'inline-block'
                                 }}
                               />
+                              </LazyLoad>
                               <span>
                                 <FormattedMessage id="delivery2" />
                               </span>
@@ -1620,6 +1633,7 @@ class SubscriptionDetail extends React.Component {
                             }}
                           >
                             <div className="align-items-center">
+                              <LazyLoad>
                               <img
                                 src={billingIcon}
                                 style={{
@@ -1628,6 +1642,7 @@ class SubscriptionDetail extends React.Component {
                                   display: 'inline-block'
                                 }}
                               />
+                              </LazyLoad>
                               <span>
                                 <FormattedMessage id="billing" />
                               </span>
@@ -1693,6 +1708,7 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div className="align-items-center">
+                                <LazyLoad>
                                 <img
                                   src={paymentIcon}
                                   style={{
@@ -1701,6 +1717,7 @@ class SubscriptionDetail extends React.Component {
                                     display: 'inline-block'
                                   }}
                                 />
+                                </LazyLoad>
                                 <span>
                                   <FormattedMessage id="payment.payment" />
                                 </span>
@@ -1738,6 +1755,7 @@ class SubscriptionDetail extends React.Component {
                                           .last_4_digits
                                       }
                                     </span>
+                                    <LazyLoad>
                                     <img
                                       alt=""
                                       className="d-inline-block mr-1"
@@ -1754,6 +1772,7 @@ class SubscriptionDetail extends React.Component {
                                         ]
                                       }
                                     />
+                                    </LazyLoad>
                                   </>
                                 ) : null}
 
@@ -1926,6 +1945,7 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {isActive ? (
                                                 <>
+                                                  <LazyLoad>
                                                   <img
                                                     src={dateIcon}
                                                     style={{
@@ -1933,6 +1953,7 @@ class SubscriptionDetail extends React.Component {
                                                       display: 'inline'
                                                     }}
                                                   />
+                                                  </LazyLoad>
                                                   <span
                                                     style={{
                                                       color: '#666',
@@ -1986,6 +2007,7 @@ class SubscriptionDetail extends React.Component {
                                             >
                                               {isActive ? (
                                                 <>
+                                                  <LazyLoad>
                                                   <img
                                                     style={{
                                                       display: 'inline-block',
@@ -1994,6 +2016,7 @@ class SubscriptionDetail extends React.Component {
                                                     }}
                                                     src={skipIcon}
                                                   />
+                                                  </LazyLoad>
                                                   <a
                                                     className="rc-styled-link"
                                                     href="#/"
@@ -2056,6 +2079,7 @@ class SubscriptionDetail extends React.Component {
                                                         padding: 0
                                                       }}
                                                     >
+                                                      <LazyLoad>
                                                       <img
                                                         style={{
                                                           width: '70px',
@@ -2064,6 +2088,7 @@ class SubscriptionDetail extends React.Component {
                                                         src={tradeItem.pic}
                                                         alt=""
                                                       />
+                                                      </LazyLoad>
                                                       <div
                                                         style={{
                                                           width: '200px',
@@ -2578,6 +2603,7 @@ class SubscriptionDetail extends React.Component {
                                               </>
                                             ) : el.id ? (
                                               <>
+                                                <LazyLoad>
                                                 <img
                                                   style={{
                                                     display: 'inline-block',
@@ -2586,6 +2612,7 @@ class SubscriptionDetail extends React.Component {
                                                   }}
                                                   src={dateIcon}
                                                 />
+                                                </LazyLoad>
                                                 <a
                                                   className="rc-styled-link"
                                                   href="#/"
@@ -2624,6 +2651,7 @@ class SubscriptionDetail extends React.Component {
                                                   if (index < 2) {
                                                     return (
                                                       <>
+                                                        <LazyLoad>
                                                         <img
                                                           style={{
                                                             width: '70px',
@@ -2633,6 +2661,7 @@ class SubscriptionDetail extends React.Component {
                                                           src={tradeItem.pic}
                                                           alt=""
                                                         />
+                                                        </LazyLoad>
                                                         <div
                                                           className="v-center"
                                                           style={{
@@ -2704,6 +2733,7 @@ class SubscriptionDetail extends React.Component {
                                                       if (index < 2) {
                                                         return (
                                                           <>
+                                                            <LazyLoad>
                                                             <img
                                                               style={{
                                                                 width: '70px',
@@ -2714,6 +2744,7 @@ class SubscriptionDetail extends React.Component {
                                                               }
                                                               alt=""
                                                             />
+                                                            </LazyLoad>
                                                             <div
                                                               style={{
                                                                 width: isMobile?'120px': 'auto',

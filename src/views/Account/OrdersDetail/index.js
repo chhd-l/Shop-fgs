@@ -30,6 +30,7 @@ import {
 } from '@/api/order';
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -628,12 +629,14 @@ class AccountOrders extends React.Component {
               <div className="row">
                 {(item.shippingItems || []).map((ele) => (
                   <div className="text-center col-2" key={ele.skuId}>
+                    <LazyLoad>
                     <img
                       src={ele.pic || IMG_DEFAULT}
                       alt={ele.itemName}
                       title={ele.itemName}
                       style={{ width: '70%', margin: '0 auto' }}
                     />
+                    </LazyLoad>
                     <p className="font-weight-normal ui-text-overflow-line1">
                       {ele.itemName} X {ele.itemNum}
                     </p>
@@ -707,7 +710,9 @@ class AccountOrders extends React.Component {
               <div className="col-12 row mt-2">
                 {item.shippingItems.map((sItem) => (
                   <div className="col-3" key={sItem.skuId}>
+                    <LazyLoad>
                     <img className="rc-bg-colour--brand4" src={sItem.pic} />
+                    </LazyLoad>
                   </div>
                 ))}
               </div>
@@ -1113,12 +1118,14 @@ class AccountOrders extends React.Component {
                                         }`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
+                                          <LazyLoad>
                                           <img
                                             className="order-details-img-fluid"
                                             src={item.pic || IMG_DEFAULT}
                                             alt={item.spuName}
                                             title={item.spuName}
                                           />
+                                          </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-3">
                                           <span className="">
@@ -1362,6 +1369,7 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="payment.payment" />
                                         </p>
                                         <p className="medium mb-2">
+                                          <LazyLoad>
                                           <img
                                             alt=""
                                             className="d-inline-block mr-1"
@@ -1376,6 +1384,7 @@ class AccountOrders extends React.Component {
                                                 : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                             }
                                           />
+                                          </LazyLoad>
                                           {payRecord.last4Digits ? (
                                             <>
                                               <span className="medium">
@@ -1436,11 +1445,13 @@ class AccountOrders extends React.Component {
                     {(curLogisticInfo.shippingItems || []).map((ele) => (
                       <div className="row col-12" key={ele.skuId}>
                         <div className="col-6">
+                          <LazyLoad>
                           <img
                             src={ele.pic || IMG_DEFAULT}
                             alt={ele.itemName}
                             title={ele.itemName}
                           />
+                          </LazyLoad>
                         </div>
 
                         <div className="col-6 d-flex align-items-center">
