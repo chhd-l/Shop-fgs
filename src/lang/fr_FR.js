@@ -339,7 +339,7 @@ const fr_FR = {
   help: 'Aidez-moi',
   'help.byEmail': 'Par e-mail',
   'help.byTelephone': 'Par téléphone',
-  'help.email': 'mailto',
+  'help.email': 'Envoyer un email',
   'help.needHelp': "Besoin d'aide ?",
   'help.tel': 'tel',
   'help.tip1': 'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
