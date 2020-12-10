@@ -1650,7 +1650,7 @@ class Details extends React.Component {
                               <div
                                 className="price"
                                 style={{
-                                  fontSize: '22px',
+                                  fontSize: '24px',
                                   paddingTop:
                                   isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
                                   ? '.5rem'
@@ -1839,7 +1839,7 @@ class Details extends React.Component {
                                           i
                                         </span>
                                         <ConfirmTooltip
-                                          arrowStyle={{ left: '65%' }}
+                                          arrowStyle={{ left: '69.3%' }}
                                           display={this.state.toolTipVisible}
                                           cancelBtnVisible={false}
                                           confirmBtnVisible={false}
@@ -2181,7 +2181,7 @@ class Details extends React.Component {
                         }}
                         style={{
                           display: 'flex',
-                          justifyContent: 'space-between'
+                          justifyContent: 'space-between',
                         }}
                       >
                         <div dangerouslySetInnerHTML={{ __html: ele }}></div>
