@@ -180,7 +180,7 @@ class Help extends React.Component {
                                             style={{ verticalAlign: 'inherit' }}
                                           >
                                             <a
-                                              href="mailto:suivi.dtc.france@royalcanin.com"
+                                              href={this.state.mailAddress}
                                               style={{
                                                 verticalAlign: 'inherit'
                                               }}
@@ -217,8 +217,7 @@ class Help extends React.Component {
                                             }}
                                           >
                                             <a
-                                              //href={this.state.mailAddress}
-                                              href="mailto:suivi.dtc.france@royalcanin.com"
+                                              href={this.state.mailAddress}
                                               style={{ fontSize: '16px', borderBottom: '1px solid transparent' }}
                                               className="rc-styled-link"
                                             >

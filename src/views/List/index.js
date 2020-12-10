@@ -209,6 +209,33 @@ class List extends React.Component {
       });
     });
   }
+  GAProductImpression(productList){
+    console.log(productList)
+    // debugger
+    const impressions = productList.map((item,index)=>{
+      return {
+        'name' : item.goodsName,
+        'id': item.id, 
+        'brand': item.goodsBrand.brandName,
+        'price': item.minMarketPrice,
+        'club': 'no',
+        'category': item.goodsCateName,
+        'list': 'Related Items',//?
+        'variant': item.goodsWeight,
+        'position' : index,
+        'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
+        'flag':""//item.taggingForImage.taggingName
+      }
+    })
+    console.log(impressions)
+    // debugger
+    dataLayer.push({
+      'event':`${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+      'ecommerce':{
+      'impressions':impressions
+   }
+  });
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -509,6 +536,9 @@ class List extends React.Component {
             results: esGoods.totalElements,
             currentPage: esGoods.number + 1,
             totalPage: esGoods.totalPages
+          },()=>{
+            // 把每一页的商品全部传给GA
+            this.GAProductImpression(this.state.productList)
           });
         } else {
           this.setState({
