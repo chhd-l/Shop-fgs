@@ -20,11 +20,13 @@ import {
   getFrequencyDict
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails } from '@/api/order';
+import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
-import './index.less';
 import LazyLoad from 'react-lazyload';
+import base64 from 'base-64';
+
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -66,6 +68,7 @@ class AccountOrders extends React.Component {
     this.deviceType = getDeviceType();
     this.changeTab = this.changeTab.bind(this);
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
+    this.handleDownInvoice = this.handleDownInvoice.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -396,6 +399,41 @@ class AccountOrders extends React.Component {
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
+  handleDownInvoice(order) {
+    let orderInvoiceIds = [];
+    orderInvoiceIds.push(order.id);
+    let params = {
+      orderInvoiceIds
+    };
+    const token =
+      sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
+    let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
+    // todo
+    const exportHref = `${
+      process.env.REACT_APP_BASEURL
+    }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
+
+    debugger;
+    window.open(exportHref);
+    return;
+
+    new Promise((resolve) => {
+      setTimeout(() => {
+        let base64 = new util.Base64();
+        if (token) {
+          let result = JSON.stringify({ ...params });
+          let encrypted = base64.urlEncode(result); // 新窗口下载
+
+          const exportHref =
+            Const.HOST + `/account/orderInvoice/exportPDF/${encrypted}`;
+          window.open(exportHref);
+        } else {
+          message.error('Unsuccessful');
+        }
+        resolve();
+      }, 500);
+    });
+  }
   renderOperationBtns = (order) => {
     return (
       <>
@@ -536,7 +574,7 @@ class AccountOrders extends React.Component {
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
                           <LazyLoad>
-                          <img src={orderImg} className="w-100" alt="" />
+                            <img src={orderImg} className="w-100" alt="" />
                           </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
@@ -654,7 +692,7 @@ class AccountOrders extends React.Component {
                                         </span>
                                       </p>
                                     </div>
-                                    <div className="col-12 col-md-3">
+                                    <div className="col-12 col-md-1">
                                       <p>
                                         <FormattedMessage id="total" />
                                         <br className="d-none d-md-block" />
@@ -664,6 +702,22 @@ class AccountOrders extends React.Component {
                                           )}
                                         </span>
                                       </p>
+                                    </div>
+                                    <div className="col-12 col-md-2">
+                                      {order.tradeState.flowState ===
+                                        'COMPLETED' && (
+                                        <div
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
+                                        >
+                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                          <span className="medium pull-right--desktop rc-styled-link">
+                                            <FormattedMessage id="invoice" />
+                                          </span>
+                                        </div>
+                                      )}
                                     </div>
                                     <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                       <Link
@@ -707,12 +761,12 @@ class AccountOrders extends React.Component {
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-md-center">
                                           <LazyLoad>
-                                          <img
-                                            className="ord-list-img-fluid"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                            <img
+                                              className="ord-list-img-fluid"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
                                           </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-4">
@@ -801,12 +855,12 @@ class AccountOrders extends React.Component {
                       <div className="row col-12 mb-2" key={idx}>
                         <div className="col-6 d-flex">
                           <LazyLoad>
-                          <img
-                            className="ord-list-img-fluid"
-                            src={item.pic || IMG_DEFAULT}
-                            alt={item.spuName}
-                            title={item.spuName}
-                          />
+                            <img
+                              className="ord-list-img-fluid"
+                              src={item.pic || IMG_DEFAULT}
+                              alt={item.spuName}
+                              title={item.spuName}
+                            />
                           </LazyLoad>
                         </div>
                         <div className="col-6 d-flex align-items-center">
