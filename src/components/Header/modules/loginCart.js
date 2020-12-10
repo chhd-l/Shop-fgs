@@ -268,12 +268,14 @@ class LoginCart extends React.Component {
                             <div className="product-line-item">
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
+                                  <LazyLoad>
                                   <img
                                     className="product-image"
                                     src={item.goodsInfoImg}
                                     alt={item.goodsName}
                                     title={item.goodsName}
                                   />
+                                  </LazyLoad>
                                 </div>
                                 <div className="wrap-item-title">
                                   <div className="item-title">
