@@ -163,7 +163,7 @@ const fr_FR = {
   'comment.noProductRatingTip': 'Veuillez commenter les produits',
   'comment.noShoppingExperienceTip': "Veuillez commenter l'expérience d'achat",
   CompleteRequiredItems: 'Veuillez remplir les éléments requis',
-  confirmation: 'confirmation',
+  confirmation: 'Confirmation',
   'confirmation.customerInformation': 'Informations de client',
   'confirmation.info1': 'Merci pour votre commande.',
   'confirmation.info2': 'Dans un proche avenir, notre personnel vous contactera pour confirmer la commande.',

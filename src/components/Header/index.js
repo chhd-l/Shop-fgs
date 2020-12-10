@@ -29,6 +29,7 @@ import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { loadJS } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -495,6 +496,7 @@ class Header extends React.Component {
                             className="ui-cursor-pointer"
                             onClick={this.gotoDetails.bind(this, item)}
                           >
+                            <LazyLoad>
                             <img
                               className="swatch__img"
                               alt={item.goodsName}
@@ -507,6 +509,7 @@ class Header extends React.Component {
                                 IMG_DEFAULT
                               }
                             />
+                            </LazyLoad>
                           </span>
                         </div>
                         <div className="col-8 col-md-9 col-lg-10">
@@ -752,6 +755,7 @@ class Header extends React.Component {
                 data={logoAnimatedSvg}
                 data-js-import-interactive-svg
               >
+                <LazyLoad>
                 <img
                   alt="Royal Canin"
                   height="100"
@@ -759,6 +763,7 @@ class Header extends React.Component {
                   style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }}
                   width="135"
                 />
+                </LazyLoad>
               </object>
             </Link>
             <ul
