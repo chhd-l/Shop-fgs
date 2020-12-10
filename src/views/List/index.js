@@ -210,7 +210,7 @@ class List extends React.Component {
     });
   }
   GAProductImpression(productList){
-    console.log(productList)
+    //console.log(productList)
     // debugger
     const impressions = productList.map((item,index)=>{
       return {
