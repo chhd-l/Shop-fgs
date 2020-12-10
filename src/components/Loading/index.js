@@ -8,33 +8,38 @@ class Loading extends React.Component {
     customStyle: {}
   };
   render() {
-    const bgColor = { backgroundColor: this.props.bgColor };
+    const {
+      positionFixed,
+      positionAbsolute,
+      bgColor,
+      customStyle,
+      customCls
+    } = this.props;
     return (
       <div
-        className={`veil ${this.props.positionAbsolute ? 'absolute' : ''} ${
-          this.props.customCls
-        }`}
+        className={`veil ${positionAbsolute ? 'absolute' : ''} ${customCls}`}
         style={{
-          position: this.props.positionFixed ? 'fixed' : '',
-          ...this.props.customStyle
+          position: positionFixed ? 'fixed' : '',
+          ...customStyle
         }}
       >
         <div
-          className={`underlay ${
-            this.props.positionAbsolute ? 'absolute' : ''
-          }`}
-          style={bgColor}
+          className={`underlay ${positionAbsolute ? 'absolute' : ''}`}
+          style={{ backgroundColor: bgColor }}
         />
 
         <div
           className="rcSpinner rc-loader-infinite spinner"
           data-js-progress=""
+          style={{ width: '96px', height: '96px' }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 190.7 104"
             className="rc-loader__logo"
-            style={{ position: this.props.positionFixed ? 'fixed' : '' }}
+            style={{
+              position: positionFixed ? 'fixed' : ''
+            }}
             data-js-import-interactive-svg="null"
             svg-animate-processed="true"
           >

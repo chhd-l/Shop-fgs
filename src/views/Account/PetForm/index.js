@@ -937,7 +937,7 @@ class PetForm extends React.Component {
               >
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>New PET</h5>
                 <div className="content">
-                  <img src={Banner_Dog} style={{ left: '40px' }} />
+                  <img src={Banner_Dog} style={{ left: '40px' }} alt="" />
                   <div className="buttonBox">
                     <p
                       style={{
@@ -971,7 +971,7 @@ class PetForm extends React.Component {
                       </button>
                     </div>
                   </div>
-                  <img src={Banner_Cat} style={{ right: '40px' }} />
+                  <img src={Banner_Cat} style={{ right: '40px' }} alt="" />
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
                     <span>
@@ -1013,6 +1013,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                      alt=""
                     />
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()

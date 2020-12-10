@@ -243,6 +243,7 @@ const de_DE = {
   edit: 'Bearbeiten',
   email: 'E-Mail Adresse',
   emailAddress: 'E-Mail-Addresse *',
+  mailAddress: 'E-Mail-Addresse',
   emailUs: 'Schreiben Sie uns eine E-Mail',
   enterCatBreed: 'Geben Sie die Rasse Ihrer Katze ein',
   enterClinicName: 'Ihre empfehlende Tierarztpraxis.',

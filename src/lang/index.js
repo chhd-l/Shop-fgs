@@ -26,4 +26,12 @@ const locales = {
   ru: require('@/lang/ru_RU'),
   tr: require('@/lang/tr_TR')
 };
+// const locales = {
+//   en: import(/*webpackChunkName: "h-w1*/'@/lang/en_US'),
+//   es: import(/*webpackChunkName: "h-w1*/'@/lang/es_ES'),
+//   de: import(/*webpackChunkName: "h-w1*/'@/lang/de_DE'),
+//   fr: import(/*webpackChunkName: "h-w1*/'@/lang/fr_FR'),
+//   ru: import(/*webpackChunkName: "h-w1*/'@/lang/ru_RU'),
+//   tr: import(/*webpackChunkName: "h-w1*/'@/lang/tr_TR')
+// };
 export default locales[process.env.REACT_APP_LANG].default;
