@@ -334,7 +334,12 @@ class LoginCart extends React.Component {
         verifyStock: false
       });
     } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorMaxInfo"
+          values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+        />
+      );
     }
   }
   subQuantity(item) {
@@ -418,13 +423,13 @@ class LoginCart extends React.Component {
           <div className="d-flex pl-3">
             <div className="product-info__img w-100">
               <LazyLoad>
-              <img
-                className="product-image"
-                style={{ maxWidth: '100px' }}
-                src={pitem.goodsInfoImg}
-                alt={pitem.goodsName}
-                title={pitem.goodsName}
-              />
+                <img
+                  className="product-image"
+                  style={{ maxWidth: '100px' }}
+                  src={pitem.goodsInfoImg}
+                  alt={pitem.goodsName}
+                  title={pitem.goodsName}
+                />
               </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
@@ -464,8 +469,15 @@ class LoginCart extends React.Component {
                 />
               </span>
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div style={{ maxWidth: '250px', width: isMobile?'9rem': 'inherit'}}>
-                  <div className="productGoodsSubtitle">{pitem.goods.goodsSubtitle}</div>
+                <div
+                  style={{
+                    maxWidth: '250px',
+                    width: isMobile ? '9rem' : 'inherit'
+                  }}
+                >
+                  <div className="productGoodsSubtitle">
+                    {pitem.goods.goodsSubtitle}
+                  </div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     {/* <div className="stock__wrapper">
                     <div className="stock">
@@ -623,7 +635,7 @@ class LoginCart extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                          <img src={cartImg} />
+                            <img src={cartImg} />
                           </LazyLoad>
                           <FormattedMessage id="singlePurchase" />
                         </span>
@@ -668,7 +680,7 @@ class LoginCart extends React.Component {
                             }}
                           >
                             <LazyLoad>
-                            <img src={refreshImg} />
+                              <img src={refreshImg} />
                             </LazyLoad>
                             <FormattedMessage id="autoship" />
                             <span
@@ -703,13 +715,20 @@ class LoginCart extends React.Component {
                           </span>
                           {/* </div> */}
                           <br />
-                          
-                          <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                            {formatMoney(
-                              pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
-                            )}
-                          </b>)}}/>
+
+                          <FormattedMessage
+                            id="saveExtraMoney"
+                            values={{
+                              val: (
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  {formatMoney(
+                                    pitem.buyCount * pitem.salePrice -
+                                      pitem.buyCount * pitem.subscriptionPrice
+                                  )}
+                                </b>
+                              )
+                            }}
+                          />
                         </div>
                         <div className="price">
                           <div
@@ -730,7 +749,9 @@ class LoginCart extends React.Component {
                         </div>
                       </div>
                       <div className="freqency">
-                        <span><FormattedMessage id="subscription.frequency" />:</span>
+                        <span>
+                          <FormattedMessage id="subscription.frequency" />:
+                        </span>
                         <Selection
                           customContainerStyle={{
                             display: 'inline-block',
@@ -807,17 +828,15 @@ class LoginCart extends React.Component {
                     }}
                   >
                     <LazyLoad>
-                    <img src={cartImg} />
+                      <img src={cartImg} />
                     </LazyLoad>
-                    <span style={{fontSize: '16px'}}>
-                    <FormattedMessage id="singlePurchase" />
+                    <span style={{ fontSize: '16px' }}>
+                      <FormattedMessage id="singlePurchase" />
                     </span>
                   </span>
                 </div>
                 <div className="price singlePrice" style={{ fontSize: '18px' }}>
-                  {formatMoney(
-                    pitem.buyCount * pitem.salePrice
-                  )}
+                  {formatMoney(pitem.buyCount * pitem.salePrice)}
                 </div>
               </div>
             </div>
@@ -850,7 +869,7 @@ class LoginCart extends React.Component {
                       }}
                     >
                       <LazyLoad>
-                      <img src={refreshImg} />
+                        <img src={refreshImg} />
                       </LazyLoad>
                       <FormattedMessage id="autoship" />
                       <span
@@ -884,13 +903,19 @@ class LoginCart extends React.Component {
                       />
                     </span>
                     <br />
-                    <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                        {formatMoney(
-                          pitem.buyCount * pitem.salePrice -
-                            pitem.buyCount * pitem.subscriptionPrice
-                        )}
-                      </b>)
-                    }}/>
+                    <FormattedMessage
+                      id="saveExtraMoney"
+                      values={{
+                        val: (
+                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                            {formatMoney(
+                              pitem.buyCount * pitem.salePrice -
+                                pitem.buyCount * pitem.subscriptionPrice
+                            )}
+                          </b>
+                        )
+                      }}
+                    />
                   </div>
                   <div className="price">
                     <div
@@ -899,23 +924,19 @@ class LoginCart extends React.Component {
                         textDecoration: 'line-through'
                       }}
                     >
-                      {formatMoney(
-                        pitem.buyCount *
-                          pitem.salePrice
-                      )}
+                      {formatMoney(pitem.buyCount * pitem.salePrice)}
                     </div>
                     <div style={{ color: '#ec001a' }}>
-                      {formatMoney(
-                        pitem.buyCount *
-                          pitem.subscriptionPrice
-                      )}
+                      {formatMoney(pitem.buyCount * pitem.subscriptionPrice)}
                     </div>
 
                     {/* {formatMoney(currentSubscriptionPrice || 0)} */}
                   </div>
                 </div>
                 <div className="freqency">
-                  <span><FormattedMessage id="subscription.frequency" />:</span>
+                  <span>
+                    <FormattedMessage id="subscription.frequency" />:
+                  </span>
                   <Selection
                     customContainerStyle={{
                       display: 'inline-block',
@@ -1057,7 +1078,7 @@ class LoginCart extends React.Component {
                 )}
               </FormattedMessage>
 
-              <label className="rc-input__label" htmlFor="id-text2"></label>
+              <label className="rc-input__label" htmlFor="id-text2" />
             </span>
           </div>
           <div className="col-6 no-padding-left">
@@ -1257,13 +1278,11 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
-          {
-            this.state.isShowValidCode? (
-              <div className="red pl-3 pb-3 border-top pt-2">
-                Promotion code({this.state.lastPromotionInputValue}) is not Valid
-              </div>
-            ): null
-          }
+          {this.state.isShowValidCode ? (
+            <div className="red pl-3 pb-3 border-top pt-2">
+              Promotion code({this.state.lastPromotionInputValue}) is not Valid
+            </div>
+          ) : null}
 
           <div className="row checkout-proccess">
             <div className="col-lg-12 checkout-continue">
@@ -1284,6 +1303,25 @@ class LoginCart extends React.Component {
           </div>
         </div>
       </div>
+    );
+  }
+  renderSideCart({ fixToHeader = true }) {
+    return fixToHeader ? (
+      <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 320,
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+    ) : (
+      this.sideCart()
     );
   }
   async handleChooseSize(sdItem, pitem) {
@@ -1416,19 +1454,9 @@ class LoginCart extends React.Component {
                             <FormattedMessage id="orderSummary" />
                           </h5>
                         </div>
-                        <div id="J_sidecart_container">
-                          {this.sideCart({
-                            className: 'hidden rc-md-up',
-                            style: {
-                              background: '#fff',
-                              zIndex: 9,
-                              width: 320,
-                              position: 'relative'
-                            },
-                            id: 'J_sidecart_fix'
-                          })}
-                          {this.sideCart()}
-                        </div>
+                        {this.renderSideCart({
+                          fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                        })}
                       </div>
                     </div>
                   </>
@@ -1459,11 +1487,11 @@ class LoginCart extends React.Component {
                               <div className="ui-item border radius-3">
                                 <Link to="/dogs">
                                   <LazyLoad>
-                                  <img
-                                    className="w-100"
-                                    src={dogsImg}
-                                    alt="Dog"
-                                  />
+                                    <img
+                                      className="w-100"
+                                      src={dogsImg}
+                                      alt="Dog"
+                                    />
                                   </LazyLoad>
                                   <br />
                                   <h4 className="card__title red">
@@ -1474,11 +1502,11 @@ class LoginCart extends React.Component {
                               <div className="ui-item border radius-3">
                                 <Link to="/cats">
                                   <LazyLoad>
-                                  <img
-                                    className="w-100"
-                                    src={catsImg}
-                                    alt="Cat"
-                                  />
+                                    <img
+                                      className="w-100"
+                                      src={catsImg}
+                                      alt="Cat"
+                                    />
                                   </LazyLoad>
                                   <br />
                                   <h4 className="card__title red">

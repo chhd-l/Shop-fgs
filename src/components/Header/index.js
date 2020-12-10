@@ -224,17 +224,17 @@ class Header extends React.Component {
    * token过期时，主动登出
    */
   handleLogout = async () => {
-    const { loginStore, checkoutStore, authService } = this.props;
+    const { loginStore, checkoutStore, oktaAuth } = this.props;
     try {
       sessionItemRoyal.remove('rc-token-lose');
       loginStore.changeLoginModal(true);
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      const res = await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      const res = await oktaAuth.signOut({ postLogoutRedirectUri: window.location.origin + process.env.REACT_APP_HOMEPAGE });
       setTimeout(async () => {
         loginStore.changeLoginModal(false);
-        await authService.login(process.env.REACT_APP_HOMEPAGE);
+        await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       }, 3000);
     } catch (e) {
       loginStore.changeLoginModal(false);
@@ -919,6 +919,7 @@ class Header extends React.Component {
                                   );
                                 // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 // this.signUp()
+                                // history.push('/register');
                               }}
                             >
                               <FormattedMessage id="signUp" />

@@ -113,13 +113,13 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 
 const LoginCallback = (props) => {
-  const { authService, authState } = useOktaAuth();
+  const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
 
   useEffect(async () => {
     if (authStateReady) {
     } else {
-      await authService.handleAuthentication();
+      await oktaAuth.handleLoginRedirect();
     }
     let homePage = '';
     process.env.REACT_APP_HOMEPAGE === '/'
@@ -127,7 +127,7 @@ const LoginCallback = (props) => {
       : (homePage = process.env.REACT_APP_HOMEPAGE);
     window.location.href = homePage + '/required';
     sessionItemRoyal.set('fromLoginPage', true);
-  }, [authService, authStateReady]);
+  }, [oktaAuth, authStateReady]);
 
   return <div />;
 };
@@ -154,7 +154,7 @@ const App = () => (
       >
         <RouteFilter />
         <ScrollToTop>
-          <Security {...config.oidc}>
+          <Security oktaAuth={config}>
             <Switch>
               <Route exact path={'/'} component={Home} />
               <Route exact path={'/home'} component={Home} />

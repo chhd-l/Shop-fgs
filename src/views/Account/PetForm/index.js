@@ -939,7 +939,7 @@ class PetForm extends React.Component {
                 <h5 style={{ color: '#333333', fontWeight: 400 }}>New PET</h5>
                 <div className="content">
                   <LazyLoad>
-                  <img src={Banner_Dog} style={{ left: '40px' }} />
+                  <img src={Banner_Dog} style={{ left: '40px' }} alt=""/>
                   </LazyLoad>
                   <div className="buttonBox">
                     <p
@@ -975,7 +975,7 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   <LazyLoad>
-                  <img src={Banner_Cat} style={{ right: '40px' }} />
+                  <img src={Banner_Cat} style={{ right: '40px' }} alt=""/>
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
@@ -1019,6 +1019,7 @@ class PetForm extends React.Component {
                         borderRadius: '50%'
                       }}
                       src={imgUrl || (this.state.isCat ? Cat : Dog)}
+                      alt=""
                     />
                     </LazyLoad>
                     {/* <a className="rc-styled-link" href="#/" onClick={(e) => {
