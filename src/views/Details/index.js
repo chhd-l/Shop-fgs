@@ -121,8 +121,6 @@ class Details extends React.Component {
       details: {
         id: '',
         goodsName: '',
-        goodsImg:
-          'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
         goodsDescription: '',
         sizeList: [],
         images: [],
