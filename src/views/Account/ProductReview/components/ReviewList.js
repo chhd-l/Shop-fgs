@@ -50,7 +50,7 @@ class ReviewList extends React.Component {
                       <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                         <div className="details-img-container">
                           <div className="">
-                            <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291813187993.png" alt=""/>
+                            {/* <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291813187993.png" alt=""/> */}
                           </div>
                         </div>
                       </div>

@@ -75,8 +75,6 @@ class SubscriptionDetail extends React.Component {
       nextOrderTime: '2020-18-06',
       productName: 'Glycobalance Feline',
       productPrice: '$46.54',
-      productUrl:
-        'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
       totalMoney: 10,
       shipping: 'FREE',
       totalRealPay: 0,
