@@ -133,11 +133,6 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
 
     const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
@@ -623,26 +618,31 @@ class List extends React.Component {
         page: {
           type,
           theme
-        }
+        },
+        impressions: {
+          name,
+        },
       };
     }
     if (!initingList) {
       eEvents = {
         event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
         ecommerce: {
-          // impressions: [
-          //   {
-          //     id: '',
-          //     name: item.goodsCategory,
-          //     price: currentUnitPrice,
-          //     brand: 'Royal Canin',
-          //     category: this.specie,
-          //     quantity: selectedSpecItem.buyCount,
-          //     variant: selectedSpecItem.specText,
-          //     club: 'no',
-          //     sku: selectedSpecItem.goodsInfoId
-          //   }
-          // ]
+          impressions: [
+            {
+              name: 'Mother and Bayycat',
+              id: '',
+              brand: 'Royal Canin',
+              price: '',
+              club: 'no',
+              category: 'Cat/{{Range}}/Dry',
+              list:'Related Items',
+              variant: '2.00Kg',
+              position: 0,
+              sku: 'XFGHUIY',
+              flag:'best-seller'
+            }
+          ]
         }
       };
     }
@@ -658,7 +658,8 @@ class List extends React.Component {
       ));
     return (
       <div>
-        {event ? <GoogleTagManager additionalEvents={event} /> : null}
+        <GoogleTagManager additionalEvents={event}
+                          ecommerceEvents={eEvents} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}

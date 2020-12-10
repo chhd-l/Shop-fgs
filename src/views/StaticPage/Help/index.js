@@ -75,7 +75,7 @@ class Help extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
+          <BannerTip />
           {/* <div className="rc-bg-colour--brand4 text-center" >
             <div className="rc-layout-container rc-content-h-middle">
               <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
@@ -180,7 +180,7 @@ class Help extends React.Component {
                                             style={{ verticalAlign: 'inherit' }}
                                           >
                                             <a
-                                              href="mailto:byEmail"
+                                              href="mailto:suivi.dtc.france@royalcanin.com"
                                               style={{
                                                 verticalAlign: 'inherit'
                                               }}
@@ -217,7 +217,8 @@ class Help extends React.Component {
                                             }}
                                           >
                                             <a
-                                              href={this.state.mailAddress}
+                                              //href={this.state.mailAddress}
+                                              href="mailto:suivi.dtc.france@royalcanin.com"
                                               style={{ fontSize: '16px', borderBottom: '1px solid transparent' }}
                                               className="rc-styled-link"
                                             >

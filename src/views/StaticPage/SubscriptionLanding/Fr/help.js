@@ -49,7 +49,7 @@ class Help extends Component {
                                         <b style={{color:"#0087BD"}}>Par mail</b>
                                         <p>Nous vous répondons sous deux jours ouvrés.</p>
                                         <div className="rc-margin-top--xs">
-                                            <a href="mailto:Envoyer un email" className='rc-numeric nowrap' style={{color:"#0087BD"}}>Envoyer un email</a>
+                                            <a href="mailto:suivi.dtc.france@royalcanin.com" className='rc-numeric nowrap' style={{color:"#0087BD"}}>Envoyer un email</a>
                                         </div>
                                     </div>
                                 </div>
