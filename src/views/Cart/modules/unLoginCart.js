@@ -738,8 +738,11 @@ class UnLoginCart extends React.Component {
                           <br />
                           <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
                             {formatMoney(
-                              pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
+                              pitem.quantity *
+                              pitem.sizeList.filter((el) => el.selected)[0]
+                                .salePrice - pitem.quantity *
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .subscriptionPrice
                             )}
                           </b>)}}/>
                         </div>
@@ -926,8 +929,11 @@ class UnLoginCart extends React.Component {
                     <br />
                     <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
                       {formatMoney(
-                        pitem.buyCount * pitem.salePrice -
-                          pitem.buyCount * pitem.subscriptionPrice
+                        pitem.quantity *
+                        pitem.sizeList.filter((el) => el.selected)[0]
+                          .salePrice - pitem.quantity *
+                          pitem.sizeList.filter((el) => el.selected)[0]
+                            .subscriptionPrice
                       )}
                     </b>)}}/>
                   </div>
