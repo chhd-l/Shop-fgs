@@ -86,6 +86,7 @@ class SubscriptionLanding extends React.Component {
                           </Link>
                         </div>
                       </div>
+                      
                       <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
