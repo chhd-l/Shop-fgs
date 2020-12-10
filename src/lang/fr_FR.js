@@ -207,7 +207,7 @@ const fr_FR = {
   deleteAddressTip: 'Cette adresse a déjà été abonnée et ne peut donc pas être supprimée.',
   deleteCardTip: 'Cette carte de crédit a déjà été souscrite et ne peut donc pas être supprimée.',
   delivery: 'Frais de livraison',
-  delivery2: 'LIVRAISON',
+  delivery2: 'Livraison',
   deliveryAddress: 'Adresse de livraison',
   deliveryDate: 'Date de livraison',
   // 订单状态相关
@@ -543,7 +543,7 @@ const fr_FR = {
   'payment.normalDelivery': 'Livraison standard (1-4 jours)',
   'payment.normalDelivery2': 'Livraison standard',
   'payment.normalDelivery3': '(1 à 4 jours)',
-  'payment.payment': 'PAIEMENT',
+  'payment.payment': 'Paiement',
   'payment.paymentInformation': 'Informations de paiement',
   'payment.phoneNumber': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
@@ -1073,6 +1073,7 @@ const fr_FR = {
   'registerFeckbook':'Se connecter avec Facebook',
   'registerGoogle': 'Se connecter avec Google',
   'registerPasswordFormat': "Le mot de passe n'est pas valide.",
-  'registerEmailFormate': "L'adresse e-mail ne correspond pas au format spécifié."
+  'registerEmailFormate': "L'adresse e-mail ne correspond pas au format spécifié.",
+  invoice: 'facture d\'achat',
 }
 export default fr_FR;

@@ -250,7 +250,7 @@ class Filter extends React.Component {
                     <>
                       <div role="heading">
                         <div
-                          className="rc-list__header"
+                          className="rc-list__header text-break"
                           id={`accordion-header-${pIndex}`}
                           onClick={this.toggleContent.bind(this, pIndex)}
                         >

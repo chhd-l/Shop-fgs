@@ -207,7 +207,7 @@ const en_US = {
   deleteAddressTip: 'Sorry, this address  has already been subject to a subscription, so it cannot be deleted.',
   deleteCardTip: 'Sorry, this credit card has already been subject to a subscription, so it cannot be deleted.',
   delivery: 'delivery',
-  delivery2: 'DELIVERY',
+  delivery2: 'Delivery',
   deliveryAddress: 'Delivery Address',
   deliveryDate: 'Delivery date',
   // 订单状态相关
@@ -550,7 +550,7 @@ const en_US = {
   'payment.normalDelivery': 'Normal Delivery(1-4 days)',
   'payment.normalDelivery2': 'Normal Delivery',
   'payment.normalDelivery3': '(1-4 days)',
-  'payment.payment': 'PAYMENT',
+  'payment.payment': 'Payment',
   'payment.paymentInformation': 'Payment information',
   'payment.phoneNumber': 'Phone Number',
   'payment.postCode': 'Post Code',
@@ -875,6 +875,7 @@ const en_US = {
   'registerFeckbook': 'Connect with Facebook',
   'registerGoogle': 'Connect with Google',
   'registerPasswordFormat': "The password is not valid.",
-  'registerEmailFormate': "The email address does not match the specified format."
+  'registerEmailFormate': "The email address does not match the specified format.",
+  invoice: 'invoice',
 }
 export default en_US;

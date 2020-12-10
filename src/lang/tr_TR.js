@@ -177,7 +177,7 @@ const tr_TR = {
   deleteAddressTip: 'Üzgünüz, bu adres zaten bir aboneliğe tabi olduğu için silinemez.',
   deleteCardTip: 'Üzgünüz, bu kredi kartı zaten bir aboneliğe tabi olduğu için silinemez.',
   delivery: 'teslimat',
-  delivery2: 'TESLİMAT',
+  delivery2: 'Teslimat',
   deliveryAddress: 'Teslimat adresi',
   // 订单状态相关:
   'deliveryStatus.NOT_YET_SHIPPED': 'Gönderilmedi',
@@ -480,7 +480,7 @@ const tr_TR = {
   'payment.normalDelivery': 'Normal Teslimat (1-4 gün)',
   'payment.normalDelivery2': 'Normal teslimat',
   'payment.normalDelivery3': '(1-4 gün)',
-  'payment.payment': 'ÖDEME',
+  'payment.payment': 'Ödeme',
   'payment.paymentInformation': 'Ödeme bilgileri',
   'payment.phoneNumber': 'Telefon numarası',
   'payment.postCode': 'Posta Kodu',
@@ -733,7 +733,8 @@ const tr_TR = {
   'registerFeckbook': 'Facebook ile Bağlan',
   'registerGoogle': 'Google ile Bağlan',
   'registerPasswordFormat': "Parola geçerli değil.",
-  'registerEmailFormate': "E-posta adresi belirtilen formatla eşleşmiyor."
+  'registerEmailFormate': "E-posta adresi belirtilen formatla eşleşmiyor.",
+  invoice: 'fatura',
 }
 
 export default tr_TR;

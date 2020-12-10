@@ -201,7 +201,7 @@ const es_ES = {
   deleteAddressTip: 'Lo sentimos, esta dirección ya está sujeta a una suscripción, por lo que no se puede eliminar.',
   deleteCardTip: 'Lo sentimos, esta tarjeta de crédito ya ha estado sujeta a una suscripción, por lo que no se puede eliminar.',
   delivery: 'Envío',
-  delivery2: 'ENTREGA',
+  delivery2: 'Entrega',
   deliveryAddress: 'Dirección de entrega',
   deliveryDate: 'Date de livraison',
   // 订单状态相关
@@ -522,7 +522,7 @@ const es_ES = {
   'payment.normalDelivery': 'Entrega normal(1-4 días)',
   'payment.normalDelivery2': 'Entrega normal',
   'payment.normalDelivery3': '(1-4 días)',
-  'payment.payment': 'PAGO',
+  'payment.payment': 'Pago',
   'payment.paymentInformation': 'Información del pago',
   'payment.phoneNumber': 'Número de teléfono',
   'payment.postCode': 'Código Postal',
@@ -852,6 +852,7 @@ const es_ES = {
   'registerFeckbook': 'Conectarse con Facebook',
   'registerGoogle': 'Conectarse con Google',
   'registerPasswordFormat': "La contraseña no es válida.",
-  'registerEmailFormate': "La dirección de correo electrónico no coincide con el formato especificado."
+  'registerEmailFormate': "La dirección de correo electrónico no coincide con el formato especificado.",
+  invoice: 'factura',
 }
 export default es_ES;

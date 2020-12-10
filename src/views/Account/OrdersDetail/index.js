@@ -653,7 +653,7 @@ class AccountOrders extends React.Component {
                     {(item.deliverTime || '').substr(0, 10)}
                   </span>
                 </div>
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-md-4">
                   <svg className="svg-icon mr-1" aria-hidden="true">
                     <use xlinkHref="#iconLogisticscompany" />
                   </svg>
@@ -662,7 +662,7 @@ class AccountOrders extends React.Component {
                     {item.logistics ? item.logistics.logisticCompanyName : ''}
                   </span>
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-5">
                   <svg className="svg-icon mr-1" aria-hidden="true">
                     <use xlinkHref="#iconLogisticssinglenumber" />
                   </svg>
@@ -1329,7 +1329,7 @@ class AccountOrders extends React.Component {
                                     </svg>
                                     <div>
                                       <p className="medium mb-3">
-                                        <FormattedMessage id="billing" />
+                                        <FormattedMessage id="billing2" />
                                       </p>
                                       <p className="medium mb-2">
                                         {details.invoice.contacts}
