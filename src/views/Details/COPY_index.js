@@ -18,7 +18,6 @@ import {
   translateHtmlCharater,
   getFrequencyDict
 } from '@/utils/utils';
-import { STORE_CATE_ENUM } from '@/utils/constant';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
@@ -146,11 +145,6 @@ class Details extends React.Component {
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
-    this.headerRef = React.createRef();
-
-    this.specie = '';
-    this.productRange = [];
-    this.format = [];
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -257,7 +251,6 @@ class Details extends React.Component {
       }
       return item;
     });
-    console.log(details, 'details');
     this.setState(
       {
         details,
@@ -302,68 +295,6 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goodsSpecDetails) {
-          // 获取产品所属类别
-          let tmpSpecie =
-            find(res.context.storeCates, (ele) =>
-              ele.cateName.toLowerCase().includes('dog')
-            ) && 'Dog';
-          if (!tmpSpecie) {
-            tmpSpecie =
-              find(res.context.storeCates, (ele) =>
-                ele.cateName.toLowerCase().includes('cat')
-              ) && 'Cat';
-          }
-          this.specie = tmpSpecie;
-
-          // 获取产品所属home页四个大类
-          for (let item of res.context.storeCates) {
-            const t = find(STORE_CATE_ENUM, (ele) =>
-              ele.cateName.includes(item.cateName)
-            );
-            if (t) {
-              this.productRange.push(t.text);
-            }
-          }
-          // 获取产品Dry/Wet属性
-          // let tmpFormat = [];
-          // queryProps().then((propsRes) => {
-          //   for (let item of res.context.goodsPropDetailRels) {
-          //     const t = find(
-          //       propsRes || [],
-          //       (ele) => ele.propId === item.propId
-          //     );
-          //     // 区分cat or dog(de)
-          //     if (t && t.propName.includes('Spezies')) {
-          //       const t3 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t3) {
-          //         this.specie =
-          //           { Hund: 'Dog', Katze: 'Cat' }[t3.detailName] || '';
-          //       }
-          //     }
-          //     if (
-          //       t &&
-          //       (t.propName.includes('Seco') ||
-          //         t.propName.includes('Technologie'))
-          //     ) {
-          //       const t2 = find(
-          //         t.goodsPropDetails,
-          //         (ele) => ele.detailId === item.detailId
-          //       );
-          //       if (t2) {
-          //         tmpFormat.push(
-          //           { Seco: 'Dry', Húmedo: 'Wet', Nass: 'Wet', Trocken: 'Dry' }[
-          //             t2.detailName
-          //           ] || ''
-          //         );
-          //       }
-          //     }
-          //   }
-          //   this.format = tmpFormat;
-          // });
-
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
           specList.map((sItem) => {
@@ -439,13 +370,6 @@ class Details extends React.Component {
                   goodsInfos: res.context.goodsInfos,
                   goodsSpecDetails: res.context.goodsSpecDetails,
                   goodsSpecs: res.context.goodsSpecs
-                },
-                {
-                  goodsCategory: [
-                    this.specie,
-                    this.productRange.join('&'),
-                    this.format.join('&')
-                  ].join('/')
                 }
               ),
               images: images,
@@ -605,11 +529,7 @@ class Details extends React.Component {
       let param = {
         goodsInfoId: currentSelectedSize.goodsInfoId,
         goodsNum: quantity,
-        goodsCategory: [
-          this.specie,
-          this.productRange,
-          this.format.join('&')
-        ].join('/'),
+        goodsCategory: [this.format.join('&')].join('/'),
         goodsInfoFlag: parseInt(form.buyWay)
       };
       if (parseInt(form.buyWay)) {
@@ -1024,7 +944,6 @@ class Details extends React.Component {
           />
         ) : null} */}
         <Header
-          ref={this.headerRef}
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}

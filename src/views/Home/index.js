@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
-import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,12 +14,7 @@ import { Advantage } from './advantage';
 import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const CUR_STORE_CATOGERY =
-  STORE_CATOGERY_ENUM[process.env.REACT_APP_LANG] || [];
-const curNum = CUR_STORE_CATOGERY.length;
 
 function Divider() {
   return (
@@ -431,49 +425,15 @@ class Home extends React.Component {
     const curListNum = categoryList.length;
 
     const event = {
-        page: {
-          error: '',
-          hitTimestamp: new Date(),
-          path: match.path,
-          type: 'Homepage',
-          filters: '',
-          theme: ''
-        }
+      page: {
+        error: '',
+        hitTimestamp: new Date(),
+        path: match.path,
+        type: 'Homepage',
+        filters: '',
+        theme: ''
+      }
     };
-
-    const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
-      <div
-        className={`col-6 ${
-          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
-        }`}
-        key={i}
-      >
-        <FormattedMessage id={ele.textLangKey}>
-          {(txt) => (
-            <Link
-              className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-              to={ele.cateRouter}
-              title={txt}
-            >
-              <picture className="category-cards__card__img">
-                <source srcSet={ele.homeImg} />
-                <LazyLoad height={200}>
-                  <img
-                    src={ele.homeImg}
-                    alt={txt}
-                    title={txt}
-                    style={{ width: '144px' }}
-                  />
-                </LazyLoad>
-              </picture>
-              <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                <h3 className="rc-margin--none">{txt}</h3>
-              </div>
-            </Link>
-          )}
-        </FormattedMessage>
-      </div>
-    ));
 
     const _catogeryJXS2 = categoryList.map((ele, i) => (
       <div

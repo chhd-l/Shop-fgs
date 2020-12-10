@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter,link} from 'react-router-dom';
 import { FormattedMessage} from 'react-intl';
-import { STORE_CATE_ENUM } from '@/utils/constant';
 import find from 'lodash/find';
 import imagemain from './image/Main-Coon-Adult-1-bis.jpg';
 import imagePersan from './image/Persan-1-bis.jpg';

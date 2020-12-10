@@ -2,10 +2,6 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import BreadcrumbNameMap from './breadcrumbNameMap';
 import { FormattedMessage } from 'react-intl';
-import { STORE_CATE_ENUM } from '@/utils/constant';
-import find from 'lodash/find';
-
-const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const BreadCrumbs = withRouter((props) => {
   const { location, match } = props;
@@ -14,23 +10,6 @@ const BreadCrumbs = withRouter((props) => {
   const url = location.pathname;
 
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || [];
-  // specific for keywords search
-  if (url.indexOf('/list/keywords') > -1 && !mapData.length) {
-    mapData = breadcrumbNameMap['/list/keywords'];
-  }
-
-  // specific for details page
-  if (url.substr(1, 7) === 'details' && !mapData.length) {
-    let cateName = sessionItemRoyal.get('rc-goods-cate-name');
-    let goodsName = sessionItemRoyal.get('rc-goods-name');
-    if (cateName) {
-      const tmp = find(STORE_CATE_ENUM, (ele) => ele.text === cateName);
-      mapData.push({ name: cateName, href: (tmp && tmp.url) || '' });
-    }
-    if (goodsName) {
-      mapData.push({ name: goodsName });
-    }
-  }
 
   return (
     <div
