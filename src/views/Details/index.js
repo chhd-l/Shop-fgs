@@ -1749,7 +1749,7 @@ class Details extends React.Component {
                             <div
                               className="price"
                               style={{
-                                fontSize: '22px',
+                                fontSize: '24px',
                                 paddingTop:
                                 isMobile?'.2rem': (process.env.REACT_APP_LANG === 'de'
                                 ? '.5rem'
