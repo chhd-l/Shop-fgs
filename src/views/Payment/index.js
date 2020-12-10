@@ -1566,7 +1566,7 @@ class Payment extends React.Component {
           type={type}
         />
         {billingChecked ? (
-          deliveryAddress.firstName ? (
+          deliveryAddress && deliveryAddress.firstName ? (
             <div className="ml-custom mr-custom">
               <span className="medium">
                 {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
