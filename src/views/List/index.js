@@ -209,9 +209,29 @@ class List extends React.Component {
       });
     });
   }
-  GAProductImpression(productList){
-    //console.log(productList)
+  GAProductClick(item,index){
+      dataLayer.push({
+        'event': `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+        'ecommerce': {
+              'click': {
+                    'actionField': {'list': ''},//?上一页面 
+                    'products': [{ 
+                          'name': item.goodsName, 
+                          'id': item.id, 
+                          'club': 'no',
+                          'brand': item.goodsBrand.brandName,
+                          'category': item.goodsCateName,
+                          'list': '',//?上一页面
+                          'position': index,
+                          'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
+                    }]
+                }
+            }
+    })
+    console.log(dataLayer)
     //debugger
+  }
+  GAProductImpression(productList){
     const impressions = productList.map((item,index)=>{
       return {
         'name' : item.goodsName,
@@ -220,15 +240,14 @@ class List extends React.Component {
         'price': item.minMarketPrice,
         'club': 'no',
         'category': item.goodsCateName,
-        'list': 'Related Items',//?
-        'variant': item.goodsWeight,
+        'list': '',//?上一页面
+        'variant': item.goodsWeight || "",
         'position' : index,
         'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
-        'flag':""//item.taggingForImage.taggingName
+        'flag':""//?JSON.parse(item.taggingForImage).taggingName
       }
     })
-    console.log(impressions)
-    // debugger
+
     dataLayer.push({
       'event':`${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
       'ecommerce':{
@@ -562,7 +581,8 @@ class List extends React.Component {
       () => this.getProductList()
     );
   };
-  hanldeItemClick(item) {
+  hanldeItemClick(item,index) {
+    this.GAProductClick(item,index)
     const { history, location } = this.props;
     if (this.state.loading) {
       return false;
@@ -904,7 +924,8 @@ class List extends React.Component {
                                   }
                                   onClick={this.hanldeItemClick.bind(
                                     this,
-                                    item
+                                    item,
+                                    i
                                   )}
                                 >
                                   <picture className="rc-card__image">

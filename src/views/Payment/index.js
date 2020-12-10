@@ -1966,7 +1966,7 @@ class Payment extends React.Component {
                         style={{
                           transform: 'scale(.8)',
                           transformOrigin: 'left',
-                          marginRight: '-.1rem'
+                          marginRight: '-.4rem'
                         }}
                       />{' '}
                       <FormattedMessage id="Pet information" />
@@ -2091,7 +2091,7 @@ class Payment extends React.Component {
                       style={{
                         transform: 'scale(.8)',
                         transformOrigin: 'left',
-                        marginRight: '-.1rem'
+                        marginRight: '-.4rem'
                       }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />
