@@ -715,13 +715,20 @@ class LoginCart extends React.Component {
                           </span>
                           {/* </div> */}
                           <br />
-                          
-                          <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                            {formatMoney(
-                              pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
-                            )}
-                          </b>)}}/>
+
+                          <FormattedMessage
+                            id="saveExtraMoney"
+                            values={{
+                              val: (
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  {formatMoney(
+                                    pitem.buyCount * pitem.salePrice -
+                                      pitem.buyCount * pitem.subscriptionPrice
+                                  )}
+                                </b>
+                              )
+                            }}
+                          />
                         </div>
                         <div className="price">
                           <div
@@ -896,13 +903,19 @@ class LoginCart extends React.Component {
                       />
                     </span>
                     <br />
-                    <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                        {formatMoney(
-                          pitem.buyCount * pitem.salePrice -
-                            pitem.buyCount * pitem.subscriptionPrice
-                        )}
-                      </b>)
-                    }}/>
+                    <FormattedMessage
+                      id="saveExtraMoney"
+                      values={{
+                        val: (
+                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                            {formatMoney(
+                              pitem.buyCount * pitem.salePrice -
+                                pitem.buyCount * pitem.subscriptionPrice
+                            )}
+                          </b>
+                        )
+                      }}
+                    />
                   </div>
                   <div className="price">
                     <div
@@ -1292,6 +1305,25 @@ class LoginCart extends React.Component {
       </div>
     );
   }
+  renderSideCart({ fixToHeader = true }) {
+    return fixToHeader ? (
+      <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 320,
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+    ) : (
+      this.sideCart()
+    );
+  }
   async handleChooseSize(sdItem, pitem) {
     if (this.state.changSizeLoading) {
       return false;
@@ -1422,23 +1454,9 @@ class LoginCart extends React.Component {
                             <FormattedMessage id="orderSummary" />
                           </h5>
                         </div>
-                        {process.env.REACT_APP_LANG === 'fr' ? (
-                          this.sideCart()
-                        ) : (
-                          <div id="J_sidecart_container">
-                            {this.sideCart({
-                              className: 'hidden rc-md-up',
-                              style: {
-                                background: '#fff',
-                                zIndex: 9,
-                                width: 320,
-                                position: 'relative'
-                              },
-                              id: 'J_sidecart_fix'
-                            })}
-                            {this.sideCart()}
-                          </div>
-                        )}
+                        {this.renderSideCart({
+                          fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                        })}
                       </div>
                     </div>
                   </>

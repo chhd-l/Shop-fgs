@@ -1374,6 +1374,24 @@ class UnLoginCart extends React.Component {
       </div>
     );
   }
+  renderSideCart() {
+    return process.env.REACT_APP_LANG === 'fr' ? (
+      this.sideCart()
+    ) : (
+      <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            zIndex: 9,
+            width: 320,
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+    );
+  }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
 
@@ -1464,22 +1482,9 @@ class UnLoginCart extends React.Component {
                         <FormattedMessage id="orderSummary" />
                       </h5>
                     </div>
-                    {process.env.REACT_APP_LANG === 'fr' ? (
-                      this.sideCart()
-                    ) : (
-                      <div id="J_sidecart_container">
-                        {this.sideCart({
-                          className: 'hidden rc-md-up',
-                          style: {
-                            zIndex: 9,
-                            width: 320,
-                            position: 'relative'
-                          },
-                          id: 'J_sidecart_fix'
-                        })}
-                        {this.sideCart()}
-                      </div>
-                    )}
+                    {this.renderSideCart({
+                      fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                    })}
 
                     {/* {this.state.productList.some((el) => {
                       const selectedItem = el.sizeList.filter(

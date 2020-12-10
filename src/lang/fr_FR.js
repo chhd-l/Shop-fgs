@@ -309,8 +309,6 @@ const fr_FR = {
   'forgetPassword.back': 'Retour connexion',
   'forgetPassword.createNewPassword': 'Créer un nouveau mot de passe',
   'forgetPassword.forgetPasswordTip': 'Vous recevrez une lettre avec des instructions sur la façon de changer votre mot de passe.',
-  freeShipping: 'Livraison gratuite',
-  //qhx新增
   FrequentQuestions: 'Questions courantes',
   from: 'De',
   getConsumerAccountFailed: "Échec de l'obtention du compte consommateur",
@@ -1047,7 +1045,6 @@ const fr_FR = {
   'continueMyPurchases': 'Poursuivre mes achats',
   'goToCart': 'Aller au panier',
   'subscribe': 'Souscrire',
-  'searchShow':'Résultats de la recherche',
 
 
   'registerDescription': '<p>Vos données personnelles sont collectées et traitées conformément à la déclaration de confidentialité de Royal Canin, disponible <a class="rc-styled-link  rc-text-colour--hyperlink" target="_blank" href="https://www.mars.com/privacy-policy-france">ici</a></p>',
