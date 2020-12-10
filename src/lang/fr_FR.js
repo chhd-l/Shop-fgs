@@ -129,7 +129,7 @@ const fr_FR = {
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
   'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL',
-  'cart.miniCartTitle': '10% de réduction sur le premier achat plus 5% de réduction sur chaque commande avec Autoship',
+  'cart.miniCartTitle': '10% de réduction sur le premier achat plus',
   'cart.totalProduct': 'Vous avez {val} produit(s) dans votre panier',
   'cart.yourShoppingCart': 'Mon panier',
   cats: 'CHATS',
@@ -1040,10 +1040,12 @@ const fr_FR = {
   'searchShow':'Résultats de la recherche',
   'singlePurchase': 'Achat Unique',
   'deliveryOneTimeOnly': 'Livraison 1 fois seulement',
-  'saveExtra': 'Économisez {val} supplémentaires',
-  'freeShipping': 'Livraison gratuite',
+  'saveExtra': 'Économisez {val} sur cet abonnement',
+  'saveExtraMoney': 'Économisez {val} sur cet abonnement',
+  'freeShipping': 'Livraison offerte',
   'addedtoCart': 'Ajouté au panier',
   'continueMyPurchases': 'Poursuivre mes achats',
   'goToCart': 'Aller au panier',
+  'subscribe': 'Souscrire',
 }
 export default fr_FR;

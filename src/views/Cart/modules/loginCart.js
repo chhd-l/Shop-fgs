@@ -703,14 +703,13 @@ class LoginCart extends React.Component {
                           </span>
                           {/* </div> */}
                           <br />
-                          Save&nbsp;
-                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                          
+                          <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
                             {formatMoney(
                               pitem.buyCount * pitem.salePrice -
                                 pitem.buyCount * pitem.subscriptionPrice
                             )}
-                          </b>
-                          &nbsp; on this subscription.
+                          </b>)}}/>
                         </div>
                         <div className="price">
                           <div
@@ -885,16 +884,13 @@ class LoginCart extends React.Component {
                       />
                     </span>
                     <br />
-                    Save&nbsp;
-                    <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                      {formatMoney(
-                        pitem.buyCount *
-                          pitem.salePrice -
-                          pitem.buyCount *
-                            pitem.subscriptionPrice
-                      )}
-                    </b>
-                    &nbsp; on this subscription.
+                    <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
+                        {formatMoney(
+                          pitem.buyCount * pitem.salePrice -
+                            pitem.buyCount * pitem.subscriptionPrice
+                        )}
+                      </b>)
+                    }}/>
                   </div>
                   <div className="price">
                     <div

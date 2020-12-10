@@ -841,9 +841,12 @@ const en_US = {
   'account.noSubscriptionTitle': 'Let\'s get started!',
   'singlePurchase': 'Single purchase',
   'deliveryOneTimeOnly': 'Delivery 1 time only',
-  'saveExtra': 'Save extra {val}',
+  'saveExtra': 'Save {val} on this subscription',
+  'saveExtraMoney': 'Save {val} on this subscription',
   'freeShipping': 'Free shipping',
-  'goToCart': 'Added to cart',
+  'addedtoCart': 'Added to cart',
   'continueMyPurchases': 'Continue my purchases',
+  'goToCart': 'Go to shopping cart',
+  'subscribe': 'Subscribe',
 }
 export default en_US;

@@ -818,10 +818,12 @@ const es_ES = {
   'account.noSubscriptionTitle': '¡Empecemos!',
   'singlePurchase': 'Compra única',
   'deliveryOneTimeOnly': 'Entrega 1 vez solamente',
-  'saveExtra': 'Ahorre un {val} adicional',
+  'saveExtra': 'Ahorre un {val} en esta suscripción',
+  'saveExtraMoney': 'Ahorre un {val} en esta suscripción',
   'freeShipping': 'Envío gratis',
   'addedtoCart': 'Agregado al carrito',
   'continueMyPurchases': 'Continuar mis compras',
   'goToCart': 'Ir al carrito de compras',
+  'subscribe': 'Suscribir',
 }
 export default es_ES;

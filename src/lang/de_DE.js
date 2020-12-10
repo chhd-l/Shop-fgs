@@ -895,10 +895,12 @@ const de_DE = {
   yourPasswordNotVerified: 'Ihr Passwort wurde nicht verifiziert',
   'singlePurchase': 'Einzelkauf',
   'deliveryOneTimeOnly': 'Lieferung nur 1 Mal',
-  'saveExtra': 'Sparen Sie zusätzlich {val}',
+  'saveExtra': 'Sparen Sie {val} bei diesem Abonnement',
+  'saveExtraMoney': 'Sparen Sie {val} bei diesem Abonnement',
   'freeShipping': 'Kostenloser Versand',
   'addedtoCart': 'In den Warenkorb',
   'continueMyPurchases': 'Setzen Sie meine Einkäufe fort',
   'goToCart': 'Zum Warenkorb gehen',
+  'subscribe': 'Abonnieren',
 }
 export default de_DE;

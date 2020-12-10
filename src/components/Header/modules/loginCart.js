@@ -286,6 +286,7 @@ class LoginCart extends React.Component {
                                       </span>
                                     </div>
                                   </div>
+                                  <div style={{width: '100%', overflow: 'hidden'}}>
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
                                       {process.env.REACT_APP_LANG !== 'de' ? (
@@ -325,8 +326,9 @@ class LoginCart extends React.Component {
                                       </b>
                                     </div>
                                   </div>
+                                  </div>
                                   {item.goodsInfoFlag ? (
-                                    <>
+                                    <div style={{width: '100%', overflow: 'hidden'}}>
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
@@ -368,7 +370,7 @@ class LoginCart extends React.Component {
                                           </b>
                                         </div>
                                       </div>
-                                    </>
+                                    </div>
                                   ) : null}
                                 </div>
                               </div>
