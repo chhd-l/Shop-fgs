@@ -177,7 +177,7 @@ const ru_RU = {
     'deleteAddressTip': 'Извините, на этот адрес уже подписана подписка, поэтому его нельзя удалить.',
     'deleteCardTip': "Извините, на эту кредитную карту уже подписана подписка, поэтому ее нельзя удалить.",
     'delivery': "Доставка",
-    'delivery2': "ДОСТАВКА",
+    'delivery2': "Доставка",
     'deliveryAddress': "Адресс доставки",
     // 订单状态相关:
     'deliveryStatus.NOT_YET_SHIPPED': "Не отправлено",
@@ -482,7 +482,7 @@ const ru_RU = {
     "payment.normalDelivery": "Нормальная доставка (1-4 дня)",
     "payment.normalDelivery2": "Нормальная доставка",
     "payment.normalDelivery3": "(1-4 дня)",
-    "payment.payment": "ОПЛАТА",
+    "payment.payment": "Оплата",
     "payment.paymentInformation": "Платежная информация",
     "payment.phoneNumber": "Телефонный номер",
     "payment.postCode": "Почтовый индекс",
@@ -758,7 +758,8 @@ const ru_RU = {
     'registerFeckbook': 'Подключиться к Facebook',
     'registerGoogle': 'Подключиться к Google',
     'registerPasswordFormat': "Недействительный пароль.",
-    'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату."
+    'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату.",
+    invoice: 'выставленный счет',
   }
   
   export default ru_RU;

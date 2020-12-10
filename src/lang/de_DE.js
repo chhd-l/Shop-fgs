@@ -210,7 +210,7 @@ const de_DE = {
   deleteAddressTip: 'Diese Adresse wurde bereits abonniert und kann daher nicht gelöscht werden.',
   deleteCardTip: 'Diese Kreditkarte wurde bereits abonniert und kann daher nicht gelöscht werden.',
   delivery: 'Lieferkosten',
-  delivery2: 'LIEFERUNG',
+  delivery2: 'Lieferung',
   deliveryAddress: 'Lieferadresse',
   deliveryDate: 'Lieferdatum',
   'deliveryStatus.NOT_YET_SHIPPED': 'noch nicht versendet',
@@ -561,7 +561,7 @@ const de_DE = {
   'payment.normalDelivery': 'Standardlieferung (1-4 Tage)',
   'payment.normalDelivery2': 'Standardlieferung',
   'payment.normalDelivery3': '(1-4 Tage)',
-  'payment.payment': 'ZAHLUNG',
+  'payment.payment': 'Zahlung',
   'payment.paymentInformation': 'Zahlungsinformationen',
   'payment.phoneNumber': 'Telefonnummer',
   'payment.postCode': 'Postleitzahl',
@@ -930,6 +930,7 @@ const de_DE = {
   'registerFeckbook': 'Mit Facebook verbinden',
   'registerGoogle': 'Mit Google verbinden',
   'registerPasswordFormat': "Das Passwort ist ungültig.",
-  'registerEmailFormate': "Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein."
+  'registerEmailFormate': "Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein.",
+  invoice: 'Rechnung',
 }
 export default de_DE;
