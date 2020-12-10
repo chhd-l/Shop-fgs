@@ -133,22 +133,22 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
 
     const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');
     this.cidFromSearch = getParaByName(search, 'cid');
     const keywordsSearch = getParaByName(search, 'q');
+    let cateName = {
+      '/cats': <FormattedMessage id="cats3" />,
+      '/dogs': <FormattedMessage id="dogs3" />
+    }[pathname];
 
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
     // 2 查询filterlist后，需初始化状态
     if (state) {
+      cateName = state.cateName;
       this.setState({
         selectedSortParam: state.sortParam || null,
         storeCateIds: state.cateIds || [],
@@ -174,19 +174,14 @@ class List extends React.Component {
                 description: state.cateDescription,
                 img: state.cateImgList
               }
-            : null,
-        cateName:
-          state.cateName ||
-          {
-            '/cats': <FormattedMessage id="cats3" />,
-            '/dogs': <FormattedMessage id="dogs3" />
-          }[pathname]
+            : null
       });
     }
 
     this.setState(
       {
         category,
+        cateName,
         keywords:
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
@@ -538,26 +533,6 @@ class List extends React.Component {
     );
   };
   hanldeItemClick(item) {
-    dataLayer.push({
-      event:'{{site.id}}eComProductImpression',
-    ecommerce:{
-    impressions: [
-        {
-          id: '',
-          name: 'Mother and Bayycat',
-          price: 'currentUnitPrice',
-          brand: 'Royal Canin',
-          category: 'Cat/{{Range}}/Dry',
-          list:'Related Items',
-          // quantity: selectedSpecItem.buyCount,
-          variant: '2.00Kg',
-          club: 'no',
-          sku: 'XFGHUIY',
-          flag:'best-seller'
-    }
-    ]
-    }
-  })
     const { history, location } = this.props;
     if (this.state.loading) {
       return false;
@@ -655,15 +630,15 @@ class List extends React.Component {
         ecommerce: {
           impressions: [
             {
-              id: '',
               name: 'Mother and Bayycat',
-              price: 'currentUnitPrice',
+              id: '',
               brand: 'Royal Canin',
+              price: '',
+              club: 'no',
               category: 'Cat/{{Range}}/Dry',
               list:'Related Items',
-              // quantity: selectedSpecItem.buyCount,
               variant: '2.00Kg',
-              club: 'no',
+              position: 0,
               sku: 'XFGHUIY',
               flag:'best-seller'
             }
@@ -963,27 +938,30 @@ class List extends React.Component {
                                       </h6>
                                     </div>
                                     {/*商品评分和评论数目*/}
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        margin: '0 auto'
-                                      }}
-                                      className={`rc-card__price text-center RateFitScreen`}
-                                    >
-                                      <div>
-                                        <Rate
-                                          def={item.avgEvaluate}
-                                          disabled={true}
-                                          marginSize="smallRate"
-                                        />
+                                    {
+                                      process.env.REACT_APP_LANG == 'fr'?null:
+                                      <div
+                                          style={{
+                                            display: 'flex',
+                                            margin: '0 auto'
+                                          }}
+                                          className={`rc-card__price text-center RateFitScreen`}
+                                        >
+                                          <div>
+                                            <Rate
+                                              def={item.avgEvaluate}
+                                              disabled={true}
+                                              marginSize="smallRate"
+                                            />
+                                          </div>
+                                          <span
+                                            className="comments rc-margin-left--xs rc-text-colour--text"
+                                            style={{ marginTop: '3px' }}
+                                          >
+                                            ({item.goodsEvaluateNum})
+                                          </span>
                                       </div>
-                                      <span
-                                        className="comments rc-margin-left--xs rc-text-colour--text"
-                                        style={{ marginTop: '3px' }}
-                                      >
-                                        ({item.goodsEvaluateNum})
-                                      </span>
-                                    </div>
+                                    }
                                     <br />
                                     <div
                                       className="text-center NameFitScreen"

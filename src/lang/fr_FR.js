@@ -155,7 +155,7 @@ const fr_FR = {
   'clinic.navigate': 'Naviguer',
   'clinic.selectVetClinics': 'Choisissez des cliniques vétérinaires',
   'clinic.vet': 'Vétérinaire',
-  close: 'Conclure',
+  close: 'Fermer',
   club: 'club',
   comment: 'Commentaire',
   'comment.commentsTooLong': 'Les commentaires sur les produits ne peuvent pas dépasser 500 caractères',
@@ -1038,6 +1038,12 @@ const fr_FR = {
   'account.noSubscription': 'Vous n\'avez pas encore découvert nos services de livraison automatique? La livraison automatique est un moyen pratique pour vous de faire livrer vos commandes selon un calendrier régulier. Ainsi, vous gagnez du temps et votre animal ne manque jamais de nourriture.',
   'account.noSubscriptionTitle': 'Commençons!',
   'searchShow':'Résultats de la recherche',
-  'singlePurchase': 'Achat Unique'
+  'singlePurchase': 'Achat Unique',
+  'deliveryOneTimeOnly': 'Livraison 1 fois seulement',
+  'saveExtra': 'Économisez {val} supplémentaires',
+  'freeShipping': 'Livraison gratuite',
+  'addedtoCart': 'Ajouté au panier',
+  'continueMyPurchases': 'Poursuivre mes achats',
+  'goToCart': 'Aller au panier',
 }
 export default fr_FR;

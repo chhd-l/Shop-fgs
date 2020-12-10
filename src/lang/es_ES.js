@@ -816,6 +816,12 @@ const es_ES = {
   'account.startAutoShipping': 'Iniciar envío automático',
   'account.noSubscription': '¿Aún no descubrió nuestros servicios de Autoenvío? AutoEnvío es una forma conveniente de recibir sus pedidos en un horario regular. Por lo tanto, ahorra tiempo y su mascota nunca se queda sin comida.',
   'account.noSubscriptionTitle': '¡Empecemos!',
-  'singlePurchase': 'Compra única'
+  'singlePurchase': 'Compra única',
+  'deliveryOneTimeOnly': 'Entrega 1 vez solamente',
+  'saveExtra': 'Ahorre un {val} adicional',
+  'freeShipping': 'Envío gratis',
+  'addedtoCart': 'Agregado al carrito',
+  'continueMyPurchases': 'Continuar mis compras',
+  'goToCart': 'Ir al carrito de compras',
 }
 export default es_ES;

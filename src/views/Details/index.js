@@ -38,6 +38,7 @@ import refreshImg from "./images/refresh.png"
 
 import './index.css';
 import './index.less';
+import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -120,8 +121,6 @@ class Details extends React.Component {
       details: {
         id: '',
         goodsName: '',
-        goodsImg:
-          'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
         goodsDescription: '',
         sizeList: [],
         images: [],
@@ -789,6 +788,30 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
+  collectAddCar(details){ //加入购物车，埋点
+    console.log('添加购物车埋点',details)
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      'ecommerce': {
+        'add':{
+          'products':[{
+            'name': 'Mother and Babycat', 
+            'id': '1234', 
+            'club': 'yes', 
+            'type': 'subscription', 
+            'price': '12.05',
+            'brand': 'Royal Canin',
+            'category': 'Cat/{{Range}}/Dry',
+            'variant': '2',
+            'quantity': '1',
+            'recommendation':'recommended',
+            'sku':'XFGHUIY'
+          }]
+        }
+      }
+    })
+    console.log(dataLayer)
+  }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
     try {
       const { loading } = this.state;
@@ -811,6 +834,9 @@ class Details extends React.Component {
         headerCartStore
       } = this.props;
       const { quantity, form, details } = this.state;
+ 
+      this.collectAddCar(details)
+
       const { sizeList } = details;
       let currentSelectedSize;
       this.setState({ addToCartLoading: true });
@@ -830,10 +856,14 @@ class Details extends React.Component {
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
-      headerCartStore.show();
-      setTimeout(() => {
-        headerCartStore.hide();
-      }, 1000);
+      if(this.state.isMobile) {
+        this.refs.showModalButton.click()
+      }else {
+        headerCartStore.show();
+        setTimeout(() => {
+          headerCartStore.hide();
+        }, 1000);
+      }
 
       if (redirect) {
         if (checkoutStore.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
@@ -922,6 +952,7 @@ class Details extends React.Component {
       loading
     } = this.state;
     const { goodsId, sizeList } = details;
+    this.collectAddCar(details)
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
       throw new Error();
@@ -1171,27 +1202,27 @@ class Details extends React.Component {
     this.openPetModal();
   }
   handleAClick() {
-    dataLayer.push({
-      event: '{{site.id}}eComProductView',
-      ecommerce: {
-        currencyCode:'TRY',
-        detail: {
-        actionField: {
-          list: 'Related Items'
-        },
-          products: [
-            {
-              id: '123',
-              name: 'Mother and Babycat',
-              price: '234',
-              brand: 'Royal Canin',
-              club: 'no',
-              category:'Cat/{{Range}}/Dry',
-              variant: '4.00 Kg',
-              sku: 'XFGHUIY',
-            }
-          ]
-    }}})
+    // dataLayer.push({
+    //   event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+    //   ecommerce: {
+    //     currencyCode:'TRY',
+    //     detail: {
+    //     actionField: {
+    //       list: 'Related Items'
+    //     },
+    //       products: [
+    //         {
+    //           id: '123',
+    //           name: 'Mother and Babycat',
+    //           price: '234',
+    //           brand: 'Royal Canin',
+    //           club: 'no',
+    //           category:'Cat/{{Range}}/Dry',
+    //           variant: '4.00 Kg',
+    //           sku: 'XFGHUIY',
+    //         }
+    //       ]
+    // }}})
 
 
     if (this.state.replyNum > 0) {
@@ -1282,7 +1313,6 @@ class Details extends React.Component {
     return (
       <div id="Details">
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
-
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1306,6 +1336,7 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
+            <button ref="showModalButton" class="rc-btn rc-btn--one" data-modal-trigger="modal-example" style={{position: 'absolute', visibility: 'hidden'}}>Open standard modal</button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
@@ -1405,7 +1436,7 @@ class Details extends React.Component {
                               >
                                 {details.goodsName}
                               </h1>
-                              <div className="desAndStars rc-margin-bottom--xs">
+                              <div className="desAndStars rc-margin-bottom--xs" style={{display:process.env.REACT_APP_LANG == 'fr'?'none':'block'}}>
                                 <div className="des">
                                   <h3 className="text-break mb-1 mt-2">
                                     {details.goodsSubtitle}
@@ -1656,7 +1687,8 @@ class Details extends React.Component {
                               <span
                                 style={{ height: '73px', lineHeight: '55px' }}
                               >
-                                Delivery 1 time only
+                                <FormattedMessage id="deliveryOneTimeOnly"/>
+                                {/* Delivery 1 time only */}
                               </span>
                             </div>
                           </div>
@@ -1710,7 +1742,8 @@ class Details extends React.Component {
                               <span
                                 style={{ height: '73px', lineHeight: '55px' }}
                               >
-                                Delivery 1 time only
+                                <FormattedMessage id="deliveryOneTimeOnly"/>
+                                {/* Delivery 1 time only */}
                               </span>
                             </div>
                             <div
@@ -1822,25 +1855,6 @@ class Details extends React.Component {
                                       </span>
                                     </label>
                                   </div>
-                                  <br />
-                                  <div className="discountBox">
-                                    Save extra&nbsp;
-                                    <b className="product-pricing__card__head__price rc-padding-y--none">
-                                      {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
-                                      10%
-                                    </b>
-                                  </div>
-                                  <div className="freeshippingBox">
-                                    Free shipping
-                                  </div>
-                                  {/* Save&nbsp;
-                                  <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                                    {formatMoney(
-                                      currentUnitPrice -
-                                        quantity * currentSubscriptionPrice
-                                    )}
-                                  </b> */}
-                                  {/* &nbsp; on this subscription. */}
                                 </div>
                                 <div
                                   className="price"
@@ -1879,8 +1893,14 @@ class Details extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
+                              <div className="discountBox">
+                                    <FormattedMessage id="saveExtra" values={{val: '10%'}}/>
+                                  </div>
+                                  <div className="freeshippingBox">
+                                    <FormattedMessage id="freeShipping"/>
+                                  </div>
                               <div className="freqency">
-                                <span>Delivery every:</span>
+                                <span><FormattedMessage id="subscription.frequency" />:</span>
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
@@ -1979,18 +1999,19 @@ class Details extends React.Component {
                                 </div>
                                 <br />
                                 <div className="discountBox">
-                                Save extra&nbsp;
+                                  <FormattedMessage id="saveExtra" values={{val: '10%'}}/>
+                                {/* Save extra&nbsp;
                                 <b className="product-pricing__card__head__price rc-padding-y--none">
-                                  {/* {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)} */}
+                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
                                   10%
-                                </b>
+                                </b> */}
                               </div>
                               <div className="freeshippingBox">
-                                Free shipping
+                              <FormattedMessage id="freeShipping"/>
                               </div>
                               </div>
                               <div className="freqency">
-                                <span>Delivery every:</span>
+                                <span><FormattedMessage id="subscription.frequency" />:</span>
                                 <Selection
                                   customContainerStyle={{
                                     display: 'inline-block',
@@ -2394,6 +2415,22 @@ class Details extends React.Component {
             </div>
           </main>
         )}
+        <aside role="modal" class="rc-modal rc-hidden" data-modal-target="modal-example">
+          <div class="rc-modal__container">
+            <header class="rc-modal__header">
+              <button class="rc-btn rc-icon rc-btn--icon-label rc-modal__close rc-close--xs rc-iconography" data-modal-trigger="modal-example"><FormattedMessage id="close" /></button>
+            </header>
+            <section class="rc-modal__content rc-scroll--y" style={{textAlign: 'center'}}>
+              <div class="rc-margin-top--md" style={{textAlign: 'center'}}>
+                <svg t="1607498763458" class="icon" style={{width: '35px', height: '35px', marginBottom: '20px'}} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2968" width="200" height="200"><path d="M512 0C230.4 0 0 230.4 0 512c0 281.6 230.4 512 512 512 281.6 0 512-230.4 512-512C1024 230.4 793.6 0 512 0zM512 960c-249.6 0-448-204.8-448-448 0-249.6 204.8-448 448-448 249.6 0 448 198.4 448 448C960 761.6 761.6 960 512 960zM691.2 339.2 454.4 576 332.8 454.4c-19.2-19.2-51.2-19.2-76.8 0C243.2 480 243.2 512 262.4 531.2l153.6 153.6c19.2 19.2 51.2 19.2 70.4 0l51.2-51.2 224-224c19.2-19.2 25.6-51.2 0-70.4C742.4 320 710.4 320 691.2 339.2z" p-id="2969" fill="#47b800"></path></svg>
+                <p style={{color: '#47b800 !important'}}><FormattedMessage id="addedtoCart"/></p>
+                <Link to="/home" style={{color: '#666', fontWeight: 400}}><FormattedMessage id="continueMyPurchases"/></Link>
+                <p><FormattedMessage id="or"/></p>
+              </div>
+              <button class="rc-btn rc-btn--one" style={{fontWeight: 400}} onClick={() => this.props.history.push('/cart')}><FormattedMessage id="goToCart"/></button>
+            </section>
+          </div>
+        </aside>
         <Footer />
       </div>
     );

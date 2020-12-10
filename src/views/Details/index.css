@@ -1503,7 +1503,7 @@ label.availability {
   top: -1px;
   left: 0;
   background: #fff;
-  z-index: 99;
+  z-index: 9;
   -webkit-transition: .1s;
   transition: .1s;
   padding: 8px 0;

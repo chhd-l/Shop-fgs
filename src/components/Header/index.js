@@ -564,7 +564,28 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
+  // 点击menu埋点
+  GAClickMenu(interaction){
+    const {category,action,label,value} = interaction
+    dataLayer.push(
+      {'event':`${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      interaction:{
+        category,
+        action,
+        label,
+        value},
+      })
+  }
   async handleClickNavItem(item) {
+    // 点击menu埋点-start
+    let interaction = {
+      'category':'menu',
+      'action':'menu',
+      'label':item.avigationLink,
+      'value':item.navigationName
+    }
+    this.GAClickMenu(interaction)
+    // 点击menu埋点-end
     let res = await getDictionary({ type: 'pageType' });
     const targetRes = res.filter((ele) => ele.id === item.pageId);
     // interaction 0-page 1-External URL 2-text
@@ -831,7 +852,7 @@ class Header extends React.Component {
                 ) : null}
                 {showUserIcon ? (
                   <>
-                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{this.userInfo && this.userInfo.firstName}</span>
+                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{getDeviceType() === 'PC' && this.userInfo && this.userInfo.firstName}</span>
                   <span
                     id="main_mini_cart"
                     className="minicart inlineblock"

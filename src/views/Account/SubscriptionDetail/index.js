@@ -75,8 +75,6 @@ class SubscriptionDetail extends React.Component {
       nextOrderTime: '2020-18-06',
       productName: 'Glycobalance Feline',
       productPrice: '$46.54',
-      productUrl:
-        'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004291741049919.png',
       totalMoney: 10,
       shipping: 'FREE',
       totalRealPay: 0,
@@ -2080,7 +2078,7 @@ class SubscriptionDetail extends React.Component {
                                                             overflowWrap:
                                                               'normal',
                                                             fontSize: '14px',
-                                                            width: '95px',
+                                                            width: isMobile?'95px': 'auto',
                                                             whiteSpace: 'nowrap'
                                                           }}
                                                         >
@@ -2718,7 +2716,7 @@ class SubscriptionDetail extends React.Component {
                                                             />
                                                             <div
                                                               style={{
-                                                                width: '120px',
+                                                                width: isMobile?'120px': 'auto',
                                                                 paddingTop:
                                                                   '30px'
                                                               }}

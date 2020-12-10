@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
+import { getDeviceType } from '@/utils/utils.js'
 
 class ImageMagnifier extends Component {
   static defaultProps = {
@@ -418,7 +419,7 @@ class ImageMagnifier extends Component {
             )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
 
-            {!videoShow && (
+            {!videoShow && getDeviceType() === 'PC' && (
               <div
                 style={cssStyle.maskBlock}
                 onMouseEnter={this.mouseEnter}

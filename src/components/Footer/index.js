@@ -21,24 +21,23 @@ class Footer extends React.Component {
   async componentDidMount() {
     this.props.configStore.queryConfig();
   }
-
+  scrollToTop = () => {
+    const widget = document.querySelector('#page-top');
+    widget && widget.scrollIntoView();
+  };
   render() {
-    const scrollToTop = () => {
-      const widget = document.querySelector('#page-top');
-      widget && widget.scrollIntoView();
-    };
     return (
       <footer className="rc-bg-colour--interface-dark" id="footer">
         <div className="rc-max-width--xl rc-scroll--y">
           <div className="rc-layout-container rc-three-column rc-md-up">
             <div className="rc-column rc-text--right">
-              <a
-                className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3"
-                href="#"
+              <span
+                className="rc-btn rc-btn--inverse rc-btn--icon-label rc-icon rc-up--xs rc-brand3 text-white ui-cursor-pointer"
+                onClick={this.scrollToTop}
                 role="back to top"
               >
                 <FormattedMessage id="footer.toTheTop" />
-              </a>
+              </span>
             </div>
           </div>
           <div className="rc-divider rc-md-up"></div>

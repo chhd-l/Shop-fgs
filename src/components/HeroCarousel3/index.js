@@ -5,27 +5,83 @@ import { getBanner } from '@/api/home.js';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-//信号量
+// //信号量
 var idx = 0;
-var options = {
-  interval: 2000, //间隔时间
-  animatetime: 500,
-  tween: 'QuadEaseOut',
-  width: 1400
-};
+// var options = {
+//   interval: 2000, //间隔时间
+//   animatetime: 500,
+//   tween: 'QuadEaseOut',
+//   width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+// };
 
 class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      banner: []
+      banner: [],
+      options: {
+        interval: 2000, //间隔时间
+        animatetime: 500,
+        tween: 'QuadEaseOut',
+        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+      }
     };
     this.clickCircle = this.clickCircle.bind(this);
+    this.resize = this.resize.bind(this);
   }
+  GABannerImpression(banners){
+    const promotions = banners.map((item,index)=>{
+      return {id:item.bannerId,name:item.bannerName,creative: '',position:`slide_${index}`,}
+    })
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
+      'ecommerce': {
+          'promoView': {
+              'promotions': promotions
+          }
+      }
+  });
+  }
+
+  GABannerClick = (idx) => {
+    const cur_banner = this.state.banner[idx]
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
+      'ecommerce': {
+        'promoClick': {
+          'promotions': [
+           {
+             'id': cur_banner.bannerId,            // Name or ID is required
+             'name': cur_banner.bannerName,
+             'creative': '',
+             'position': idx
+           }]
+        }
+      }  });
+  }
+
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context });
+      this.setState({ banner: res.context },()=>{
+        
+        this.GABannerImpression(this.state.banner)
+      });
     });
+
+    this.screenChange()
+  }
+  screenChange() {
+    window.addEventListener('resize', this.resize);
+  }
+  resize() {
+    this.setState({
+      options: {
+        interval: 2000, //间隔时间
+        animatetime: 500,
+        tween: 'QuadEaseOut',
+        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+      }
+    })
   }
   changeCircles = () => {
     //得到元素
@@ -44,8 +100,12 @@ class Carousel extends React.Component {
       circlesLis[i].className = '';
     }
     circlesLis[n].className = 'cur';
+
+     //点击banner埋点
+     this.GABannerClick(n)
   };
   leftBtnClick = () => {
+    const { options } = this.state
     //得到元素
     var m_unit = document.getElementById('m_unit');
     var imageUL = m_unit.getElementsByTagName('ul')[0];
@@ -61,10 +121,14 @@ class Carousel extends React.Component {
 
     //信号量的变化
     idx--;
+
     if (idx < 0) {
       idx = length - 1;
       m_unit.style.left = -options.width * length + 'px';
     }
+
+    
+    
 
     //改变小圆点
     this.changeCircles();
@@ -76,7 +140,11 @@ class Carousel extends React.Component {
       options.tween
     );
   };
+
+
+  
   rightBtnClick = () => {
+    const { options } = this.state
     //得到元素
     var circles = document.getElementById('circles');
     var m_unit = document.getElementById('m_unit');
@@ -93,7 +161,7 @@ class Carousel extends React.Component {
 
     //信号量的变化
     idx++;
-
+    
     //改变小圆点
     this.changeCircles();
 
@@ -111,8 +179,10 @@ class Carousel extends React.Component {
         }
       }
     );
+
   };
   clickCircle(index) {
+    const { options } = this.state
     //信号量就是自己的序号
     idx = index;
     //拉动
