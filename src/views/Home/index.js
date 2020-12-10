@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import BannerTip from '@/components/BannerTip';
-import { STORE_CATOGERY_ENUM } from '@/utils/constant';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,16 +11,10 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType } from '@/utils/utils';
-import { findStoreCateList } from '@/api/home';
+import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
 
-const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
-const CUR_STORE_CATOGERY =
-  STORE_CATOGERY_ENUM[process.env.REACT_APP_LANG] || [];
-const curNum = CUR_STORE_CATOGERY.length;
 
 function Divider() {
   return (
@@ -354,41 +347,41 @@ const DEFUALT_FILTER_MAP_FR = {
   '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Adulte', 'Sénior'],
-      attributeValueIdList: ['AV20201201094039317', 'AV20201201104729332']
+      attributeValues: ['Adult', 'Senior'],
+      attributeValueIdList: ['AV202012080515164166', 'AV202012080524132476']
     }
   ],
   '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: [
-        'Adulte (1-7 ans)',
-        'Mature (7-12 ans)',
-        'Senior (+12 ans)'
-      ],
+      attributeValues: ['Adult', 'Mature', 'Senior'],
       attributeValueIdList: [
-        'AV20201130020901915',
-        'AV20201201031532561',
-        'AV20201201031601509'
+        'AV202012080515164166',
+        'AV202012080524106176',
+        'AV202012080524132476'
       ]
     }
   ],
   '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Chiot de 0 à 2 mois', 'Chiot de plus de 2 mois'],
-      attributeValueIdList: ['AV20201201031615383', 'AV20201201031628573']
+      attributeValues: ['Puppy'],
+      attributeValueIdList: ['AV202012080524104906']
     }
   ],
   '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
     {
       attributeId: 'A20201125095502036',
+      attributeNameEn: '',
       filterType: '0',
-      attributeValues: ['Chaton (0-4 mois)', 'Chaton (5 mois-1 an)'],
-      attributeValueIdList: ['AV202011250955020380', 'AV202011250955020401']
+      attributeValues: ['Kitten'],
+      attributeValueIdList: ['AV202012080524128906']
     }
   ]
 };
@@ -410,8 +403,8 @@ class Home extends React.Component {
     // }
     this.setState({ deviceType: getDeviceType() });
     setSeoConfig({ pageName: 'Home Page' });
-    findStoreCateList().then((res) => {
-      let tmpRes = (res.context || []).map((ele) => {
+    queryStoreCateList().then((res) => {
+      let tmpRes = (res || []).map((ele) => {
         try {
           let tmpList = JSON.parse(ele.cateImg);
           ele.cateImgHome = tmpList[0].artworkUrl;
@@ -420,7 +413,6 @@ class Home extends React.Component {
         } catch (e) {}
         return ele;
       });
-      sessionItemRoyal.set('home-navigations', JSON.stringify(tmpRes));
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
@@ -436,46 +428,12 @@ class Home extends React.Component {
       page: {
         error: '',
         hitTimestamp: new Date(),
-        path:match.path,
+        path: match.path,
         type: 'Homepage',
-        filters:'',
-        theme: '',
+        filters: '',
+        theme: ''
       }
     };
-
-    const _catogeryJXS = CUR_STORE_CATOGERY.map((ele, i) => (
-      <div
-        className={`col-6 ${
-          curNum >= 6 ? (curNum === 15 ? 'col-md-3' : 'col-md-4') : 'col-md-3'
-        }`}
-        key={i}
-      >
-        <FormattedMessage id={ele.textLangKey}>
-          {(txt) => (
-            <Link
-              className="rc-card rc-card--a rc-margin-bottom--xs--mobile category-cards__card fullHeight gtm-cat-link"
-              to={ele.cateRouter}
-              title={txt}
-            >
-              <picture className="category-cards__card__img">
-                <source srcSet={ele.homeImg} />
-                <LazyLoad height={200}>
-                  <img
-                    src={ele.homeImg}
-                    alt={txt}
-                    title={txt}
-                    style={{ width: '144px' }}
-                  />
-                </LazyLoad>
-              </picture>
-              <div className="rc-text--center rc-intro category-cards__card__text rc-margin--none inherit-fontsize rc-padding-x--xs">
-                <h3 className="rc-margin--none">{txt}</h3>
-              </div>
-            </Link>
-          )}
-        </FormattedMessage>
-      </div>
-    ));
 
     const _catogeryJXS2 = categoryList.map((ele, i) => (
       <div

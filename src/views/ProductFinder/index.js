@@ -29,7 +29,7 @@ class ProductFinder extends React.Component {
     const cachedQuestionData = localItemRoyal.get(
       `pf-cache-${cachedType}-question`
     );
-    
+
     if (cachedType && (cachedQuestionData || tmpOrder)) {
       this.setState({ type: cachedType });
     }

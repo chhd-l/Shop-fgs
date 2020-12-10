@@ -116,6 +116,27 @@
 .subscription .col-md-4 {
     padding: 0;
 }
+
+.subscription .greenCircle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #47B700;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.subscription .yellowCircle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #ED8A00;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
 @media(max-width: 960px) {
     .saveDiscount {
         min-width: 210px;

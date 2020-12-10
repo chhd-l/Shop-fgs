@@ -2,8 +2,8 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { dynamicLoadCss } from '@/utils/utils';
-import { isPrevReady } from '../modules/utils';
+import { dynamicLoadCss, formatMoney } from '@/utils/utils';
+import { isPrevReady, searchNextConfirmPanel } from '../modules/utils';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
 
@@ -12,7 +12,7 @@ import TermsCommon from '../Terms/common';
 @observer
 class AdyenCreditCard extends React.Component {
   static defaultProps = {
-    subBuyWay: '' // once/fre
+    subBuyWay: '' // once/frequence
   };
   constructor(props) {
     super(props);
@@ -46,6 +46,7 @@ class AdyenCreditCard extends React.Component {
   };
   updateSelectedCardInfo = (data) => {
     const { paymentStore, isOnepageCheckout } = this.props;
+    const curPanelKey = 'paymentMethod';
     this.setState({ adyenPayParam: data, isValid: !!data });
     this.props.updateAdyenPayParam(data);
     data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
@@ -61,12 +62,17 @@ class AdyenCreditCard extends React.Component {
 
     const isReadyPrev = isPrevReady({
       list: toJS(paymentStore.panelStatus),
-      curKey: 'paymentMethod'
+      curKey: curPanelKey
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-      isReadyPrev && paymentStore.setStsToEdit({ key: 'confirmation' });
+      paymentStore.setStsToCompleted({ key: curPanelKey });
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
       // 删除卡的时候
       paymentStore.setStsToEdit({ key: 'paymentMethod' });
@@ -86,7 +92,6 @@ class AdyenCreditCard extends React.Component {
     if (!this.state.isValid) {
       return false;
     }
-
     // 登录
     // 1 验证是否选了卡
     // 2 验证同意条款勾选情况
@@ -105,7 +110,14 @@ class AdyenCreditCard extends React.Component {
     }
   };
   render() {
-    const { isOnepageCheckout, listData, subBuyWay, paymentStore } = this.props;
+    const {
+      isOnepageCheckout,
+      listData,
+      subBuyWay,
+      paymentStore,
+      checkoutStore
+    } = this.props;
+    const { tradePrice } = checkoutStore;
     const { isValid, errorMsg } = this.state;
     const _errJSX = (
       <div
@@ -163,11 +175,13 @@ class AdyenCreditCard extends React.Component {
                     className={`rc-btn rc-btn--one submit-payment`}
                     type="submit"
                     name="submit"
-                    value="submit-shipping"
+                    value="submit-shipping 11111"
                     disabled={!isValid}
                     onClick={this.clickPay}
                   >
                     <FormattedMessage id="payment.further" />
+                    {''}
+                    {formatMoney(tradePrice)}
                   </button>
                 </div>
               </div>

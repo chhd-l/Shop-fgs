@@ -15,6 +15,7 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import Faq from '../../Payment/Fr/faq';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -48,7 +49,7 @@ class AboutUs extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -58,7 +59,8 @@ class AboutUs extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          <BannerTip/>
+          {/* {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />} */}
           <br/>
           <BreadCrumbs />
           <div className="storefront-page">
@@ -78,10 +80,10 @@ class AboutUs extends React.Component {
                         </div>
                         <div
                           className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                          <p>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
+                          <h2>Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez
                             Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins
                             spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution
-                            efficace à leurs problèmes de santé.</p>
+                            efficace à leurs problèmes de santé.</h2>
                         </div>
                       </div>
                     </div>

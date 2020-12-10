@@ -62,7 +62,8 @@ class Header extends React.Component {
       activeTopParentId: -1,
       event: {
         search: {}
-      }
+      },
+      isSearchSuccess:false,//是否搜索成功
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -171,7 +172,7 @@ class Header extends React.Component {
           : {
               '/': '1',
               '/cart': '2',
-              '/payment/:type': '3',
+              '/checkout': '3',
               '/confirmation': '4'
             }[this.props.match && this.props.match.path] || ''
     });
@@ -331,7 +332,11 @@ class Header extends React.Component {
   handleSearch=(e)=>{
     if(process.env.REACT_APP_LANG == 'fr'){
       console.log(e.current.value)
-      this.props.history.push('/searchShow/'+e.current.value)
+      if(this.state.isSearchSuccess){
+        this.props.history.push(`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`)
+      }else{
+        this.props.history.push('/searchShow/'+e.current.value)
+      }
     }
     
   }
@@ -405,6 +410,7 @@ class Header extends React.Component {
           //搜索成功-埋点
           this.props.headerSearchStore.getResult(keywords, goodsContent.length);
           console.log('搜索成功-成功', this.props.headerSearchStore);
+          this.setState({isSearchSuccess:true})
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
@@ -426,6 +432,7 @@ class Header extends React.Component {
           //搜索失败-埋点
           this.props.headerSearchStore.getNoResult(keywords);
           console.log('搜索失败-埋点', this.props.headerSearchStore);
+          this.setState({isSearchSuccess:false})
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
@@ -447,6 +454,7 @@ class Header extends React.Component {
     }
   }
   gotoDetails(item) {
+    console.log(item)
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
     this.props.history.push(
       `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
@@ -556,7 +564,28 @@ class Header extends React.Component {
       </div>
     ) : null;
   }
+  // 点击menu埋点
+  GAClickMenu(interaction){
+    const {category,action,label,value} = interaction
+    dataLayer.push(
+      {'event':`${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      interaction:{
+        category,
+        action,
+        label,
+        value},
+      })
+  }
   async handleClickNavItem(item) {
+    // 点击menu埋点-start
+    let interaction = {
+      'category':'menu',
+      'action':'menu',
+      'label':item.avigationLink,
+      'value':item.navigationName
+    }
+    this.GAClickMenu(interaction)
+    // 点击menu埋点-end
     let res = await getDictionary({ type: 'pageType' });
     const targetRes = res.filter((ele) => ele.id === item.pageId);
     // interaction 0-page 1-External URL 2-text
@@ -822,6 +851,8 @@ class Header extends React.Component {
                   </>
                 ) : null}
                 {showUserIcon ? (
+                  <>
+                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{getDeviceType() === 'PC' && this.userInfo && this.userInfo.firstName}</span>
                   <span
                     id="main_mini_cart"
                     className="minicart inlineblock"
@@ -987,6 +1018,7 @@ class Header extends React.Component {
                       </div>
                     )}
                   </span>
+                  </>
                 ) : null}
               </li>
             </ul>

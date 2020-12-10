@@ -44,7 +44,28 @@ export default class DropDownMenu extends React.Component {
   hanldeListItemMouseOut = () => {
     this.props.updateActiveTopParentId(-1);
   };
+  // 埋点submenu和banner
+  GAClickMenu(interaction){
+    const {category,action,label,value} = interaction
+    dataLayer.push(
+      {'event':`${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      interaction:{
+        category,
+        action,
+        label,
+        value},
+      })
+  }
   handleClickNavItem = (item) => {
+    // 点击subMenu埋点-start
+    let interaction = {
+      'category':'submenu',
+      'action':'submenu',
+      'label':item.navigationLink,
+      'value':item.navigationName
+    }
+    this.GAClickMenu(interaction)
+    // 点击subMenu埋点-end
     this.props.handleClickNavItem(item);
   };
   renderNormalMenu = (item, i) => {
@@ -66,7 +87,7 @@ export default class DropDownMenu extends React.Component {
 
     return (
       <div
-        className={`drop dropdown-nav d-flex ${
+        className={`${process.env.REACT_APP_LANG == 'de'?'drop':''} dropdown-nav d-flex ${
           activeTopParentId === item.id ? 'show' : ''
         }`}
         aria-hidden={activeTopParentId === item.id}
@@ -188,7 +209,12 @@ export default class DropDownMenu extends React.Component {
                   <p>{descObj.text}</p>
                 </div>
                 <Link to="/product-finder">
-                  <button className="rc-btn rc-btn--one">
+                  <button className="rc-btn rc-btn--one" onClick={()=>this.GAClickMenu({
+                    'category':'banner',
+                    'action':'banner',
+                    'label':'/product-finder',
+                    'value':'product-finder'
+                  })}>
                     <FormattedMessage id="findTheRightDiet" />
                   </button>
                 </Link>

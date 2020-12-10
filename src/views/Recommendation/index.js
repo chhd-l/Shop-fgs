@@ -55,8 +55,7 @@ class Help extends React.Component {
       details: {
         id: '',
         goodsName: '',
-        goodsImg:
-          'https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202004142026536251.jpg',
+        goodsImg: '',
         goodsDescription: '',
         sizeList: [],
         images: [],
@@ -101,7 +100,9 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'SPT reco landing page'
+    });
     this.setState({ loading: true });
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id)

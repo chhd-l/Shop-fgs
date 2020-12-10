@@ -43,7 +43,7 @@ class Tailorednutrition extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -53,7 +53,7 @@ class Tailorednutrition extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          <BannerTip />
+          <BannerTip/>
           <BreadCrumbs />
 
           <div className="storefront-page">
@@ -72,11 +72,11 @@ class Tailorednutrition extends React.Component {
                         </div>
                         <div
                           className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--sm heading-block-content">
-                          <p>Notre passion pour la santé animale nous a inspiré de nombreuses innovations pour tous les
+                          <h2>Notre passion pour la santé animale nous a inspiré de nombreuses innovations pour tous les
                             chats et les chiens&nbsp;quels que soient leur âge,&nbsp;leur sensibilité, leur race, leur
                             mode de vie et leurs besoins spécifiques. Depuis plus de 50 ans, nous élaborons des aliments
                             qui soutiennent la santé et favorisent le bien-être des chiots, chatons, chiens et chats
-                            dans le monde entier.</p>
+                            dans le monde entier.</h2>
                         </div>
                       </div>
                     </div>

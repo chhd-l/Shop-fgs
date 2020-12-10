@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import find from 'lodash/find';
 import { getDictionary, validData } from '@/utils/utils';
 import { searchNextConfirmPanel } from '../modules/utils';
 import SameAsCheckbox from './SameAsCheckbox';
@@ -72,7 +71,7 @@ class VisitorAddress extends React.Component {
 
     const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.state.billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 
@@ -87,8 +86,8 @@ class VisitorAddress extends React.Component {
     this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
   };
   matchNamefromDict = (dictList, id) => {
-    return find(dictList, (ele) => ele.id === id)
-      ? find(dictList, (ele) => ele.id === id).name
+    return dictList.filter((ele) => ele.id + '' === id).length
+      ? dictList.filter((ele) => ele.id + '' === id)[0].name
       : id;
   };
   updateSameAsCheckBoxVal = (val) => {
@@ -100,11 +99,11 @@ class VisitorAddress extends React.Component {
     this.setState({ billingChecked: val });
     this.props.updateSameAsCheckBoxVal(val);
   };
-  _titleJSX = ({ redColor = false } = {}) => {
+  titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
       <>
         <i
-          className={`qhx 11 rc-icon rc-health--xs ${
+          className={`rc-icon rc-health--xs rc-margin-right--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}
@@ -121,25 +120,25 @@ class VisitorAddress extends React.Component {
       </>
     );
   };
-  _titleJSXForPrepare = () => {
+  titleJSXForPrepare = () => {
     return (
       <>
-        <h5 className={`mb-0`}>{this._titleJSX()}</h5>
+        <h5 className={`mb-0`}>{this.titleJSX()}</h5>
       </>
     );
   };
-  _titleJSXForEdit = () => {
+  titleJSXForEdit = () => {
     return (
       <>
-        <h5 className={`mb-0 red`}>{this._titleJSX({ redColor: true })}</h5>
+        <h5 className={`mb-0 red`}>{this.titleJSX({ redColor: true })}</h5>
       </>
     );
   };
-  _titleJSXForCompeleted = () => {
+  titleJSXForCompeleted = () => {
     return (
       <>
         <h5 className={`mb-0`}>
-          {this._titleJSX()}
+          {this.titleJSX()}
           <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
         </h5>
         <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
@@ -167,9 +166,9 @@ class VisitorAddress extends React.Component {
       <>
         {this.props.titleVisible && (
           <div className="bg-transparent d-flex justify-content-between align-items-center">
-            {this.panelStatus.isPrepare && this._titleJSXForPrepare()}
-            {this.panelStatus.isEdit && this._titleJSXForEdit()}
-            {this.panelStatus.isCompleted && this._titleJSXForCompeleted()}
+            {this.panelStatus.isPrepare && this.titleJSXForPrepare()}
+            {this.panelStatus.isEdit && this.titleJSXForEdit()}
+            {this.panelStatus.isCompleted && this.titleJSXForCompeleted()}
           </div>
         )}
 

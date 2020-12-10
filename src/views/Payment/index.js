@@ -22,7 +22,7 @@ import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
-import { searchNextConfirmPanel } from './modules/utils';
+import { searchNextConfirmPanel, isPrevReady } from './modules/utils';
 import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
@@ -1389,9 +1389,25 @@ class Payment extends React.Component {
   }
 
   updateSameAsCheckBoxVal = (val) => {
+    const { paymentStore } = this.props;
+    const curPanelKey = 'billingAddr';
     // 切换时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
-      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
+      this.props.paymentStore.setStsToEdit({ key: curPanelKey });
+    }
+
+    if (val) {
+      // 下一个最近的未complete的panel
+      const nextConfirmPanel = searchNextConfirmPanel({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+      const isReadyPrev = isPrevReady({
+        list: toJS(paymentStore.panelStatus),
+        curKey: curPanelKey
+      });
+
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     }
     this.setState({ billingChecked: val });
     if (val) {
@@ -1536,7 +1552,7 @@ class Payment extends React.Component {
     ) : null;
   };
 
-  renderBillingJSX = () => {
+  renderBillingJSX = ({ type }) => {
     const {
       billingChecked,
       billingAddress,
@@ -1547,9 +1563,10 @@ class Payment extends React.Component {
       <>
         <SameAsCheckbox
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+          type={type}
         />
         {billingChecked ? (
-          deliveryAddress.firstName ? (
+          deliveryAddress && deliveryAddress.firstName ? (
             <div className="ml-custom mr-custom">
               <span className="medium">
                 {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
@@ -1584,17 +1601,7 @@ class Payment extends React.Component {
                   this.props.paymentStore.updateSelectedBillingAddress(data);
                   this.setState({ billingAddress: data });
                 }}
-              >
-                <div
-                  className="card-header bg-transparent position-relative pt-0 pb-0"
-                  style={{ zIndex: 2, width: '62%' }}
-                >
-                  <h5>
-                    <i className="rc-icon rc-news--xs rc-iconography" />{' '}
-                    <FormattedMessage id="payment.billTitle" />
-                  </h5>
-                </div>
-              </AddressList>
+              />
             ) : (
               <VisitorAddress
                 key={2}
@@ -1620,7 +1627,8 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = () => {
-    const { paymentTypeVal, subForm, listData, payWayObj } = this.state;
+    const { checkoutStore } = this.props;
+    const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
     return (
       <div
         // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
@@ -1699,7 +1707,7 @@ class Payment extends React.Component {
               }}
               isApplyCvv={false}
               needReConfirmCVV={true}
-              billingJSX={this.renderBillingJSX()}
+              billingJSX={this.renderBillingJSX({ type: 'payu' })}
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
           </div>
@@ -1715,6 +1723,7 @@ class Payment extends React.Component {
                 this.setState({ adyenPayParam: data });
               }}
               isOnepageCheckout={this.isOnepageCheckout}
+              checkoutStore={checkoutStore}
             />
           </div>
           {/* KlarnaPayLater */}
@@ -1770,7 +1779,9 @@ class Payment extends React.Component {
           {/* ***********************支付选项卡的内容end******************************* */}
 
           {/* billing address */}
-          {this.isOnepageCheckout && this.renderBillingJSX()}
+          {this.isOnepageCheckout &&
+            !tid &&
+            this.renderBillingJSX({ type: 'common' })}
         </div>
       </div>
     );
@@ -1893,7 +1904,7 @@ class Payment extends React.Component {
         />
         {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
-          <BannerTip />
+          {/* <BannerTip /> */}
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -1951,8 +1962,12 @@ class Payment extends React.Component {
                       style={{ overflow: 'hidden' }}
                     >
                       <i
-                        className="rc-icon rc-payment--sm rc-iconography"
-                        style={{ transform: 'scale(.9)' }}
+                        className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                        style={{
+                          transform: 'scale(.8)',
+                          transformOrigin: 'left',
+                          marginRight: '-.1rem'
+                        }}
                       />{' '}
                       <FormattedMessage id="Pet information" />
                       <p>
@@ -2072,8 +2087,12 @@ class Payment extends React.Component {
                 <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
-                      className="rc-icon rc-payment--sm rc-iconography"
-                      style={{ transform: 'scale(.9)' }}
+                      className="rc-icon rc-payment--sm rc-iconography inlineblock"
+                      style={{
+                        transform: 'scale(.8)',
+                        transformOrigin: 'left',
+                        marginRight: '-.1rem'
+                      }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />
                   </h5>
@@ -2102,14 +2121,16 @@ class Payment extends React.Component {
                     }}
                     listData={listData}
                     checkRequiredItem={this.checkRequiredItem}
+                    checkoutStore={checkoutStore}
                   />
                 )}
               </div>
               <div className="rc-column pl-md-0">
-                {this.state.tid ? (
+                {tid ? (
                   <>
                     <RePayProductInfo
-                      fixToHeader={true}
+                      fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                      style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
                     />
@@ -2117,6 +2138,8 @@ class Payment extends React.Component {
                 ) : (
                   <PayProductInfo
                     data={recommend_data}
+                    fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                    style={{ background: '#fff' }}
                     ref="payProductInfo"
                     location={location}
                     history={history}

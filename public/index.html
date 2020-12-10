@@ -6,7 +6,7 @@
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000" />
-  <meta name="keysword" content=""/>
+  <meta name="keysword" content="" />
   <meta name="description" content="Web site created using create-react-app" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
@@ -27,14 +27,23 @@
     -->
 
   <base href="/">
+  <!-- <link id="royal-canin" rel="stylesheet" type='text/css'
+    href="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.css" /> -->
   <link id="royal-canin" rel="stylesheet" type='text/css'
-    href="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.css" />
+    href="<%= process.env.REACT_APP_HOMEPAGE === '/royal/royal-canin.css' ? '' : 'https://fgs-cdn.azureedge.net/stg/royal/royal-canin.min.css' %>" />
   <!-- <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css"> -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
   <script type="text/javascript"
-    src="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.js"
+    src="<%= process.env.REACT_APP_HOMEPAGE === '/royal/royal-canin.js' ? '' : 'https://fgs-cdn.azureedge.net/stg/royal/royal-canin.min.js' %>"
     id="js-royal-canin"></script>
   <script src="https://at.alicdn.com/t/font_1982813_7a5xdnjqdvy.js"></script>
+
+
+  <!-- <script crossorigin src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-router-dom@5.1.2/umd/react-router-dom.min.js"></script> -->
+
+
   <script>
     if (typeof Object.assign != 'function') {
       Object.assign = function (target) {
@@ -76,9 +85,6 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
 
   <div id="root">
-    <div style="display: flex;align-items: center;justify-content: center;height: 100vh;">
-      <img src="https://wanmi-b2b.oss-cn-shanghai.aliyuncs.com/202011020724162245.gif" style="width: 90px;" />
-    </div>
   </div>
   <!--
       This HTML file is a template.

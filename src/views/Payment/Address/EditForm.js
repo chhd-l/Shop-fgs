@@ -5,6 +5,7 @@ import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary } from '@/utils/utils';
+import { ADDRESS_RULE } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -18,7 +19,8 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false
+    isOnepageCheckout: false,
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -110,6 +112,8 @@ class EditForm extends React.Component {
     });
   };
   inputBlur = (e) => {
+    const target = e.target;
+    const val = target.value;
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -119,7 +123,19 @@ class EditForm extends React.Component {
       return i > -1;
     })[0];
     if (validDom) {
-      validDom.style.display = e.target.value ? 'none' : 'block';
+      let valid = true;
+      const targetRule = ADDRESS_RULE.filter(
+        (ele) => ele.key === target.name
+      )[0];
+      if (targetRule) {
+        if (targetRule.require && !val) {
+          valid = false;
+        }
+        if (targetRule.regExp && val && !targetRule.regExp.test(val)) {
+          valid = false;
+        }
+      }
+      validDom.style.display = valid ? 'none' : 'block';
     }
   };
   handleSelectedItemChange(key, data) {
@@ -139,7 +155,7 @@ class EditForm extends React.Component {
       this.props.updateData(this.state.address);
     });
   };
-  _emailPanelJSX = () => {
+  emailPanelJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -161,7 +177,7 @@ class EditForm extends React.Component {
               name="email"
               maxLength="254"
             />
-            <label className="rc-input__label" htmlFor="shippingEmail"></label>
+            <label className="rc-input__label" htmlFor="shippingEmail" />
           </span>
           <div className="invalid-feedback">
             <FormattedMessage
@@ -175,7 +191,7 @@ class EditForm extends React.Component {
       </div>
     );
   };
-  _postCodeJSX = () => {
+  postCodeJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -203,15 +219,10 @@ class EditForm extends React.Component {
               //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
               data-js-pattern="(*.*)"
             />
-            <label className="rc-input__label" htmlFor="id-text1"></label>
+            <label className="rc-input__label" htmlFor="id-text1" />
           </span>
           <div className="invalid-feedback">
-            <FormattedMessage
-              id="payment.errorInfo"
-              values={{
-                val: <FormattedMessage id="payment.postCode" />
-              }}
-            />
+            <FormattedMessage id="EnterCorrectPostCode" />
           </div>
           <div className="ui-lighter">
             <FormattedMessage id="example" />:{' '}
@@ -226,7 +237,7 @@ class EditForm extends React.Component {
       </div>
     );
   };
-  _phonePanelJSX = () => {
+  phonePanelJSX = () => {
     const { address } = this.state;
     return (
       <div className="col-12 col-md-6">
@@ -278,10 +289,7 @@ class EditForm extends React.Component {
         maxlength="17"
         minLength="16"
       ></input> */}
-            <label
-              className="rc-input__label"
-              htmlFor="shippingPhoneNumber"
-            ></label>
+            <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
           </span>
           <div className="invalid-feedback">
             <FormattedMessage
@@ -300,7 +308,6 @@ class EditForm extends React.Component {
     );
   };
   render() {
-    const { isOnepageCheckout } = this.props;
     const { address } = this.state;
     return (
       <>
@@ -367,7 +374,7 @@ class EditForm extends React.Component {
               </div>
             </div>
           </div>
-          
+
           <div className="col-12">
             <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingAddress1">
@@ -463,9 +470,9 @@ class EditForm extends React.Component {
             </div>
           </div>
 
-          {/* {this._emailPanelJSX()} */}
-          {this._postCodeJSX()}
-          {this._phonePanelJSX()}
+          {/* {this.emailPanelJSX()} */}
+          {this.postCodeJSX()}
+          {this.phonePanelJSX()}
           {/* <div className="col-12 col-md-6">
             <div
               className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName"

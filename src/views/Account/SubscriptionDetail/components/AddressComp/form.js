@@ -398,12 +398,13 @@ export default class AddressForm extends React.Component {
         </div>
 
         <div className="rc-layout-container">
-          {this._emailPanelJSX()}
+          {/* {this._emailPanelJSX()} */}
           {this._phonePanelJSX()}
-        </div>
-        <div className="rc-layout-container">
           {this._postCodeJSX()}
-          <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
+        </div>
+        {/* <div className="rc-layout-container"> */}
+        {/* {this._postCodeJSX()} */}
+        {/* <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down">
             <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
               <label className="form-control-label" htmlFor="shippingLastName">
                 <FormattedMessage id="payment.rfc" />
@@ -424,8 +425,8 @@ export default class AddressForm extends React.Component {
                 <label className="rc-input__label"></label>
               </span>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </>
     );
   }

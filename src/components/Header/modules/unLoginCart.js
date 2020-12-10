@@ -1,11 +1,13 @@
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 import LoginButton from '@/components/LoginButton';
 import {
   formatMoney,
   distributeLinktoPrecriberOrPaymentPage,
-  getFrequencyDict
+  getFrequencyDict,
+  getDeviceType
 } from '@/utils/utils';
 import find from 'lodash/find';
 import { inject, observer } from 'mobx-react';
@@ -191,21 +193,21 @@ class UnloginCart extends React.Component {
         </Link>
         {!this.totalNum ? (
           <div
-            className={[
-              'popover',
-              'popover-bottom',
+            className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
-            ].join(' ')}
+            }`}
           >
             <div className="container cart">
               <div className="minicart__footer__msg text-center minicart-padding">
-                <span className="minicart__pointer"></span>
+                <span className="minicart__pointer" />
                 <div className="minicart__empty">
-                  <img
-                    className="cart-img"
-                    src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
-                    alt="Интернет-магазин ROYAL CANIN®"
-                  />
+                  <LazyLoad>
+                    <img
+                      className="cart-img"
+                      src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
+                      alt="Интернет-магазин ROYAL CANIN®"
+                    />
+                  </LazyLoad>
                   <p className="rc-delta">
                     <FormattedMessage id="header.basketEmpty" />
                   </p>
@@ -214,7 +216,7 @@ class UnloginCart extends React.Component {
             </div>
           </div>
         ) : (
-          <div
+          getDeviceType() === 'PC'?(<div
             className={[
               'popover',
               'popover-bottom',
@@ -342,6 +344,7 @@ class UnloginCart extends React.Component {
                                     </span>
                                   </div>
                                 </div>
+                                <div style={{width: '100%', overflow: 'hidden'}}>
                                 <div className="line-item-total-price justify-content-start pull-left">
                                   <div className="item-attributes">
                                     <p className="line-item-attributes">
@@ -366,8 +369,9 @@ class UnloginCart extends React.Component {
                                     </b>
                                   </div>
                                 </div>
+                                </div>
                                 {item.goodsInfoFlag ? (
-                                  <>
+                                  <div style={{width: '100%', overflow: 'hidden'}}>
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
@@ -407,7 +411,7 @@ class UnloginCart extends React.Component {
                                         </b>
                                       </div>
                                     </div>
-                                  </>
+                                  </div>
                                 ) : null}
                               </div>
                             </div>
@@ -420,15 +424,8 @@ class UnloginCart extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div>): null
         )}
-        {/* <PetModal visible={this.state.petModalVisible}
-                  isAdd={this.state.isAdd}
-                  productList={this.selectedCartData}
-                  openNew={() => this.openNew()}
-                  closeNew={() => this.closeNew()}
-                  confirm={()=>this.petComfirm()}
-                  close={() => this.closePetModal()}/> */}
       </span>
     );
   }

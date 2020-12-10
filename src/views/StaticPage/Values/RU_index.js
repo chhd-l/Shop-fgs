@@ -8,12 +8,19 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
-import { setSeoConfig } from '@/utils/utils';
 
 import './index.css';
+import { toJS } from 'mobx';
+import LoginButton from '@/components/LoginButton';
+import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 class Help extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
@@ -59,8 +66,7 @@ class Help extends React.Component {
               La santé est notre obsession
             </h2>
             <p style={{ fontSize: '1.2rem' }}>
-              Tout ce que nous faisons est motivé par notre passion pour la
-              santé et le bien-être de chaque chien et chat.
+              Tout ce que nous faisons est motivé par notre passion pour la santé et le bien-être de chaque chien et chat.
             </p>
           </section>
 
@@ -81,28 +87,19 @@ class Help extends React.Component {
                   Respecter leur nature
                 </h2>
                 <p>
-                  Nous respectons les chats et les chiens pour ce qu'ils sont :
-                  des animaux de compagnie incroyables. Ce respect est né d'une
-                  connaissance approfondie de leur vraie nature et de leurs
-                  besoins uniques. Ce respect guide chacune de nos décisions
-                  quant à nos produits et services, tout en façonnant notre
-                  attitude en tant qu'entreprise.
+                  Nous respectons les chats et les chiens pour ce qu'ils sont : des animaux de compagnie incroyables. Ce respect est né d'une connaissance approfondie de leur vraie nature et de leurs besoins uniques. Ce respect guide chacune de nos décisions quant à nos produits et services, tout en façonnant notre attitude en tant qu'entreprise.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
                   Les animaux de compagnie en premier
                 </h2>
                 <p>
-                  Nous faisons toujours passer les besoins des animaux de
-                  compagnie en premier. Cela nous donne un objectif clair pour
-                  orienter nos recherches, renforce la qualité nutritionnelle de
-                  tous nos produits et aide les chats et les chiens à vivre plus
-                  longtemps et en meilleure santé.
+                  Nous faisons toujours passer les besoins des animaux de compagnie en premier. Cela nous donne un objectif clair pour orienter nos recherches, renforce la qualité nutritionnelle de tous nos produits et aide les chats et les chiens à vivre plus longtemps et en meilleure santé.
                 </p>
               </div>
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={image1} style={{ width: '100%' }} alt="" />
+              <img src={image1} style={{ width: '100%' }} alt="" />
               </LazyLoad>
             </div>
           </div>
@@ -112,11 +109,11 @@ class Help extends React.Component {
           >
             <div className="rc-column">
               <LazyLoad>
-                <img
-                  src={image2}
-                  style={{ width: '100%', marginTop: '50px' }}
-                  alt=""
-                />
+              <img
+                src={image2}
+                style={{ width: '100%', marginTop: '50px' }}
+                alt=""
+              />
               </LazyLoad>
             </div>
             <div
@@ -132,21 +129,13 @@ class Help extends React.Component {
                   Une précision absolue
                 </h2>
                 <p>
-                  Nos connaissances et notre expérience approfondies nous ont
-                  permis de bien comprendre les besoins des animaux de compagnie
-                  et les nutriments nécessaires pour les garder en parfaite
-                  santé. Cette précision garantit la haute performance de nos
-                  aliments, que ce soit leur forme, leur texture, leur
-                  appétence, leur digestibilité, leur innocuité ou leur
-                  traçabilité.
+                  Nos connaissances et notre expérience approfondies nous ont permis de bien comprendre les besoins des animaux de compagnie et les nutriments nécessaires pour les garder en parfaite santé. Cette précision garantit la haute performance de nos aliments, que ce soit leur forme, leur texture, leur appétence, leur digestibilité, leur innocuité ou leur traçabilité.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
                   Une passion pour les animaux de compagnie
                 </h2>
                 <p>
-                  Nous mettons tout notre cœur et notre âme dans tout ce que
-                  nous faisons, et notre passion pour rendre le monde meilleur
-                  pour les animaux de compagnie et leurs maître est authentique.
+                  Nous mettons tout notre cœur et notre âme dans tout ce que nous faisons, et notre passion pour rendre le monde meilleur pour les animaux de compagnie et leurs maître est authentique.
                 </p>
               </div>
             </div>
@@ -168,26 +157,19 @@ class Help extends React.Component {
                   La quête du savoir
                 </h2>
                 <p>
-                  Notre compréhension approfondie des besoins des chiens et des
-                  chats nous permet de créer la nutrition santé pour animaux la
-                  plus précise au monde. Nous n'arrêtons jamais d'apprendre et
-                  ne tenons jamais rien pour acquis. C'est pourquoi, nous
-                  collaborons avec des experts scientifiques, vétérinaires et
-                  comportementaux, et nous entretenons un dialogue permanent
-                  avec les possesseurs de chats et de chiens du monde entier.
+                  Notre compréhension approfondie des besoins des chiens et des chats nous permet de créer la nutrition santé pour animaux la plus précise au monde. Nous n'arrêtons jamais d'apprendre et ne tenons jamais rien pour acquis. C'est pourquoi, nous collaborons avec des experts scientifiques, vétérinaires et comportementaux, et nous entretenons un dialogue permanent avec les possesseurs de chats et de chiens du monde entier.
                 </p>
                 <h2 style={{ color: '#666', marginTop: '40px' }}>
                   L'obsession pour la santé animale
                 </h2>
                 <p>
-                  Toutes nos actions sont motivées par notre passion pour la
-                  santé et le bien-être de chaque chien et chat.
+                  Toutes nos actions sont motivées par notre passion pour la santé et le bien-être de chaque chien et chat.
                 </p>
               </div>
             </div>
             <div className="rc-column">
               <LazyLoad>
-                <img src={image3} style={{ width: '100%' }} alt="" />
+              <img src={image3} style={{ width: '100%' }} alt="" />
               </LazyLoad>
             </div>
           </div>
@@ -196,15 +178,11 @@ class Help extends React.Component {
           >
             <h2 style={{ fontSize: '2.5rem' }}>Développement durable</h2>
             <p>
-              Grâce à notre approche en matière de développement durable, nous
-              sommes sûrs d'offrir aux animaux, aux personnes et à la planète le
-              respect qu’ils méritent.
+              Grâce à notre approche en matière de développement durable, nous sommes sûrs d'offrir aux animaux, aux personnes et à la planète le respect qu’ils méritent.
             </p>
             <h2 style={{ fontSize: '2.5rem' }}>Science, Santé et Nutrition</h2>
             <p>
-              Notre travail s’appuie sur un vaste socle évolutif de
-              connaissances scientifiques en matière de santé et de nutrition
-              animale.
+              Notre travail s’appuie sur un vaste socle évolutif de connaissances scientifiques en matière de santé et de nutrition animale.
             </p>
           </section>
           {/*<section*/}

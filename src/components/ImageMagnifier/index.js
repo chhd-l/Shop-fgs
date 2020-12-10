@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
+import { getDeviceType } from '@/utils/utils.js'
 
 class ImageMagnifier extends Component {
   static defaultProps = {
@@ -132,7 +133,7 @@ class ImageMagnifier extends Component {
     if (!selectedSizeInfo.length) {
       selectedSizeInfo = [sizeList[0]];
     }
-    
+
     if (selectedSizeInfo.length && selectedSizeInfo[0].goodsInfoImg) {
       let hoverIndex = 0;
       images.map((el, i) => {
@@ -172,9 +173,7 @@ class ImageMagnifier extends Component {
     if (selectedSizeInfo.length) {
       let hoverIndex = 0;
       images.map((el, i) => {
-        if (
-          selectedSizeInfo[0].goodsInfoId === el.goodsInfoId
-        ) {
+        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
           hoverIndex = i;
         }
         return el;
@@ -342,7 +341,7 @@ class ImageMagnifier extends Component {
       hoverIndex
     } = this.state;
     let { images, video, taggingForText, taggingForImage } = this.props;
-    console.log(images, 'images')
+    console.log(images, 'images');
     // images = this.filterImage(images)
     let imgCount = images.length;
     if (video) {
@@ -375,16 +374,27 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {images.map((el, i) => (
-                <div key={i}>
-                  <img
-                    id="J_detail_img"
-                    style={cssStyle.imgStyle}
-                    src={currentImg || this.state.maxImg || noPic}
-                    alt=""
-                  />
-                </div>
-              ))}
+              {images.filter((el) => el.goodsInfoImg).length
+                ? images.map((el, i) => (
+                    <div key={i}>
+                      <img
+                        id="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        src={currentImg || noPic}
+                        alt=""
+                      />
+                    </div>
+                  ))
+                : images.map((el, i) => (
+                    <div key={i}>
+                      <img
+                        id="J_detail_img"
+                        style={cssStyle.imgStyle}
+                        src={currentImg || this.state.maxImg || noPic}
+                        alt=""
+                      />
+                    </div>
+                  ))}
               {videoShow && video && (
                 <div>
                   <video
@@ -409,7 +419,7 @@ class ImageMagnifier extends Component {
             )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
 
-            {!videoShow && (
+            {!videoShow && getDeviceType() === 'PC' && (
               <div
                 style={cssStyle.maskBlock}
                 onMouseEnter={this.mouseEnter}
@@ -454,7 +464,8 @@ class ImageMagnifier extends Component {
                 left: this.state.positionLeft + 'px'
               }}
             >
-              {images.filter(el => el.goodsInfoImg).length? (images &&
+              {images.filter((el) => el.goodsInfoImg).length ? (
+                images &&
                 images.map((el, i) => (
                   <div
                     key={i}
@@ -466,26 +477,27 @@ class ImageMagnifier extends Component {
                     }
                     style={{
                       backgroundImage:
-                        'url(' + (el.artworkUrl || el.goodsInfoImg || noPic) + ')'
+                        'url(' +
+                        (el.artworkUrl || el.goodsInfoImg || noPic) +
+                        ')'
                     }}
                   ></div>
-                ))): (
-                  this.state.minImg? (<div
-                    className={`rc-img--square rc-img--square-custom hover`}
-                    style={{
-                      backgroundImage:
-                        'url(' + this.state.minImg + ')'
-                    }}
-                  ></div>): (
-                    <div
-                    className={`rc-img--square rc-img--square-custom hover`}
-                    style={{
-                      backgroundImage:
-                        'url(' + noPic + ')'
-                    }}
-                  ></div>
-                  )
-                )}
+                ))
+              ) : this.state.minImg ? (
+                <div
+                  className={`rc-img--square rc-img--square-custom hover`}
+                  style={{
+                    backgroundImage: 'url(' + this.state.minImg + ')'
+                  }}
+                ></div>
+              ) : (
+                <div
+                  className={`rc-img--square rc-img--square-custom hover`}
+                  style={{
+                    backgroundImage: 'url(' + noPic + ')'
+                  }}
+                ></div>
+              )}
               {video && (
                 <video
                   className={`rc-img--square rc-img--square-custom ${

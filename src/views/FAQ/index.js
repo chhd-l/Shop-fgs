@@ -7,6 +7,7 @@ import { getFaq } from '../../api/faq';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
+import BreadCrumbs from '../../components/BreadCrumbs';
 
 import './index.less';
 import { setSeoConfig } from '../../utils/utils';
@@ -100,6 +101,7 @@ class FAQ extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
+          <BreadCrumbs />
           <div
             className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
             style={{ maxWidth: '70%' }}

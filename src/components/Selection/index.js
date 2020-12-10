@@ -83,7 +83,7 @@ export default class Selection extends React.Component {
         style={{ ...this.props.customContainerStyle }}
       >
         <div
-          id="petType"
+          id="Selection"
           className={`choices ${optionsVisible ? 'is-open' : ''} ${
             this.props.disabled ? 'disabled' : ''
           }`}

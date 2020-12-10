@@ -65,25 +65,25 @@ class SubscriptionLanding extends React.Component {
                           besoin
                         </h2>
                         <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
-                          <p>
+                          <h2>
                             Certaines choses ne devraient jamais s'épuiser. La
                             nourriture de votre animal de compagnie en fait
                             partie. Dites-nous simplement où et quand
                             l'expédier, et nous nous assurerons que tout ce dont
                             il a besoin arrive directement à votre porte.
-                          </p>
+                          </h2>
                         </div>
                         <div className="d-block d-md-none rc-text--center">
-                          <a href="https://shop.royalcanin.fr/cats/">
+                          <Link to="/cats">
                             <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                               Voir les formules pour chat
                             </button>
-                          </a>
-                          <a href="https://shop.royalcanin.fr/dogs/">
+                          </Link>
+                          <Link to="/dogs">
                             <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                               Voir les formules pour chien
                             </button>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
@@ -91,35 +91,35 @@ class SubscriptionLanding extends React.Component {
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 10% de réduction sur toutes les commandes en
                                 Abonnement
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Suspendre, modifier ou annuler à tout moment
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Livraison offerte
                               </li>
                               <li className="rc-list__item">
-                                <i className="icon-paw rc-margin-right--xs"></i>
+                                <i className="wof rc-margin-right--xs"></i>
                                 Ligne d'assistance téléphonique gratuite sur la
                                 nutrition
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
-                              <a href="https://shop.royalcanin.fr/cats/">
+                              <Link to="/cats">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                                   Voir les formules pour chat
                                 </button>
-                              </a>
-                              <a href="https://shop.royalcanin.fr/dogs/">
+                              </Link>
+                              <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                                   Voir les formules pour chien
                                 </button>
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -164,11 +164,11 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
-                        <p>
+                        <h7>
                           Ajoutez les produits nutritionnels{' '}
                           <strong>répondant aux besoins de votre animal</strong>{' '}
                           dans votre panier.
-                        </p>
+                        </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -182,10 +182,10 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
-                        <p>
+                        <h7>
                           Sélectionnez l'<strong>expédition automatique</strong>{' '}
                           et entrez votre mode de paiement.
-                        </p>
+                        </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -199,10 +199,10 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
-                        <p>
+                        <h7>
                           <strong>Recevez votre produit automatiquement</strong>{' '}
                           en fonction de votre calendrier.
-                        </p>
+                        </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -216,10 +216,10 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
-                        <p>
+                        <h7>
                           Modifiez vos préférences à{' '}
                           <strong>tout moment</strong>.
-                        </p>
+                        </h7>
                       </div>
                     </div>
                   </div>

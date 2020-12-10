@@ -12,15 +12,12 @@ import {
   getFrequencyDict,
   distributeLinktoPrecriberOrPaymentPage
 } from '@/utils/utils';
-import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
-import cloneDeep from 'lodash/cloneDeep';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import cartImg from './images/cart.png';
 import refreshImg from './images/refresh.png';
-import PetModal from '@/components/PetModal';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
@@ -64,6 +61,7 @@ class UnLoginCart extends React.Component {
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
+    this.addQuantity = this.addQuantity.bind(this);
   }
   get totalNum() {
     return this.state.productList
@@ -198,7 +196,6 @@ class UnLoginCart extends React.Component {
       }
       // 库存不够，不能下单
       if (checkoutStore.outOfstockProNames.length) {
-        console.log('names', toJS(checkoutStore.outOfstockProNames));
         window.scrollTo({ behavior: 'smooth', top: 0 });
         this.showErrMsg(
           <FormattedMessage
@@ -213,7 +210,6 @@ class UnLoginCart extends React.Component {
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
-        // this.openPetModal()
         let autoAuditFlag = false;
         if (this.props.loginStore.isLogin) {
           let res = await getProductPetConfig({
@@ -266,33 +262,6 @@ class UnLoginCart extends React.Component {
     } finally {
       this.setState({ checkoutLoading: false });
     }
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
   }
   handleAmountChange(e, item) {
     this.setState({ errorShow: false });
@@ -356,7 +325,12 @@ class UnLoginCart extends React.Component {
         }
       );
     } else {
-      this.showErrMsg(<FormattedMessage id="cart.errorMaxInfo" values={{ val: process.env.REACT_APP_LIMITED_NUM }}/>);
+      this.showErrMsg(
+        <FormattedMessage
+          id="cart.errorMaxInfo"
+          values={{ val: process.env.REACT_APP_LIMITED_NUM }}
+        />
+      );
     }
   }
   subQuantity(item) {
@@ -423,7 +397,7 @@ class UnLoginCart extends React.Component {
     );
   }
   getProducts(plist) {
-    const { checkoutLoading, form } = this.state;
+    const { checkoutLoading, form, isMobile } = this.state;
     console.log(toJS(plist), 'plist');
     const Lists = plist.map((pitem, index) => {
       // console.log(pitem.addedFlag, pitem.quantity, pitem.sizeList.filter(el => el.selected)[0].stock, 'aaaa')
@@ -461,16 +435,16 @@ class UnLoginCart extends React.Component {
           <div className="d-flex pl-3">
             <div className="product-info__img w-100">
               <LazyLoad>
-              <img
-                className="product-image"
-                style={{ maxWidth: '100px' }}
-                src={
-                  find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
-                  pitem.goodsImg
-                }
-                alt={pitem.goodsName}
-                title={pitem.goodsName}
-              />
+                <img
+                  className="product-image"
+                  style={{ maxWidth: '100px' }}
+                  src={
+                    find(pitem.sizeList, (s) => s.selected).goodsInfoImg ||
+                    pitem.goodsImg
+                  }
+                  alt={pitem.goodsName}
+                  title={pitem.goodsName}
+                />
               </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
@@ -508,8 +482,15 @@ class UnLoginCart extends React.Component {
               </span>
 
               <div className="product-edit rc-margin-top--sm--mobile rc-margin-bottom--xs rc-padding--none rc-margin-top--xs d-flex flex-column flex-sm-row justify-content-between">
-                <div style={{ maxWidth: '250px' }}>
-                  <div className="productGoodsSubtitle">{pitem.goodsSubtitle}</div>
+                <div
+                  style={{
+                    maxWidth: '250px',
+                    width: isMobile ? '9rem' : 'inherit'
+                  }}
+                >
+                  <div className="productGoodsSubtitle">
+                    {pitem.goodsSubtitle}
+                  </div>
                   <div className="align-left flex rc-margin-bottom--xs">
                     <div className="stock__wrapper">
                       <div className="stock">
@@ -633,8 +614,8 @@ class UnLoginCart extends React.Component {
                         <span
                           className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                           data-quantity-error-msg="Вы не можете заказать больше 10"
-                          onClick={() => this.addQuantity(pitem)}
-                        ></span>
+                          onClick={this.addQuantity.bind(this, pitem)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -672,10 +653,10 @@ class UnLoginCart extends React.Component {
                           }}
                         >
                           <LazyLoad>
-                          <img src={cartImg} />
+                            <img src={cartImg} />
                           </LazyLoad>
                           <span>
-                            <FormattedMessage id="Single purchase" />  
+                            <FormattedMessage id="singlePurchase" />
                           </span>
                         </span>
                       </div>
@@ -720,7 +701,7 @@ class UnLoginCart extends React.Component {
                             }}
                           >
                             <LazyLoad>
-                            <img src={refreshImg} />
+                              <img src={refreshImg} />
                             </LazyLoad>
                             <FormattedMessage id="autoship" />
                             <span
@@ -797,7 +778,9 @@ class UnLoginCart extends React.Component {
                         </div>
                       </div>
                       <div className="freqency">
-                        <span>delivery every:</span>
+                        <span>
+                          <FormattedMessage id="subscription.frequency" />:
+                        </span>
                         <Selection
                           customContainerStyle={{
                             display: 'inline-block',
@@ -836,8 +819,8 @@ class UnLoginCart extends React.Component {
                   />
                   <span
                     className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    onClick={() => this.addQuantity(pitem)}
-                  ></span>
+                    onClick={this.addQuantity.bind(this, pitem)}
+                  />
                 </div>
               </div>
             </div>
@@ -872,10 +855,10 @@ class UnLoginCart extends React.Component {
                     }}
                   >
                     <LazyLoad>
-                    <img src={cartImg} />
+                      <img src={cartImg} />
                     </LazyLoad>
-                    <span style={{fontSize: '16px'}}>
-                    <FormattedMessage id="Single purchase" />
+                    <span style={{ fontSize: '16px' }}>
+                      <FormattedMessage id="singlePurchase" />
                     </span>
                   </span>
                 </div>
@@ -917,7 +900,7 @@ class UnLoginCart extends React.Component {
                       }}
                     >
                       <LazyLoad>
-                      <img src={refreshImg} />
+                        <img src={refreshImg} />
                       </LazyLoad>
                       <FormattedMessage id="autoship" />
                       <span
@@ -989,7 +972,9 @@ class UnLoginCart extends React.Component {
                   </div>
                 </div>
                 <div className="freqency">
-                  <span><FormattedMessage id="subscription.frequency" />:</span>
+                  <span>
+                    <FormattedMessage id="subscription.frequency" />:
+                  </span>
                   <Selection
                     customContainerStyle={{
                       display: 'inline-block',
@@ -1223,7 +1208,7 @@ class UnLoginCart extends React.Component {
           {/* 显示订阅折扣 */}
           <div
             className={`row leading-lines shipping-item red ${
-              parseInt(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+              parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
             }`}
           >
             <div className="col-8">
@@ -1479,18 +1464,23 @@ class UnLoginCart extends React.Component {
                         <FormattedMessage id="orderSummary" />
                       </h5>
                     </div>
-                    <div id="J_sidecart_container">
-                      {this.sideCart({
-                        className: 'hidden rc-md-up',
-                        style: {
-                          zIndex: 9,
-                          width: 320,
-                          position: 'relative'
-                        },
-                        id: 'J_sidecart_fix'
-                      })}
-                      {this.sideCart()}
-                    </div>
+                    {process.env.REACT_APP_LANG === 'fr' ? (
+                      this.sideCart()
+                    ) : (
+                      <div id="J_sidecart_container">
+                        {this.sideCart({
+                          className: 'hidden rc-md-up',
+                          style: {
+                            zIndex: 9,
+                            width: 320,
+                            position: 'relative'
+                          },
+                          id: 'J_sidecart_fix'
+                        })}
+                        {this.sideCart()}
+                      </div>
+                    )}
+
                     {/* {this.state.productList.some((el) => {
                       const selectedItem = el.sizeList.filter(
                         (s) => s.selected
@@ -1533,7 +1523,11 @@ class UnLoginCart extends React.Component {
                           <div className="ui-item border radius-3">
                             <Link to="/dogs">
                               <LazyLoad>
-                              <img className="w-100" src={dogsImg} alt="Dog" />
+                                <img
+                                  className="w-100"
+                                  src={dogsImg}
+                                  alt="Dog"
+                                />
                               </LazyLoad>
                               <br />
                               <h4 className="card__title red">
@@ -1544,7 +1538,11 @@ class UnLoginCart extends React.Component {
                           <div className="ui-item border radius-3">
                             <Link to="/cats">
                               <LazyLoad>
-                              <img className="w-100" src={catsImg} alt="Cat" />
+                                <img
+                                  className="w-100"
+                                  src={catsImg}
+                                  alt="Cat"
+                                />
                               </LazyLoad>
                               <br />
                               <h4 className="card__title red">

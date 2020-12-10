@@ -185,6 +185,9 @@
 
 .wof{
   display: inline-block!important;
-  width: 30px;
-  height: 30px;
+  vertical-align: middle;
+  width: 28px;
+  height: 28px;
+  background: url("./images/wof.png") no-repeat;
+  background-size: 28px 28px;
 }
