@@ -27,14 +27,12 @@
     -->
 
   <base href="/">
-  <!-- <link id="royal-canin" rel="stylesheet" type='text/css'
-    href="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.css" /> -->
   <link id="royal-canin" rel="stylesheet" type='text/css'
-    href="<%= process.env.REACT_APP_HOMEPAGE === '/royal/royal-canin.css' ? '' : 'https://fgs-cdn.azureedge.net/stg/royal/royal-canin.min.css' %>" />
+    href="<%= process.env.REACT_APP_CDN_PREFIX %>royal/royal-canin.min.css" />
+
   <!-- <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css"> -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
-  <script type="text/javascript"
-    src="<%= process.env.REACT_APP_HOMEPAGE === '/royal/royal-canin.js' ? '' : 'https://fgs-cdn.azureedge.net/stg/royal/royal-canin.min.js' %>"
+  <script type="text/javascript" src="<%= process.env.REACT_APP_CDN_PREFIX %>royal/royal-canin.min.js"
     id="js-royal-canin"></script>
   <script src="https://at.alicdn.com/t/font_1982813_7a5xdnjqdvy.js"></script>
 
@@ -97,5 +95,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+
+
 
 </html>
