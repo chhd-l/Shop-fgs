@@ -21743,7 +21743,8 @@ body {
 @media(max-width: 991.98px) {
   .rc-swatch {
       margin-left:-6px;
-      margin-right: -6px
+      margin-right: -6px;
+      margin-top: 12px;
   }
 }
 
