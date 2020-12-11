@@ -890,5 +890,6 @@ const en_US = {
   'shipmentOn': 'Shipment on',
   'VAT_included': 'VAT included',
   'skiped': 'Skiped',
+  'orderDetail': 'Order Detail',
 }
 export default en_US;
