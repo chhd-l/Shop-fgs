@@ -209,7 +209,6 @@ class RouteFilter extends Component {
       if (prevPath.includes('/checkout')) {
         sessionItemRoyal.remove('rc-tid');
         sessionItemRoyal.remove('rc-tidList');
-        sessionItemRoyal.remove('rc-subform');
         sessionItemRoyal.remove('recommend_product');
       }
       if (prevPath.includes('/confirmation')) {

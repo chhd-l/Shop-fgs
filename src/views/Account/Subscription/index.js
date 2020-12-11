@@ -349,10 +349,10 @@ class Subscription extends React.Component {
                                         </p>
                                         <p>
                                           {item.specText} - {item.subscribeNum}{' '}
-                                          product
+                                          <FormattedMessage id="footer.products"/>
                                         </p>
                                         <p>
-                                          Frequency:{' '}
+                                          <FormattedMessage id="subscription.frequency"/>:{' '}
                                           {frequencyList.filter(
                                             (el) => el.id === item.periodTypeId
                                           ).length
@@ -387,7 +387,7 @@ class Subscription extends React.Component {
                                     marginLeft: '10px'
                                   }}
                                 >
-                                  <p>Autoship started</p>
+                                  <p><FormattedMessage id="autoShipStarted"/></p>
                                   <p
                                     style={{ color: '#666', fontSize: '16px' }}
                                   >
@@ -421,7 +421,7 @@ class Subscription extends React.Component {
                                     );
                                   }}
                                 >
-                                  Manage
+                                  <FormattedMessage id="manage"/>
                                 </button>
                               </div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
@@ -453,7 +453,7 @@ class Subscription extends React.Component {
                           <div className="rc-margin-top--sm">
                             <Link
                               className="rc-btn rc-btn--one"
-                              to="/home"
+                              to="/subscription-landing"
                             >
                               <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
                             </Link>

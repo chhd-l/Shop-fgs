@@ -157,7 +157,7 @@ class SubscriptionDetail extends React.Component {
       successTipVisible: false,
       minDate: new Date(),
       todaydate: new Date(),
-      tabName: ['No start', 'Completed'],
+      tabName: [this.props.intl.messages.noStart, this.props.intl.messages.completed],
       activeTabIdx: 0,
       isMobile: false,
       noStartYearOption: [],
@@ -768,7 +768,7 @@ class SubscriptionDetail extends React.Component {
                               marginLeft: '10px'
                             }}
                           >
-                            Active
+                            <FormattedMessage id="active"/>
                           </span>
                         ) : (
                           <span
@@ -780,7 +780,7 @@ class SubscriptionDetail extends React.Component {
                               marginLeft: '10px'
                             }}
                           >
-                            Inactive
+                            <FormattedMessage id="inactive"/>
                           </span>
                         )
                       ) : null}
@@ -983,7 +983,7 @@ class SubscriptionDetail extends React.Component {
                                       height: '25px'
                                     }}
                                   >
-                                    {formatMoney(el.subscribePrice)}
+                                    {formatMoney(el.subscribePrice * el.subscribeNum)}
                                   </span>
                                   <span
                                     className="price"
@@ -999,7 +999,7 @@ class SubscriptionDetail extends React.Component {
                                       fontSize: '14px'
                                     }}
                                   >
-                                    {formatMoney(el.originalPrice)}
+                                    {formatMoney(el.originalPrice * el.subscribeNum)}
                                   </span>
                                 </div>
                               </div>
@@ -1050,7 +1050,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     {/* Shipping Method: */}
-                                    Autoship starts at:
+                                    <FormattedMessage id="autoShipStarted"/>
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1081,7 +1081,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     />
                                     </LazyLoad>
-                                    <FormattedMessage id="Next shipment"></FormattedMessage>
+                                    <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
                                   </b>
                                   <h1
@@ -1324,7 +1324,7 @@ class SubscriptionDetail extends React.Component {
                                               height: '25px'
                                             }}
                                           >
-                                            {formatMoney(el.subscribePrice)}
+                                            {formatMoney(el.subscribePrice * el.subscribeNum)}
                                           </span>
                                           <span
                                             className="price"
@@ -1340,7 +1340,7 @@ class SubscriptionDetail extends React.Component {
                                               fontSize: '14px'
                                             }}
                                           >
-                                            {formatMoney(el.originalPrice)}
+                                            {formatMoney(el.originalPrice * el.subscribeNum)}
                                           </span>
                                         </div>
                                       </div>
@@ -1397,7 +1397,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     {/* Shipping Method: */}
-                                    Autoship starts at:
+                                    <FormattedMessage id="autoShipStarted"/>
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1428,7 +1428,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     />
                                     </LazyLoad>
-                                    <FormattedMessage id="Next shipment"></FormattedMessage>
+                                    <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
                                   </b>
                                   <h1
@@ -1539,12 +1539,12 @@ class SubscriptionDetail extends React.Component {
                               }
                             }}
                           >
-                            Save Changes
+                            <FormattedMessage id="saveChange"/>
                           </button>
                         </p>
                       </div>
 
-                      <h4 className="h4">Transaction information</h4>
+                      <h4 className="h4"><FormattedMessage id="transactionInfo"/></h4>
                       <div className="row text-left text-break editCard ml-0 mr-0">
                         <div
                           className="col-12 col-md-4 mb-2"
@@ -1787,8 +1787,7 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         }
                       </div>
-                      <h4 className="h4">My Autoship Order</h4>
-
+                      <h4 className="h4"><FormattedMessage id="myAutoshipOrder"/></h4>
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                           <div>
@@ -1910,7 +1909,7 @@ class SubscriptionDetail extends React.Component {
                                                   : '0 15px 0 20px'
                                               }}
                                             >
-                                              shipment on:
+                                              <FormattedMessage id="shipmentOn"/>:
                                               <br />
                                               <span
                                                 style={{
@@ -2040,7 +2039,7 @@ class SubscriptionDetail extends React.Component {
                                                       });
                                                     }}
                                                   >
-                                                    Skip
+                                                    <FormattedMessage id="skip"/>
                                                   </a>
                                                 </>
                                               ) : null}
@@ -2287,7 +2286,7 @@ class SubscriptionDetail extends React.Component {
                                                   });
                                                 }}
                                               >
-                                                Apply
+                                                <FormattedMessage id="apply"/>
                                               </button>
                                             </div>
                                           </div>
@@ -2466,12 +2465,13 @@ class SubscriptionDetail extends React.Component {
                                                       color: '#333'
                                                     }}
                                                   >
-                                                    Total
+                                                    <FormattedMessage id="subscription.total"/>
                                                   </b>
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
-                                                    (VAT included)
+                                                    {/* (VAT included) */}
+                                                    (<FormattedMessage id="VAT_included"/>)
                                                   </span>
                                                 </label>
                                                 <div
@@ -2519,7 +2519,7 @@ class SubscriptionDetail extends React.Component {
                                             }`}
                                             style={{ paddingLeft: '20px' }}
                                           >
-                                            shipment on:{' '}
+                                            <FormattedMessage id="shipmentOn"/>:{' '}
                                             <span
                                               style={{
                                                 color: '#e2001a',
@@ -2538,7 +2538,7 @@ class SubscriptionDetail extends React.Component {
                                           )}
                                           {isMobile ? null : (
                                             <div className="col-12 col-md-3 pl-4">
-                                              Promotion:{' '}
+                                              <FormattedMessage id="promotion"/>:{' '}
                                               <span
                                                 style={{
                                                   color: '#e2001a',
@@ -2595,7 +2595,7 @@ class SubscriptionDetail extends React.Component {
                                                           paddingRight: '30px'
                                                         }}
                                                       >
-                                                        Skiped
+                                                        <FormattedMessage id="skiped"/>
                                                       </span>
                                                     </>
                                                   )}
@@ -2626,8 +2626,8 @@ class SubscriptionDetail extends React.Component {
                                                     );
                                                   }}
                                                 >
-                                                  {/* <FormattedMessage id="subscription.skip" /> */}
-                                                  Order detail
+                                                  <FormattedMessage id="orderDetail" />
+                                                  {/* Order detail */}
                                                 </a>
                                               </>
                                             ) : null}
@@ -2830,7 +2830,7 @@ class SubscriptionDetail extends React.Component {
                                               ) : (
                                                 <>
                                                   <i className="yellowCircle"></i>
-                                                  <span>Skiped</span>
+                                                  <span><FormattedMessage id="skiped"/></span>
                                                 </>
                                               )}
                                             </div>

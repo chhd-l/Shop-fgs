@@ -209,6 +209,7 @@ class List extends React.Component {
       });
     });
   }
+  //点击商品 埋点
   GAProductClick(item,index){
       dataLayer.push({
         'event': `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
@@ -228,9 +229,9 @@ class List extends React.Component {
                 }
             }
     })
-    console.log(dataLayer)
-    //debugger
+    //console.log(dataLayer)
   }
+  // 商品列表 埋点
   GAProductImpression(productList){
     const impressions = productList.map((item,index)=>{
       return {

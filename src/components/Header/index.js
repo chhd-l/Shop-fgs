@@ -65,6 +65,7 @@ class Header extends React.Component {
         search: {}
       },
       isSearchSuccess:false,//是否搜索成功
+      hideNavRouter:["/confirmation","/checkout"]
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -93,6 +94,13 @@ class Header extends React.Component {
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  isHideNavBar(){
+    //只需要在hideNavRouter数组中去配置不要显示nav的路由
+    let str = this.state.hideNavRouter.indexOf(this.props.history.location.pathname)!=-1?'none':'flex'
+    return {
+      display:str
+    }
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
@@ -676,7 +684,7 @@ class Header extends React.Component {
   }
   renderDropDownText = (item) => {
     return item.expanded ? (
-      <span className="rc-header-with-icon">
+      <span className="rc-header-with-icon header-icon">
         {item.navigationName}
         <span
           className={`rc-icon rc-iconography ${
@@ -714,6 +722,7 @@ class Header extends React.Component {
       configStore,
       history
     } = this.props;
+    console.log({history:history.location.pathname})
     const {
       headerNavigationList,
       showSearchInput,
@@ -1030,7 +1039,7 @@ class Header extends React.Component {
           </nav>
 
           <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
-            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap">
+            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap" style={this.isHideNavBar()}>
               {headerNavigationList.map((item, i) => (
                 <li
                   className={`rc-list__item ${

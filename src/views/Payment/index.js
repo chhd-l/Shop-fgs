@@ -7,7 +7,6 @@ import { toJS } from 'mobx';
 import Cookies from 'cookies-js';
 import md5 from 'js-md5';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import BannerTip from '@/components/BannerTip';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Progress from '@/components/Progress';
@@ -140,10 +139,17 @@ class Payment extends React.Component {
   }
   async componentDidMount() {
     const { checkoutStore, paymentStore, clinicStore } = this.props;
+    const { tid } = this.state;
     setSeoConfig();
     if (this.isLogin) {
-      // 登录情况下，删除email panel
-      paymentStore.removeEmailFromPanelItems();
+      // 登录情况下，无需显示email panel
+      paymentStore.setStsToCompleted({ key: 'email' });
+      // paymentStore.removeEmailFromPanelItems();
+      if (tid) {
+        paymentStore.setStsToCompleted({ key: 'deliveryAddr' });
+        paymentStore.setStsToCompleted({ key: 'billingAddr' });
+        this.queryOrderDetails();
+      }
 
       if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
         this.setState({
@@ -196,7 +202,7 @@ class Payment extends React.Component {
     //   return false;
     // }
     if (!sessionItemRoyal.get('recommend_product')) {
-      if (this.isLogin && !this.loginCartData.length && !this.state.tid) {
+      if (this.isLogin && !this.loginCartData.length && !tid) {
         this.props.history.push('/cart');
         return false;
       }
@@ -212,9 +218,6 @@ class Payment extends React.Component {
 
     this.getConsentList();
 
-    if (this.state.tid) {
-      this.queryOrderDetails();
-    }
     if (sessionItemRoyal.get('recommend_product')) {
       let recommend_data = JSON.parse(
         sessionItemRoyal.get('recommend_product')
@@ -260,21 +263,11 @@ class Payment extends React.Component {
         });
       }
     }
-
-    // fill default subform data
-    let cacheSubForm = sessionItemRoyal.get('rc-subform');
-    if (cacheSubForm) {
-      cacheSubForm = JSON.parse(cacheSubForm);
-      this.setState({
-        subForm: cacheSubForm
-      });
-    }
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
-    sessionItemRoyal.remove('rc-subform');
     sessionItemRoyal.remove('recommend_product');
   }
   checkRequiredItem = (list) => {
@@ -981,7 +974,6 @@ class Payment extends React.Component {
           'rc-tidList',
           JSON.stringify(err.errorData.tidList)
         );
-        sessionItemRoyal.set('rc-subform', JSON.stringify(this.state.subForm));
         this.setState(
           {
             tid: err.errorData.tid,
@@ -1326,17 +1318,18 @@ class Payment extends React.Component {
   endLoading = () => {
     this.setState({ loading: false });
   };
-  // 验证邮箱/地址信息/最低额度/超库存商品等
+  // 校验邮箱/地址信息/最低额度/超库存商品等
   async valideCheckoutLimitRule() {
-    const { guestEmail } = this.state;
+    const { checkoutStore } = this.props;
+    const { guestEmail, tid, intl } = this.state;
     try {
-      if (!this.state.tid) {
+      if (!tid) {
         if (!this.isLogin && !guestEmail) {
           throw new Error(
-            this.props.intl.formatMessage(
+            intl.formatMessage(
               { id: 'EnterCorrectValue' },
               {
-                val: this.props.intl.formatMessage({ id: 'email' })
+                val: intl.formatMessage({ id: 'email' })
               }
             )
           );
@@ -1346,7 +1339,7 @@ class Payment extends React.Component {
         // 价格未达到底限，不能下单
         if (this.tradePrice < process.env.REACT_APP_MINIMUM_AMOUNT) {
           throw new Error(
-            this.props.intl.formatMessage(
+            intl.formatMessage(
               { id: 'cart.errorInfo3' },
               { val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT) }
             )
@@ -1354,21 +1347,30 @@ class Payment extends React.Component {
         }
 
         // 存在下架商品，不能下单
-        if (this.props.checkoutStore.offShelvesProNames.length) {
+        if (checkoutStore.offShelvesProNames.length) {
           throw new Error(
-            this.props.intl.formatMessage(
+            intl.formatMessage(
               { id: 'cart.errorInfo4' },
-              { val: this.props.checkoutStore.offShelvesProNames.join('/') }
+              { val: checkoutStore.offShelvesProNames.join('/') }
             )
           );
         }
 
         // 库存不够，不能下单
-        if (this.props.checkoutStore.outOfstockProNames.length) {
+        if (checkoutStore.outOfstockProNames.length) {
           throw new Error(
             this.props.intl.formatMessage(
               { id: 'cart.errorInfo2' },
-              { val: this.props.checkoutStore.outOfstockProNames.join('/') }
+              { val: checkoutStore.outOfstockProNames.join('/') }
+            )
+          );
+        }
+        // 存在被删除商品，不能下单
+        if (checkoutStore.deletedProNames.length) {
+          throw new Error(
+            this.props.intl.formatMessage(
+              { id: 'cart.errorInfo5' },
+              { val: checkoutStore.deletedProNames.join('/') }
             )
           );
         }
@@ -2133,6 +2135,8 @@ class Payment extends React.Component {
                       style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
+                      location={location}
+                      history={history}
                     />
                   </>
                 ) : (

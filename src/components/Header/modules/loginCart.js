@@ -104,6 +104,20 @@ class LoginCart extends React.Component {
         );
         return false;
       }
+
+      // 存在被删除商品，不能下单
+      if (checkoutStore.deletedProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo5"
+            values={{
+              val: checkoutStore.deletedProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
         goodsInfos: checkoutStore.loginCartData
@@ -180,8 +194,7 @@ class LoginCart extends React.Component {
               </div>
             </div>
           </div>
-        ) : (
-          getDeviceType() === 'PC'?(
+        ) : getDeviceType() === 'PC' ? (
           <div
             className={`popover popover-bottom ${
               headerCartStore.visible ? 'show' : ''
@@ -269,12 +282,12 @@ class LoginCart extends React.Component {
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
                                   <LazyLoad>
-                                  <img
-                                    className="product-image"
-                                    src={item.goodsInfoImg}
-                                    alt={item.goodsName}
-                                    title={item.goodsName}
-                                  />
+                                    <img
+                                      className="product-image"
+                                      src={item.goodsInfoImg}
+                                      alt={item.goodsName}
+                                      title={item.goodsName}
+                                    />
                                   </LazyLoad>
                                 </div>
                                 <div className="wrap-item-title">
@@ -288,53 +301,63 @@ class LoginCart extends React.Component {
                                       </span>
                                     </div>
                                   </div>
-                                  <div style={{width: '100%', overflow: 'hidden'}}>
-                                  <div className="line-item-total-price justify-content-start pull-left">
-                                    <div className="item-attributes">
-                                      {process.env.REACT_APP_LANG !== 'de' ? (
-                                        <p className="line-item-attributes">
-                                          {item.specText} -{' '}
-                                          {item.buyCount > 1
-                                            ? `${item.buyCount} products`
-                                            : `${item.buyCount} product`}
-                                        </p>
-                                      ) : (
-                                        <p className="line-item-attributes">
-                                          {item.specText} -{' '}
-                                          {`Anzahl: ${item.buyCount}`}
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-                                  <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                    <div className="item-total-07984de212e393df75a36856b6 price relative">
-                                      <div className="strike-through non-adjusted-price">
-                                        null
-                                      </div>
-                                      <b
-                                        className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
-                                        style={{
-                                          color: item.goodsInfoFlag
-                                            ? '#888'
-                                            : '#666',
-                                          textDecoration: item.goodsInfoFlag
-                                            ? 'line-through'
-                                            : 'inhert'
-                                        }}
-                                      >
-                                        {formatMoney(
-                                          item.salePrice * item.buyCount
+                                  <div
+                                    style={{
+                                      width: '100%',
+                                      overflow: 'hidden'
+                                    }}
+                                  >
+                                    <div className="line-item-total-price justify-content-start pull-left">
+                                      <div className="item-attributes">
+                                        {process.env.REACT_APP_LANG !== 'de' ? (
+                                          <p className="line-item-attributes">
+                                            {item.specText} -{' '}
+                                            {item.buyCount > 1
+                                              ? `${item.buyCount} products`
+                                              : `${item.buyCount} product`}
+                                          </p>
+                                        ) : (
+                                          <p className="line-item-attributes">
+                                            {item.specText} -{' '}
+                                            {`Anzahl: ${item.buyCount}`}
+                                          </p>
                                         )}
-                                      </b>
+                                      </div>
                                     </div>
-                                  </div>
+                                    <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                      <div className="item-total-07984de212e393df75a36856b6 price relative">
+                                        <div className="strike-through non-adjusted-price">
+                                          null
+                                        </div>
+                                        <b
+                                          className="pricing line-item-total-price-amount item-total-07984de212e393df75a36856b6 light"
+                                          style={{
+                                            color: item.goodsInfoFlag
+                                              ? '#888'
+                                              : '#666',
+                                            textDecoration: item.goodsInfoFlag
+                                              ? 'line-through'
+                                              : 'inhert'
+                                          }}
+                                        >
+                                          {formatMoney(
+                                            item.salePrice * item.buyCount
+                                          )}
+                                        </b>
+                                      </div>
+                                    </div>
                                   </div>
                                   {item.goodsInfoFlag ? (
-                                    <div style={{width: '100%', overflow: 'hidden'}}>
+                                    <div
+                                      style={{
+                                        width: '100%',
+                                        overflow: 'hidden'
+                                      }}
+                                    >
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
-                                            Frq:{' '}
+                                            <FormattedMessage id="subscription.frequency"/>:{' '}
                                             {frequencyList.length &&
                                               frequencyList.filter(
                                                 (el) =>
@@ -387,8 +410,8 @@ class LoginCart extends React.Component {
                 </div>
               </div>
             </div>
-          </div>): null
-        )}
+          </div>
+        ) : null}
       </span>
     );
   }
