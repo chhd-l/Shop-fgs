@@ -45,6 +45,6 @@
   } */
 }
 
-.rc-header-with-icon .rc-icon:after{
+.rc-header-with-icon.header-icon .rc-icon:after{
   transform:scale(.438)
 }

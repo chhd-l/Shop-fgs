@@ -207,6 +207,19 @@ class UnLoginCart extends React.Component {
         );
         return false;
       }
+      // 存在被删除商品，不能下单
+      if (checkoutStore.deletedProNames.length) {
+        window.scrollTo({ behavior: 'smooth', top: 0 });
+        this.showErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo5"
+            values={{
+              val: checkoutStore.deletedProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -736,12 +749,25 @@ class UnLoginCart extends React.Component {
                           </span>
                           {/* </div> */}
                           <br />
-                          <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                            {formatMoney(
-                              pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
-                            )}
-                          </b>)}}/>
+                          <FormattedMessage
+                            id="saveExtraMoney"
+                            values={{
+                              val: (
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  {formatMoney(
+                                    pitem.quantity *
+                                      pitem.sizeList.filter(
+                                        (el) => el.selected
+                                      )[0].salePrice -
+                                      pitem.quantity *
+                                        pitem.sizeList.filter(
+                                          (el) => el.selected
+                                        )[0].subscriptionPrice
+                                  )}
+                                </b>
+                              )
+                            }}
+                          />
                         </div>
                         <div className="price">
                           <div
@@ -924,12 +950,23 @@ class UnLoginCart extends React.Component {
                       />
                     </span>
                     <br />
-                    <FormattedMessage id="saveExtraMoney" values={{val: (<b className="product-pricing__card__head__price red  rc-padding-y--none">
-                      {formatMoney(
-                        pitem.buyCount * pitem.salePrice -
-                          pitem.buyCount * pitem.subscriptionPrice
-                      )}
-                    </b>)}}/>
+                    <FormattedMessage
+                      id="saveExtraMoney"
+                      values={{
+                        val: (
+                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                            {formatMoney(
+                              pitem.quantity *
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .salePrice -
+                                pitem.quantity *
+                                  pitem.sizeList.filter((el) => el.selected)[0]
+                                    .subscriptionPrice
+                            )}
+                          </b>
+                        )
+                      }}
+                    />
                   </div>
                   <div className="price">
                     <div

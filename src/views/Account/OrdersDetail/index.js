@@ -12,12 +12,7 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import {
-  formatMoney,
-  getDictionary,
-  setSeoConfig,
-  getFrequencyDict
-} from '@/utils/utils';
+import { formatMoney, getDictionary, setSeoConfig } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { queryCityNameById } from '@/api';
@@ -531,23 +526,6 @@ class AccountOrders extends React.Component {
       commentOnDelivery: detailResCt.buyerRemark
     });
     this.props.checkoutStore.setLoginCartData(tradeItems);
-    if (details.subscriptionResponseVO) {
-      const cycleTypeId = details.subscriptionResponseVO.cycleTypeId;
-
-      const dictList = await getFrequencyDict();
-      sessionItemRoyal.set(
-        'rc-subform',
-        JSON.stringify({
-          buyWay: 'frequency',
-          frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0].name,
-          frequencyId: cycleTypeId
-        })
-      );
-      sessionItemRoyal.set(
-        'rc-rePaySubscribeId',
-        details.subscriptionResponseVO.subscribeId
-      );
-    }
     sessionItemRoyal.set('rc-tid', details.id);
 
     sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
@@ -630,12 +608,12 @@ class AccountOrders extends React.Component {
                 {(item.shippingItems || []).map((ele) => (
                   <div className="text-center col-2" key={ele.skuId}>
                     <LazyLoad>
-                    <img
-                      src={ele.pic || IMG_DEFAULT}
-                      alt={ele.itemName}
-                      title={ele.itemName}
-                      style={{ width: '70%', margin: '0 auto' }}
-                    />
+                      <img
+                        src={ele.pic || IMG_DEFAULT}
+                        alt={ele.itemName}
+                        title={ele.itemName}
+                        style={{ width: '70%', margin: '0 auto' }}
+                      />
                     </LazyLoad>
                     <p className="font-weight-normal ui-text-overflow-line1">
                       {ele.itemName} X {ele.itemNum}
@@ -711,7 +689,7 @@ class AccountOrders extends React.Component {
                 {item.shippingItems.map((sItem) => (
                   <div className="col-3" key={sItem.skuId}>
                     <LazyLoad>
-                    <img className="rc-bg-colour--brand4" src={sItem.pic} />
+                      <img className="rc-bg-colour--brand4" src={sItem.pic} />
                     </LazyLoad>
                   </div>
                 ))}
@@ -1119,12 +1097,12 @@ class AccountOrders extends React.Component {
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                           <LazyLoad>
-                                          <img
-                                            className="order-details-img-fluid"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                            <img
+                                              className="order-details-img-fluid"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
                                           </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-3">
@@ -1370,20 +1348,20 @@ class AccountOrders extends React.Component {
                                         </p>
                                         <p className="medium mb-2">
                                           <LazyLoad>
-                                          <img
-                                            alt=""
-                                            className="d-inline-block mr-1"
-                                            style={{ width: '20%' }}
-                                            src={
-                                              CREDIT_CARD_IMG_ENUM[
-                                                payRecord.vendor.toUpperCase()
-                                              ]
-                                                ? CREDIT_CARD_IMG_ENUM[
-                                                    payRecord.vendor.toUpperCase()
-                                                  ]
-                                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                            }
-                                          />
+                                            <img
+                                              alt=""
+                                              className="d-inline-block mr-1"
+                                              style={{ width: '20%' }}
+                                              src={
+                                                CREDIT_CARD_IMG_ENUM[
+                                                  payRecord.vendor.toUpperCase()
+                                                ]
+                                                  ? CREDIT_CARD_IMG_ENUM[
+                                                      payRecord.vendor.toUpperCase()
+                                                    ]
+                                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                              }
+                                            />
                                           </LazyLoad>
                                           {payRecord.last4Digits ? (
                                             <>
@@ -1446,11 +1424,11 @@ class AccountOrders extends React.Component {
                       <div className="row col-12" key={ele.skuId}>
                         <div className="col-6">
                           <LazyLoad>
-                          <img
-                            src={ele.pic || IMG_DEFAULT}
-                            alt={ele.itemName}
-                            title={ele.itemName}
-                          />
+                            <img
+                              src={ele.pic || IMG_DEFAULT}
+                              alt={ele.itemName}
+                              title={ele.itemName}
+                            />
                           </LazyLoad>
                         </div>
 

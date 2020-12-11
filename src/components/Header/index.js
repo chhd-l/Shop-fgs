@@ -684,7 +684,7 @@ class Header extends React.Component {
   }
   renderDropDownText = (item) => {
     return item.expanded ? (
-      <span className="rc-header-with-icon">
+      <span className="rc-header-with-icon header-icon">
         {item.navigationName}
         <span
           className={`rc-icon rc-iconography ${

@@ -21,9 +21,10 @@ class PayProductInfo extends React.Component {
       productList: [],
       frequencyList: []
     };
+    this.handleClickProName = this.handleClickProName.bind(this);
   }
   async componentDidMount() {
-    await getFrequencyDict().then((res) => {
+    getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -34,7 +35,7 @@ class PayProductInfo extends React.Component {
       ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
       : id;
   }
-  handleClickProName = (item) => {
+  handleClickProName(item) {
     if (this.props.navigateToProDetails) {
       // sessionItemRoyal.set(
       //   'rc-goods-cate-name',
@@ -47,7 +48,7 @@ class PayProductInfo extends React.Component {
         `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
       );
     }
-  };
+  }
   getProductList(plist) {
     const { details } = this.props;
     console.log(plist, details, 'hahaha');
@@ -58,12 +59,12 @@ class PayProductInfo extends React.Component {
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
                 <LazyLoad>
-                <img
-                  className="product-image"
-                  src={item.pic || IMG_DEFAULT}
-                  alt={item.spuName}
-                  title={item.spuName}
-                />
+                  <img
+                    className="product-image"
+                    src={item.pic || IMG_DEFAULT}
+                    alt={item.spuName}
+                    title={item.spuName}
+                  />
                 </LazyLoad>
               </div>
               <div className="wrap-item-title">
@@ -145,7 +146,7 @@ class PayProductInfo extends React.Component {
         id={id}
       >
         <div className="product-summary__recap mt-0 mb-0">
-          {this.props.details ? (
+          {details ? (
             <>
               <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
                 <span>

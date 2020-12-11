@@ -51,12 +51,7 @@ class AdyenCreditCard extends React.Component {
     this.props.updateAdyenPayParam(data);
     data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
 
-    // init时，paymentTypeVal还没返回，todo
-    if (
-      !isOnepageCheckout
-      // &&
-      // this.props.paymentTypeVal !== 'adyenCard'
-    ) {
+    if (!isOnepageCheckout) {
       return false;
     }
 

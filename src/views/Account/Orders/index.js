@@ -16,8 +16,7 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig,
-  getFrequencyDict
+  setSeoConfig
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
@@ -308,20 +307,6 @@ class AccountOrders extends React.Component {
         commentOnDelivery: detailResCt.buyerRemark
       });
       this.props.checkoutStore.setLoginCartData(tradeItems);
-      if (detailResCt.subscriptionResponseVO) {
-        const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId;
-
-        const dictList = await getFrequencyDict();
-        sessionItemRoyal.set(
-          'rc-subform',
-          JSON.stringify({
-            buyWay: 'frequency',
-            frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0]
-              .name,
-            frequencyId: cycleTypeId
-          })
-        );
-      }
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
       sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
@@ -408,31 +393,11 @@ class AccountOrders extends React.Component {
     const token =
       sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
     let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
-    // todo
     const exportHref = `${
       process.env.REACT_APP_BASEURL
     }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
 
-    debugger;
     window.open(exportHref);
-    return;
-
-    new Promise((resolve) => {
-      setTimeout(() => {
-        let base64 = new util.Base64();
-        if (token) {
-          let result = JSON.stringify({ ...params });
-          let encrypted = base64.urlEncode(result); // 新窗口下载
-
-          const exportHref =
-            Const.HOST + `/account/orderInvoice/exportPDF/${encrypted}`;
-          window.open(exportHref);
-        } else {
-          message.error('Unsuccessful');
-        }
-        resolve();
-      }, 500);
-    });
   }
   renderOperationBtns = (order) => {
     return (
@@ -692,7 +657,7 @@ class AccountOrders extends React.Component {
                                         </span>
                                       </p>
                                     </div>
-                                    <div className="col-12 col-md-1">
+                                    <div className="col-12 col-md-2">
                                       <p>
                                         <FormattedMessage id="total" />
                                         <br className="d-none d-md-block" />
@@ -713,7 +678,15 @@ class AccountOrders extends React.Component {
                                           )}
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
-                                          <span className="medium pull-right--desktop rc-styled-link">
+                                          <span
+                                            className="medium pull-right--desktop rc-styled-link"
+                                            style={{
+                                              textOverflow: 'ellipsis',
+                                              overflow: 'hidden',
+                                              whiteSpace: 'nowrap',
+                                              maxWidth: '82%'
+                                            }}
+                                          >
                                             <FormattedMessage id="invoice" />
                                           </span>
                                         </div>
@@ -724,7 +697,15 @@ class AccountOrders extends React.Component {
                                         className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
                                         to={`/account/orders/detail/${order.id}`}
                                       >
-                                        <span className="medium pull-right--desktop rc-styled-link">
+                                        <span
+                                          className="medium pull-right--desktop rc-styled-link"
+                                          style={{
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                            maxWidth: '99%'
+                                          }}
+                                        >
                                           <FormattedMessage id="order.orderDetails" />
                                         </span>
                                       </Link>
