@@ -118,6 +118,8 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      event:{},
+      eEvents:{},
       initing: true,
       details: {
         id: '',
@@ -590,6 +592,9 @@ class Details extends React.Component {
               specList
             },
             () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details)
+              //Product Detail Page view 埋点end
               this.matchGoods();
             }
           );
@@ -789,33 +794,6 @@ class Details extends React.Component {
     //   () => this.updateInstockStatus()
     // );
   }
-  collectAddCar(details) {
-    //加入购物车，埋点
-    console.log('添加购物车埋点', details);
-    dataLayer.push({
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
-      ecommerce: {
-        add: {
-          products: [
-            {
-              name: 'Mother and Babycat',
-              id: '1234',
-              club: 'yes',
-              type: 'subscription',
-              price: '12.05',
-              brand: 'Royal Canin',
-              category: 'Cat/{{Range}}/Dry',
-              variant: '2',
-              quantity: '1',
-              recommendation: 'recommended',
-              sku: 'XFGHUIY'
-            }
-          ]
-        }
-      }
-    });
-    console.log(dataLayer);
-  }
   async hanldeAddToCart({ redirect = false, needLogin = false } = {}) {
     try {
       const { loading } = this.state;
@@ -839,7 +817,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.collectAddCar(details);
+      this.GAAddToCar(details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -968,7 +946,9 @@ class Details extends React.Component {
       loading
     } = this.state;
     const { goodsId, sizeList } = details;
-    this.collectAddCar(details);
+    // 加入购物车 埋点start
+    this.GAAddToCar(details);
+    // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
       throw new Error();
@@ -1267,6 +1247,61 @@ class Details extends React.Component {
       return this.formatUnit(res);
     }
   }
+  //加入购物车，埋点
+  GAAddToCar(item) {
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
+      ecommerce: {
+        add: {
+          products: [
+            {
+              name: item.goodsName,
+              id: item.goodsId,
+              club: 'no',
+              type: '',//?是否订阅
+              price: item.minMarketPrice,
+              brand: item.brandName||'Royal Canin',
+              category: item.goodsCateName,
+              variant: item.goodsWeight,
+              quantity: '',//?数量
+              recommendation: 'recommended', //?self-selected, recommended
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
+            }
+          ]
+        }
+      }
+    });
+    console.log('添加购物车埋点dataLayer',dataLayer);
+  }
+  //商品详情页 埋点
+  GAProductDetailPageView(item){
+    const event = {
+      page: {
+        type: 'Product',
+      }
+    };
+    const eEvents = {
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
+      ecommerce: {
+        currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+        detail: {
+          products: [
+            {
+              id: item.goodsId,
+              name: item.goodsName,
+              price: item.minMarketPrice,
+              brand: 'ROYAL CANIN',//?
+              club: 'no',
+              category:item.goodsCateName,
+              variant: item.goodsWeight,
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
+            }
+          ]
+        }
+      }
+    };
+    this.setState({event,eEvents})
+  }
   render() {
     const createMarkup = (text) => ({ __html: text });
     const { history, location, match } = this.props;
@@ -1293,44 +1328,20 @@ class Details extends React.Component {
       activeTabIdx,
       checkOutErrMsg,
       isMobile,
-      breadCrumbs
+      breadCrumbs,
+      event,
+      eEvents
     } = this.state;
+
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    let eEvents;
-    if (!this.state.initing) {
-      const event = {
-        page: {
-          type: 'Product'
-        }
-      };
-      eEvents = {
-        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductView`,
-        action: 'detail',
-        ecommerce: {
-          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-          detail: {
-            products: [
-              {
-                id: '123',
-                name: 'Mother and Babycat',
-                price: '234',
-                brand: 'Royal Canin',
-                club: 'no',
-                category: 'Cat/{{Range}}/Dry',
-                variant: '4.00 Kg',
-                sku: 'XFGHUIY'
-              }
-            ]
-          }
-        }
-      };
-    }
 
     return (
       <div id="Details">
-        <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        {
+          Object.keys(event).length>0?<GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />:null
+        }
         <Header
           showMiniIcons={true}
           showUserIcon={true}
