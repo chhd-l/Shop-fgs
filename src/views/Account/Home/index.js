@@ -91,7 +91,9 @@ class AccountHome extends React.Component {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'Account index'
+    });
   }
 
   render() {
