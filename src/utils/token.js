@@ -7,8 +7,6 @@ const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
 
-const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
-
 
 export function setToken(token) {
     getToken({ oktaToken: `Bearer ${token}` })
@@ -29,12 +27,12 @@ export function setToken(token) {
         console.log(loginStore, 'loginStore');
         await checkoutStore.updateLoginCart();
       }
-    
-      setIsGetUserInfoDown(true);
+      return true;
     })
     .catch((e) => {
       console.log(e);
       loginStore.changeLoginModal(false);
+      return false;
     });
 }
 

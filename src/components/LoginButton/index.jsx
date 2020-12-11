@@ -62,7 +62,8 @@ const LoginButton = (props) => {
         .then((info) => {
           setUserInfo(info);
           if (!loginStore.isLogin) {
-            setToken(authState.accessToken ? authState.accessToken.value : '');
+           var result = setToken(authState.accessToken ? authState.accessToken.value : '');
+           setIsGetUserInfoDown(result);
           } else {
             loginStore.changeLoginModal(false);
           }
