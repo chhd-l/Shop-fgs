@@ -768,7 +768,7 @@ class Header extends React.Component {
                 id="header__logo"
                 className="rc-header__logo"
                 type="image/svg+xml"
-                // data={logoAnimatedSvg}
+                data={logoAnimatedSvg}
                 data-js-import-interactive-svg
               >
                 <LazyLoad>
