@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
@@ -8,6 +8,7 @@ import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+@injectIntl
 class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
@@ -82,12 +83,24 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {item.specDetails} -{' '}
-                    {item.num > 1 ? (
-                      <FormattedMessage id="items" values={{ val: item.num }} />
-                    ) : (
-                      <FormattedMessage id="item" values={{ val: item.num }} />
-                    )}
+                    {[
+                      item.specDetails,
+                      item.num > 1
+                        ? this.props.intl.formatMessage(
+                            { id: 'items' },
+                            {
+                              val: item.num
+                            }
+                          )
+                        : this.props.intl.formatMessage(
+                            { id: 'item' },
+                            {
+                              val: item.num
+                            }
+                          )
+                    ]
+                      .filter((e) => e)
+                      .join(' - ')}
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>

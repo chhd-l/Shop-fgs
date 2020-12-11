@@ -8,7 +8,8 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';
-import { setSeoConfig } from '../../utils/utils';
+import { Link } from 'react-router-dom';
+import { setSeoConfig } from '@/utils/utils';
 
 import './index.less';
 
@@ -110,30 +111,30 @@ class FAQ extends React.Component {
           >
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-padding-left--none">
-                <div className="rc-padding-y--md rc-md-down"></div>
+                <div className="rc-padding-y--md rc-md-down" />
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none ">
                       <h1
-                        style={{ textAlign: 'center' }}
+                        className="text-center"
                         className="rc-alpha inherit-fontsize"
                       >
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
-                      <p style={{ textAlign: 'center' }}>
+                      <p className="text-center">
                         <FormattedMessage
                           id="faq.title"
                           values={{
                             val1: (
-                              <a
+                              <Link
                                 rel="nofollow"
-                                className="rc-styled-link"
+                                className="rc-styled-link ui-cursor-pointer"
                                 target="_blank"
-                                href="/help"
-                                style={{ cursor: 'pointer' }}
+                                to="/help"
+                                rel="nofollow"
                               >
                                 <FormattedMessage id="here" />
-                              </a>
+                              </Link>
                             )
                           }}
                         />

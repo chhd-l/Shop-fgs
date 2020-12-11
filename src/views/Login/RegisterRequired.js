@@ -176,6 +176,7 @@ class RegisterRequired extends Component {
 
       console.log(this.state.list);
     } catch (err) {
+      debugger
       window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
     } finally {
       this.setState({

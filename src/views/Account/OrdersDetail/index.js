@@ -1096,7 +1096,7 @@ class AccountOrders extends React.Component {
                                         }`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad>
+                                          <LazyLoad className="d-flex justify-content-center align-items-center w-100 h-100">
                                             <img
                                               className="order-details-img-fluid"
                                               src={item.pic || IMG_DEFAULT}
@@ -1347,7 +1347,9 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="payment.payment" />
                                         </p>
                                         <p className="medium mb-2">
-                                          <LazyLoad>
+                                          <LazyLoad
+                                            style={{ display: 'inline' }}
+                                          >
                                             <img
                                               alt=""
                                               className="d-inline-block mr-1"

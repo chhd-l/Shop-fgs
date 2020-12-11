@@ -8,7 +8,7 @@ const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
 
 
-export function setToken(token) {
+export async function setToken(token) {
     getToken({ oktaToken: `Bearer ${token}` })
     .then(async (res) => {
       let userinfo = res.context.customerDetail;
@@ -27,12 +27,11 @@ export function setToken(token) {
         console.log(loginStore, 'loginStore');
         await checkoutStore.updateLoginCart();
       }
-      return true;
+      setIsGetUserInfoDown(true);
     })
     .catch((e) => {
       console.log(e);
       loginStore.changeLoginModal(false);
-      return false;
     });
 }
 

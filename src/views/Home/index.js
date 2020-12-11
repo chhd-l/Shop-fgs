@@ -66,17 +66,17 @@ function HealthNutrition() {
                               <source
                                 media="(max-width: 640px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
+                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=728&amp;sfrm=png 2x"
                               />
                               <source
                                 media="(min-width: 640px) and (max-width: 1439px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
+                                srcSet="Shttps://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=1436&amp;sfrm=png 2x"
                               />
                               <source
                                 media="(min-width: 1439px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwdfd395e0/Homepage/minibanner1.jpg?sw=814&amp;sfrm=png 2x"
                               />
                               <LazyLoad height={200}>
                                 <img
@@ -118,17 +118,17 @@ function HealthNutrition() {
                               <source
                                 media="(max-width: 640px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=364&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=728&amp;sfrm=png 2x"
                               />
                               <source
                                 media="(min-width: 640px) and (max-width: 1439px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=718&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=1436&amp;sfrm=png 2x"
                               />
                               <source
                                 media="(min-width: 1439px)"
                                 data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=407&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwd217c472/Homepage/minibanner2.jpg?sw=814&amp;sfrm=png 2x"
                               />
                               <LazyLoad height={200}>
                                 <img
@@ -164,17 +164,17 @@ function HealthNutrition() {
                           <source
                             media="(max-width: 640px)"
                             data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=350&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=700&amp;sfrm=png 2x"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=350&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=700&amp;sfrm=png 2x"
+                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=350&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=700&amp;sfrm=png 2x"
                           />
                           <source
                             media="(min-width: 640px) and (max-width: 769px)"
                             data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=706&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1412&amp;sfrm=png 2x"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=706&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1412&amp;sfrm=png 2x"
+                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=706&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1412&amp;sfrm=png 2x"
                           />
                           <source
                             media="(min-width: 769px)"
                             data-srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
-                            srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
+                            srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=622&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw4d48b068/Homepage/RC-draw.jpg?sw=1244&amp;sfrm=png 2x"
                           />
                           <LazyLoad height={200}>
                             <img
@@ -277,7 +277,7 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=586&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=586&amp;sfrm=png 2x"
                                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw0f1c04d3/Homepage/SOCIAL2.jpg?sw=293&amp;sfrm=png"
                               />
                             </LazyLoad>
@@ -300,7 +300,7 @@ function Share() {
                                 className="w-100 lazyloaded"
                                 alt="Royal Canin Dog Products on Social Media"
                                 title="Royal Canin Dog Products on Social Media"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=586&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=586&amp;sfrm=png 2x"
                                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dw601328ff/Homepage/SOCIAL3.jpg?sw=293&amp;sfrm=png"
                               />
                             </LazyLoad>
@@ -323,7 +323,7 @@ function Share() {
                                 className="w-100 ls-is-cached lazyloaded"
                                 alt="Royal Canin Cat Products on Social Media"
                                 title="Royal Canin Cat Products on Social Media"
-                                srcset="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=586&amp;sfrm=png 2x"
+                                srcSet="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png, https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=586&amp;sfrm=png 2x"
                                 src="https://shop.royalcanin.com/dw/image/v2/BDJP_PRD/on/demandware.static/-/Sites-US-Library/en_US/dwa1e1259c/Homepage/SOCIAL4.jpg?sw=293&amp;sfrm=png"
                               />
                             </LazyLoad>
