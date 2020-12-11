@@ -229,6 +229,20 @@ class LoginCart extends React.Component {
         return false;
       }
 
+      // 存在被删除商品，不能下单
+      if (checkoutStore.deletedProNames.length) {
+        window.scrollTo({ behavior: 'smooth', top: 0 });
+        this.showErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo5"
+            values={{
+              val: checkoutStore.deletedProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
+
       this.checkoutStore.setLoginCartData(productList);
       // this.openPetModal()
       let autoAuditFlag = false;

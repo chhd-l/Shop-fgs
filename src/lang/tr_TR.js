@@ -105,6 +105,7 @@ const tr_TR = {
   'cart.errorInfo2': 'Stokta olmayan ürün siparişinizi veremezsiniz',
   'cart.errorInfo3': '* Sipariş tutarınız henüz ücretsiz gönderim için minimum tutara （{val} ulaşmadı',
   'cart.errorInfo4': 'Siparişinizi veremezsiniz, kapalı raf ürünü',
+  'cart.errorInfo5': 'Siparişinizi veremezsiniz, silinmiş ürün: {val}',
   'cart.errorMaxCate': 'Alışveriş sepeti {val} öğeyi aşamaz',
   'cart.errorMaxInfo': "Sayı {val}'u geçemez",
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',

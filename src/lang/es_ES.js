@@ -125,6 +125,7 @@ const es_ES = {
   'cart.errorInfo2': 'No puede realizar su pedido, producto agotado: {val}',
   'cart.errorInfo3': '*El monto de su pedido aún no ha alcanzado el monto mínimo para envío gratuito ({val})',
   'cart.errorInfo4': 'No puede realizar su pedido, producto fuera de estantería: {val}',
+  'cart.errorInfo5': 'No puede realizar su pedido, producto eliminado: {val}',
   'cart.errorMaxCate': 'El carrito de compras no puede exceder los {val} artículos.',
   'cart.errorMaxInfo': 'El número no puede exceder de {val}',
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',

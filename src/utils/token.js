@@ -2,6 +2,7 @@ import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import stores from '@/store';
 
+const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;

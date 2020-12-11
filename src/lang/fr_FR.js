@@ -126,6 +126,7 @@ const fr_FR = {
   'cart.errorInfo2': 'Vous ne pouvez pas passer votre commande, produit en rupture de stock: {val}',
   'cart.errorInfo3': "* Le montant de votre commande n'a pas encore atteint le montant minimum pour la livraison gratuite ({val})",
   'cart.errorInfo4': 'Vous ne pouvez pas passer votre commande: {val}',
+  'cart.errorInfo5': 'Vous ne pouvez pas passer votre commande, produit supprimé: {val}',
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
   'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL',

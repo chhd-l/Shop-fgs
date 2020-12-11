@@ -489,7 +489,6 @@ class AddressList extends React.Component {
       <div
         id={`J-address-title-${this.props.id}`}
         className="bg-transparent d-flex justify-content-between align-items-center"
-        style={{ marginTop: this.props.type === 'billing' ? -29 : 0 }}
       >
         <h5
           className="mb-0"
@@ -613,7 +612,11 @@ class AddressList extends React.Component {
     return (
       <>
         {this.props.children}
-        <div className={`mt-1 ${this.props.visible ? '' : 'hidden'} payment-addressList`}>
+        <div
+          className={`mt-1 ${
+            this.props.visible ? '' : 'hidden'
+          } payment-addressList`}
+        >
           {_title}
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${

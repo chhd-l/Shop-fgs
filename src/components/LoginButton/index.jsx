@@ -20,6 +20,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const loginStore = stores.loginStore;
 
 const LoginButton = (props) => {
+  const { history } = props;
   const init = props.init;
   const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
@@ -37,6 +38,23 @@ const LoginButton = (props) => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
+
+      const parametersString = history.location.search;
+      if(!parametersString) {
+        return;
+      }
+      if(parametersString.indexOf('redirect=order') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
+      }
+      if(parametersString.indexOf('redirect=subscription') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
+      }
+      if(parametersString.indexOf('redirect=baseinfo') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      }
+      if(parametersString.indexOf('toOkta=true') >= 0) {
+        oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      }
     } else {
       loginStore.changeLoginModal(true);
       oktaAuth
