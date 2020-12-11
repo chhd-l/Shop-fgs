@@ -1644,7 +1644,7 @@ class SubscriptionDetail extends React.Component {
                               />
                               </LazyLoad>
                               <span>
-                                <FormattedMessage id="billing" />
+                                <FormattedMessage id="billing2" />
                               </span>
                               {subDetail.subscribeStatus === '0' && (
                                 <a
@@ -1708,7 +1708,7 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div className="align-items-center">
-                                <LazyLoad>
+                                <LazyLoad style={{display:'inline'}}>
                                 <img
                                   src={paymentIcon}
                                   style={{

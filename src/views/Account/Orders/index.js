@@ -758,11 +758,17 @@ class AccountOrders extends React.Component {
                                           <span className="medium color-444 ui-text-overflow-line2">
                                             {item.spuName}
                                           </span>
-                                          {item.specDetails} -{' '}
-                                          <FormattedMessage
-                                            id="xProduct"
-                                            values={{ val: item.num }}
-                                          />
+                                          {[
+                                            item.specDetails,
+                                            this.props.intl.formatMessage(
+                                              { id: 'xProduct' },
+                                              {
+                                                val: item.num
+                                              }
+                                            )
+                                          ]
+                                            .filter((e) => e)
+                                            .join(' - ')}
                                         </div>
                                         <div className="col-2 col-md-2 rc-md-up">
                                           {formatMoney(item.price)}
@@ -854,11 +860,17 @@ class AccountOrders extends React.Component {
                               {item.spuName}
                             </span>
                             <span>
-                              {item.specDetails} -{' '}
-                              <FormattedMessage
-                                id="xProduct"
-                                values={{ val: item.num }}
-                              />
+                              {[
+                                item.specDetails,
+                                this.props.intl.formatMessage(
+                                  { id: 'xProduct' },
+                                  {
+                                    val: item.num
+                                  }
+                                )
+                              ]
+                                .filter((e) => e)
+                                .join(' - ')}
                             </span>
                             <br />
                             <span style={{ fontSize: '1.1em' }}>
