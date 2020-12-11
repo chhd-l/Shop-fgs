@@ -31,7 +31,6 @@ const LoginButton = (props) => {
   const { authState } = useOktaAuth();
 
   useEffect(() => {
-    debugger
     if (isGetUserInfoDown && init) {
       init();
     }
