@@ -474,7 +474,7 @@ const tr_TR = {
   'payment.frequencyTip1': 'Evet, hayatımı kolaylaştırın!',
   'payment.frequencyTip2': 'Hayır teşekkürler.',
   'payment.frequencyTip3': 'Öğeleriniz yalnızca bir kez gönderilecektir.',
-  'payment.further': 'Daha ileri',
+  'payment.further': 'Ödemek',
   'payment.howToDelivery': 'Nasıl teslim edilir',
   'payment.itemTotalProduct': 'öğe toplam ürünü',
   'payment.lastName': 'Soyadı',

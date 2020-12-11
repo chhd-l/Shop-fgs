@@ -516,7 +516,7 @@ const es_ES = {
   'payment.frequencyTip1': '¡Sí, haz mi vida más fácil!',
   'payment.frequencyTip2': 'No gracias.',
   'payment.frequencyTip3': 'Sus artículos solo se enviarán una vez.',
-  'payment.further': 'Confirmar',
+  'payment.further': 'Paga',
   'payment.howToDelivery': 'Cómo entregar',
   'payment.itemTotalProduct': 'producto(s) en total',
   'payment.lastName': 'Apellido',

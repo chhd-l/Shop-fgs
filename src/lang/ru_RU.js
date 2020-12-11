@@ -476,7 +476,7 @@ const ru_RU = {
     "payment.frequencyTip1": "Да, сделай мою жизнь проще!",
     "payment.frequencyTip2": "Нет, спасибо.",
     "payment.frequencyTip3": "Ваши товары будут отправлены только один раз",
-    "payment.further": "В дальнейшем",
+    "payment.further": "Платить",
     "payment.howToDelivery": "Как доставить",
     "payment.itemTotalProduct": "товар всего товара",
     "payment.lastName": "Фамилия",

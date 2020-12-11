@@ -966,7 +966,7 @@ class Payment extends React.Component {
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
       }
-      if (err.errorData) {
+      if (err.errorData && err.errorData.tid && err.errorData.tidList) {
         // err.errorData 支付失败，errorData返回支付信息
         sessionItemRoyal.set('rc-tid', err.errorData.tid);
         sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
@@ -2093,7 +2093,7 @@ class Payment extends React.Component {
                       style={{
                         transform: 'scale(.8)',
                         transformOrigin: 'left',
-                        marginRight: '-.4rem'
+                        marginRight: '-.1rem'
                       }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />

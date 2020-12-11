@@ -555,7 +555,7 @@ const de_DE = {
   'payment.frequencyTip1': 'Ja, ich möchte eine Abonnement-Bestellung abschließen.',
   'payment.frequencyTip2': 'Nein, ich möchte keine Abonnement-Bestellung abschließen.',
   'payment.frequencyTip3': 'Ihre Artikel werden nur einmal versendet.',
-  'payment.further': 'Weiter',
+  'payment.further': 'Zahlen',
   'payment.howToDelivery': 'Wie zu liefern',
   'payment.itemTotalProduct': 'Artikel Gesamtprodukt',
   'payment.lastName': 'Nachname',

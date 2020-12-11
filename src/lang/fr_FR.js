@@ -536,7 +536,7 @@ const fr_FR = {
   'payment.frequencyTip1': "Oui, je souhaite passer une commande d'abonnement.",
   'payment.frequencyTip2': "Non, je ne souhaite pas passer de commande d'abonnement.",
   'payment.frequencyTip3': "Vos articles ne seront envoyés qu'une seule fois.",
-  'payment.further': 'Plus loin',
+  'payment.further': 'Payer',
   'payment.howToDelivery': 'Comment livrer',
   'payment.itemTotalProduct': "Produit total de l'article",
   'payment.lastName': 'Nom de famille',

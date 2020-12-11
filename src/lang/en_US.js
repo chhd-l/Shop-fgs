@@ -544,7 +544,7 @@ const en_US = {
   'payment.frequencyTip1': 'Yes, Make my life easy!',
   'payment.frequencyTip2': 'No, Thank you.',
   'payment.frequencyTip3': 'Your items will only ship once.',
-  'payment.further': 'Further',
+  'payment.further': 'Pay',
   'payment.howToDelivery': 'How to deliver',
   'payment.itemTotalProduct': 'item total product',
   'payment.lastName': 'Last Name',
