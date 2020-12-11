@@ -357,7 +357,7 @@ class LoginCart extends React.Component {
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
-                                            Frq:{' '}
+                                            <FormattedMessage id="subscription.frequency"/>:{' '}
                                             {frequencyList.length &&
                                               frequencyList.filter(
                                                 (el) =>
