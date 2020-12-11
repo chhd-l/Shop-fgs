@@ -1,9 +1,9 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
-import PhoneModal from './components/phoneModal.js'
-import FrTips from './fr/frTips'
-import FrFaq from './fr/frFaq'
+import PhoneModal from './components/phoneModal.js';
+import FrTips from './fr/frTips';
+import FrFaq from './fr/frFaq';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +13,7 @@ import helpImg from '@/assets/images/slider-img-help.jpg';
 import { inject, observer } from 'mobx-react';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import "./index.less"
+import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -25,7 +25,7 @@ class Help extends React.Component {
     this.state = {
       tel: '',
       mailAddress: '',
-      showModal: false,
+      showModal: false
     };
   }
 
@@ -34,10 +34,8 @@ class Help extends React.Component {
   }
   async componentDidMount() {
     setSeoConfig({
-      goodsId: '',
-      categoryId: '',
       pageName: 'Contact Us Page'
-    })
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -48,12 +46,12 @@ class Help extends React.Component {
 
     this.setState({ tel, mailAddress });
   }
-  mobileDial=()=>{
-    this.setState({ showModal: true})
-  }
+  mobileDial = () => {
+    this.setState({ showModal: true });
+  };
   cancelModal = () => {
-    this.setState({ showModal: false })
-  }
+    this.setState({ showModal: false });
+  };
   render(h) {
     const event = {
       page: {
@@ -63,9 +61,9 @@ class Help extends React.Component {
     };
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        {
-          this.state.showModal ? <PhoneModal cancelModal={this.cancelModal} /> : null
-        }
+        {this.state.showModal ? (
+          <PhoneModal cancelModal={this.cancelModal} />
+        ) : null}
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
@@ -105,8 +103,11 @@ class Help extends React.Component {
                             </div>
                             <div className="rc-column">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
-                                <p>Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre
-                                  disposition pour répondre à toute demande.</p>
+                                <p>
+                                  Nos conseillers sont de vrais experts et
+                                  passionnés. Ils se tiennent à votre
+                                  disposition pour répondre à toute demande.
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -218,7 +219,11 @@ class Help extends React.Component {
                                           >
                                             <a
                                               href={this.state.mailAddress}
-                                              style={{ fontSize: '16px', borderBottom: '1px solid transparent' }}
+                                              style={{
+                                                fontSize: '16px',
+                                                borderBottom:
+                                                  '1px solid transparent'
+                                              }}
                                               className="rc-styled-link"
                                             >
                                               <FormattedMessage id="help.email" />
@@ -275,15 +280,12 @@ class Help extends React.Component {
               </div>
             </div>
           </div>
-          {
-            process.env.REACT_APP_LANG == 'fr' ?
-              <div>
-                <FrTips />
-                <FrFaq />
-              </div>
-              : null
-          }
-
+          {process.env.REACT_APP_LANG == 'fr' ? (
+            <div>
+              <FrTips />
+              <FrFaq />
+            </div>
+          ) : null}
         </main>
 
         <Footer />

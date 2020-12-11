@@ -945,5 +945,6 @@ const de_DE = {
   'shipmentOn': 'Versand am',
   'VAT_included': 'inkl. MwSt',
   'skiped': 'Übersprungen',
+  'orderDetail': 'Bestelldetails',
 }
 export default de_DE;

@@ -2465,7 +2465,7 @@ class SubscriptionDetail extends React.Component {
                                                       color: '#333'
                                                     }}
                                                   >
-                                                    <FormattedMessage id="total"/>
+                                                    <FormattedMessage id="subscription.total"/>
                                                   </b>
                                                   <span
                                                     style={{ fontSize: '12px' }}
@@ -2626,8 +2626,8 @@ class SubscriptionDetail extends React.Component {
                                                     );
                                                   }}
                                                 >
-                                                  {/* <FormattedMessage id="subscription.skip" /> */}
-                                                  Order detail
+                                                  <FormattedMessage id="orderDetail" />
+                                                  {/* Order detail */}
                                                 </a>
                                               </>
                                             ) : null}

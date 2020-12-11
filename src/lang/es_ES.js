@@ -867,5 +867,6 @@ const es_ES = {
   'shipmentOn': 'Envío el',
   'VAT_included': 'VAT incluido',
   'skiped': 'Esquiado',
+  'orderDetail': 'Detalle de la orden',
 }
 export default es_ES;
