@@ -24,12 +24,14 @@ const LogoutButton = () => {
   const [userInfo, setUserInfo] = useState(null);
   const { authState, oktaAuth } = useOktaAuth();
 
-  const { accessToken } = authState;
-
   const logout = async () => {
     try {
       const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
-      await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+      // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+
+      const idToken = authState.idToken;
+      window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
+      await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
           
       setTimeout(() => {
         loginStore.changeLoginModal(false);
