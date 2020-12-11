@@ -932,5 +932,17 @@ const de_DE = {
   'registerPasswordFormat': "Das Passwort ist ungültig.",
   'registerEmailFormate': "Die E-Mail-Adresse stimmt nicht mit dem angegebenen Format überein.",
   invoice: 'Rechnung',
+  'manage': 'Verwalten',
+  'autoShipStarted': 'Autoship gestartet',
+  'nextShipment': 'Nächster Versand',
+  'saveChange': 'Änderungen speichern',
+  'transactionInfo': 'Transaktionsinformationen',
+  'myAutoshipOrder': 'Meine Autoship-Bestellung',
+  'noStart': 'Kein Start',
+  'completed': 'Abgeschlossen',
+  'skip': 'Überspringen',
+  'shipmentOn': 'Versand am',
+  'VAT_included': 'inkl. MwSt',
+  'skiped': 'Übersprungen',
 }
 export default de_DE;

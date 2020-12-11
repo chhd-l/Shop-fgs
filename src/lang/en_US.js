@@ -877,5 +877,17 @@ const en_US = {
   'registerPasswordFormat': "The password is not valid.",
   'registerEmailFormate': "The email address does not match the specified format.",
   invoice: 'invoice',
+  'manage': 'Manage',
+  'autoShipStarted': 'Autoship started',
+  'nextShipment': 'Next shipment',
+  'saveChange': 'Save Changes',
+  'transactionInfo': 'Transaction information',
+  'myAutoshipOrder': 'My Autoship Order',
+  'noStart': 'No start',
+  'completed': 'Completed',
+  'skip': 'Skip',
+  'shipmentOn': 'Shipment on',
+  'VAT_included': 'VAT included',
+  'skiped': 'Skiped',
 }
 export default en_US;

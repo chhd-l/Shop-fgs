@@ -1075,5 +1075,17 @@ const fr_FR = {
   'registerPasswordFormat': "Le mot de passe n'est pas valide.",
   'registerEmailFormate': "L'adresse e-mail ne correspond pas au format spécifié.",
   invoice: 'facture d\'achat',
+  'manage': 'Gérer',
+  'autoShipStarted': 'La livraison automatique a commencé',
+  'nextShipment': 'Envoi suivant',
+  'saveChange': 'Sauvegarder les modifications',
+  'transactionInfo': 'Informations sur les transactions',
+  'myAutoshipOrder': 'Ma commande d\'expédition automatique',
+  'noStart': 'Pas de départ',
+  'completed': 'Terminé',
+  'skip': 'Sauter',
+  'shipmentOn': 'Expédition le',
+  'VAT_included': 'TVA incluse',
+  'skiped': 'Skiped',
 }
 export default fr_FR;

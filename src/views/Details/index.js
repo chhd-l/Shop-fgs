@@ -1147,10 +1147,14 @@ class Details extends React.Component {
     } finally {
       this.setState({ addToCartLoading: false });
     }
-    headerCartStore.show();
-    setTimeout(() => {
-      headerCartStore.hide();
-    }, 1000);
+    if (this.state.isMobile) {
+      this.refs.showModalButton.click()
+    } else {
+      headerCartStore.show()
+      setTimeout(() => {
+        headerCartStore.hide()
+      }, 1000)
+    }
   }
 
   handleInputChange(e) {

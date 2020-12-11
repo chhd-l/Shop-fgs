@@ -854,5 +854,17 @@ const es_ES = {
   'registerPasswordFormat': "La contraseña no es válida.",
   'registerEmailFormate': "La dirección de correo electrónico no coincide con el formato especificado.",
   invoice: 'factura',
+  'manage': 'Gestionar',
+  'autoShipStarted': 'Autoenvío iniciado',
+  'nextShipment': 'Siguiente envío',
+  'saveChange': 'Guardar cambios',
+  'transactionInfo': 'Información de la transacción',
+  'myAutoshipOrder': 'Mi pedido de envío automático',
+  'noStart': 'Sin comienzo',
+  'completed': 'Terminado',
+  'skip': 'Omitir',
+  'shipmentOn': 'Envío el',
+  'VAT_included': 'VAT incluido',
+  'skiped': 'Esquiado',
 }
 export default es_ES;
