@@ -8,9 +8,9 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';
+import { setSeoConfig } from '../../utils/utils';
 
 import './index.less';
-import { setSeoConfig } from '../../utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -28,7 +28,9 @@ class FAQ extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'FAQ page'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -112,7 +114,10 @@ class FAQ extends React.Component {
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none ">
-                      <h1 style={{ textAlign: 'center' }} className="rc-alpha inherit-fontsize">
+                      <h1
+                        style={{ textAlign: 'center' }}
+                        className="rc-alpha inherit-fontsize"
+                      >
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
                       <p style={{ textAlign: 'center' }}>
@@ -146,7 +151,11 @@ class FAQ extends React.Component {
               this.state.dataFAQ.map((pitem, index) => (
                 <>
                   <div className="rc-bg-colour--brand3" key={'p-' + index}>
-                    <h2 name={`catogery-${index}`} id={`catogery-${index}`} className="text-center">
+                    <h2
+                      name={`catogery-${index}`}
+                      id={`catogery-${index}`}
+                      className="text-center"
+                    >
                       {pitem.faqType}
                     </h2>
                   </div>
@@ -186,7 +195,7 @@ class FAQ extends React.Component {
                             dangerouslySetInnerHTML={{ __html: item.answer }}
                           ></p>
                           <LazyLoad>
-                            <img src={item.imgUl} alt=""/>
+                            <img src={item.imgUl} alt="" />
                           </LazyLoad>
                         </div>
                       </div>

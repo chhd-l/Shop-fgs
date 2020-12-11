@@ -74,7 +74,9 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'Account orders'
+    });
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -409,7 +411,8 @@ class AccountOrders extends React.Component {
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={() => this.handlePayNowTimeEnd(order)}
-            /><br />
+            />
+            <br />
             <button
               className={`rc-btn rc-btn--one ord-list-operation-btn ${
                 order.payNowLoading ? 'ui-btn-loading' : ''
