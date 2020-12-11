@@ -68,6 +68,7 @@ class AccountOrders extends React.Component {
     this.changeTab = this.changeTab.bind(this);
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
+    this.handleClickPayNow = this.handleClickPayNow.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -408,12 +409,12 @@ class AccountOrders extends React.Component {
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={() => this.handlePayNowTimeEnd(order)}
-            />
+            /><br />
             <button
               className={`rc-btn rc-btn--one ord-list-operation-btn ${
                 order.payNowLoading ? 'ui-btn-loading' : ''
               }`}
-              onClick={() => this.handleClickPayNow(order)}
+              onClick={this.handleClickPayNow.bind(this, order)}
             >
               <FormattedMessage id="order.payNow" />
             </button>
