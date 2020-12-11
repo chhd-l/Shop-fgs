@@ -7,6 +7,9 @@ const localItemRoyal = window.__.localItemRoyal;
 const checkoutStore = stores.checkoutStore;
 const loginStore = stores.loginStore;
 
+const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
+
+
 export function setToken(token) {
     getToken({ oktaToken: `Bearer ${token}` })
     .then(async (res) => {
