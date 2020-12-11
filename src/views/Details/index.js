@@ -907,6 +907,18 @@ class Details extends React.Component {
           );
           return false;
         }
+        // 存在被删除商品，不能下单
+        if (checkoutStore.deletedProNames.length) {
+          this.showCheckoutErrMsg(
+            <FormattedMessage
+              id="cart.errorInfo5"
+              values={{
+                val: checkoutStore.deletedProNames.join('/')
+              }}
+            />
+          );
+          return false;
+        }
         // this.openPetModal()
         let autoAuditFlag = false;
         let res = await getProductPetConfig({
@@ -1228,7 +1240,6 @@ class Details extends React.Component {
     //       ]
     // }}})
 
-
     if (this.state.replyNum > 0) {
       let el = document.getElementById('review-container');
       let length = this.getElementToPageTop(el);
@@ -1287,7 +1298,7 @@ class Details extends React.Component {
     if (!this.state.initing) {
       const event = {
         page: {
-          type: 'Product',
+          type: 'Product'
         }
       };
       eEvents = {
@@ -1303,9 +1314,9 @@ class Details extends React.Component {
                 price: '234',
                 brand: 'Royal Canin',
                 club: 'no',
-                category:'Cat/{{Range}}/Dry',
+                category: 'Cat/{{Range}}/Dry',
                 variant: '4.00 Kg',
-                sku: 'XFGHUIY',
+                sku: 'XFGHUIY'
               }
             ]
           }
@@ -1325,7 +1336,7 @@ class Details extends React.Component {
         />
         {errMsg ? (
           <main className="rc-content--fixed-header">
-             <BannerTip />
+            <BannerTip />
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div
                 className="rc-max-width--xl d-flex"
@@ -1340,8 +1351,15 @@ class Details extends React.Component {
           </main>
         ) : (
           <main className="rc-content--fixed-header ">
-             <BannerTip />
-            <button ref="showModalButton" class="rc-btn rc-btn--one" data-modal-trigger="modal-example" style={{position: 'absolute', visibility: 'hidden'}}>Open standard modal</button>
+            <BannerTip />
+            <button
+              ref="showModalButton"
+              class="rc-btn rc-btn--one"
+              data-modal-trigger="modal-example"
+              style={{ position: 'absolute', visibility: 'hidden' }}
+            >
+              Open standard modal
+            </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
@@ -1752,7 +1770,7 @@ class Details extends React.Component {
                                     <FormattedMessage id="singlePurchase" />
                                   </span>
                                 </label>
-                                <br/>
+                                <br />
                                 <div className="freeshippingBox">
                                   <FormattedMessage id="freeShipping" />
                                 </div>
@@ -1924,7 +1942,7 @@ class Details extends React.Component {
                                   values={{ val: '10%' }}
                                 />
                               </div>
-                              <br/>
+                              <br />
                               <div className="freeshippingBox">
                                 <FormattedMessage id="freeShipping" />
                               </div>
@@ -1999,7 +2017,7 @@ class Details extends React.Component {
                                         class="refreshImg"
                                         src={refreshImg}
                                       />
-                                      <FormattedMessage id="autoship"/>
+                                      <FormattedMessage id="autoship" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
                                         onMouseEnter={() => {
@@ -2044,7 +2062,7 @@ class Details extends React.Component {
                                   10%
                                 </b> */}
                                 </div>
-                                <br/>
+                                <br />
                                 <div className="freeshippingBox">
                                   <FormattedMessage id="freeShipping" />
                                 </div>

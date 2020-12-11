@@ -43,7 +43,7 @@ class PaymentStore {
     }
   ];
 
-  @observable firstSavedCardCvv = "";//当前保存卡的cvv
+  @observable firstSavedCardCvv = ''; //当前保存卡的cvv
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
@@ -63,12 +63,6 @@ class PaymentStore {
 
   @computed get confirmationPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'confirmation').status;
-  }
-
-  @action.bound
-  removeEmailFromPanelItems() {
-    const idx = this.panelStatus.findIndex((e) => e.key === 'email');
-    this.panelStatus.splice(idx, 1);
   }
 
   @action.bound
@@ -150,8 +144,8 @@ class PaymentStore {
   }
 
   @action
-  updateFirstSavedCardCvv(data){
-    this.firstSavedCardCvv = data
+  updateFirstSavedCardCvv(data) {
+    this.firstSavedCardCvv = data;
   }
 }
 export default PaymentStore;
