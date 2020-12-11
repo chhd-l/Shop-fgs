@@ -358,6 +358,37 @@ class LoginCart extends React.Component {
       this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
     }
   }
+  //GA 移除购物车商品 埋点
+  GARemoveFromCart(productList){
+    console.log(productList)
+    const list = productList.map((item,index)=>{
+      return {
+        'name': item.goodsName, 
+        'id': item.goodsId, 
+        'club': 'no', 
+        'type': '', //club, subscription, one-time
+        'price': item.marketPrice,
+        'brand': 'Royal Canin',
+        'category': item.goodsCategory,
+        'variant': item.goodsWeight,
+        'quantity': '1',
+        'recommendation':'recommended',//self-selected, recommanded
+        'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
+      }
+    })
+    console.log(list)
+    //debugger
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'ecommerce': {
+           'remove': {
+                 'products': list
+             }
+         }
+    })
+    console.log(dataLayer)
+    //debugger
+  }
   async deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
     item.confirmTooltipVisible = false;
@@ -369,6 +400,8 @@ class LoginCart extends React.Component {
       goodsInfoIds: [productList[currentProductIdx].goodsInfoId]
     });
     this.setState({ deleteLoading: false });
+
+    this.GARemoveFromCart(productList)
   }
   goBack(e) {
     e.preventDefault();
