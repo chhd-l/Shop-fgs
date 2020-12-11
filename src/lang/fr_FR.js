@@ -544,7 +544,7 @@ const fr_FR = {
   'payment.normalDelivery2': 'Livraison standard',
   'payment.normalDelivery3': '(1 à 4 jours)',
   'payment.payment': 'Paiement',
-  'payment.paymentInformation': 'Informations de paiement',
+  'payment.paymentInformation': 'Moyen de paiement',
   'payment.phoneNumber': 'Numéro de téléphone',
   'payment.postCode': 'Code postal',
   'payment.postCode2': 'Code postal',

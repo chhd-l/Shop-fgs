@@ -62,24 +62,23 @@ export default class Selection extends React.Component {
         : -1
     }));
   }
-  onBlurHandler() {
+  onBlurHandler = () => {
     this.timeOutId = setTimeout(() => {
       this.setState({
         optionsVisible: false
       });
     });
-  }
-  onFocusHandler() {
+  };
+  onFocusHandler = () => {
     clearTimeout(this.timeOutId);
-  }
+  };
   render() {
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
     const { optionList } = this.props;
-    console.log(optionList, 'optionList')
     return (
       <div
-        onBlur={() => this.onBlurHandler()}
-        onFocus={() => this.onFocusHandler()}
+        onBlur={this.onBlurHandler}
+        onFocus={this.onFocusHandler}
         style={{ ...this.props.customContainerStyle }}
       >
         <div
