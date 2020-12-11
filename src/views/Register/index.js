@@ -243,7 +243,6 @@ class Register extends Component {
   };
 
   register = async () => {
-    const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
     const { registerForm } = this.state;
     const res = oktaRegister({
       storeId: process.env.REACT_APP_STOREID,
@@ -252,8 +251,7 @@ class Register extends Component {
       customerName:registerForm.name
     })
     if(res.code === 'K-000000') {
-      var result = setToken(res.token)
-      setIsGetUserInfoDown(result);
+      setToken(res.token)
     }
   };
 

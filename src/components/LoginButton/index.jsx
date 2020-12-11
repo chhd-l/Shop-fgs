@@ -14,10 +14,13 @@ import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
 import stores from '@/store';
 import { FormattedMessage } from 'react-intl';
-import { setToken } from '../../utils/token'
+import { getToken } from '@/api/login';
+import { getCustomerInfo } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
+const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
   const { history } = props;
@@ -28,6 +31,7 @@ const LoginButton = (props) => {
   const { authState } = useOktaAuth();
 
   useEffect(() => {
+    debugger
     if (isGetUserInfoDown && init) {
       init();
     }
@@ -62,8 +66,31 @@ const LoginButton = (props) => {
         .then((info) => {
           setUserInfo(info);
           if (!loginStore.isLogin) {
-           var result = setToken(authState.accessToken ? authState.accessToken.value : '');
-           setIsGetUserInfoDown(result);
+            getToken({ oktaToken: `Bearer ${authState.accessToken ? authState.accessToken.value : ''}` })
+              .then(async (res) => {
+                let userinfo = res.context.customerDetail;
+                loginStore.changeLoginModal(false);
+                loginStore.changeIsLogin(true);
+
+                localItemRoyal.set('rc-token', res.context.token);
+                let customerInfoRes = await getCustomerInfo();
+                userinfo.defaultClinics =
+                  customerInfoRes.context.defaultClinics;
+                loginStore.setUserInfo(customerInfoRes.context);
+
+                const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+                if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                  await mergeUnloginCartData();
+                  console.log(loginStore, 'loginStore');
+                  await checkoutStore.updateLoginCart();
+                }
+
+                setIsGetUserInfoDown(true);
+              })
+              .catch((e) => {
+                console.log(e);
+                loginStore.changeLoginModal(false);
+              });
           } else {
             loginStore.changeLoginModal(false);
           }
