@@ -45,7 +45,6 @@ class AdyenCreditCard extends React.Component {
     });
   };
   updateSelectedCardInfo = (data) => {
-    // debugger
     const { paymentStore, isOnepageCheckout } = this.props;
     const curPanelKey = 'paymentMethod';
     this.setState({ adyenPayParam: data, isValid: !!data });

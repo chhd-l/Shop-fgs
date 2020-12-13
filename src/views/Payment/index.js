@@ -1724,7 +1724,7 @@ class Payment extends React.Component {
               updateAdyenPayParam={(data) => {
                 this.setState({ adyenPayParam: data },()=>{
                   console.log(this.state.adyenPayParam)
-                  debugger
+                  // debugger
                 });
               }}
               isOnepageCheckout={this.isOnepageCheckout}
