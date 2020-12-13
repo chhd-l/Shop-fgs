@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -334,7 +333,17 @@ class AccountOrders extends React.Component {
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber:
             resContext.subscriptionResponseVO &&
-            resContext.subscriptionResponseVO.subscribeId
+            resContext.subscriptionResponseVO.subscribeId,
+          canPayNow:
+            ((!resContext.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+              (resContext.isAuditOpen &&
+                tradeState.flowState === 'INIT' &&
+                tradeState.auditState === 'NON_CHECKED')) &&
+            tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+            tradeState.payState === 'NOT_PAID' &&
+            new Date(resContext.orderTimeOut).getTime() >
+              new Date(res.defaultLocalDateTime).getTime() &&
+            (!resContext.payWay || resContext.payWay.toUpperCase() !== 'OXXO')
         });
       })
       .catch((err) => {
@@ -523,7 +532,7 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('loginDeliveryInfo', {
       deliveryAddress: tmpDeliveryAddress,
       billingAddress: tmpBillingAddress,
-      commentOnDelivery: detailResCt.buyerRemark
+      commentOnDelivery: details.buyerRemark
     });
     this.props.checkoutStore.setLoginCartData(tradeItems);
     sessionItemRoyal.set('rc-tid', details.id);
@@ -734,25 +743,27 @@ class AccountOrders extends React.Component {
             }
             title={<FormattedMessage id="orderStatus.INIT" />}
             titleColor="text-info"
-            tip={<FormattedMessage id="order.toBePaidTip" />}
-            operation={
-              canPayNow ? (
-                <>
-                  <TimeCount
-                    startTime={defaultLocalDateTime}
-                    endTime={details.orderTimeOut}
-                    onTimeEnd={this.handlePayNowTimeEnd}
-                  />
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      payNowLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    onClick={this.handleClickPayNow}
-                  >
-                    <FormattedMessage id="order.payNow" />
-                  </button>
-                </>
-              ) : null
+            tip={
+              <FormattedMessage
+                id="order.toBePaidTip"
+                values={{
+                  val: (
+                    <span
+                      className={`red ui-cursor-pointer ${
+                        payNowLoading
+                          ? 'ui-btn-loading ui-btn-loading-border-red'
+                          : ''
+                      }`}
+                      onClick={this.handleClickPayNow}
+                    >
+                      <span className={`red rc-styled-link mr-2`}>
+                        <FormattedMessage id="order.payNow" />
+                      </span>
+                      &gt;
+                    </span>
+                  )
+                }}
+              />
             }
           />
           <hr />

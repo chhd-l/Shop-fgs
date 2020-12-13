@@ -3,14 +3,13 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
+import Logo from '@/components/Logo';
 import {
   getParaByName,
   getDeviceType,
   generateOptions,
   getDictionary
 } from '@/utils/utils';
-import logoAnimatedPng from '@/assets/images/logo--animated.png';
-import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
@@ -597,13 +596,12 @@ class Header extends React.Component {
   }
   async handleClickNavItem(item) {
     // 点击menu埋点-start
-    let interaction = {
+    this.GAClickMenu({
       category: 'menu',
       action: 'menu',
       label: item.avigationLink,
       value: item.navigationName
-    };
-    this.GAClickMenu(interaction);
+    });
     // 点击menu埋点-end
     let res = await getDictionary({ type: 'pageType' });
     const targetRes = res.filter((ele) => ele.id === item.pageId);
@@ -764,23 +762,7 @@ class Header extends React.Component {
 
             <Link to="/home" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text" />
-              <object
-                id="header__logo"
-                className="rc-header__logo"
-                type="image/svg+xml"
-                data={logoAnimatedSvg}
-                data-js-import-interactive-svg
-              >
-                <LazyLoad>
-                  <img
-                    alt="Royal Canin"
-                    height="100"
-                    src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                    style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }}
-                    width="135"
-                  />
-                </LazyLoad>
-              </object>
+              <Logo />
             </Link>
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
@@ -1083,7 +1065,7 @@ class Header extends React.Component {
                         ) : (
                           <span
                             onClick={this.handleClickNavItem.bind(this, item)}
-                            className="rc-list__header"
+                            className={`rc-list__header`}
                           >
                             {this.renderDropDownText(item)}
                           </span>

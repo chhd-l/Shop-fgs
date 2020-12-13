@@ -68,4 +68,5 @@ REACT_APP_HOMEPAGE = /ru
 #下单流程是否需要clinic
 REACT_APP_CHECKOUT_WITH_CLINIC = true
 
-REACT_APP_COUNTRY_PREFIX = ru
+REACT_APP_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/ru
+REACT_APP_RC_ASSETS_PREFIX = https://fgs-cdn.azureedge.net/stg/

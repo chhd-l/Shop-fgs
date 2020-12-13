@@ -328,7 +328,7 @@ class AccountOrders extends React.Component {
       console.log(err);
     } finally {
       order.payNowLoading = true;
-      this.setState({ orderList: orderList });
+      this.setState({ orderList });
     }
   }
   rePurchase(order) {
@@ -683,11 +683,10 @@ class AccountOrders extends React.Component {
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
                                           <span
-                                            className="medium pull-right--desktop rc-styled-link"
+                                            className="medium pull-right--desktop rc-styled-link text-nowrap"
                                             style={{
                                               textOverflow: 'ellipsis',
                                               overflow: 'hidden',
-                                              whiteSpace: 'nowrap',
                                               maxWidth: '82%'
                                             }}
                                           >
@@ -702,11 +701,10 @@ class AccountOrders extends React.Component {
                                         to={`/account/orders/detail/${order.id}`}
                                       >
                                         <span
-                                          className="medium pull-right--desktop rc-styled-link"
+                                          className="medium pull-right--desktop rc-styled-link text-nowrap"
                                           style={{
                                             textOverflow: 'ellipsis',
                                             overflow: 'hidden',
-                                            whiteSpace: 'nowrap',
                                             maxWidth: '99%'
                                           }}
                                         >

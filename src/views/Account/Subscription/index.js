@@ -361,10 +361,7 @@ class Subscription extends React.Component {
                                     </div>
                                   ))}
                               </div>
-                              <div
-                                className="col-4 col-md-2"
-                                style={{ whiteSpace: 'nowrap' }}
-                              >
+                              <div className="col-4 col-md-2 text-nowrap">
                                 <LazyLoad>
                                   <img
                                     src={autoshipIcon}

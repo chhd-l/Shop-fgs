@@ -488,7 +488,7 @@ const en_US = {
   'order.returnStatus': 'Return Status',
   'order.shippingStatus': 'Shipping Status',
   'order.toBeDeliveredTip': 'Your order has been successfully paid and we are preparing to ship.',
-  'order.toBePaidTip': 'Your order has been successfully created.',
+  'order.toBePaidTip': 'Your order has not been paid, please pay as soon as possible. {val}',
   'order.viewOrder': 'View order',
   orders: 'Orders',
   'orderStatus.AUDIT': 'To be delivered',

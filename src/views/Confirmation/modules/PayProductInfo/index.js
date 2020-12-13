@@ -98,10 +98,8 @@ class PayProductInfo extends React.Component {
                       </>
                     ) : null}
                   </div>
-                  <div
-                    className="line-item-total-price"
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
+                  <div className="line-item-total-price text-nowrap">
+                    {/* todo 确认支付成功价格怎么展示 */}
                     {details.subscriptionResponseVO &&
                     item.subscriptionStatus ? (
                       <>

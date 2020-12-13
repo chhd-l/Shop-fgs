@@ -211,10 +211,9 @@ class Help extends React.Component {
                                         </p>
                                         <div className="rc-margin-top--xs">
                                           <p
-                                            className="rc-numeric rc-md-up"
+                                            className="rc-numeric rc-md-up text-nowrap"
                                             style={{
-                                              color: 'rgb(0, 135, 189)',
-                                              whiteSpace: 'nowrap'
+                                              color: 'rgb(0, 135, 189)'
                                             }}
                                           >
                                             <a

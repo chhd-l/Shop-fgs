@@ -460,7 +460,7 @@ const es_ES = {
   'order.returnStatus': 'Estado de devolución',
   'order.shippingStatus': 'Estado del envío',
   'order.toBeDeliveredTip': 'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
-  'order.toBePaidTip': 'Tu pedido se ha creado correctamente.',
+  'order.toBePaidTip': 'Su pedido no ha sido pagado, pague lo antes posible. {val}',
   'order.viewOrder': 'Ver pedido',
   orders: 'Pedidos',
   'orderStatus.AUDIT': 'Para ser entregado',
