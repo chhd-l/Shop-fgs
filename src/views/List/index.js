@@ -1077,11 +1077,10 @@ class List extends React.Component {
                                         &#xe675;
                                       </span>
                                       <span
-                                        className="red-text"
+                                        className="red-text text-nowrap"
                                         style={{
                                           fontSize: '.7em',
-                                          transform: 'translateY(-50%)',
-                                          whiteSpace: 'nowrap'
+                                          transform: 'translateY(-50%)'
                                         }}
                                       >
                                         <FormattedMessage id="autoshop" />

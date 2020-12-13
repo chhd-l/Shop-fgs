@@ -2095,6 +2095,7 @@ class SubscriptionDetail extends React.Component {
                                                         }}
                                                       >
                                                         <h5
+                                                          className="text-nowrap"
                                                           style={{
                                                             overflow: 'hidden',
                                                             textOverflow:
@@ -2103,7 +2104,6 @@ class SubscriptionDetail extends React.Component {
                                                               'normal',
                                                             fontSize: '14px',
                                                             width: isMobile?'95px': 'auto',
-                                                            whiteSpace: 'nowrap'
                                                           }}
                                                         >
                                                           {tradeItem.skuName}
