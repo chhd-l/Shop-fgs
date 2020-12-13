@@ -1722,7 +1722,10 @@ class Payment extends React.Component {
               clickPay={this.initCommonPay}
               showErrorMsg={this.showErrorMsg}
               updateAdyenPayParam={(data) => {
-                this.setState({ adyenPayParam: data });
+                this.setState({ adyenPayParam: data },()=>{
+                  console.log(this.state.adyenPayParam)
+                  debugger
+                });
               }}
               isOnepageCheckout={this.isOnepageCheckout}
               checkoutStore={checkoutStore}

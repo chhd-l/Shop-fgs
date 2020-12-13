@@ -43,7 +43,7 @@ class PaymentStore {
     }
   ];
 
-  @observable firstSavedCardCvv = ''; //当前保存卡的cvv
+  @observable firstSavedCardCvv = ''; //当前绑卡的cvv
 
   @computed get emailPanelStatus() {
     return find(this.panelStatus, (ele) => ele.key === 'email').status;
