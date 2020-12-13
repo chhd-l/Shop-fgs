@@ -328,7 +328,7 @@ class AccountOrders extends React.Component {
       console.log(err);
     } finally {
       order.payNowLoading = true;
-      this.setState({ orderList: orderList });
+      this.setState({ orderList });
     }
   }
   rePurchase(order) {

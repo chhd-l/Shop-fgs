@@ -421,7 +421,7 @@ const ru_RU = {
     "order.returnStatus": "Статус возврата",
     "order.shippingStatus": "Статус отправки",
     'order.toBeDeliveredTip': 'Ваш заказ был успешно оплачен, и мы готовимся к отправке.',
-    'order.toBePaidTip': 'Ваш заказ успешно создан.',
+    'order.toBePaidTip': 'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
     "order.viewOrder": "Посмотреть заказ",
     'orders': "Заказы",
     'orderStatus.AUDIT': 'Быть доставленным',

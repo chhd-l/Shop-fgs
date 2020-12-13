@@ -499,7 +499,7 @@ const de_DE = {
   'order.returnStatus': 'Rückgabestatus',
   'order.shippingStatus': 'Versandstatus',
   'order.toBeDeliveredTip': 'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
-  'order.toBePaidTip': 'Ihre Bestellung wurde erfolgreich erstellt.',
+  'order.toBePaidTip': 'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
   'order.viewOrder': 'Bestellung anzeigen',
   orders: 'Aufträge',
   'orderStatus.AUDIT': 'wird geliefert',
