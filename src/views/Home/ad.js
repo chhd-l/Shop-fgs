@@ -23,7 +23,7 @@ export function Ads() {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
-                    <Link to="/list/cats">
+                    <Link to="/cats">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"
@@ -65,7 +65,7 @@ export function Ads() {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
-                    <Link to="/list/cats">
+                    <Link to="/cats">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"

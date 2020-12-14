@@ -74,21 +74,6 @@ class Help extends React.Component {
         />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
-          {/* <div className="rc-bg-colour--brand4 text-center" >
-            <div className="rc-layout-container rc-content-h-middle">
-              <div className="rc-column rc-content-v-middle rc-zeta rc-margin--none rc-padding--xs">
-                <span className="rc-icon rc-icon rc-delivery--sm rc-brand1 rc-iconography"></span>
-                <div className="d-flex align-items-center">
-                  <span className="rc-margin-right--xs rc-margin-left--xs">
-                    <font style={{verticalAlign: "inherit"}}>
-                      <font style={{verticalAlign: "inherit"}}>FREE home delivery! </font>
-                      <font style={{verticalAlign: "inherit"}}>(allow a delay of 5 to 7 days due to the exceptional context)</font>
-                    </font>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <div className="experience-region experience-main">
               <div className="experience-region experience-main">
@@ -99,14 +84,12 @@ class Help extends React.Component {
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                           <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
                             <div className="rc-column rc-padding-bottom--none--mobile">
-                              <h1 className="rc-beta">Besoin d'aide ?</h1>
+                              <h1 className="rc-beta"><FormattedMessage id="help.title"/></h1>
                             </div>
                             <div className="rc-column">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                  Nos conseillers sont de vrais experts et
-                                  passionnés. Ils se tiennent à votre
-                                  disposition pour répondre à toute demande.
+                                <FormattedMessage id="help.tip1"/>
                                 </p>
                               </div>
                             </div>
@@ -176,14 +159,15 @@ class Help extends React.Component {
                                   <div className="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight rc-padding-top--md--mobile">
                                     <div className="rc-column rc-double-width rc-padding-top--md--mobile">
                                       <div className="w-100">
-                                        <b style={{ color: '#0087BD' }}>
+                                        <b>
                                           <font
                                             style={{ verticalAlign: 'inherit' }}
                                           >
                                             <a
                                               href={this.state.mailAddress}
                                               style={{
-                                                verticalAlign: 'inherit'
+                                                verticalAlign: 'inherit',
+                                                color: '#0087BD'
                                               }}
                                             >
                                               <FormattedMessage id="help.byEmail" />
@@ -226,10 +210,6 @@ class Help extends React.Component {
                                               className="rc-styled-link"
                                             >
                                               <FormattedMessage id="help.email" />
-                                              {/* {
-                                                this.props.configStore
-                                                  .storeContactEmail
-                                              } */}
                                             </a>
                                           </p>
                                         </div>
@@ -248,13 +228,6 @@ class Help extends React.Component {
                                   </div>
                                 </div>
                               </article>
-                              {/* <h1 className="rc-beta" style={{ margin: '0 0 0 1rem' }}>
-                                <font style={{ verticalAlign: "inherit" }}>
-                                  <Link className="rc-list__link" style={{ color: '#e2001a' }} to="/FAQ/all" role="menuitem">
-                                    <FormattedMessage id="footer.FAQ" />
-                                  </Link>
-                                </font>
-                              </h1> */}
                             </div>
                             <div className="rc-column rc-triple-width">
                               <div

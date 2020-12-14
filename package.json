@@ -111,7 +111,10 @@
     "build:prod": "dotenv -e .env.production node scripts/build.js",
     "build:prod_mx": "dotenv -e .env.production.mx node scripts/build.js",
     "build:prod_de": "dotenv -e .env.production.de node scripts/build.js",
-    "analyze": "cross-env NODE_ENV=production npm_config_report=true npm run build:stg_fr"
+    "analyze": "cross-env NODE_ENV=production npm_config_report=true npm run build:stg_fr",
+    "push:stg_mx": "cp -r build build_tmp && rm build_tmp/royal build_tmp/static -rf && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_mx && rm build_tmp -rf",
+    "push:stg_de": "cp -r build build_tmp && rm build_tmp/royal build_tmp/static -rf && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_de && rm build_tmp -rf",
+    "push:stg_fr": "cp -r build build_tmp && rm build_tmp/royal build_tmp/static -rf && scp -P 22 -r build_tmp/* stgd2capp@52.188.61.82:/data/www/s2b/shop/dist_shop_fr && rm build_tmp -rf"
   },
   "eslintConfig": {
     "extends": "react-app",
