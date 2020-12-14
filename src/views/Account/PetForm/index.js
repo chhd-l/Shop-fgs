@@ -1115,6 +1115,7 @@ class PetForm extends React.Component {
                             htmlFor="male"
                           >
                             Male
+                            <FormattedMessage id="petMale" />
                           </label>
                         </div>
                       </div>
@@ -1197,7 +1198,7 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="purebred"
                           >
-                            Yes
+                            <FormattedMessage id="account.yes" />
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline">
@@ -1219,7 +1220,7 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="noPurebred"
                           >
-                            No
+                            <FormattedMessage id="account.no" />
                           </label>
                         </div>
                       </div>
@@ -1662,7 +1663,7 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="sterilized"
                           >
-                            Yes
+                            <FormattedMessage id="account.yes" />
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline">
@@ -1679,7 +1680,7 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="noSterilized"
                           >
-                            No
+                            <FormattedMessage id="account.no" />
                           </label>
                         </div>
                       </div>
