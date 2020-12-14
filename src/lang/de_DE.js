@@ -814,11 +814,7 @@ const de_DE = {
   'subscription.date': 'Abonnementdatum',
   'subscription.deliveryDate': 'Nächster Liefertermin',
   'subscription.detail': 'Abonnementdetail',
-<<<<<<< HEAD
   'subscription.frequency': 'Abo',
-=======
-  'subscription.frequency': 'Lieferung alle',
->>>>>>> 4909c8c323d1e039df0aaf61714539f52662fe48
   'subscription.nextOrder': 'Nächste Bestellung',
   'subscription.noDataTip': 'Kein Abonnement',
   'subscription.notYet': 'Noch nicht verschickt',
