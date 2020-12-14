@@ -202,6 +202,7 @@ class CommunicationDataEditForm extends React.Component {
             <FormattedMessage id="edit">
               {(txt) => (
                 <button
+                  style={{minWidth: '52px'}}
                   className={`editPersonalInfoBtn rc-styled-link pl-0 pr-0 pb-0 ${
                     editFormVisible ? 'hidden' : ''
                   }`}
