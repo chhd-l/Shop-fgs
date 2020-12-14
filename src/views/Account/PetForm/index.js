@@ -1084,7 +1084,7 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width"
                         htmlFor="gender"
                       >
-                        <FormattedMessage id="Gender" />
+                        <FormattedMessage id="gender" />
                       </label>
                       <div style={{ padding: '.5rem 0' }}>
                         <div className="rc-input rc-input--inline">
@@ -1101,7 +1101,7 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="female"
                           >
-                            Female
+                            <FormattedMessage id="petFemale" />
                           </label>
                         </div>
                         <div className="rc-input rc-input--inline">
@@ -1179,7 +1179,7 @@ class PetForm extends React.Component {
                         className="form-control-label rc-full-width"
                         htmlFor="Is Purebred"
                       >
-                        <FormattedMessage id="Is Purebred" />
+                        <FormattedMessage id="isPurebred" />
                       </label>
                       <div style={{ padding: '.5rem 0' }}>
                         <div className="rc-input rc-input--inline">
