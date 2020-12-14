@@ -726,6 +726,8 @@ const ru_RU = {
     'yourPasswordNotVerified': "Ваш пароль не подтвержден",
     breed: 'Порода',
     gender: 'Пол',
+    petFemale:'Female',
+    changepic:'Change picture',
     setAsDefault: 'Установить по умолчанию',
     addANewPaymentMethod: 'Добавить новый способ оплаты',
     mailAddress: 'Почта Адрес',
@@ -762,6 +764,6 @@ const ru_RU = {
     'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату.",
     invoice: 'выставленный счет',
   }
-  
+
   export default ru_RU;
-  
+
