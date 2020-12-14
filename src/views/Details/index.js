@@ -2168,6 +2168,7 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp;
                               <button
+                                style={{padding:'2px 30px'}}
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
                                 } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}

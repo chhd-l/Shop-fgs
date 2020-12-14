@@ -137,7 +137,7 @@ class List extends React.Component {
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');
     this.cidFromSearch = getParaByName(search, 'cid');
-    const keywordsSearch = getParaByName(search, 'q');
+    const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     let cateName = {
       '/cats': <FormattedMessage id="cats3" />,
       '/dogs': <FormattedMessage id="dogs3" />

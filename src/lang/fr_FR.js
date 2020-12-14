@@ -169,7 +169,7 @@ const fr_FR = {
   confirmation: 'Confirmation',
   'confirmation.customerInformation': 'Informations de client',
   'confirmation.info1': 'Merci pour votre commande.',
-  'confirmation.info2': 'Dans un proche avenir, notre personnel vous contactera pour confirmer la commande.',
+  'confirmation.info2': "Vous allez recevoir un mail de confirmation à l'adresse mail suivante",
   'confirmation.info3': "Les adresses et les modes d'expédition sont indiqués sous vos marchandises.",
   'confirmation.orderNumber': 'Numéro de commande',
   'confirmation.rateTip': "Comment évalueriez-vous votre expérience d'achat?",

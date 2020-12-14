@@ -64,7 +64,8 @@ class Header extends React.Component {
         search: {}
       },
       isSearchSuccess: false, //是否搜索成功
-      hideNavRouter: ['/confirmation', '/checkout']
+      hideNavRouter: ['/confirmation', '/checkout'],
+      hideLoginInfoRouter:['/checkout']
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -98,6 +99,17 @@ class Header extends React.Component {
     //只需要在hideNavRouter数组中去配置不要显示nav的路由
     let str =
       this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
+      -1
+        ? 'none'
+        : 'flex';
+    return {
+      display: str
+    };
+  }
+  isHideLoginInfo(){
+    //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
+    let str =
+      this.state.hideLoginInfoRouter.indexOf(this.props.history.location.pathname) !=
       -1
         ? 'none'
         : 'flex';
@@ -345,6 +357,7 @@ class Header extends React.Component {
     });
   }
   handleSearch = (e) => {
+    if(this.state.loading) return
     if (process.env.REACT_APP_LANG == 'fr') {
       if (this.state.isSearchSuccess) {
         this.props.history.push(
@@ -767,6 +780,7 @@ class Header extends React.Component {
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
               role="menubar"
+              style={this.isHideLoginInfo()}
             >
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
