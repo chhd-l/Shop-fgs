@@ -123,19 +123,12 @@ class PayProductInfo extends React.Component {
                     item.subscriptionStatus ? (
                       <>
                         <span className="text-line-through">
-                          {formatMoney(item.num * item.price)}
+                          {formatMoney(item.num * item.originalPrice)}
                         </span>
                         <br />
                       </>
                     ) : null}
-                    <span>
-                      {formatMoney(
-                        details.subscriptionResponseVO &&
-                          item.subscriptionStatus
-                          ? item.num * item.subscriptionPrice
-                          : item.num * item.price
-                      )}
-                    </span>
+                    <span>{formatMoney(item.price)}</span>
                   </div>
                 </div>
               </div>
