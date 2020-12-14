@@ -370,7 +370,9 @@ class UnloginCart extends React.Component {
                                         -{' '}
                                         {item.quantity > 1
                                           ? `${item.quantity} products`
-                                          : `${item.quantity} product`}
+                                          : `${item.quantity} product'Ma commande d'expédition automatique >
+                                     
+                                       `}
                                       </p>
                                     </div>
                                   </div>
