@@ -247,12 +247,23 @@ class Carousel extends React.Component {
                               </p>
                             </div>
                             <div>
-                              <Link
-                                to="/product-finder"
-                                className="rc-btn rc-btn--one"
-                              >
-                                <FormattedMessage id="header.toBegin" />
-                              </Link>
+                              {
+                                process.env.REACT_APP_LANG == 'de'
+                                ?
+                                <Link
+                                  to="/list/keywords"
+                                  className="rc-btn rc-btn--one"
+                                >
+                                  <FormattedMessage id="header.toBegin" />
+                                </Link>
+                                :<Link
+                                  to="/product-finder"
+                                  className="rc-btn rc-btn--one"
+                                >
+                                  <FormattedMessage id="header.toBegin" />
+                                </Link>
+                              }
+                              
                             </div>
                           </div>
                         </a>
