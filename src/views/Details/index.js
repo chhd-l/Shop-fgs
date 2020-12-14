@@ -1580,8 +1580,7 @@ class Details extends React.Component {
                             {specList.map((sItem, i) => (
                               <div id="choose-select" key={i}>
                                 <div className="rc-margin-bottom--xs">
-                                  {/* <FormattedMessage id="details.theSize" /> */}
-                                  {sItem.specName}:
+                                  <FormattedMessage id={sItem.specName+'_s'} />:
                                 </div>
 
                                 <div data-attr="size">
