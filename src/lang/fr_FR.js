@@ -1035,6 +1035,7 @@ const fr_FR = {
   'account.yes':'yes',
   'account.no':'no',
   'Special Need':'Special Need',
+  'Size':'Taille',
   changepic:'Change picture',
   home: 'Accueil',
   setAsDefault: 'Définir par défaut',
