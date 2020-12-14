@@ -142,12 +142,9 @@ const fr_FR = {
   changeAnotherCard: 'Veuillez changer pour une autre carte et réessayer',
   changePassword: 'Changer le mot de passe',
   checkout: 'Commander',
-<<<<<<< HEAD
   "weight_s":'Taille',
   "product": 'produit',
   "products": 'produits',
-=======
->>>>>>> feature_20201015_test
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   choosePayment: 'Choisissez le paiement',
   choosePrescriber: 'Veuillez choisir le bon prescripteur',
