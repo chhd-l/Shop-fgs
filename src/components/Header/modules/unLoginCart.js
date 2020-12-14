@@ -369,8 +369,9 @@ class UnloginCart extends React.Component {
                                         }{' '}
                                         -{' '}
                                         {item.quantity > 1
-                                          ? `${item.quantity} products`
-                                          : `${item.quantity} product`}
+                                          ? `${item.quantity} `
+                                          : `${item.quantity} `}
+                                          <FormattedMessage id="product"/>(s)
                                       </p>
                                     </div>
                                   </div>
@@ -379,7 +380,7 @@ class UnloginCart extends React.Component {
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b className="pricing line-item-total-price-amount light">
+                                      <b className="pricing line-item-total-price-amount light" style={{textDecoration: 'line-through'}}>
                                         {formatMoney(item.currentAmount)}
                                       </b>
                                     </div>
