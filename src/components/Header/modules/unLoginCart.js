@@ -380,7 +380,7 @@ class UnloginCart extends React.Component {
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b className="pricing line-item-total-price-amount light">
+                                      <b className="pricing line-item-total-price-amount light" style={{textDecoration: 'line-through'}}>
                                         {formatMoney(item.currentAmount)}
                                       </b>
                                     </div>
