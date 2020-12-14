@@ -284,37 +284,13 @@ class List extends React.Component {
         }))
       });
     });
-    findFilterList()
-      .then((res) => {
-        let tmpList = (res.context || [])
-          .filter((ele) => +ele.filterStatus)
-          .sort((a) => (a.filterType === '0' ? -1 : 1))
-          .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
-          .sort((a) =>
-            a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
-          );
-        // 根据默认参数设置filter状态
-        const { defaultFilterSearchForm } = this.state;
-        this.initFilterSelectedSts({
-          seletedValList: defaultFilterSearchForm.attrList,
-          orginData: tmpList,
-          filterType: '0',
-          pIdName: 'attributeId',
-          orginChildListName: 'attributesValueList'
-        });
-        this.initFilterSelectedSts({
-          seletedValList: defaultFilterSearchForm.filterList,
-          orginData: tmpList,
-          filterType: '1',
-          pIdName: 'id',
-          orginChildListName: 'storeGoodsFilterValueVOList'
-        });
-
-        this.setState({ filterList: tmpList, initingFilter: false });
-      })
-      .catch(() => {
-        this.setState({ initingFilter: false });
-      });
+    // findFilterList()
+    //   .then((res) => {
+    //     this.handleFilterResData(res.context || []);
+    //   })
+    //   .catch(() => {
+    //     this.setState({ initingFilter: false });
+    //   });
     if (keywords) {
       setSeoConfig({
         pageName: 'Search Results Page'
@@ -325,6 +301,32 @@ class List extends React.Component {
         pageName: 'Product List Page' // Search Results Page
       });
     }
+  }
+  handleFilterResData(res) {
+    let tmpList = res
+      .filter((ele) => +ele.filterStatus)
+      .sort((a) => (a.filterType === '0' ? -1 : 1))
+      .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
+      .sort((a) =>
+        a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+      );
+    // 根据默认参数设置filter状态
+    const { defaultFilterSearchForm } = this.state;
+    this.initFilterSelectedSts({
+      seletedValList: defaultFilterSearchForm.attrList,
+      orginData: tmpList,
+      filterType: '0',
+      pIdName: 'attributeId',
+      orginChildListName: 'attributesValueList'
+    });
+    this.initFilterSelectedSts({
+      seletedValList: defaultFilterSearchForm.filterList,
+      orginData: tmpList,
+      filterType: '1',
+      pIdName: 'id',
+      orginChildListName: 'storeGoodsFilterValueVOList'
+    });
+    this.setState({ filterList: tmpList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -354,6 +356,7 @@ class List extends React.Component {
     });
   }
   async getProductList(type) {
+    const { history } = this.props;
     let {
       cateType,
       currentPage,
@@ -398,13 +401,17 @@ class List extends React.Component {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName)
+            attributeValues: seletedList.map((s) => s.attributeDetailName),
+            attributeNameEn: pItem.attributeNameEn,
+            filterType: pItem.filterType
           });
         } else {
           goodsFilterRelList.push({
             attributeId: pItem.id,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName)
+            attributeValues: seletedList.map((s) => s.attributeDetailName),
+            attributeNameEn: pItem.attributeNameEn,
+            filterType: pItem.filterType
           });
         }
       }
@@ -412,18 +419,27 @@ class List extends React.Component {
     });
 
     let urlPreVal = '';
-    goodsAttributesValueRelVOList.map((item, i) => {
-      urlPreVal += `${i ? '&' : ''}prefv${i + 1}=${item.attributeValues.join(
-        '|'
-      )}`;
-      return item;
-    });
-    // debugger;
+    let pathname = '';
+    goodsAttributesValueRelVOList
+      .concat(goodsFilterRelList)
+      .slice(0, 1)
+      .map((item, i) => {
+        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${
+          item.attributeNameEn
+        }&prefv${i + 1}=${item.attributeValues.join('|')}`;
+        return item;
+      });
     // 点击filter，触发局部刷新或整页面刷新
-    // history.push(
-    //   `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`
-    //   // `${location.pathname}?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)`
-    // );
+    if (!initingList) {
+      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
+      sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
+      history.push({
+        pathname,
+        state: {
+          filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
+        }
+      });
+    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -499,7 +515,9 @@ class List extends React.Component {
 
     (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
-        this.setState({ initingList: false });
+        this.handleFilterResData(
+          (res.context && res.context.storeGoodsFilterVOList) || []
+        );
         const esGoods = res.context.esGoods;
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content;
@@ -571,11 +589,17 @@ class List extends React.Component {
           });
         }
         this.setState({
-          loading: false
+          loading: false,
+          initingList: false
         });
       })
       .catch(() => {
-        this.setState({ loading: false, productList: [], initingList: false });
+        this.setState({
+          loading: false,
+          productList: [],
+          initingList: false,
+          initingFilter: false
+        });
       });
   }
   hanldePageNumChange = ({ currentPage }) => {

@@ -673,8 +673,8 @@ class AccountOrders extends React.Component {
                                       </p>
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.flowState ===
-                                        'COMPLETED' && (
+                                      {order.tradeState.deliverStatus ===
+                                        'SHIPPED' && (
                                         <div
                                           onClick={this.handleDownInvoice.bind(
                                             this,

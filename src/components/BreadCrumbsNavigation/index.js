@@ -23,7 +23,7 @@ function BreadCrumbsNavigation({ list }) {
               <li
                 itemScope
                 itemProp="itemListElement"
-                itemtype="https://schema.org/ListItem"
+                itemType="https://schema.org/ListItem"
               >
                 {item.link ? (
                   <Link
