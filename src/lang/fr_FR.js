@@ -1034,9 +1034,10 @@ const fr_FR = {
   home: 'Accueil',
   setAsDefault: 'Définir par défaut',
   mailAddress: 'Adresse mail',
-  'account.startAutoShipping': 'Lancer la livraison automatique',
-  'account.noSubscription': 'Vous n\'avez pas encore découvert nos services de livraison automatique? La livraison automatique est un moyen pratique pour vous de faire livrer vos commandes selon un calendrier régulier. Ainsi, vous gagnez du temps et votre animal ne manque jamais de nourriture.',
-  'account.noSubscriptionTitle': 'Commençons!',
+  'account.startAutoShipping': 'En savoir plus',
+  'account.noSubscription': 'Vous ne connaissez pas encore l\'Abonnement ?\n' +
+    'L\'Abonnement permet de recevoir régulièrement et simplement les aliments préférés de votre animal. Dites-nous simplement où et quand l\'expédier, et nous nous assurerons que tout cedont il a besoin arrive directement àvotre porte.',
+  'account.noSubscriptionTitle': 'Découvrez l Abonnement',
   'searchShow':'Résultats de la recherche',
   'singlePurchase': 'Achat Unique',
   'deliveryOneTimeOnly': 'Livraison 1 fois seulement',
