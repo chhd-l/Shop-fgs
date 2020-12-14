@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18802929",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "18467937",
+      "name": "Sorry, no picture!",
+      "font_class": "Sorrynopicture",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "18260711",
+      "name": "female",
+      "font_class": "female",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "18260691",
+      "name": "male",
+      "font_class": "male",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "18201678",
+      "name": "星星",
+      "font_class": "xingxing",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
       "icon_id": "18150424",
       "name": "copy",
       "font_class": "copy",

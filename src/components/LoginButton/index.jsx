@@ -16,6 +16,7 @@ import stores from '@/store';
 import { FormattedMessage } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
+import { mergeUnloginCartData } from '@/utils/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;

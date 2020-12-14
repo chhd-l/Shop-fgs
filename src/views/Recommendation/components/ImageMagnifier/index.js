@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './index.css';
+import './index.less';
 import { FormattedMessage } from 'react-intl';
 import noPic from '@/assets/images/noPic.png'
 // import noPic from './images/noPic1.png';
@@ -24,9 +24,9 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: (props.config && props.config.width) || '400',
+        width: (props.config && props.config.width) || '240',
         // 组件高
-        height: (props.config && props.config.height) || '450'
+        height: (props.config && props.config.height) || '340'
       },
       // 缩略图
       minImg: '',
@@ -74,10 +74,10 @@ class ImageMagnifier extends Component {
         //  放大镜容器样式
         magnifierContainer: {
           position: 'absolute',
-          left: '-400px',
+          left: '-240px',
           top: '0',
-          width: '400px',
-          height: '400px',
+          width: '240px',
+          height: '340px',
           border: '1px solid #ccc',
           overflow: 'hidden',
           zIndex: 98,
@@ -85,7 +85,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: '400',
+          width: '240px',
           height: '100%',
           margin: '0 auto',
           display: 'block'
@@ -150,7 +150,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: hoverIndex * 400
+        offsetX: hoverIndex * 240
       });
     }
   }
@@ -183,7 +183,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: hoverIndex * 400
+        offsetX: hoverIndex * 240
       });
     }
   }
@@ -259,7 +259,7 @@ class ImageMagnifier extends Component {
     let params = JSON.parse(JSON.stringify(this.state.params));
     console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = 400 + 'px';
+    cssStyle.imgContainer.width = 240 + 'px';
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = params.width + 'px';
     cssStyle.magnifierContainer.height = params.height + 'px';
@@ -289,7 +289,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: i * 400
+      offsetX: i * 240
     });
   }
   // 图片加载情况
@@ -456,7 +456,7 @@ class ImageMagnifier extends Component {
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
-            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            style={{ display: imgCount > 5 ? 'block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
               this.setState({ positionLeft: this.state.positionLeft + 69 });
@@ -521,7 +521,7 @@ class ImageMagnifier extends Component {
                       videoShow: true,
                       cssStyle,
                       hoverIndex: images.length,
-                      offsetX: images.length * 400
+                      offsetX: images.length * 240
                     });
                   }}
                   src={video ? video : ''}
@@ -536,7 +536,7 @@ class ImageMagnifier extends Component {
                 ? ''
                 : 'rc-brand1'
             }`}
-            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            style={{ display: imgCount > 5 ? 'block' : 'none' }}
             onClick={() => {
               if (this.state.positionLeft === (imgCount - 5) * -69) return;
               this.setState({ positionLeft: this.state.positionLeft - 69 });
