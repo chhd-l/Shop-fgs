@@ -104,6 +104,17 @@ class UnloginCart extends React.Component {
         );
         return false;
       }
+      if (checkoutStore.deletedProNames.length) {
+        headerCartStore.setErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo5"
+            values={{
+              val: checkoutStore.deletedProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -215,8 +226,8 @@ class UnloginCart extends React.Component {
               </div>
             </div>
           </div>
-        ) : (
-          getDeviceType() === 'PC'?(<div
+        ) : getDeviceType() === 'PC' ? (
+          <div
             className={[
               'popover',
               'popover-bottom',
@@ -323,15 +334,17 @@ class UnloginCart extends React.Component {
                           <div className="product-line-item">
                             <div className="product-line-item-details d-flex flex-row">
                               <div className="item-image">
-                                <img
-                                  className="product-image"
-                                  src={
-                                    find(item.sizeList, (s) => s.selected)
-                                      .goodsInfoImg
-                                  }
-                                  alt={item.goodsName}
-                                  title={item.goodsName}
-                                />
+                                <LazyLoad>
+                                  <img
+                                    className="product-image"
+                                    src={
+                                      find(item.sizeList, (s) => s.selected)
+                                        .goodsInfoImg
+                                    }
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
+                                  />
+                                </LazyLoad>
                               </div>
                               <div className="wrap-item-title">
                                 <div className="item-title">
@@ -344,36 +357,45 @@ class UnloginCart extends React.Component {
                                     </span>
                                   </div>
                                 </div>
-                                <div className="line-item-total-price justify-content-start pull-left">
-                                  <div className="item-attributes">
-                                    <p className="line-item-attributes">
-                                      {
-                                        find(item.sizeList, (s) => s.selected)
-                                          .specText
-                                      }{' '}
-                                      -{' '}
-                                      {item.quantity > 1
-                                        ? `${item.quantity} products`
-                                        : `${item.quantity} product`}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="line-item-total-price justify-content-end pull-right priceBox">
-                                  <div className="price relative">
-                                    <div className="strike-through non-adjusted-price">
-                                      null
+                                <div
+                                  style={{ width: '100%', overflow: 'hidden' }}
+                                >
+                                  <div className="line-item-total-price justify-content-start pull-left">
+                                    <div className="item-attributes">
+                                      <p className="line-item-attributes">
+                                        {
+                                          find(item.sizeList, (s) => s.selected)
+                                            .specText
+                                        }{' '}
+                                        -{' '}
+                                        {item.quantity > 1
+                                          ? `${item.quantity} products`
+                                          : `${item.quantity} product`}
+                                      </p>
                                     </div>
-                                    <b className="pricing line-item-total-price-amount light">
-                                      {formatMoney(item.currentAmount)}
-                                    </b>
+                                  </div>
+                                  <div className="line-item-total-price justify-content-end pull-right priceBox">
+                                    <div className="price relative">
+                                      <div className="strike-through non-adjusted-price">
+                                        null
+                                      </div>
+                                      <b className="pricing line-item-total-price-amount light">
+                                        {formatMoney(item.currentAmount)}
+                                      </b>
+                                    </div>
                                   </div>
                                 </div>
                                 {item.goodsInfoFlag ? (
-                                  <>
+                                  <div
+                                    style={{
+                                      width: '100%',
+                                      overflow: 'hidden'
+                                    }}
+                                  >
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
-                                          Frq:{' '}
+                                          <FormattedMessage id="subscription.frequency"/>:{' '}
                                           {frequencyList.length &&
                                             frequencyList.filter(
                                               (el) =>
@@ -409,7 +431,7 @@ class UnloginCart extends React.Component {
                                         </b>
                                       </div>
                                     </div>
-                                  </>
+                                  </div>
                                 ) : null}
                               </div>
                             </div>
@@ -422,8 +444,8 @@ class UnloginCart extends React.Component {
                 </div>
               </div>
             </div>
-          </div>): null
-        )}
+          </div>
+        ) : null}
       </span>
     );
   }

@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import { setSeoConfig } from '@/utils/utils';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
@@ -34,6 +35,9 @@ class TermsConditions extends React.Component {
     const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
 
     this.setState({ tel, mailAddress });
+    setSeoConfig({
+      pageName: 'general terms conditions page'
+    });
   }
   render(h) {
     const event = {
@@ -54,7 +58,7 @@ class TermsConditions extends React.Component {
         />
 
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null: <BannerTip />}
+          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
           <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
             <div className="rc-bg-colour--brand3">

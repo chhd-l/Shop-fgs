@@ -13,6 +13,7 @@ import Loading from '@/components/Loading';
 import PaymentComp from '@/components/PaymentComp';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -153,11 +154,13 @@ class PaymentMethod extends React.Component {
                         </div>
                       </div>
                       <div className="rc-column">
+                        <LazyLoad>
                         <img
                           src={paymentImg}
                           style={{ width: '100%' }}
                           alt=""
                         />
+                        </LazyLoad>
                       </div>
                     </div>
                   </div>

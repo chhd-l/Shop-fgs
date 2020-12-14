@@ -185,7 +185,8 @@ module.exports = function (webpackEnv) {
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: paths.publicUrlOrPath,
+      // publicPath: paths.publicUrlOrPath,
+      publicPath: process.env.REACT_APP_ASSETS_PREFIX,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
@@ -392,24 +393,25 @@ module.exports = function (webpackEnv) {
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
 
+        // 关闭eslint
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: {
-                cache: true,
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
-                resolvePluginsRelativeTo: __dirname
-              },
-              loader: require.resolve('eslint-loader')
-            }
-          ],
-          include: paths.appSrc
-        },
+        // {
+        //   test: /\.(js|mjs|jsx|ts|tsx)$/,
+        //   enforce: 'pre',
+        //   use: [
+        //     {
+        //       options: {
+        //         cache: true,
+        //         formatter: require.resolve('react-dev-utils/eslintFormatter'),
+        //         eslintPath: require.resolve('eslint'),
+        //         resolvePluginsRelativeTo: __dirname
+        //       },
+        //       loader: require.resolve('eslint-loader')
+        //     }
+        //   ],
+        //   include: paths.appSrc
+        // },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -599,9 +601,11 @@ module.exports = function (webpackEnv) {
         }
       ]
     },
-    // external: {
-    //   // todo
-    // },
+    externals: {
+      // react: 'react',
+      // 'react-dom': 'react-dom',
+      // 'react-router-dom': 'react-router-dom'
+    },
     plugins: [
       // 添加 进度条
       new WebpackBar({
@@ -616,7 +620,7 @@ module.exports = function (webpackEnv) {
         threshold: 102400, // 只处理比这个值大的资源。按字节计算
         minRatio: 0.8 // 只有压缩率比这个值小的资源才会被处理
       }),
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

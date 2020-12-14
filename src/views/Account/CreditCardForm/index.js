@@ -13,6 +13,7 @@ import axios from 'axios';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -266,7 +267,9 @@ class ShippingAddressFrom extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+          <LazyLoad>
           <img key={idx} className="logo-payment-card" src={el} alt="" />
+          </LazyLoad>
         ))}
       </span>
     );
@@ -345,10 +348,12 @@ class ShippingAddressFrom extends React.Component {
                                     *
                                     <div className="cardFormBox">
                                       <span className="cardImage">
+                                        <LazyLoad>
                                         <img
                                           alt="Card"
                                           src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
                                         />
+                                        </LazyLoad>
                                       </span>
                                       <span className="cardForm">
                                         <div className="row">

@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useState  } from 'react';
 import PropTypes from 'prop-types';
 import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
-import SocialRegister from './components/socialRegister'
+import SocialRegister from './components/socialRegister';
+import { injectIntl, FormattedMessage } from 'react-intl';
+import { oktaRegister } from '@/api/user'
+import { setToken } from '../../utils/token'
 
-export default class Register extends Component {
+@injectIntl
+class Register extends Component {
   static propTypes = {
     prop: PropTypes
   };
@@ -21,11 +25,36 @@ export default class Register extends Component {
       list: [],
       width: '',
       zoom: '',
-      fontZoom: ''
+      fontZoom: '',
+
+      passwordChanged: false,
+      ruleLength: false,
+      ruleLower: false,
+      ruleUpper: false,
+      ruleAname: false,
+      ruleSpecial: false,
+
+      nameValid: true,
+      emailValid: true,
+      passwordValid: true,
+
+      registerForm: {
+        name: '',
+        email: '',
+        password: ''
+      },
+
+      passwordMessage: '',
+      emailMessage: '',
+      requiredConsentCount: 0
     };
     this.sendList = this.sendList.bind(this);
-    this.init = this.init.bind(this);  
-    this.register = this.register.bind(this);   
+    this.init = this.init.bind(this);
+    this.register = this.register.bind(this);
+    this.registerChange = this.registerChange.bind(this);
+    this.inputFocus = this.inputFocus.bind(this);
+    this.inputBlur = this.inputBlur.bind(this);
+    this.deleteInput = this.deleteInput.bind(this);
   }
 
   componentDidMount() {
@@ -99,7 +128,8 @@ export default class Register extends Component {
       let list = this.state.list;
       list = [...requiredList, ...optioalList];
       this.setState({
-        list
+        list,
+        requiredConsentCount: requiredList.length
       });
     } catch (err) {
     } finally {
@@ -115,12 +145,138 @@ export default class Register extends Component {
     this.setState({ list });
   };
 
-  register = async () => {
+  inputFocus = (e) => {
+    this.setState({
+      passwordChanged: true
+    });
+  };
 
+  deleteInput = (name) => {
+    const { registerForm } = this.state;
+    registerForm[name] = '';
+    this.setState({
+      registerForm
+    });
+    if (name === 'password') {
+      this.setState({
+        passwordMessage: this.props.intl.messages.registerFillIn
+      });
+    }
+    if (name === 'email') {
+      this.setState({
+        emailMessage: this.props.intl.messages.registerFillIn
+      });
+    }
+  };
+
+  inputBlur = (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    if(name === 'password'){
+      this.setState({
+        passwordChanged: false
+      })
+    }
+    this.validInput(name, value);
+  };
+
+  validInput(name, value) {
+    switch (name) {
+      case 'password':
+        const {
+          ruleLength,
+          ruleLower,
+          ruleUpper,
+          ruleAname,
+          ruleSpecial
+        } = this.state;
+        const passwordValid =
+          ruleLength && ruleLower && ruleUpper && ruleAname && ruleSpecial;
+        this.setState({
+          passwordValid,
+          passwordMessage: value
+            ? this.props.intl.messages.registerPasswordFormat
+            : this.props.intl.messages.registerFillIn
+        });
+        break;
+      case 'name':
+        this.setState({
+          nameValid: !!value
+        });
+        break;
+      case 'email':
+        var emailReg = /^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$/;
+        this.setState({
+          emailValid: emailReg.test(value),
+          emailMessage: value
+            ? this.props.intl.messages.registerEmailFormate
+            : this.props.intl.messages.registerFillIn
+        });
+        break;
+      default:
+        break;
+    }
   }
+
+  registerChange = (e) => {
+    const { registerForm } = this.state;
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    if (name === 'password') {
+      var lowerReg = /[a-z]+/;
+      var upperReg = /[A-Z]+/;
+      var nameReg = /[\d]+/;
+      var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
+      this.setState({
+        ruleLength: value.length >= 8,
+        ruleLower: lowerReg.test(value),
+        ruleUpper: upperReg.test(value),
+        ruleAname: nameReg.test(value),
+        ruleSpecial: specialReg.test(value)
+      }, () => this.validInput(name, value));
+    }
+    this.validInput(name, value);
+    registerForm[name] = value;
+    this.setState({ registerForm });
+  };
+
+  register = async () => {
+    const { registerForm } = this.state;
+    const res = oktaRegister({
+      storeId: process.env.REACT_APP_STOREID,
+      customerPassword: registerForm.password,
+      customerAccount: registerForm.email,
+      customerName:registerForm.name
+    })
+    if(res.code === 'K-000000') {
+      setToken(res.token)
+    }
+  };
 
   render() {
     const url = this.props.match.url;
+    const {
+      ruleLength,
+      ruleLower,
+      ruleUpper,
+      ruleAname,
+      ruleSpecial,
+      passwordChanged,
+      nameValid,
+      emailValid,
+      passwordValid,
+      registerForm,
+      emailMessage,
+      passwordMessage,
+      requiredConsentCount,
+      list
+    } = this.state;
+    const allValid = nameValid && emailValid && passwordValid 
+            && registerForm.name && registerForm.email && registerForm.password;
+    const requireCheckd = (list.filter(x=>x.isChecked && x.isRequired)).length === requiredConsentCount;
+    const registerDisabled = !(allValid && requireCheckd)
     return (
       <div>
         {/*全局loading */}
@@ -135,7 +291,7 @@ export default class Register extends Component {
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
                   <span className="rc-screen-reader-text">
-                    Commerce Cloud Storefront Reference Architecture
+                    <FormattedMessage id="registerCloud" />
                   </span>
                   <div className="content-asset">
                     <img
@@ -149,23 +305,21 @@ export default class Register extends Component {
               </div>
               <div className="rc-layout-container rc-one-column rc-self-h-middle rc-flex-direction--reverse--md-down rc-max-width--lg">
                 <div className="rc-column rc-max-width--md rc-text--center">
-                  <div className="rc-margin-top--md rc-margin-bottom--sm">
+                  <div className="rc-margin-bottom--sm">
                     <aside
                       aria-hidden="true"
                       className="ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm hidden"
                       role="alert"
                     >
                       <p>
-                        Une erreur est survenue lors de la création de votre
-                        compte. Veuillez réessayer plus tard ou utiliser une
-                        adresse e-mail différente.
+                        <FormattedMessage id="registerErrorMessage" />
                         <b>
                           <a
                             href="https://shop.royalcanin.fr/help/contact"
                             className="rc-text-colour--brand1"
                           >
                             {' '}
-                            Contactez-nous
+                            <FormattedMessage id="footer.email" />
                           </a>
                         </b>
                       </p>
@@ -184,38 +338,25 @@ export default class Register extends Component {
                       </button>
                     </aside>
                     <h2 className="text-center rc-margin-bottom--sm">
-                      Bienvenue chez Royal Canin
+                      <FormattedMessage id="registerWelcome" />{' '}
+                      <span class="rc-text-colour--brand1">Royal Canin</span>
                     </h2>
                     <p className="rc-margin-bottom--none text-center">
-                      Afin de créer votre compte, veuillez compléter le
-                      formulaire ci-dessous.
+                      <FormattedMessage id="registerCompleteForm" />
                     </p>
-                    <p className="rc-margin-bottom--md text-center align-bottom">
-                      Vous avez déjà un compte ?{' '}
+                    <p className="text-center align-bottom">
+                      <FormattedMessage id="registerHaveAccount" />{' '}
                       <a
                         href="https://shop.royalcanin.fr/on/demandware.store/Sites-FR-Site/fr_FR/Login-OAuthLogin?oauthProvider=OktaProvider_FR&amp;oauthLoginTargetEndPoint=1"
                         className="rc-styled-link"
                       >
-                        Connectez-vous
+                        <FormattedMessage id="registerLoginIn" />
                       </a>
                     </p>
-                    <div className="rc-two-column">
-                      <div className="rc-column">
-                        <p className="social-auth-button fecebookBtn">
-                          Sign in with Facebook
-                        </p>
-                      </div>
-                      <div className="rc-column">
-                        <p className="social-auth-button googleBtn">
-                          Sign in with Google
-                        </p>
-                      </div>
-                    </div>
+                    <SocialRegister />
                     <div className="rc-column">
                       <p className="rc-margin-bottom--none text-center rc-padding--xs">
-                        By continuing, you agree to our MARS privacy policy. We
-                        will collect and use your first name, last name, and
-                        email address to offer you a personalized experience.
+                        <FormattedMessage id="registerContinuing" />
                       </p>
                     </div>
                     <div className="rc-column rc-padding-left--lg rc-padding-right--lg">
@@ -224,7 +365,7 @@ export default class Register extends Component {
                           className="auth-divider-text"
                           data-i18n="loginPage_or"
                         >
-                          OU
+                          <FormattedMessage id="registerOr" />
                         </span>
                       </div>
                     </div>
@@ -235,86 +376,110 @@ export default class Register extends Component {
                         encoding="off"
                       >
                         <div className="rc-margin-bottom--xs">
-                          <div className="form-group rc-margin-bottom--md required">
+                          <div className="form-group rc-margin-bottom--md required rc-text--left">
                             <div
-                              className="rc-input rc-input--full-width"
+                              className={
+                                'rc-input rc-input--full-width ' +
+                                (nameValid ? '' : 'rc-input--error')
+                              }
                               data-rc-feature-forms-setup="true"
                             >
                               <input
                                 className="rc-input__control"
                                 id="registerName"
                                 type="text"
-                                name="dwfrm_registrationForm_registerName"
-                                aria-required="true"
                                 maxlength="50"
-                                data-missing-error="Ce champs est requis."
+                                name="name"
+                                onChange={(e) => this.registerChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                value={registerForm.name}
                               />
-                              <label className="rc-input__label" htmlFor="registerName">
-                                <span className="rc-input__label-text">Nom</span>
+                              <label
+                                className="rc-input__label"
+                                htmlFor="registerName"
+                              >
+                                <span className="rc-input__label-text">
+                                  {' '}
+                                  <FormattedMessage id="registerName" />{' '}
+                                </span>
                               </label>
+                              {nameValid ? null : (
+                                <span
+                                  class="input-cross icon-unsuscribe iconfont"
+                                  onClick={() => this.deleteInput('name')}
+                                >
+                                  &#xe6b2;
+                                </span>
+                              )}
                             </div>
                             <div className="invalid-feedback">
-                              Merci de remplir ce champ
+                              <FormattedMessage id="registerFillIn" />
                             </div>
                           </div>
-                          <div
-                            className="form-group rc-margin-bottom--md required"
-                            data-js-warning-message="Please enter a valid email"
-                          >
+                          <div className="form-group rc-margin-bottom--md required rc-text--left">
                             <div
-                              className="rc-input rc-input--full-width"
-                              data-rc-feature-forms-setup="true"
+                              className={
+                                'rc-input rc-input--full-width ' +
+                                (emailValid ? '' : 'rc-input--error')
+                              }
                             >
                               <input
                                 className="rc-input__control"
                                 id="registerEmail"
                                 type="email"
-                                data-pattern-mismatch="L'adresse e-mail ne correspond pas au format spécifié."
-                                data-missing-error="Ce champs est requis."
-                                name="dwfrm_registrationForm_registerEmail"
-                                aria-required="true"
                                 maxlength="50"
-                                pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
+                                name="email"
+                                onChange={(e) => this.registerChange(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                value={registerForm.email}
                               />
                               <label
                                 className="rc-input__label"
                                 htmlFor="registerEmail"
                               >
                                 <span className="rc-input__label-text">
-                                  Adresse e-mail
+                                  <FormattedMessage id="registerEmail" />
                                 </span>
                               </label>
+                              {emailValid ? null : (
+                                <span
+                                  class="input-cross icon-unsuscribe iconfont"
+                                  onClick={() => this.deleteInput('email')}
+                                >
+                                  &#xe6b2;
+                                </span>
+                              )}
                             </div>
                             <div className="invalid-feedback">
-                              Merci de remplir ce champ
+                              {emailMessage}
                             </div>
                           </div>
-                          <div
-                            className="form-group rc-margin-bottom--md relative required"
-                            data-js-warning-message="Must be at least 8 characters"
-                          >
+                          <div className="form-group rc-margin-bottom--md relative required rc-text--left">
                             <div
-                              className="rc-input rc-input--full-width"
+                              className={
+                                'rc-input rc-input--full-width ' +
+                                (passwordValid ? '' : 'rc-input--error')
+                              }
                               data-rc-feature-forms-setup="true"
                             >
                               <input
                                 className="rc-input__control rc-input__password"
                                 id="registerPassword"
                                 type="password"
-                                data-missing-error="Ce champs est requis."
-                                data-pattern-mismatch="Le mot de passe n'est pas valide."
-                                name="dwfrm_registrationForm_registerPassword"
-                                aria-required="true"
                                 maxlength="255"
                                 minlength="8"
-                                data-rc-feature-password-setup="true"
+                                name="password"
+                                onChange={(e) => this.registerChange(e)}
+                                onFocus={(e) => this.inputFocus(e)}
+                                onBlur={(e) => this.inputBlur(e)}
+                                value={registerForm.password}
                               />
                               <label
                                 className="rc-input__label"
                                 htmlFor="registerPassword"
                               >
                                 <span className="rc-input__label-text">
-                                  Mot de passe
+                                  <FormattedMessage id="registerPassword" />
                                 </span>
                               </label>
                               <button
@@ -322,15 +487,26 @@ export default class Register extends Component {
                                 className="rc-btn rc-btn--icon rc-icon rc-show--xs rc-iconography rc-input__password-toggle"
                               >
                                 <span className="rc-screen-reader-text">
-                                  Toggle password visibility
+                                  <FormattedMessage id="registerTogglePassword" />
                                 </span>
                               </button>
+                              {passwordValid ? null : (
+                                <span
+                                  class="input-cross icon-unsuscribe iconfont"
+                                  onClick={() => this.deleteInput('password')}
+                                >
+                                  &#xe6b2;
+                                </span>
+                              )}
                             </div>
                             <div className="invalid-feedback">
-                              Merci de remplir ce champ
+                              {passwordMessage}
                             </div>
                             <div
-                              className="tippy-popper invisible"
+                              className={
+                                'tippy-popper ' +
+                                (passwordChanged ? '' : 'invisible')
+                              }
                               role="tooltip"
                               id="password-tooltip"
                               tabindex="-1"
@@ -344,48 +520,112 @@ export default class Register extends Component {
                                 data-interactive=""
                               >
                                 <div className="tippy-arrow"></div>
-                                <div className="tippy-content" data-state="visible">
+                                <div
+                                  className="tippy-content"
+                                  data-state="visible"
+                                >
                                   <div
                                     id="password-tooltip"
-                                    className="rc-tooltip text-center"
+                                    className="rc-tooltip rc-text--left"
                                   >
                                     <div className="rc-meta">
-                                      Le mot de passe doit contenir au moins
+                                      <FormattedMessage id="registerRules" />
                                     </div>
                                     <div
-                                      className="rc-badge--label"
+                                      className={
+                                        'rc-badge--label ' +
+                                        (ruleLength
+                                          ? 'rc-text-colour--success'
+                                          : '')
+                                      }
                                       data-password-strength="length"
                                     >
+                                      {ruleLength ? (
+                                        <span className="iconfont green mr-2">
+                                          &#xe68c;
+                                        </span>
+                                      ) : null}
                                       <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                      <span>8 caractères</span>
+                                      <span>
+                                        {' '}
+                                        <FormattedMessage id="registerLength" />{' '}
+                                      </span>
                                     </div>
                                     <div
-                                      className="rc-badge--label"
+                                      className={
+                                        'rc-badge--label ' +
+                                        (ruleLower
+                                          ? 'rc-text-colour--success'
+                                          : '')
+                                      }
                                       data-password-strength="lowercase"
                                     >
-                                      <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                      <span>Une lettre minuscule</span>
+                                      {ruleLower ? (
+                                        <span className="iconfont green mr-2">
+                                          &#xe68c;
+                                        </span>
+                                      ) : null}
+                                      <span className="icon-validation rc-epsilon rc-b"></span>
+                                      <span>
+                                        <FormattedMessage id="registerLowercase" />
+                                      </span>
                                     </div>
                                     <div
-                                      className="rc-badge--label"
+                                      className={
+                                        'rc-badge--label ' +
+                                        (ruleUpper
+                                          ? 'rc-text-colour--success'
+                                          : '')
+                                      }
                                       data-password-strength="uppercase"
                                     >
+                                      {ruleUpper ? (
+                                        <span className="iconfont green mr-2">
+                                          &#xe68c;
+                                        </span>
+                                      ) : null}
                                       <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                      <span>Une lettre majuscule</span>
+                                      <span>
+                                        <FormattedMessage id="registerUppercase" />
+                                      </span>
                                     </div>
                                     <div
-                                      className="rc-badge--label"
+                                      className={
+                                        'rc-badge--label ' +
+                                        (ruleAname
+                                          ? 'rc-text-colour--success'
+                                          : '')
+                                      }
                                       data-password-strength="number"
                                     >
+                                      {ruleAname ? (
+                                        <span className="iconfont green mr-2">
+                                          &#xe68c;
+                                        </span>
+                                      ) : null}
                                       <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                      <span>Un nombre</span>
+                                      <span>
+                                        <FormattedMessage id="registerAname" />
+                                      </span>
                                     </div>
                                     <div
-                                      className="rc-badge--label"
+                                      className={
+                                        'rc-badge--label ' +
+                                        (ruleSpecial
+                                          ? 'rc-text-colour--success'
+                                          : '')
+                                      }
                                       data-password-strength="specialchar"
                                     >
+                                      {ruleSpecial ? (
+                                        <span className="iconfont green mr-2">
+                                          &#xe68c;
+                                        </span>
+                                      ) : null}
                                       <span className="icon-validation rc-epsilon rc-b rc-hidden"></span>
-                                      <span>Un caractère spécial</span>
+                                      <span>
+                                        <FormattedMessage id="registerSpecial" />
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -402,12 +642,15 @@ export default class Register extends Component {
                               fontZoom={this.state.fontZoom}
                               auto={true}
                               key={'required'}
+                              description={
+                                this.props.intl.messages.registerDescription
+                              }
                             />
                           </div>
                         </div>
-                        <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
-                          <span className="rc-text-colour--brand1">*</span> Champ
-                          obligatoire
+                        <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
+                          <FormattedMessage id="registerMandatory" />
+                          <span className="rc-text-colour--brand1">*</span>
                         </p>
                         <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                           <button
@@ -415,48 +658,21 @@ export default class Register extends Component {
                             type="button"
                             value="Créer votre compte Royal Canin"
                             className="rc-btn rc-btn--one rc-self-v-middle--mobile"
-                            onClick={this.register}
+                            disabled={ registerDisabled }
+                            onClick={() => this.register()}
                           >
-                            Créer votre compte Royal Canin
+                            <FormattedMessage id="registerCreateYourAccout" />
                           </button>
                         </div>
-                        <div className="rc-meta rc-margin-top--sm">
+                        <div className="rc-meta rc-margin-top--sm rc-text--left">
                           <p>
-                            Vous devez avoir 16 ans ou plus pour soumettre un
-                            formulaire. Les données personnelles, que vous
-                            renseignez sont traitées aux fins d’études
-                            statistiques anonymes sous la responsabilité de la
-                            société Royal Canin SAS. Elles seront également
-                            traitées par Royal Canin France à des fins de
-                            prospection commerciale, le cas échéant par voie
-                            électronique si vous y avez préalablement consenti.
-                            Elles ne seront pas conservées plus de dix-huit mois
-                            après leur collecte ou le dernier contact avec Royal
-                            Canin. Vous pouvez retirer, à tout moment, votre
-                            consentement pour l’avenir et exercer vos droits
-                            d’accès, de rectification et d’effacement de vos
-                            données personnelles, ainsi que votre droit de vous
-                            opposer à leur traitement ou d’en demander la
-                            limitation en écrivant à Royal Canin France, Service
-                            consommateur – BP4– 650 avenue de la Petite Camargue
-                            – 30470 AIMARGUES ou par email à l’adresse{' '}
+                            <FormattedMessage id="registerFooter1" />
                             <a
                               href="mailto:conso.fr@royalcanin.com"
                               className="rc-text-colour--brand1"
                             >
                               conso.fr@royalcanin.com
                             </a>
-                            . Vous avez le droit d’introduire une réclamation
-                            auprès de la CNIL. Royal Canin France et Royal Canin
-                            SAS ont un délégué à la protection des données
-                            personnelles, qui peut, être contacté à l’adresse :{' '}
-                            <a
-                              href="mailto:privacy@effem.com"
-                              className="rc-text-colour--brand1"
-                            >
-                              privacy@effem.com
-                            </a>
-                            .
                           </p>
                         </div>
                       </form>
@@ -471,3 +687,4 @@ export default class Register extends Component {
     );
   }
 }
+export default Register;

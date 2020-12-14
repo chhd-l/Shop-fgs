@@ -124,7 +124,6 @@ class RegisterRequired extends Component {
       styleObj: { display: 'none' },
       isLoading: true
     });
-
     try {
       const result = await findUserConsentList({});
       //没有必选项，直接跳回
@@ -177,6 +176,7 @@ class RegisterRequired extends Component {
 
       console.log(this.state.list);
     } catch (err) {
+      debugger
       window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
     } finally {
       this.setState({
@@ -189,7 +189,7 @@ class RegisterRequired extends Component {
   async componentDidMount() {
     // const state = this.props.location.state
     const fromLoginPage = sessionItemRoyal.get('fromLoginPage'); //判断是不是从登陆跳转过来
-    if (!fromLoginPage) {
+    if (!fromLoginPage) {//从登录页进来就在LoginButton组件里执行init方法(因为没登录，必须登录过后得到octa token才能执行获取consent的接口)
       this.init();
     }
     sessionItemRoyal.remove('fromLoginPage');
@@ -237,7 +237,6 @@ class RegisterRequired extends Component {
     // }
   }
   componentWillUnmount() {
-    debugger
     localItemRoyal.set('isRefresh', true);
   }
   render() {

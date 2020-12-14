@@ -21,6 +21,7 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { dynamicLoadCss } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 import './index.css';
 
@@ -771,6 +772,7 @@ class PaymentComp extends React.Component {
               <div
                 className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
               >
+                <LazyLoad>
                 <img
                   className="PayCardImgFitScreen"
                   src={
@@ -786,6 +788,7 @@ class PaymentComp extends React.Component {
                   }
                   alt=""
                 />
+                </LazyLoad>
               </div>
               <div
                 className={`col-12 col-sm-9 flex-column justify-content-around`}
@@ -880,6 +883,7 @@ class PaymentComp extends React.Component {
                       >
                         <FormattedMessage id="payment.apply" />
                       </button>
+                      <LazyLoad>
                       <img
                         src={successImg}
                         style={{
@@ -893,6 +897,7 @@ class PaymentComp extends React.Component {
                         }}
                         alt=""
                       />
+                      </LazyLoad>
                       {/* <FormattedMessage id="payment.cardType" /><br />
                         <span className="creditCompleteInfo">{el.cardType}</span> */}
                     </div>
@@ -960,6 +965,7 @@ class PaymentComp extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+          <LazyLoad>
           <img
             key={idx}
             style={{ width: '50px' }}
@@ -967,6 +973,7 @@ class PaymentComp extends React.Component {
             src={el}
             alt=""
           />
+          </LazyLoad>
         ))}
       </span>
     );
@@ -1055,6 +1062,7 @@ class PaymentComp extends React.Component {
               </p>
               <div className="row">
                 <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
+                  <LazyLoad>
                   <img
                     src={
                       CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
@@ -1065,6 +1073,7 @@ class PaymentComp extends React.Component {
                     }
                     alt=""
                   />
+                  </LazyLoad>
                 </div>
                 <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
                   <div className="row creditCompleteInfo ui-margin-top-1-md-down">
@@ -1153,6 +1162,7 @@ class PaymentComp extends React.Component {
                         <span style={{ color: 'red' }}>*</span>
                         <div className="cardFormBox">
                           <span className="cardImage">
+                            <LazyLoad>
                             <img
                               alt="Card"
                               src={
@@ -1163,6 +1173,7 @@ class PaymentComp extends React.Component {
                                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
                             />
+                            </LazyLoad>
                           </span>
                           <span className="cardForm">
                             <div className="row">

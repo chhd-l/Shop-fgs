@@ -1,27 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import {IntlProvider,FormattedMessage, FormattedNumber} from 'react-intl';
-import { Money } from 'react-format';
-import image from '@/assets/images/500.png'
-import logo from '@/assets/images/logo--animated.png'
+import { IntlProvider, FormattedMessage, FormattedNumber } from 'react-intl';
+import image from '@/assets/images/500.png';
+import logo from '@/assets/images/logo--animated.png';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 function Page403() {
-  setSeoConfig()
+  setSeoConfig();
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}
       <LazyLoad>
-      <img src={logo} style={{width: '150px', margin: '80px auto 20px'}} alt=""/>
+        <img
+          src={logo}
+          style={{ width: '150px', margin: '80px auto 20px' }}
+          alt=""
+        />
       </LazyLoad>
-      <div
-      >
+      <div>
         <div className="container">
           <div className="rc-padding--md rc-text--center rc-bg-colour--interface">
             <LazyLoad>
-            <img src={image} style={{width: '300px', margin: '0 auto'}} alt=""/>
+              <img
+                src={image}
+                style={{ width: '300px', margin: '0 auto' }}
+                alt=""
+              />
             </LazyLoad>
 
             <div className="rc-bg-colour--brand3">

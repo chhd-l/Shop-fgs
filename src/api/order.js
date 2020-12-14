@@ -14,7 +14,8 @@ const api = {
   returnFindByTid: '/return/findByTid',
 
   addEvaluate: '/evaluate/addEvaluate',
-  logistics: '/trade/logistics/refresh' // 查询物流信息
+  logistics: '/trade/logistics/refresh', // 查询物流信息
+  exportInvoicePDF: '/account/orderInvoice/exportPDF/'
 };
 
 export default api;
@@ -110,6 +111,13 @@ export function addEvaluate(parameter) {
 export function queryLogistics(parameter) {
   return axios({
     url: `${api.logistics}/${parameter}`,
+    method: 'get'
+  });
+}
+
+export function exportInvoicePDF(parameter) {
+  return axios({
+    url: `${api.exportInvoicePDF}/${parameter}`,
     method: 'get'
   });
 }

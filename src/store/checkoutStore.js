@@ -15,8 +15,9 @@ class CheckoutStore {
   @observable goodsMarketingMap =
     localItemRoyal.get('goodsMarketingMap') || null; // promotion
   @observable loadingCartData = false;
-  @observable outOfstockProNames = [];
-  @observable offShelvesProNames = [];
+  @observable outOfstockProNames = []; // 超出库存的商品
+  @observable offShelvesProNames = []; // 下架的商品
+  @observable deletedProNames = []; // 被删除的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
@@ -136,8 +137,8 @@ class CheckoutStore {
       goodsMarketingDTOList: [],
       promotionCode
     });
-    this.setPromotionCode(promotionCode)
-    console.log(purchasesRes, 'purchasesRes')
+    this.setPromotionCode(promotionCode);
+    console.log(purchasesRes, 'purchasesRes');
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
@@ -159,7 +160,6 @@ class CheckoutStore {
     let param = data
       .filter((ele) => ele.selected)
       .map((ele) => {
-        console.log(ele.sizeList, 'ssize')
         return {
           goodsInfoId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsNum: ele.quantity,
@@ -176,7 +176,7 @@ class CheckoutStore {
     });
     let backCode = purchasesRes.code;
     purchasesRes = purchasesRes.context;
-    this.setPromotionCode(promotionCode)
+    this.setPromotionCode(promotionCode);
     this.setGoodsMarketingMap(purchasesRes.goodsMarketingMap);
     let params = {
       totalPrice: purchasesRes.totalPrice,
@@ -185,17 +185,18 @@ class CheckoutStore {
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice
+    };
+    if (!promotionCode || !purchasesRes.promotionFlag) {
+      params.discountPrice = purchasesRes.discountPrice;
+    } else {
+      params.discountPrice = this.discountPrice;
     }
-    if(!promotionCode || !purchasesRes.promotionFlag) {
-      params.discountPrice = purchasesRes.discountPrice
-    }else {
-      params.discountPrice = this.discountPrice
-    }
-    this.setCartPrice(params)
-    
+    this.setCartPrice(params);
+
     // 更新stock值
     let tmpOutOfstockProNames = [];
     let tmpOffShelvesProNames = [];
+    let tmpDeletedProNames = [];
 
     Array.from(data, (item) => {
       item.sizeList.map((el) => {
@@ -219,6 +220,9 @@ class CheckoutStore {
         if (!tmpObj.addedFlag) {
           tmpOffShelvesProNames.push(tmpName);
         }
+        if (tmpObj.delFlag) {
+          tmpDeletedProNames.push(tmpName);
+        }
         if (item.quantity > selectedSize.stock) {
           console.log(tmpObj, tmpOutOfstockProNames, 'name');
           tmpOutOfstockProNames.push(tmpName);
@@ -229,13 +233,17 @@ class CheckoutStore {
     this.setCartData(data);
     this.offShelvesProNames = tmpOffShelvesProNames;
     this.outOfstockProNames = tmpOutOfstockProNames;
+    this.deletedProNames = tmpDeletedProNames;
     return new Promise(function (resolve) {
       resolve({ backCode, context: purchasesRes });
     });
   }
 
   @action
-  async updateLoginCart(promotionCode = this.promotionCode, subscriptionFlag = false) {
+  async updateLoginCart(
+    promotionCode = this.promotionCode,
+    subscriptionFlag = false
+  ) {
     try {
       this.changeLoadingCartData(true);
       // 获取购物车列表
@@ -251,7 +259,7 @@ class CheckoutStore {
       });
       let backCode = sitePurchasesRes.code;
       sitePurchasesRes = sitePurchasesRes.context;
-      this.setPromotionCode(promotionCode)
+      this.setPromotionCode(promotionCode);
       runInAction(() => {
         let goodsList = siteMiniPurchasesRes.goodsList;
 
@@ -280,7 +288,7 @@ class CheckoutStore {
               }
               return sdItem.specId === sItem.specId;
             });
-            return sItem
+            return sItem;
           });
         }
         this.setLoginCartData(goodsList);
@@ -292,18 +300,22 @@ class CheckoutStore {
           promotionDesc: sitePurchasesRes.promotionDesc,
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice
+        };
+        if (!promotionCode || !sitePurchasesRes.promotionFlag) {
+          params.discountPrice = sitePurchasesRes.discountPrice;
+        } else {
+          params.discountPrice = this.discountPrice;
         }
-        if(!promotionCode || !sitePurchasesRes.promotionFlag) {
-          params.discountPrice = sitePurchasesRes.discountPrice
-        }else {
-          params.discountPrice = this.discountPrice
-        }
-        this.setCartPrice(params)
+        this.setCartPrice(params);
+
         this.offShelvesProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => !ele.addedFlag)
           .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
         this.outOfstockProNames = siteMiniPurchasesRes.goodsList
           .filter((ele) => ele.buyCount > ele.stock)
+          .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
+        this.deletedProNames = siteMiniPurchasesRes.goodsList
+          .filter((ele) => ele.delFlag)
           .map((ele) => ele.goodsInfoName + ' ' + ele.specText);
         this.setGoodsMarketingMap(sitePurchasesRes.goodsMarketingMap);
         this.changeLoadingCartData(false);

@@ -53,14 +53,6 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
   }
   componentDidMount() {
-    window.onload = function () {
-      //console.log(document.querySelectorAll('iframe'))
-      // var arr = document.querySelectorAll('iframe');
-      // for (let i of arr) {
-      //   console.log(i.contentWindow);
-
-      // }
-    };
 
     if (this.isLogin) {
       this.queryList();
@@ -74,7 +66,8 @@ class AdyenCreditCardList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  queryList = async (param) => {
+  queryList = async (currentCardEncryptedSecurityCode) => {
+    
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
@@ -82,15 +75,32 @@ class AdyenCreditCardList extends React.Component {
         storeId: process.env.REACT_APP_STOREID
       });
       let cardList = res.context;
+
+      // 给刚保存的卡默认加上CVV start
+      if(currentCardEncryptedSecurityCode){
+        const firstSaveCard = find(cardList, (ele) => ele.id === this.state.selectedId);
+        if(!!firstSaveCard){
+          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode
+        }
+        console.log(cardList)
+        this.props.updateSelectedCardInfo(
+          firstSaveCard
+        );
+        // debugger
+      }
+      // 给刚保存的卡默认加上CVV end
+
       const defaultItem = find(cardList, (ele) => ele.isDefaltAddress === 1);
       let tmpId =
         this.state.selectedId ||
         (defaultItem && defaultItem.id) ||
         (cardList.length && cardList[0].id) ||
         '';
-      //debugger
       this.setState({ cardList, selectedId: tmpId }, () =>
-        this.hanldeUpdateSelectedCardInfo()
+        {
+          //debugger
+          //this.hanldeUpdateSelectedCardInfo()
+        }
       );
     } catch (err) {
       console.log(err);
@@ -163,9 +173,6 @@ class AdyenCreditCardList extends React.Component {
   }
   hanldeUpdateSelectedCardInfo = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
-    // console.log(cardList)
-    // console.log(memberUnsavedCardList)
-    // debugger
     this.props.updateSelectedCardInfo(
       find(
         cardList.concat(memberUnsavedCardList),
@@ -175,22 +182,18 @@ class AdyenCreditCardList extends React.Component {
   };
   loadCvv = (el) => {
     const { id, adyenPaymentMethod: { brand }, isLoadCvv } = el
-    const { visitorAdyenFormData, selectedId, cardList } = this.state
-    var { updateSelectedCardInfo } = this.props;
-    // if (id === selectedId && visitorAdyenFormData && visitorAdyenFormData.encryptedSecurityCode) {
-    //   // let result = find(cardList, (ele) => ele.id === id);
-    //   // result.encryptedSecurityCode = visitorAdyenFormData.encryptedSecurityCode;
-    //   // console.log(result)
-    //   // this.props.paymentStore.updateFirstSavedCardCvv(visitorAdyenFormData.encryptedSecurityCode)
-    //   // console.log(this.props.paymentStore.firstSavedCardCvv)
-    //   // debugger
-    //   // updateSelectedCardInfo(
-    //   //   result
-    //   // )
-    //   return
-    // }
-    
-    if (el.isLoadCvv) return; //防止重新加载
+    const { cardList,selectedId } = this.state
+    var { updateSelectedCardInfo,paymentStore } = this.props;
+    //第一次绑定这张卡,不需要填写CVV start
+    if(paymentStore.firstSavedCardCvv==id){
+      el.isLoadCvv = false
+      paymentStore.updateFirstSavedCardCvv("")
+      return
+    }
+    //第一次绑定这张卡,不需要填写CVV end
+    // debugger
+    if (el.isLoadCvv&&(!el.encryptedSecurityCode)) return; //不需要加载(已经加载过+cvv为空)
+    el.encryptedSecurityCode = ""//loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
     loadJS({
       url:
@@ -207,12 +210,13 @@ class AdyenCreditCardList extends React.Component {
             .create('card', {
               brand: brand,
               onChange: (state) => {
+                console.log(state)
+                if(!state.data.paymentMethod.encryptedSecurityCode) return
                 let result = find(cardList, (ele) => ele.id === id);
-                result.encryptedSecurityCode =
-                  state.data.paymentMethod.encryptedSecurityCode;
-                updateSelectedCardInfo(
-                  find(cardList, (ele) => ele.id === id) || null
-                );
+                result.encryptedSecurityCode = state.data.paymentMethod.encryptedSecurityCode;
+                //debugger
+                updateSelectedCardInfo(result);
+                
               },
               onLoad: (state) => {
                 el.isLoadCvv = true
@@ -481,6 +485,7 @@ class AdyenCreditCardList extends React.Component {
     const { isOnepageCheckout, showErrorMsg, subBuyWay } = this.props;
     return (
       <EditForm
+        cardList={cardList}
         isCheckoutPage={true}
         isOnepageCheckout={isOnepageCheckout}
         enableStoreDetails={this.isLogin}

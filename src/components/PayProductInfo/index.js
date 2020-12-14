@@ -1,12 +1,14 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+@injectIntl
 class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
@@ -20,9 +22,10 @@ class PayProductInfo extends React.Component {
       productList: [],
       frequencyList: []
     };
+    this.handleClickProName = this.handleClickProName.bind(this);
   }
   async componentDidMount() {
-    await getFrequencyDict().then((res) => {
+    getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -33,7 +36,7 @@ class PayProductInfo extends React.Component {
       ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
       : id;
   }
-  handleClickProName = (item) => {
+  handleClickProName(item) {
     if (this.props.navigateToProDetails) {
       // sessionItemRoyal.set(
       //   'rc-goods-cate-name',
@@ -46,7 +49,7 @@ class PayProductInfo extends React.Component {
         `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
       );
     }
-  };
+  }
   getProductList(plist) {
     const { details } = this.props;
     console.log(plist, details, 'hahaha');
@@ -56,12 +59,14 @@ class PayProductInfo extends React.Component {
           <div className="product-line-item">
             <div className="product-line-item-details d-flex flex-row">
               <div className="item-image">
-                <img
-                  className="product-image"
-                  src={item.pic || IMG_DEFAULT}
-                  alt={item.spuName}
-                  title={item.spuName}
-                />
+                <LazyLoad>
+                  <img
+                    className="product-image"
+                    src={item.pic || IMG_DEFAULT}
+                    alt={item.spuName}
+                    title={item.spuName}
+                  />
+                </LazyLoad>
               </div>
               <div className="wrap-item-title">
                 <div className="item-title">
@@ -78,12 +83,24 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {item.specDetails} -{' '}
-                    {item.num > 1 ? (
-                      <FormattedMessage id="items" values={{ val: item.num }} />
-                    ) : (
-                      <FormattedMessage id="item" values={{ val: item.num }} />
-                    )}
+                    {[
+                      item.specDetails,
+                      item.num > 1
+                        ? this.props.intl.formatMessage(
+                            { id: 'items' },
+                            {
+                              val: item.num
+                            }
+                          )
+                        : this.props.intl.formatMessage(
+                            { id: 'item' },
+                            {
+                              val: item.num
+                            }
+                          )
+                    ]
+                      .filter((e) => e)
+                      .join(' - ')}
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
@@ -101,27 +118,17 @@ class PayProductInfo extends React.Component {
                       </>
                     ) : null}
                   </div>
-                  <div
-                    className="line-item-total-price"
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
+                  <div className="line-item-total-price text-nowrap">
                     {details.subscriptionResponseVO &&
                     item.subscriptionStatus ? (
                       <>
                         <span className="text-line-through">
-                          {formatMoney(item.num * item.price)}
+                          {formatMoney(item.num * item.originalPrice)}
                         </span>
                         <br />
                       </>
                     ) : null}
-                    <span>
-                      {formatMoney(
-                        details.subscriptionResponseVO &&
-                          item.subscriptionStatus
-                          ? item.num * item.subscriptionPrice
-                          : item.num * item.price
-                      )}
-                    </span>
+                    <span>{formatMoney(item.price)}</span>
                   </div>
                 </div>
               </div>
@@ -142,7 +149,7 @@ class PayProductInfo extends React.Component {
         id={id}
       >
         <div className="product-summary__recap mt-0 mb-0">
-          {this.props.details ? (
+          {details ? (
             <>
               <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
                 <span>

@@ -6,6 +6,7 @@ import grayStar from './images/grayStar.svg';
 import oraStar from './images/oraStar.svg';
 import halfStar from './images/halfStar.png';
 import oraStar_active from './images/oraStar_active.svg';
+import LazyLoad from 'react-lazyload';
 export default class Rate extends Component {
   state = {
     count: this.props.number || 5,
@@ -96,15 +97,18 @@ export default class Rate extends Component {
                 //   disabled={this.state.disabled}
                 //   // style={{marginRight:this.props.marginSize}}
                 // ></span>
-
+                <LazyLoad>
                 <img src={this.state.activeStar} alt="" />
+                </LazyLoad>
               ) : flag && index === numInt ? (
                 // <span
                 //   className={`rc-icon rc-margin-bottom--xs rc-rate-fill--xs half-star ${this.props.marginSize}`}
                 //   disabled={this.state.disabled}
                 //   // style={{marginRight:this.props.marginSize}}
                 // />
+                <LazyLoad>
                 <img src={this.state.halfStar} alt="" />
+                </LazyLoad>
               ) : (
                 // <img src={redStar}/>
                 // <span
@@ -112,7 +116,9 @@ export default class Rate extends Component {
                 //   style={{ opacity: '.5' }}
                 //   disabled={this.state.disabled}
                 // ></span>
+                <LazyLoad>
                 <img src={this.state.inActiveStar} alt="" />
+                </LazyLoad>
               )}
             </span>
           ))}

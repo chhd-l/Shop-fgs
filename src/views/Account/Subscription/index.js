@@ -18,6 +18,7 @@ import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 import './index.css';
 
@@ -61,9 +62,7 @@ class Subscription extends React.Component {
 
   async componentDidMount() {
     setSeoConfig({
-      goodsId: '',
-      categoryId: '',
-      pageName: 'Subscription Page'
+      pageName: 'Account subscriptions'
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -176,7 +175,7 @@ class Subscription extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">
@@ -192,19 +191,15 @@ class Subscription extends React.Component {
               ) : (
                 <SideMenu type="Subscription" />
               )}
-              {
-
-              }
+              {}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
-                {
-                  this.state.subList.length? (
-                    <div>
-                      <h4 className="rc-delta rc-margin--none pb-2">
-                        <FormattedMessage id="subscription" />
-                      </h4>
-                    </div>
-                  ): null
-                }
+                {this.state.subList.length ? (
+                  <div>
+                    <h4 className="rc-delta rc-margin--none pb-2">
+                      <FormattedMessage id="subscription" />
+                    </h4>
+                  </div>
+                ) : null}
                 {/* <div className="row justify-content-around">
                   <div className="col-12 col-md-6 row align-items-center mt-2 mt-md-0">
                     <div className="col-md-4">
@@ -315,23 +310,25 @@ class Subscription extends React.Component {
                                 {subItem.goodsInfo &&
                                   subItem.goodsInfo.map((item) => (
                                     <div style={{ marginLeft: '20px' }}>
-                                      <img
-                                        style={{
-                                          width: '70px',
-                                          display: 'inline-block'
-                                        }}
-                                        key={item.spuId}
-                                        src={item.goodsPic || IMG_DEFAULT}
-                                        alt={item.goodsName}
-                                        title={item.goodsName}
-                                      />
+                                      <LazyLoad>
+                                        <img
+                                          style={{
+                                            width: '70px',
+                                            display: 'inline-block'
+                                          }}
+                                          key={item.spuId}
+                                          src={item.goodsPic || IMG_DEFAULT}
+                                          alt={item.goodsName}
+                                          title={item.goodsName}
+                                        />
+                                      </LazyLoad>
                                       <span
                                         style={{
                                           display: 'inline-block',
                                           verticalAlign: 'middle',
                                           fontSize: '12px',
                                           marginLeft: '10px',
-                                          width: isMobile?'auto': '250px'
+                                          width: isMobile ? 'auto' : '250px'
                                         }}
                                       >
                                         <p
@@ -346,10 +343,11 @@ class Subscription extends React.Component {
                                         </p>
                                         <p>
                                           {item.specText} - {item.subscribeNum}{' '}
-                                          product
+                                          <FormattedMessage id="footer.products" />
                                         </p>
                                         <p>
-                                          Frequency:{' '}
+                                          <FormattedMessage id="subscription.frequency" />
+                                          :{' '}
                                           {frequencyList.filter(
                                             (el) => el.id === item.periodTypeId
                                           ).length
@@ -363,17 +361,16 @@ class Subscription extends React.Component {
                                     </div>
                                   ))}
                               </div>
-                              <div
-                                className="col-4 col-md-2"
-                                style={{ whiteSpace: 'nowrap' }}
-                              >
-                                <img
-                                  src={autoshipIcon}
-                                  style={{
-                                    width: '40px',
-                                    display: 'inline-block'
-                                  }}
-                                />
+                              <div className="col-4 col-md-2 text-nowrap">
+                                <LazyLoad>
+                                  <img
+                                    src={autoshipIcon}
+                                    style={{
+                                      width: '40px',
+                                      display: 'inline-block'
+                                    }}
+                                  />
+                                </LazyLoad>
                                 <span
                                   style={{
                                     display: 'inline-block',
@@ -382,7 +379,9 @@ class Subscription extends React.Component {
                                     marginLeft: '10px'
                                   }}
                                 >
-                                  <p>Autoship started</p>
+                                  <p>
+                                    <FormattedMessage id="autoShipStarted" />
+                                  </p>
                                   <p
                                     style={{ color: '#666', fontSize: '16px' }}
                                   >
@@ -416,7 +415,7 @@ class Subscription extends React.Component {
                                     );
                                   }}
                                 >
-                                  Manage
+                                  <FormattedMessage id="manage" />
                                 </button>
                               </div>
                               {/* <div className="col-12 col-md-2"># {i + 1}</div> */}
@@ -430,30 +429,41 @@ class Subscription extends React.Component {
                       //   <FormattedMessage id="subscription.noDataTip" />
                       // </div>
                       <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
-                      <div className="rc-column">
-                        <img src={noSubscription} alt="No Subscription" style={{width: '100%'}} />
-                      </div>
-                      <div className="rc-column">
-                        <div className="rc-padding-right-lg rc-padding-y--sm ">
-                          <h4 className="red" style={{fontSize: '20px', marginBottom: '20px'}}>
-                          <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
-                          </h4>
-                          <div className="children-nomargin">
-                            <p style={{ wordBreak: 'break-all', width: '90%' }}>
-                              <FormattedMessage id="account.noSubscription"></FormattedMessage>
-                            </p>
-                          </div>
-                          <div className="rc-margin-top--sm">
-                            <Link
-                              className="rc-btn rc-btn--one"
-                              to="/home"
+                        <div className="rc-column">
+                          <LazyLoad>
+                            <img
+                              src={noSubscription}
+                              alt="No Subscription"
+                              style={{ width: '100%' }}
+                            />
+                          </LazyLoad>
+                        </div>
+                        <div className="rc-column">
+                          <div className="rc-padding-right-lg rc-padding-y--sm ">
+                            <h4
+                              className="red"
+                              style={{ fontSize: '20px', marginBottom: '20px' }}
                             >
-                              <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
-                            </Link>
+                              <FormattedMessage id="account.noSubscriptionTitle"></FormattedMessage>
+                            </h4>
+                            <div className="children-nomargin">
+                              <p
+                                style={{ wordBreak: 'break-all', width: '90%' }}
+                              >
+                                <FormattedMessage id="account.noSubscription"></FormattedMessage>
+                              </p>
+                            </div>
+                            <div className="rc-margin-top--sm">
+                              <Link
+                                className="rc-btn rc-btn--one"
+                                to="/subscription-landing"
+                              >
+                                <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
                     )}
                     {!this.state.errMsg && this.state.subList.length ? (
                       <div className="grid-footer rc-full-width mt-2">
