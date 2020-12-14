@@ -743,6 +743,7 @@ const fr_FR = {
   sortBy: 'Trier par',
   sortedBy: 'Trié par',
   startFrom: 'De',
+  startEnd: 'à',
   sterilized: 'Stérilisé',
   submit: 'Soumettre',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
