@@ -1580,8 +1580,7 @@ class Details extends React.Component {
                             {specList.map((sItem, i) => (
                               <div id="choose-select" key={i}>
                                 <div className="rc-margin-bottom--xs">
-                                  {/* <FormattedMessage id="details.theSize" /> */}
-                                  {sItem.specName}:
+                                  <FormattedMessage id={sItem.specName+'_s'} />:
                                 </div>
 
                                 <div data-attr="size">
@@ -2168,6 +2167,7 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp; */}
                               <button
+                                style={{padding:'2px 30px'}}
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
                                 } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
