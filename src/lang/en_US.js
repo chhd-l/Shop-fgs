@@ -314,6 +314,8 @@ const en_US = {
   FrequentQuestions: 'Common questions',
   from: 'From',
   gender: 'Gender',
+  petFemale:'Female',
+  changepic:'Change picture',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',

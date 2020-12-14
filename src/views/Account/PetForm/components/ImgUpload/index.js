@@ -2,6 +2,7 @@ import React from 'react';
 import { uploadResource } from '@/api';
 import './index.less';
 import LazyLoad from 'react-lazyload';
+import { FormattedMessage } from 'react-intl';
 
 export default class ImgUpload extends React.Component {
   constructor(props) {
@@ -74,7 +75,7 @@ export default class ImgUpload extends React.Component {
           <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
                         this.uploadDom.current.click()
-                      }}></a>
+                      }}><FormattedMessage id="changepic" /></a>
           </p>
           {this.state.imgList.length <= 2 ? (
             <div className="icon-add" style={{visibility: 'hidden', position: 'absolute'}}>
