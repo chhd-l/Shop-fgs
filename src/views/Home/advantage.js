@@ -239,6 +239,99 @@ export function Advantage() {
             </div>
           </div>
         </>
+      ),
+      de: (
+        <>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{width:'80px'}}
+                  className="value-proposition__img"
+                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  alt=""
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip1" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{width:'80px'}}
+                  className="value-proposition__img"
+                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw3df20153/Homepage/autoship@2x.png?sw=90&sh=90&sm=cut&sfrm=png"
+                  alt=""
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip2" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{width:'80px'}}
+                  className="value-proposition__img"
+                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  alt=""
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage
+                    id="home.convenientTip3"
+                    values={{
+                      val: formatMoney(process.env.REACT_APP_MINIMUM_AMOUNT)
+                    }}
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-xxl-3 d-flex px-0 pl-md-0 pr-md-2  pr-xxl-3 pl-xxl-0 justify-content-center">
+            <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
+              <LazyLoad height={200}>
+                <img
+                  style={{width:'80px'}}
+                  className="value-proposition__img"
+                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw81db9340/Homepage/question@2x.png?sw=180&sh=180&sm=cut&sfrm=png"
+                  alt=""
+                  title=""
+                />
+              </LazyLoad>
+              <div className="pl-3 d-flex align-items-center value-proposition__text">
+                <p
+                  className="rc-margin-bottom--none rc-intro"
+                  style={{ textAlign: 'left' }}
+                >
+                  <FormattedMessage id="home.convenientTip4" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
       )
     }[process.env.REACT_APP_LANG] || defaultJSX
   );

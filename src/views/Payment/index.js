@@ -362,7 +362,7 @@ class Payment extends React.Component {
       PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
       adyen_credit_card: {
         name: 'adyen_credit_card',
-        id: 'adyen',
+        id: 'adyenCard',
         paymentTypeVal: 'adyenCard'
       },
       adyen_klarna_pay_now: {
