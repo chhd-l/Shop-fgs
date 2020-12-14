@@ -2069,7 +2069,7 @@ class Details extends React.Component {
                                 <div className="discountBox">
                                   <FormattedMessage
                                     id="saveExtra"
-                                    values={{ val: '10%' }}
+                                    values={{ val: '5%' }}
                                   />
                                   {/* Save extra&nbsp;
                                 <b className="product-pricing__card__head__price rc-padding-y--none">

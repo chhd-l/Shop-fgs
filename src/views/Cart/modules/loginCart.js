@@ -629,7 +629,7 @@ class LoginCart extends React.Component {
                 <div className="rc-md-up">
                   <div className="product-card-footer product-card-price d-flex">
                     <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div className="rc-quantity d-flex">
+                      <div className="rc-quantity d-flex" >
                         <span
                           className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                           onClick={() => this.subQuantity(pitem)}
@@ -826,7 +826,7 @@ class LoginCart extends React.Component {
             </div>
           </div>
           <div className="rc-margin-bottom--sm rc-md-down">
-            <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm">
+            <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm"  >
               <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                 <div className="rc-quantity d-flex">
                   <span

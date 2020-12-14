@@ -1030,6 +1030,8 @@ const fr_FR = {
   next: 'Suivant',
   breed: 'Race',
   gender: 'Le genre',
+  petFemale:'Female',
+  changepic:'Change picture',
   home: 'Accueil',
   setAsDefault: 'Définir par défaut',
   mailAddress: 'Adresse mail',
