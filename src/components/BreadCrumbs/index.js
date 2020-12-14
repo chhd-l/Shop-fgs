@@ -12,7 +12,7 @@ const BreadCrumbs = withRouter((props) => {
   let mapData = breadcrumbNameMap[url] || breadcrumbNameMap[match.path] || [];
 
   return (
-    <div className="rc-bg-colour--brand3" style={{ paddingTop: '1px' }}>
+    <div className="rc-md-up rc-bg-colour--brand3" style={{ paddingTop: '1px' }}>
       <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
         <ul
           className="d-flex"
