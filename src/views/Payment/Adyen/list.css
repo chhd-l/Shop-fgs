@@ -11,9 +11,10 @@
     margin-bottom: 2px;
 }
 .cvv .adyen-checkout__field-wrapper{
-    margin-left: 30px;
+}
+.cvv .adyen-checkout__field-wrapper:last-of-type>.adyen-checkout__field {
+  margin-left: 0
 }
 .cvv{
     margin:0 auto;
-    margin-top: 20px;
 }
