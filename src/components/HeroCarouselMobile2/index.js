@@ -9,6 +9,7 @@ import indeximage1 from './image/indexmobile1.png'
 import indeximage2 from './image/indexmobile2.png'
 import indeximage3 from './image/indexmobile3.png'
 import LazyLoad from 'react-lazyload';
+import { Link } from 'react-router-dom';
 
 class HeroCarousel extends React.Component {
   constructor(props) {
@@ -70,11 +71,20 @@ class HeroCarousel extends React.Component {
         <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
           <div className="rc-hero__fg">
             <div className="rc-hero__section rc-hero__section--img">
-              <a href="product-finder">
-                <LazyLoad>
-                <img src={indeximage1}/>
-                </LazyLoad>
-              </a>
+              {
+                process.env.REACT_APP_LANG == 'de'
+                ?<Link to="/list/keywords">
+                  <LazyLoad>
+                  <img src={indeximage1}/>
+                  </LazyLoad>
+                </Link>
+                :<Link to="/product-finder">
+                  <LazyLoad>
+                  <img src={indeximage1}/>
+                  </LazyLoad>
+                </Link>
+              }
+              
             </div>
           </div>
         </div>

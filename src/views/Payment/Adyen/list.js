@@ -14,13 +14,14 @@ import { roundToNearestMinutes } from 'date-fns';
 
 function CardItemCover({
   selectedSts,
-  hanldeClickCardItem = () => { },
+  hanldeClickCardItem = () => {},
   children
 }) {
   return (
     <div
-      className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${selectedSts ? 'active border-blue' : ''
-        }`}
+      className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
+        selectedSts ? 'active border-blue' : ''
+      }`}
       onClick={hanldeClickCardItem}
     >
       <div className={`pt-3 pb-3`}>{children}</div>
@@ -32,7 +33,7 @@ function CardItemCover({
 @observer
 class AdyenCreditCardList extends React.Component {
   static defaultProps = {
-    updateSelectedCardInfo: () => { },
+    updateSelectedCardInfo: () => {},
     subBuyWay: '' // once/fre
   };
   constructor(props) {
@@ -53,15 +54,6 @@ class AdyenCreditCardList extends React.Component {
     this.hanldeClickCardItem = this.hanldeClickCardItem.bind(this);
   }
   componentDidMount() {
-    window.onload = function () {
-      //console.log(document.querySelectorAll('iframe'))
-      // var arr = document.querySelectorAll('iframe');
-      // for (let i of arr) {
-      //   console.log(i.contentWindow);
-
-      // }
-    };
-
     if (this.isLogin) {
       this.queryList();
     } else {
@@ -74,7 +66,7 @@ class AdyenCreditCardList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  queryList = async (param) => {
+  queryList = async (currentCardEncryptedSecurityCode) => {
     this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
@@ -82,16 +74,32 @@ class AdyenCreditCardList extends React.Component {
         storeId: process.env.REACT_APP_STOREID
       });
       let cardList = res.context;
+
+      // 给刚保存的卡默认加上CVV start
+      if (currentCardEncryptedSecurityCode) {
+        const firstSaveCard = find(
+          cardList,
+          (ele) => ele.id === this.state.selectedId
+        );
+        if (!!firstSaveCard) {
+          firstSaveCard.encryptedSecurityCode = currentCardEncryptedSecurityCode;
+        }
+        console.log(cardList);
+        this.props.updateSelectedCardInfo(firstSaveCard);
+        // debugger
+      }
+      // 给刚保存的卡默认加上CVV end
+
       const defaultItem = find(cardList, (ele) => ele.isDefaltAddress === 1);
       let tmpId =
         this.state.selectedId ||
         (defaultItem && defaultItem.id) ||
         (cardList.length && cardList[0].id) ||
         '';
-      //debugger
-      this.setState({ cardList, selectedId: tmpId }, () =>
-        this.hanldeUpdateSelectedCardInfo()
-      );
+      this.setState({ cardList, selectedId: tmpId }, () => {
+        //debugger
+        //this.hanldeUpdateSelectedCardInfo()
+      });
     } catch (err) {
       console.log(err);
       this.setState({ listErr: err.toString() });
@@ -163,9 +171,6 @@ class AdyenCreditCardList extends React.Component {
   }
   hanldeUpdateSelectedCardInfo = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
-    // console.log(cardList)
-    // console.log(memberUnsavedCardList)
-    // debugger
     this.props.updateSelectedCardInfo(
       find(
         cardList.concat(memberUnsavedCardList),
@@ -174,23 +179,23 @@ class AdyenCreditCardList extends React.Component {
     );
   };
   loadCvv = (el) => {
-    const { id, adyenPaymentMethod: { brand }, isLoadCvv } = el
-    const { visitorAdyenFormData, selectedId, cardList } = this.state
-    var { updateSelectedCardInfo } = this.props;
-    // if (id === selectedId && visitorAdyenFormData && visitorAdyenFormData.encryptedSecurityCode) {
-    //   // let result = find(cardList, (ele) => ele.id === id);
-    //   // result.encryptedSecurityCode = visitorAdyenFormData.encryptedSecurityCode;
-    //   // console.log(result)
-    //   // this.props.paymentStore.updateFirstSavedCardCvv(visitorAdyenFormData.encryptedSecurityCode)
-    //   // console.log(this.props.paymentStore.firstSavedCardCvv)
-    //   // debugger
-    //   // updateSelectedCardInfo(
-    //   //   result
-    //   // )
-    //   return
-    // }
-    
-    if (el.isLoadCvv) return; //防止重新加载
+    const {
+      id,
+      adyenPaymentMethod: { brand },
+      isLoadCvv
+    } = el;
+    const { cardList, selectedId } = this.state;
+    var { updateSelectedCardInfo, paymentStore } = this.props;
+    //第一次绑定这张卡,不需要填写CVV start
+    if (paymentStore.firstSavedCardCvv == id) {
+      el.isLoadCvv = false;
+      paymentStore.updateFirstSavedCardCvv('');
+      return;
+    }
+    //第一次绑定这张卡,不需要填写CVV end
+    // debugger
+    if (el.isLoadCvv && !el.encryptedSecurityCode) return; //不需要加载(已经加载过+cvv为空)
+    el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
     loadJS({
       url:
@@ -207,15 +212,16 @@ class AdyenCreditCardList extends React.Component {
             .create('card', {
               brand: brand,
               onChange: (state) => {
+                console.log(state);
+                if (!state.data.paymentMethod.encryptedSecurityCode) return;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode =
                   state.data.paymentMethod.encryptedSecurityCode;
-                updateSelectedCardInfo(
-                  find(cardList, (ele) => ele.id === id) || null
-                );
+                //debugger
+                updateSelectedCardInfo(result);
               },
               onLoad: (state) => {
-                el.isLoadCvv = true
+                el.isLoadCvv = true;
               }
             })
             .mount(element);
@@ -238,13 +244,14 @@ class AdyenCreditCardList extends React.Component {
     return (
       <div className="row">
         <div
-          className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
+          className={`col-6 col-sm-4 d-flex flex-column justify-content-center `}
         >
           <LazyLoad>
             <img
               alt=""
-              className={`PayCardImgFitScreen ${data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
-                }`}
+              className={`PayCardImgFitScreen ${
+                data.adyenPaymentMethod ? data.adyenPaymentMethod.name : ''
+              }`}
               src={
                 CREDIT_CARD_IMG_ENUM[
                   data.adyenPaymentMethod
@@ -252,25 +259,25 @@ class AdyenCreditCardList extends React.Component {
                     : ''
                 ]
                   ? CREDIT_CARD_IMG_ENUM[
-                  data.adyenPaymentMethod
-                    ? data.adyenPaymentMethod.name.toUpperCase()
-                    : ''
-                  ]
+                      data.adyenPaymentMethod
+                        ? data.adyenPaymentMethod.name.toUpperCase()
+                        : ''
+                    ]
                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
               }
             />
           </LazyLoad>
         </div>
         <div
-          className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
+          className={`col-12 col-sm-8 flex-column justify-content-around d-flex`}
         >
           <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
             <div className={`col-12 color-999 mb-1`}>
               <div className="row align-items-center">
-                <div className={`col-4`} style={{ fontSize: '14px' }}>
+                {/* <div className={`col-4`} style={{ fontSize: '14px' }}>
                   <FormattedMessage id="name2" />
-                </div>
-                <div className={`col-6 creditCompleteInfo`}>
+                </div> */}
+                <div className={`col-12 creditCompleteInfo`}>
                   {data.adyenPaymentMethod
                     ? data.adyenPaymentMethod.holderName
                     : ''}
@@ -278,10 +285,10 @@ class AdyenCreditCardList extends React.Component {
               </div>
               {!showLastFour && (
                 <div className="row align-items-center">
-                  <div className={`col-4`} style={{ fontSize: '14px' }}>
+                  {/* <div className={`col-4`} style={{ fontSize: '14px' }}>
                     <FormattedMessage id="payment.cardType" />
-                  </div>
-                  <div className={`col-6 creditCompleteInfo`}>
+                  </div> */}
+                  <div className={`col-12 creditCompleteInfo`}>
                     {data.adyenPaymentMethod
                       ? data.adyenPaymentMethod.brand
                       : ''}
@@ -297,7 +304,10 @@ class AdyenCreditCardList extends React.Component {
                   <FormattedMessage id="payment.cardNumber2" />
                 </span>
                 <br />
-                <span className="creditCompleteInfo fontFitSCreen">
+                <span
+                  className="creditCompleteInfo fontFitSCreen"
+                  style={{ fontSize: '14px' }}
+                >
                   xxxx xxxx xxxx{' '}
                   {(data.adyenPaymentMethod &&
                     data.adyenPaymentMethod.lastFour) ||
@@ -316,7 +326,10 @@ class AdyenCreditCardList extends React.Component {
             </div>
           )}
         </div>
-        <div id={`cvv_${cvvId}`} className="cvv"></div>
+        <div className="col-sm-4" />
+        <div className="col-12 col-sm-8">
+          <div id={`cvv_${cvvId}`} className="cvv"></div>
+        </div>
       </div>
     );
   };
@@ -333,21 +346,21 @@ class AdyenCreditCardList extends React.Component {
     return this.isLogin ? (
       this.renderMemberCardPanel()
     ) : (
-        <>
-          {visitorAdyenFormData && (
-            <CardItemCover
-              selectedSts={visitorAdyenFormData.id === selectedId}
-              key={0}
-            >
-              {this.renderOneCard({
-                data: visitorAdyenFormData,
-                showLastFour: false
-              })}
-              {this.renderCardEditBtnJSX()}
-            </CardItemCover>
-          )}
-        </>
-      );
+      <>
+        {visitorAdyenFormData && (
+          <CardItemCover
+            selectedSts={visitorAdyenFormData.id === selectedId}
+            key={0}
+          >
+            {this.renderOneCard({
+              data: visitorAdyenFormData,
+              showLastFour: false
+            })}
+            {this.renderCardEditBtnJSX()}
+          </CardItemCover>
+        )}
+      </>
+    );
   };
   renderMemberCardPanel = () => {
     const { cardList, memberUnsavedCardList, selectedId } = this.state;
@@ -481,6 +494,7 @@ class AdyenCreditCardList extends React.Component {
     const { isOnepageCheckout, showErrorMsg, subBuyWay } = this.props;
     return (
       <EditForm
+        cardList={cardList}
         isCheckoutPage={true}
         isOnepageCheckout={isOnepageCheckout}
         enableStoreDetails={this.isLogin}
@@ -515,18 +529,18 @@ class AdyenCreditCardList extends React.Component {
             <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
           ) : !formVisible &&
             (cardList.length || memberUnsavedCardList.length) ? (
-                this.renderList()
-              ) : (
-                this.renderEditForm()
-              )
+            this.renderList()
+          ) : (
+            this.renderEditForm()
+          )
         ) : (
-            <>
-              {!formVisible && this.renderList()}
-              <div className={`${formVisible ? '' : 'hidden'}`}>
-                {this.renderEditForm()}
-              </div>
-            </>
-          )}
+          <>
+            {!formVisible && this.renderList()}
+            <div className={`${formVisible ? '' : 'hidden'}`}>
+              {this.renderEditForm()}
+            </div>
+          </>
+        )}
       </>
     );
   }

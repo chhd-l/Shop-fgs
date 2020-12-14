@@ -421,7 +421,7 @@ const ru_RU = {
     "order.returnStatus": "Статус возврата",
     "order.shippingStatus": "Статус отправки",
     'order.toBeDeliveredTip': 'Ваш заказ был успешно оплачен, и мы готовимся к отправке.',
-    'order.toBePaidTip': 'Ваш заказ успешно создан.',
+    'order.toBePaidTip': 'Ваш заказ не был оплачен, пожалуйста, оплатите как можно скорее. {val}',
     "order.viewOrder": "Посмотреть заказ",
     'orders': "Заказы",
     'orderStatus.AUDIT': 'Быть доставленным',
@@ -476,7 +476,7 @@ const ru_RU = {
     "payment.frequencyTip1": "Да, сделай мою жизнь проще!",
     "payment.frequencyTip2": "Нет, спасибо.",
     "payment.frequencyTip3": "Ваши товары будут отправлены только один раз",
-    "payment.further": "В дальнейшем",
+    "payment.further": "Платить",
     "payment.howToDelivery": "Как доставить",
     "payment.itemTotalProduct": "товар всего товара",
     "payment.lastName": "Фамилия",
@@ -726,6 +726,8 @@ const ru_RU = {
     'yourPasswordNotVerified': "Ваш пароль не подтвержден",
     breed: 'Порода',
     gender: 'Пол',
+    petFemale:'Female',
+    changepic:'Change picture',
     setAsDefault: 'Установить по умолчанию',
     addANewPaymentMethod: 'Добавить новый способ оплаты',
     mailAddress: 'Почта Адрес',
@@ -762,6 +764,6 @@ const ru_RU = {
     'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату.",
     invoice: 'выставленный счет',
   }
-  
+
   export default ru_RU;
-  
+

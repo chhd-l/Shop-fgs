@@ -186,9 +186,7 @@ module.exports = function (webpackEnv) {
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // publicPath: paths.publicUrlOrPath,
-      publicPath: isEnvDevelopment
-        ? paths.publicUrlOrPath
-        : `${process.env.REACT_APP_CDN_PREFIX}${process.env.REACT_APP_COUNTRY_PREFIX}/`,
+      publicPath: process.env.REACT_APP_ASSETS_PREFIX,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
@@ -395,24 +393,25 @@ module.exports = function (webpackEnv) {
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
 
+        // 关闭eslint
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: {
-                cache: true,
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
-                resolvePluginsRelativeTo: __dirname
-              },
-              loader: require.resolve('eslint-loader')
-            }
-          ],
-          include: paths.appSrc
-        },
+        // {
+        //   test: /\.(js|mjs|jsx|ts|tsx)$/,
+        //   enforce: 'pre',
+        //   use: [
+        //     {
+        //       options: {
+        //         cache: true,
+        //         formatter: require.resolve('react-dev-utils/eslintFormatter'),
+        //         eslintPath: require.resolve('eslint'),
+        //         resolvePluginsRelativeTo: __dirname
+        //       },
+        //       loader: require.resolve('eslint-loader')
+        //     }
+        //   ],
+        //   include: paths.appSrc
+        // },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall

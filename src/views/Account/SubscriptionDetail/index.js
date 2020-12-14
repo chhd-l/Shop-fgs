@@ -1644,7 +1644,7 @@ class SubscriptionDetail extends React.Component {
                               />
                               </LazyLoad>
                               <span>
-                                <FormattedMessage id="billing" />
+                                <FormattedMessage id="billing2" />
                               </span>
                               {subDetail.subscribeStatus === '0' && (
                                 <a
@@ -1708,7 +1708,7 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div className="align-items-center">
-                                <LazyLoad>
+                                <LazyLoad style={{display:'inline'}}>
                                 <img
                                   src={paymentIcon}
                                   style={{
@@ -2095,6 +2095,7 @@ class SubscriptionDetail extends React.Component {
                                                         }}
                                                       >
                                                         <h5
+                                                          className="text-nowrap"
                                                           style={{
                                                             overflow: 'hidden',
                                                             textOverflow:
@@ -2103,7 +2104,6 @@ class SubscriptionDetail extends React.Component {
                                                               'normal',
                                                             fontSize: '14px',
                                                             width: isMobile?'95px': 'auto',
-                                                            whiteSpace: 'nowrap'
                                                           }}
                                                         >
                                                           {tradeItem.skuName}

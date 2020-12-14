@@ -436,7 +436,7 @@ class AddressList extends React.Component {
           <div className="col-12 col-md-2 mt-md-0 mt-1 text-right">
             <span
               className="addr-btn-edit border-left pl-2"
-              onClick={this.addOrEditAddress.bind(i)}
+              onClick={this.addOrEditAddress.bind(this, i)}
             >
               <FormattedMessage id="edit" />
             </span>

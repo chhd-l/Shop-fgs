@@ -9,7 +9,7 @@
   <meta name="keysword" content="" />
   <meta name="description" content="Web site created using create-react-app" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -28,11 +28,10 @@
 
   <base href="/">
   <link id="royal-canin" rel="stylesheet" type='text/css'
-    href="<%= process.env.REACT_APP_CDN_PREFIX %>royal/royal-canin.min.css" />
+    href="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.css" />
 
-  <!-- <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css"> -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
-  <script type="text/javascript" src="<%= process.env.REACT_APP_CDN_PREFIX %>royal/royal-canin.min.js"
+  <script type="text/javascript" src="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.js"
     id="js-royal-canin"></script>
   <script src="https://at.alicdn.com/t/font_1982813_7a5xdnjqdvy.js"></script>
 
@@ -65,9 +64,6 @@
       };
     }
   </script>
-  <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) start -->
-  <!-- <script src="https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js"
-    type="text/javascript" charset="UTF-8"></script> -->
   <script type="text/javascript">
     function OptanonWrapper() { }
   </script>

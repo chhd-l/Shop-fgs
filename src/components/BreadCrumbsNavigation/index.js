@@ -13,19 +13,29 @@ function BreadCrumbsNavigation({ list }) {
       style={{ paddingTop: '1px' }}
     >
       <div className="rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs">
-        <ul className="d-flex">
+        <ul
+          className="d-flex"
+          itemScope
+          itemType="https://schema.org/BreadcrumbList"
+        >
           {decoList.map((item, index) => (
             <React.Fragment key={index}>
-              <li>
+              <li
+                itemScope
+                itemProp="itemListElement"
+                itemType="https://schema.org/ListItem"
+              >
                 {item.link ? (
                   <Link
                     className="rc-styled-link rc-progress__breadcrumb mr-0"
+                    itemType="https://schema.org/Thing"
+                    itemProp="item"
                     to={item.link}
                   >
-                    {item.name}
+                    <span itemProp="name">{item.name}</span>
                   </Link>
                 ) : (
-                  <span>{item.name}</span>
+                  <span itemProp="name">{item.name}</span>
                 )}
               </li>
               {index !== decoList.length - 1 && (

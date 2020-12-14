@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState  } from 'react';
 import PropTypes from 'prop-types';
 import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
@@ -244,14 +244,14 @@ class Register extends Component {
 
   register = async () => {
     const { registerForm } = this.state;
-    const result = oktaRegister({
+    const res = oktaRegister({
       storeId: process.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
       customerName:registerForm.name
     })
-    if(result.code === 'K-000000') {
-      setToken(result.token)
+    if(res.code === 'K-000000') {
+      setToken(res.token)
     }
   };
 

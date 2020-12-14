@@ -133,7 +133,6 @@ class List extends React.Component {
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
-
     const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');
@@ -210,51 +209,53 @@ class List extends React.Component {
     });
   }
   //点击商品 埋点
-  GAProductClick(item,index){
-      dataLayer.push({
-        'event': `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-        'ecommerce': {
-              'click': {
-                    'actionField': {'list': ''},//?上一页面 
-                    'products': [{ 
-                          'name': item.goodsName, 
-                          'id': item.id, 
-                          'club': 'no',
-                          'brand': item.goodsBrand.brandName,
-                          'category': item.goodsCateName,
-                          'list': '',//?上一页面
-                          'position': index,
-                          'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
-                    }]
-                }
+  GAProductClick(item, index) {
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+      ecommerce: {
+        click: {
+          actionField: { list: '' }, //?上一页面
+          products: [
+            {
+              name: item.goodsName,
+              id: item.id,
+              club: 'no',
+              brand: item.goodsBrand.brandName,
+              category: item.goodsCateName,
+              list: '', //?上一页面
+              position: index,
+              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
             }
-    })
+          ]
+        }
+      }
+    });
     //console.log(dataLayer)
   }
   // 商品列表 埋点
-  GAProductImpression(productList){
-    const impressions = productList.map((item,index)=>{
+  GAProductImpression(productList) {
+    const impressions = productList.map((item, index) => {
       return {
-        'name' : item.goodsName,
-        'id': item.id, 
-        'brand': item.goodsBrand.brandName,
-        'price': item.minMarketPrice,
-        'club': 'no',
-        'category': item.goodsCateName,
-        'list': '',//?上一页面
-        'variant': item.goodsWeight || "",
-        'position' : index,
-        'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
-        'flag':""//?JSON.parse(item.taggingForImage).taggingName
-      }
-    })
+        name: item.goodsName,
+        id: item.id,
+        brand: item.goodsBrand.brandName,
+        price: item.minMarketPrice,
+        club: 'no',
+        category: item.goodsCateName,
+        list: '', //?上一页面
+        variant: item.goodsWeight || '',
+        position: index,
+        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId,
+        flag: '' //?JSON.parse(item.taggingForImage).taggingName
+      };
+    });
 
     dataLayer.push({
-      'event':`${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
-      'ecommerce':{
-      'impressions':impressions
-   }
-  });
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+      ecommerce: {
+        impressions: impressions
+      }
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -283,37 +284,13 @@ class List extends React.Component {
         }))
       });
     });
-    findFilterList()
-      .then((res) => {
-        let tmpList = (res.context || [])
-          .filter((ele) => +ele.filterStatus)
-          .sort((a) => (a.filterType === '0' ? -1 : 1))
-          .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
-          .sort((a) =>
-            a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
-          );
-        // 根据默认参数设置filter状态
-        const { defaultFilterSearchForm } = this.state;
-        this.initFilterSelectedSts({
-          seletedValList: defaultFilterSearchForm.attrList,
-          orginData: tmpList,
-          filterType: '0',
-          pIdName: 'attributeId',
-          orginChildListName: 'attributesValueList'
-        });
-        this.initFilterSelectedSts({
-          seletedValList: defaultFilterSearchForm.filterList,
-          orginData: tmpList,
-          filterType: '1',
-          pIdName: 'id',
-          orginChildListName: 'storeGoodsFilterValueVOList'
-        });
-
-        this.setState({ filterList: tmpList, initingFilter: false });
-      })
-      .catch(() => {
-        this.setState({ initingFilter: false });
-      });
+    // findFilterList()
+    //   .then((res) => {
+    //     this.handleFilterResData(res.context || []);
+    //   })
+    //   .catch(() => {
+    //     this.setState({ initingFilter: false });
+    //   });
     if (keywords) {
       setSeoConfig({
         pageName: 'Search Results Page'
@@ -324,6 +301,32 @@ class List extends React.Component {
         pageName: 'Product List Page' // Search Results Page
       });
     }
+  }
+  handleFilterResData(res) {
+    let tmpList = res
+      .filter((ele) => +ele.filterStatus)
+      .sort((a) => (a.filterType === '0' ? -1 : 1))
+      .sort((a, b) => (a.filterType === '0' ? a.sort - b.sort : 1))
+      .sort((a) =>
+        a.filterType === '1' && a.attributeName === 'markPrice' ? -1 : 1
+      );
+    // 根据默认参数设置filter状态
+    const { defaultFilterSearchForm } = this.state;
+    this.initFilterSelectedSts({
+      seletedValList: defaultFilterSearchForm.attrList,
+      orginData: tmpList,
+      filterType: '0',
+      pIdName: 'attributeId',
+      orginChildListName: 'attributesValueList'
+    });
+    this.initFilterSelectedSts({
+      seletedValList: defaultFilterSearchForm.filterList,
+      orginData: tmpList,
+      filterType: '1',
+      pIdName: 'id',
+      orginChildListName: 'storeGoodsFilterValueVOList'
+    });
+    this.setState({ filterList: tmpList, initingFilter: false });
   }
   initFilterSelectedSts({
     seletedValList,
@@ -353,6 +356,7 @@ class List extends React.Component {
     });
   }
   async getProductList(type) {
+    const { history } = this.props;
     let {
       cateType,
       currentPage,
@@ -397,13 +401,17 @@ class List extends React.Component {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName)
+            attributeValues: seletedList.map((s) => s.attributeDetailName),
+            attributeNameEn: pItem.attributeNameEn,
+            filterType: pItem.filterType
           });
         } else {
           goodsFilterRelList.push({
             attributeId: pItem.id,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName)
+            attributeValues: seletedList.map((s) => s.attributeDetailName),
+            attributeNameEn: pItem.attributeNameEn,
+            filterType: pItem.filterType
           });
         }
       }
@@ -411,18 +419,27 @@ class List extends React.Component {
     });
 
     let urlPreVal = '';
-    goodsAttributesValueRelVOList.map((item, i) => {
-      urlPreVal += `${i ? '&' : ''}prefv${i + 1}=${item.attributeValues.join(
-        '|'
-      )}`;
-      return item;
-    });
-    // debugger;
+    let pathname = '';
+    goodsAttributesValueRelVOList
+      .concat(goodsFilterRelList)
+      .slice(0, 1)
+      .map((item, i) => {
+        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${
+          item.attributeNameEn
+        }&prefv${i + 1}=${item.attributeValues.join('|')}`;
+        return item;
+      });
     // 点击filter，触发局部刷新或整页面刷新
-    // history.push(
-    //   `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`
-    //   // `${location.pathname}?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)`
-    // );
+    if (!initingList) {
+      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
+      sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
+      history.push({
+        pathname,
+        state: {
+          filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
+        }
+      });
+    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -498,7 +515,9 @@ class List extends React.Component {
 
     (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
-        this.setState({ initingList: false });
+        this.handleFilterResData(
+          (res.context && res.context.storeGoodsFilterVOList) || []
+        );
         const esGoods = res.context.esGoods;
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content;
@@ -551,15 +570,18 @@ class List extends React.Component {
               return ret;
             });
           }
-          this.setState({
-            productList: goodsContent,
-            results: esGoods.totalElements,
-            currentPage: esGoods.number + 1,
-            totalPage: esGoods.totalPages
-          },()=>{
-            // 把每一页的商品全部传给GA
-            this.GAProductImpression(this.state.productList)
-          });
+          this.setState(
+            {
+              productList: goodsContent,
+              results: esGoods.totalElements,
+              currentPage: esGoods.number + 1,
+              totalPage: esGoods.totalPages
+            },
+            () => {
+              // 把每一页的商品全部传给GA
+              this.GAProductImpression(this.state.productList);
+            }
+          );
         } else {
           this.setState({
             productList: [],
@@ -567,11 +589,17 @@ class List extends React.Component {
           });
         }
         this.setState({
-          loading: false
+          loading: false,
+          initingList: false
         });
       })
       .catch(() => {
-        this.setState({ loading: false, productList: [], initingList: false });
+        this.setState({
+          loading: false,
+          productList: [],
+          initingList: false,
+          initingFilter: false
+        });
       });
   }
   hanldePageNumChange = ({ currentPage }) => {
@@ -582,8 +610,8 @@ class List extends React.Component {
       () => this.getProductList()
     );
   };
-  hanldeItemClick(item,index) {
-    this.GAProductClick(item,index)
+  hanldeItemClick(item, index) {
+    this.GAProductClick(item, index);
     const { history, location } = this.props;
     if (this.state.loading) {
       return false;
@@ -671,8 +699,8 @@ class List extends React.Component {
           theme
         },
         impressions: {
-          name,
-        },
+          name
+        }
       };
     }
     if (!initingList) {
@@ -687,11 +715,11 @@ class List extends React.Component {
               price: '',
               club: 'no',
               category: 'Cat/{{Range}}/Dry',
-              list:'Related Items',
+              list: 'Related Items',
               variant: '2.00Kg',
               position: 0,
               sku: 'XFGHUIY',
-              flag:'best-seller'
+              flag: 'best-seller'
             }
           ]
         }
@@ -709,8 +737,7 @@ class List extends React.Component {
       ));
     return (
       <div>
-        <GoogleTagManager additionalEvents={event}
-                          ecommerceEvents={eEvents} />
+        <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -990,30 +1017,29 @@ class List extends React.Component {
                                       </h6>
                                     </div>
                                     {/*商品评分和评论数目*/}
-                                    {
-                                      process.env.REACT_APP_LANG == 'fr'?null:
+                                    {process.env.REACT_APP_LANG ==
+                                    'fr' ? null : (
                                       <div
-                                          style={{
-                                            display: 'flex',
-                                            margin: '0 auto'
-                                          }}
-                                          className={`rc-card__price text-center RateFitScreen`}
+                                        style={{
+                                          margin: '0 auto'
+                                        }}
+                                        className={`d-flex rc-card__price text-center RateFitScreen`}
+                                      >
+                                        <div>
+                                          <Rate
+                                            def={item.avgEvaluate}
+                                            disabled={true}
+                                            marginSize="smallRate"
+                                          />
+                                        </div>
+                                        <span
+                                          className="comments rc-margin-left--xs rc-text-colour--text"
+                                          style={{ marginTop: '3px' }}
                                         >
-                                          <div>
-                                            <Rate
-                                              def={item.avgEvaluate}
-                                              disabled={true}
-                                              marginSize="smallRate"
-                                            />
-                                          </div>
-                                          <span
-                                            className="comments rc-margin-left--xs rc-text-colour--text"
-                                            style={{ marginTop: '3px' }}
-                                          >
-                                            ({item.goodsEvaluateNum})
-                                          </span>
+                                          ({item.goodsEvaluateNum})
+                                        </span>
                                       </div>
-                                    }
+                                    )}
                                     <br />
                                     <div
                                       className="text-center NameFitScreen"
@@ -1044,9 +1070,16 @@ class List extends React.Component {
                                             )}{' '}
                                             {/* 划线价 */}
                                             {item.miLinePrice &&
-                                            item.miLinePrice > 0
-                                              ? formatMoney(item.miLinePrice)
-                                              : null}
+                                            item.miLinePrice > 0 ? (
+                                              <span
+                                                className="text-line-through rc-text-colour--text font-weight-lighter"
+                                                style={{
+                                                  fontSize: '.8em'
+                                                }}
+                                              >
+                                                {formatMoney(item.miLinePrice)}
+                                              </span>
+                                            ) : null}
                                           </span>
                                         </div>
                                         {item.miSubscriptionPrice &&
@@ -1062,30 +1095,26 @@ class List extends React.Component {
                                                 item.miSubscriptionPrice
                                               )}{' '}
                                             </span>
+                                            <span
+                                              className="iconfont font-weight-bold red mr-1"
+                                              style={{
+                                                fontSize: '.65em'
+                                              }}
+                                            >
+                                              &#xe675;
+                                            </span>
+                                            <span
+                                              className="red-text text-nowrap"
+                                              style={{
+                                                fontSize: '.7em',
+                                                transform: 'translateY(-50%)'
+                                              }}
+                                            >
+                                              <FormattedMessage id="autoshop" />
+                                            </span>
                                           </div>
                                         ) : null}
                                       </div>
-                                    </div>
-                                    {/*商品价格截至*/}
-                                    <div className="text-center">
-                                      <span
-                                        className="iconfont font-weight-bold red mr-1"
-                                        style={{
-                                          fontSize: '.65em'
-                                        }}
-                                      >
-                                        &#xe675;
-                                      </span>
-                                      <span
-                                        className="red-text"
-                                        style={{
-                                          fontSize: '.7em',
-                                          transform: 'translateY(-50%)',
-                                          whiteSpace: 'nowrap'
-                                        }}
-                                      >
-                                        <FormattedMessage id="autoshop" />
-                                      </span>
                                     </div>
                                   </div>
                                 </ListItem>

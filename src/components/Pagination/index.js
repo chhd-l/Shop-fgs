@@ -37,7 +37,12 @@ export default class Pagination extends Component {
         tmp = 1;
       }
       if (tmp !== this.state.currentPage) {
-        this.setState({ currentPage: tmp }, () => this.hanldePageNumChange());
+        this.setState({ currentPage: tmp }, () => {
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => {
+            this.hanldePageNumChange();
+          }, 500);
+        });
       }
     }
   }
@@ -86,7 +91,7 @@ export default class Pagination extends Component {
               className="rc-btn rc-pagination__direction rc-pagination__direction--prev rc-icon rc-left--xs rc-iconography"
               aria-label="Previous step"
               onClick={this.handlePrevOrNextPage.bind(this, 'prev')}
-            ></div>
+            />
           )}
           <div className="d-flex align-items-center">
             <input

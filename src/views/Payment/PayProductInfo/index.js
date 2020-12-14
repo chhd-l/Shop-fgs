@@ -232,10 +232,7 @@ class PayProductInfo extends React.Component {
                       </>
                     ) : null}
                   </div>
-                  <div
-                    className="line-item-total-price"
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
+                  <div className="line-item-total-price text-nowrap">
                     {this.isSubscription(el) ? (
                       <>
                         <span className="text-line-through">

@@ -74,7 +74,9 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'Account orders'
+    });
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -326,7 +328,7 @@ class AccountOrders extends React.Component {
       console.log(err);
     } finally {
       order.payNowLoading = true;
-      this.setState({ orderList: orderList });
+      this.setState({ orderList });
     }
   }
   rePurchase(order) {
@@ -409,7 +411,8 @@ class AccountOrders extends React.Component {
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
               onTimeEnd={() => this.handlePayNowTimeEnd(order)}
-            /><br />
+            />
+            <br />
             <button
               className={`rc-btn rc-btn--one ord-list-operation-btn ${
                 order.payNowLoading ? 'ui-btn-loading' : ''
@@ -670,8 +673,8 @@ class AccountOrders extends React.Component {
                                       </p>
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.flowState ===
-                                        'COMPLETED' && (
+                                      {order.tradeState.deliverStatus ===
+                                        'SHIPPED' && (
                                         <div
                                           onClick={this.handleDownInvoice.bind(
                                             this,
@@ -680,11 +683,10 @@ class AccountOrders extends React.Component {
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
                                           <span
-                                            className="medium pull-right--desktop rc-styled-link"
+                                            className="medium pull-right--desktop rc-styled-link text-nowrap"
                                             style={{
                                               textOverflow: 'ellipsis',
                                               overflow: 'hidden',
-                                              whiteSpace: 'nowrap',
                                               maxWidth: '82%'
                                             }}
                                           >
@@ -699,11 +701,10 @@ class AccountOrders extends React.Component {
                                         to={`/account/orders/detail/${order.id}`}
                                       >
                                         <span
-                                          className="medium pull-right--desktop rc-styled-link"
+                                          className="medium pull-right--desktop rc-styled-link text-nowrap"
                                           style={{
                                             textOverflow: 'ellipsis',
                                             overflow: 'hidden',
-                                            whiteSpace: 'nowrap',
                                             maxWidth: '99%'
                                           }}
                                         >
@@ -755,11 +756,17 @@ class AccountOrders extends React.Component {
                                           <span className="medium color-444 ui-text-overflow-line2">
                                             {item.spuName}
                                           </span>
-                                          {item.specDetails} -{' '}
-                                          <FormattedMessage
-                                            id="xProduct"
-                                            values={{ val: item.num }}
-                                          />
+                                          {[
+                                            item.specDetails,
+                                            this.props.intl.formatMessage(
+                                              { id: 'xProduct' },
+                                              {
+                                                val: item.num
+                                              }
+                                            )
+                                          ]
+                                            .filter((e) => e)
+                                            .join(' - ')}
                                         </div>
                                         <div className="col-2 col-md-2 rc-md-up">
                                           {formatMoney(item.price)}
@@ -851,11 +858,17 @@ class AccountOrders extends React.Component {
                               {item.spuName}
                             </span>
                             <span>
-                              {item.specDetails} -{' '}
-                              <FormattedMessage
-                                id="xProduct"
-                                values={{ val: item.num }}
-                              />
+                              {[
+                                item.specDetails,
+                                this.props.intl.formatMessage(
+                                  { id: 'xProduct' },
+                                  {
+                                    val: item.num
+                                  }
+                                )
+                              ]
+                                .filter((e) => e)
+                                .join(' - ')}
                             </span>
                             <br />
                             <span style={{ fontSize: '1.1em' }}>

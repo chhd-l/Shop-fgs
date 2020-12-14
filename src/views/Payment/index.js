@@ -362,7 +362,7 @@ class Payment extends React.Component {
       PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
       adyen_credit_card: {
         name: 'adyen_credit_card',
-        id: 'adyen',
+        id: 'adyenCard',
         paymentTypeVal: 'adyenCard'
       },
       adyen_klarna_pay_now: {
@@ -966,7 +966,7 @@ class Payment extends React.Component {
       if (!this.isLogin) {
         sessionItemRoyal.remove('rc-token');
       }
-      if (err.errorData) {
+      if (err.errorData && err.errorData.tid && err.errorData.tidList) {
         // err.errorData 支付失败，errorData返回支付信息
         sessionItemRoyal.set('rc-tid', err.errorData.tid);
         sessionItemRoyal.set('rc-rePaySubscribeId', err.errorData.subscribeId);
@@ -1722,7 +1722,10 @@ class Payment extends React.Component {
               clickPay={this.initCommonPay}
               showErrorMsg={this.showErrorMsg}
               updateAdyenPayParam={(data) => {
-                this.setState({ adyenPayParam: data });
+                this.setState({ adyenPayParam: data },()=>{
+                  console.log(this.state.adyenPayParam)
+                  // debugger
+                });
               }}
               isOnepageCheckout={this.isOnepageCheckout}
               checkoutStore={checkoutStore}
@@ -2093,7 +2096,7 @@ class Payment extends React.Component {
                       style={{
                         transform: 'scale(.8)',
                         transformOrigin: 'left',
-                        marginRight: '-.4rem'
+                        marginRight: '-.1rem'
                       }}
                     />{' '}
                     <FormattedMessage id="payment.paymentInformation" />

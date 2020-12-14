@@ -77,7 +77,12 @@ class Confirmation extends React.Component {
                 this.confirmationPanelStatus.isEdit ? 'red' : ''
               }`}
             >
-              <em className="iconfont font-weight-bold ml-1 mr-1">&#xe68c;</em>{' '}
+              <em
+                className="iconfont font-weight-bold ml-1"
+                style={{ marginRight: '.7rem' }}
+              >
+                &#xe68c;
+              </em>{' '}
               <FormattedMessage id="confirmation" />
             </h5>
           </div>

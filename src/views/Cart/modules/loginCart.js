@@ -30,6 +30,8 @@ import {
 import { getProductPetConfig } from '@/api/payment';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
+import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
+import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
@@ -373,9 +375,10 @@ class LoginCart extends React.Component {
     }
   }
   //GA 移除购物车商品 埋点
-  GARemoveFromCart(productList){
-    console.log(productList)
-    const list = productList.map((item,index)=>{
+  GARemoveFromCart(product){
+    console.log(product)
+    //debugger
+    const list = product.map((item,index)=>{
       return {
         'name': item.goodsName, 
         'id': item.goodsId, 
@@ -385,13 +388,15 @@ class LoginCart extends React.Component {
         'brand': 'Royal Canin',
         'category': item.goodsCategory,
         'variant': item.goodsWeight,
-        'quantity': '1',
+        'quantity': item.buyCount,
         'recommendation':'recommended',//self-selected, recommanded
         'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
       }
     })
+
     console.log(list)
     //debugger
+
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
@@ -415,7 +420,7 @@ class LoginCart extends React.Component {
     });
     this.setState({ deleteLoading: false });
 
-    this.GARemoveFromCart(productList)
+    this.GARemoveFromCart(productList[currentProductIdx])
   }
   goBack(e) {
     e.preventDefault();
@@ -626,7 +631,7 @@ class LoginCart extends React.Component {
                 <div className="rc-md-up">
                   <div className="product-card-footer product-card-price d-flex">
                     <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                      <div className="rc-quantity d-flex">
+                      <div className="rc-quantity d-flex" >
                         <span
                           className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
                           onClick={() => this.subQuantity(pitem)}
@@ -823,7 +828,7 @@ class LoginCart extends React.Component {
             </div>
           </div>
           <div className="rc-margin-bottom--sm rc-md-down">
-            <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm">
+            <div className="product-card-footer product-card-price d-flex rc-margin-bottom--sm"  >
               <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
                 <div className="rc-quantity d-flex">
                   <span
@@ -1427,6 +1432,8 @@ class LoginCart extends React.Component {
         theme: ''
       }
     };
+    const dogsPic = process.env.REACT_APP_LANG === 'fr'?dogsImgFr:dogsImg
+    const catsPic = process.env.REACT_APP_LANG === 'fr'?catsImgFr:catsImg
     return (
       <div className="Carts">
         <GoogleTagManager additionalEvents={event} />
@@ -1529,14 +1536,15 @@ class LoginCart extends React.Component {
                             </div>
                             <div
                               className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                              style={{ margin: '0 10%' }}
+                              // style={{ margin: '0 10%' }}
+                              style={process.env.REACT_APP_LANG === 'fr'?{}:{ margin: '0 10%' }}
                             >
                               <div className="ui-item border radius-3">
                                 <Link to="/dogs">
                                   <LazyLoad>
                                     <img
                                       className="w-100"
-                                      src={dogsImg}
+                                      src={dogsPic}
                                       alt="Dog"
                                     />
                                   </LazyLoad>
@@ -1551,7 +1559,7 @@ class LoginCart extends React.Component {
                                   <LazyLoad>
                                     <img
                                       className="w-100"
-                                      src={catsImg}
+                                      src={catsPic}
                                       alt="Cat"
                                     />
                                   </LazyLoad>

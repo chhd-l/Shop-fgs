@@ -138,9 +138,13 @@ const routesHeaderNav = sessionItemRoyal.get('header-navigations')
 const routesHomeNav = sessionItemRoyal.get('home-navigations')
   ? JSON.parse(sessionItemRoyal.get('home-navigations'))
   : [];
+const routesFilterNav = sessionItemRoyal.get('filter-navigations')
+  ? JSON.parse(sessionItemRoyal.get('filter-navigations'))
+  : [];
 const listRoutes = [
   ...Array.from(new Set(routesHeaderNav.map((r) => r.navigationLink))),
   ...Array.from(new Set(routesHomeNav.map((r) => r.cateRouter))),
+  ...routesFilterNav,
   ...['/cats', '/dogs']
 ];
 
@@ -427,7 +431,11 @@ const App = () => (
                 component={Tailorednutrition}
               />
               <Route path="/qualitySafety" exact component={QualitySafety} />
-              <Route path="/searchShow/:searchWords" exact component={SearchShow} />
+              <Route
+                path="/searchShow/:searchWords"
+                exact
+                component={SearchShow}
+              />
               <Route
                 path="/shipmentConditions"
                 exact
