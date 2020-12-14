@@ -2,7 +2,7 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { dynamicLoadCss } from '@/utils/utils';
+import { dynamicLoadCss, formatMoney } from '@/utils/utils';
 import { isPrevReady, searchNextConfirmPanel } from '../modules/utils';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
@@ -12,7 +12,7 @@ import TermsCommon from '../Terms/common';
 @observer
 class AdyenCreditCard extends React.Component {
   static defaultProps = {
-    subBuyWay: '' // once/fre
+    subBuyWay: '' // once/frequence
   };
   constructor(props) {
     super(props);
@@ -51,12 +51,7 @@ class AdyenCreditCard extends React.Component {
     this.props.updateAdyenPayParam(data);
     data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
 
-    // init时，paymentTypeVal还没返回，todo
-    if (
-      !isOnepageCheckout
-      // &&
-      // this.props.paymentTypeVal !== 'adyenCard'
-    ) {
+    if (!isOnepageCheckout) {
       return false;
     }
 
@@ -110,7 +105,14 @@ class AdyenCreditCard extends React.Component {
     }
   };
   render() {
-    const { isOnepageCheckout, listData, subBuyWay, paymentStore } = this.props;
+    const {
+      isOnepageCheckout,
+      listData,
+      subBuyWay,
+      paymentStore,
+      checkoutStore
+    } = this.props;
+    const { tradePrice } = checkoutStore;
     const { isValid, errorMsg } = this.state;
     const _errJSX = (
       <div
@@ -168,11 +170,13 @@ class AdyenCreditCard extends React.Component {
                     className={`rc-btn rc-btn--one submit-payment`}
                     type="submit"
                     name="submit"
-                    value="submit-shipping"
+                    value="submit-shipping 11111"
                     disabled={!isValid}
                     onClick={this.clickPay}
                   >
                     <FormattedMessage id="payment.further" />
+                    {''}
+                    {formatMoney(tradePrice)}
                   </button>
                 </div>
               </div>

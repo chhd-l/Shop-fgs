@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { formatMoney } from '@/utils/utils';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 
@@ -65,6 +66,8 @@ class Confirmation extends React.Component {
     this.props.clickPay();
   };
   render() {
+    const { checkoutStore } = this.props;
+    const { tradePrice } = checkoutStore;
     return (
       <>
         <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded">
@@ -74,7 +77,12 @@ class Confirmation extends React.Component {
                 this.confirmationPanelStatus.isEdit ? 'red' : ''
               }`}
             >
-              <em className="iconfont font-weight-bold">&#xe68c;</em>{' '}
+              <em
+                className="iconfont font-weight-bold ml-1"
+                style={{ marginRight: '.7rem' }}
+              >
+                &#xe68c;
+              </em>{' '}
               <FormattedMessage id="confirmation" />
             </h5>
           </div>
@@ -102,7 +110,8 @@ class Confirmation extends React.Component {
                   disabled={!this.state.isValid}
                   onClick={this.clickPay}
                 >
-                  <FormattedMessage id="payment.further" />
+                  <FormattedMessage id="payment.further" />{' '}
+                  {formatMoney(tradePrice)}
                 </button>
               </div>
             </div>

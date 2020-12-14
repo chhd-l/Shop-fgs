@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Help from '../modules/Help';
+import LazyLoad from 'react-lazyload';
 
 function SecondItemContainer(props) {
   const { item } = props;
@@ -161,11 +162,13 @@ class MegaMenu extends React.Component {
                 </Link>
               </div>
               <div className="mt-auto">
+                <LazyLoad>
                 <img
                   className="pull-right rc-md-down lazyloaded"
                   alt="Trouver l'alimentation adaptée"
                   src={item.imageLink}
                 />
+                </LazyLoad>
               </div>
             </div>
           ) : null

@@ -19196,7 +19196,7 @@ header .popover {
 }
 
 .minicart .product-summary.limit {
-  max-height: 25rem;
+  max-height: 22rem;
   overflow: auto;
   margin-right: 2px
 }

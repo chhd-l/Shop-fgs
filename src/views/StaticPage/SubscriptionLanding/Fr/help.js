@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { inject, observer } from 'mobx-react';
+
+@inject('configStore')
 class Help extends Component {
     constructor(props){
         super(props)
         this.state = {
-            
+            mailAddress: '',
         }
     }
     componentDidCatch(){
@@ -14,6 +17,10 @@ class Help extends Component {
             categoryId: '',
             pageName: 'Subscription Page'
           })
+    }
+    componentDidMount(){
+        const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
+        this.setState({mailAddress})
     }
     render() {
         return (
@@ -49,7 +56,7 @@ class Help extends Component {
                                         <b style={{color:"#0087BD"}}>Par mail</b>
                                         <p>Nous vous répondons sous deux jours ouvrés.</p>
                                         <div className="rc-margin-top--xs">
-                                            <a href="mailto:Envoyer un email" className='rc-numeric nowrap' style={{color:"#0087BD"}}>Envoyer un email</a>
+                                            <a href={this.state.mailAddress} className='rc-numeric nowrap' style={{color:"#0087BD"}}>Envoyer un email</a>
                                         </div>
                                     </div>
                                 </div>

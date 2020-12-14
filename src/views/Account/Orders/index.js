@@ -16,13 +16,15 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig,
-  getFrequencyDict
+  setSeoConfig
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
-import { getOrderList, getOrderDetails } from '@/api/order';
+import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
 import orderImg from './img/order.jpg';
 import { IMG_DEFAULT } from '@/utils/constant';
+import LazyLoad from 'react-lazyload';
+import base64 from 'base-64';
+
 import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -65,12 +67,16 @@ class AccountOrders extends React.Component {
     this.deviceType = getDeviceType();
     this.changeTab = this.changeTab.bind(this);
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
+    this.handleDownInvoice = this.handleDownInvoice.bind(this);
+    this.handleClickPayNow = this.handleClickPayNow.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'Account orders'
+    });
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -304,20 +310,6 @@ class AccountOrders extends React.Component {
         commentOnDelivery: detailResCt.buyerRemark
       });
       this.props.checkoutStore.setLoginCartData(tradeItems);
-      if (detailResCt.subscriptionResponseVO) {
-        const cycleTypeId = detailResCt.subscriptionResponseVO.cycleTypeId;
-
-        const dictList = await getFrequencyDict();
-        sessionItemRoyal.set(
-          'rc-subform',
-          JSON.stringify({
-            buyWay: 'frequency',
-            frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0]
-              .name,
-            frequencyId: cycleTypeId
-          })
-        );
-      }
       sessionItemRoyal.set('rc-tid', order.id);
       sessionItemRoyal.set('rc-rePaySubscribeId', order.subscribeId);
       sessionItemRoyal.set('rc-tidList', JSON.stringify(order.tidList));
@@ -336,7 +328,7 @@ class AccountOrders extends React.Component {
       console.log(err);
     } finally {
       order.payNowLoading = true;
-      this.setState({ orderList: orderList });
+      this.setState({ orderList });
     }
   }
   rePurchase(order) {
@@ -395,6 +387,21 @@ class AccountOrders extends React.Component {
   handleClickBackToIndex = () => {
     this.setState({ showOneOrderDetail: false });
   };
+  handleDownInvoice(order) {
+    let orderInvoiceIds = [];
+    orderInvoiceIds.push(order.id);
+    let params = {
+      orderInvoiceIds
+    };
+    const token =
+      sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
+    let result = JSON.stringify({ ...params, token: 'Bearer ' + token });
+    const exportHref = `${
+      process.env.REACT_APP_BASEURL
+    }/account/orderInvoice/exportPDF/${base64.encode(result)}`;
+
+    window.open(exportHref);
+  }
   renderOperationBtns = (order) => {
     return (
       <>
@@ -405,11 +412,12 @@ class AccountOrders extends React.Component {
               endTime={order.orderTimeOut}
               onTimeEnd={() => this.handlePayNowTimeEnd(order)}
             />
+            <br />
             <button
               className={`rc-btn rc-btn--one ord-list-operation-btn ${
                 order.payNowLoading ? 'ui-btn-loading' : ''
               }`}
-              onClick={() => this.handleClickPayNow(order)}
+              onClick={this.handleClickPayNow.bind(this, order)}
             >
               <FormattedMessage id="order.payNow" />
             </button>
@@ -504,7 +512,7 @@ class AccountOrders extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
-          {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
+          <BannerTip />
           <BreadCrumbs />
           <div className="p-md-2rem rc-max-width--xl ord-list">
             <div className="rc-layout-container rc-five-column">
@@ -534,7 +542,9 @@ class AccountOrders extends React.Component {
                     <div className={`content-asset`}>
                       <div className="rc-layout-container rc-two-column">
                         <div className="rc-column">
-                          <img src={orderImg} className="w-100" alt="" />
+                          <LazyLoad>
+                            <img src={orderImg} className="w-100" alt="" />
+                          </LazyLoad>
                         </div>
                         <div className="rc-column d-flex align-items-center justify-content-center">
                           <div>
@@ -651,7 +661,7 @@ class AccountOrders extends React.Component {
                                         </span>
                                       </p>
                                     </div>
-                                    <div className="col-12 col-md-3">
+                                    <div className="col-12 col-md-2">
                                       <p>
                                         <FormattedMessage id="total" />
                                         <br className="d-none d-md-block" />
@@ -662,12 +672,42 @@ class AccountOrders extends React.Component {
                                         </span>
                                       </p>
                                     </div>
+                                    <div className="col-12 col-md-2">
+                                      {order.tradeState.flowState ===
+                                        'COMPLETED' && (
+                                        <div
+                                          onClick={this.handleDownInvoice.bind(
+                                            this,
+                                            order
+                                          )}
+                                        >
+                                          <span className="rc-icon rc-pdf--xs rc-iconography" />
+                                          <span
+                                            className="medium pull-right--desktop rc-styled-link text-nowrap"
+                                            style={{
+                                              textOverflow: 'ellipsis',
+                                              overflow: 'hidden',
+                                              maxWidth: '82%'
+                                            }}
+                                          >
+                                            <FormattedMessage id="invoice" />
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
                                     <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
                                       <Link
                                         className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
                                         to={`/account/orders/detail/${order.id}`}
                                       >
-                                        <span className="medium pull-right--desktop rc-styled-link">
+                                        <span
+                                          className="medium pull-right--desktop rc-styled-link text-nowrap"
+                                          style={{
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden',
+                                            maxWidth: '99%'
+                                          }}
+                                        >
                                           <FormattedMessage id="order.orderDetails" />
                                         </span>
                                       </Link>
@@ -703,22 +743,30 @@ class AccountOrders extends React.Component {
                                         key={item.oid}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-md-center">
-                                          <img
-                                            className="ord-list-img-fluid"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                          <LazyLoad>
+                                            <img
+                                              className="ord-list-img-fluid"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
+                                          </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-4">
                                           <span className="medium color-444 ui-text-overflow-line2">
                                             {item.spuName}
                                           </span>
-                                          {item.specDetails} -{' '}
-                                          <FormattedMessage
-                                            id="xProduct"
-                                            values={{ val: item.num }}
-                                          />
+                                          {[
+                                            item.specDetails,
+                                            this.props.intl.formatMessage(
+                                              { id: 'xProduct' },
+                                              {
+                                                val: item.num
+                                              }
+                                            )
+                                          ]
+                                            .filter((e) => e)
+                                            .join(' - ')}
                                         </div>
                                         <div className="col-2 col-md-2 rc-md-up">
                                           {formatMoney(item.price)}
@@ -795,12 +843,14 @@ class AccountOrders extends React.Component {
                     {curOneOrderDetails.tradeItems.map((item, idx) => (
                       <div className="row col-12 mb-2" key={idx}>
                         <div className="col-6 d-flex">
-                          <img
-                            className="ord-list-img-fluid"
-                            src={item.pic || IMG_DEFAULT}
-                            alt={item.spuName}
-                            title={item.spuName}
-                          />
+                          <LazyLoad>
+                            <img
+                              className="ord-list-img-fluid"
+                              src={item.pic || IMG_DEFAULT}
+                              alt={item.spuName}
+                              title={item.spuName}
+                            />
+                          </LazyLoad>
                         </div>
                         <div className="col-6 d-flex align-items-center">
                           <div>
@@ -808,11 +858,17 @@ class AccountOrders extends React.Component {
                               {item.spuName}
                             </span>
                             <span>
-                              {item.specDetails} -{' '}
-                              <FormattedMessage
-                                id="xProduct"
-                                values={{ val: item.num }}
-                              />
+                              {[
+                                item.specDetails,
+                                this.props.intl.formatMessage(
+                                  { id: 'xProduct' },
+                                  {
+                                    val: item.num
+                                  }
+                                )
+                              ]
+                                .filter((e) => e)
+                                .join(' - ')}
                             </span>
                             <br />
                             <span style={{ fontSize: '1.1em' }}>

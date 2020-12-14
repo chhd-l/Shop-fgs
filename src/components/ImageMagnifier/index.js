@@ -6,6 +6,7 @@ import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
 import { getDeviceType } from '@/utils/utils.js'
+import LazyLoad from 'react-lazyload';
 
 class ImageMagnifier extends Component {
   static defaultProps = {
@@ -365,7 +366,9 @@ class ImageMagnifier extends Component {
             ) : null}
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
+                <LazyLoad>
                 <img src={taggingForImage.taggingImgUrl} />
+                </LazyLoad>
               </div>
             ) : null}
             <div
@@ -377,22 +380,26 @@ class ImageMagnifier extends Component {
               {images.filter((el) => el.goodsInfoImg).length
                 ? images.map((el, i) => (
                     <div key={i}>
+                      <LazyLoad>
                       <img
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || noPic}
                         alt=""
                       />
+                      </LazyLoad>
                     </div>
                   ))
                 : images.map((el, i) => (
                     <div key={i}>
+                      <LazyLoad>
                       <img
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || this.state.maxImg || noPic}
                         alt=""
                       />
+                      </LazyLoad>
                     </div>
                   ))}
               {videoShow && video && (
@@ -431,6 +438,7 @@ class ImageMagnifier extends Component {
           </div>
           {magnifierOff && !videoShow && (
             <div style={cssStyle.magnifierContainer}>
+              <LazyLoad>
               <img
                 style={cssStyle.imgStyle2}
                 src={currentImg || this.state.maxImg || noPic}
@@ -438,6 +446,7 @@ class ImageMagnifier extends Component {
                 onError={this.handleImageErrored.bind(this)}
                 alt=""
               />
+              </LazyLoad>
               {!imgLoad && 'failed to load'}
             </div>
           )}

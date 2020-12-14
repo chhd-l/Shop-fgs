@@ -3,14 +3,13 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
+import Logo from '@/components/Logo';
 import {
   getParaByName,
   getDeviceType,
   generateOptions,
   getDictionary
 } from '@/utils/utils';
-import logoAnimatedPng from '@/assets/images/logo--animated.png';
-import logoAnimatedSvg from '@/assets/images/logo--animated.svg';
 import { getList, findSortList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
@@ -29,6 +28,7 @@ import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import { loadJS } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -63,7 +63,8 @@ class Header extends React.Component {
       event: {
         search: {}
       },
-      isSearchSuccess:false,//是否搜索成功
+      isSearchSuccess: false, //是否搜索成功
+      hideNavRouter: ['/confirmation', '/checkout']
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -92,6 +93,17 @@ class Header extends React.Component {
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
+  }
+  isHideNavBar() {
+    //只需要在hideNavRouter数组中去配置不要显示nav的路由
+    let str =
+      this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
+      -1
+        ? 'none'
+        : 'flex';
+    return {
+      display: str
+    };
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
@@ -224,17 +236,20 @@ class Header extends React.Component {
    * token过期时，主动登出
    */
   handleLogout = async () => {
-    const { loginStore, checkoutStore, authService } = this.props;
+    const { loginStore, checkoutStore, oktaAuth } = this.props;
     try {
       sessionItemRoyal.remove('rc-token-lose');
       loginStore.changeLoginModal(true);
       localItemRoyal.remove('rc-token');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
-      const res = await authService.logout(process.env.REACT_APP_HOMEPAGE);
+      const res = await oktaAuth.signOut({
+        postLogoutRedirectUri:
+          window.location.origin + process.env.REACT_APP_HOMEPAGE
+      });
       setTimeout(async () => {
         loginStore.changeLoginModal(false);
-        await authService.login(process.env.REACT_APP_HOMEPAGE);
+        await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       }, 3000);
     } catch (e) {
       loginStore.changeLoginModal(false);
@@ -329,17 +344,17 @@ class Header extends React.Component {
       result: null
     });
   }
-  handleSearch=(e)=>{
-    if(process.env.REACT_APP_LANG == 'fr'){
-      console.log(e.current.value)
-      if(this.state.isSearchSuccess){
-        this.props.history.push(`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`)
-      }else{
-        this.props.history.push('/searchShow/'+e.current.value)
+  handleSearch = (e) => {
+    if (process.env.REACT_APP_LANG == 'fr') {
+      if (this.state.isSearchSuccess) {
+        this.props.history.push(
+          `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
+        );
+      } else {
+        this.props.history.push('/searchShow/' + e.current.value);
       }
     }
-    
-  }
+  };
   handleSearchInputChange(e) {
     this.setState(
       {
@@ -410,7 +425,7 @@ class Header extends React.Component {
           //搜索成功-埋点
           this.props.headerSearchStore.getResult(keywords, goodsContent.length);
           console.log('搜索成功-成功', this.props.headerSearchStore);
-          this.setState({isSearchSuccess:true})
+          this.setState({ isSearchSuccess: true });
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
@@ -432,7 +447,7 @@ class Header extends React.Component {
           //搜索失败-埋点
           this.props.headerSearchStore.getNoResult(keywords);
           console.log('搜索失败-埋点', this.props.headerSearchStore);
-          this.setState({isSearchSuccess:false})
+          this.setState({ isSearchSuccess: false });
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
             query,
@@ -454,7 +469,7 @@ class Header extends React.Component {
     }
   }
   gotoDetails(item) {
-    console.log(item)
+    console.log(item);
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
     this.props.history.push(
       `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
@@ -495,18 +510,20 @@ class Header extends React.Component {
                             className="ui-cursor-pointer"
                             onClick={this.gotoDetails.bind(this, item)}
                           >
-                            <img
-                              className="swatch__img"
-                              alt={item.goodsName}
-                              title={item.goodsName}
-                              src={
-                                item.goodsImg ||
-                                item.goodsInfos.sort(
-                                  (a, b) => a.marketPrice - b.marketPrice
-                                )[0].goodsInfoImg ||
-                                IMG_DEFAULT
-                              }
-                            />
+                            <LazyLoad>
+                              <img
+                                className="swatch__img"
+                                alt={item.goodsName}
+                                title={item.goodsName}
+                                src={
+                                  item.goodsImg ||
+                                  item.goodsInfos.sort(
+                                    (a, b) => a.marketPrice - b.marketPrice
+                                  )[0].goodsInfoImg ||
+                                  IMG_DEFAULT
+                                }
+                              />
+                            </LazyLoad>
                           </span>
                         </div>
                         <div className="col-8 col-md-9 col-lg-10">
@@ -565,26 +582,26 @@ class Header extends React.Component {
     ) : null;
   }
   // 点击menu埋点
-  GAClickMenu(interaction){
-    const {category,action,label,value} = interaction
-    dataLayer.push(
-      {'event':`${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
-      interaction:{
+  GAClickMenu(interaction) {
+    const { category, action, label, value } = interaction;
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}clickMenu`,
+      interaction: {
         category,
         action,
         label,
-        value},
-      })
+        value
+      }
+    });
   }
   async handleClickNavItem(item) {
     // 点击menu埋点-start
-    let interaction = {
-      'category':'menu',
-      'action':'menu',
-      'label':item.avigationLink,
-      'value':item.navigationName
-    }
-    this.GAClickMenu(interaction)
+    this.GAClickMenu({
+      category: 'menu',
+      action: 'menu',
+      label: item.avigationLink,
+      value: item.navigationName
+    });
     // 点击menu埋点-end
     let res = await getDictionary({ type: 'pageType' });
     const targetRes = res.filter((ele) => ele.id === item.pageId);
@@ -673,7 +690,7 @@ class Header extends React.Component {
   }
   renderDropDownText = (item) => {
     return item.expanded ? (
-      <span className="rc-header-with-icon">
+      <span className="rc-header-with-icon header-icon">
         {item.navigationName}
         <span
           className={`rc-icon rc-iconography ${
@@ -745,21 +762,7 @@ class Header extends React.Component {
 
             <Link to="/home" className="header__nav__brand logo-home">
               <span className="rc-screen-reader-text" />
-              <object
-                id="header__logo"
-                className="rc-header__logo"
-                type="image/svg+xml"
-                data={logoAnimatedSvg}
-                data-js-import-interactive-svg
-              >
-                <img
-                  alt="Royal Canin"
-                  height="100"
-                  src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                  style={{ backgroundImage: 'url(' + logoAnimatedPng + ')' }}
-                  width="135"
-                />
-              </object>
+              <Logo />
             </Link>
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
@@ -799,7 +802,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
-                              onClick={()=>this.handleSearch(this.inputRef)}
+                              onClick={() => this.handleSearch(this.inputRef)}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>
@@ -852,80 +855,85 @@ class Header extends React.Component {
                 ) : null}
                 {showUserIcon ? (
                   <>
-                  <span style={{marginLeft: this.userInfo?'10px': '0'}}>{getDeviceType() === 'PC' && this.userInfo && this.userInfo.firstName}</span>
-                  <span
-                    id="main_mini_cart"
-                    className="minicart inlineblock"
-                    onMouseOver={this.handleCenterMouseOver}
-                    onMouseOut={this.handleCenterMouseOut}
-                  >
-                    {this.isLogin ? (
-                      <FormattedMessage id="personal">
-                        {(txt) => (
-                          <Link
-                            to="/account"
-                            className="minicart-link"
-                            data-loc="miniCartOrderBtn"
-                            title={txt}
-                          >
-                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
-                          </Link>
-                        )}
-                      </FormattedMessage>
-                    ) : (
-                      <FormattedMessage id="personal">
-                        {(txt) => (
-                          <div
-                            className="minicart-link"
-                            data-loc="miniCartOrderBtn"
-                            title={txt}
-                          >
-                            <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
-                          </div>
-                        )}
-                      </FormattedMessage>
-                    )}
+                    <span style={{ marginLeft: this.userInfo ? '10px' : '0' }}>
+                      {getDeviceType() === 'PC' &&
+                        this.userInfo &&
+                        this.userInfo.firstName}
+                    </span>
+                    <span
+                      id="main_mini_cart"
+                      className="minicart inlineblock"
+                      onMouseOver={this.handleCenterMouseOver}
+                      onMouseOut={this.handleCenterMouseOut}
+                    >
+                      {this.isLogin ? (
+                        <FormattedMessage id="personal">
+                          {(txt) => (
+                            <Link
+                              to="/account"
+                              className="minicart-link"
+                              data-loc="miniCartOrderBtn"
+                              title={txt}
+                            >
+                              <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                            </Link>
+                          )}
+                        </FormattedMessage>
+                      ) : (
+                        <FormattedMessage id="personal">
+                          {(txt) => (
+                            <div
+                              className="minicart-link"
+                              data-loc="miniCartOrderBtn"
+                              title={txt}
+                            >
+                              <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                            </div>
+                          )}
+                        </FormattedMessage>
+                      )}
 
-                    {!this.isLogin ? (
-                      <div
-                        className={`popover popover-bottom ${
-                          showCenter ? 'show' : ''
-                        }`}
-                        style={{ minWidth: '13rem' }}
-                      >
-                        <div className="container cart">
-                          <div className="login-style">
-                            <LoginButton
-                              btnStyle={{ width: '11rem', margin: '2rem 0' }}
-                              history={history}
-                            />
-                            {/* <button onClick={() => {
+                      {!this.isLogin ? (
+                        <div
+                          className={`popover popover-bottom ${
+                            showCenter ? 'show' : ''
+                          }`}
+                          style={{ minWidth: '13rem' }}
+                        >
+                          <div className="container cart">
+                            <div className="login-style">
+                              <LoginButton
+                                btnStyle={{ width: '11rem', margin: '2rem 0' }}
+                                history={history}
+                              />
+                              {/* <button onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
                                   window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                 }}>registred</button> */}
-                            {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
+                              {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
                                   onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
-                            <div>
-                              <FormattedMessage id="account.notRegistred" />
+                              <div>
+                                <FormattedMessage id="account.notRegistred" />
+                              </div>
+                              <span
+                                className="rc-styled-link"
+                                onClick={() => {
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
+                                  window.location.href =
+                                    process.env.REACT_APP_RegisterPrefix +
+                                    window.encodeURIComponent(
+                                      process.env.REACT_APP_RegisterCallback
+                                    );
+                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
+                                  // this.signUp()
+                                  // history.push('/register');
+                                }}
+                              >
+                                <FormattedMessage id="signUp" />
+                              </span>
                             </div>
-                            <span
-                              className="rc-styled-link"
-                              onClick={() => {
-                                // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                                window.location.href =
-                                  process.env.REACT_APP_RegisterPrefix +
-                                  window.encodeURIComponent(
-                                    process.env.REACT_APP_RegisterCallback
-                                  );
-                                // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                                // this.signUp()
-                              }}
-                            >
-                              <FormattedMessage id="signUp" />
-                            </span>
-                          </div>
 
-                          {/* <div className="link-group">
+                            {/* <div className="link-group">
                                 <div className="link-style" >
                                   <Link to="/account" >
                                     <FormattedMessage id="account.myAccount" />
@@ -953,78 +961,87 @@ class Header extends React.Component {
                                 </div>
 
                               </div> */}
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        className={`popover popover-bottom ${
-                          showCenter ? 'show' : ''
-                        }`}
-                        style={{ minWidth: '13rem' }}
-                        onMouseOver={this.handleMouseOver}
-                        onMouseOut={this.handleMouseOut}
-                      >
-                        <div className="container cart">
-                          <div className="link-group">
-                            <div className="link-style">
-                              <Link to="/account" className="click-hover">
-                                <span className="iconfont">&#xe697;</span>{' '}
-                                <FormattedMessage id="account.myAccount" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <Link
-                                to="/account/information"
-                                className="click-hover"
-                              >
-                                <span className="iconfont">&#xe69c;</span>{' '}
-                                <FormattedMessage id="account.basicInfomation" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <span className="iconfont">&#xe69a;</span>{' '}
-                              <Link to="/account/pets" className="click-hover">
-                                <FormattedMessage id="account.pets" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <Link
-                                to="/account/orders"
-                                className="click-hover"
-                              >
-                                <span className="iconfont">&#xe699;</span>{' '}
-                                <FormattedMessage id="account.orders" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <Link
-                                to="/account/subscription"
-                                className="click-hover"
-                              >
-                                <span className="iconfont">&#xe6a2;</span>{' '}
-                                <FormattedMessage id="account.subscription" />
-                              </Link>
-                            </div>
-                            <div className="link-style">
-                              <Link to="/FAQ/all" className="click-hover">
-                                <span className="iconfont">&#xe696;</span>{' '}
-                                <FormattedMessage id="footer.FAQ" />
-                              </Link>
-                            </div>
                           </div>
-                          <LogoutButton />
                         </div>
-                      </div>
-                    )}
-                  </span>
+                      ) : (
+                        <div
+                          className={`popover popover-bottom ${
+                            showCenter ? 'show' : ''
+                          }`}
+                          style={{ minWidth: '13rem' }}
+                          onMouseOver={this.handleMouseOver}
+                          onMouseOut={this.handleMouseOut}
+                        >
+                          <div className="container cart">
+                            <div className="link-group">
+                              <div className="link-style">
+                                <Link to="/account" className="click-hover">
+                                  <span className="iconfont">&#xe697;</span>{' '}
+                                  <FormattedMessage id="account.myAccount" />
+                                </Link>
+                              </div>
+                              <div className="link-style">
+                                <Link
+                                  to="/account/information"
+                                  className="click-hover"
+                                >
+                                  <span className="iconfont">&#xe69c;</span>{' '}
+                                  <FormattedMessage id="account.basicInfomation" />
+                                </Link>
+                              </div>
+                              <div className="link-style">
+                                <span className="iconfont">&#xe69a;</span>{' '}
+                                <Link
+                                  to="/account/pets"
+                                  className="click-hover"
+                                >
+                                  <FormattedMessage id="account.pets" />
+                                </Link>
+                              </div>
+                              <div className="link-style">
+                                <Link
+                                  to="/account/orders"
+                                  className="click-hover"
+                                >
+                                  <span className="iconfont">&#xe699;</span>{' '}
+                                  <FormattedMessage id="account.orders" />
+                                </Link>
+                              </div>
+                              <div className="link-style">
+                                <Link
+                                  to="/account/subscription"
+                                  className="click-hover"
+                                >
+                                  <span className="iconfont">&#xe6a2;</span>{' '}
+                                  <FormattedMessage id="account.subscription" />
+                                </Link>
+                              </div>
+                              <div className="link-style">
+                                <Link to="/FAQ/all" className="click-hover">
+                                  <span className="iconfont">&#xe696;</span>{' '}
+                                  <FormattedMessage id="footer.FAQ" />
+                                </Link>
+                              </div>
+                            </div>
+                            <LogoutButton />
+                          </div>
+                        </div>
+                      )}
+                    </span>
                   </>
                 ) : null}
               </li>
             </ul>
           </nav>
 
-          <nav className="rc-header__nav rc-header__nav--secondary rc-md-up ">
-            <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap">
+          <nav
+            className="rc-header__nav rc-header__nav--secondary rc-md-up "
+            style={this.isHideNavBar()}
+          >
+            <ul
+              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
+              style={this.isHideNavBar()}
+            >
               {headerNavigationList.map((item, i) => (
                 <li
                   className={`rc-list__item ${
@@ -1048,7 +1065,7 @@ class Header extends React.Component {
                         ) : (
                           <span
                             onClick={this.handleClickNavItem.bind(this, item)}
-                            className="rc-list__header"
+                            className={`rc-list__header`}
                           >
                             {this.renderDropDownText(item)}
                           </span>

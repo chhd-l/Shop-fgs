@@ -9,6 +9,7 @@ import { getAdyenParam } from './utils';
 import { inject, observer } from 'mobx-react';
 import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
+import LazyLoad from 'react-lazyload';
 
 @inject('loginStore', 'paymentStore')
 @observer
@@ -26,7 +27,8 @@ class AdyenCreditCardForm extends React.Component {
     showErrorMsg: () => {},
     queryList: () => {},
     updateInitStatus: () => {},
-    updateSelectedId: () => {}
+    updateSelectedId: () => {},
+    cardList:[]
   };
   constructor(props) {
     super(props);
@@ -123,6 +125,7 @@ class AdyenCreditCardForm extends React.Component {
       const { adyenFormData } = this.state;
       let tmpSelectedId = '';
       let decoAdyenFormData = Object.assign({}, adyenFormData);
+      let currentCardEncryptedSecurityCode = adyenFormData.encryptedSecurityCode //获取当前保存卡的encryptedSecurityCode
       if (adyenFormData.storePaymentMethod) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
@@ -137,7 +140,8 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
-        this.props.queryList();
+        //把绑卡的encryptedSecurityCode传入
+        this.props.queryList(currentCardEncryptedSecurityCode);
         this.setState({ saveLoading: false });
       } else {
         tmpSelectedId = new Date().getTime() + '';
@@ -145,9 +149,12 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
       }
+
       this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);
       this.props.updateSelectedId(tmpSelectedId);
+
+      this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId)
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
@@ -171,6 +178,7 @@ class AdyenCreditCardForm extends React.Component {
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
             {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+              <LazyLoad>
               <img
                 key={idx}
                 style={{ width: '50px' }}
@@ -178,6 +186,7 @@ class AdyenCreditCardForm extends React.Component {
                 src={el}
                 alt=""
               />
+              </LazyLoad>
             ))}
           </span>
         </p>

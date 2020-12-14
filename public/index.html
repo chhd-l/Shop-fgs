@@ -6,10 +6,10 @@
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000" />
-  <meta name="keysword" content=""/>
+  <meta name="keysword" content="" />
   <meta name="description" content="Web site created using create-react-app" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -28,13 +28,19 @@
 
   <base href="/">
   <link id="royal-canin" rel="stylesheet" type='text/css'
-    href="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.css" />
-  <!-- <link rel="stylesheet" href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css"> -->
+    href="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.css" />
+
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
-  <script type="text/javascript"
-    src="<%= process.env.REACT_APP_HOMEPAGE === '/' ? '' : '/assets' %>/royal/royal-canin.js"
+  <script type="text/javascript" src="<%= process.env.REACT_APP_RC_ASSETS_PREFIX %>royal/royal-canin.min.js"
     id="js-royal-canin"></script>
   <script src="https://at.alicdn.com/t/font_1982813_7a5xdnjqdvy.js"></script>
+
+
+  <!-- <script crossorigin src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-router-dom@5.1.2/umd/react-router-dom.min.js"></script> -->
+
+
   <script>
     if (typeof Object.assign != 'function') {
       Object.assign = function (target) {
@@ -58,9 +64,6 @@
       };
     }
   </script>
-  <!-- OneTrust Cookies Consent Notice (Production Standard, shop.royalcanin.mx, es-MX) start -->
-  <!-- <script src="https://optanon.blob.core.windows.net/consent/cdfcc414-1ef9-4d1d-82d5-6b85fb8958cb.js"
-    type="text/javascript" charset="UTF-8"></script> -->
   <script type="text/javascript">
     function OptanonWrapper() { }
   </script>
@@ -88,5 +91,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+
+
 
 </html>

@@ -8,6 +8,7 @@ import { getBanner } from '@/api/home.js';
 import indeximage1 from './image/indexmobile1.png'
 import indeximage2 from './image/indexmobile2.png'
 import indeximage3 from './image/indexmobile3.png'
+import LazyLoad from 'react-lazyload';
 
 class HeroCarousel extends React.Component {
   constructor(props) {
@@ -69,8 +70,37 @@ class HeroCarousel extends React.Component {
         {this.state.banner.map((el, i) => (
         <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager" key={i}>
           <div className="rc-hero__fg">
+<<<<<<< HEAD
             <div className="rc-hero__section">
               <a href="product-finder"><img src={el.mobiUrl}/></a>
+=======
+            <div className="rc-hero__section rc-hero__section--img">
+              <a href="product-finder">
+                <LazyLoad>
+                <img src={indeximage1}/>
+                </LazyLoad>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
+          <div className="rc-hero__fg">
+            <div className="rc-hero__section rc-hero__section--img">
+              <a href="packmixfeedingwetdry">
+                <LazyLoad>
+                <img src={indeximage2}/>
+                </LazyLoad>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
+          <div className="rc-hero__fg">
+            <div className="rc-hero__section rc-hero__section--img">
+              <LazyLoad>
+              <img src={indeximage3}/>
+              </LazyLoad>
+>>>>>>> feature_20201225
             </div>
           </div>
         </div>

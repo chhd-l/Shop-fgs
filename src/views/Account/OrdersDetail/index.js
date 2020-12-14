@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,12 +11,7 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import {
-  formatMoney,
-  getDictionary,
-  setSeoConfig,
-  getFrequencyDict
-} from '@/utils/utils';
+import { formatMoney, getDictionary, setSeoConfig } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { queryCityNameById } from '@/api';
@@ -30,6 +24,7 @@ import {
 } from '@/api/order';
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
+import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -338,7 +333,17 @@ class AccountOrders extends React.Component {
           defaultLocalDateTime: res.defaultLocalDateTime,
           subNumber:
             resContext.subscriptionResponseVO &&
-            resContext.subscriptionResponseVO.subscribeId
+            resContext.subscriptionResponseVO.subscribeId,
+          canPayNow:
+            ((!resContext.isAuditOpen && tradeState.flowState === 'AUDIT') ||
+              (resContext.isAuditOpen &&
+                tradeState.flowState === 'INIT' &&
+                tradeState.auditState === 'NON_CHECKED')) &&
+            tradeState.deliverStatus === 'NOT_YET_SHIPPED' &&
+            tradeState.payState === 'NOT_PAID' &&
+            new Date(resContext.orderTimeOut).getTime() >
+              new Date(res.defaultLocalDateTime).getTime() &&
+            (!resContext.payWay || resContext.payWay.toUpperCase() !== 'OXXO')
         });
       })
       .catch((err) => {
@@ -527,26 +532,9 @@ class AccountOrders extends React.Component {
     localItemRoyal.set('loginDeliveryInfo', {
       deliveryAddress: tmpDeliveryAddress,
       billingAddress: tmpBillingAddress,
-      commentOnDelivery: detailResCt.buyerRemark
+      commentOnDelivery: details.buyerRemark
     });
     this.props.checkoutStore.setLoginCartData(tradeItems);
-    if (details.subscriptionResponseVO) {
-      const cycleTypeId = details.subscriptionResponseVO.cycleTypeId;
-
-      const dictList = await getFrequencyDict();
-      sessionItemRoyal.set(
-        'rc-subform',
-        JSON.stringify({
-          buyWay: 'frequency',
-          frequencyName: dictList.filter((el) => el.id === cycleTypeId)[0].name,
-          frequencyId: cycleTypeId
-        })
-      );
-      sessionItemRoyal.set(
-        'rc-rePaySubscribeId',
-        details.subscriptionResponseVO.subscribeId
-      );
-    }
     sessionItemRoyal.set('rc-tid', details.id);
 
     sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
@@ -628,12 +616,14 @@ class AccountOrders extends React.Component {
               <div className="row">
                 {(item.shippingItems || []).map((ele) => (
                   <div className="text-center col-2" key={ele.skuId}>
-                    <img
-                      src={ele.pic || IMG_DEFAULT}
-                      alt={ele.itemName}
-                      title={ele.itemName}
-                      style={{ width: '70%', margin: '0 auto' }}
-                    />
+                    <LazyLoad>
+                      <img
+                        src={ele.pic || IMG_DEFAULT}
+                        alt={ele.itemName}
+                        title={ele.itemName}
+                        style={{ width: '70%', margin: '0 auto' }}
+                      />
+                    </LazyLoad>
                     <p className="font-weight-normal ui-text-overflow-line1">
                       {ele.itemName} X {ele.itemNum}
                     </p>
@@ -650,7 +640,7 @@ class AccountOrders extends React.Component {
                     {(item.deliverTime || '').substr(0, 10)}
                   </span>
                 </div>
-                <div className="col-12 col-md-3">
+                <div className="col-12 col-md-4">
                   <svg className="svg-icon mr-1" aria-hidden="true">
                     <use xlinkHref="#iconLogisticscompany" />
                   </svg>
@@ -659,7 +649,7 @@ class AccountOrders extends React.Component {
                     {item.logistics ? item.logistics.logisticCompanyName : ''}
                   </span>
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-5">
                   <svg className="svg-icon mr-1" aria-hidden="true">
                     <use xlinkHref="#iconLogisticssinglenumber" />
                   </svg>
@@ -707,7 +697,9 @@ class AccountOrders extends React.Component {
               <div className="col-12 row mt-2">
                 {item.shippingItems.map((sItem) => (
                   <div className="col-3" key={sItem.skuId}>
-                    <img className="rc-bg-colour--brand4" src={sItem.pic} />
+                    <LazyLoad>
+                      <img className="rc-bg-colour--brand4" src={sItem.pic} />
+                    </LazyLoad>
                   </div>
                 ))}
               </div>
@@ -751,25 +743,27 @@ class AccountOrders extends React.Component {
             }
             title={<FormattedMessage id="orderStatus.INIT" />}
             titleColor="text-info"
-            tip={<FormattedMessage id="order.toBePaidTip" />}
-            operation={
-              canPayNow ? (
-                <>
-                  <TimeCount
-                    startTime={defaultLocalDateTime}
-                    endTime={details.orderTimeOut}
-                    onTimeEnd={this.handlePayNowTimeEnd}
-                  />
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      payNowLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    onClick={this.handleClickPayNow}
-                  >
-                    <FormattedMessage id="order.payNow" />
-                  </button>
-                </>
-              ) : null
+            tip={
+              <FormattedMessage
+                id="order.toBePaidTip"
+                values={{
+                  val: (
+                    <span
+                      className={`red ui-cursor-pointer ${
+                        payNowLoading
+                          ? 'ui-btn-loading ui-btn-loading-border-red'
+                          : ''
+                      }`}
+                      onClick={this.handleClickPayNow}
+                    >
+                      <span className={`red rc-styled-link mr-2`}>
+                        <FormattedMessage id="order.payNow" />
+                      </span>
+                      &gt;
+                    </span>
+                  )
+                }}
+              />
             }
           />
           <hr />
@@ -1113,12 +1107,14 @@ class AccountOrders extends React.Component {
                                         }`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <img
-                                            className="order-details-img-fluid"
-                                            src={item.pic || IMG_DEFAULT}
-                                            alt={item.spuName}
-                                            title={item.spuName}
-                                          />
+                                          <LazyLoad className="d-flex justify-content-center align-items-center w-100 h-100">
+                                            <img
+                                              className="order-details-img-fluid"
+                                              src={item.pic || IMG_DEFAULT}
+                                              alt={item.spuName}
+                                              title={item.spuName}
+                                            />
+                                          </LazyLoad>
                                         </div>
                                         <div className="col-8 col-md-3">
                                           <span className="">
@@ -1322,7 +1318,7 @@ class AccountOrders extends React.Component {
                                     </svg>
                                     <div>
                                       <p className="medium mb-3">
-                                        <FormattedMessage id="billing" />
+                                        <FormattedMessage id="billing2" />
                                       </p>
                                       <p className="medium mb-2">
                                         {details.invoice.contacts}
@@ -1362,20 +1358,24 @@ class AccountOrders extends React.Component {
                                           <FormattedMessage id="payment.payment" />
                                         </p>
                                         <p className="medium mb-2">
-                                          <img
-                                            alt=""
-                                            className="d-inline-block mr-1"
-                                            style={{ width: '20%' }}
-                                            src={
-                                              CREDIT_CARD_IMG_ENUM[
-                                                payRecord.vendor.toUpperCase()
-                                              ]
-                                                ? CREDIT_CARD_IMG_ENUM[
-                                                    payRecord.vendor.toUpperCase()
-                                                  ]
-                                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                            }
-                                          />
+                                          <LazyLoad
+                                            style={{ display: 'inline' }}
+                                          >
+                                            <img
+                                              alt=""
+                                              className="d-inline-block mr-1"
+                                              style={{ width: '20%' }}
+                                              src={
+                                                CREDIT_CARD_IMG_ENUM[
+                                                  payRecord.vendor.toUpperCase()
+                                                ]
+                                                  ? CREDIT_CARD_IMG_ENUM[
+                                                      payRecord.vendor.toUpperCase()
+                                                    ]
+                                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                              }
+                                            />
+                                          </LazyLoad>
                                           {payRecord.last4Digits ? (
                                             <>
                                               <span className="medium">
@@ -1436,11 +1436,13 @@ class AccountOrders extends React.Component {
                     {(curLogisticInfo.shippingItems || []).map((ele) => (
                       <div className="row col-12" key={ele.skuId}>
                         <div className="col-6">
-                          <img
-                            src={ele.pic || IMG_DEFAULT}
-                            alt={ele.itemName}
-                            title={ele.itemName}
-                          />
+                          <LazyLoad>
+                            <img
+                              src={ele.pic || IMG_DEFAULT}
+                              alt={ele.itemName}
+                              title={ele.itemName}
+                            />
+                          </LazyLoad>
                         </div>
 
                         <div className="col-6 d-flex align-items-center">

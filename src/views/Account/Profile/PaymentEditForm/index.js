@@ -11,6 +11,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { validData, dynamicLoadCss } from '@/utils/utils';
 import axios from 'axios';
 import findIndex from 'lodash/findIndex';
+import LazyLoad from 'react-lazyload';
 
 @inject('loginStore')
 @injectIntl
@@ -248,7 +249,9 @@ class PaymentEditForm extends React.Component {
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
+          <LazyLoad>
           <img key={idx} className="logo-payment-card" src={el} alt="" />
+          </LazyLoad>
         ))}
       </span>
     );
@@ -352,6 +355,7 @@ class PaymentEditForm extends React.Component {
                         <span className="red">*</span>
                         <div className="cardFormBox">
                           <span className="cardImage">
+                            <LazyLoad>
                             <img
                               alt="Card"
                               src={
@@ -361,6 +365,7 @@ class PaymentEditForm extends React.Component {
                                 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
                             />
+                            </LazyLoad>
                           </span>
                           <span className="cardForm">
                             <div className="row">

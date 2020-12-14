@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import './index.css';
 import edit from '@/assets/images/edit.svg';
 import { setSeoConfig } from '@/utils/utils';
+import LazyLoad from 'react-lazyload';
 
 export default class PetForm extends React.Component {
   constructor(props) {
@@ -89,7 +90,9 @@ export default class PetForm extends React.Component {
                     </div>
                     <div className="edit js-edit-pet">
                       <a href="#" className="tab--img" data-toggle="">
+                        <LazyLoad>
                         <img src={edit} className="img-success" alt="" />
+                        </LazyLoad>
                       </a>
                     </div>
                     <div className="delete">

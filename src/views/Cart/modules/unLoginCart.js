@@ -207,6 +207,19 @@ class UnLoginCart extends React.Component {
         );
         return false;
       }
+      // 存在被删除商品，不能下单
+      if (checkoutStore.deletedProNames.length) {
+        window.scrollTo({ behavior: 'smooth', top: 0 });
+        this.showErrMsg(
+          <FormattedMessage
+            id="cart.errorInfo5"
+            values={{
+              val: checkoutStore.deletedProNames.join('/')
+            }}
+          />
+        );
+        return false;
+      }
       if (needLogin) {
         // history.push({ pathname: '/login', state: { redirectUrl: '/cart' } })
       } else {
@@ -736,22 +749,25 @@ class UnLoginCart extends React.Component {
                           </span>
                           {/* </div> */}
                           <br />
-                          {/* Save extra{' '}
-                      <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                        10%
-                      </b> */}
-                          Save&nbsp;
-                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                            {formatMoney(
-                              pitem.quantity *
-                                pitem.sizeList.filter((el) => el.selected)[0]
-                                  .salePrice -
-                                pitem.quantity *
-                                  pitem.sizeList.filter((el) => el.selected)[0]
-                                    .subscriptionPrice
-                            )}
-                          </b>
-                          &nbsp; on this subscription.
+                          <FormattedMessage
+                            id="saveExtraMoney"
+                            values={{
+                              val: (
+                                <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                                  {formatMoney(
+                                    pitem.quantity *
+                                      pitem.sizeList.filter(
+                                        (el) => el.selected
+                                      )[0].salePrice -
+                                      pitem.quantity *
+                                        pitem.sizeList.filter(
+                                          (el) => el.selected
+                                        )[0].subscriptionPrice
+                                  )}
+                                </b>
+                              )
+                            }}
+                          />
                         </div>
                         <div className="price">
                           <div
@@ -778,7 +794,9 @@ class UnLoginCart extends React.Component {
                         </div>
                       </div>
                       <div className="freqency">
-                        <span><FormattedMessage id="subscription.frequency" />:</span>
+                        <span>
+                          <FormattedMessage id="subscription.frequency" />:
+                        </span>
                         <Selection
                           customContainerStyle={{
                             display: 'inline-block',
@@ -932,18 +950,23 @@ class UnLoginCart extends React.Component {
                       />
                     </span>
                     <br />
-                    Save&nbsp;
-                    <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                      {formatMoney(
-                        pitem.quantity *
-                          pitem.sizeList.filter((el) => el.selected)[0]
-                            .salePrice -
-                          pitem.quantity *
-                            pitem.sizeList.filter((el) => el.selected)[0]
-                              .subscriptionPrice
-                      )}
-                    </b>
-                    &nbsp; on this subscription.
+                    <FormattedMessage
+                      id="saveExtraMoney"
+                      values={{
+                        val: (
+                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                            {formatMoney(
+                              pitem.quantity *
+                                pitem.sizeList.filter((el) => el.selected)[0]
+                                  .salePrice -
+                                pitem.quantity *
+                                  pitem.sizeList.filter((el) => el.selected)[0]
+                                    .subscriptionPrice
+                            )}
+                          </b>
+                        )
+                      }}
+                    />
                   </div>
                   <div className="price">
                     <div
@@ -1372,6 +1395,24 @@ class UnLoginCart extends React.Component {
       </div>
     );
   }
+  renderSideCart() {
+    return process.env.REACT_APP_LANG === 'fr' ? (
+      this.sideCart()
+    ) : (
+      <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            zIndex: 9,
+            width: 320,
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
+    );
+  }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
 
@@ -1462,18 +1503,10 @@ class UnLoginCart extends React.Component {
                         <FormattedMessage id="orderSummary" />
                       </h5>
                     </div>
-                    <div id="J_sidecart_container">
-                      {this.sideCart({
-                        className: 'hidden rc-md-up',
-                        style: {
-                          zIndex: 9,
-                          width: 320,
-                          position: 'relative'
-                        },
-                        id: 'J_sidecart_fix'
-                      })}
-                      {this.sideCart()}
-                    </div>
+                    {this.renderSideCart({
+                      fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                    })}
+
                     {/* {this.state.productList.some((el) => {
                       const selectedItem = el.sizeList.filter(
                         (s) => s.selected

@@ -17,6 +17,7 @@ import { getCustomerInfo } from '@/api/user';
 import { queryCityNameById } from '@/api';
 import { FormattedMessage } from 'react-intl';
 import { setSeoConfig } from '@/utils/utils';
+import BannerTip from '@/components/BannerTip';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -74,7 +75,9 @@ class AccountProfile extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig({
+      pageName: 'Account personal information'
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -179,6 +182,7 @@ class AccountProfile extends React.Component {
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3 p-basicinfo">
+          <BannerTip />
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl">
             <div className="rc-layout-container rc-five-column">

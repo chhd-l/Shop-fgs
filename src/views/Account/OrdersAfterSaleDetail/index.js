@@ -10,6 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
+import LazyLoad from 'react-lazyload';
 
 export default class OrdersAfterSaleDetail extends React.Component {
   constructor(props) {
@@ -135,7 +136,9 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                         className="mr-1 mb-1 img-item"
                                         key={i}
                                       >
+                                        <LazyLoad>
                                         <img src={JSON.parse(item).url} alt=""/>
+                                        </LazyLoad>
                                       </div>
                                     ))
                                   : 'none'}
@@ -191,12 +194,14 @@ export default class OrdersAfterSaleDetail extends React.Component {
                                     key={i}
                                   >
                                     <div className="col-12 col-md-6 d-flex pl-0 pr-0">
+                                      <LazyLoad>
                                       <img
                                         className="img-fluid border"
                                         src={item.pic || IMG_DEFAULT}
                                         alt={item.skuName}
                                         title={item.skuName}
                                       />
+                                      </LazyLoad>
                                       <div className="m-1 color-999">
                                         <span>{item.skuName}</span>
                                         <br />

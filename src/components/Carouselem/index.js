@@ -1,12 +1,12 @@
 import React from 'react'
 import { withRouter,link} from 'react-router-dom';
 import { FormattedMessage} from 'react-intl';
-import { STORE_CATE_ENUM } from '@/utils/constant';
 import find from 'lodash/find';
 import imagemain from './image/Main-Coon-Adult-1-bis.jpg';
 import imagePersan from './image/Persan-1-bis.jpg';
 import imageBritish from './image/British-Shortair1-bis.jpg';
 import imageappetite from './image/Appetite-control-1.jpg';
+import LazyLoad from 'react-lazyload';
 
 const  Carouselem = withRouter((props)=>{
 
@@ -17,7 +17,9 @@ const  Carouselem = withRouter((props)=>{
         <div className="rc-carousel__card-gal">
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
+              <LazyLoad>
               <img src={imagemain} alt="alt text"/>
+              </LazyLoad>
             </picture>
             <div className="rc-card__body">
               <header>
@@ -30,7 +32,9 @@ const  Carouselem = withRouter((props)=>{
 
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
+              <LazyLoad>
               <img src={imagePersan} alt="alt text"/>
+              </LazyLoad>
             </picture>
             <div className="rc-card__body">
               <header>
@@ -42,7 +46,9 @@ const  Carouselem = withRouter((props)=>{
           </article>
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
+              <LazyLoad>
               <img src={imageBritish} alt="alt text"/>
+              </LazyLoad>
             </picture>
             <div className="rc-card__body">
               <header>
@@ -54,7 +60,9 @@ const  Carouselem = withRouter((props)=>{
           </article>
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
+              <LazyLoad>
               <img src={imageappetite} alt="alt text"/>
+              </LazyLoad>
             </picture>
             <div className="rc-card__body">
               <header>
@@ -66,7 +74,9 @@ const  Carouselem = withRouter((props)=>{
           </article>
           <article className="rc-card rc-card--b">
             <picture className="rc-card__image">
+              <LazyLoad>
               <img src={imageappetite} alt="alt text"/>
+              </LazyLoad>
             </picture>
             <div className="rc-card__body">
               <header>

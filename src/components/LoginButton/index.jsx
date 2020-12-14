@@ -12,13 +12,10 @@
 
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-import { getToken } from '@/api/login';
-import { getCustomerInfo } from '@/api/user';
-import { findUserConsentList } from '@/api/consent';
-import { inject, observer } from 'mobx-react';
 import stores from '@/store';
 import { FormattedMessage } from 'react-intl';
-import { mergeUnloginCartData } from '@/utils/utils';
+import { getToken } from '@/api/login';
+import { getCustomerInfo } from '@/api/user';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -26,15 +23,12 @@ const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
 const LoginButton = (props) => {
+  const { history } = props;
   const init = props.init;
-  // console.log(useOktaAuth)
-  // console.log(useOktaAuth(), 'useOktaAuth')
-  // const { authService } = useOktaAuth();
-  const [userInfo, setUserInfo] = useState(null);
+  const [, setUserInfo] = useState(null);
   const [isGetUserInfoDown, setIsGetUserInfoDown] = useState(false);
-  const { authState, authService } = useOktaAuth();
-
-  const { accessToken } = authState;
+  const { oktaAuth } = useOktaAuth();
+  const { authState } = useOktaAuth();
 
   useEffect(() => {
     if (isGetUserInfoDown && init) {
@@ -47,14 +41,31 @@ const LoginButton = (props) => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
+
+      const parametersString = history.location.search;
+      if(!parametersString) {
+        return;
+      }
+      if(parametersString.indexOf('redirect=order') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
+      }
+      if(parametersString.indexOf('redirect=subscription') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
+      }
+      if(parametersString.indexOf('redirect=baseinfo') >= 0){
+        sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+      }
+      if(parametersString.indexOf('toOkta=true') >= 0) {
+        oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      }
     } else {
       loginStore.changeLoginModal(true);
-      authService
+      oktaAuth
         .getUser()
         .then((info) => {
           setUserInfo(info);
           if (!loginStore.isLogin) {
-            getToken({ oktaToken: `Bearer ${accessToken}` })
+            getToken({ oktaToken: `Bearer ${authState.accessToken ? authState.accessToken.value : ''}` })
               .then(async (res) => {
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
@@ -83,18 +94,18 @@ const LoginButton = (props) => {
             loginStore.changeLoginModal(false);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           loginStore.changeLoginModal(false);
         });
     }
-  }, [authState, authService, accessToken]); // Update if authState changes
+  }, [authState, oktaAuth]); // Update if authState changes
 
   const login = async () => {
     try {
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set('okta-redirectUrl', props.history.location.pathname);
       props.beforeLoginCallback && (await props.beforeLoginCallback());
-      authService.login(process.env.REACT_APP_HOMEPAGE);
+      oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {}
   };
 
