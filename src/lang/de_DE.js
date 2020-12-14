@@ -594,6 +594,8 @@ const de_DE = {
   pets: 'Meine Tiere',
   petType: 'Haustiertyp',
   phone: 'Telefon',
+  product:'Anzahl',
+  products:'Anzahls',
   pleasecompleteTheRequiredItem: 'Bitte füllen Sie die Pflichtfelder aus.',
   pleaseEnterTheCorrectEmail: 'Bitte geben Sie die richtige E-Mail-Adresse ein',
   PleaseFillInstructions: 'Bitte füllen Sie die Rücksendeanweisungen aus',
