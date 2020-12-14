@@ -172,11 +172,7 @@ class PetForm extends React.Component {
         ...ele
       };
     });
-    option.unshift({
-      name: 'Sin necesidades especiales',
-      valueEn: 'Sin necesidades especiales',
-      value: 'Sin necesidades especiales'
-    });
+
     return option;
   }
   get sizeOptions() {
@@ -1642,7 +1638,7 @@ class PetForm extends React.Component {
                       >
                         <FormattedMessage id="noSpecialNeeds" />
                       </label>
-                    </div>
+                    </Fdiv>
                   </div> */}
                     <div className="form-group col-lg-6 pull-left required">
                       <label

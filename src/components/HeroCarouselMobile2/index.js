@@ -72,7 +72,7 @@ class HeroCarousel extends React.Component {
             <div className="rc-hero__section rc-hero__section--img">
               <a href="product-finder">
                 <LazyLoad>
-                <img src={indeximage1}/>
+                  <img src={indeximage1}/>
                 </LazyLoad>
               </a>
             </div>
@@ -83,7 +83,7 @@ class HeroCarousel extends React.Component {
             <div className="rc-hero__section rc-hero__section--img">
               <a href="packmixfeedingwetdry">
                 <LazyLoad>
-                <img src={indeximage2}/>
+                  <img src={indeximage2}/>
                 </LazyLoad>
               </a>
             </div>
@@ -93,7 +93,7 @@ class HeroCarousel extends React.Component {
           <div className="rc-hero__fg">
             <div className="rc-hero__section rc-hero__section--img">
               <LazyLoad>
-              <img src={indeximage3}/>
+                <img src={indeximage3}/>
               </LazyLoad>
             </div>
           </div>
@@ -104,3 +104,4 @@ class HeroCarousel extends React.Component {
 }
 
 export default HeroCarousel;
+
