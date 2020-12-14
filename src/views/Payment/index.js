@@ -1327,7 +1327,7 @@ class Payment extends React.Component {
         if (!this.isLogin && !guestEmail) {
           throw new Error(
             intl.formatMessage(
-              { id: 'EnterCorrectValue' },
+              { id: 'enterCorrectValue' },
               {
                 val: intl.formatMessage({ id: 'email' })
               }

@@ -11303,6 +11303,10 @@ a.text-warning:focus,a.text-warning:hover {
   color: #ec001a!important
 }
 
+.text-danger-2 {
+  color: #c03344!important
+}
+
 a.text-danger:focus,a.text-danger:hover {
   color: #a00012!important
 }
