@@ -74,7 +74,7 @@ export default class ImgUpload extends React.Component {
           <a className="rc-styled-link" href="#/" onClick={(e) => {
                         e.preventDefault()
                         this.uploadDom.current.click()
-                      }}>Change picture</a>
+                      }}></a>
           </p>
           {this.state.imgList.length <= 2 ? (
             <div className="icon-add" style={{visibility: 'hidden', position: 'absolute'}}>

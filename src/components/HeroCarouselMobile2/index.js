@@ -67,47 +67,41 @@ class HeroCarousel extends React.Component {
       //   </div>
       // </div>
       <div data-js-carousel="" className="rc-carousel rc-carousel--hero" style={{marginLeft:0}}>
-        {this.state.banner.map((el, i) => (
-          <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager" key={i}>
-            <div className="rc-hero__fg">
-              <<<<<<< HEAD
-              <div className="rc-hero__section">
-                <a href="product-finder"><img src={el.mobiUrl}/></a>
-                =======
-                <div className="rc-hero__section rc-hero__section--img">
-                  <a href="product-finder">
-                    <LazyLoad>
-                      <img src={indeximage1}/>
-                    </LazyLoad>
-                  </a>
-                </div>
-              </div>
+        <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
+          <div className="rc-hero__fg">
+            <div className="rc-hero__section rc-hero__section--img">
+              <a href="product-finder">
+                <LazyLoad>
+                  <img src={indeximage1}/>
+                </LazyLoad>
+              </a>
             </div>
-            <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
-              <div className="rc-hero__fg">
-                <div className="rc-hero__section rc-hero__section--img">
-                  <a href="packmixfeedingwetdry">
-                    <LazyLoad>
-                      <img src={indeximage2}/>
-                    </LazyLoad>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
-              <div className="rc-hero__fg">
-                <div className="rc-hero__section rc-hero__section--img">
-                  <LazyLoad>
-                    <img src={indeximage3}/>
-                  </LazyLoad>
-                  >>>>>>> feature_20201225
-                </div>
-              </div>
-            </div>
-            ))}
           </div>
-        );
-        }
-        }
+        </div>
+        <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
+          <div className="rc-hero__fg">
+            <div className="rc-hero__section rc-hero__section--img">
+              <a href="packmixfeedingwetdry">
+                <LazyLoad>
+                  <img src={indeximage2}/>
+                </LazyLoad>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="rc-hero rc-hero__layout--3" data-thumb="interactive--pager">
+          <div className="rc-hero__fg">
+            <div className="rc-hero__section rc-hero__section--img">
+              <LazyLoad>
+                <img src={indeximage3}/>
+              </LazyLoad>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
-        export default HeroCarousel;
+export default HeroCarousel;
+
