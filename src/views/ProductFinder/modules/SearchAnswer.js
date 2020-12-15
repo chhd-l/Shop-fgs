@@ -127,9 +127,9 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-unkown"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value={unknownText}
+                  value='unknown'
                   key={2}
-                  checked={form && form.key === unknownText}
+                  checked={form && form.key === 'unknown'}
                   onChange={this.toggleCheckbox}
                 />
                 <label
@@ -150,13 +150,11 @@ class SearchAnswer extends React.Component {
                   : 'hidden'
               }`}
             >
-              (
               <RadioAnswer
                 config={configSizeAttach}
                 updateFormData={this.updateSizeFormData}
                 // updateSaveBtnStatus={this.updateSaveBtnStatus}
               />
-              )
             </div>
           )}
         </div>
