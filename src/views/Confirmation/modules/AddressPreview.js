@@ -34,7 +34,9 @@ class InfosPreview extends React.Component {
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {details ? (
             <div className="col-12 col-md-6 mb-3">
-              <FormattedMessage id="deliveryAddress" />
+              <div className="rc-margin-top--sm rc-margin-bottom--sm">
+                <FormattedMessage id="deliveryAddress" />
+              </div>
               <br />
               <span className="medium">{details.consignee.name}</span>
               <br />
