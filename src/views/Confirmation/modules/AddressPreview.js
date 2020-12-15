@@ -29,19 +29,21 @@ class InfosPreview extends React.Component {
   }
   render() {
     const { payRecord, details } = this.props;
+    console.log({payRecord})
     return (
       <div style={{ padding: '0 15px' }}>
         <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
           {details ? (
             <div className="col-12 col-md-6 mb-3">
-              <div className="rc-margin-top--sm rc-margin-bottom--sm">
+              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
                 <FormattedMessage id="deliveryAddress" />
               </div>
-              <br />
-              <span className="medium">{details.consignee.name}</span>
-              <br />
-              {details.consignee.postCode}, {details.consignee.phone}
-              <br />
+              <div>
+               <span>{details.consignee.name}</span>
+              </div>
+              <div>
+                {details.consignee.postCode}, {details.consignee.phone}
+              </div>
               {this.matchNamefromDict(
                 this.state.countryList,
                 details.consignee.countryId
@@ -60,9 +62,16 @@ class InfosPreview extends React.Component {
           {payRecord && payRecord.last4Digits ? (
             // && payRecord.paymentMethod !== 'ADYEN'
             <div className="col-12 col-md-6 mb-3">
-              <FormattedMessage id="payment.paymentInformation" />
-              <br />
-              <LazyLoad style={{ width: '20%' }}>
+              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+                <FormattedMessage id="payment.paymentInformation" />
+              </div>
+              <div>
+               <span>{details.consignee.name}</span>
+              </div>
+              <div>
+                {payRecord.vendor}
+              </div>
+              {/* <LazyLoad style={{ width: '20%' }}>
                 <img
                   alt=""
                   className="d-inline-block mr-1"
@@ -72,15 +81,18 @@ class InfosPreview extends React.Component {
                       : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                   }
                 />
-              </LazyLoad>
-              {payRecord.last4Digits ? (
-                <>
-                  <span className="medium">
-                    ********{payRecord.last4Digits}
-                  </span>
-                  <br />
-                </>
-              ) : null}
+              </LazyLoad> */}
+              <div>
+                {payRecord.last4Digits ? (
+                  <>
+                    <span className="medium">
+                      ********{payRecord.last4Digits}
+                    </span>
+                    <br />
+                  </>
+                ) : null}
+              </div>
+              
               {payRecord.accountName ? (
                 <>
                   {payRecord.accountName}
@@ -98,12 +110,16 @@ class InfosPreview extends React.Component {
           ) : null}
           {details ? (
             <div className="col-12 col-md-6">
-              <FormattedMessage id="billingAddress" />
-              <br />
-              <span className="medium">{details.invoice.contacts}</span>
-              <br />
-              {details.invoice.postCode}, {details.invoice.phone}
-              <br />
+              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+                <FormattedMessage id="billingAddress" />
+              </div>
+              
+              <div>
+                <span>{details.invoice.contacts}</span>
+              </div>           
+              <div>
+                {details.invoice.postCode}, {details.invoice.phone}
+              </div>
               {this.matchNamefromDict(
                 this.state.countryList,
                 details.invoice.countryId

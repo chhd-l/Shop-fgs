@@ -7,7 +7,14 @@ import './index.less';
 import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { oktaRegister } from '@/api/user'
-import { setToken } from '../../utils/token'
+import { getCustomerInfo } from '@/api/user';
+import stores from '@/store';
+import { mergeUnloginCartData } from '@/utils/utils';
+
+const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
+const checkoutStore = stores.checkoutStore;
+const loginStore = stores.loginStore;
 
 @injectIntl
 class Register extends Component {
@@ -46,7 +53,8 @@ class Register extends Component {
 
       passwordMessage: '',
       emailMessage: '',
-      requiredConsentCount: 0
+      requiredConsentCount: 0,
+      hasError: false
     };
     this.sendList = this.sendList.bind(this);
     this.init = this.init.bind(this);
@@ -244,15 +252,43 @@ class Register extends Component {
 
   register = async () => {
     const { registerForm } = this.state;
-    const res = oktaRegister({
+    this.setState({
+      circleLoading: true
+    })
+    await oktaRegister({
       storeId: process.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
       customerName:registerForm.name
+    }).then((res) => {
+      if(res.code === 'K-000000') {
+        loginStore.changeLoginModal(false);
+        loginStore.changeIsLogin(true);
+
+        localItemRoyal.set('rc-token', res.context.token);
+        localItemRoyal.set('rc-register', true)
+        loginStore.setUserInfo(res.context.customerDetail);
+  
+        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+        if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+          mergeUnloginCartData();
+          console.log(loginStore, 'loginStore');
+          checkoutStore.updateLoginCart();
+        }
+        this.props.history.push('/')
+      } else {
+        this.setState({
+          circleLoading: false,
+          hasError: true
+        });
+      }
     })
-    if(res.code === 'K-000000') {
-      setToken(res.token)
-    }
+    .catch((err) => {
+      this.setState({
+        circleLoading: false,
+        hasError: true
+      });
+    });
   };
 
   render() {
@@ -271,7 +307,8 @@ class Register extends Component {
       emailMessage,
       passwordMessage,
       requiredConsentCount,
-      list
+      list,
+      hasError
     } = this.state;
     const allValid = nameValid && emailValid && passwordValid 
             && registerForm.name && registerForm.email && registerForm.password;
@@ -308,14 +345,14 @@ class Register extends Component {
                   <div className="rc-margin-bottom--sm">
                     <aside
                       aria-hidden="true"
-                      className="ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm hidden"
+                      className={ (!hasError ? 'hidden ' : '') + 'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'}
                       role="alert"
                     >
                       <p>
                         <FormattedMessage id="registerErrorMessage" />
                         <b>
                           <a
-                            href="https://shop.royalcanin.fr/help/contact"
+                            href="/help"
                             className="rc-text-colour--brand1"
                           >
                             {' '}

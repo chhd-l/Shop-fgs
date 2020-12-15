@@ -31,6 +31,7 @@ class Question extends React.Component {
     this.state = {
       progress: 0,
       questionCfg: null,
+      ageErrorShow: false,
       isPageLoading: false,
       form: null,
       descriptionTips: '',
@@ -142,7 +143,10 @@ class Question extends React.Component {
     this.setState({ btnToolTipVisible: status });
   }
   updateFormData = (data) => {
-    this.setState({ form: data });
+    this.setState({ 
+      form: data,
+      ageErrorShow: false //重新选择之后去掉提示
+     });
   };
   updateBreedSizeFormData = (data) => {
     this.setState({ breedSizeform: data });
@@ -211,6 +215,14 @@ class Question extends React.Component {
         finderNumber,
         questionParams: tmpQuestionParams
       };
+      console.info('tmpQuestionParams.age', tmpQuestionParams.age)
+      if(tmpQuestionParams.age==='00' && this.state.isEdit){
+        // 选择年龄0岁0月不能提交
+        this.setState({
+          ageErrorShow: true
+        })
+        return
+      }
       if (stepOrder > 0) {
         params.stepOrder = stepOrder;
       }
@@ -306,13 +318,13 @@ class Question extends React.Component {
           Array.from({ length: 26 }).map((item, i) => {
             return {
               label: <FormattedMessage id="xYears" values={{ val: i }} />,
-              key: 12 * i
+              key: (12 * i).toString()
             };
           }),
           Array.from({ length: 12 }).map((item, i) => {
             return {
               label: <FormattedMessage id="xMonths" values={{ val: i }} />,
-              key: i
+              key: i.toString()
             };
           })
         ];
@@ -394,6 +406,7 @@ class Question extends React.Component {
   render() {
     const { type } = this.props;
     const {
+      ageErrorShow,
       progress,
       questionCfg,
       descriptionTips,
@@ -423,10 +436,23 @@ class Question extends React.Component {
         }
       };
     }
-
     return (
       <div>
         <ProgressWithTooptip value={progress} style={{ height: '.4rem' }} />
+        <div
+          className={`${ageErrorShow ? '' : 'hidden'}`}
+          style={{ margin: '0 2%' }}
+        >
+          <aside
+            className="rc-alert rc-alert--error rc-alert--with-close text-break"
+            role="alert"
+            style={{ padding: '.5rem' }}
+          >
+            <span className="pl-0">
+              <FormattedMessage id="productFinder.ageErrorShow" />
+            </span>
+          </aside>
+        </div>
         <div className="row justify-content-center justify-content-md-between mb-4">
           <div className="col-8 col-md-4 mt-2">
             {answerdQuestionList.length > 0 && (
