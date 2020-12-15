@@ -464,10 +464,6 @@ class List extends React.Component {
     findSortList().then((res) => {
       let list = res.context || [];
       list.sort((a, b) => a.sort - b.sort);
-      list.unshift({
-        sortName: <FormattedMessage id="default" />,
-        value: '11'
-      });
       this.setState({
         sortList: list.map((ele) => ({
           ...ele,
