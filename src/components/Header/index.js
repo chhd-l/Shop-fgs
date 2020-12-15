@@ -933,14 +933,14 @@ class Header extends React.Component {
                                 className="rc-styled-link"
                                 onClick={() => {
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                                  // window.location.href =
-                                  //   process.env.REACT_APP_RegisterPrefix +
-                                  //   window.encodeURIComponent(
-                                  //     process.env.REACT_APP_RegisterCallback
-                                  //   );
+                                  window.location.href =
+                                    process.env.REACT_APP_RegisterPrefix +
+                                    window.encodeURIComponent(
+                                      process.env.REACT_APP_RegisterCallback
+                                    );
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                   // this.signUp()
-                                  history.push('/register');
+                                  // history.push('/register');
                                 }}
                               >
                                 <FormattedMessage id="signUp" />
