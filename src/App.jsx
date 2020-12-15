@@ -73,6 +73,7 @@ import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
 import Recommendation from '@/views/Recommendation';
+import Recommendation_FR from '@/views/Recommendation_FR';
 import ProductFinder from '@/views/ProductFinder';
 import ProductFinderResult from '@/views/ProductFinder/modules/Result';
 import ProductFinderNoResult from '@/views/ProductFinder/modules/NoResult';
@@ -246,9 +247,13 @@ const App = () => (
               <Route
                 exact
                 path="/recommendation/:id"
-                render={(props) => (
-                  <Recommendation key={props.match.params.id} {...props} />
-                )}
+                render={(props) => {
+                  if(process.env.REACT_APP_LANG === 'fr') {
+                    return <Recommendation_FR key={props.match.params.id} {...props} />
+                  }else {
+                    return <Recommendation key={props.match.params.id} {...props} />
+                  }
+                }}
               />
 
               <Route exact path="/termuse" component={TermUse} />
