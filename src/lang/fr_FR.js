@@ -748,7 +748,7 @@ const fr_FR = {
   sterilized: 'Stérilisé',
   submit: 'Soumettre',
   subscribeDiscount: "Enregistrer la réduction d'abonnement",
-  subscription: 'Abonnement',
+  subscription: 'Abonnements',
   'subscription.BillingAddress': 'Adresse de facturation',
   'subscription.cancelAll': 'Annuler l\'abonnement',
   'subscription.change': 'Changer',
