@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, validData } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -38,7 +38,8 @@ class EditForm extends React.Component {
         phoneNumber: '',
         email: ''
       },
-      countryList: []
+      countryList: [],
+      errMsgObj: {}
     };
   }
   componentDidMount() {
@@ -99,43 +100,41 @@ class EditForm extends React.Component {
   deliveryInputChange = (e) => {
     const { address } = this.state;
     const target = e.target;
-    let value = target.type === 'checkbox' ? target.checked : target.value;
+    let value =
+      target.type === 'checkbox'
+        ? target.checked
+        : target.value.replace(/\s/gi, '');
     const name = target.name;
-    if (name === 'postCode') {
+    if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
     }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
+    }
     address[name] = value;
-    this.inputBlur(e);
     this.setState({ address }, () => {
       this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   };
-  inputBlur = (e) => {
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
     const target = e.target;
-    const val = target.value;
-    let validDom = Array.from(
-      e.target.parentElement.parentElement.children
-    ).filter((el) => {
-      let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === 'invalid-feedback';
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
       });
-      return i > -1;
-    })[0];
-    if (validDom) {
-      let valid = true;
-      const targetRule = ADDRESS_RULE.filter(
-        (ele) => ele.key === target.name
-      )[0];
-      if (targetRule) {
-        if (targetRule.require && !val) {
-          valid = false;
-        }
-        if (targetRule.regExp && val && !targetRule.regExp.test(val)) {
-          valid = false;
-        }
-      }
-      validDom.style.display = valid ? 'none' : 'block';
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
     }
   };
   handleSelectedItemChange(key, data) {
@@ -156,7 +155,7 @@ class EditForm extends React.Component {
     });
   };
   emailPanelJSX = () => {
-    const { address } = this.state;
+    const { address, errMsgObj } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
@@ -179,20 +178,15 @@ class EditForm extends React.Component {
             />
             <label className="rc-input__label" htmlFor="shippingEmail" />
           </span>
-          <div className="invalid-feedback">
-            <FormattedMessage
-              id="payment.errorInfo"
-              values={{
-                val: <FormattedMessage id="email" />
-              }}
-            />
-          </div>
+          {errMsgObj.email && (
+            <div className="text-danger-2">{errMsgObj.email}</div>
+          )}
         </div>
       </div>
     );
   };
   postCodeJSX = () => {
-    const { address } = this.state;
+    const { address, errMsgObj } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
@@ -221,9 +215,9 @@ class EditForm extends React.Component {
             />
             <label className="rc-input__label" htmlFor="id-text1" />
           </span>
-          <div className="invalid-feedback">
-            <FormattedMessage id="EnterCorrectPostCode" />
-          </div>
+          {errMsgObj.postCode && (
+            <div className="text-danger-2">{errMsgObj.postCode}</div>
+          )}
           <div className="ui-lighter">
             <FormattedMessage id="example" />:{' '}
             <FormattedMessage id="examplePostCode" />
@@ -238,7 +232,7 @@ class EditForm extends React.Component {
     );
   };
   phonePanelJSX = () => {
-    const { address } = this.state;
+    const { address, errMsgObj } = this.state;
     return (
       <div className="col-12 col-md-6">
         <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
@@ -252,7 +246,7 @@ class EditForm extends React.Component {
             data-js-warning-message="*Phone Number isn’t valid"
           >
             <input
-              type="number"
+              type="text"
               className="rc-input__control input__phoneField shippingPhoneNumber"
               id="shippingPhoneNumber"
               value={address.phoneNumber}
@@ -265,40 +259,11 @@ class EditForm extends React.Component {
               maxLength="20"
               minLength="18"
             />
-            {/* <input
-        className="rc-input__control input__phoneField shippingPhoneNumber"
-        id="shippingPhoneNumber"
-        unselectable="on"
-        onSelect={() => {return false}}
-        onContextMenu={() => {return false}}
-        type="tel"
-        // type="text"
-        value={address.phoneNumber}
-        onCopy={() => {
-          return false
-        }}
-        unselectable
-        onSelectCapture={() => { return false }}
-        onChange={(e) => {
-          this.deliveryInputChange(e);
-        }}
-        onBlur={this.inputBlur}
-        onClick={(e) => this.phoneNumberClick(e)}
-        data-js-pattern="(^(\+52)\d{8}$)"
-        name="phoneNumber"
-        maxlength="17"
-        minLength="16"
-      ></input> */}
             <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
           </span>
-          <div className="invalid-feedback">
-            <FormattedMessage
-              id="payment.errorInfo"
-              values={{
-                val: <FormattedMessage id="payment.phoneNumber" />
-              }}
-            />
-          </div>
+          {errMsgObj.phoneNumber && (
+            <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+          )}
           <span className="ui-lighter">
             <FormattedMessage id="example" />:{' '}
             <FormattedMessage id="examplePhone" />
@@ -308,7 +273,7 @@ class EditForm extends React.Component {
     );
   };
   render() {
-    const { address } = this.state;
+    const { address, errMsgObj } = this.state;
     return (
       <>
         <div className="row">
@@ -333,14 +298,9 @@ class EditForm extends React.Component {
                 />
                 <label className="rc-input__label" htmlFor="id-text1" />
               </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.firstName" />
-                  }}
-                />
-              </div>
+              {errMsgObj.firstName && (
+                <div className="text-danger-2">{errMsgObj.firstName}</div>
+              )}
             </div>
           </div>
           <div className="col-12 col-md-6">
@@ -364,14 +324,9 @@ class EditForm extends React.Component {
                 />
                 <label className="rc-input__label" htmlFor="id-text1" />
               </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.lastName" />
-                  }}
-                />
-              </div>
+              {errMsgObj.lastName && (
+                <div className="text-danger-2">{errMsgObj.lastName}</div>
+              )}
             </div>
           </div>
 
@@ -396,14 +351,9 @@ class EditForm extends React.Component {
                 />
                 <label className="rc-input__label" htmlFor="shippingAddress1" />
               </span>
-              <div className="invalid-feedback">
-                <FormattedMessage
-                  id="payment.errorInfo"
-                  values={{
-                    val: <FormattedMessage id="payment.address1" />
-                  }}
-                />
-              </div>
+              {errMsgObj.address1 && (
+                <div className="text-danger-2">{errMsgObj.address1}</div>
+              )}
             </div>
           </div>
           <div className="col-12">
@@ -427,6 +377,9 @@ class EditForm extends React.Component {
                 />
                 <label className="rc-input__label" htmlFor="id-text1" />
               </span>
+              {errMsgObj.address2 && (
+                <div className="text-danger-2">{errMsgObj.address2}</div>
+              )}
             </div>
           </div>
 

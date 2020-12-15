@@ -47,7 +47,8 @@ class ShippingAddressFrom extends React.Component {
       },
       countryList: [],
       isValid: false,
-      curType: 'delivery'
+      curType: 'delivery',
+      errMsgObj: {}
     };
     this.handleTypeChange = this.handleTypeChange.bind(this);
   }
@@ -232,14 +233,16 @@ class ShippingAddressFrom extends React.Component {
     const { addressForm } = this.state;
     const name = target.name;
     let value = target.value;
-    if (name === 'postCode') {
+    if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');
+    }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
     }
     addressForm[name] = value;
     this.setState({ addressForm }, () => {
       this.validFormData();
     });
-    this.inputBlur(e);
   };
   handleCityInputChange = (data) => {
     const { addressForm } = this.state;
@@ -281,7 +284,14 @@ class ShippingAddressFrom extends React.Component {
     this.setState({ curType: item.type });
   };
   render() {
-    const { addressForm, isValid, curType, successMsg, errorMsg } = this.state;
+    const {
+      addressForm,
+      isValid,
+      curType,
+      successMsg,
+      errorMsg,
+      errMsgObj
+    } = this.state;
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
         <div className="content-asset">
@@ -374,14 +384,9 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="firstName" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage
-                      id="payment.errorInfo"
-                      values={{
-                        val: <FormattedMessage id="payment.firstName" />
-                      }}
-                    />
-                  </div>
+                  {errMsgObj.firstName && (
+                    <div className="text-danger-2">{errMsgObj.firstName}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 pull-left required">
                   <label
@@ -409,14 +414,9 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="lastName" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage
-                      id="payment.errorInfo"
-                      values={{
-                        val: <FormattedMessage id="payment.lastName" />
-                      }}
-                    />
-                  </div>
+                  {errMsgObj.lastName && (
+                    <div className="text-danger-2">{errMsgObj.lastName}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 pull-left required">
                   <label
@@ -444,14 +444,9 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="address1" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage
-                      id="payment.errorInfo"
-                      values={{
-                        val: <FormattedMessage id="payment.address1" />
-                      }}
-                    />
-                  </div>
+                  {errMsgObj.address1 && (
+                    <div className="text-danger-2">{errMsgObj.address1}</div>
+                  )}
                 </div>
 
                 <div className="form-group col-6 d-flex flex-column">
@@ -477,6 +472,9 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="address2" />
                   </span>
+                  {errMsgObj.address2 && (
+                    <div className="text-danger-2">{errMsgObj.address2}</div>
+                  )}
                 </div>
 
                 <div className="col-lg-6 col-sm-12">
@@ -499,7 +497,6 @@ class ShippingAddressFrom extends React.Component {
                         }}
                       />
                     </span>
-                    <div className="invalid-feedback" />
                   </div>
                 </div>
                 <div className="col-lg-6 col-sm-12">
@@ -518,7 +515,6 @@ class ShippingAddressFrom extends React.Component {
                         />
                       </span>
                     </div>
-                    <div className="invalid-feedback" />
                   </div>
                 </div>
                 {/* <div className="form-group col-6 required d-flex flex-column">
@@ -579,16 +575,9 @@ class ShippingAddressFrom extends React.Component {
                       />
                       <label className="rc-input__label" htmlFor="zipCode" />
                     </span>
-                    {/* <div className="invalid-feedback">
-              <FormattedMessage
-                id="payment.errorInfo"
-                values={{
-                  val: (
-                    <FormattedMessage id="payment.postCode" />
-                  ),
-                }}
-              />
-            </div> */}
+                    {errMsgObj.postCode && (
+                      <div className="text-danger-2">{errMsgObj.postCode}</div>
+                    )}
                     <div className="ui-lighter">
                       <FormattedMessage id="example" />:{' '}
                       <FormattedMessage id="examplePostCode" />
@@ -610,7 +599,7 @@ class ShippingAddressFrom extends React.Component {
                     <input
                       className="rc-input__control input__phoneField"
                       id="phone"
-                      type="number"
+                      type="text"
                       name="phoneNumber"
                       value={addressForm.phoneNumber}
                       onChange={this.handleInputChange}
@@ -620,16 +609,9 @@ class ShippingAddressFrom extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="phone" />
                   </span>
-                  {/* <div className="invalid-feedback">
-            <FormattedMessage
-              id="payment.errorInfo"
-              values={{
-                val: (
-                  <FormattedMessage id="payment.phoneNumber" />
-                ),
-              }}
-            />
-          </div> */}
+                  {errMsgObj.phoneNumber && (
+                    <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+                  )}
                   <span className="ui-lighter">
                     <FormattedMessage id="example" />:{' '}
                     <FormattedMessage id="examplePhone" />
