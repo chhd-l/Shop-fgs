@@ -308,10 +308,11 @@ class Confirmation extends React.Component {
                     <>
                       {this.state.detailList.map((ele, i) => (
                         <>
+                          {/* 支付信息 */}
                           <div className="red mb-2">
-                            <FormattedMessage id="order.orderInformation" />(
-                        {subOrderNumberList[i]})
-                      </div>
+                            <FormattedMessage id="order.orderInformation" />
+                            {/* ({subOrderNumberList[i]}) */}
+                          </div>
                           <div
                             className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
                             key={i}
@@ -320,6 +321,7 @@ class Confirmation extends React.Component {
                           </div>
                         </>
                       ))}
+                       {/* 地址信息 */}
                       <div className="red mb-2">
                         <FormattedMessage id="confirmation.customerInformation" />
                       </div>
