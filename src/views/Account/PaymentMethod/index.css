@@ -4,7 +4,7 @@
 .creditCompleteInfoBox {
 }
 .creditCompleteInfoBox.active {
-  background-color: rgba(148, 164, 207, .2);
+  background-color: #3856A719;
 }
 .addbox {
   width: 70%;

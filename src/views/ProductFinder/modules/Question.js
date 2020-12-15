@@ -33,6 +33,7 @@ class Question extends React.Component {
       questionCfg: null,
       isPageLoading: false,
       form: null,
+      descriptionTips: '',
       breedSizeform: null,
       stepOrder: -1,
       finderNumber: '',
@@ -243,7 +244,7 @@ class Question extends React.Component {
               placeholderList: qRes.holderList
             },
             questionType: qRes.questionType,
-
+            descriptionTips: resContext.step.metadataDescription,
             progress: resContext.progressRate.replace(/%/g, ''),
             currentStepName: resContext.step.name,
             stepOrder: resContext.stepOrder,
@@ -395,6 +396,7 @@ class Question extends React.Component {
     const {
       progress,
       questionCfg,
+      descriptionTips,
       btnToolTipVisible,
       isPageLoading,
       qListVisible,
@@ -568,9 +570,7 @@ class Question extends React.Component {
                             cancelBtnVisible={false}
                             confirmBtnVisible={false}
                             updateChildDisplay={this.setBtnToolTipVisible}
-                            content={
-                              <FormattedMessage id="productFinder.helpTip3" />
-                            }
+                            content={descriptionTips}
                             key="2"
                           />
                         </div>
@@ -585,9 +585,7 @@ class Question extends React.Component {
                             cancelBtnVisible={false}
                             confirmBtnVisible={false}
                             updateChildDisplay={this.setBtnToolTipVisible}
-                            content={
-                              <FormattedMessage id="productFinder.helpTip3" />
-                            }
+                            content={descriptionTips}
                             key="3"
                           />
                         </div>

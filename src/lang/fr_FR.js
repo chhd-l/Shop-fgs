@@ -631,7 +631,7 @@ const fr_FR = {
   'productFinder.healthTitle': 'Nutrition vétérinaire',
   'productFinder.helpTip1': 'Besoin d\'aide ?',
   'productFinder.helpTip2': 'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
-  'productFinder.helpTip3': "Obtenez de l'aide de notre conseiller en animaux 123-456-789",
+  'productFinder.helpTip3': "Pour toute question ou demande : suivi.dtc.france@royalcanin.com Tél 0 800 005 360",
   'productFinder.index': 'Alimentation sur mesure',
   'productFinder.otherProductsToConsider': "Autres produits à considérer",
   'productFinder.resultPage': 'Alimentation sur mesure',
@@ -832,7 +832,7 @@ const fr_FR = {
   "whatYouLike": "Qu'est-ce que vous avez aimé ou non?",
   "writeReview": "Écrire une critique",
   "writeYourReview": "Donnez votre avis",
-  "yes": "Et",
+  "yes": "Confirmer",
   "yourEmailNotVerified": "Votre email n'a pas été vérifié!",
   "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié",
   //kylyang 新增内容在 views/staticPage/TermsAndConditions中查看(组件TermsConditions)
@@ -1105,6 +1105,8 @@ const fr_FR = {
   'VAT_included': 'TVA incluse',
   'skiped': 'Ignoré',
   'orderDetail': 'Détails de la commande',
+  'modalChangeDateTitle': 'Modifier la date d’expédition',
+  'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition',
   'confirmation.account':'Go to my account',
 }
 export default fr_FR;
