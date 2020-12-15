@@ -35,6 +35,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function ListItem(props) {
+  const { item } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -46,11 +47,202 @@ function ListItem(props) {
         <div className="fullHeight">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
+              {item ? (
+                <picture className="rc-card__image">
+                  <div
+                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                    style={{ height: '15.7rem' }}
+                  >
+                    {/*循环遍历的图片*/}
+                    <LazyLoad style={{ width: '100%' }}>
+                      <img
+                        src={
+                          item.goodsImg ||
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
+                        }
+                        srcSet={
+                          item.goodsImg ||
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
+                        }
+                        alt={item.goodsName}
+                        title={item.goodsName}
+                        className="ImgFitScreen pt-3"
+                        style={{
+                          maxWidth: '50%',
+                          maxHeight: '100%',
+                          width: 'auto',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                      />
+                    </LazyLoad>
+                  </div>
+                </picture>
+              ) : null}
               {props.children}
             </article>
           </a>
         </div>
       </article>
+    </div>
+  );
+}
+
+function ListItemBody({ item }) {
+  const defaultJSX = (
+    <>
+      <div className="height-product-tile-plpOnly">
+        <h3
+          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+          title={item.goodsName}
+        >
+          {item.goodsName}
+        </h3>
+        {/*商品描述*/}
+        <h6
+          className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
+          style={{ color: '#4a4a4a' }}
+          title={item.goodsSubtitle}
+        >
+          {item.goodsSubtitle}
+        </h6>
+      </div>
+      {/*商品评分和评论数目*/}
+      <div
+        style={{
+          margin: '0 auto'
+        }}
+        className={`d-flex rc-card__price text-center RateFitScreen`}
+      >
+        <div>
+          <Rate def={item.avgEvaluate} disabled={true} marginSize="smallRate" />
+        </div>
+        <span
+          className="comments rc-margin-left--xs rc-text-colour--text"
+          style={{ marginTop: '3px' }}
+        >
+          ({item.goodsEvaluateNum})
+        </span>
+      </div>
+      <br />
+      <div
+        className="text-center NameFitScreen"
+        style={{
+          color: '#4a4a4a',
+          opacity: item.goodsInfos.length > 1 ? 1 : 0
+        }}
+      >
+        <FormattedMessage id="startFrom" />
+      </div>
+      {/*商品价格*/}
+      <div className="d-flex justify-content-center">
+        <div className="rc-card__price text-left PriceFitScreen">
+          <div className={`rc-full-width PriceFitScreen`}>
+            <span
+              style={{
+                color: '#323232',
+                fontWeight: 400
+              }}
+              className="value sales"
+            >
+              {/* 最低marketPrice */}
+              {formatMoney(item.miMarketPrice)} {/* 划线价 */}
+              {item.miLinePrice && item.miLinePrice > 0 ? (
+                <span
+                  className="text-line-through rc-text-colour--text font-weight-lighter"
+                  style={{
+                    fontSize: '.8em'
+                  }}
+                >
+                  {formatMoney(item.miLinePrice)}
+                </span>
+              ) : null}
+            </span>
+          </div>
+          {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
+            <div className="range position-relative SePriceScreen">
+              <span
+                style={{
+                  color: '#323232',
+                  fontWeight: 400
+                }}
+              >
+                {formatMoney(item.miSubscriptionPrice)}{' '}
+              </span>
+              <span
+                className="iconfont font-weight-bold red mr-1"
+                style={{
+                  fontSize: '.65em'
+                }}
+              >
+                &#xe675;
+              </span>
+              <span
+                className="red-text text-nowrap"
+                style={{
+                  fontSize: '.7em',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                <FormattedMessage id="autoshop" />
+              </span>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+  return (
+    <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
+      {process.env.REACT_APP_LANG === 'fr' ? (
+        <>
+          <div className="height-product-tile-plpOnly">
+            <h3
+              className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+              title={item.goodsName}
+            >
+              {item.goodsName}
+            </h3>
+          </div>
+          <br />
+          {/*商品价格*/}
+          <div className="d-flex justify-content-center">
+            <div className="rc-card__price text-left PriceFitScreen">
+              <div className={`rc-full-width PriceFitScreen`}>
+                <span
+                  style={{
+                    color: '#000'
+                  }}
+                  className="value sales"
+                >
+                  {item.toPrice ? (
+                    <span className="mr-1" style={{ fontSize: '.8em' }}>
+                      <FormattedMessage id="startFrom" />
+                    </span>
+                  ) : null}
+                  {item.fromPrice}
+                  {item.toPrice ? (
+                    <>
+                      <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                        <FormattedMessage id="startEnd" />
+                      </span>
+                      {item.toPrice}
+                    </>
+                  ) : null}
+                </span>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        defaultJSX
+      )}
     </div>
   );
 }
@@ -955,168 +1147,9 @@ class List extends React.Component {
                                     item,
                                     i
                                   )}
+                                  item={item}
                                 >
-                                  <picture className="rc-card__image">
-                                    <div
-                                      className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                                      style={{ height: '15.7rem' }}
-                                    >
-                                      {/*循环遍历的图片*/}
-                                      <LazyLoad style={{ width: '100%' }}>
-                                        <img
-                                          src={
-                                            item.goodsImg ||
-                                            item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].goodsInfoImg ||
-                                            IMG_DEFAULT
-                                          }
-                                          srcSet={
-                                            item.goodsImg ||
-                                            item.goodsInfos.sort(
-                                              (a, b) =>
-                                                a.marketPrice - b.marketPrice
-                                            )[0].goodsInfoImg ||
-                                            IMG_DEFAULT
-                                          }
-                                          alt={item.goodsName}
-                                          title={item.goodsName}
-                                          className="ImgFitScreen pt-3"
-                                          style={{
-                                            maxWidth: '50%',
-                                            maxHeight: '100%',
-                                            width: 'auto',
-                                            height: 'auto',
-                                            margin: 'auto'
-                                          }}
-                                        />
-                                      </LazyLoad>
-                                    </div>
-                                  </picture>
-                                  <div className="rc-card__body rc-padding-top--none pb-0 justify-content-start">
-                                    <div className="height-product-tile-plpOnly">
-                                      {/*商品名字*/}
-                                      {/* <header
-                                        className="rc-text--center "
-                                        // style={{ height: '70px' }}
-                                      ></header> */}
-                                      <h3
-                                        className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
-                                        title={item.goodsName}
-                                      >
-                                        {item.goodsName}
-                                      </h3>
-                                      {/*商品描述*/}
-                                      <h6
-                                        className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
-                                        style={{ color: '#4a4a4a' }}
-                                        title={item.goodsSubtitle}
-                                      >
-                                        {item.goodsSubtitle}
-                                      </h6>
-                                    </div>
-                                    {/*商品评分和评论数目*/}
-                                    {process.env.REACT_APP_LANG ==
-                                    'fr' ? null : (
-                                      <div
-                                        style={{
-                                          margin: '0 auto'
-                                        }}
-                                        className={`d-flex rc-card__price text-center RateFitScreen`}
-                                      >
-                                        <div>
-                                          <Rate
-                                            def={item.avgEvaluate}
-                                            disabled={true}
-                                            marginSize="smallRate"
-                                          />
-                                        </div>
-                                        <span
-                                          className="comments rc-margin-left--xs rc-text-colour--text"
-                                          style={{ marginTop: '3px' }}
-                                        >
-                                          ({item.goodsEvaluateNum})
-                                        </span>
-                                      </div>
-                                    )}
-                                    <br />
-                                    <div
-                                      className="text-center NameFitScreen"
-                                      style={{
-                                        color: '#4a4a4a',
-                                        opacity:
-                                          item.goodsInfos.length > 1 ? 1 : 0
-                                      }}
-                                    >
-                                      <FormattedMessage id="startFrom" />
-                                    </div>
-                                    {/*商品价格*/}
-                                    <div className="d-flex justify-content-center">
-                                      <div className="rc-card__price text-left PriceFitScreen">
-                                        <div
-                                          className={`rc-full-width PriceFitScreen`}
-                                        >
-                                          <span
-                                            style={{
-                                              color: '#323232',
-                                              fontWeight: 400
-                                            }}
-                                            className="value sales"
-                                          >
-                                            {/* 最低marketPrice */}
-                                            {formatMoney(
-                                              item.miMarketPrice
-                                            )}{' '}
-                                            {/* 划线价 */}
-                                            {item.miLinePrice &&
-                                            item.miLinePrice > 0 ? (
-                                              <span
-                                                className="text-line-through rc-text-colour--text font-weight-lighter"
-                                                style={{
-                                                  fontSize: '.8em'
-                                                }}
-                                              >
-                                                {formatMoney(item.miLinePrice)}
-                                              </span>
-                                            ) : null}
-                                          </span>
-                                        </div>
-                                        {item.miSubscriptionPrice &&
-                                        item.miSubscriptionPrice > 0 ? (
-                                          <div className="range position-relative SePriceScreen">
-                                            <span
-                                              style={{
-                                                color: '#323232',
-                                                fontWeight: 400
-                                              }}
-                                            >
-                                              {formatMoney(
-                                                item.miSubscriptionPrice
-                                              )}{' '}
-                                            </span>
-                                            <span
-                                              className="iconfont font-weight-bold red mr-1"
-                                              style={{
-                                                fontSize: '.65em'
-                                              }}
-                                            >
-                                              &#xe675;
-                                            </span>
-                                            <span
-                                              className="red-text text-nowrap"
-                                              style={{
-                                                fontSize: '.7em',
-                                                transform: 'translateY(-50%)'
-                                              }}
-                                            >
-                                              <FormattedMessage id="autoshop" />
-                                            </span>
-                                          </div>
-                                        ) : null}
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <ListItemBody item={item} />
                                 </ListItem>
                               ))}
                         </article>

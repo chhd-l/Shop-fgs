@@ -7,6 +7,9 @@
 .cvv .adyen-checkout__field--expiryDate{
     display: none;
 }
+.cvv .adyen-checkout__field--securityCode .adyen-checkout__label{
+  margin-bottom: 0;
+}
 .cvv .adyen-checkout__field--securityCode .adyen-checkout__label__text{
     margin-bottom: 2px;
 }

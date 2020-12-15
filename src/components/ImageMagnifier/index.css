@@ -62,3 +62,10 @@
   height: 450px;
   float: left;
 }
+@media(max-width: 769px) {
+  .bigImageInnerBox div {
+    width: 230px;
+    height: 324px;
+    float: left;
+  }
+}

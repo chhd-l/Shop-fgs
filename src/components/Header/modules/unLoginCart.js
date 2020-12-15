@@ -368,9 +368,9 @@ class UnloginCart extends React.Component {
                                             .specText
                                         }{' '}
                                         -{' '}
-                                        {item.quantity > 1
-                                          ? `${item.quantity} `
-                                          : `${item.quantity} `}
+                                        {item.buyCount > 1
+                                          ? `${item.buyCount} `
+                                          : `${item.buyCount} `}
                                           <FormattedMessage id="product"/>(s)
                                       </p>
                                     </div>
