@@ -25,13 +25,17 @@ const LogoutButton = () => {
   const { authState, oktaAuth } = useOktaAuth();
 
   const logout = async () => {
-    try {
-      const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
-      // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
-
+    try {   
       const idToken = authState.idToken;
-      window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
-      await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
+      if(idToken) {
+        const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
+        // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
+        window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
+        await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
+      } else {
+        loginStore.changeLoginModal(false);
+        window.location.reload();
+      }
           
       setTimeout(() => {
         loginStore.changeLoginModal(false);
@@ -45,6 +49,7 @@ const LogoutButton = () => {
       loginStore.changeLoginModal(true);
       await doLogout();
       localItemRoyal.remove('rc-token');
+      localItemRoyal.remove('rc-register');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       await logout(process.env.REACT_APP_HOMEPAGE);

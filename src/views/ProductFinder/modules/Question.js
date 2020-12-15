@@ -215,7 +215,6 @@ class Question extends React.Component {
         finderNumber,
         questionParams: tmpQuestionParams
       };
-      console.info('tmpQuestionParams.age', tmpQuestionParams.age)
       if(tmpQuestionParams.age==='00' && this.state.isEdit){
         // 选择年龄0岁0月不能提交
         this.setState({
@@ -244,8 +243,17 @@ class Question extends React.Component {
           defaultListData: tmpStep.answers
         });
         if (resContext.sizeStep) {
+          let sizeStep = resContext.sizeStep
+          if(resContext.step.name==='breedCode'){
+            sizeStep = Object.assign({},resContext.sizeStep,
+              {
+                answers:[...resContext.step.mixedBreedPossibleValues],
+                name: resContext.step.name
+              })
+          }
+          
           this.setState({
-            configSizeAttach: resContext.sizeStep
+            configSizeAttach: sizeStep
           });
         }
         this.setState(
