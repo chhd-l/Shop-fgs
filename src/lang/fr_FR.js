@@ -648,6 +648,7 @@ const fr_FR = {
   'productFinder.tip2': 'Le questionnaire d’aide au choix vous permettra de connaître l’aliment recommandé pour votre animal.',
   'productFinder.tip3': 'Votre animal est un ....',
   'productFinder.whyAreWeAskingThis': 'Pourquoi cette question ?',
+  'productFinder.ageErrorShow': 'La sélection de l’âge doit être supérieure à 0 mois',
   'productFinder.recoTitle': 'Trouvez la bonne nourriture.',
   'productFinder.recoDesc': 'Plus nous en savons sur votre animal, mieux nous pouvons fournir la nutrition la plus précise et adaptée à ses besoins uniques.',
   productRating: 'Évaluation du produit',
