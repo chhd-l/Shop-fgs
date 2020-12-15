@@ -832,7 +832,7 @@ const fr_FR = {
   "whatYouLike": "Qu'est-ce que vous avez aimé ou non?",
   "writeReview": "Écrire une critique",
   "writeYourReview": "Donnez votre avis",
-  "yes": "Et",
+  "yes": "Confirmer",
   "yourEmailNotVerified": "Votre email n'a pas été vérifié!",
   "yourPasswordNotVerified": "Votre mot de passe n'a pas été vérifié",
   //kylyang 新增内容在 views/staticPage/TermsAndConditions中查看(组件TermsConditions)
@@ -1105,5 +1105,7 @@ const fr_FR = {
   'VAT_included': 'TVA incluse',
   'skiped': 'Ignoré',
   'orderDetail': 'Détails de la commande',
+  'modalChangeDateTitle': 'Modifier la date d’expédition',
+  'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition'
 }
 export default fr_FR;

@@ -144,6 +144,11 @@ class SubscriptionDetail extends React.Component {
           title: this.props.intl.messages.modalOrderNowTitle,
           content: this.props.intl.messages.modalOrderNowContent,
           type: 'orderNow'
+        },
+        {
+          title: this.props.intl.messages.modalChangeDateTitle,
+          content: this.props.intl.messages.modalChangeDateContent,
+          type: 'changeDate'
         }
       ],
       currentModalObj: {
@@ -156,6 +161,7 @@ class SubscriptionDetail extends React.Component {
       errorMsg: '',
       successTipVisible: false,
       minDate: new Date(),
+      maxDate: new Date(),
       todaydate: new Date(),
       tabName: [this.props.intl.messages.noStart, this.props.intl.messages.completed],
       activeTabIdx: 0,
@@ -282,6 +288,17 @@ class SubscriptionDetail extends React.Component {
       this.setState({ loading: false });
     }
   }
+  getMinDate(nextDeliveryTime) {
+    let time = new Date(nextDeliveryTime)
+    if((time.getTime() - 14*24*60*60*1000) > (this.state.minDate.getTime() + 24*60*60*1000)) {
+      return new Date(time.getTime() - 14*24*60*60*1000)
+    }else {
+      return new Date(this.state.minDate.getTime() + 24*60*60*1000)
+    }
+  }
+  getMaxDate(nextDeliveryTime) {
+    return new Date(new Date(nextDeliveryTime).getTime() + 14*24*60*60*1000)
+  }
   async getDetail(fn) {
     try {
       this.setState({ loading: true });
@@ -379,7 +396,7 @@ class SubscriptionDetail extends React.Component {
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
-          minDate: now,
+          // minDate: now,
           noStartYearOption,
           completedYearOption,
           noStartYear,
@@ -490,6 +507,8 @@ class SubscriptionDetail extends React.Component {
           });
           this.showErrMsg(err.message);
         });
+    }else if(modalType === 'changeDate') {
+      this.onDateChange(this.state.currentChangeDate, this.state.currentChangeItem)
     }
   }
   showErrMsg(msg, type, fn) {
@@ -1096,7 +1115,8 @@ class SubscriptionDetail extends React.Component {
                                       className="receiveDate"
                                       placeholder="Select Date"
                                       dateFormat="yyyy-MM-dd"
-                                      minDate={this.state.minDate}
+                                      maxDate={this.getMaxDate(el.nextDeliveryTime)}
+                                      minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
                                       selected={
                                         el.nextDeliveryTime
                                           ? new Date(el.nextDeliveryTime)
@@ -1443,7 +1463,8 @@ class SubscriptionDetail extends React.Component {
                                       className="receiveDate"
                                       placeholder="Select Date"
                                       dateFormat="yyyy-MM-dd"
-                                      minDate={this.state.minDate}
+                                      maxDate={this.getMaxDate(el.nextDeliveryTime)}
+                                      minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
                                       selected={
                                         el.nextDeliveryTime
                                           ? new Date(el.nextDeliveryTime)
@@ -1464,7 +1485,7 @@ class SubscriptionDetail extends React.Component {
                         className="footerGroupButton"
                         style={{ display: isActive ? 'block' : 'none' }}
                       >
-                        <p>
+                        <p style={{textAlign: isMobile?'center': 'right'}}>
                           {/* <div className="col-12 col-md-2"> */}
                           <LazyLoad>
                           <img
@@ -1500,6 +1521,7 @@ class SubscriptionDetail extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
+                            style={{marginTop: isMobile?'10px': '0'}}
                             onClick={async () => {
                               if (!this.state.isDataChange) {
                                 return false;
@@ -1967,8 +1989,9 @@ class SubscriptionDetail extends React.Component {
                                                       className="receiveDate subs-receiveDate"
                                                       placeholder="Select Date"
                                                       dateFormat="yyyy-MM-dd"
+                                                      maxDate={this.getMaxDate(el.tradeItems[0].nextDeliveryTime)}
                                                       minDate={
-                                                        this.state.minDate
+                                                        this.getMinDate(el.tradeItems[0].nextDeliveryTime) || this.state.minDate
                                                       }
                                                       selected={
                                                         el.tradeItems
@@ -1977,18 +2000,25 @@ class SubscriptionDetail extends React.Component {
                                                             )
                                                           : new Date()
                                                       }
-                                                      onChange={(date) =>
-                                                        this.onDateChange(
-                                                          date,
-                                                          el.tradeItems.map(
+                                                      onChange={(date) => {
+                                                        this.setState({
+                                                          modalType: 'changeDate',
+                                                          modalShow: true,
+                                                          currentModalObj: this.state.modalList.filter(
+                                                            (el) =>
+                                                              el.type ===
+                                                              'changeDate'
+                                                          )[0],
+                                                          currentChangeDate: date,
+                                                          currentChangeItem: el.tradeItems.map(
                                                             (el) => {
                                                               return {
                                                                 skuId: el.skuId
                                                               };
                                                             }
                                                           )
-                                                        )
-                                                      }
+                                                        })
+                                                      }}
                                                     />
                                                   </span>
                                                 </>
