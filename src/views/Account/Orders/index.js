@@ -375,6 +375,9 @@ class AccountOrders extends React.Component {
   }
   handleClickCardItem(item) {
     if (this.deviceType === 'PC') return false;
+    this.props.history.push(`/account/orders/detail/${item.id}`)
+    return false
+    // 测试要求改到跳转页面  1214
     this.setState({ curOneOrderDetails: item });
     setTimeout(() => {
       this.setState({ showOneOrderDetail: true });
