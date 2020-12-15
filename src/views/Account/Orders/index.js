@@ -375,6 +375,9 @@ class AccountOrders extends React.Component {
   }
   handleClickCardItem(item) {
     if (this.deviceType === 'PC') return false;
+    this.props.history.push(`/account/orders/detail/${item.id}`)
+    return false
+    // 测试要求改到跳转页面  1214
     this.setState({ curOneOrderDetails: item });
     setTimeout(() => {
       this.setState({ showOneOrderDetail: true });
@@ -673,8 +676,8 @@ class AccountOrders extends React.Component {
                                       </p>
                                     </div>
                                     <div className="col-12 col-md-2">
-                                      {order.tradeState.flowState ===
-                                        'COMPLETED' && (
+                                      {order.tradeState.deliverStatus ===
+                                        'SHIPPED' && (
                                         <div
                                           onClick={this.handleDownInvoice.bind(
                                             this,

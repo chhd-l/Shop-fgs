@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import SearchSelection from '@/components/SearchSelection';
 import RadioAnswer from './RadioAnswer';
 
@@ -68,6 +68,8 @@ class SearchAnswer extends React.Component {
   render() {
     const { form } = this.state;
     const { config, configSizeAttach } = this.props;
+    const {intl} = this.props;
+    const unknownText = intl.formatMessage({id: 'unkown'}); 
     return (
       <>
         <h4 className="mb-4 red">{config.title}</h4>
@@ -125,16 +127,16 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-unkown"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value={'unknown'}
+                  value={unknownText}
                   key={2}
-                  checked={form && form.key === 'unknown'}
+                  checked={form && form.key === unknownText}
                   onChange={this.toggleCheckbox}
                 />
                 <label
                   className="rc-input__label--inline text-break"
                   htmlFor="pf-checkbox-unkown"
                 >
-                  <FormattedMessage id="unkown" />
+                  {unknownText}
                 </label>
               </div>
             </div>
@@ -163,4 +165,4 @@ class SearchAnswer extends React.Component {
   }
 }
 
-export default SearchAnswer;
+export default injectIntl(SearchAnswer);

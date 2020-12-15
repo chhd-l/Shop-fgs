@@ -313,8 +313,10 @@ class LoginCart extends React.Component {
                                           <p className="line-item-attributes">
                                             {item.specText} -{' '}
                                             {item.buyCount > 1
-                                              ? `${item.buyCount} products`
-                                              : `${item.buyCount} product`}
+                                               ? `${item.quantity} `
+                                               : `${item.quantity} `}
+                                       
+                                            <FormattedMessage id="product"/>(s)
                                           </p>
                                         ) : (
                                           <p className="line-item-attributes">

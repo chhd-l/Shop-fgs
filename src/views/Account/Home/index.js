@@ -17,7 +17,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '2.3rem', height: '2.3rem' }}
+        style={{ width: '4rem' }}
       >
         <use xlinkHref="#iconMyinformation" />
       </svg>
@@ -31,7 +31,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '3.2rem', height: '3.2rem' }}
+        style={{ width: '4rem' }}
       >
         <use xlinkHref="#iconMypets" />
       </svg>
@@ -45,7 +45,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '5rem', height: '5rem' }}
+        style={{ width: '4rem' }}
       >
         <use xlinkHref="#iconMyorders1" />
       </svg>
@@ -59,7 +59,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '2.8em', height: '2.8em' }}
+        style={{ width: '4rem' }}
       >
         <use xlinkHref="#iconMySubsciptions1" />
       </svg>
@@ -73,7 +73,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '5rem', height: '5rem' }}
+        style={{ width: '4rem' }}
       >
         <use xlinkHref="#iconFAQ" />
       </svg>
@@ -118,7 +118,7 @@ class AccountHome extends React.Component {
           <BreadCrumbs />
           <div className="rc-padding--sm rc-max-width--xl pt-2">
             <div className="rc-layout-container rc-five-column">
-              <SideMenu type="Home" customCls="order-1 order-md-0" />
+              <SideMenu type="Home" customCls="order-1 order-md-0 rc-md-up" />
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop order-0 order-md-0">
                 <p className="mb-0">
                   <FormattedMessage
@@ -127,7 +127,7 @@ class AccountHome extends React.Component {
                   />
                 </p>
                 <div className="clearfix" />
-                <div className="dashboard__profile-cards rc-md-up">
+                <div className="dashboard__profile-cards">
                   <div className="my__account-navigation row rc-padding-top--xs--desktop rc-padding-bottom--none">
                     {itemList.map((item, i) => (
                       <Link

@@ -362,7 +362,7 @@ class Payment extends React.Component {
       PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
       adyen_credit_card: {
         name: 'adyen_credit_card',
-        id: 'adyen',
+        id: 'adyenCard',
         paymentTypeVal: 'adyenCard'
       },
       adyen_klarna_pay_now: {
@@ -1327,7 +1327,7 @@ class Payment extends React.Component {
         if (!this.isLogin && !guestEmail) {
           throw new Error(
             intl.formatMessage(
-              { id: 'EnterCorrectValue' },
+              { id: 'enterCorrectValue' },
               {
                 val: intl.formatMessage({ id: 'email' })
               }

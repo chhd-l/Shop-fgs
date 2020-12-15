@@ -16,6 +16,8 @@ import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import catsImg from '@/assets/images/banner-list/cats.jpg';
 import dogsImg from '@/assets/images/banner-list/dogs.jpg';
+import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
+import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import cartImg from './images/cart.png';
 import refreshImg from './images/refresh.png';
 import { toJS } from 'mobx';
@@ -1435,6 +1437,8 @@ class UnLoginCart extends React.Component {
         theme: ''
       }
     };
+    const dogsPic = process.env.REACT_APP_LANG === 'fr'?dogsImgFr:dogsImg
+    const catsPic = process.env.REACT_APP_LANG === 'fr'?catsImgFr:catsImg
     return (
       <div className="Carts">
         <GoogleTagManager additionalEvents={event} />
@@ -1544,14 +1548,14 @@ class UnLoginCart extends React.Component {
                         </div>
                         <div
                           className="d-flex justify-content-between flex-wrap ui-pet-item text-center"
-                          style={{ margin: '0 10%' }}
+                          style={process.env.REACT_APP_LANG === 'fr'?{}:{ margin: '0 10%' }}
                         >
                           <div className="ui-item border radius-3">
                             <Link to="/dogs">
                               <LazyLoad>
                                 <img
                                   className="w-100"
-                                  src={dogsImg}
+                                  src={dogsPic}
                                   alt="Dog"
                                 />
                               </LazyLoad>
@@ -1566,7 +1570,7 @@ class UnLoginCart extends React.Component {
                               <LazyLoad>
                                 <img
                                   className="w-100"
-                                  src={catsImg}
+                                  src={catsPic}
                                   alt="Cat"
                                 />
                               </LazyLoad>
