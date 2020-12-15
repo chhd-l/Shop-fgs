@@ -1114,7 +1114,6 @@ class PetForm extends React.Component {
                             className="rc-input__label--inline"
                             htmlFor="male"
                           >
-                            Male
                             <FormattedMessage id="petMale" />
                           </label>
                         </div>
