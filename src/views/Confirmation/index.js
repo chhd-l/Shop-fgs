@@ -175,7 +175,7 @@ class Confirmation extends React.Component {
           }
         }
       };
-      console.log({eEvents})
+      console.log({ eEvents })
     }
 
     return (
@@ -192,12 +192,12 @@ class Confirmation extends React.Component {
           <div className="rc-max-width--xl pb-4">
             <div className="text-center mt-3">
               <LazyLoad>
-              <img
-                alt=""
-                src={successImg}
-                className="mb-3"
-                style={{ display: 'inline-block' }}
-              />
+                <img
+                  alt=""
+                  src={successImg}
+                  className="mb-3"
+                  style={{ display: 'inline-block' }}
+                />
               </LazyLoad>
               <h4 className="rc-text-colour--iconography">
                 <b>
@@ -207,38 +207,52 @@ class Confirmation extends React.Component {
               <p style={{ marginBottom: '5px' }}>
                 <FormattedMessage id="confirmation.info2" />
               </p>
-              <div className="d-flex align-items-center justify-content-center">
-                {this.state.oxxoPayUrl ? (
-                  <>
-                    <Link
-                      className="rc-btn rc-btn--one"
-                      onClick={() => {
-                        this.setState({ oxxoModalShow: true });
-                      }}
-                    >
-                      <FormattedMessage id="printEbanx" />
-                    </Link>
+              <div className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}>
+                <div className="d-flex align-items-center justify-content-center">
+                  {this.state.oxxoPayUrl ? (
+                    <>
+                      <Link
+                        className="rc-btn rc-btn--one"
+                        onClick={() => {
+                          this.setState({ oxxoModalShow: true });
+                        }}
+                      >
+                        <FormattedMessage id="printEbanx" />
+                      </Link>
                     &nbsp;
                     <FormattedMessage id="or" />
                     &nbsp;
                     <Link
-                      to="/home"
-                      className="rc-meta rc-styled-link backtohome mb-0"
-                    >
-                      <FormattedMessage id="continueShopping" />
-                    </Link>
-                  </>
-                ) : (
-                  <Link
-                    to="/home"
-                    className="rc-btn rc-btn--one"
-                    style={{ transform: 'scale(.85)' }}
-                  >
-                    <FormattedMessage id="continueShopping" />
-                  </Link>
-                )}
+                        to="/home"
+                        className="rc-meta rc-styled-link backtohome mb-0"
+                      >
+                        <FormattedMessage id="continueShopping" />
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/account"
+                        className="rc-btn rc-btn--one"
+                        style={{ transform: 'scale(.85)' }}
+                      >
+                        <FormattedMessage id="confirmation.account" />
+                      </Link>
+                      <div style={{padding:'0 10px'}}>
+                        <FormattedMessage id="or" />
+                      </div>
+                       <Link
+                        to="/home"
+                        className="rc-meta rc-styled-link backtohome mb-0"
+                      >
+                        <FormattedMessage id="continueShopping" />
+                      </Link>
+                      </>
+                    )}
+                </div>
               </div>
-              <p
+
+              {/* <p
                 className={`rc-margin-top--sm order-number-box ml-auto mr-auto`}
               >
                 {this.state.subNumber && (
@@ -273,28 +287,11 @@ class Confirmation extends React.Component {
                     <br />
                   </>
                 ))}
-                {/* <b>
-                  <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                  {this.state.paywithLogin
-                    ? subOrderNumberList.map((ele, i) => (
-                        <>
-                          <Link
-                            to={`/account/orders/detail/${ele}`}
-                            className="rc-meta rc-styled-link backtohome mb-0"
-                          >
-                            {ele}
-                          </Link>
-                          {i !== subOrderNumberList.length - 1 && <br />}
-                        </>
-                      ))
-                    : subOrderNumberList.join(',')}
-                </b> */}
-              </p>
+              </p> */}
             </div>
             <div
-              className={`rc-max-width--xl rc-bottom-spacing imformation ${
-                loading ? 'rc-bg-colour--brand3' : ''
-              }`}
+              className={`rc-max-width--xl rc-bottom-spacing imformation ${loading ? 'rc-bg-colour--brand3' : ''
+                }`}
             >
               {loading ? (
                 <div className="p-3">
@@ -308,30 +305,32 @@ class Confirmation extends React.Component {
               ) : this.state.errorMsg2 ? (
                 this.state.errorMsg2
               ) : (
-                <>
-                  {this.state.detailList.map((ele, i) => (
                     <>
+                      {this.state.detailList.map((ele, i) => (
+                        <>
+                          {/* 支付信息 */}
+                          <div className="red mb-2">
+                            <FormattedMessage id="order.orderInformation" />
+                            {/* ({subOrderNumberList[i]}) */}
+                          </div>
+                          <div
+                            className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
+                            key={i}
+                          >
+                            <PayProductInfo details={ele} />
+                          </div>
+                        </>
+                      ))}
+                       {/* 地址信息 */}
                       <div className="red mb-2">
-                        <FormattedMessage id="order.orderInformation" />(
-                        {subOrderNumberList[i]})
+                        <FormattedMessage id="confirmation.customerInformation" />
                       </div>
-                      <div
-                        className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
-                        key={i}
-                      >
-                        <PayProductInfo details={ele} />
-                      </div>
+                      <AddressPreview
+                        details={this.state.details}
+                        payRecord={this.state.payRecord}
+                      />
                     </>
-                  ))}
-                  <div className="red mb-2">
-                    <FormattedMessage id="confirmation.customerInformation" />
-                  </div>
-                  <AddressPreview
-                    details={this.state.details}
-                    payRecord={this.state.payRecord}
-                  />
-                </>
-              )}
+                  )}
             </div>
           </div>
         </main>

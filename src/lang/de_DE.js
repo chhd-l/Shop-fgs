@@ -962,5 +962,6 @@ const de_DE = {
   'VAT_included': 'inkl. MwSt',
   'skiped': 'Übersprungen',
   'orderDetail': 'Bestelldetails',
+  'confirmation.account':'Go to my account',
 }
 export default de_DE;

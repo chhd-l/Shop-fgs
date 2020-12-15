@@ -420,7 +420,7 @@ class LoginCart extends React.Component {
     });
     this.setState({ deleteLoading: false });
 
-    this.GARemoveFromCart(productList[currentProductIdx])
+    //this.GARemoveFromCart(productList[currentProductIdx])
   }
   goBack(e) {
     e.preventDefault();
