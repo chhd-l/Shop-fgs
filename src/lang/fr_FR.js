@@ -1105,5 +1105,6 @@ const fr_FR = {
   'VAT_included': 'TVA incluse',
   'skiped': 'Ignoré',
   'orderDetail': 'Détails de la commande',
+  'confirmation.account':'Sur mon compte',
 }
 export default fr_FR;
