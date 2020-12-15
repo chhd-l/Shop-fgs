@@ -1107,8 +1107,9 @@ class AccountOrders extends React.Component {
                                         }`}
                                       >
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
-                                          <LazyLoad className="d-flex justify-content-center align-items-center w-100 h-100">
+                                          <LazyLoad className="d-flex justify-content-center align-items-center">
                                             <img
+                                              style={{width:'100px'}}
                                               className="order-details-img-fluid"
                                               src={item.pic || IMG_DEFAULT}
                                               alt={item.spuName}

@@ -126,9 +126,9 @@ class PayProductInfo extends React.Component {
                           {formatMoney(item.num * item.originalPrice)}
                         </span>
                         <br />
+                        <span style={{color:'red'}}>{formatMoney(item.price)}</span>
                       </>
-                    ) : null}
-                    <span>{formatMoney(item.price)}</span>
+                    ) : <span>{formatMoney(item.price)}</span>}
                   </div>
                 </div>
               </div>
