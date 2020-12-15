@@ -712,7 +712,7 @@ const fr_FR = {
   requiredConsentCheckedTip: 'Veuillez confirmer les champs obligatoires en cochant la case.',
   requiredFields: '* Champs obligatoires',
   resetPasswordEmail: 'Réinitialiser le mot de passe Un e-mail a été envoyé dans votre boîte mail, veuillez noter que cochez!',
-  results: '{val} Résultats',
+  results: '{val} résultat(s)',
   reviewisRequired: 'Un examen est requis.',
   reviews: 'Commentaires',
   royalCanin: 'Royal Canin',
