@@ -237,6 +237,7 @@ class RouteFilter extends Component {
     // 会员首页+非/implicit/callback+非required页+account/information页面 调用consense接口
     if (
       localItemRoyal.get('rc-token') &&
+      !localItemRoyal.get('rc-register') &&
       pathname === '/' &&
       pathname !== '/implicit/callback' &&
       pathname !== '/required' &&

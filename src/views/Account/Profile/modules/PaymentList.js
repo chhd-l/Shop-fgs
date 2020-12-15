@@ -248,7 +248,6 @@ class AddressList extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
-    debugger;
     if (!item.isDefault) {
       await setDefaltCard(item.id);
       this.getPaymentMethodList({ showLoading: false });

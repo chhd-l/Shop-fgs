@@ -621,6 +621,7 @@ const es_ES = {
   'productFinder.tip2': 'Este cuestionario te ayudará a elegir el alimento recomendado para tu mascota.',
   'productFinder.tip3': 'Tu mascota es un ...',
   'productFinder.whyAreWeAskingThis': '¿Por qué estamos preguntando esto?',
+  'productFinder.ageErrorShow':'Yaş seçimi 0 aydan büyük olmalıdır',
   'productFinder.recoTitle': 'Encuentra la comida adecuada.',
   'productFinder.recoDesc': 'Cuanto más sepamos sobre su mascota, mejor podremos proporcionarle la nutrición más precisa y adaptada a sus necesidades únicas.',
   productRating: 'Valoración del producto',
