@@ -1275,17 +1275,14 @@ class Help extends React.Component {
               </LazyLoad>
             </div>
           </div> */}
-          <div className="rc-max-width--lg rc-padding-y--sm">
+          <div className="rc-max-width--lg rc-padding-y--lg">
             <div className="rc-max-width--md text-center rc-padding-x--sm">
               <h2 className="rc-beta text-center">
-                Avec l'Abonnement, ils auront toujours ce dont ils ont besoin
+                Ne manquez jamais de nourriture pour votre animal!
               </h2>
               <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                 <h2>
-                  Certaines choses ne devraient jamais s'épuiser. La nourriture
-                  de votre animal de compagnie en fait partie. Dites-nous
-                  simplement où et quand l'expédier, et nous nous assurerons que
-                  tout ce dont il a besoin arrive directement à votre porte.
+                  Notre service d'expédition automatique est conçu pour vous simplifier la vie et vous permettre de toujours recevoir le meilleur régime alimentaire pour votre animal de compagnie, directement à votre porte.
                 </h2>
               </div>
               {/* <div className="d-block d-md-none rc-text--center">
@@ -1307,19 +1304,19 @@ class Help extends React.Component {
                   <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                     <li className="rc-list__item">
                       <i className="wof rc-margin-right--xs"></i>
-                      10% de réduction sur toutes les commandes en Abonnement
+                      Économisez 10% sur chaque commande
                     </li>
                     <li className="rc-list__item">
                       <i className="wof rc-margin-right--xs"></i>
-                      Suspendre, modifier ou annuler à tout moment
+                      Livraison automatique selon votre calendrier
                     </li>
                     <li className="rc-list__item">
                       <i className="wof rc-margin-right--xs"></i>
-                      Livraison offerte
+                      Livraison gratuite
                     </li>
                     <li className="rc-list__item">
                       <i className="wof rc-margin-right--xs"></i>
-                      Ligne d'assistance téléphonique gratuite sur la nutrition
+                      Modifier ou annuler à tout moment
                     </li>
                   </ul>
                   <p style={{ marginTop: '30px', marginBottom: '30px' }}>
@@ -1371,7 +1368,7 @@ class Help extends React.Component {
           <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm">
             <div className="rc-margin-top--md rc-margin-top--none--mobile rc-padding-x--lg--mobile">
               <h2 className="rc-beta rc-margin--none text-center rc-padding-x--lg--mobile">
-                Comment cela fonctionne-t-il ?
+                Prêt à démarrer ?
               </h2>
             </div>
             <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
@@ -1388,9 +1385,7 @@ class Help extends React.Component {
                   ></img>
                 </div>
                 <h7>
-                  Ajoutez les produits nutritionnels{' '}
-                  <strong>répondant aux besoins de votre animal</strong> dans
-                  votre panier.
+                  Trouvez les produits <strong>nutritionnels que vous avez sélectionnés</strong> dans votre panier.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1406,8 +1401,7 @@ class Help extends React.Component {
                   ></img>
                 </div>
                 <h7>
-                  Sélectionnez l'<strong>expédition automatique</strong> et
-                  entrez votre mode de paiement.
+                  Sélectionnez votre mode <strong>d'expédition, de livraison </strong>et <strong>de paiement</strong>.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1423,8 +1417,7 @@ class Help extends React.Component {
                   ></img>
                 </div>
                 <h7>
-                  <strong>Recevez votre produit automatiquement</strong> en
-                  fonction de votre calendrier.
+                  <strong>Recevez votre produit automatiquement</strong>, selon votre propre agenda.
                 </h7>
               </div>
               <div className="col-6 col-md-3 rc-column">
@@ -1440,7 +1433,7 @@ class Help extends React.Component {
                   ></img>
                 </div>
                 <h7>
-                  Modifiez vos préférences à <strong>tout moment</strong>.
+                  <p>Modifiez votre planning <strong>de livraison à n'importe quel moment.</strong></p>
                 </h7>
               </div>
             </div>
@@ -1644,7 +1637,7 @@ class Help extends React.Component {
                   }
                 }}
               >
-                <FormattedMessage id="recommendation.viewInCart" />
+                <FormattedMessage id="recommendation.viewInCart"/>
               </button>
             </p>
             <div class="experience-component experience-assets-youtubeVideo">
