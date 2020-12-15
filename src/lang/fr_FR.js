@@ -631,7 +631,7 @@ const fr_FR = {
   'productFinder.healthTitle': 'Nutrition vétérinaire',
   'productFinder.helpTip1': 'Besoin d\'aide ?',
   'productFinder.helpTip2': 'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
-  'productFinder.helpTip3': "Obtenez de l'aide de notre conseiller en animaux 123-456-789",
+  'productFinder.helpTip3': "Pour toute question ou demande : suivi.dtc.france@royalcanin.com Tél 0 800 005 360",
   'productFinder.index': 'Alimentation sur mesure',
   'productFinder.otherProductsToConsider': "Autres produits à considérer",
   'productFinder.resultPage': 'Alimentation sur mesure',
