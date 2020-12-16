@@ -739,6 +739,7 @@ const tr_TR = {
   'registerPasswordFormat': "Parola geçerli değil.",
   'registerEmailFormate': "E-posta adresi belirtilen formatla eşleşmiyor.",
   invoice: 'fatura',
+  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
 }
 
 export default tr_TR;
