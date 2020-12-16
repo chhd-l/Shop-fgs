@@ -99,7 +99,10 @@ class Confirmation extends React.Component {
       : null;
     return (
       <>
-        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded">
+        <div
+          id="J_checkout_panel_confirmation"
+          className="card-panel checkout--padding rc-bg-colour--brand3 rounded"
+        >
           <div className="bg-transparent d-flex justify-content-between align-items-center">
             {_title}
           </div>
@@ -117,20 +120,18 @@ class Confirmation extends React.Component {
               }}
             />
 
-            <div className="next-step-button">
-              <div className="rc-text--right">
-                <button
-                  className={`rc-btn rc-btn--one submit-payment`}
-                  type="submit"
-                  name="submit"
-                  value="submit-shipping"
-                  disabled={!isValid}
-                  onClick={this.clickPay}
-                >
-                  <FormattedMessage id="payment.further" />{' '}
-                  {formatMoney(tradePrice)}
-                </button>
-              </div>
+            <div className="text-right">
+              <button
+                className={`rc-btn rc-btn--one submit-payment`}
+                type="submit"
+                name="submit"
+                value="submit-shipping"
+                disabled={!isValid}
+                onClick={this.clickPay}
+              >
+                <FormattedMessage id="payment.further" />{' '}
+                {formatMoney(tradePrice)}
+              </button>
             </div>
           </div>
         </div>

@@ -316,7 +316,8 @@ class List extends React.Component {
         filterList: []
       },
 
-      markPriceAndSubscriptionLangDict: []
+      markPriceAndSubscriptionLangDict: [],
+      actionFromFilter: false
     };
     this.pageSize = 12;
     this.fidFromSearch = ''; // 链接中所带筛选器参数
@@ -460,17 +461,25 @@ class List extends React.Component {
   }
   async initData() {
     const { storeCateIds, keywords } = this.state;
-    this.getProductList(this.fidFromSearch ? 'search_fid' : '');
+    // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
-      list.sort((a, b) => a.sort - b.sort);
-      this.setState({
-        sortList: list.map((ele) => ({
+      list = list
+        .sort((a, b) => a.sort - b.sort)
+        .map((ele) => ({
           ...ele,
           name: ele.sortName,
           value: ele.field
-        }))
-      });
+        }));
+      this.setState(
+        {
+          sortList: list,
+          selectedSortParam: list[0]
+        },
+        () => {
+          this.getProductList();
+        }
+      );
     });
     // findFilterList()
     //   .then((res) => {
@@ -554,7 +563,8 @@ class List extends React.Component {
       selectedSortParam,
       filterList,
       searchForm,
-      defaultFilterSearchForm
+      defaultFilterSearchForm,
+      actionFromFilter
     } = this.state;
 
     this.setState({ loading: true });
@@ -589,16 +599,16 @@ class List extends React.Component {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName),
-            attributeNameEn: pItem.attributeNameEn,
+            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
+            attributeName: pItem.attributeName,
             filterType: pItem.filterType
           });
         } else {
           goodsFilterRelList.push({
             attributeId: pItem.id,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName),
-            attributeNameEn: pItem.attributeNameEn,
+            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
+            attributeName: pItem.attributeName,
             filterType: pItem.filterType
           });
         }
@@ -613,12 +623,12 @@ class List extends React.Component {
       .slice(0, 1)
       .map((item, i) => {
         urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${
-          item.attributeNameEn
+          item.attributeName
         }&prefv${i + 1}=${item.attributeValues.join('|')}`;
         return item;
       });
     // 点击filter，触发局部刷新或整页面刷新
-    if (!initingList) {
+    if (!initingList && actionFromFilter) {
       pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
       sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
       history.push({
@@ -819,9 +829,12 @@ class List extends React.Component {
   };
   updateOperatedFilterList = (data) => {
     // 触发点击或跳转页面事件
-    this.setState({ filterList: data, currentPage: 1 }, () => {
-      this.getProductList();
-    });
+    this.setState(
+      { filterList: data, currentPage: 1, actionFromFilter: true },
+      () => {
+        this.getProductList();
+      }
+    );
   };
   hanldePriceSliderChange = (val) => {
     clearTimeout(this.timer);
@@ -858,6 +871,7 @@ class List extends React.Component {
       keywords,
       cateName
     } = this.state;
+
     let event;
     let eEvents;
     if (category) {
@@ -1078,7 +1092,7 @@ class List extends React.Component {
                                       selectedSortParam.value) ||
                                     ''
                                 }}
-                                placeholder={<FormattedMessage id="sortBy" />}
+                                // placeholder={<FormattedMessage id="sortBy" />}
                                 customInnerStyle={{
                                   paddingTop: '.7em',
                                   paddingBottom: '.7em'

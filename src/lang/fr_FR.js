@@ -1108,6 +1108,7 @@ const fr_FR = {
   'modalChangeDateTitle': 'Modifier la date d’expédition',
   'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition',
   'confirmation.account':'Gérer votre abonnement',
-  'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement'
+  'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement',
+  deliveredTip: 'Devrait arriver dans environ 3 jours',
 }
 export default fr_FR;

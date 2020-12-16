@@ -21,8 +21,8 @@ export function searchNextConfirmPanel({ list, curKey }) {
 
 /**
  * 判断当前panel的前序是否全部ready
-  * @param {Array} list
-  * @param {String}  curKey
+ * @param {Array} list
+ * @param {String}  curKey
  */
 export function isPrevReady({ list, curKey }) {
   const targetObj = find(list, (ele) => ele.key === curKey);
@@ -30,4 +30,21 @@ export function isPrevReady({ list, curKey }) {
     .filter((ele) => ele.order < targetObj.order)
     .every((ele) => ele.status.isCompleted);
   return isReadyPrev;
+}
+
+// 滑动到视野区域内
+export function scrollIntoView(element) {
+  if (element) {
+    window.scrollTo({
+      top: getElementToPageTop(element) - 300,
+      behavior: 'smooth'
+    });
+  }
+}
+
+function getElementToPageTop(el) {
+  if (el.parentElement) {
+    return getElementToPageTop(el.parentElement) + el.offsetTop;
+  }
+  return el.offsetTop;
 }
