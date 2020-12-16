@@ -91,6 +91,7 @@ class ClinicForm extends React.Component {
           <p
             onClick={this.gotoPrescriptionPage}
             className="rc-styled-link mb-1"
+            style={{ whiteSpace: 'nowrap' }}
           >
             <FormattedMessage id="edit" />
           </p>

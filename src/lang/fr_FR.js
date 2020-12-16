@@ -1050,9 +1050,8 @@ const fr_FR = {
   setAsDefault: 'Définir par défaut',
   mailAddress: 'Adresse mail',
   'account.startAutoShipping': 'En savoir plus',
-  'account.noSubscription': 'Vous ne connaissez pas encore l\'Abonnement ?\n' +
-    'L\'Abonnement permet de recevoir régulièrement et simplement les aliments préférés de votre animal. Dites-nous simplement où et quand l\'expédier, et nous nous assurerons que tout cedont il a besoin arrive directement àvotre porte.',
-  'account.noSubscriptionTitle': 'Découvrez l Abonnement',
+  'account.noSubscription': "Vous ne connaissez pas encore l'Abonnement ? {val1}L'Abonnement permet de recevoir régulièrement et simplement les aliments préférés de votre animal. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte",
+  'account.noSubscriptionTitle': "Découvrez l' Abonnement",
   'searchShow':'Résultats de la recherche',
   'singlePurchase': 'Achat Unique',
   'deliveryOneTimeOnly': 'Livraison 1 fois seulement',
