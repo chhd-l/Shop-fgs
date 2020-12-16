@@ -111,6 +111,12 @@ class Question extends React.Component {
       metadataQuestionDisplayType: targetItem.selectType,
       defaultListData: targetItem.answerList
     });
+    let questionList = qRes.questionList.map(item=>{
+      if(targetItem.answer!==undefined && targetItem.answer !== null){
+        item.defaultChecked = targetItem.answer == item.key
+      }
+      return item
+    })
     this.setState({
       progress: progress || 100,
       stepOrder: editStopOrder,
@@ -126,7 +132,7 @@ class Question extends React.Component {
         }, this.state.questionParams),
       questionCfg: {
         title: targetItem.question,
-        list: qRes.questionList,
+        list: questionList,
         placeholderList: qRes.holderList
       },
       questionType: qRes.questionType,
@@ -195,10 +201,24 @@ class Question extends React.Component {
             tmpFormParam = encodeURI(form.key);
             break;
           case 'select':
-            tmpFormParam = form.reduce((cur, prev) => cur + prev) + '';
+            tmpFormParam = form.reduce((cur, prev) => {
+              if(currentStepName=='age'){
+                // 如果是年龄，相加的时候需要转成number
+                cur=Number(cur)
+                prev=Number(prev)
+              }
+              return cur + prev
+            }) + '';
             break;
           default:
             break;
+        }
+        if(currentStepName=='age' && tmpFormParam==='0'){
+          // 当前选择年龄0岁0月不能提交
+          this.setState({
+            ageErrorShow: true
+          })
+          return
         }
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
@@ -215,20 +235,13 @@ class Question extends React.Component {
         finderNumber,
         questionParams: tmpQuestionParams
       };
-      if(tmpQuestionParams.age==='00' && this.state.isEdit){
-        // 选择年龄0岁0月不能提交
-        this.setState({
-          ageErrorShow: true
-        })
-        return
-      }
+     
       if (stepOrder > 0) {
         params.stepOrder = stepOrder;
       }
       if (initDataFromFreshPage) {
         params.freshPage = 1;
       }
-
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
       if (!resContext.isEndOfTree) {

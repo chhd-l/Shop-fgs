@@ -226,13 +226,13 @@ function ListItemBody({ item }) {
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {item.fromPrice}
+                  {formatMoney(item.fromPrice)}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
                         <FormattedMessage id="startEnd" />
                       </span>
-                      {item.toPrice}
+                      {formatMoney(item.toPrice)}
                     </>
                   ) : null}
                 </span>
