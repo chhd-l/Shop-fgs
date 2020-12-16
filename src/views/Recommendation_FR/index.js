@@ -112,7 +112,6 @@ class Help extends React.Component {
     // console.log(window.location, 'location', this.props)
     getRecommendationList(this.props.match.params.id)
       .then((res) => {
-        console.log(res, 'aaa');
         let productList = res.context.recommendationGoodsInfoRels;
         
         productList.map((el) => {
@@ -127,9 +126,7 @@ class Help extends React.Component {
                     let tempContent = ''
                     try{
                       if(key === 'Bénéfices') {
-                        
                         tmpGoodsDetail[key].map(ele => {
-                          console.log('Bénéfices', 'tempContent', tmpGoodsDetail[key], Object.keys(JSON.parse(ele))[0], Object.values(JSON.parse(ele))[0]['Description'])
                           // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
                           tempContent = tempContent + `<li>
                             <div class="">${Object.values(JSON.parse(ele))[0]['Description']}</div>
@@ -923,15 +920,16 @@ class Help extends React.Component {
                         <p
                           className="benefit"
                           style={{
-                            width: isMobile ? '70%' : '100%',
+                            width: '100%',
                             margin: '0 auto',
-                            padding: '0 40px'
+                            padding: isMobile?'0 20px': '0 40px'
                           }}
                         >
-                          <h5 className="red" style={{ margin: '30px 0 20px' }}>
+                          <h5 className="red" style={{ margin: '30px 0 20px', fontSize: isMobile? '18px': 'auto' }}>
                             Les bénéfices
                           </h5>
                           <p
+                            style={{fontSize: isMobile? '16px': 'auto'}}
                             dangerouslySetInnerHTML={
                               // productList[activeIndex].goodsInfo.goods
                                 // &&

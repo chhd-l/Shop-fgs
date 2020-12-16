@@ -59,6 +59,32 @@ class InfosPreview extends React.Component {
               {details.buyerRemark}
             </div>
           ) : null}
+          {details ? (
+            <div className="col-12 col-md-6">
+              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+                <FormattedMessage id="billingAddress" />
+              </div>
+              
+              <div>
+                <span>{details.invoice.contacts}</span>
+              </div>           
+              <div>
+                {details.invoice.postCode}, {details.invoice.phone}
+              </div>
+              {this.matchNamefromDict(
+                this.state.countryList,
+                details.invoice.countryId
+              )}{' '}
+              {details.invoice.cityName}
+              <br />
+              {details.invoice.address1}
+              <br />
+              {details.invoice.address2}
+              {details.invoice.address2 ? <br /> : null}
+              {details.invoice.rfc}
+              {details.invoice.rfc ? <br /> : null}
+            </div>
+          ) : null}
           {payRecord && payRecord.last4Digits ? (
             // && payRecord.paymentMethod !== 'ADYEN'
             <div className="col-12 col-md-6 mb-3">
@@ -108,32 +134,7 @@ class InfosPreview extends React.Component {
               {payRecord.email}
             </div>
           ) : null}
-          {details ? (
-            <div className="col-12 col-md-6">
-              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
-                <FormattedMessage id="billingAddress" />
-              </div>
-              
-              <div>
-                <span>{details.invoice.contacts}</span>
-              </div>           
-              <div>
-                {details.invoice.postCode}, {details.invoice.phone}
-              </div>
-              {this.matchNamefromDict(
-                this.state.countryList,
-                details.invoice.countryId
-              )}{' '}
-              {details.invoice.cityName}
-              <br />
-              {details.invoice.address1}
-              <br />
-              {details.invoice.address2}
-              {details.invoice.address2 ? <br /> : null}
-              {details.invoice.rfc}
-              {details.invoice.rfc ? <br /> : null}
-            </div>
-          ) : null}
+          
         </div>
       </div>
     );
