@@ -1106,7 +1106,7 @@ const fr_FR = {
   'skiped': 'Ignoré',
   'orderDetail': 'Détails de la commande',
   'modalChangeDateTitle': 'Modifier la date d’expédition',
-  'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition',
+  'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition ?',
   'confirmation.account':'Gérer votre abonnement',
   'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement',
   deliveredTip: 'Devrait arriver dans environ 3 jours',
