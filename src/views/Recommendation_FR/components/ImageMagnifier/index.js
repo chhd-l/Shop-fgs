@@ -47,7 +47,7 @@ class ImageMagnifier extends Component {
           // height: "400px",
           // border: "1px solid #ccc",
           margin: '0 auto',
-          cursor: 'move',
+          // cursor: 'move',
           position: 'relative'
         },
         // 鼠标悬停小方块样式
@@ -283,7 +283,7 @@ class ImageMagnifier extends Component {
   imageChange(e, image, i) {
     console.log(i);
     let cssStyle = JSON.parse(JSON.stringify(this.state.cssStyle));
-    cssStyle.imgContainer.cursor = 'move';
+    // cssStyle.imgContainer.cursor = 'move';
     this.setState({
       currentImg: image,
       videoShow: false,
@@ -426,14 +426,14 @@ class ImageMagnifier extends Component {
             )}
             {/* {!(videoShow && video) && <img id="J_detail_img" style={cssStyle.imgStyle} src={currentImg} alt="" />} */}
 
-            {!videoShow && getDeviceType() === 'PC' && (
+            {/* {!videoShow && getDeviceType() === 'PC' && (
               <div
                 style={cssStyle.maskBlock}
                 onMouseEnter={this.mouseEnter}
                 onMouseLeave={this.mouseLeave}
                 onMouseMove={this.mouseMove}
               />
-            )}
+            )} */}
             {!videoShow && magnifierOff && <div style={cssStyle.mouseBlock} />}
           </div>
           {magnifierOff && !videoShow && (
