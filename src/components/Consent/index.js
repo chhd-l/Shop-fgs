@@ -81,7 +81,7 @@ class Consent extends Component {
             <div className="d-flex flex-column" style={{ zoom: fontZoom }}>
               <div className="footer-checkbox" key={index}>
                 <div className="d-flex">
-                  <div
+                  <span
                     className={
                       zoom === '150%'
                         ? 'footer-checkbox-title mt'
@@ -89,11 +89,7 @@ class Consent extends Component {
                     }
                     dangerouslySetInnerHTML={createMarkup(item.consentTitle)}
                   />
-                  <div className="rc-text-colour--brand1">
-                    <p style={{ width: `${checkboxPadding}` }}>
-                      {item.isRequired ? '*' : ''}
-                    </p>
-                  </div>
+                  <span class="rc-text-colour--brand1">{item.isRequired ? '*' : ''}</span>
                 </div>
               </div>
               <div
