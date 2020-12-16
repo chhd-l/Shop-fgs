@@ -460,16 +460,19 @@ class List extends React.Component {
   }
   async initData() {
     const { storeCateIds, keywords } = this.state;
-    this.getProductList(this.fidFromSearch ? 'search_fid' : '');
+    // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
-      list.sort((a, b) => a.sort - b.sort);
+      list = list.sort((a, b) => a.sort - b.sort).map(ele => ({
+        ...ele,
+        name: ele.sortName,
+        value: ele.field
+      }))
       this.setState({
-        sortList: list.map((ele) => ({
-          ...ele,
-          name: ele.sortName,
-          value: ele.field
-        }))
+        sortList: list,
+        selectedSortParam: list[0]
+      },() => {
+        this.getProductList()
       });
     });
     // findFilterList()
@@ -556,7 +559,7 @@ class List extends React.Component {
       searchForm,
       defaultFilterSearchForm
     } = this.state;
-
+    console.log(selectedSortParam, 'selectedSortParam')
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -618,16 +621,16 @@ class List extends React.Component {
         return item;
       });
     // 点击filter，触发局部刷新或整页面刷新
-    if (!initingList) {
-      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
-      history.push({
-        pathname,
-        state: {
-          filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-        }
-      });
-    }
+    // if (!initingList) {
+    //   pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
+    //   sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
+    //   history.push({
+    //     pathname,
+    //     state: {
+    //       filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
+    //     }
+    //   });
+    // }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -858,6 +861,7 @@ class List extends React.Component {
       keywords,
       cateName
     } = this.state;
+    console.log(selectedSortParam, 'selectedSortParam')
     let event;
     let eEvents;
     if (category) {
@@ -1078,7 +1082,7 @@ class List extends React.Component {
                                       selectedSortParam.value) ||
                                     ''
                                 }}
-                                placeholder={<FormattedMessage id="sortBy" />}
+                                // placeholder={<FormattedMessage id="sortBy" />}
                                 customInnerStyle={{
                                   paddingTop: '.7em',
                                   paddingBottom: '.7em'
