@@ -415,6 +415,7 @@ async function getGoodsSeo(goodsId) {
 
 // 修改title和meta
 function changeTitleAndMeta(seoInfo) {
+  console.log('changeTitleAndMeta');
   if (seoInfo.title) {
     document.title = seoInfo.title;
   }
