@@ -213,6 +213,13 @@ class Question extends React.Component {
           default:
             break;
         }
+        if(currentStepName=='age' && tmpFormParam==='0'){
+          // 当前选择年龄0岁0月不能提交
+          this.setState({
+            ageErrorShow: true
+          })
+          return
+        }
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
@@ -228,20 +235,13 @@ class Question extends React.Component {
         finderNumber,
         questionParams: tmpQuestionParams
       };
-      if(tmpQuestionParams.age==='00' && this.state.isEdit){
-        // 选择年龄0岁0月不能提交
-        this.setState({
-          ageErrorShow: true
-        })
-        return
-      }
+     
       if (stepOrder > 0) {
         params.stepOrder = stepOrder;
       }
       if (initDataFromFreshPage) {
         params.freshPage = 1;
       }
-
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
       if (!resContext.isEndOfTree) {
