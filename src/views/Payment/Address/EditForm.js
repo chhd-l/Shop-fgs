@@ -51,17 +51,17 @@ class EditForm extends React.Component {
         const tmpKey =
           type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
         if (deliveryInfo) {
-          this.setState(
-            {
-              address: Object.assign(address, deliveryInfo[tmpKey], {
-                country: process.env.REACT_APP_DEFAULT_COUNTRYID
-              })
-            },
-            () => {
-              this.updateSelectedMobxData();
-              this.props.updateData(address);
-            }
-          );
+          // this.setState(
+          //   {
+          //     address: Object.assign(address, deliveryInfo[tmpKey], {
+          //       country: process.env.REACT_APP_DEFAULT_COUNTRYID
+          //     })
+          //   },
+          //   () => {
+          //     this.updateSelectedMobxData();
+          //     this.props.updateData(address);
+          //   }
+          // );
         } else {
           this.setState({
             address: Object.assign(address, {

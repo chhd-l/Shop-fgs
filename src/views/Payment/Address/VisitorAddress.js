@@ -151,7 +151,7 @@ class VisitorAddress extends React.Component {
     const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
-    console.log(222222, toJS(this.panelStatus));
+    
     const _editForm = (
       <EditForm
         type="delivery"
