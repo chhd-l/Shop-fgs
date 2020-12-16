@@ -636,6 +636,7 @@ class AccountOrders extends React.Component {
                             {orderList.map((order) => (
                               <div
                                 className="card-container"
+                                style={{paddingBottom: this.deviceType === 'H5'? '20px': '0'}}
                                 key={order.id}
                                 onClick={this.handleClickCardItem.bind(
                                   this,
@@ -730,7 +731,20 @@ class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row mb-3 mt-3 align-items-center m-0">
+                                <div className="row mb-3 mt-3 align-items-center m-0" style={{position: 'relative'}}>
+                                  <div style={{position: 'absolute',right: '15px', bottom: '-20px'}}>
+                                    {
+                                      order.tradeState.deliverStatus ===
+                                      'SHIPPED' && (
+                                        <span className="rc-styled-link" onClick={this.handleDownInvoice.bind(
+                                          this,
+                                          order
+                                        )}>
+                                          <FormattedMessage id="invoice" />
+                                        </span>
+                                      )
+                                    }
+                                  </div>
                                   {/* 订单发货tip */}
                                   {((order.payState === 'PAID' &&
                                     order.auditState === 'CHECKED' &&
