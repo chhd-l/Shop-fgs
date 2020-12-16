@@ -205,14 +205,20 @@ class AdyenCreditCardList extends React.Component {
       paymentStore.updateFirstSavedCardCvv('');
       return;
     }
-    if(el.isLoadCvv && !el.encryptedSecurityCode) return
-    
+    if(el.isLoadCvv && !el.encryptedSecurityCode) return //不需要加载(已经加载过+cvv为空)
     //第一次绑定这张卡,不需要填写CVV end
+
+
+    // ****************************************************************
     //1 不加载cvv框的情况
     //1.1 已加载，并选中
     //1.2 已加载，并无加密cvv
     // if (el.isLoadCvv && (el.id === selectedId || !el.encryptedSecurityCode))
-    //   return; //不需要加载(已经加载过+cvv为空)
+    //   return; 
+    //*****************************************************************
+
+
+
     el.encryptedSecurityCode = ''; //loadCvv的时候先清空cvv
     let element = '#cvv_' + id;
     loadJS({
@@ -235,10 +241,13 @@ class AdyenCreditCardList extends React.Component {
                 if (!state.data.paymentMethod.encryptedSecurityCode) return;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
+                 // ****************************************************************
                 //el.encryptedSecurityCode = tmpCode;
-                //debugger
+                 // ****************************************************************
                 updateSelectedCardInfo(result);
+                 // ****************************************************************
                 //_this.setState({ cardList: _this.state.cardList });
+                 // ****************************************************************
               },
               onLoad: (state) => {
                 el.isLoadCvv = true;
