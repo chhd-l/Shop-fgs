@@ -1,6 +1,14 @@
 .Recommendation_FR p {
   margin-bottom: 30px;
 }
+.Recommendation_FR .benefit ul {
+  padding-left: 40px;
+}
+.Recommendation_FR .benefit ul > li {
+  height: auto;
+  text-align: left;
+  list-style: disc;
+}
 .Recommendation_FR h2 {
   margin-bottom: 10px;
 }
