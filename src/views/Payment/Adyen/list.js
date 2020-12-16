@@ -284,7 +284,7 @@ class AdyenCreditCardList extends React.Component {
           </LazyLoad>
         </div>
         <div className="col-12 col-sm-8 flex-column justify-content-around d-flex pb-1 pb-md-0">
-          <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
+          <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
                 {/* <div className={`col-4`} style={{ fontSize: '14px' }}>
@@ -311,7 +311,7 @@ class AdyenCreditCardList extends React.Component {
             </div>
           </div>
           {showLastFour && (
-            <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
+            <div className="row ui-margin-top-1-md-down PayCardBoxMargin text-break">
               <div className="col-6">
                 <span style={{ fontSize: '14px' }}>
                   <FormattedMessage id="payment.cardNumber2" />

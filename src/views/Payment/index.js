@@ -133,8 +133,10 @@ class Payment extends React.Component {
       AuditData: [],
       needPrescriber: false,
       unLoginBackPets: [],
-      guestEmail: ''
+      guestEmail: '',
+      mobileCartVisibleKey: 'less' // less/more
     };
+    this.toggleMobileCart = this.toggleMobileCart.bind(this);
     this.timer = null;
   }
   async componentDidMount() {
@@ -1722,8 +1724,8 @@ class Payment extends React.Component {
               clickPay={this.initCommonPay}
               showErrorMsg={this.showErrorMsg}
               updateAdyenPayParam={(data) => {
-                this.setState({ adyenPayParam: data },()=>{
-                  console.log(this.state.adyenPayParam)
+                this.setState({ adyenPayParam: data }, () => {
+                  console.log(this.state.adyenPayParam);
                   // debugger
                 });
               }}
@@ -1870,6 +1872,9 @@ class Payment extends React.Component {
   updateGuestEmail = ({ email: guestEmail }) => {
     this.setState({ guestEmail });
   };
+  toggleMobileCart(name) {
+    this.setState({ mobileCartVisibleKey: name });
+  }
   render() {
     const event = {
       page: {
@@ -1889,7 +1894,8 @@ class Payment extends React.Component {
       subForm,
       promotionCode,
       petModalVisible,
-      isAdd
+      isAdd,
+      mobileCartVisibleKey
     } = this.state;
 
     console.log(
@@ -1909,7 +1915,6 @@ class Payment extends React.Component {
         />
         {loading ? <Loading /> : null}
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
-          {/* <BannerTip /> */}
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
             <div className="rc-layout-container rc-three-column rc-max-width--xl">
@@ -2130,7 +2135,7 @@ class Payment extends React.Component {
                   />
                 )}
               </div>
-              <div className="rc-column pl-md-0">
+              <div className="rc-column pl-md-0 rc-md-up">
                 {tid ? (
                   <>
                     <RePayProductInfo
@@ -2160,6 +2165,46 @@ class Payment extends React.Component {
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
+          </div>
+          <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
+            <div
+              className={`order-summary-title align-items-center justify-content-between text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
+              onClick={this.toggleMobileCart.bind(this, 'more')}
+            >
+              <span
+                className="rc-icon rc-up rc-iconography"
+                style={{ transform: 'scale(.7)' }}
+              />
+              <span>
+                <FormattedMessage id="payment.yourOrder" />
+              </span>
+              <span className="grand-total-sum">
+                {formatMoney(this.tradePrice)}
+              </span>
+            </div>
+            <PayProductInfo
+              data={recommend_data}
+              fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+              style={{
+                background: '#fff',
+                maxHeight: '80vh'
+              }}
+              className={`${mobileCartVisibleKey === 'more' ? '' : 'hidden'}`}
+              ref="payProductInfo"
+              location={location}
+              history={history}
+              frequencyName={subForm.frequencyName}
+              buyWay={subForm.buyWay}
+              sendPromotionCode={this.savePromotionCode}
+              promotionCode={promotionCode}
+              operateBtnVisible={!tid}
+              onClickHeader={this.toggleMobileCart.bind(this, 'less')}
+              headerIcon={
+                <span className="rc-icon rc-down--xs rc-iconography" />
+              }
+            />
           </div>
         </main>
         <Footer />
