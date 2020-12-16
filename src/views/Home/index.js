@@ -404,15 +404,17 @@ class Home extends React.Component {
     this.setState({ deviceType: getDeviceType() });
     setSeoConfig({ pageName: 'Home Page' });
     queryStoreCateList().then((res) => {
-      let tmpRes = (res || []).map((ele) => {
-        try {
-          let tmpList = JSON.parse(ele.cateImg);
-          ele.cateImgHome = tmpList[0].artworkUrl;
-          ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
-          ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
-        } catch (e) {}
-        return ele;
-      });
+      let tmpRes = (res || [])
+        .sort((a, b) => a.sort - b.sort)
+        .map((ele) => {
+          try {
+            let tmpList = JSON.parse(ele.cateImg);
+            ele.cateImgHome = tmpList[0].artworkUrl;
+            ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
+            ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
+          } catch (e) {}
+          return ele;
+        });
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }

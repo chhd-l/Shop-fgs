@@ -732,13 +732,12 @@ class AccountOrders extends React.Component {
                                 </div>
                                 <div className="row mb-3 mt-3 align-items-center m-0">
                                   {/* 订单发货tip */}
-                                  {((tradeState.payState === 'PAID' &&
-                                    tradeState.auditState === 'CHECKED' &&
-                                    tradeState.deliverStatus === 'SHIPPED' &&
-                                    tradeState.flowState === 'DELIVERED') ||
-                                    (tradeState.deliverStatus ===
-                                      'PART_SHIPPED' &&
-                                      tradeState.flowState ===
+                                  {((order.tradeState.payState === 'PAID' &&
+                                    order.tradeState.auditState === 'CHECKED' &&
+                                    order.tradeState.deliverStatus === 'SHIPPED' &&
+                                    order.tradeState.flowState === 'DELIVERED') ||
+                                    (order.tradeState.deliverStatus === 'PART_SHIPPED' &&
+                                      order.tradeState.flowState ===
                                         'DELIVERED_PART')) && (
                                     <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
                                       <p className="medium mb-0 color-444">
