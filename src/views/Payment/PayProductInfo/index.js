@@ -2,9 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import find from 'lodash/find';
-import { formatMoney, getDictionary } from '@/utils/utils';
+import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -14,7 +13,10 @@ class PayProductInfo extends React.Component {
   static defaultProps = {
     operateBtnVisible: false,
     fixToHeader: false,
-    style: {}
+    style: {},
+    className: '',
+    onClickHeader: () => {},
+    headerIcon: null
   };
   constructor(props) {
     super(props);
@@ -27,6 +29,7 @@ class PayProductInfo extends React.Component {
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: []
     };
+    this.handleClickProName = this.handleClickProName.bind(this);
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
@@ -69,19 +72,16 @@ class PayProductInfo extends React.Component {
         (ele) => ele.selected
       );
     }
-    Promise.all([
-      getDictionary({ type: 'Frequency_week' }),
-      getDictionary({ type: 'Frequency_month' })
-    ]).then((dictList) => {
-      this.setState({
-        frequencyList: [...dictList[0], ...dictList[1]]
-      });
-    });
     this.setState(
       Object.assign({
         productList: productList || []
       })
     );
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res
+      });
+    });
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -127,7 +127,7 @@ class PayProductInfo extends React.Component {
                   <div
                     className="line-item-name ui-text-overflow-line2 text-break"
                     title={el.goodsName}
-                    onClick={() => this.handleClickProName(el)}
+                    onClick={this.handleClickProName.bind(this, el)}
                   >
                     <span className="light">{el.goodsName}</span>
                   </div>
@@ -165,7 +165,7 @@ class PayProductInfo extends React.Component {
   isSubscription(el) {
     return el.goodsInfoFlag;
   }
-  handleClickProName = (item) => {
+  handleClickProName(item) {
     sessionItemRoyal.set(
       'rc-goods-cate-name',
       (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
@@ -179,9 +179,8 @@ class PayProductInfo extends React.Component {
     this.props.history.push(
       `/${item.goodsName.toLowerCase().split(' ').join('-')}-${item.goodsNo}`
     );
-  };
+  }
   getProductsForLogin(plist) {
-    console.log(toJS(plist), 'plist');
     const List = plist.map((el, i) => {
       return (
         <div className="product-summary__products__item" key={i}>
@@ -224,7 +223,6 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {/* {this.props.frequencyName}{' '} */}
                         {this.matchNamefromDict(
                           this.state.frequencyList,
                           el.periodTypeId
@@ -270,7 +268,7 @@ class PayProductInfo extends React.Component {
                 ) : null}
               </div>
             </div>
-            <div className="item-options"></div>
+            <div className="item-options" />
           </div>
         </div>
       );
@@ -278,14 +276,19 @@ class PayProductInfo extends React.Component {
     return List;
   }
   getTotalItems() {
+    const { headerIcon } = this.props;
     const { productList } = this.state;
     let quantityKeyName = 'quantity';
     if (this.isLogin || this.props.data.length) {
       quantityKeyName = 'buyCount';
     }
     return (
-      <div className="product-summary__itemnbr checkout--padding border-bottom d-flex align-items-center justify-content-between">
-        <span>
+      <div
+        className="product-summary__itemnbr border-bottom d-flex align-items-center justify-content-between pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3"
+        onClick={this.props.onClickHeader}
+      >
+        {headerIcon}
+        <span className="medium">
           <FormattedMessage
             id="payment.totalProduct"
             values={{
@@ -343,17 +346,15 @@ class PayProductInfo extends React.Component {
                     )}
                   </FormattedMessage>
 
-                  <label className="rc-input__label" htmlFor="id-text2"></label>
+                  <label className="rc-input__label" htmlFor="id-text2" />
                 </span>
                 <button
                   id="promotionApply"
-                  className={[
-                    'rc-btn',
-                    'rc-btn--sm',
-                    'rc-btn--two',
-                    this.state.isClickApply &&
-                      'ui-btn-loading ui-btn-loading-border-red'
-                  ].join(' ')}
+                  className={`rc-btn rc-btn--sm rc-btn--two ${
+                    this.state.isClickApply
+                      ? 'ui-btn-loading ui-btn-loading-border-red'
+                      : ''
+                  }`}
                   style={{ marginTop: '10px', float: 'right' }}
                   onClick={async () => {
                     let result = {};
@@ -431,7 +432,6 @@ class PayProductInfo extends React.Component {
                       className="order-receipt-label order-shipping-cost"
                       style={{ color: '#ec001a' }}
                     >
-                      {/* <span><FormattedMessage id="subscribeDiscount" /></span> */}
                       {this.promotionDesc || (
                         <FormattedMessage id="promotion" />
                       )}
@@ -485,7 +485,6 @@ class PayProductInfo extends React.Component {
                 <div style={{ marginTop: '10px' }}>
                   {!this.state.isShowValidCode &&
                   this.props.checkoutStore.promotionCode ? (
-                    // this.state.discount.map((el) =>
                     <div
                       className="flex-layout"
                       style={{ marginRight: '18px' }}
@@ -555,10 +554,7 @@ class PayProductInfo extends React.Component {
               </div>
             </div>
           </div>
-          <div
-            className="product-summary__total grand-total row leading-lines checkout--padding border-top"
-            style={{ paddingBottom: '5px' }}
-          >
+          <div className="product-summary__total grand-total row leading-lines border-top pl-md-3 pr-md-3 pt-2 pb-2 pt-md-3 pb-md-3">
             <div className="col-6 start-lines">
               <span>
                 <FormattedMessage id="totalIncluIVA" />
@@ -600,26 +596,32 @@ class PayProductInfo extends React.Component {
     });
   };
   render() {
-    return this.props.fixToHeader ? (
-      <div className="rc-bg-colour--brand3" id="J_sidecart_container">
+    const { className, fixToHeader, style } = this.props;
+    return fixToHeader ? (
+      <div
+        className="rc-bg-colour--brand3"
+        style={{ ...style }}
+        id="J_sidecart_container"
+      >
         {/* 法国环境不加固定定位 */}
-        {process.env.REACT_APP_LANG !== 'fr' &&
-          this.sideCart({
-            className: 'hidden rc-md-up',
-            style: {
-              background: '#fff',
-              zIndex: 9,
-              width: 345,
-              maxHeight: '88vh',
-              overflowY: 'auto',
-              position: 'relative'
-            },
-            id: 'J_sidecart_fix'
-          })}
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 345,
+            maxHeight: '88vh',
+            overflowY: 'auto',
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
         {this.sideCart()}
       </div>
     ) : (
-      <div style={{ ...this.props.style }}>{this.sideCart()}</div>
+      <div className={className} style={{ ...style }}>
+        {this.sideCart()}
+      </div>
     );
   }
 }
