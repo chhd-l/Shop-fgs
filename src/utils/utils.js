@@ -6,6 +6,11 @@ import find from 'lodash/find';
 import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
+import {createIntl, createIntlCache} from 'react-intl'
+import es from 'date-fns/locale/es';
+import de from 'date-fns/locale/de';
+import fr from 'date-fns/locale/de';
+import { registerLocale } from 'react-datepicker';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -410,6 +415,7 @@ async function getGoodsSeo(goodsId) {
 
 // 修改title和meta
 function changeTitleAndMeta(seoInfo) {
+  console.log('changeTitleAndMeta');
   if (seoInfo.title) {
     document.title = seoInfo.title;
   }
@@ -529,3 +535,47 @@ export async function queryStoreCateList() {
   }
   return ret;
 }
+
+
+export function getFormatDate(date){
+  if(process.env.REACT_APP_LANG === 'fr') {
+    const cache = createIntlCache()
+    const intl = createIntl({
+      locale: 'fr-FR',
+      messages: {}
+    }, cache)
+    return intl.formatDate(date)
+  }else {
+    return date  
+  }
+}
+
+function getDatePickerConfig() {
+  const lang = process.env.REACT_APP_LANG;
+
+  switch (lang) {
+    case 'de':
+      registerLocale('de', de);
+      break;
+    case 'es':
+      registerLocale('es', es);
+      break;
+    case 'fr':
+      registerLocale('fr', fr);
+      break;
+    default:
+      break;
+  }
+
+  const datePickerCfg = {
+    es: { format: 'yyyy-MM-dd', locale: 'es' },
+    de: { format: 'dd.MM.yyyy', locale: 'de' },
+    fr: { format: 'dd/MM/yyyy', locale: 'fr' },
+    default: { format: 'yyyy-MM-dd', locale: '' }
+  };
+
+  const curDatePickerCfg = datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
+  return curDatePickerCfg
+}
+let datePickerConfig = getDatePickerConfig()
+export { datePickerConfig } 

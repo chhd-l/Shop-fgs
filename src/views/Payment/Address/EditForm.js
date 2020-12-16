@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';
@@ -52,17 +51,17 @@ class EditForm extends React.Component {
         const tmpKey =
           type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
         if (deliveryInfo) {
-          this.setState(
-            {
-              address: Object.assign(address, deliveryInfo[tmpKey], {
-                country: process.env.REACT_APP_DEFAULT_COUNTRYID
-              })
-            },
-            () => {
-              this.updateSelectedMobxData();
-              this.props.updateData(address);
-            }
-          );
+          // this.setState(
+          //   {
+          //     address: Object.assign(address, deliveryInfo[tmpKey], {
+          //       country: process.env.REACT_APP_DEFAULT_COUNTRYID
+          //     })
+          //   },
+          //   () => {
+          //     this.updateSelectedMobxData();
+          //     this.props.updateData(address);
+          //   }
+          // );
         } else {
           this.setState({
             address: Object.assign(address, {

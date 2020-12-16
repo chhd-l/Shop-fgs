@@ -51,8 +51,7 @@ REACT_APP_LIMITED_CATE_NUM = 30
 #货币单位
 REACT_APP_CURRENCY_TYPE = 3
 
-#html title
-REACT_APP_TITLE = Royal Canin - официальный интернет-магазин
+
 
 #是否开启promotion
 REACT_APP_IS_PROMOTION = false

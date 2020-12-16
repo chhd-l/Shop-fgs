@@ -4,9 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData } from '@/utils/utils';
-import { searchNextConfirmPanel } from '../modules/utils';
-import SameAsCheckbox from './SameAsCheckbox';
+import { getDictionary, validData, getDeviceType } from '@/utils/utils';
+import { searchNextConfirmPanel, scrollIntoView } from '../modules/utils';
 import './VisitorAddress.css';
 
 /**
@@ -19,7 +18,6 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isOnepageCheckout: false,
-    updateSameAsCheckBoxVal: () => {},
     initData: null,
     titleVisible: true
   };
@@ -29,7 +27,8 @@ class VisitorAddress extends React.Component {
       isValid: false,
       form: this.props.initData,
       countryList: [],
-      billingChecked: true
+      billingChecked: true,
+      isMobile: getDeviceType() === 'H5'
     };
   }
   componentDidMount() {
@@ -64,12 +63,13 @@ class VisitorAddress extends React.Component {
     }
   };
   handleClickConfirm = () => {
-    if (!this.state.isValid) {
+    const { isMobile, isValid, form } = this.state;
+    const { paymentStore } = this.props;
+    if (!isValid) {
       return false;
     }
-    this.props.updateData(this.state.form);
+    this.props.updateData(form);
 
-    const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
     if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
@@ -81,23 +81,23 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    setTimeout(() => {
+      isMobile &&
+        scrollIntoView(
+          document.querySelector(`#J_checkout_panel_paymentMethod`)
+        );
+    });
   };
   handleClickEdit = () => {
-    this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
+    this.props.paymentStore.setStsToEdit({
+      key: this.curPanelKey,
+      hideOthers: true
+    });
   };
   matchNamefromDict = (dictList, id) => {
     return dictList.filter((ele) => ele.id + '' === id).length
       ? dictList.filter((ele) => ele.id + '' === id)[0].name
       : id;
-  };
-  updateSameAsCheckBoxVal = (val) => {
-    // todo
-    // 切换时，当delivery已完成时，需更改 billing module的isPrepared = false, isEdit = true
-    if (!val && this.panelStatus.isCompleted) {
-      this.props.paymentStore.setStsToEdit({ key: 'billingAddr' });
-    }
-    this.setState({ billingChecked: val });
-    this.props.updateSameAsCheckBoxVal(val);
   };
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
@@ -148,8 +148,10 @@ class VisitorAddress extends React.Component {
     );
   };
   render() {
+    const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
+    
     const _editForm = (
       <EditForm
         type="delivery"
@@ -159,22 +161,24 @@ class VisitorAddress extends React.Component {
         updateData={this.handleEditFormChange}
       />
     );
-    const _sameAsCheckbox = this.props.type === 'delivery' && (
-      <SameAsCheckbox updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal} />
-    );
+    const _title = panelStatus.isPrepare
+      ? this.titleJSXForPrepare()
+      : panelStatus.isEdit
+      ? this.titleJSXForEdit()
+      : panelStatus.isCompleted
+      ? this.titleJSXForCompeleted()
+      : null;
     return (
       <>
         {this.props.titleVisible && (
           <div className="bg-transparent d-flex justify-content-between align-items-center">
-            {this.panelStatus.isPrepare && this.titleJSXForPrepare()}
-            {this.panelStatus.isEdit && this.titleJSXForEdit()}
-            {this.panelStatus.isCompleted && this.titleJSXForCompeleted()}
+            {_title}
           </div>
         )}
 
-        {isOnepageCheckout && !this.panelStatus.isPrepare ? (
+        {isOnepageCheckout && !panelStatus.isPrepare ? (
           <>
-            {this.panelStatus.isEdit ? (
+            {panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
                 {_editForm}
                 <div className="d-flex justify-content-end mb-2">
@@ -208,15 +212,9 @@ class VisitorAddress extends React.Component {
                 {form.rfc}
               </div>
             )}
-            {/* {_sameAsCheckbox} */}
           </>
         ) : null}
-        {!isOnepageCheckout && (
-          <>
-            {_editForm}
-            {/* {_sameAsCheckbox} */}
-          </>
-        )}
+        {!isOnepageCheckout && <>{_editForm}</>}
       </>
     );
   }

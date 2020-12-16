@@ -11,7 +11,6 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
-import SameAsCheckbox from './SameAsCheckbox';
 import './list.less';
 
 /**
@@ -121,38 +120,14 @@ class AddressList extends React.Component {
           selectedId: tmpId
         },
         () => {
-          const { paymentStore, updateData } = this.props;
-          const { billingChecked, selectedId } = this.state;
+          const { updateData } = this.props;
+          const { selectedId } = this.state;
           const tmpObj = find(
             this.state.addressList,
             (ele) => ele.deliveryAddressId === selectedId
           );
           updateData && updateData(tmpObj);
-
-          if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
-            paymentStore.setStsToCompleted({ key: 'billingAddr' });
-          }
-
-          // 下一个最近的未complete的panel
-          const nextConfirmPanel = searchNextConfirmPanel({
-            list: toJS(paymentStore.panelStatus),
-            curKey: this.curPanelKey
-          });
-
-          if (tmpObj) {
-            paymentStore.setStsToCompleted({ key: this.curPanelKey });
-
-            let isReadyPrev = isPrevReady({
-              list: toJS(paymentStore.panelStatus),
-              curKey: this.curPanelKey
-            });
-
-            isReadyPrev &&
-              paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-          } else {
-            // 没有地址的情况
-            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
-          }
+          this.confirmToNextPanel(tmpObj);
         }
       );
     } catch (err) {
@@ -161,6 +136,33 @@ class AddressList extends React.Component {
       });
     } finally {
       this.setState({ loading: false });
+    }
+  }
+  confirmToNextPanel(data) {
+    const { paymentStore } = this.props;
+    const { billingChecked } = this.state;
+    if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    }
+
+    // 下一个最近的未complete的panel
+    const nextConfirmPanel = searchNextConfirmPanel({
+      list: toJS(paymentStore.panelStatus),
+      curKey: this.curPanelKey
+    });
+
+    if (data) {
+      paymentStore.setStsToCompleted({ key: this.curPanelKey });
+
+      let isReadyPrev = isPrevReady({
+        list: toJS(paymentStore.panelStatus),
+        curKey: this.curPanelKey
+      });
+
+      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    } else {
+      // 没有地址的情况
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
   }
   getDictValue(list, id) {
@@ -240,7 +242,10 @@ class AddressList extends React.Component {
         this.setState({
           addOrEdit: true
         });
-        this.props.paymentStore.setStsToEdit({ key: this.curPanelKey });
+        this.props.paymentStore.setStsToEdit({
+          key: this.curPanelKey,
+          hideOthers: true
+        });
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
@@ -286,6 +291,7 @@ class AddressList extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel = () => {
+    // this.confirmToNextPanel()
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
   };
@@ -600,14 +606,6 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-    const _sameAsCheckbox = this.props.type === 'delivery' && (
-      <SameAsCheckbox
-        updateSameAsCheckBoxVal={(val) => {
-          this.setState({ billingChecked: val });
-          this.props.updateSameAsCheckBoxVal(val);
-        }}
-      />
-    );
 
     return (
       <>
@@ -675,17 +673,9 @@ class AddressList extends React.Component {
                 ) : null}
                 {/* add or edit address form */}
                 {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
-                  <>
-                    {_form}
-                    {/* {_sameAsCheckbox} */}
-                  </>
+                  <>{_form}</>
                 ) : null}
-                {!this.props.isOnepageCheckout && (
-                  <>
-                    {_form}
-                    {/* {_sameAsCheckbox} */}
-                  </>
-                )}
+                {!this.props.isOnepageCheckout && <>{_form}</>}
               </>
             )}
           </div>

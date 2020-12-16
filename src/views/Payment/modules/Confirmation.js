@@ -66,29 +66,49 @@ class Confirmation extends React.Component {
     this.props.clickPay();
   };
   render() {
+    const { confirmationPanelStatus } = this;
     const { checkoutStore } = this.props;
     const { tradePrice } = checkoutStore;
+    const { isValid } = this.state;
+    const titleJSXForPrepare = (
+      <h5 className={`mb-0`}>
+        <em
+          className="iconfont font-weight-bold ml-1"
+          style={{ marginRight: '.7rem' }}
+        >
+          &#xe68c;
+        </em>{' '}
+        <FormattedMessage id="confirmation" />
+      </h5>
+    );
+    const titleJSXForEdit = (
+      <h5 className={`mb-0 red`}>
+        <em
+          className="iconfont font-weight-bold ml-1"
+          style={{ marginRight: '.7rem' }}
+        >
+          &#xe68c;
+        </em>{' '}
+        <FormattedMessage id="confirmation" />
+      </h5>
+    );
+    const _title = confirmationPanelStatus.isPrepare
+      ? titleJSXForPrepare
+      : confirmationPanelStatus.isEdit
+      ? titleJSXForEdit
+      : null;
     return (
       <>
-        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded">
+        <div
+          id="J_checkout_panel_confirmation"
+          className="card-panel checkout--padding rc-bg-colour--brand3 rounded"
+        >
           <div className="bg-transparent d-flex justify-content-between align-items-center">
-            <h5
-              className={`mb-0 ${
-                this.confirmationPanelStatus.isEdit ? 'red' : ''
-              }`}
-            >
-              <em
-                className="iconfont font-weight-bold ml-1"
-                style={{ marginRight: '.7rem' }}
-              >
-                &#xe68c;
-              </em>{' '}
-              <FormattedMessage id="confirmation" />
-            </h5>
+            {_title}
           </div>
           <div
             className={`pt-3 ${
-              !this.confirmationPanelStatus.isPrepare ? '' : 'hidden'
+              !confirmationPanelStatus.isPrepare ? '' : 'hidden'
             }`}
           >
             {/* 条款 */}
@@ -100,20 +120,18 @@ class Confirmation extends React.Component {
               }}
             />
 
-            <div className="next-step-button">
-              <div className="rc-text--right">
-                <button
-                  className={`rc-btn rc-btn--one submit-payment`}
-                  type="submit"
-                  name="submit"
-                  value="submit-shipping"
-                  disabled={!this.state.isValid}
-                  onClick={this.clickPay}
-                >
-                  <FormattedMessage id="payment.further" />{' '}
-                  {formatMoney(tradePrice)}
-                </button>
-              </div>
+            <div className="text-right">
+              <button
+                className={`rc-btn rc-btn--one submit-payment`}
+                type="submit"
+                name="submit"
+                value="submit-shipping"
+                disabled={!isValid}
+                onClick={this.clickPay}
+              >
+                <FormattedMessage id="payment.further" />{' '}
+                {formatMoney(tradePrice)}
+              </button>
             </div>
           </div>
         </div>
