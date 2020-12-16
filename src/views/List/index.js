@@ -13,6 +13,7 @@ import Pagination from '@/components/Pagination';
 import Selection from '@/components/Selection';
 import Rate from '@/components/Rate';
 import Filters from './Filters';
+import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
@@ -25,12 +26,13 @@ import {
   formatMoney,
   getParaByName,
   getDictionary,
-  setSeoConfig
+  setSeoConfig,
+  getDeviceType
 } from '@/utils/utils';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
-
+let isMobile = getDeviceType() === 'H5'
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -226,13 +228,13 @@ function ListItemBody({ item }) {
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {formatMoney(item.fromPrice)}
+                  {item.fromPrice}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
                         <FormattedMessage id="startEnd" />
                       </span>
-                      {formatMoney(item.toPrice)}
+                      {item.toPrice}
                     </>
                   ) : null}
                 </span>
@@ -316,7 +318,8 @@ class List extends React.Component {
         filterList: []
       },
 
-      markPriceAndSubscriptionLangDict: []
+      markPriceAndSubscriptionLangDict: [],
+      actionFromFilter: false
     };
     this.pageSize = 12;
     this.fidFromSearch = ''; // 链接中所带筛选器参数
@@ -334,7 +337,6 @@ class List extends React.Component {
       '/cats': <FormattedMessage id="cats3" />,
       '/dogs': <FormattedMessage id="dogs3" />
     }[pathname];
-
     // 存在初始的filter查询数据
     // 1 查询产品接口时，需要带上此参数
     // 2 查询filterlist后，需初始化状态
@@ -385,6 +387,9 @@ class List extends React.Component {
         this.initData();
       }
     );
+    setTimeout(()=>{
+      this.stickyMobileRefineBar()
+    })
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -463,17 +468,22 @@ class List extends React.Component {
     // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
-      list = list.sort((a, b) => a.sort - b.sort).map(ele => ({
-        ...ele,
-        name: ele.sortName,
-        value: ele.field
-      }))
-      this.setState({
-        sortList: list,
-        selectedSortParam: list[0]
-      },() => {
-        this.getProductList()
-      });
+      list = list
+        .sort((a, b) => a.sort - b.sort)
+        .map((ele) => ({
+          ...ele,
+          name: ele.sortName,
+          value: ele.field
+        }));
+      this.setState(
+        {
+          sortList: list,
+          selectedSortParam: list[0]
+        },
+        () => {
+          this.getProductList();
+        }
+      );
     });
     // findFilterList()
     //   .then((res) => {
@@ -557,9 +567,10 @@ class List extends React.Component {
       selectedSortParam,
       filterList,
       searchForm,
-      defaultFilterSearchForm
+      defaultFilterSearchForm,
+      actionFromFilter
     } = this.state;
-    console.log(selectedSortParam, 'selectedSortParam')
+
     this.setState({ loading: true });
 
     if (!initingList) {
@@ -592,16 +603,16 @@ class List extends React.Component {
           goodsAttributesValueRelVOList.push({
             attributeId: pItem.attributeId,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName),
-            attributeNameEn: pItem.attributeNameEn,
+            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
+            attributeName: pItem.attributeName,
             filterType: pItem.filterType
           });
         } else {
           goodsFilterRelList.push({
             attributeId: pItem.id,
             attributeValueIdList: seletedList.map((s) => s.id),
-            attributeValues: seletedList.map((s) => s.attributeDetailName),
-            attributeNameEn: pItem.attributeNameEn,
+            attributeValues: seletedList.map((s) => s.attributeDetailNameEn),
+            attributeName: pItem.attributeName,
             filterType: pItem.filterType
           });
         }
@@ -616,21 +627,21 @@ class List extends React.Component {
       .slice(0, 1)
       .map((item, i) => {
         urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${
-          item.attributeNameEn
+          item.attributeName
         }&prefv${i + 1}=${item.attributeValues.join('|')}`;
         return item;
       });
     // 点击filter，触发局部刷新或整页面刷新
-    // if (!initingList) {
-    //   pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-    //   sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
-    //   history.push({
-    //     pathname,
-    //     state: {
-    //       filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-    //     }
-    //   });
-    // }
+    if (!initingList && actionFromFilter) {
+      pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
+      sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
+      history.push({
+        pathname,
+        state: {
+          filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
+        }
+      });
+    }
 
     // 选择subscription 和 not subscription 才置状态
     let subscriptionStatus = null;
@@ -815,16 +826,48 @@ class List extends React.Component {
     history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
     // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
+  getElementToPageTop(el) {
+    if(el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+    }
+    return el.offsetTop
+  }
+
+  stickyMobileRefineBar() {
+    if (isMobile) {
+      var t = document.getElementById('refineBar').getBoundingClientRect().top
+      window.addEventListener('scroll', ()=>{
+        var choosedVal = document.querySelector('.filter-value') // 有选择的时候才操作
+        if(window.pageYOffset + 33 >= t && choosedVal){
+          document.body.classList.add('sticky-refineBar')
+          document.querySelector('.rc-header').style.display = 'none'
+        }else{
+          document.querySelector('.rc-header').style.display = 'block'
+          document.body.classList.remove('sticky-refineBar')
+        }
+      });
+      // window.on("scroll", function() {
+      
+      //   // $(".js-toggle-filters").addClass("rc-brand1")) : ($("body").removeClass("sticky-refineBar"),
+      //   // $(".js-toggle-filters").removeClass("rc-brand1"))
+      // })
+    }
+  }
+
   onSortChange = (data) => {
-    this.setState({ selectedSortParam: data, currentPage: 1 }, () =>
+    // 在筛选的时候不让他刷新页面
+    this.setState({ selectedSortParam: data, currentPage: 1 ,initingList: true}, () =>
       this.getProductList()
     );
   };
   updateOperatedFilterList = (data) => {
     // 触发点击或跳转页面事件
-    this.setState({ filterList: data, currentPage: 1 }, () => {
-      this.getProductList();
-    });
+    this.setState(
+      { filterList: data, currentPage: 1, actionFromFilter: true },
+      () => {
+        this.getProductList();
+      }
+    );
   };
   hanldePriceSliderChange = (val) => {
     clearTimeout(this.timer);
@@ -861,7 +904,7 @@ class List extends React.Component {
       keywords,
       cateName
     } = this.state;
-    console.log(selectedSortParam, 'selectedSortParam')
+
     let event;
     let eEvents;
     if (category) {
@@ -969,7 +1012,7 @@ class List extends React.Component {
             </div>
           ) : null}
           <div id="J-product-list" />
-          <div className="search-results rc-padding--sm rc-max-width--xl pt-4 pt-sm-1">
+          <div className="search-results rc-max-width--xl pt-4 pt-sm-1">
             <div className="search-nav border-bottom-0">
               {keywords ? (
                 <div className="nav-tabs-wrapper rc-text--center">
@@ -1006,11 +1049,25 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters ${
+                      className={`rc-filters border-top ${
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      <Filters
+                      {
+                        isMobile?<Filters
+                        maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                        initing={initingFilter}
+                        onToggleFilterModal={this.toggleFilterModal}
+                        filterList={filterList}
+                        key={`1-${filterList.length}`}
+                        inputLabelKey={1}
+                        updateParentData={this.updateOperatedFilterList}
+                        hanldePriceSliderChange={this.hanldePriceSliderChange}
+                        markPriceAndSubscriptionLangDict={
+                          markPriceAndSubscriptionLangDict
+                        }
+                      />:
+                      <FiltersPC
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                         initing={initingFilter}
                         onToggleFilterModal={this.toggleFilterModal}
@@ -1023,22 +1080,72 @@ class List extends React.Component {
                           markPriceAndSubscriptionLangDict
                         }
                       />
+                      }
                     </aside>
                   </div>
-                  <div className="refinements rc-column ItemBoxFitSCreen pt-0 mb-3 mb-md-0 pl-0 pl-md-3">
-                    <button
-                      className="rc-md-down rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
-                      data-filter-trigger="filter-example"
-                      onClick={this.toggleFilterModal.bind(this, true)}
-                    >
-                      <FormattedMessage id="filters" />
-                    </button>
+                  
+                  <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
+                    <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
+                      <span className="font-weight-normal">
+                        {this.state.cateName}{' '}
+                      </span>
+                      (
+                      <FormattedMessage
+                        id="results"
+                        values={{ val: results }}
+                      />
+                      )
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center rc-md-down" style={{'padding': '0 1rem'}}>
+                      <span  style={{marginRight:'1em'}}
+                      className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
+                        <Selection
+                          key={sortList.length}
+                          selectedItemChange={this.onSortChange}
+                          optionList={sortList}
+                          selectedItemData={{
+                            value:
+                              (selectedSortParam &&
+                                selectedSortParam.value) ||
+                              ''
+                          }}
+                          placeholder={<FormattedMessage id="sortBy" />}
+                          customInnerStyle={{
+                            paddingTop: '.7em',
+                            paddingBottom: '.7em'
+                          }}
+                          customStyleType="select-one"
+                        />
+                      </span>
+                      {/* <div className="rc-meta">
+                        <span className="font-weight-normal">
+                          {this.state.cateName}{' '}
+                        </span>
+                        (
+                        <FormattedMessage
+                          id="results"
+                          values={{ val: results }}
+                        />
+                        )
+                      </div> */}
+                      <i
+                        className="rc-icon rc-filter--xs rc-iconography"
+                        data-filter-trigger="filter-example"
+                        style={{position: 'relative',top: '0.4rem'}}
+                        onClick={this.toggleFilterModal.bind(this, true)}
+                      />
+                      {/* <button
+                        className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
+                        data-filter-trigger="filter-example"
+                        onClick={this.toggleFilterModal.bind(this, true)}
+                      /> */}
+                    </div>
                     <aside
                       className={`rc-filters ${
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      <Filters
+                      {isMobile?<Filters
                         maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                         initing={initingFilter}
                         onToggleFilterModal={this.toggleFilterModal}
@@ -1050,18 +1157,35 @@ class List extends React.Component {
                         markPriceAndSubscriptionLangDict={
                           markPriceAndSubscriptionLangDict
                         }
-                      />
+                      />:<FiltersPC
+                      maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                      initing={initingFilter}
+                      onToggleFilterModal={this.toggleFilterModal}
+                      filterList={filterList}
+                      key={`2-${filterList.length}`}
+                      inputLabelKey={2}
+                      updateParentData={this.updateOperatedFilterList}
+                      hanldePriceSliderChange={this.hanldePriceSliderChange}
+                      markPriceAndSubscriptionLangDict={
+                        markPriceAndSubscriptionLangDict
+                      }
+                    />}
                     </aside>
                   </div>
                   <div
-                    className={`rc-column rc-triple-width rc-padding--none--mobile product-tiles-container`}
+                    className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
                   >
+                     
+
+
+
+
                     {!loading && (
                       <>
                         <div className="row mb-3">
-                          <div className="col-12 col-md-8">
+                          <div className="col-12 col-md-8 rc-md-up">
                             <span className="font-weight-normal">
-                              {this.state.currentCatogery}{' '}
+                              {this.state.cateName}{' '}
                             </span>
                             (
                             <FormattedMessage
@@ -1070,8 +1194,10 @@ class List extends React.Component {
                             />
                             )
                           </div>
+                         
                           <div className="col-12 col-md-4">
-                            <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
+                           
+                            {/* <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
                               <Selection
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
@@ -1089,7 +1215,7 @@ class List extends React.Component {
                                 }}
                                 customStyleType="select-one"
                               />
-                            </span>
+                            </span> */}
                           </div>
                         </div>
                       </>

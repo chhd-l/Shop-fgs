@@ -347,7 +347,7 @@ const DEFUALT_FILTER_MAP_FR = {
   '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
     {
       attributeId: 'A20201209071242331',
-      attributeNameEn: 'ÂGE',
+      attributeName: 'ÂGE',
       filterType: '0',
       attributeValues: ['Adult_Dog', 'Mature_Dog'],
       attributeValueIdList: ['AV202012160309152796', 'AV202012160309161216']
@@ -356,7 +356,7 @@ const DEFUALT_FILTER_MAP_FR = {
   '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
     {
       attributeId: 'A20201209071242331',
-      attributeNameEn: 'ÂGE',
+      attributeName: 'ÂGE',
       filterType: '0',
       attributeValues: ['Adult_Cat', 'Mature_Cat', 'Senior_Cat'],
       attributeValueIdList: [
@@ -369,7 +369,7 @@ const DEFUALT_FILTER_MAP_FR = {
   '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
     {
       attributeId: 'A20201209071242331',
-      attributeNameEn: 'ÂGE',
+      attributeName: 'ÂGE',
       filterType: '0',
       attributeValues: ['Puppy_Dog', 'Baby_Dog'],
       attributeValueIdList: ['AV202012160309175316', 'AV202012160310184696']
@@ -378,7 +378,7 @@ const DEFUALT_FILTER_MAP_FR = {
   '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
     {
       attributeId: 'A20201209071242331',
-      attributeNameEn: 'ÂGE',
+      attributeName: 'ÂGE',
       filterType: '0',
       attributeValues: ['Kitten_Cat', 'Baby_Cat'],
       attributeValueIdList: ['AV202012160309246796', 'AV202012160309463736']
@@ -404,15 +404,17 @@ class Home extends React.Component {
     this.setState({ deviceType: getDeviceType() });
     setSeoConfig({ pageName: 'Home Page' });
     queryStoreCateList().then((res) => {
-      let tmpRes = (res || []).map((ele) => {
-        try {
-          let tmpList = JSON.parse(ele.cateImg);
-          ele.cateImgHome = tmpList[0].artworkUrl;
-          ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
-          ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
-        } catch (e) {}
-        return ele;
-      });
+      let tmpRes = (res || [])
+        .sort((a, b) => a.sort - b.sort)
+        .map((ele) => {
+          try {
+            let tmpList = JSON.parse(ele.cateImg);
+            ele.cateImgHome = tmpList[0].artworkUrl;
+            ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
+            ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
+          } catch (e) {}
+          return ele;
+        });
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }

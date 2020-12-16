@@ -872,5 +872,6 @@ const es_ES = {
   'VAT_included': 'VAT incluido',
   'skiped': 'Esquiado',
   'orderDetail': 'Detalle de la orden',
+  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
 }
 export default es_ES;
