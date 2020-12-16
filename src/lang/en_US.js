@@ -895,6 +895,7 @@ const en_US = {
   'VAT_included': 'VAT included',
   'skiped': 'Skiped',
   'orderDetail': 'Order Detail',
+  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
 }
 export default en_US;

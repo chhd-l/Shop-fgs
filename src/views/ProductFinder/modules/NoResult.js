@@ -15,6 +15,7 @@ import catImg from '@/assets/images/product-finder-cat2.jpg';
 import dogImg from '@/assets/images/product-finder-dog2.jpg';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
   const { petBaseInfo } = props;
@@ -121,7 +122,7 @@ class ProductFinderNoResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: sessionItemRoyal.get('pf-cache-type'),
+      type: localItemRoyal.get('pf-cache-type'),
       isLoading: false,
       petBaseInfo: null
     };

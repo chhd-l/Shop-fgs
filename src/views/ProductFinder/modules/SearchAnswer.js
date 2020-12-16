@@ -69,7 +69,6 @@ class SearchAnswer extends React.Component {
 
   render() {
     const { form } = this.state;
-    console.info('formform', form)
     const { config, configSizeAttach } = this.props;
     const {intl} = this.props;
     const unknownText = intl.formatMessage({id: 'unkown'}); 

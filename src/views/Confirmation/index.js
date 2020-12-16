@@ -49,7 +49,8 @@ class Confirmation extends React.Component {
 
       details: null,
       detailList: null,
-      payRecord: null
+      payRecord: null,
+      email:''
     };
     this.timer = null;
   }
@@ -108,6 +109,12 @@ class Confirmation extends React.Component {
           cityRes,
           resContext.invoice.cityId
         );
+
+        console.log(111111,resContext.consignee.email)
+        this.setState({
+          email: resContext.consignee.email
+        })
+ 
         this.setState({
           details: resContext,
           totalTid: resContext.totalTid,
@@ -205,7 +212,9 @@ class Confirmation extends React.Component {
                 </b>
               </h4>
               <p style={{ marginBottom: '5px' }}>
-                <FormattedMessage id="confirmation.info2" />
+                <FormattedMessage id="confirmation.info2" values={{
+                  val1:`<${this.state.email}>`
+                }}/>
               </p>
               <div className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}>
                 <div className="d-flex align-items-center justify-content-center">
