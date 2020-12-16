@@ -1,6 +1,9 @@
 .Recommendation_FR p {
   margin-bottom: 30px;
 }
+.Recommendation_FR .benefit {
+  text-align: left;
+}
 .Recommendation_FR .benefit ul {
   padding-left: 40px;
 }
@@ -168,6 +171,7 @@
   }
   .Recommendation_FR .recommendProduct {
     width: 100%;
+    padding: 0;
   }
   .picList li > img {
     width: 107px;
