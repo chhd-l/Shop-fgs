@@ -111,6 +111,12 @@ class Question extends React.Component {
       metadataQuestionDisplayType: targetItem.selectType,
       defaultListData: targetItem.answerList
     });
+    let questionList = qRes.questionList.map(item=>{
+      if(targetItem.answer!==undefined && targetItem.answer !== null){
+        item.defaultChecked = targetItem.answer == item.key
+      }
+      return item
+    })
     this.setState({
       progress: progress || 100,
       stepOrder: editStopOrder,
@@ -126,7 +132,7 @@ class Question extends React.Component {
         }, this.state.questionParams),
       questionCfg: {
         title: targetItem.question,
-        list: qRes.questionList,
+        list: questionList,
         placeholderList: qRes.holderList
       },
       questionType: qRes.questionType,
@@ -195,7 +201,14 @@ class Question extends React.Component {
             tmpFormParam = encodeURI(form.key);
             break;
           case 'select':
-            tmpFormParam = form.reduce((cur, prev) => cur + prev) + '';
+            tmpFormParam = form.reduce((cur, prev) => {
+              if(currentStepName=='age'){
+                // 如果是年龄，相加的时候需要转成number
+                cur=Number(cur)
+                prev=Number(prev)
+              }
+              return cur + prev
+            }) + '';
             break;
           default:
             break;
