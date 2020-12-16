@@ -17,7 +17,7 @@ import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, getFormatDate } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
 import './index.css';
@@ -385,7 +385,10 @@ class Subscription extends React.Component {
                                   <p
                                     style={{ color: '#666', fontSize: '16px' }}
                                   >
-                                    <FormattedDate value={subItem.createTime.split(' ')[0]}/>
+                                    {
+                                      getFormatDate(subItem.createTime.split(' ')[0])
+                                    }
+                                    {/* <FormattedDate value={subItem.createTime.split(' ')[0]}/> */}
                                     {/* {subItem.createTime.split(' ')[0]} */}
                                   </p>
                                 </span>
