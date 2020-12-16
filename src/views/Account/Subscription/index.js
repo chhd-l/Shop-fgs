@@ -448,9 +448,13 @@ class Subscription extends React.Component {
                             </h4>
                             <div className="children-nomargin">
                               <p
-                                style={{ wordBreak: 'break-all', width: '90%' }}
+                                style={{ wordBreak: 'keep-all', width: '90%' }}
                               >
-                                <FormattedMessage id="account.noSubscription"></FormattedMessage>
+                                <FormattedMessage id="account.noSubscription" values={{
+                                  val1:(
+                                    <br/>
+                                  )
+                                }}></FormattedMessage>
                               </p>
                             </div>
                             <div className="rc-margin-top--sm">
