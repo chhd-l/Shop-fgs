@@ -123,6 +123,7 @@ class Question extends React.Component {
       stepOrder: editStopOrder,
       finderNumber: targetItem.finderNumber,
       answerdQuestionList: tmpList,
+      descriptionTips: targetItem.frenchDescription,
       currentStepName: targetItem.questionName,
       questionParams: tmpList
         .filter((ele) => ele.stepOrder <= editStopOrder)
@@ -246,6 +247,8 @@ class Question extends React.Component {
       }
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
+      console.info('resContext', resContext)
+      console.info('!resContext.isEndOfTree', !resContext.isEndOfTree)
       if (!resContext.isEndOfTree) {
         const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({
