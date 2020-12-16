@@ -1,3 +1,13 @@
+.sticky-refineBar .refine-bar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index:62;
+  padding-top: 16px !important;
+  // box-shadow:0 2px 4px #f1f1f1;
+  background:#fff;
+}
 .ui-font-nothing {
   font-size: 14px;
 }
@@ -7,6 +17,11 @@
 @media (min-width: 640px) {
   .ui-font-nothing {
     font-size: 18px;
+  }
+  .rc-meta{
+    &.rc-md-down{
+      display: none;
+    }
   }
 }
 .goodsSubtitle {
