@@ -174,7 +174,7 @@ class RegisterRequired extends Component {
         list
       });
 
-      if (requiredList.length > 0) {
+      if (requiredList.length > 0) { //这个判断 关乎闪现，不要删
         this.setState({
           styleObj: { display: 'block' },
           isLoading: false,
