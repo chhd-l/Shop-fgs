@@ -964,5 +964,6 @@ const de_DE = {
   'skiped': 'Übersprungen',
   'orderDetail': 'Bestelldetails',
   'confirmation.account':'Go to my account',
+  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
 }
 export default de_DE;
