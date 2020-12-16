@@ -1397,7 +1397,9 @@ class Payment extends React.Component {
     const curPanelKey = 'billingAddr';
     // 切换时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
-      this.props.paymentStore.setStsToEdit({ key: curPanelKey });
+      this.props.paymentStore.setStsToEdit({
+        key: curPanelKey
+      });
     }
 
     if (val) {
@@ -1429,7 +1431,10 @@ class Payment extends React.Component {
     const { deliveryAddress } = this.state;
     return (
       <>
-        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+        <div
+          className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3"
+          id="J_checkout_panel_deliveryAddr"
+        >
           {this.isLogin ? (
             <AddressList
               id="1"
@@ -1452,7 +1457,6 @@ class Payment extends React.Component {
                   deliveryAddress: data
                 });
               }}
-              updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
             />
           )}
         </div>
@@ -1917,7 +1921,7 @@ class Payment extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand4">
           <div className="rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <Progress type="payment" />
-            <div className="rc-layout-container rc-three-column rc-max-width--xl">
+            <div className="rc-layout-container rc-three-column rc-max-width--xl mt-3 mt-md-0">
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示 */}
                 <div
@@ -1936,7 +1940,7 @@ class Payment extends React.Component {
                   <AddressPreview details={orderDetails} />
                 ) : (
                   <>
-                    <div className="shipping-form">
+                    <div className="shipping-form" id="J_checkout_panel_email">
                       <div className="bg-transparent">
                         {this.checkoutWithClinic ? (
                           this.isOnepageCheckout ? (
@@ -2094,7 +2098,10 @@ class Payment extends React.Component {
                     </h5>
                   </div>
                 )}
-                <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0">
+                <div
+                  className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0"
+                  id="J_checkout_panel_paymentMethod"
+                >
                   <h5 className="ml-custom mr-custom mb-0">
                     <i
                       className="rc-icon rc-payment--sm rc-iconography inlineblock"
