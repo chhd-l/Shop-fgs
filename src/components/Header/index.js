@@ -65,7 +65,7 @@ class Header extends React.Component {
       },
       isSearchSuccess: false, //是否搜索成功
       hideNavRouter: ['/confirmation', '/checkout'],
-      hideLoginInfoRouter:['/checkout']
+      hideLoginInfoRouter: ['/checkout']
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -106,11 +106,12 @@ class Header extends React.Component {
       display: str
     };
   }
-  isHideLoginInfo(){
+  isHideLoginInfo() {
     //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
     let str =
-      this.state.hideLoginInfoRouter.indexOf(this.props.history.location.pathname) !=
-      -1
+      this.state.hideLoginInfoRouter.indexOf(
+        this.props.history.location.pathname
+      ) != -1
         ? 'none'
         : 'flex';
     return {
@@ -357,7 +358,7 @@ class Header extends React.Component {
     });
   }
   handleSearch = (e) => {
-    if(this.state.loading) return
+    if (this.state.loading) return;
     if (process.env.REACT_APP_LANG == 'fr') {
       if (this.state.isSearchSuccess) {
         this.props.history.push(
@@ -940,7 +941,21 @@ class Header extends React.Component {
                                   //   );
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                   // this.signUp()
-                                  history.push('/register');
+                                  if(!process.env.REACT_APP_STOREID) {
+                                    return
+                                  }
+                                  if (
+                                    process.env.REACT_APP_STOREID ===
+                                    '123457909' //fr
+                                  ) {
+                                    history.push('/register');
+                                  } else {
+                                    window.location.href =
+                                      process.env.REACT_APP_RegisterPrefix +
+                                      window.encodeURIComponent(
+                                        process.env.REACT_APP_RegisterCallback
+                                      );
+                                  }
                                 }}
                               >
                                 <FormattedMessage id="signUp" />
