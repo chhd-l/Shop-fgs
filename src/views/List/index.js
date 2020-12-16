@@ -39,6 +39,65 @@ const localItemRoyal = window.__.localItemRoyal;
 function ListItem(props) {
   const { item } = props;
   return (
+    <div className="rc-column rc-column-pad">
+      <article
+        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat"
+        style={{ minHeight: '120px' }}
+      >
+        {props.leftPromotionJSX}
+        {props.rightPromotionJSX}
+        <div className="row h-100">
+          <a className="ui-cursor-pointer" onClick={props.onClick}>
+            <article className="rc-card--a rc-text--center text-center">
+              {item ? (
+                <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0" style={{margin:'0 !important'}}>
+                  <div
+                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
+                    style={{ height: '15.7rem',overflow: 'hidden' }}
+                  >
+                    {/*循环遍历的图片*/}
+                    <LazyLoad style={{ width: '100%' }}>
+                      <img
+                        src={
+                          item.goodsImg ||
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
+                        }
+                        srcSet={
+                          item.goodsImg ||
+                          item.goodsInfos.sort(
+                            (a, b) => a.marketPrice - b.marketPrice
+                          )[0].goodsInfoImg ||
+                          IMG_DEFAULT
+                        }
+                        alt={item.goodsName}
+                        title={item.goodsName}
+                        className="ImgFitScreen pt-3"
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          width: 'auto',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                      />
+                    </LazyLoad>
+                  </div>
+                </picture>
+              ) : null}
+              {props.children}
+            </article>
+          </a>
+        </div>
+      </article>
+    </div>
+  );
+}
+function ListItemPC(props) {
+  const { item } = props;
+  return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
         className="rc-card rc-card--product overflow-hidden"
@@ -95,8 +154,18 @@ function ListItem(props) {
     </div>
   );
 }
-
-function ListItemBody({ item }) {
+function ListItemBody({item}){
+return (
+  <div className="fr-mobile-product-list">
+      <div className="product-name"  title={item.goodsName}> {item.goodsName}</div>
+      <div className="product-price">                 
+        {/* {formatMoney(item.miLinePrice)} */}
+        {formatMoney(item.fromPrice)}
+      </div>
+  </div>
+)
+}
+function ListItemBodyPC({ item }) {
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
@@ -904,7 +973,6 @@ class List extends React.Component {
       keywords,
       cateName
     } = this.state;
-
     let event;
     let eEvents;
     if (category) {
@@ -1239,7 +1307,7 @@ class List extends React.Component {
                           {loading
                             ? _loadingJXS
                             : productList.map((item, i) => (
-                                <ListItem
+                              process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItem
                                   key={item.id}
                                   leftPromotionJSX={
                                     item.taggingForText ? (
@@ -1275,8 +1343,46 @@ class List extends React.Component {
                                   )}
                                   item={item}
                                 >
-                                  <ListItemBody item={item} />
-                                </ListItem>
+                                  {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
+                                </ListItem>:
+                                <ListItemPC
+                                key={item.id}
+                                leftPromotionJSX={
+                                  item.taggingForText ? (
+                                    <div
+                                      className="product-item-flag-text"
+                                      style={{
+                                        backgroundColor:
+                                          item.taggingForText
+                                            .taggingFillColor,
+                                        color:
+                                          item.taggingForText.taggingFontColor
+                                      }}
+                                    >
+                                      {item.taggingForText.taggingName}
+                                    </div>
+                                  ) : null
+                                }
+                                rightPromotionJSX={
+                                  item.taggingForImage ? (
+                                    <div className="product-item-flag-image position-absolute">
+                                      <img
+                                        src={
+                                          item.taggingForImage.taggingImgUrl
+                                        }
+                                      />
+                                    </div>
+                                  ) : null
+                                }
+                                onClick={this.hanldeItemClick.bind(
+                                  this,
+                                  item,
+                                  i
+                                )}
+                                item={item}
+                              >
+                                {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
+                              </ListItemPC>
                               ))}
                         </article>
                         <div className="grid-footer rc-full-width">
