@@ -146,8 +146,8 @@ class AboutUs extends React.Component {
                               className="text-center text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                               <h2 className="rc-beta markup-text">Nos valeurs</h2>
                               <p>Découvrez comment nous incarnons ces valeurs tous les jours depuis 50 ans.</p>
-                              <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 href="https://shop.royalcanin.fr/Values.html" title="En savoir plus">En savoir plus</a>
+                              <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                 to="/Values" title="En savoir plus">En savoir plus</Link>
                             </div>
                           </div>
                         </div>
@@ -170,9 +170,9 @@ class AboutUs extends React.Component {
                               <h2 className="rc-beta markup-text">Engagement en faveur de la qualité</h2>
                               <p>La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous
                                 faisons dans le monde.</p>
-                              <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 href="https://shop.royalcanin.fr/Quality-safety.html" title="En savoir plus">En savoir
-                                plus</a>
+                              <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
+                                 to="/qualitySafety" title="En savoir plus">En savoir
+                                plus</Link>
                             </div>
                           </div>
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
