@@ -184,7 +184,7 @@ const de_DE = {
   consignee: 'Empfänger',
   consigneeNumber: 'Empfängernummer',
   contactUs: 'Kontakt',
-  contactUsViaPhone: 'Kontaktieren Sie uns telefonisch',
+  contactUsViaPhone: 'Kontaktieren Sie uns unter:',
   continue: 'Fortsetzen',
   continueAsGuest: 'Weiter als Gast',
   continueShopping: 'Weiter Einkaufen',
