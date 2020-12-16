@@ -39,7 +39,7 @@ class RegisterRequired extends Component {
       zoom: '',
       fontZoom: '',
       circleLoading: true,
-      styleObj: { display: 'none' }
+      styleObj: { display: 'none' },
     };
   }
   //属性变为true，time定时后变为false
@@ -174,15 +174,23 @@ class RegisterRequired extends Component {
         list
       });
 
-      console.log(this.state.list);
+      if (requiredList.length > 0) {
+        this.setState({
+          styleObj: { display: 'block' },
+          isLoading: false,
+          circleLoading: false,
+        });
+      }
+
     } catch (err) {
       window.location.href = process.env.REACT_APP_HOMEPAGE; //回到首页
-    } finally {
       this.setState({
-        circleLoading: false,
         styleObj: { display: 'block' },
-        isLoading: false
+        isLoading: false,
+        circleLoading: false,
       });
+    } finally {
+
     }
   };
   async componentDidMount() {
@@ -223,8 +231,8 @@ class RegisterRequired extends Component {
         tempArr[index].innerHtml = tempArr[index].innerHtml
           ? ''
           : arr[0]
-          ? arr[0].contentBody
-          : '';
+            ? arr[0].contentBody
+            : '';
 
         this.setState({ list: tempArr });
       }
@@ -263,17 +271,17 @@ class RegisterRequired extends Component {
             <Link to="/home" className="header__nav__brand logo-home pt-5">
               <span className="rc-screen-reader-text"></span>
               <LazyLoad>
-              <img
-                alt="Royal Canin"
-                src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                style={{
-                  background:
-                    'url(' + logoAnimatedPng + ') no-repeat center center',
-                  width: '180px',
-                  height: '80px',
-                  backgroundSize: 'cover'
-                }}
-              />
+                <img
+                  alt="Royal Canin"
+                  src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
+                  style={{
+                    background:
+                      'url(' + logoAnimatedPng + ') no-repeat center center',
+                    width: '180px',
+                    height: '80px',
+                    backgroundSize: 'cover'
+                  }}
+                />
               </LazyLoad>
             </Link>
             {/* Header title */}
@@ -309,17 +317,17 @@ class RegisterRequired extends Component {
                       <Skeleton color="#f5f5f5" width="100%" count={4} />
                     </div>
                   ) : (
-                    <Consent
-                      url={url}
-                      list={this.state.list}
-                      sendList={this.sendList}
-                      width={this.state.width}
-                      zoom={this.state.zoom}
-                      fontZoom={this.state.fontZoom}
-                      auto={true}
-                      key={'required'}
-                    />
-                  )}
+                      <Consent
+                        url={url}
+                        list={this.state.list}
+                        sendList={this.sendList}
+                        width={this.state.width}
+                        zoom={this.state.zoom}
+                        fontZoom={this.state.fontZoom}
+                        auto={true}
+                        key={'required'}
+                      />
+                    )}
                 </div>
               </div>
             </div>
