@@ -828,7 +828,7 @@ const de_DE = {
   'subscription.date': 'Abonnementdatum',
   'subscription.deliveryDate': 'Nächster Liefertermin',
   'subscription.detail': 'Abonnementdetail',
-  'subscription.frequency': 'Abo',
+  'subscription.frequency': 'Lieferung alle',
   'subscription.nextOrder': 'Nächste Bestellung',
   'subscription.noDataTip': 'Kein Abonnement',
   'subscription.notYet': 'Noch nicht verschickt',
