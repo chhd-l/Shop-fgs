@@ -4,8 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData } from '@/utils/utils';
-import { searchNextConfirmPanel } from '../modules/utils';
+import { getDictionary, validData, getDeviceType } from '@/utils/utils';
+import { searchNextConfirmPanel, scrollIntoView } from '../modules/utils';
 import './VisitorAddress.css';
 
 /**
@@ -18,7 +18,6 @@ class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isOnepageCheckout: false,
-    updateSameAsCheckBoxVal: () => {},
     initData: null,
     titleVisible: true
   };
@@ -28,7 +27,8 @@ class VisitorAddress extends React.Component {
       isValid: false,
       form: this.props.initData,
       countryList: [],
-      billingChecked: true
+      billingChecked: true,
+      isMobile: getDeviceType() === 'H5'
     };
   }
   componentDidMount() {
@@ -63,12 +63,13 @@ class VisitorAddress extends React.Component {
     }
   };
   handleClickConfirm = () => {
-    if (!this.state.isValid) {
+    const { isMobile, isValid, form } = this.state;
+    const { paymentStore } = this.props;
+    if (!isValid) {
       return false;
     }
-    this.props.updateData(this.state.form);
+    this.props.updateData(form);
 
-    const { paymentStore } = this.props;
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
     if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
@@ -80,6 +81,12 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    setTimeout(() => {
+      isMobile &&
+        scrollIntoView(
+          document.querySelector(`#J_checkout_panel_paymentMethod`)
+        );
+    });
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
@@ -91,18 +98,6 @@ class VisitorAddress extends React.Component {
     return dictList.filter((ele) => ele.id + '' === id).length
       ? dictList.filter((ele) => ele.id + '' === id)[0].name
       : id;
-  };
-  updateSameAsCheckBoxVal = (val) => {
-    // todo
-    // 切换时，当delivery已完成时，需更改 billing module的isPrepared = false, isEdit = true
-    if (!val && this.panelStatus.isCompleted) {
-      this.props.paymentStore.setStsToEdit({
-        key: 'billingAddr',
-        hideOthers: true
-      });
-    }
-    this.setState({ billingChecked: val });
-    this.props.updateSameAsCheckBoxVal(val);
   };
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
@@ -156,7 +151,7 @@ class VisitorAddress extends React.Component {
     const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
-    console.log(222222, toJS(this.panelStatus));
+    
     const _editForm = (
       <EditForm
         type="delivery"

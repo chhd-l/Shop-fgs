@@ -76,14 +76,25 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res,
-        form: Object.assign(this.state.form, {
-          frequencyVal: res[0] ? res[0].valueEn : '',
-          frequencyName: res[0] ? res[0].name : '',
-          frequencyId: res[0] ? res[0].id : ''
-        })
-      });
+      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: '4',
+            frequencyName: '4 semaine(s)',
+            frequencyId: 3560
+          })
+        });
+      }else {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
+          })
+        });
+      }
     });
 
     // 合并购物车(登录后合并非登录态的购物车数据)
@@ -428,7 +439,9 @@ class LoginCart extends React.Component {
   }
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    this.props.history.push('/details/' + pitem.goodsInfoId);
+    
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {
     // todo 请求接口

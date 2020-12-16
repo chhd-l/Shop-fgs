@@ -11,7 +11,7 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary, setSeoConfig } from '@/utils/utils';
+import { formatMoney, getDictionary, setSeoConfig, getFormatDate } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { queryCityNameById } from '@/api';
@@ -76,7 +76,7 @@ function LogisticsProgress(props) {
           key={i}
         >
           <span className={`logi-time text-right ${customDateCls}`}>
-            {item.date}
+            {getFormatDate(item.date)}
           </span>
           <div className="logi-text pl-4 pr-4 pt-3 pb-3">
             <svg className="svg-icon logi-icon" aria-hidden="true">
@@ -637,7 +637,9 @@ class AccountOrders extends React.Component {
                   </svg>
                   <FormattedMessage id="deliveryDate" />:{' '}
                   <span className="medium">
-                    {(item.deliverTime || '').substr(0, 10)}
+                    {
+                      getFormatDate((item.deliverTime || '').substr(0, 10))
+                    }
                   </span>
                 </div>
                 <div className="col-12 col-md-4">
@@ -678,7 +680,7 @@ class AccountOrders extends React.Component {
             >
               <div className="col-10 medium color-444 d-flex align-items-center">
                 <span>
-                  {item.syncLogisticsInfo.originInfo.trackInfo[0].date}
+                  {getFormatDate(item.syncLogisticsInfo.originInfo.trackInfo[0].date)}
                 </span>
               </div>
               <div className="col-2">
@@ -1027,10 +1029,10 @@ class AccountOrders extends React.Component {
                                       </span>
                                       <span className="od-prg-time position-absolute">
                                         <span className="rc-md-up">
-                                          {item.time1} {item.time2}
+                                          {getFormatDate(item.time1)} {item.time2}
                                         </span>
                                         <span className="rc-md-down">
-                                          {item.time1}
+                                          {getFormatDate(item.time1)}
                                           <br />
                                           {item.time2}
                                         </span>
@@ -1473,7 +1475,7 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {(curLogisticInfo.deliverTime || '').substr(0, 10)}
+                            {getFormatDate((curLogisticInfo.deliverTime || '').substr(0, 10))}
                           </span>
                         </p>
                       </div>

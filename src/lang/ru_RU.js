@@ -764,6 +764,7 @@ const ru_RU = {
     'registerPasswordFormat': "Недействительный пароль.",
     'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату.",
     invoice: 'выставленный счет',
+    'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
   }
 
   export default ru_RU;

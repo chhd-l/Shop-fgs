@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import findIndex from 'lodash/findIndex';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { PRESONAL_INFO_RULE } from '@/utils/constant';
-import { getDictionary, validData } from '@/utils/utils';
+import { getDictionary, validData, datePickerConfig } from '@/utils/utils';
 import { updateCustomerBaseInfo } from '@/api/user';
 import Selection from '@/components/Selection';
 import DatePicker from 'react-datepicker';
@@ -459,7 +459,8 @@ class PersonalDataEditForm extends React.Component {
                     className="receiveDate"
                     style={{ padding: '.95rem 0' }}
                     placeholder="Select Date"
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat={datePickerConfig.format}
+                    locale={datePickerConfig.locale}
                     maxDate={new Date()}
                     selected={
                       form.birthdate ? new Date(form.birthdate) : new Date()

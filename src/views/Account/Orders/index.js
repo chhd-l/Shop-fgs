@@ -16,7 +16,8 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig
+  setSeoConfig,
+  getFormatDate
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
@@ -375,8 +376,8 @@ class AccountOrders extends React.Component {
   }
   handleClickCardItem(item) {
     if (this.deviceType === 'PC') return false;
-    this.props.history.push(`/account/orders/detail/${item.id}`)
-    return false
+    this.props.history.push(`/account/orders/detail/${item.id}`);
+    return false;
     // 测试要求改到跳转页面  1214
     this.setState({ curOneOrderDetails: item });
     setTimeout(() => {
@@ -648,9 +649,11 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderPlacedOn" />
                                         <br className="d-none d-md-block" />
                                         <span className="medium orderHeaderTextColor">
-                                          {order.tradeState.createTime.substr(
-                                            0,
-                                            10
+                                          {getFormatDate(
+                                            order.tradeState.createTime.substr(
+                                              0,
+                                              10
+                                            )
                                           )}
                                         </span>
                                       </p>
@@ -685,39 +688,66 @@ class AccountOrders extends React.Component {
                                           )}
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
-                                          <span
-                                            className="medium pull-right--desktop rc-styled-link text-nowrap"
-                                            style={{
-                                              textOverflow: 'ellipsis',
-                                              overflow: 'hidden',
-                                              maxWidth: '66%'
-                                            }}
-                                          >
-                                            <FormattedMessage id="invoice" />
-                                          </span>
+                                          <FormattedMessage id="invoice">
+                                            {(txt) => (
+                                              <span
+                                                className="medium pull-right--desktop rc-styled-link text-nowrap"
+                                                style={{
+                                                  textOverflow: 'ellipsis',
+                                                  overflow: 'hidden',
+                                                  maxWidth: '66%'
+                                                }}
+                                                title={txt}
+                                              >
+                                                {txt}
+                                              </span>
+                                            )}
+                                          </FormattedMessage>
                                         </div>
                                       )}
                                     </div>
                                     <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
-                                      <Link
-                                        className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
-                                        to={`/account/orders/detail/${order.id}`}
-                                      >
-                                        <span
-                                          className="medium pull-right--desktop rc-styled-link text-nowrap"
-                                          style={{
-                                            textOverflow: 'ellipsis',
-                                            overflow: 'hidden',
-                                            maxWidth: '99%'
-                                          }}
-                                        >
-                                          <FormattedMessage id="order.orderDetails" />
-                                        </span>
-                                      </Link>
+                                      <FormattedMessage id="order.orderDetails">
+                                        {(txt) => (
+                                          <Link
+                                            className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
+                                            to={`/account/orders/detail/${order.id}`}
+                                          >
+                                            <span
+                                              className="medium pull-right--desktop rc-styled-link text-nowrap"
+                                              style={{
+                                                textOverflow: 'ellipsis',
+                                                overflow: 'hidden',
+                                                maxWidth: '99%'
+                                              }}
+                                              title={txt}
+                                            >
+                                              {txt}
+                                            </span>
+                                          </Link>
+                                        )}
+                                      </FormattedMessage>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="row mb-3 mt-3 align-items-center m-0">
+                                  {/* 订单发货tip */}
+                                  {((order.tradeState.payState === 'PAID' &&
+                                    order.tradeState.auditState === 'CHECKED' &&
+                                    order.tradeState.deliverStatus === 'SHIPPED' &&
+                                    order.tradeState.flowState === 'DELIVERED') ||
+                                    (order.tradeState.deliverStatus === 'PART_SHIPPED' &&
+                                      order.tradeState.flowState ===
+                                        'DELIVERED_PART')) && (
+                                    <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
+                                      <p className="medium mb-0 color-444">
+                                        <FormattedMessage id="deliveredTip" />
+                                      </p>
+                                      <p className="green">
+                                        <FormattedMessage id="inTransit" />
+                                      </p>
+                                    </div>
+                                  )}
                                   {/* 订单完成tip */}
                                   {order.tradeState.flowState === 'COMPLETED' &&
                                   !order.storeEvaluateVO &&

@@ -120,14 +120,25 @@ class UnLoginCart extends React.Component {
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res,
-        form: Object.assign(this.state.form, {
-          frequencyVal: res[0] ? res[0].valueEn : '',
-          frequencyName: res[0] ? res[0].name : '',
-          frequencyId: res[0] ? res[0].id : ''
-        })
-      });
+      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: '4',
+            frequencyName: '4 semaine(s)',
+            frequencyId: 3560
+          })
+        });
+      }else {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
+          })
+        });
+      }
     });
     this.setCartData();
   }
@@ -398,7 +409,8 @@ class UnLoginCart extends React.Component {
   }
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    // this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {
     pitem.selected = !pitem.selected;

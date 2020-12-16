@@ -34,8 +34,20 @@ class SubscriptionSelect extends Component {
   async componentDidMount() {
     this.updateFirstOrderDiscount();
     await getFrequencyDict((res) => {
-      this.setState(
-        {
+      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: '4',
+            frequencyName: '4 semaine(s)',
+            frequencyId: 3560
+          })
+        },
+        () => {
+          this.props.updateSelectedData(this.state.form);
+        });
+      }else {
+        this.setState({
           frequencyList: res,
           form: Object.assign(this.state.form, {
             frequencyVal: res[0] ? res[0].valueEn : '',
@@ -45,8 +57,8 @@ class SubscriptionSelect extends Component {
         },
         () => {
           this.props.updateSelectedData(this.state.form);
-        }
-      );
+        });
+      }
     });
   }
   get computedList() {
