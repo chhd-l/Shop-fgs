@@ -70,13 +70,13 @@ class ProductFinder extends React.Component {
             <div className="rc-md-up">{btnJSX}</div>
           </div>
           <div className="col-6 col-md-4 order-1 order-md-0">
-            <LazyLoad>
-            <img src={catImg} alt="" />
+            <LazyLoad style={{ width: '100%', height: '100%' }}>
+              <img src={catImg} alt="" />
             </LazyLoad>
           </div>
           <div className="col-6 col-md-4 order-2 order-md-2">
-            <LazyLoad>
-            <img src={dogImg} alt="" />
+            <LazyLoad style={{ width: '100%', height: '100%' }}>
+              <img src={dogImg} alt="" />
             </LazyLoad>
           </div>
         </div>
