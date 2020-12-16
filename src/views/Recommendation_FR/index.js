@@ -653,7 +653,8 @@ class Help extends React.Component {
                     }
                   }}
                 >
-                  <FormattedMessage id="recommendation.viewInCart" />
+                  {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+                  Voir le panier
                 </button>
               </p>
             </section>
@@ -766,9 +767,9 @@ class Help extends React.Component {
                                     <span>{formatMoney(MaxLinePrice)}</span>
                                   ) : (
                                     <span>
-                                      <FormattedMessage id="from" />{' '}
+                                      <FormattedMessage id="De" />{' '}
                                       {formatMoney(MinLinePrice)}{' '}
-                                      <FormattedMessage id="to" />{' '}
+                                      <FormattedMessage id="à" />{' '}
                                       {formatMoney(MaxLinePrice)}
                                     </span>
                                   )
@@ -973,7 +974,8 @@ class Help extends React.Component {
                               }
                             }}
                           >
-                            <FormattedMessage id="recommendation.viewInCart" />
+                            {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+                            Mon panier
                           </button>
                         </p>
                       </div>
@@ -1382,7 +1384,8 @@ class Help extends React.Component {
                         }
                       }}
                     >
-                      <FormattedMessage id="recommendation.viewInCart" />
+                      {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+                      S'inscrire
                     </button>
                   </p>
                   {/* <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
@@ -1507,7 +1510,8 @@ class Help extends React.Component {
                   }
                 }}
               >
-                <FormattedMessage id="recommendation.viewInCart" />
+                {/* <FormattedMessage id="recommendation.viewInCart" /> */}
+                Commencez maintenant
               </button>
             </p>
           </div>
@@ -1683,7 +1687,8 @@ class Help extends React.Component {
                   }
                 }}
               >
-                <FormattedMessage id="recommendation.viewInCart"/>
+                {/* <FormattedMessage id="recommendation.viewInCart"/> */}
+                Commander
               </button>
             </p>
             <div class="experience-component experience-assets-youtubeVideo">

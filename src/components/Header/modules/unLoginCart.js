@@ -334,7 +334,7 @@ class UnloginCart extends React.Component {
                           <div className="product-line-item">
                             <div className="product-line-item-details d-flex flex-row">
                               <div className="item-image">
-                                <LazyLoad>
+                                {/* <LazyLoad> */}
                                   <img
                                     className="product-image"
                                     src={
@@ -344,7 +344,7 @@ class UnloginCart extends React.Component {
                                     alt={item.goodsName}
                                     title={item.goodsName}
                                   />
-                                </LazyLoad>
+                                {/* </LazyLoad> */}
                               </div>
                               <div className="wrap-item-title">
                                 <div className="item-title">
