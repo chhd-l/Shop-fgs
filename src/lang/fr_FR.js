@@ -1108,5 +1108,6 @@ const fr_FR = {
   'modalChangeDateTitle': 'Modifier la date d’expédition',
   'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition',
   'confirmation.account':'Go to my account',
+  deliveredTip: 'Devrait arriver dans environ 3 jours',
 }
 export default fr_FR;
