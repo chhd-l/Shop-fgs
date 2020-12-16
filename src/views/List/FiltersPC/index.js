@@ -112,8 +112,8 @@ class Filter extends React.Component {
     const { inputLabelKey } = this.props;
     return (
       <li
-        title={`Sort by ${parentItem.attributeNameEn.toLocaleLowerCase()}: ${
-          childItem.attributeDetailNameEn
+        title={`Sort by ${parentItem.attributeName.toLocaleLowerCase()}: ${
+          childItem.attributeDetailName
         }`}
         className="rc-list__item"
         key={childItem.id}
@@ -134,7 +134,7 @@ class Filter extends React.Component {
             className="rc-input__label--inline"
             htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
           >
-            {childItem.attributeDetailNameEn}
+            {childItem.attributeDetailName}
           </label>
         </div>
       </li>
@@ -192,8 +192,8 @@ class Filter extends React.Component {
           </div>
         ) : (
           <>
-            <header className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto" style={{backgroundColor: '#f6f6f6'}}>
-              {/* <button
+            <header className="rc-filters__header">
+              <button
                 className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
                 type="button"
                 onClick={this.handleClickCloseBtn}
@@ -201,9 +201,9 @@ class Filter extends React.Component {
               <div className="rc-filters__heading rc-padding-top--sm rc-padding-bottom--xs rc-header-with-icon rc-header-with-icon--alpha pt-0 pb-0">
                 <span className="md-up rc-icon rc-filter--xs rc-iconography" />
                 <FormattedMessage id="filters" />
-              </div> */}
+              </div>
               <div className="filter-bar">
-                <ul className="mt-md-0">
+                <ul className="mt-4 mt-md-0">
                   {filterList.map((pItem) => {
                     return (
                       pItem.attributesValueList ||
@@ -213,7 +213,7 @@ class Filter extends React.Component {
                       if (cItem.selected) {
                         return (
                           <li className="filter-value" key={cItem.id}>
-                            {cItem.attributeDetailNameEn}
+                            {cItem.attributeDetailName}
                             <i
                               className="filter-remove"
                               onClick={this.handleClickValueItem.bind(this, {
@@ -229,14 +229,9 @@ class Filter extends React.Component {
                       }
                     });
                   })}
-                  {this.hasSelecedItems &&
-                    <li className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block" key="removeAllFilters" onClick={this.hanldeClickRemoveAll}>
-                      <FormattedMessage id="removeAllFilters" />
-                    </li>
-                  }
                 </ul>
               </div>
-              {/* {this.hasSelecedItems && (
+              {this.hasSelecedItems && (
                 <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">
                   <span
                     className="rc-styled-link js-clear-filter"
@@ -245,10 +240,10 @@ class Filter extends React.Component {
                     <FormattedMessage id="removeAllFilters" />
                   </span>
                 </div>
-              )} */}
+              )}
             </header>
 
-            <div className="rc-padding-x--sm--mobile rc-padding-bottom--md--mobile">
+            <div className="rc-margin--none">
               {filterList.length ? (
                 filterList.map((parentItem, pIndex) => (
                   <React.Fragment key={parentItem.id}>
@@ -268,7 +263,7 @@ class Filter extends React.Component {
                             ? markPriceAndSubscriptionLangDict.filter(
                                 (ele) => ele.name === parentItem.attributeName
                               )[0].valueEn
-                            : parentItem.attributeNameEn}
+                            : parentItem.attributeName}
                         </div>
                       </div>
 

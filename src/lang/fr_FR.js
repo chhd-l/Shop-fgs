@@ -701,7 +701,7 @@ const fr_FR = {
   registerFailed: "échec de l'enregistrement",
   remember48Hours: "N'oubliez pas que la commande expire avant {val} deux jours plus tard avant {val} pm ou après {val} pm trois jours plus tard avant {val} pm.",
   rememberMe: "Ne m'oublie pas",
-  removeAllFilters: 'Supprimer tous les filtres',
+  removeAllFilters: 'Enlever',
   replyComments: 'Répondre aux commentaires',
   rePurchase: 'Racheter',
   'requestInvoices.title': 'Demander des factures',
