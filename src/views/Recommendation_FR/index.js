@@ -95,7 +95,8 @@ class Help extends React.Component {
       outOfStockProducts: [],
       inStockProducts: [],
       needLogin: false,
-      isMobile: false
+      isMobile: false,
+      currentBenefit: ''
     };
   }
 
@@ -113,9 +114,46 @@ class Help extends React.Component {
       .then((res) => {
         console.log(res, 'aaa');
         let productList = res.context.recommendationGoodsInfoRels;
-        // recommendationGoodsInfoRels
-        console.log(productList, 'productList');
+        
         productList.map((el) => {
+          let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
+          if (tmpGoodsDetail) {
+            try{
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              for (let key in tmpGoodsDetail) {
+                if (tmpGoodsDetail[key]) {
+                  if(process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {}
+                    let tempContent = ''
+                    try{
+                      if(key === 'Bénéfices') {
+                        
+                        tmpGoodsDetail[key].map(ele => {
+                          console.log('Bénéfices', 'tempContent', tmpGoodsDetail[key], Object.keys(JSON.parse(ele))[0], Object.values(JSON.parse(ele))[0]['Description'])
+                          // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
+                          tempContent = tempContent + `<li>
+                            <div class="">${Object.values(JSON.parse(ele))[0]['Description']}</div>
+                          </li>`
+                        })
+                        tempContent = `<ul class="">
+                          ${tempContent}
+                        </ul>`
+                        // this.setState({currentBenefit: tempContent})
+                        el.benefit = tempContent
+                      }
+                      // console.log(tempContent, 'tempContent')
+                      // el.goodsInfo.benefit = tempContent
+                    }catch(e) {
+                      console.log(e)
+                    }
+                  }else {
+                  }
+                }
+              }
+            }catch(e) {
+              console.log(e)
+            }
+          }
           if (!el.goodsInfo.goodsInfoImg) {
             el.goodsInfo.goodsInfoImg = el.goodsInfo.goods.goodsImg;
           }
@@ -485,6 +523,7 @@ class Help extends React.Component {
       currentModalObj,
       isMobile
     } = this.state;
+    console.log(productList, 'sdsajdkldsa')
     let MaxLinePrice,
       MinLinePrice,
       MaxMarketPrice,
@@ -524,6 +563,7 @@ class Help extends React.Component {
       MinMarketPrice,
       MaxSubPrice,
       MinSubPrice,
+      productList,
       'aaaaa'
     );
     let cur_recommendation2 = recommendation2;
@@ -657,7 +697,7 @@ class Help extends React.Component {
                             onClick={() => this.setState({ activeIndex: i })}
                           >
                             <img
-                              src={noPic}
+                              src={el.goodsInfo.goodsInfoImg}
                               style={{
                                 width: '40px',
                                 display: 'inline-block',
@@ -669,7 +709,11 @@ class Help extends React.Component {
                               style={{
                                 textAlign: 'center',
                                 fontSize: '12px',
-                                marginBottom: '5px'
+                                marginBottom: '5px',
+                                width: '100%',
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
                               }}
                             >
                               {el.goodsInfo.goodsInfoName}
@@ -735,17 +779,13 @@ class Help extends React.Component {
                               </b>
                             </div>
                           )}
-                          <div className="product-pricing__card__head d-flex align-items-center">
-                            {/* <div className="rc-input product-pricing__card__head__title">
-                              <FormattedMessage id="price" />
-                            </div> */}
+                          {/* <div className="product-pricing__card__head d-flex align-items-center">
                             <b
                               className="rc-padding-y--none"
                               style={{
                                 flex: 3,
                                 fontWeight: '200',
                                 fontSize: '22px'
-                                // color: 'rgba(102,102,102,.7)'
                               }}
                             >
                               {MaxMarketPrice > 0 ? (
@@ -761,7 +801,7 @@ class Help extends React.Component {
                                 )
                               ) : null}
                             </b>
-                          </div>
+                          </div> */}
                           {MaxSubPrice > 0 && (
                             <div className="product-pricing__card__head d-flex align-items-center">
                               {/* <div className="rc-input product-pricing__card__head__title">
@@ -776,18 +816,19 @@ class Help extends React.Component {
                                   // color: 'rgba(102,102,102,.7)'
                                 }}
                               >
-                                {MaxSubPrice > 0 ? (
+                                <span>
+                                  <FormattedMessage id="from" />{' '}
+                                  {formatMoney(MinSubPrice)}{' '}
+                                  <FormattedMessage id="to" />{' '}
+                                  {formatMoney(MaxMarketPrice)}
+                                </span>
+                                {/* {MaxSubPrice > 0 ? (
                                   MaxSubPrice === MinSubPrice ? (
                                     <span>{formatMoney(MaxSubPrice)}</span>
                                   ) : (
-                                    <span>
-                                      <FormattedMessage id="from" />{' '}
-                                      {formatMoney(MinSubPrice)}{' '}
-                                      <FormattedMessage id="to" />{' '}
-                                      {formatMoney(MaxSubPrice)}
-                                    </span>
+                                    
                                   )
-                                ) : null}
+                                ) : null} */}
                               </b>
                             </div>
                           )}
@@ -797,7 +838,7 @@ class Help extends React.Component {
                               .goodsDescription || ''}
                           </p>
                         </div>
-                        <div className="description">
+                        {/* <div className="description">
                           <LazyLoad>
                             <img
                               alt=""
@@ -846,8 +887,8 @@ class Help extends React.Component {
                           >
                             {`${prescriberInfo.location}`}
                           </p>
-                        </div>
-                        <p
+                        </div> */}
+                        {/* <p
                           style={{
                             textAlign: 'left',
                             fontSize: '14px',
@@ -878,11 +919,13 @@ class Help extends React.Component {
                           >
                             <FormattedMessage id="recommendation.productDescription" />
                           </span>
-                        </p>
+                        </p> */}
                         <p
+                          className="benefit"
                           style={{
-                            width: isMobile ? '70%' : '460px',
-                            margin: '0 auto'
+                            width: isMobile ? '70%' : '100%',
+                            margin: '0 auto',
+                            padding: '0 40px'
                           }}
                         >
                           <h5 className="red" style={{ margin: '30px 0 20px' }}>
@@ -890,16 +933,21 @@ class Help extends React.Component {
                           </h5>
                           <p
                             dangerouslySetInnerHTML={
-                              productList[activeIndex].goodsInfo.goods
-                                .goodsDetail &&
+                              // productList[activeIndex].goodsInfo.goods
+                                // &&
                               createMarkup(
-                                JSON.parse(
-                                  productList[activeIndex].goodsInfo.goods
-                                    .goodsDetail
-                                )['Beneficios']
+                                // this.state.currentBenefit
+                                productList[activeIndex].benefit
+                                // productList[activeIndex].goodsInfo.goods
+                                // .benefit
+                                // JSON.parse(
+                                //   productList[activeIndex].goodsInfo.goods
+                                //     .benefit
+                                // )['Beneficios']
                               )
                             }
                           ></p>
+                          {/* <p>{productList[activeIndex]}</p> */}
                         </p>
                         <p
                           style={{

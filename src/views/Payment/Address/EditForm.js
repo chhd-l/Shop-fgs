@@ -62,13 +62,12 @@ class EditForm extends React.Component {
           //     this.props.updateData(address);
           //   }
           // );
-        } else {
-          this.setState({
-            address: Object.assign(address, {
-              country: process.env.REACT_APP_DEFAULT_COUNTRYID
-            })
-          });
         }
+        this.setState({
+          address: Object.assign(address, {
+            country: process.env.REACT_APP_DEFAULT_COUNTRYID
+          })
+        });
       }
     });
 
