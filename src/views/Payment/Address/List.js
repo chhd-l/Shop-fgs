@@ -11,7 +11,6 @@ import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
 import Loading from '@/components/Loading';
-import SameAsCheckbox from './SameAsCheckbox';
 import './list.less';
 
 /**
@@ -600,14 +599,6 @@ class AddressList extends React.Component {
         </div>
       </fieldset>
     );
-    const _sameAsCheckbox = this.props.type === 'delivery' && (
-      <SameAsCheckbox
-        updateSameAsCheckBoxVal={(val) => {
-          this.setState({ billingChecked: val });
-          this.props.updateSameAsCheckBoxVal(val);
-        }}
-      />
-    );
 
     return (
       <>
@@ -675,17 +666,9 @@ class AddressList extends React.Component {
                 ) : null}
                 {/* add or edit address form */}
                 {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
-                  <>
-                    {_form}
-                    {/* {_sameAsCheckbox} */}
-                  </>
+                  <>{_form}</>
                 ) : null}
-                {!this.props.isOnepageCheckout && (
-                  <>
-                    {_form}
-                    {/* {_sameAsCheckbox} */}
-                  </>
-                )}
+                {!this.props.isOnepageCheckout && <>{_form}</>}
               </>
             )}
           </div>
