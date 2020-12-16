@@ -112,8 +112,8 @@ class Filter extends React.Component {
     const { inputLabelKey } = this.props;
     return (
       <li
-        title={`Sort by ${parentItem.attributeName.toLocaleLowerCase()}: ${
-          childItem.attributeDetailName
+        title={`Sort by ${parentItem.attributeNameEn.toLocaleLowerCase()}: ${
+          childItem.attributeDetailNameEn
         }`}
         className="rc-list__item"
         key={childItem.id}
@@ -134,7 +134,7 @@ class Filter extends React.Component {
             className="rc-input__label--inline"
             htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
           >
-            {childItem.attributeDetailName}
+            {childItem.attributeDetailNameEn}
           </label>
         </div>
       </li>
@@ -171,7 +171,7 @@ class Filter extends React.Component {
               ? markPriceAndSubscriptionLangDict.filter(
                   (ele) => ele.name === childItem.attributeDetailName
                 )[0].valueEn
-              : childItem.attributeDetailName}
+              : childItem.attributeDetailNameEn}
           </label>
         </div>
       </div>
@@ -213,7 +213,7 @@ class Filter extends React.Component {
                       if (cItem.selected) {
                         return (
                           <li className="filter-value" key={cItem.id}>
-                            {cItem.attributeDetailName}
+                            {cItem.attributeDetailNameEn}
                             <i
                               className="filter-remove"
                               onClick={this.handleClickValueItem.bind(this, {
@@ -263,7 +263,7 @@ class Filter extends React.Component {
                             ? markPriceAndSubscriptionLangDict.filter(
                                 (ele) => ele.name === parentItem.attributeName
                               )[0].valueEn
-                            : parentItem.attributeName}
+                            : parentItem.attributeNameEn}
                         </div>
                       </div>
 

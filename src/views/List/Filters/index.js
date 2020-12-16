@@ -171,7 +171,7 @@ class Filter extends React.Component {
               ? markPriceAndSubscriptionLangDict.filter(
                   (ele) => ele.name === childItem.attributeDetailName
                 )[0].valueEn
-              : childItem.attributeDetailName}
+              : childItem.attributeDetailNameEn}
           </label>
         </div>
       </div>
