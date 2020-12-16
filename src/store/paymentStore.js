@@ -1,4 +1,4 @@
-import { action, observable, computed } from 'mobx';
+import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 
@@ -93,7 +93,18 @@ class PaymentStore {
   }
 
   @action.bound
-  setStsToEdit({ key }) {
+  setStsToEdit({ key, hideOthers = false }) {
+    // 再次编辑时，把edit状态的置为prepare
+    if (hideOthers) {
+      const panelStatusJS = toJS(this.panelStatus);
+      for (let tmpKey in panelStatusJS) {
+        const tmpSts = this.panelStatus[tmpKey].status;
+        if (tmpSts.isEdit) {
+          tmpSts.isPrepare = true;
+        }
+      }
+    }
+
     this.updatePanelStatus(key, {
       isPrepare: false,
       isEdit: true,
@@ -108,6 +119,17 @@ class PaymentStore {
       isEdit: false,
       isCompleted: false
     });
+  }
+
+  @action.bound
+  releaseCompletedPanel() {
+    const panelStatusJS = toJS(this.panelStatus);
+    for (let tmpKey in panelStatusJS) {
+      const tmpSts = this.panelStatus[tmpKey].status;
+      if (tmpSts.isPrepare && tmpSts.isCompleted) {
+        tmpSts.isPrepare = false;
+      }
+    }
   }
 
   @action.bound

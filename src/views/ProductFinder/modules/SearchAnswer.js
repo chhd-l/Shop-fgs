@@ -41,7 +41,7 @@ class SearchAnswer extends React.Component {
       if (
         hasSizeRadio &&
         form &&
-        (form.key === mixedRaceText || form.key === unknownText)
+        (form.key === 'mixed_breed' || form.key === 'undefined')
       ) {
         if (sizeForm && sizeForm.key) {
           sts = true;
@@ -69,6 +69,7 @@ class SearchAnswer extends React.Component {
 
   render() {
     const { form } = this.state;
+    console.info('formform', form)
     const { config, configSizeAttach } = this.props;
     const {intl} = this.props;
     const unknownText = intl.formatMessage({id: 'unkown'}); 
@@ -112,9 +113,9 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-mixbreed"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value={mixedRaceText}
+                  value='mixed_breed'
                   key={1}
-                  checked={form && form.key === mixedRaceText}
+                  checked={form && form.key === 'mixed_breed'}
                   onChange={this.toggleCheckbox}
                 />
                 <label
@@ -130,9 +131,9 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-unkown"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value={unknownText}
+                  value='undefined'
                   key={2}
-                  checked={form && form.key === unknownText}
+                  checked={form && form.key === 'undefined'}
                   onChange={this.toggleCheckbox}
                 />
                 <label
@@ -148,7 +149,7 @@ class SearchAnswer extends React.Component {
           {configSizeAttach && (
             <div
               className={`content-section ${
-                form && (form.key === mixedRaceText || form.key === unknownText)
+                form && (form.key === 'mixed_breed' || form.key === 'undefined')
                   ? ''
                   : 'hidden'
               }`}

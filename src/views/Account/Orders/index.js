@@ -688,7 +688,7 @@ class AccountOrders extends React.Component {
                                             style={{
                                               textOverflow: 'ellipsis',
                                               overflow: 'hidden',
-                                              maxWidth: '82%'
+                                              maxWidth: '66%'
                                             }}
                                           >
                                             <FormattedMessage id="invoice" />

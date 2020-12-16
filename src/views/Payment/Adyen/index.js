@@ -67,7 +67,9 @@ class AdyenCreditCard extends React.Component {
         list: toJS(paymentStore.panelStatus),
         curKey: curPanelKey
       });
-      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+      if (isReadyPrev) {
+        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+      }
     } else {
       // 删除卡的时候
       paymentStore.setStsToEdit({ key: 'paymentMethod' });
