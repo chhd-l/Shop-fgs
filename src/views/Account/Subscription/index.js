@@ -8,7 +8,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
 import { getDictionary, getDeviceType, getFrequencyDict } from '@/utils/utils';
@@ -385,7 +385,8 @@ class Subscription extends React.Component {
                                   <p
                                     style={{ color: '#666', fontSize: '16px' }}
                                   >
-                                    {subItem.createTime.split(' ')[0]}
+                                    <FormattedDate value={subItem.createTime.split(' ')[0]}/>
+                                    {/* {subItem.createTime.split(' ')[0]} */}
                                   </p>
                                 </span>
                               </div>
