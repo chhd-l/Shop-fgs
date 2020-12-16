@@ -16,7 +16,8 @@ import {
   formatMoney,
   getDictionary,
   getDeviceType,
-  setSeoConfig
+  setSeoConfig,
+  getFormatDate
 } from '@/utils/utils';
 import { batchAdd } from '@/api/payment';
 import { getOrderList, getOrderDetails, exportInvoicePDF } from '@/api/order';
@@ -648,10 +649,7 @@ class AccountOrders extends React.Component {
                                         <FormattedMessage id="order.orderPlacedOn" />
                                         <br className="d-none d-md-block" />
                                         <span className="medium orderHeaderTextColor">
-                                          {order.tradeState.createTime.substr(
-                                            0,
-                                            10
-                                          )}
+                                          {getFormatDate(order.tradeState.createTime.substr(0, 10 ))}
                                         </span>
                                       </p>
                                     </div>
@@ -690,7 +688,7 @@ class AccountOrders extends React.Component {
                                             style={{
                                               textOverflow: 'ellipsis',
                                               overflow: 'hidden',
-                                              maxWidth: '82%'
+                                              maxWidth: '66%'
                                             }}
                                           >
                                             <FormattedMessage id="invoice" />

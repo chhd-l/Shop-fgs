@@ -22,14 +22,12 @@ import {
   getRecommendProducts
 } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary, getDeviceType } from '@/utils/utils';
+import { getDictionary, getDeviceType, datePickerConfig } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import es from 'date-fns/locale/es';
-import de from 'date-fns/locale/de';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
@@ -38,27 +36,6 @@ import Banner_Dog from './images/banner_Dog.jpg'
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
 import LazyLoad from 'react-lazyload';
-const lang = process.env.REACT_APP_LANG;
-
-switch (lang) {
-  case 'de':
-    registerLocale('de', de);
-    break;
-  case 'es':
-    registerLocale('es', es);
-    break;
-  default:
-    break;
-}
-
-const datePickerCfg = {
-  es: { format: 'yyyy-MM-dd', locale: 'es' },
-  de: { format: 'dd.MM.yyyy', locale: 'de' },
-  default: { format: 'yyyy-MM-dd', locale: '' }
-};
-
-const curDatePickerCfg =
-  datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
 
 const selectedPet = {
   border: '3px solid #ec001a'
@@ -1144,8 +1121,8 @@ class PetForm extends React.Component {
                         <DatePicker
                           className="receiveDate"
                           placeholder="Select Date"
-                          dateFormat={curDatePickerCfg.format}
-                          locale={curDatePickerCfg.locale}
+                          dateFormat={datePickerConfig.format}
+                          locale={datePickerConfig.locale}
                           maxDate={new Date()}
                           selected={
                             this.state.birthdate

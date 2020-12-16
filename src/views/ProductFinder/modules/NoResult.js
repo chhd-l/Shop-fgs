@@ -202,6 +202,7 @@ class ProductFinderNoResult extends React.Component {
                   questionlist={questionlist}
                   petBaseInfo={petBaseInfo}
                   handleClickGotoStart={this.handleClickGotoStart}
+                  history={history}
                 />
                 <div className="row">
                   <div className="col-12 order-1 order-md-0">

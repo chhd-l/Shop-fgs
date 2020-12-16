@@ -26,7 +26,7 @@ class EmailForm extends React.Component {
     });
   }
   handleClickEdit = () => {
-    this.props.paymentStore.setStsToEdit({ key: 'email' });
+    this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true }); // todo
   };
   handleClickConfirm = () => {
     this.confirmToNextPanel();
@@ -103,14 +103,20 @@ class EmailForm extends React.Component {
       </>
     );
 
+    const _title = emailPanelStatus.isPrepare
+      ? titleForPrepare
+      : emailPanelStatus.isEdit
+      ? titleForEdit
+      : emailPanelStatus.isCompleted
+      ? titleForCompleted
+      : null;
+
     return (
       <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
         <div className="bg-transparent d-flex justify-content-between align-items-center">
-          {emailPanelStatus.isPrepare && titleForPrepare}
-          {emailPanelStatus.isEdit && titleForEdit}
-          {emailPanelStatus.isCompleted && titleForCompleted}
+          {_title}
         </div>
-        {emailPanelStatus.isEdit ? (
+        {emailPanelStatus.isPrepare ? null : emailPanelStatus.isEdit ? (
           <div className="rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs">
             <div className="d-flex align-items-center justify-content-between">
               <div
@@ -138,9 +144,9 @@ class EmailForm extends React.Component {
               </button>
             </div>
           </div>
-        ) : (
+        ) : emailPanelStatus.isCompleted ? (
           <div>{form.email}</div>
-        )}
+        ) : null}
       </div>
     );
   }

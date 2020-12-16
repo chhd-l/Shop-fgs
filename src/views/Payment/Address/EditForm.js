@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import findIndex from 'lodash/findIndex';
 import Selection from '@/components/Selection';
 import CitySearchSelection from '@/components/CitySearchSelection';
 import { getDictionary, validData } from '@/utils/utils';

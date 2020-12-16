@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.less';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { inject, observer } from 'mobx-react';
 import Header from '@/components/Header';
@@ -15,7 +15,9 @@ import {
   getDictionary,
   dynamicLoadCss,
   getDeviceType,
-  getFrequencyDict
+  getFrequencyDict,
+  getFormatDate,
+  datePickerConfig
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -1079,7 +1081,7 @@ class SubscriptionDetail extends React.Component {
                                       marginLeft: '10px'
                                     }}
                                   >
-                                    {el.createTime.split(' ')[0]}
+                                    {getFormatDate(el.createTime.split(' ')[0])}
                                   </h1>
                                 </div>
                                 <div className="rc-card-content">
@@ -1114,8 +1116,9 @@ class SubscriptionDetail extends React.Component {
                                     <DatePicker
                                       className="receiveDate"
                                       placeholder="Select Date"
-                                      dateFormat="yyyy-MM-dd"
-                                      maxDate={this.getMaxDate(el.nextDeliveryTime)}
+                                      dateFormat={datePickerConfig.format}
+                                      locale={datePickerConfig.locale}
+                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
                                       minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
                                       selected={
                                         el.nextDeliveryTime
@@ -1427,7 +1430,8 @@ class SubscriptionDetail extends React.Component {
                                       marginLeft: '10px'
                                     }}
                                   >
-                                    {el.createTime.split(' ')[0]}
+                                    { getFormatDate(el.createTime.split(' ')[0]) }
+                                    {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
                                   </h1>
                                 </div>
                                 <div className="rc-card-content">
@@ -1462,8 +1466,9 @@ class SubscriptionDetail extends React.Component {
                                     <DatePicker
                                       className="receiveDate"
                                       placeholder="Select Date"
-                                      dateFormat="yyyy-MM-dd"
-                                      maxDate={this.getMaxDate(el.nextDeliveryTime)}
+                                      dateFormat={datePickerConfig.format}
+                                      locale={datePickerConfig.locale}
+                                      // maxDate={this.getMaxDate(el.nextDeliveryTime)}
                                       minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
                                       selected={
                                         el.nextDeliveryTime
@@ -1758,7 +1763,7 @@ class SubscriptionDetail extends React.Component {
                                 )}
                               </div>
                               <div className="ml-1">
-                                {currentCardInfo.paymentMethod &&
+                                {currentCardInfo && currentCardInfo.paymentMethod &&
                                 currentCardInfo.paymentMethod.last_4_digits ? (
                                   <>
                                     <span
@@ -1798,11 +1803,11 @@ class SubscriptionDetail extends React.Component {
                                   </>
                                 ) : null}
 
-                                {currentCardInfo.paymentMethod
+                                {currentCardInfo && currentCardInfo.paymentMethod
                                   ? currentCardInfo.paymentMethod.holder_name
                                   : ''}
                                 <br />
-                                {currentCardInfo.phoneNumber}
+                                {currentCardInfo && currentCardInfo.phoneNumber}
                                 <br />
                               </div>
                             </div>
@@ -1939,11 +1944,11 @@ class SubscriptionDetail extends React.Component {
                                                   fontWeight: '400'
                                                 }}
                                               >
-                                                {
-                                                  el.tradeItems[0].nextDeliveryTime.split(
-                                                    ' '
-                                                  )[0]
-                                                }
+                                                {getFormatDate(el.tradeItems[0].nextDeliveryTime.split(' ')[0])}
+                                                {/* <FormattedDate value={el.tradeItems[0].nextDeliveryTime.split(' ')[0]}/> */}
+                                                {/* {
+                                                  el.tradeItems[0].nextDeliveryTime.split(' ')[0]
+                                                } */}
                                               </span>
                                             </div>
                                             <div
@@ -1988,8 +1993,9 @@ class SubscriptionDetail extends React.Component {
                                                     <DatePicker
                                                       className="receiveDate subs-receiveDate"
                                                       placeholder="Select Date"
-                                                      dateFormat="yyyy-MM-dd"
-                                                      maxDate={this.getMaxDate(el.tradeItems[0].nextDeliveryTime)}
+                                                      dateFormat={datePickerConfig.format}
+                                                      locale={datePickerConfig.locale}
+                                                      // maxDate={this.getMaxDate(el.tradeItems[0].nextDeliveryTime)}
                                                       minDate={
                                                         this.getMinDate(el.tradeItems[0].nextDeliveryTime) || this.state.minDate
                                                       }
@@ -2557,10 +2563,9 @@ class SubscriptionDetail extends React.Component {
                                               }}
                                             >
                                               {
-                                                el.tradeState.createTime.split(
-                                                  ' '
-                                                )[0]
+                                                getFormatDate(el.tradeState.createTime.split(' ')[0])
                                               }
+                                              {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
                                             </span>
                                           </div>
                                           {isMobile ? null : (

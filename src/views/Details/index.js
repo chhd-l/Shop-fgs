@@ -199,14 +199,25 @@ class Details extends React.Component {
         ? pathname.split('-').reverse()[0]
         : '';
     await getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res,
-        form: Object.assign(this.state.form, {
-          frequencyVal: res[0] ? res[0].valueEn : '',
-          frequencyName: res[0] ? res[0].name : '',
-          frequencyId: res[0] ? res[0].id : ''
-        })
-      });
+      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: '4',
+            frequencyName: '4 semaine(s)',
+            frequencyId: 3560
+          })
+        });
+      }else {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
+          })
+        });
+      }
     });
     this.setState(
       {
@@ -532,10 +543,48 @@ class Details extends React.Component {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  goodsDetailTab.tabName.push(key);
-                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  console.log(tmpGoodsDetail[key], 'ghaha')
+                  if(process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {}
+                    let tempContent = ''
+                    try{
+                      if(key === 'Description') {
+                        tmpGoodsDetail[key].map(el => {
+                          tempContent = tempContent + `<p>${Object.values(JSON.parse(el))[0]}</p>`
+                        })
+                      }else if(key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map(el => {
+                          tempContent = tempContent + `<li>
+                            <div class="list_title">${Object.keys(JSON.parse(el))[0]}</div>
+                            <div class="list_item">${Object.values(JSON.parse(el))[0]['Description']}</div>
+                          </li>`
+                        })
+                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`
+                      }else if(key === 'Composition') {
+                        tmpGoodsDetail[key].map(el => {
+                          tempContent = tempContent + `<p>
+                            <div class="title">${Object.keys(JSON.parse(el))[0]}</div>
+                            <div class="content">${Object.values(JSON.parse(el))[0]}</div> 
+                          </p>`
+                        })
+                      }else {
+                        tempContent = tmpGoodsDetail[key]
+                      }
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tempContent);
+                    }catch(e) {
+                      console.log(e)
+                    }
+                  }else {
+                    goodsDetailTab.tabName.push(key);
+                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  }
+                  console.log(tmpGoodsDetail[key], 'ghaha')
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
@@ -1476,19 +1525,15 @@ class Details extends React.Component {
                               </h1>
                               <div
                                 className="desAndStars rc-margin-bottom--xs"
-                                style={{
-                                  display:
-                                    process.env.REACT_APP_LANG == 'fr'
-                                      ? 'none'
-                                      : 'block'
-                                }}
                               >
                                 <div className="des">
                                   <h3 className="text-break mb-1 mt-2">
                                     {details.goodsSubtitle}
                                   </h3>
                                 </div>
-                                <div className="stars">
+                                <div className="stars" style={{
+                                  display: process.env.REACT_APP_LANG == 'fr'? 'none': 'block'
+                                }}>
                                   <div className="rc-card__price flex-inline">
                                     <div
                                       className="display-inline"

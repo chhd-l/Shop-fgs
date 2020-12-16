@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import SearchSelection from '@/components/SearchSelection';
 import { inject, observer } from 'mobx-react';
 import './NewPetModal.css';
+import { datePickerConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -311,7 +312,8 @@ class NewPetModal extends Component {
                   id="receiveBirthDate"
                   className="receiveDate"
                   placeholder="Select Date"
-                  dateFormat="yyyy-MM-dd"
+                  dateFormat={datePickerConfig.format}
+                  locale={datePickerConfig.locale}
                   maxDate={new Date()}
                   selected={form.birthday ? new Date(form.birthday) : ''}
                   onChange={(date) => this.onDateChange(date)}

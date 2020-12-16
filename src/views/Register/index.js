@@ -10,6 +10,7 @@ import { oktaRegister } from '@/api/user'
 import { getCustomerInfo } from '@/api/user';
 import stores from '@/store';
 import { mergeUnloginCartData } from '@/utils/utils';
+import { withOktaAuth } from '@okta/okta-react';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -277,6 +278,7 @@ class Register extends Component {
         }
         this.props.history.push('/')
       } else {
+        window.scrollTo(0, 0)
         this.setState({
           circleLoading: false,
           hasError: true
@@ -284,6 +286,7 @@ class Register extends Component {
       }
     })
     .catch((err) => {
+      window.scrollTo(0, 0)
       this.setState({
         circleLoading: false,
         hasError: true
@@ -323,7 +326,7 @@ class Register extends Component {
             <div className="rc-column rc-padding-top--lg--mobile">
               <div className="rc-margin-bottom--sm text-center">
                 <a
-                  href="/home"
+                  href={process.env.REACT_APP_ACCESS_PATH}
                   className="logo-home d-inline-block"
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
@@ -352,7 +355,7 @@ class Register extends Component {
                         <FormattedMessage id="registerErrorMessage" />
                         <b>
                           <a
-                            href="/help"
+                            href={process.env.REACT_APP_ACCESS_PATH + 'help'}
                             className="rc-text-colour--brand1"
                           >
                             {' '}
@@ -384,7 +387,7 @@ class Register extends Component {
                     <p className="text-center align-bottom">
                       <FormattedMessage id="registerHaveAccount" />{' '}
                       <a
-                        href="https://shop.royalcanin.fr/on/demandware.store/Sites-FR-Site/fr_FR/Login-OAuthLogin?oauthProvider=OktaProvider_FR&amp;oauthLoginTargetEndPoint=1"
+                        onClick={() => this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE)}
                         className="rc-styled-link"
                       >
                         <FormattedMessage id="registerLoginIn" />
@@ -724,4 +727,4 @@ class Register extends Component {
     );
   }
 }
-export default Register;
+export default withOktaAuth(Register);
