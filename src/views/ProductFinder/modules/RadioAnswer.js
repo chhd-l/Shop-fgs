@@ -40,6 +40,7 @@ class RadioAnswer extends React.Component {
               name="buyWay"
               value={i}
               onChange={this.handleRadioChange.bind(this, ele)}
+              defaultChecked={ele.defaultChecked}
               checked={ele.selected}
             />
             <label

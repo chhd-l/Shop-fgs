@@ -226,13 +226,13 @@ function ListItemBody({ item }) {
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {item.fromPrice}
+                  {formatMoney(item.fromPrice)}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
                         <FormattedMessage id="startEnd" />
                       </span>
-                      {item.toPrice}
+                      {formatMoney(item.toPrice)}
                     </>
                   ) : null}
                 </span>
@@ -464,10 +464,6 @@ class List extends React.Component {
     findSortList().then((res) => {
       let list = res.context || [];
       list.sort((a, b) => a.sort - b.sort);
-      list.unshift({
-        sortName: <FormattedMessage id="default" />,
-        value: '11'
-      });
       this.setState({
         sortList: list.map((ele) => ({
           ...ele,

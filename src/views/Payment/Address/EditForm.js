@@ -100,10 +100,7 @@ class EditForm extends React.Component {
   deliveryInputChange = (e) => {
     const { address } = this.state;
     const target = e.target;
-    let value =
-      target.type === 'checkbox'
-        ? target.checked
-        : target.value.replace(/\s/gi, '');
+    let value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     if (name === 'postCode' || name === 'phoneNumber') {
       value = value.replace(/\s+/g, '');

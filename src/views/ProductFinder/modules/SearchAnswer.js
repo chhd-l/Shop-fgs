@@ -25,6 +25,8 @@ class SearchAnswer extends React.Component {
     });
   };
   toggleCheckbox = (e) => {
+    const unknownText = this.props.intl.formatMessage({id: 'unkown'}); 
+    const mixedRaceText = this.props.intl.formatMessage({id: 'account.mixBreed'}); 
     let tmp = null;
     const target = e.target;
     if (target.checked) {
@@ -39,7 +41,7 @@ class SearchAnswer extends React.Component {
       if (
         hasSizeRadio &&
         form &&
-        (form.key === 'mixed race' || form.key === 'unknown')
+        (form.key === mixedRaceText || form.key === unknownText)
       ) {
         if (sizeForm && sizeForm.key) {
           sts = true;
@@ -70,6 +72,7 @@ class SearchAnswer extends React.Component {
     const { config, configSizeAttach } = this.props;
     const {intl} = this.props;
     const unknownText = intl.formatMessage({id: 'unkown'}); 
+    const mixedRaceText = intl.formatMessage({id: 'account.mixBreed'}); 
     return (
       <>
         <h4 className="mb-4 red">{config.title}</h4>
@@ -109,9 +112,9 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-mixbreed"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value={'mixed race'}
+                  value={mixedRaceText}
                   key={1}
-                  checked={form && form.key === 'mixed race'}
+                  checked={form && form.key === mixedRaceText}
                   onChange={this.toggleCheckbox}
                 />
                 <label
@@ -127,9 +130,9 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-unkown"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value='unknown'
+                  value={unknownText}
                   key={2}
-                  checked={form && form.key === 'unknown'}
+                  checked={form && form.key === unknownText}
                   onChange={this.toggleCheckbox}
                 />
                 <label
@@ -145,7 +148,7 @@ class SearchAnswer extends React.Component {
           {configSizeAttach && (
             <div
               className={`content-section ${
-                form && (form.key === 'mixed race' || form.key === 'unknown')
+                form && (form.key === mixedRaceText || form.key === unknownText)
                   ? ''
                   : 'hidden'
               }`}

@@ -150,7 +150,11 @@ class ClinicForm extends React.Component {
             )}
           </h5>
           {!isEdit && (
-            <p onClick={this.handleClickEdit} className="rc-styled-link mb-1">
+            <p
+              onClick={this.handleClickEdit}
+              className="rc-styled-link mb-1"
+              style={{ whiteSpace: 'nowrap' }}
+            >
               <FormattedMessage id="edit" />
             </p>
           )}
