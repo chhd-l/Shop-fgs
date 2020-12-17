@@ -13,8 +13,11 @@ import { Ads } from './ad';
 import { Advantage } from './advantage';
 import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
+import Loading from '@/components/Loading';
+import { withOktaAuth } from '@okta/okta-react';
 
 const localItemRoyal = window.__.localItemRoyal;
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 function Divider() {
   return (
@@ -485,6 +488,21 @@ class Home extends React.Component {
       </div>
     ));
 
+    const parametersString = history.location.search;
+    if (parametersString.indexOf('redirect=order') >= 0) {
+      sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
+    }
+    if (parametersString.indexOf('redirect=subscription') >= 0) {
+      sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
+    }
+    if (parametersString.indexOf('redirect=baseinfo') >= 0) {
+      sessionItemRoyal.set('okta-redirectUrl', '/account/information');
+    }
+    if (parametersString.indexOf('toOkta=true') >= 0) {
+      this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
+      return <Loading bgColor={'#fff'} />;
+    }
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -651,4 +669,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default withOktaAuth(Home);

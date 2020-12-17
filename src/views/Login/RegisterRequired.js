@@ -113,6 +113,11 @@ class RegisterRequired extends Component {
       });
     }
   };
+  computedIsCheck(list){
+    return list.every(item=>{
+      return item.isChecked==false
+    })
+  } 
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
@@ -348,6 +353,7 @@ class RegisterRequired extends Component {
               {
                 <button
                   className="rc-btn rc-btn--lg rc-btn--one px-5"
+                  disabled={this.computedIsCheck(this.state.list)}
                   onClick={this.submitLogin}
                 >
                   <FormattedMessage id="required.continue" />
