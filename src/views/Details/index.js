@@ -559,7 +559,7 @@ class Details extends React.Component {
                         tmpGoodsDetail[key].map(el => {
                           tempContent = tempContent + `<li>
                             <div class="list_title">${Object.keys(JSON.parse(el))[0]}</div>
-                            <div class="list_item">${Object.values(JSON.parse(el))[0]['Description']}</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${Object.values(JSON.parse(el))[0]['Description']}</div>
                           </li>`
                         })
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
