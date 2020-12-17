@@ -106,7 +106,8 @@ function ListItemPC(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="fullHeight">
-          <a className="ui-cursor-pointer" onClick={props.onClick}>
+          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
+          <a className="ui-cursor-pointer" href={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="rc-card__image">
@@ -563,6 +564,7 @@ class List extends React.Component {
     //   .catch(() => {
     //     this.setState({ initingFilter: false });
     //   });
+
     if (keywords) {
       setSeoConfig({
         pageName: 'Search Results Page'
@@ -571,6 +573,11 @@ class List extends React.Component {
       setSeoConfig({
         categoryId: storeCateIds[0],
         pageName: 'Product List Page' // Search Results Page
+      });
+    }
+    else {
+      setSeoConfig({
+        pageName: 'Product List Page'
       });
     }
   }
@@ -894,7 +901,7 @@ class List extends React.Component {
       this.state.currentCatogery || ''
     );
     sessionItemRoyal.set('recomment-preview', location.pathname);
-    history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
+    // history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
     // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   getElementToPageTop(el) {
