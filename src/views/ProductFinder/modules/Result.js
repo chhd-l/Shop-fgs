@@ -295,7 +295,12 @@ class ProductFinderResult extends React.Component {
                   <FormattedMessage id="productFinder.searchCompleted" />
                 </h2>
                 <p className="text-center" style={{ fontSize: '1.25rem' }}>
-                  <FormattedMessage id="productFinder.searchResultTip1" />
+                  {type === 'dog' ? (
+                    <FormattedMessage id="productFinder.searchResultTip1ForCat" />
+                  ) : (
+                    <FormattedMessage id="productFinder.searchResultTip1ForDog" />
+                  )}
+
                   <br />
                   <FormattedMessage id="productFinder.searchResultTip2" />
                 </p>
