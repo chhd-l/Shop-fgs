@@ -107,7 +107,7 @@ function ListItemPC(props) {
         {props.rightPromotionJSX}
         <div className="fullHeight">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          <a className="ui-cursor-pointer" href={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
+          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="rc-card__image">
@@ -149,7 +149,7 @@ function ListItemPC(props) {
               ) : null}
               {props.children}
             </article>
-          </a>
+          </Link>
         </div>
       </article>
     </div>
