@@ -1,6 +1,17 @@
 .Recommendation_FR p {
   margin-bottom: 30px;
 }
+.Recommendation_FR .benefit {
+  text-align: left;
+}
+.Recommendation_FR .benefit ul {
+  padding-left: 40px;
+}
+.Recommendation_FR .benefit ul > li {
+  height: auto;
+  text-align: left;
+  list-style: disc;
+}
 .Recommendation_FR h2 {
   margin-bottom: 10px;
 }
@@ -140,6 +151,7 @@
 }
 .Recommendation_FR .transparentSection {
   background-image: url(./images/transparent.svg);
+  background-size: 100%;
   background-repeat: no-repeat;
   background-color: #eee;
   min-height: 600px;
@@ -160,6 +172,7 @@
   }
   .Recommendation_FR .recommendProduct {
     width: 100%;
+    padding: 0;
   }
   .picList li > img {
     width: 107px;

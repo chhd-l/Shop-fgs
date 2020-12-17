@@ -131,6 +131,31 @@ class PayProductInfo extends React.Component {
                     ) : <span>{formatMoney(item.price)}</span>}
                   </div>
                 </div>
+                {/* subscriptionDiscountPrice */}
+                <div className="item-title">
+                  {
+                    item.subscriptionDiscountPrice
+                    ?<div>
+                      <span
+                        className="iconfont font-weight-bold green"
+                        style={{ fontSize: '.8em' }}
+                      >
+                        &#xe675;
+                      </span>
+                      &nbsp; 
+                      <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
+                        val1:(
+                          <span className="green">
+                            {formatMoney(
+                              item.subscriptionDiscountPrice)}
+                          </span>
+                        )
+                      }} />
+                    </div>
+                    :null
+                  }
+                  
+                </div>
               </div>
             </div>
           </div>
@@ -184,26 +209,7 @@ class PayProductInfo extends React.Component {
                         </p>
                       </div>
                     </div>
-                    {details.tradePrice.discountsPrice ? (
-                      <div className="row leading-lines shipping-item">
-                        <div className="col-7 start-lines">
-                          <p className="order-receipt-label order-shipping-cost">
-                            <span>
-                              {details.tradePrice.promotionDesc || (
-                                <FormattedMessage id="promotion" />
-                              )}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-5 end-lines">
-                          <p className="text-right">
-                            <span className="shipping-total-cost red">
-                              -{formatMoney(details.tradePrice.discountsPrice)}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    ) : null}
+                    
                     {/* 显示 delivereyPrice */}
                     <div className="row leading-lines shipping-item">
                       <div className="col-7 start-lines">
@@ -221,6 +227,27 @@ class PayProductInfo extends React.Component {
                         </p>
                       </div>
                     </div>
+                    {/* promotion */}
+                    {details.tradePrice.discountsPrice ? (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              {details.tradePrice.promotionDesc || (
+                                <FormattedMessage id="promotion" />
+                              )}
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(details.tradePrice.discountsPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>

@@ -2,8 +2,12 @@ import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import { dynamicLoadCss, formatMoney } from '@/utils/utils';
-import { isPrevReady, searchNextConfirmPanel } from '../modules/utils';
+import { dynamicLoadCss, formatMoney, getDeviceType } from '@/utils/utils';
+import {
+  isPrevReady,
+  searchNextConfirmPanel,
+  scrollIntoView
+} from '../modules/utils';
 import CardList from './list';
 import TermsCommon from '../Terms/common';
 
@@ -20,7 +24,8 @@ class AdyenCreditCard extends React.Component {
       requiredList: [],
       adyenPayParam: null,
       isValid: false,
-      errorMsg: ''
+      errorMsg: '',
+      isMobile: getDeviceType() === 'H5'
     };
   }
   componentDidMount() {
@@ -46,6 +51,7 @@ class AdyenCreditCard extends React.Component {
   };
   updateSelectedCardInfo = (data) => {
     const { paymentStore, isOnepageCheckout } = this.props;
+    const { isMobile } = this.state;
     const curPanelKey = 'paymentMethod';
     this.setState({ adyenPayParam: data, isValid: !!data });
     this.props.updateAdyenPayParam(data);
@@ -69,6 +75,12 @@ class AdyenCreditCard extends React.Component {
       });
       if (isReadyPrev) {
         paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+        setTimeout(() => {
+          isMobile &&
+            scrollIntoView(
+              document.querySelector(`#J_checkout_panel_confirmation`)
+            );
+        });
       }
     } else {
       // 删除卡的时候

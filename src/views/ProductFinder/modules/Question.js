@@ -49,7 +49,8 @@ class Question extends React.Component {
       valid: false,
       isEdit: false, // 是否处于编辑状态
       initDataFromFreshPage: false,
-      configSizeAttach: null // when breed，attached size data
+      configSizeAttach: null, // when breed，attached size data
+      questionType: ''
     };
     this.setIconToolTipVisible = this.setIconToolTipVisible.bind(this);
     this.setBtnToolTipVisible = this.setBtnToolTipVisible.bind(this);
@@ -111,17 +112,18 @@ class Question extends React.Component {
       metadataQuestionDisplayType: targetItem.selectType,
       defaultListData: targetItem.answerList
     });
-    let questionList = qRes.questionList.map(item=>{
-      if(targetItem.answer!==undefined && targetItem.answer !== null){
-        item.defaultChecked = targetItem.answer == item.key
+    let questionList = qRes.questionList.map((item) => {
+      if (targetItem.answer !== undefined && targetItem.answer !== null) {
+        item.defaultChecked = targetItem.answer == item.key;
       }
-      return item
-    })
+      return item;
+    });
     this.setState({
       progress: progress || 100,
       stepOrder: editStopOrder,
       finderNumber: targetItem.finderNumber,
       answerdQuestionList: tmpList,
+      descriptionTips: targetItem.frenchDescription,
       currentStepName: targetItem.questionName,
       questionParams: tmpList
         .filter((ele) => ele.stepOrder <= editStopOrder)
@@ -149,10 +151,10 @@ class Question extends React.Component {
     this.setState({ btnToolTipVisible: status });
   }
   updateFormData = (data) => {
-    this.setState({ 
+    this.setState({
       form: data,
       ageErrorShow: false //重新选择之后去掉提示
-     });
+    });
   };
   updateBreedSizeFormData = (data) => {
     this.setState({ breedSizeform: data });
@@ -201,24 +203,25 @@ class Question extends React.Component {
             tmpFormParam = encodeURI(form.key);
             break;
           case 'select':
-            tmpFormParam = form.reduce((cur, prev) => {
-              if(currentStepName=='age'){
-                // 如果是年龄，相加的时候需要转成number
-                cur=Number(cur)
-                prev=Number(prev)
-              }
-              return cur + prev
-            }) + '';
+            tmpFormParam =
+              form.reduce((cur, prev) => {
+                if (currentStepName == 'age') {
+                  // 如果是年龄，相加的时候需要转成number
+                  cur = Number(cur);
+                  prev = Number(prev);
+                }
+                return cur + prev;
+              }) + '';
             break;
           default:
             break;
         }
-        if(currentStepName=='age' && tmpFormParam==='0'){
+        if (currentStepName == 'age' && tmpFormParam === '0') {
           // 当前选择年龄0岁0月不能提交
           this.setState({
             ageErrorShow: true
-          })
-          return
+          });
+          return;
         }
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
@@ -235,7 +238,7 @@ class Question extends React.Component {
         finderNumber,
         questionParams: tmpQuestionParams
       };
-     
+
       if (stepOrder > 0) {
         params.stepOrder = stepOrder;
       }
@@ -244,6 +247,8 @@ class Question extends React.Component {
       }
       const res = await (this.state.isEdit ? edit : query)(params);
       const resContext = res.context;
+      console.info('resContext', resContext)
+      console.info('!resContext.isEndOfTree', !resContext.isEndOfTree)
       if (!resContext.isEndOfTree) {
         const tmpStep = resContext.step;
         const qRes = this.handleQuestionConfigLogic({
@@ -256,15 +261,14 @@ class Question extends React.Component {
           defaultListData: tmpStep.answers
         });
         if (resContext.sizeStep) {
-          let sizeStep = resContext.sizeStep
-          if(resContext.step.name==='breedCode'){
-            sizeStep = Object.assign({},resContext.sizeStep,
-              {
-                answers:[...resContext.step.mixedBreedPossibleValues],
-                name: resContext.step.name
-              })
+          let sizeStep = resContext.sizeStep;
+          if (resContext.step.name === 'breedCode') {
+            sizeStep = Object.assign({}, resContext.sizeStep, {
+              answers: [...resContext.step.mixedBreedPossibleValues],
+              name: resContext.step.name
+            });
           }
-          
+
           this.setState({
             configSizeAttach: sizeStep
           });
@@ -304,6 +308,7 @@ class Question extends React.Component {
           finderNumber,
           questionParams: tmpQuestionParams
         });
+        this.setState({ questionCfg: null, questionType: '' });
         localItemRoyal.remove(`pf-cache-${type}-question`);
         sessionItemRoyal.set(
           'pf-questionlist',
