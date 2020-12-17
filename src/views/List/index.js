@@ -46,11 +46,11 @@ function ListItem(props) {
       >
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
-        <div className="row h-100">
+        <div className="h-100">
           <a className="ui-cursor-pointer" onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
-                <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0" style={{margin:'0 !important'}}>
+                <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
                   <div
                     className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
                     style={{ height: '15.7rem',overflow: 'hidden' }}
@@ -156,7 +156,8 @@ function ListItemPC(props) {
 }
 function ListItemBody({item}){
 return (
-  <div className="fr-mobile-product-list">
+  <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
+  style={{paddingRight: '3rem'}}>
       <div className="product-name"  title={item.goodsName}> {item.goodsName}</div>
       <div className="product-price">                 
         {/* {formatMoney(item.miLinePrice)} */}
