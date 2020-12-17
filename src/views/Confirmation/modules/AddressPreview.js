@@ -118,6 +118,16 @@ class InfosPreview extends React.Component {
                   </>
                 ) : null}
               </div>
+              <div>
+                {payRecord.expirationDate ? (
+                  <>
+                    <span className="medium">
+                      {payRecord.expirationDate}
+                    </span>
+                    <br />
+                  </>
+                ) : null}
+              </div>
               
               {payRecord.accountName ? (
                 <>
