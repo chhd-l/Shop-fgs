@@ -19,6 +19,12 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
   const { petBaseInfo } = props;
+  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
+  let sterilizedText = sterilized
+  if(sterilized.includes('Stérilisé')){
+    // 如果是法语
+    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+  }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row align-items-center">
@@ -67,7 +73,8 @@ function PetJSX(props) {
                       <FormattedMessage id="sterilized" />
                       <br />
                       <span className="font-weight-normal">
-                        {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                        {sterilizedText}
+                        {/* {petBaseInfo && petBaseInfo.sterilized|| '...'} */}
                       </span>
                     </div>
                   </div>
