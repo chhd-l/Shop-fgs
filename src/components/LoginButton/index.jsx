@@ -47,18 +47,6 @@ const LoginButton = (props) => {
       if(!parametersString) {
         return;
       }
-      if(parametersString.indexOf('redirect=order') >= 0){
-        sessionItemRoyal.set('okta-redirectUrl', '/account/orders');
-      }
-      if(parametersString.indexOf('redirect=subscription') >= 0){
-        sessionItemRoyal.set('okta-redirectUrl', '/account/subscription');
-      }
-      if(parametersString.indexOf('redirect=baseinfo') >= 0){
-        sessionItemRoyal.set('okta-redirectUrl', '/account/information');
-      }
-      if(parametersString.indexOf('toOkta=true') >= 0) {
-        oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
-      }
     } else {
       loginStore.changeLoginModal(true);
       oktaAuth
