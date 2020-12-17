@@ -269,7 +269,7 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="minicart-error cart-error"></div>
                 <div className="product-summary limit">
-                  {loading ? (
+                  {!cartData.length && loading ? (
                     <div className="pt-2 pb-2">
                       <Skeleton color="#f5f5f5" width="100%" count={2} />
                     </div>
@@ -281,14 +281,14 @@ class LoginCart extends React.Component {
                             <div className="product-line-item">
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
-                                  <LazyLoad>
+                                  {/* <LazyLoad> */}
                                     <img
                                       className="product-image"
                                       src={item.goodsInfoImg}
                                       alt={item.goodsName}
                                       title={item.goodsName}
                                     />
-                                  </LazyLoad>
+                                  {/* </LazyLoad> */}
                                 </div>
                                 <div className="wrap-item-title">
                                   <div className="item-title">

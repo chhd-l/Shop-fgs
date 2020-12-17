@@ -83,7 +83,11 @@ class SearchAnswer extends React.Component {
                 <SearchSelection
                   queryList={async ({ inputVal, pageNum }) => {
                     return config.list
-                      .filter((el) => inputVal && el.label.includes(inputVal))
+                      .filter((el) => {
+                        let inputText = inputVal && inputVal.toLocaleLowerCase()
+                        let lableLower = el.label && el.label.toLocaleLowerCase()
+                        return inputVal && lableLower.includes(inputText)
+                      })
                       .map((ele) => ({ ...ele, name: ele.label }));
                   }}
                   selectedItemChange={this.handleSelectChange}
