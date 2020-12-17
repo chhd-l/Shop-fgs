@@ -492,6 +492,7 @@ class List extends React.Component {
     //   .catch(() => {
     //     this.setState({ initingFilter: false });
     //   });
+
     if (keywords) {
       setSeoConfig({
         pageName: 'Search Results Page'
@@ -500,6 +501,11 @@ class List extends React.Component {
       setSeoConfig({
         categoryId: storeCateIds[0],
         pageName: 'Product List Page' // Search Results Page
+      });
+    }
+    else {
+      setSeoConfig({
+        pageName: 'Product List Page'
       });
     }
   }
