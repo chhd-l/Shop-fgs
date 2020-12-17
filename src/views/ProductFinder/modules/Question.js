@@ -223,9 +223,20 @@ class Question extends React.Component {
           });
           return;
         }
-        tmpQuestionParams = Object.assign(tmpQuestionParams, {
-          [currentStepName]: tmpFormParam
-        });
+        console.info('this.state.isEdit', this.state.isEdit)
+        // let questionParams = {}
+        if(this.state.isEdit){
+          // 编辑状态下，只传当前回答的问题
+          tmpQuestionParams = Object.assign({}, {
+            [currentStepName]: tmpFormParam,
+            speciesCode: tmpQuestionParams.speciesCode
+          });
+        }else{
+          tmpQuestionParams = Object.assign({}, tmpQuestionParams, {
+            [currentStepName]: tmpFormParam
+          });
+        }
+        
         // 特殊处理breed size
         if (breedSizeform) {
           tmpQuestionParams = Object.assign(tmpQuestionParams, {

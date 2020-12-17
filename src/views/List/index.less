@@ -8,6 +8,9 @@
   // box-shadow:0 2px 4px #f1f1f1;
   background:#fff;
 }
+#root .refine-bar .choices[data-type*=select-one]:after {
+  margin-top: -7.5px;
+}
 .ui-font-nothing {
   font-size: 14px;
 }
@@ -121,6 +124,11 @@ body .rc-layout-grid .rc-column-pad{
 }
 
 @media (max-width: 540px) {
+  .fr-mobile{
+    &.overflow-hidden{
+      overflow: hidden !important;
+    }
+  }
   .ImgBoxFitScreen {
     max-width: 90%;
     max-height: 7rem;
@@ -170,6 +178,11 @@ body .rc-layout-grid .rc-column-pad{
     width: 73%;
     left: -16%;
     top: 7%;
+    &.fr-label{
+      width: 68%;
+      left: -25%;
+      top: 16%;
+    }
   }
   .product-item-flag-image {
     width: 3rem;
