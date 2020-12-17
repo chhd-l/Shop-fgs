@@ -1647,7 +1647,8 @@ class Payment extends React.Component {
         }`}
       >
         {/* *******************支付tab栏start************************************ */}
-        <div className={`ml-custom mr-custom`}>
+        {/* payWayObj为支付方式，如果小于等于1种，就不显示此tab栏 */}
+        <div className={`ml-custom mr-custom`} style={{display:Object.keys(payWayObj).length>1?'block':'none'}}>  
           {Object.entries(payWayObj).map((item, i) => {
             return (
               <div className="rc-input rc-input--inline" key={i}>
