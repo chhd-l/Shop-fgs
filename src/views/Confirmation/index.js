@@ -247,7 +247,7 @@ class Confirmation extends React.Component {
                       >
                         <FormattedMessage id="confirmation.account" />
                       </Link>
-                      <div style={{padding:'0 10px'}}>
+                      <div style={{padding:'0 20px 0 10px'}}>
                         <FormattedMessage id="or" />
                       </div>
                        <Link
