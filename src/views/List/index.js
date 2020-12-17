@@ -39,9 +39,9 @@ const localItemRoyal = window.__.localItemRoyal;
 function ListItem(props) {
   const { item } = props;
   return (
-    <div className="rc-column rc-column-pad">
+    <div className="rc-column rc-column-pad fr-mobile-product">
       <article
-        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat"
+        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
         style={{ minHeight: '120px' }}
       >
         {props.leftPromotionJSX}
@@ -298,13 +298,13 @@ function ListItemBodyPC({ item }) {
                       <FormattedMessage id="startFrom" />
                     </span>
                   ) : null}
-                  {item.fromPrice}
+                  {formatMoney(item.fromPrice)}
                   {item.toPrice ? (
                     <>
                       <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
                         <FormattedMessage id="startEnd" />
                       </span>
-                      {item.toPrice}
+                      {formatMoney(item.toPrice)}
                     </>
                   ) : null}
                 </span>
@@ -362,7 +362,7 @@ class List extends React.Component {
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
-
+      isTop: false,
       currentPage: 1,
       totalPage: 1, // 总页数
       results: 0, // 总数据条数
@@ -531,6 +531,7 @@ class List extends React.Component {
     return this.props.loginStore.isLogin;
   }
   toggleFilterModal(status) {
+    console.info('dsdsdsdsd', status)
     this.setState({ filterModalVisible: status });
   }
   async initData() {
@@ -910,9 +911,15 @@ class List extends React.Component {
         var choosedVal = document.querySelector('.filter-value') // 有选择的时候才操作
         if(window.pageYOffset + 33 >= t && choosedVal){
           document.body.classList.add('sticky-refineBar')
+          this.setState({
+            isTop: true
+          })
           document.querySelector('.rc-header').style.display = 'none'
         }else{
           document.querySelector('.rc-header').style.display = 'block'
+          this.setState({
+            isTop: false
+          })
           document.body.classList.remove('sticky-refineBar')
         }
       });
@@ -969,6 +976,7 @@ class List extends React.Component {
       filterList,
       initingFilter,
       filterModalVisible,
+      isTop,
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
@@ -1198,10 +1206,12 @@ class List extends React.Component {
                         )
                       </div> */}
                       <i
-                        className="rc-icon rc-filter--xs rc-iconography"
+                        className={`rc-icon rc-filter--xs rc-iconography ${
+                          (filterModalVisible && !isTop) || (!filterModalVisible && isTop) ? 'rc-brand1' : ''
+                        }`}
                         data-filter-trigger="filter-example"
                         style={{position: 'relative',top: '0.4rem'}}
-                        onClick={this.toggleFilterModal.bind(this, true)}
+                        onClick={this.toggleFilterModal.bind(this, !filterModalVisible)}
                       />
                       {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
@@ -1264,9 +1274,9 @@ class List extends React.Component {
                             )
                           </div>
                          
-                          <div className="col-12 col-md-4">
+                          <div className="col-12 col-md-4  rc-md-up">
                            
-                            {/* <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
+                            <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
                               <Selection
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
@@ -1284,7 +1294,7 @@ class List extends React.Component {
                                 }}
                                 customStyleType="select-one"
                               />
-                            </span> */}
+                            </span>
                           </div>
                         </div>
                       </>
@@ -1304,7 +1314,7 @@ class List extends React.Component {
                       </div>
                     ) : (
                       <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
-                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles ">
+                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
                           {loading
                             ? _loadingJXS
                             : productList.map((item, i) => (
@@ -1313,7 +1323,7 @@ class List extends React.Component {
                                   leftPromotionJSX={
                                     item.taggingForText ? (
                                       <div
-                                        className="product-item-flag-text"
+                                        className="product-item-flag-text fr-label"
                                         style={{
                                           backgroundColor:
                                             item.taggingForText
@@ -1330,6 +1340,7 @@ class List extends React.Component {
                                     item.taggingForImage ? (
                                       <div className="product-item-flag-image position-absolute">
                                         <img
+                                         style={{width:'inherit',height:'inherit'}}
                                           src={
                                             item.taggingForImage.taggingImgUrl
                                           }
