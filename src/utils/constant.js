@@ -688,7 +688,7 @@ export const ADDRESS_RULE = [
   },
   {
     key: 'postCode',
-    regExp: /\d{5}$/,
+    regExp: /^\d{5}$/,
     require: true,
     errMsg: CURRENT_LANGFILE['enterCorrectPostCode']
   }
@@ -782,7 +782,7 @@ export const PRESONAL_INFO_RULE = [
   },
   {
     key: 'postCode',
-    regExp: /\d{5}$/,
+    regExp: /^\d{5}$/,
     require: true,
     errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
