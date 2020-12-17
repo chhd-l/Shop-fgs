@@ -59,7 +59,8 @@ class UnLoginCart extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      subscriptionDiscount: 0
+      subscriptionDiscount: 0,
+      activeToolTipIndex: 0
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
@@ -409,7 +410,8 @@ class UnLoginCart extends React.Component {
   }
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    // this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {
     pitem.selected = !pitem.selected;
@@ -734,7 +736,8 @@ class UnLoginCart extends React.Component {
                               className="info-tooltip delivery-method-tooltip"
                               onMouseEnter={() => {
                                 this.setState({
-                                  toolTipVisible: true
+                                  toolTipVisible: true,
+                                  activeToolTipIndex: index
                                 });
                               }}
                               onMouseLeave={() => {
@@ -747,7 +750,7 @@ class UnLoginCart extends React.Component {
                             </span>
                             <ConfirmTooltip
                               arrowStyle={{ left: '65%' }}
-                              display={this.state.toolTipVisible}
+                              display={this.state.toolTipVisible && index === this.state.activeToolTipIndex}
                               cancelBtnVisible={false}
                               confirmBtnVisible={false}
                               updateChildDisplay={(status) =>
@@ -936,7 +939,8 @@ class UnLoginCart extends React.Component {
                         className="info-tooltip delivery-method-tooltip"
                         onMouseEnter={() => {
                           this.setState({
-                            toolTipVisible: true
+                            toolTipVisible: true,
+                            activeToolTipIndex: index
                           });
                         }}
                         onMouseLeave={() => {
@@ -949,7 +953,7 @@ class UnLoginCart extends React.Component {
                       </span>
                       <ConfirmTooltip
                         arrowStyle={{ left: '65%' }}
-                        display={this.state.toolTipVisible}
+                        display={this.state.toolTipVisible && index === this.state.activeToolTipIndex}
                         cancelBtnVisible={false}
                         confirmBtnVisible={false}
                         updateChildDisplay={(status) =>
