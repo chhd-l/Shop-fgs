@@ -158,7 +158,7 @@ function ListItemBody({item}){
 return (
   <div className="fr-mobile-product-list">
       <div className="product-name"  title={item.goodsName}> {item.goodsName}</div>
-      <div className="product-price">                 
+      <div className="product-price">
         {/* {formatMoney(item.miLinePrice)} */}
         {formatMoney(item.fromPrice)}
       </div>
@@ -916,7 +916,7 @@ class List extends React.Component {
         }
       });
       // window.on("scroll", function() {
-      
+
       //   // $(".js-toggle-filters").addClass("rc-brand1")) : ($("body").removeClass("sticky-refineBar"),
       //   // $(".js-toggle-filters").removeClass("rc-brand1"))
       // })
@@ -1151,7 +1151,7 @@ class List extends React.Component {
                       }
                     </aside>
                   </div>
-                  
+
                   <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
                     <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
                       <span className="font-weight-normal">
@@ -1243,7 +1243,7 @@ class List extends React.Component {
                   <div
                     className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
                   >
-                     
+
 
 
 
@@ -1262,9 +1262,9 @@ class List extends React.Component {
                             />
                             )
                           </div>
-                         
+
                           <div className="col-12 col-md-4">
-                           
+
                             {/* <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
                               <Selection
                                 key={sortList.length}
@@ -1409,7 +1409,7 @@ class List extends React.Component {
               id="notate"
               values={{
                 val: (
-                  <Link className="rc-styled-link" to="/FAQ/all">
+                  <Link className="rc-styled-link" to="/FAQ/catogery-1">
                     Versandkosten
                   </Link>
                 )
