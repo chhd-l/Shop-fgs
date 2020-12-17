@@ -21,7 +21,7 @@ function PetJSX(props) {
   const { petBaseInfo } = props;
   let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
   let sterilizedText = sterilized
-  if(sterilized.includes('Stérilisé')){
+  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
     // 如果是法语
     sterilizedText = sterilized.includes('Non')?'Non':'Oui'
   }

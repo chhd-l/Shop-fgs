@@ -20,6 +20,12 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
+  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
+  let sterilizedText = sterilized
+  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+    // 如果是法语
+    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+  }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
@@ -110,7 +116,7 @@ function QListAndPetJSX(props) {
                     <FormattedMessage id="sterilized" />
                     <br />
                     <span className="font-weight-normal">
-                      {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                      {sterilizedText}
                     </span>
                   </div>
                 </div>
