@@ -2289,11 +2289,7 @@ class Details extends React.Component {
             {isMobile &&
               goodsDetailTab.tabName.map((ele, index) => (
                 <>
-                  <dl
-                    data-toggle-group=""
-                    data-toggle-effect="rc-expand--vertical"
-                    className=""
-                  >
+                  <dl>
                     <div
                       className={`rc-list__accordion-item test-color 
                   ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
@@ -2335,7 +2331,7 @@ class Details extends React.Component {
                   </dl>
                 </>
               ))}
-            {isMobile && (
+            {/* {isMobile && (
               <dl
                 data-toggle-group=""
                 data-toggle-effect="rc-expand--vertical"
@@ -2361,9 +2357,6 @@ class Details extends React.Component {
                     />
                   </div>
                   <div className={`rc-list__content `}>
-                    {/* <p
-                            dangerouslySetInnerHTML={{ __html: <Reviews id={this.state.goodsId} isLogin={this.isLogin} /> }}
-                          ></p> */}
                     <p>
                       <Reviews
                         id={goodsId}
@@ -2371,11 +2364,10 @@ class Details extends React.Component {
                         isLogin={this.isLogin}
                       />
                     </p>
-                    {/* <img src={this.state.goodsDetailTab.tabContent[index].imgUl} alt=""></img> */}
                   </div>
                 </div>
               </dl>
-            )}
+            )} */}
             {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
                 <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
@@ -2428,14 +2420,14 @@ class Details extends React.Component {
                 </div>
               </div>
             ) : null}
-            <div
+            {/* <div
               id="review-container"
               style={{
                 display: !isMobile ? 'none' : 'block'
               }}
             >
               <Reviews id={goodsId} key={goodsId} isLogin={this.isLogin} />
-            </div>
+            </div> */}
             {/* <div> */}
             {/* <div
                 style={{

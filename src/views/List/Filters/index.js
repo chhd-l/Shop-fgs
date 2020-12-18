@@ -185,7 +185,7 @@ class Filter extends React.Component {
       markPriceAndSubscriptionLangDict
     } = this.props;
     return (
-      <div className="rc-filters__form" name="example-filter">
+      <div className="rc-filters__form fr-mobile" name="example-filter">
         {initing ? (
           <div style={{ marginTop: '10px' }}>
             <Skeleton color="#f5f5f5" width="100%" height="100%" count={7} />
@@ -248,7 +248,7 @@ class Filter extends React.Component {
               )} */}
             </header>
 
-            <div className="rc-padding-x--sm--mobile rc-padding-bottom--md--mobile">
+            <div className="rc-padding-x--sm--mobile rc-padding-bottom--md--mobile active-border">
               {filterList.length ? (
                 filterList.map((parentItem, pIndex) => (
                   <React.Fragment key={parentItem.id}>

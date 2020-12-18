@@ -104,7 +104,7 @@ class PayProductInfo extends React.Component {
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
-                        <FormattedMessage id="subscription.frequency" /> :
+                        <FormattedMessage id="subscription.frequency" /> : {' '}
                         {this.matchNamefromDict(
                           this.state.frequencyList,
                           item.periodTypeId
