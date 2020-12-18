@@ -117,7 +117,7 @@ class RegisterRequired extends Component {
     return list.every(item=>{
       return item.isChecked==false
     })
-  } 
+  }
   //从子组件传回
   sendList = (list) => {
     this.setState({ list });
@@ -255,10 +255,13 @@ class RegisterRequired extends Component {
     const url = this.props.match.url;
 
     return (
-      <div>
+      <div className='rc-padding-bottom--sm rc-padding-bottom--xl--mobile'>
         {/*全局loading */}
+        <div>
+       <div className='text-center rc-column rc-padding-bottom--none'>
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         {/* 加载token */}
+
         <div style={{ visibility: 'hidden' }}>
           <LoginButton history={this.props.history} init={this.init} />
         </div>
@@ -273,26 +276,22 @@ class RegisterRequired extends Component {
             }}
           >
             {/* Logo */}
-            <Link to="/home" className="header__nav__brand logo-home pt-5">
-              <span className="rc-screen-reader-text"></span>
-              <LazyLoad>
-                <img
-                  alt="Royal Canin"
-                  src="https://d1a19ys8w1wkc1.cloudfront.net/1x1.gif?v=8-7-8"
-                  style={{
-                    background:
-                      'url(' + logoAnimatedPng + ') no-repeat center center',
-                    width: '180px',
-                    height: '80px',
-                    backgroundSize: 'cover'
-                  }}
-                />
-              </LazyLoad>
-            </Link>
+            <div className="rc-margin-bottom--sm">
+              <a href="/home" className="logo-home d-inline-block"
+                 title="Commerce Cloud Storefront Reference Architecture Accueil">
+                <span className="rc-screen-reader-text">Commerce Cloud Storefront Reference Architecture</span>
+                <div className="content-asset">
+                  <img src={logoAnimatedPng}
+                       width="205" height="90" alt="Royal Canin Flagship Store"/>
+                </div>
+              </a>
+            </div>
+
+
             {/* Header title */}
             <h2
               className="rc-text-colour--brand1"
-              style={{ marginTop: '190px', textAlign: 'center' }}
+              style={{ textAlign: 'center',marginTop:'15px' }}
             >
               <FormattedMessage id="required.logoTitle" />
             </h2>
@@ -300,7 +299,8 @@ class RegisterRequired extends Component {
               style={{
                 textAlign: 'center',
                 color: '#5F5F5F',
-                fontSize: '1.3rem'
+                fontSize: '1.3rem',
+                marginTop:'25px'
               }}
             >
               <FormattedMessage id="required.complete" />
@@ -316,7 +316,7 @@ class RegisterRequired extends Component {
             ) : null}
             <div style={{ marginTop: '20px' }}>
               <div className="rc-layout-container rc-one-column">
-                <div className="rc-column">
+                <div className="rc-column" style={{paddingBottom:'0'}}>
                   {this.state.isLoading ? (
                     <div className="pt-2 pb-2">
                       <Skeleton color="#f5f5f5" width="100%" count={4} />
@@ -332,13 +332,14 @@ class RegisterRequired extends Component {
                         auto={true}
                         key={'required'}
                       />
+
                     )}
                 </div>
               </div>
             </div>
 
             {/* Required fields */}
-            <p className="pizhu">
+            <p className="pizhu flex"style={{padding:'0px',fontSize:'1.1em',width:'580px'}} >
               <span className="pl-2 pr-2 rc-text-colour--brand1">*</span>
               <FormattedMessage id="required.fields" />
             </p>
@@ -361,6 +362,8 @@ class RegisterRequired extends Component {
               }
             </div>
           </div>
+        </div>
+        </div>
         </div>
       </div>
     );
