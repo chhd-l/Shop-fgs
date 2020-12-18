@@ -626,6 +626,7 @@ const fr_FR = {
   'product.fr.catogery4.name': 'Chaton',
   'product.fr.catogery4.title': 'Le bon régime alimentaire pour votre chat',
   'productFinder.createMyPetProfile': "Créer mon profil d'animal",
+  'productFinder.resultHlep': "Appel Gratuit (depuis un poste fixe) De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi",
   'productFinder.createMyPetProfileTip': "Inscrivez-vous et bénéficiez de nos informations et offres spéciales Royal Canin tout au long de l'année !",
   'productFinder.healthTip1': 'Si votre chat a des problèmes de santé, nous vous recommandons de consulter votre vétérinaire pour vous assurer de la solution nutritionnelle optimale pour les besoins individuels de votre animal.',
   'productFinder.healthTip2': 'Et vous pouvez en savoir plus sur nos gammes de produits diététiques vétérinaires.',

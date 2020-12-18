@@ -599,6 +599,7 @@ const es_ES = {
   'product.de.catogery6.title': 'Manejo de la salud',
   'product.de.catogery6.title': 'Health Management',
   'productFinder.createMyPetProfile': 'Crear mi perfil de mascota',
+  'productFinder.resultHlep':'Lunes a viernes 8.30 a 12.30 horas y 14.00 a 17.00 horas',
   'productFinder.createMyPetProfileTip': 'Cree su perfil de mascota en RoyalCanin y reciba el boletín / ofertas específicas que se adaptarán a sus mascotas.',
   'productFinder.healthTip1': 'Si su gato tiene problemas de salud, le recomendamos que visite a su veterinario para asegurar la solución nutricional óptima para las necesidades individuales de su mascota.',
   'productFinder.healthTip2': 'Y puede obtener más información sobre nuestras gamas de productos de dietas veterinarias.',

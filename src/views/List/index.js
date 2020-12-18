@@ -38,6 +38,22 @@ let isMobile = getDeviceType() === 'H5'
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function getMuntiImg(item) {
+  let img
+  if(
+    item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+  ) {
+    img = item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+    return `${img}, ${img.replace(".jpg", "_250.jpg")}`
+  }else {
+    img = IMG_DEFAULT
+    return `${img}`
+  }
+}
 function ListItem(props) {
   const { item } = props;
   return (
@@ -49,7 +65,8 @@ function ListItem(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="h-100">
-          <a className="ui-cursor-pointer" onClick={props.onClick}>
+          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
+          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
@@ -68,11 +85,12 @@ function ListItem(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT
+                          item? getMuntiImg(item): IMG_DEFAULT
+                          // item.goodsImg ||
+                          // item.goodsInfos.sort(
+                          //   (a, b) => a.marketPrice - b.marketPrice
+                          // )[0].goodsInfoImg ||
+                          // IMG_DEFAULT
                         }
                         alt={item.goodsName}
                         title={item.goodsName}
@@ -91,7 +109,7 @@ function ListItem(props) {
               ) : null}
               {props.children}
             </article>
-          </a>
+          </Link>
         </div>
       </article>
     </div>
@@ -128,10 +146,7 @@ function ListItemPC(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
+                          item? getMuntiImg(item): 
                           IMG_DEFAULT
                         }
                         alt={item.goodsName}
