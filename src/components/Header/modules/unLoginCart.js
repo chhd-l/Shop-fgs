@@ -368,10 +368,11 @@ class UnloginCart extends React.Component {
                                             .specText
                                         }{' '}
                                         -{' '}
+
+                                          <FormattedMessage id="product"/>(s)：
                                         {item.quantity > 1
-                                          ? `${item.quantity} `
-                                          : `${item.quantity} `}
-                                          <FormattedMessage id="product"/>(s)
+                                        ? `${item.quantity} `
+                                        : `${item.quantity} `}
                                       </p>
                                     </div>
                                   </div>
