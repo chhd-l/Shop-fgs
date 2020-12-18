@@ -299,7 +299,8 @@ class RegisterRequired extends Component {
               style={{
                 textAlign: 'center',
                 color: '#5F5F5F',
-                fontSize: '1.3rem'
+                fontSize: '1.3rem',
+                marginTop:'25px'
               }}
             >
               <FormattedMessage id="required.complete" />
