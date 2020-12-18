@@ -1280,17 +1280,12 @@ class List extends React.Component {
                             />
                             )
                           </div>
-<<<<<<< HEAD
 
-                          <div className="col-12 col-md-4">
 
-                            {/* <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
-=======
-                         
                           <div className="col-12 col-md-4  rc-md-up">
-                           
+
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
->>>>>>> feature_20201225
+
                               <Selection
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
