@@ -428,6 +428,7 @@ class Question extends React.Component {
         );
       } else {
         // 所有问题回答结束，进行查找产品
+        const { configSizeAttach } = this.state;
         const proRes = await matchProducts({
           finderNumber,
           questionParams: tmpQuestionParams
@@ -438,10 +439,12 @@ class Question extends React.Component {
           'pf-questionlist',
           JSON.stringify(resContext.answerdQuestionList)
         );
-        sessionItemRoyal.set(
-          'pf-configSizeAttach',
-          JSON.stringify(this.state.configSizeAttach)
-        );
+        if (configSizeAttach) {
+          sessionItemRoyal.set(
+            'pf-configSizeAttach',
+            JSON.stringify(configSizeAttach)
+          );
+        }
         let tmpUrl;
         if (proRes.context && proRes.context.mainProduct) {
           sessionItemRoyal.set('pf-result', JSON.stringify(proRes.context));
