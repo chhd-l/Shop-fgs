@@ -128,6 +128,7 @@ const fr_FR = {
   'cart.errorInfo2': 'Vous ne pouvez pas passer votre commande, produit en rupture de stock: {val}',
   'cart.errorInfo3': "* Le montant de votre commande n'a pas encore atteint le montant minimum pour la livraison gratuite ({val})",
   'cart.errorInfo4': 'Vous ne pouvez pas passer votre commande: {val}',
+  'cart.errorInfo5': 'Vous ne pouvez pas passer votre commande, produit supprimé: {val}',
   'cart.errorMaxCate': 'Le panier ne doit pas dépasser {val} articles',
   'cart.errorMaxInfo': 'Le nombre ne doit pas dépasser {val}',
   // 'cart.fullPrice': 'PRIX COMPLET POUR VOTRE ANIMAL', // before text
@@ -695,8 +696,8 @@ const fr_FR = {
   'recommendation.recommendationPackage': 'Paquet de recommandation',
   'recommendation.secContent': "Chez Royal Canin, nous croyons que la nutrition joue un rôle clé dans le soutien de la santé et du bien-être des chats et des chiens. C'est pourquoi nous avons conçu les régimes ROYAL CANIN® Veterinary autour d'une science nutritionnelle éprouvée afin de répondre aux conditions spécifiques des animaux. Suivez les recommandations nutritionnelles de votre vétérinaire ci-dessous.",
   'recommendation.secTitle': 'Nutrition santé vétérinaire',
-  'recommendation.thirdContent': 'Nous sommes des amoureux des animaux et des experts de la nutrition des chats et des chiens et nous sommes prêts à vous aider pour toutes vos questions.',
-  'recommendation.thirdTitle': 'Nos experts en animaux sont là pour vous aider',
+  'recommendation.thirdContent': 'En tant que véritables amoureux des animaux de compagnie et experts en nutrition sur mesure, nous sommes là pour vous aider à préserver la bonne santé de votre animal, tout au long de sa vie.',
+  'recommendation.thirdTitle': 'Nous sommes là pour vous aider',
   'recommendation.viewDetail': 'Voir les détails',
   'recommendation.viewInCart': 'Voir dans le panier',
   registerFailed: "échec de l'enregistrement",
@@ -1111,5 +1112,6 @@ const fr_FR = {
   'confirmation.account':'Gérer votre abonnement',
   'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement',
   deliveredTip: 'Devrait arriver dans environ 3 jours',
+  checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
 }
 export default fr_FR;

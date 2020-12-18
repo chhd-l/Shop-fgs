@@ -10,6 +10,7 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
 import { formatMoney } from '@/utils/utils';
+import { setSeoConfig } from '@/utils/utils';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -176,6 +177,9 @@ class ProductFinderResult extends React.Component {
     const res = sessionItemRoyal.get('pf-result');
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (res) {
+      setSeoConfig({
+        pageName: 'Product finder'
+      });
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
         (ele) => ele.questionName === 'age'

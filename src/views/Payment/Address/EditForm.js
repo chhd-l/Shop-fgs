@@ -237,8 +237,8 @@ class EditForm extends React.Component {
           <span
             className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
             input-setup="true"
-            data-js-validate=""
-            data-js-warning-message="*Phone Number isn’t valid"
+            // data-js-validate=""
+            // data-js-warning-message="*Phone Number isn’t valid"
           >
             <input
               type="text"

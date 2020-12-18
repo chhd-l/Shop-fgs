@@ -16,6 +16,7 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
+import {Helmet} from 'react-helmet';
 import {
   getList,
   getLoginList,
@@ -27,7 +28,8 @@ import {
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType
+  getDeviceType,
+  setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
 
@@ -390,7 +392,12 @@ class List extends React.Component {
       },
 
       markPriceAndSubscriptionLangDict: [],
-      actionFromFilter: false
+      actionFromFilter: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
     this.pageSize = 12;
     this.fidFromSearch = ''; // 链接中所带筛选器参数
@@ -566,19 +573,28 @@ class List extends React.Component {
     //   });
 
     if (keywords) {
-      setSeoConfig({
-        pageName: 'Search Results Page'
+      // setSeoConfig({
+      //   pageName: 'Search Results Page'
+      // });
+      setSeoConfigCopy({ pageName: 'Search Results Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
     } else if (storeCateIds && storeCateIds.length) {
-      setSeoConfig({
-        categoryId: storeCateIds[0],
-        pageName: 'Product List Page' // Search Results Page
+      // setSeoConfig({
+      //   categoryId: storeCateIds[0],
+      //   pageName: 'Product List Page' // Search Results Page
+      // });
+      setSeoConfigCopy({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
+        this.setState({seoConfig: res})
       });
     }
     else {
-      setSeoConfig({
-        pageName: 'Product List Page'
+      setSeoConfigCopy({ pageName: 'Product List Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
+      // setSeoConfig({
+      //   pageName: 'Product List Page'
+      // });
     }
   }
   handleFilterResData(res) {
@@ -1057,6 +1073,11 @@ class List extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

@@ -898,5 +898,6 @@ const en_US = {
   'orderDetail': 'Order Detail',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
+  checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
 }
 export default en_US;
