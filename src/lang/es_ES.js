@@ -873,6 +873,7 @@ const es_ES = {
   'VAT_included': 'VAT incluido',
   'skiped': 'Esquiado',
   'orderDetail': 'Detalle de la orden',
-  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
+  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
+  checkboxIsRequiredForSubscription: 'esta casilla de verificación es necesaria para la suscripción',
 }
 export default es_ES;
