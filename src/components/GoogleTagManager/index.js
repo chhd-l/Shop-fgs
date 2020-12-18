@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { loadJS } from '@/utils/utils';
+import { sha256 } from 'js-sha256';
 
 @inject('loginStore')
 @observer
@@ -31,9 +32,9 @@ class GoogleTagManager extends React.Component {
 
     if (userInfo) {
       event.user = {
-        authentificationStatus: 'not authenticated',
+        authentificationStatus: this.props.loginStore.isLogin?'authenticated':'not authenticated',
         frequency: 'prospect',
-        email: userInfo.email,
+        email: sha256(userInfo.email),
         id: userInfo.customerId,
         country: process.env.REACT_APP_GA_COUNTRY,
         locale: userInfo.city, // "es-MX"
