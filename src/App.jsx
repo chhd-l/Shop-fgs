@@ -97,6 +97,7 @@ import Tailorednutrition from '@/views/StaticPage/Tailorednutrition';
 import QualitySafety from '@/views/StaticPage/QualitySafety';
 import SearchShow from '@/views/StaticPage/SearchShow';
 import AboutUs from '@/views/StaticPage/AboutUs/index.js';
+import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
@@ -108,7 +109,6 @@ import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
-import about from './views/StaticPage/AboutUs/de-index';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
@@ -414,7 +414,7 @@ const App = () => (
                 exact
                 component={TR_GeneralConditions}
               />
-              <Route path="/aboutUs" exact component={AboutUs} />
+              <Route path="/aboutUs" exact component={process.env.REACT_APP_LANG == 'de' ? AboutUsDe:AboutUs}/>   
               <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route
                 path="/cadeau-coussin-chat"
@@ -453,7 +453,6 @@ const App = () => (
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
               <Route path="/register" component={register} />
-              <Route path="/about" component={about} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 path="/list/:category"

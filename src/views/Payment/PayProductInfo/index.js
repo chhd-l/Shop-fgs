@@ -218,7 +218,7 @@ class PayProductInfo extends React.Component {
                         id="item"
                         values={{ val: el.buyCount }}
                       />
-                    )}
+                    )}:{el.buyCount}
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
@@ -256,6 +256,14 @@ class PayProductInfo extends React.Component {
                     >
                       &#xe675;
                     </span>
+                    &nbsp; <FormattedMessage id="Vous avez économisé" />{' '}
+                    <span className="green">
+                      {formatMoney(
+                        el.buyCount * el.salePrice -
+                          el.buyCount * el.subscriptionPrice
+                      )}
+                    </span>{' '}
+                    <FormattedMessage id="avec labonnement" />
                     &nbsp; 
                     <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
                       val1:(
