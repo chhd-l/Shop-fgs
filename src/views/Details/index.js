@@ -1642,9 +1642,8 @@ class Details extends React.Component {
                             {specList.map((sItem, i) => (
                               <div id="choose-select" key={i}>
                                 <div className="rc-margin-bottom--xs">
-                                  <FormattedMessage id={sItem.specName+'_s'} />:
+                                  <FormattedMessage id={sItem.specName} />:
                                 </div>
-
                                 <div data-attr="size">
                                   <div
                                     className="rc-swatch __select-size"

@@ -9,16 +9,9 @@ import BannerTip from '@/components/BannerTip';
 import emailImg from '@/assets/images/emailus_icon@1x.jpg';
 import callImg from '@/assets/images/customer-service@2x.jpg';
 import helpImg from '@/assets/images/slider-img-help.jpg';
-import recommendation1 from '@/assets/images/recommendation1.png';
-import recommendation2 from '@/assets/images/recommendation2.png';
-import recommendation3 from '@/assets/images/recommendation3.png';
-import recommendation4 from '@/assets/images/recommendation4.png';
-import mx_recommendation2 from '@/assets/images/mx_recommendation2.png';
-import mx_recommendation3 from '@/assets/images/mx_recommendation3.png';
-import mx_recommendation4 from '@/assets/images/mx_recommendation4.png';
-import de_recommendation2 from '@/assets/images/de_recommendation2.png';
-import de_recommendation3 from '@/assets/images/de_recommendation3.png';
-import de_recommendation4 from '@/assets/images/de_recommendation4.png';
+import recommendation2 from '@/assets/images/fr_recommendation2.png';
+import recommendation3 from '@/assets/images/fr_recommendation3.png';
+import recommendation4 from '@/assets/images/fr_recommendation4.png';
 import noPic from '@/assets/images/noPic.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from './components/ImageMagnifier';
@@ -553,28 +546,9 @@ class Help extends React.Component {
         productList[activeIndex].goodsInfos.map((g) => g.subscriptionPrice || 0)
       );
     }
-    console.log(
-      MaxLinePrice,
-      MinLinePrice,
-      MaxMarketPrice,
-      MinMarketPrice,
-      MaxSubPrice,
-      MinSubPrice,
-      productList,
-      'aaaaa'
-    );
     let cur_recommendation2 = recommendation2;
     let cur_recommendation3 = recommendation3;
     let cur_recommendation4 = recommendation4;
-    if (process.env.REACT_APP_LANG === 'de') {
-      cur_recommendation2 = de_recommendation2;
-      cur_recommendation3 = de_recommendation3;
-      cur_recommendation4 = de_recommendation4;
-    } else if (process.env.REACT_APP_LANG === 'es') {
-      cur_recommendation2 = mx_recommendation2;
-      cur_recommendation3 = mx_recommendation3;
-      cur_recommendation4 = mx_recommendation4;
-    }
 
     return (
       <div className="Recommendation_FR">
