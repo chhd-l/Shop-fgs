@@ -19,6 +19,12 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function PetJSX(props) {
   const { petBaseInfo } = props;
+  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
+  let sterilizedText = sterilized
+  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+    // 如果是法语
+    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+  }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row align-items-center">
@@ -67,7 +73,8 @@ function PetJSX(props) {
                       <FormattedMessage id="sterilized" />
                       <br />
                       <span className="font-weight-normal">
-                        {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                        {sterilizedText}
+                        {/* {petBaseInfo && petBaseInfo.sterilized|| '...'} */}
                       </span>
                     </div>
                   </div>
@@ -206,20 +213,6 @@ class ProductFinderNoResult extends React.Component {
                   history={history}
                 />
                 <div className="row">
-                  <div className="col-12 order-1 order-md-0">
-                    <div className="p-f-help-box mt-4">
-                      <p
-                        className="text-center pt-3"
-                        style={{ fontSize: '1.3rem' }}
-                      >
-                        <FormattedMessage id="productFinder.helpTip1" />
-                      </p>
-                      <p className="text-center">
-                        <FormattedMessage id="productFinder.helpTip2" />
-                      </p>
-                      <Help />
-                    </div>
-                  </div>
                   <div className="col-12 order-0 order-md-1">
                     <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
                       <div className="row">
@@ -258,11 +251,25 @@ class ProductFinderNoResult extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <hr className="rc-md-down" />
                   </div>
                 </div>
               </div>
             )}
+          </div>
+          <hr className="rc-md-down" />
+          <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
+            <div className="p-f-help-box mt-4">
+              <p
+                className="text-center pt-3"
+                style={{ fontSize: '1.3rem' }}
+              >
+                <FormattedMessage id="productFinder.helpTip1" />
+              </p>
+              <p className="text-center">
+                <FormattedMessage id="productFinder.helpTip2" />
+              </p>
+              <Help />
+            </div>
           </div>
         </main>
         <Footer />

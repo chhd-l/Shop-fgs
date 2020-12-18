@@ -106,7 +106,7 @@ class Question extends React.Component {
       : [];
     const targetItem = tmpList.filter(
       (ele) => ele.stepOrder === editStopOrder
-    )[0];
+    )[0];  
     const qRes = this.handleQuestionConfigLogic({
       stepName: targetItem.questionName,
       metadataQuestionDisplayType: targetItem.selectType,
@@ -131,7 +131,7 @@ class Question extends React.Component {
           return Object.assign(prev, {
             [cur.questionName]: cur.answer
           });
-        }, this.state.questionParams),
+        }, {speciesCode: this.props.type}),// 编辑状态下，只传当前回答的以及之前的问题
       questionCfg: {
         title: targetItem.question,
         list: questionList,
@@ -223,9 +223,11 @@ class Question extends React.Component {
           });
           return;
         }
+        console.info('this.state.isEdit', this.state.isEdit)
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
+
         // 特殊处理breed size
         if (breedSizeform) {
           tmpQuestionParams = Object.assign(tmpQuestionParams, {

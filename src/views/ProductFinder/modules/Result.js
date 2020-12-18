@@ -20,6 +20,12 @@ const localItemRoyal = window.__.localItemRoyal;
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
+  let sterilized = petBaseInfo && petBaseInfo.sterilized || '...'
+  let sterilizedText = sterilized
+  if(sterilized.toLocaleLowerCase().includes('stérilisé')){
+    // 如果是法语
+    sterilizedText = sterilized.includes('Non')?'Non':'Oui'
+  }
   return (
     <div className="p-f-pet-box mt-4 pt-4 mb-4 pb-4">
       <div className="row">
@@ -110,7 +116,7 @@ function QListAndPetJSX(props) {
                     <FormattedMessage id="sterilized" />
                     <br />
                     <span className="font-weight-normal">
-                      {(petBaseInfo && petBaseInfo.sterilized) || '...'}
+                      {sterilizedText}
                     </span>
                   </div>
                 </div>
@@ -245,7 +251,7 @@ class ProductFinderResult extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
+          <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile p-f-product-results">
             {isLoading ? (
               <div className="mt-4">
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
@@ -289,7 +295,12 @@ class ProductFinderResult extends React.Component {
                   <FormattedMessage id="productFinder.searchCompleted" />
                 </h2>
                 <p className="text-center" style={{ fontSize: '1.25rem' }}>
-                  <FormattedMessage id="productFinder.searchResultTip1" />
+                  {type === 'dog' ? (
+                    <FormattedMessage id="productFinder.searchResultTip1ForCat" />
+                  ) : (
+                    <FormattedMessage id="productFinder.searchResultTip1ForDog" />
+                  )}
+
                   <br />
                   <FormattedMessage id="productFinder.searchResultTip2" />
                 </p>
@@ -427,21 +438,24 @@ class ProductFinderResult extends React.Component {
                     petBaseInfo={petBaseInfo}
                   />
                 </div>
-                <hr />
-                <div className="p-f-help-box mt-4">
-                  <p
-                    className="text-center pt-3"
-                    style={{ fontSize: '1.3rem' }}
-                  >
-                    <FormattedMessage id="productFinder.helpTip1" />
-                  </p>
-                  <p className="text-center">
-                    <FormattedMessage id="productFinder.helpTip2" />
-                  </p>
-                  <Help />
-                </div>
               </div>
             )}
+          </div>
+          <hr />
+          <div className="rc-layout-container rc-one-column rc-max-width--md rc-padding-x--none--mobile rc-padding-top--md rc-padding-bottom--lg">
+            <div className="rc-full-width rc-text--center rc-padding-x--sm rc-padding-x--lg--mobile">
+            <p
+                className="text-center pt-3"
+                style={{ fontSize: '1.3rem' }}
+              >
+                <FormattedMessage id="productFinder.helpTip1" />
+              </p>
+              <p className="rc-meta rc-margin-y--lg--mobile">
+                <FormattedMessage id="productFinder.helpTip2" />
+              </p>
+            </div>
+            
+            <Help />
           </div>
         </main>
         <Footer />
