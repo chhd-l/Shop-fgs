@@ -202,9 +202,9 @@ class AdyenCreditCardForm extends React.Component {
               : 'hidden'
           }`}
         />
-        <div className="mt-3 d-flex justify-content-between">
+        <div className="mt-3 d-flex justify-content-between row">
           <div
-            class="text-danger-2"
+            class="text-danger-2 col-12 col-md-6"
             style={{
               marginTop: '-1rem',
               fontSize: '.8em'
@@ -216,7 +216,7 @@ class AdyenCreditCardForm extends React.Component {
               </>
             )}
           </div>
-          <div className="text-right">
+          <div className="text-right col-12 col-md-6">
             {showCancelBtn && (
               <>
                 <span
