@@ -1149,11 +1149,11 @@ class AccountOrders extends React.Component {
                                                   </span>
 
                                                   <span className="text-line-through ml-2">
-                                                    {formatMoney(item.price)}
+                                                    {formatMoney(item.originalPrice)}
                                                   </span>
                                                 </>
                                               ) : (
-                                                formatMoney(item.price)
+                                                formatMoney(item.originalPrice)
                                               )}
                                             </span>
                                             {/* {details.subscriptionResponseVO &&
