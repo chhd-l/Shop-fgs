@@ -22,7 +22,9 @@ class Help extends React.Component {
                   <FormattedMessage id="callUs" />
                 </b>
                 {/* <p>{configStore.contactTimePeriod}</p> */}
-                <p>Appel Gratuit (depuis un poste fixe) De 8h30 à 12h30 et de 14h à 17h du lundi au vendredi</p>
+                <p>
+                  <FormattedMessage id="productFinder.resultHlep" />
+                </p>
                 <div class="rc-margin-top--xs">
                   <a href={`tel:${configStore.storeContactPhoneNumber}`} style={{color: '#00A4A6'}}
                     class="rc-numeric nowrap">{configStore.storeContactPhoneNumber}</a>

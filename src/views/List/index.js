@@ -233,7 +233,7 @@ function ListItemBodyPC({ item }) {
       {/*商品价格*/}
       <div className="d-flex justify-content-center">
         <div className="rc-card__price text-left PriceFitScreen">
-          <div className={`rc-full-width PriceFitScreen`}>
+          <div className={`rc-full-width PriceFitScreen flex`} style={{justifyContent:'center'}}>
             <span
               style={{
                 color: '#323232',
@@ -256,11 +256,11 @@ function ListItemBodyPC({ item }) {
             </span>
           </div>
           {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div className="range position-relative SePriceScreen">
+            <div className="range position-relative SePriceScreen " style={{transform: 'translateX(24%)'}}>
               <span
                 style={{
                   color: '#323232',
-                  fontWeight: 400
+                  fontWeight: 400,
                 }}
               >
                 {formatMoney(item.miSubscriptionPrice)}{' '}
