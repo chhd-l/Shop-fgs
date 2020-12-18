@@ -80,7 +80,7 @@ const de_DE = {
   'account.TheAddressBook': 'Das Adressbuch',
   'account.toComeIn': 'Betreten',
   'account.unknownBreed': 'kein Rassetier',
-  'account.warmNotice': 'Willkommen {val}. Dieser Bereich dient zur Verwaltung Ihres Kontos. Sie können ganz einfach Ihre Profilinformationen ändern, die Bedürfnisse Ihres Haustieres verwalten, den Status Ihrer Bestellungen und Ihres Autoship überprüfen.',
+  'account.warmNotice': 'Willkommen! Dieser Bereich dient zur Verwaltug Ihres Kontos. Passen Sie hier einfach Ihre Profilinformatione und die Daten Ihres Tieres an oder überprüfen Sie den Status Ihrer Bestellung.',
   'account.weight': 'Welche Größe hat {val}?',
   'account.welcome': 'Willkommen bei ROYAL CANIN®!',
   active: 'Aktiv',
