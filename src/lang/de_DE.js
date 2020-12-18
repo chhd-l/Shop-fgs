@@ -965,7 +965,7 @@ const de_DE = {
   'skiped': 'Übersprungen',
   'orderDetail': 'Bestelldetails',
   'confirmation.account':'Go to my account',
-  'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
+  'confirmation.subscriptionDiscountPriceDes':'Sie sparen {val1} bei diesem Abonnement',
   deliveredTip: 'Voraussichtlich in ca. 3 Tagen eintreffen',
 }
 export default de_DE;
