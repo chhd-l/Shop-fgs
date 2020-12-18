@@ -817,7 +817,7 @@ class Help extends React.Component {
                                 <span>
                                   <FormattedMessage id="from" />{' '}
                                   {formatMoney(MinSubPrice)}{' '}
-                                  <FormattedMessage id="to" />{' '}
+                                  <FormattedMessage id="à" />{' '}
                                   {formatMoney(MaxMarketPrice)}
                                 </span>
                                 {/* {MaxSubPrice > 0 ? (
@@ -1147,7 +1147,7 @@ class Help extends React.Component {
                                       <span>
                                         <FormattedMessage id="from" />{' '}
                                         {formatMoney(MinLinePrice)}{' '}
-                                        <FormattedMessage id="to" />{' '}
+                                        <FormattedMessage id="à" />{' '}
                                         {formatMoney(MaxLinePrice)}
                                       </span>
                                     )
@@ -1176,7 +1176,7 @@ class Help extends React.Component {
                                     <span>
                                       <FormattedMessage id="from" />{' '}
                                       {formatMoney(MinMarketPrice)}{' '}
-                                      <FormattedMessage id="to" />{' '}
+                                      <FormattedMessage id="à" />{' '}
                                       {formatMoney(MaxMarketPrice)}
                                     </span>
                                   )
@@ -1205,7 +1205,7 @@ class Help extends React.Component {
                                       <span>
                                         <FormattedMessage id="from" />{' '}
                                         {formatMoney(MinSubPrice)}{' '}
-                                        <FormattedMessage id="to" />{' '}
+                                        <FormattedMessage id="à" />{' '}
                                         {formatMoney(MaxSubPrice)}
                                       </span>
                                     )

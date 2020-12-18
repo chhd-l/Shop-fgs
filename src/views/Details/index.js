@@ -33,9 +33,11 @@ import {
   setSeoConfig,
   getDeviceType,
   getFrequencyDict,
-  queryStoreCateList
+  queryStoreCateList,
+  setSeoConfigCopy
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
+import {Helmet} from 'react-helmet';
 
 import './index.css';
 import './index.less';
@@ -177,7 +179,12 @@ class Details extends React.Component {
       reviewShow: false,
       isMobile: false,
       goodsNo: '', // SPU
-      breadCrumbs: []
+      breadCrumbs: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -502,11 +509,16 @@ class Details extends React.Component {
               }
             }
           );
-          setSeoConfig({
-            goodsId: res.context.goods.goodsId,
+          setSeoConfigCopy({ goodsId: res.context.goods.goodsId,
             categoryId: '',
-            pageName: 'Product Detail Page'
+            pageName: 'Product Detail Page' }).then(res => {
+            this.setState({seoConfig: res})
           });
+          // setSeoConfig({
+          //   goodsId: res.context.goods.goodsId,
+          //   categoryId: '',
+          //   pageName: 'Product Detail Page'
+          // });
         } else {
           this.setState({
             errMsg: <FormattedMessage id="details.errMsg" />
@@ -1391,6 +1403,11 @@ class Details extends React.Component {
         {
           Object.keys(event).length>0?<GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />:null
         }
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
