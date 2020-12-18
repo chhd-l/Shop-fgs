@@ -48,7 +48,7 @@ function getMuntiImg(item) {
     img = item.goodsImg || item.goodsInfos.sort(
       (a, b) => a.marketPrice - b.marketPrice
     )[0].goodsInfoImg
-    return `${img}, ${img.replace(".jpg", "_250.jpg")}`
+    return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
   }else {
     img = IMG_DEFAULT
     return `${img}`
