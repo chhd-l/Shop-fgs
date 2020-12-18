@@ -170,7 +170,8 @@ class AdyenCreditCardForm extends React.Component {
       isOnepageCheckout,
       isCheckoutPage,
       showCancelBtn,
-      paymentStore
+      paymentStore,
+      mustSaveForFutherPayments
     } = this.props;
     const { saveLoading, isValid } = this.state;
     return (
@@ -210,7 +211,7 @@ class AdyenCreditCardForm extends React.Component {
               fontSize: '.8em'
             }}
           >
-            {this.isLogin && (
+            {mustSaveForFutherPayments && (
               <>
                 * <FormattedMessage id="checkboxIsRequiredForSubscription" />
               </>
