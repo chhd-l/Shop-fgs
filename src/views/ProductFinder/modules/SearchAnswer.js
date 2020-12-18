@@ -4,7 +4,7 @@ import SearchSelection from '@/components/SearchSelection';
 import RadioAnswer from './RadioAnswer';
 
 class SearchAnswer extends React.Component {
-  static defaultProps = { configSizeAttach: null };
+  static defaultProps = { configSizeAttach: null, defaultData: null };
   constructor(props) {
     super(props);
     this.state = {
@@ -14,8 +14,11 @@ class SearchAnswer extends React.Component {
     };
   }
   componentDidMount() {
-    const { form } = this.state;
-    this.props.updateSaveBtnStatus(form && form.key);
+    this.setState({ form: this.props.defaultData }, () => {
+      const { form } = this.state;
+      this.props.updateFormData(form);
+      this.props.updateSaveBtnStatus(form && form.key);
+    });
   }
   handleSelectChange = (data) => {
     this.setState({ form: data }, () => {
@@ -25,8 +28,10 @@ class SearchAnswer extends React.Component {
     });
   };
   toggleCheckbox = (e) => {
-    const unknownText = this.props.intl.formatMessage({id: 'unkown'}); 
-    const mixedRaceText = this.props.intl.formatMessage({id: 'account.mixBreed'}); 
+    const unknownText = this.props.intl.formatMessage({ id: 'unkown' });
+    const mixedRaceText = this.props.intl.formatMessage({
+      id: 'account.mixBreed'
+    });
     let tmp = null;
     const target = e.target;
     if (target.checked) {
@@ -70,9 +75,9 @@ class SearchAnswer extends React.Component {
   render() {
     const { form } = this.state;
     const { config, configSizeAttach } = this.props;
-    const {intl} = this.props;
-    const unknownText = intl.formatMessage({id: 'unkown'}); 
-    const mixedRaceText = intl.formatMessage({id: 'account.mixBreed'}); 
+    const { intl } = this.props;
+    const unknownText = intl.formatMessage({ id: 'unkown' });
+    const mixedRaceText = intl.formatMessage({ id: 'account.mixBreed' });
     return (
       <>
         <h4 className="mb-4 red">{config.title}</h4>
@@ -84,14 +89,22 @@ class SearchAnswer extends React.Component {
                   queryList={async ({ inputVal, pageNum }) => {
                     return config.list
                       .filter((el) => {
-                        let inputText = inputVal && inputVal.toLocaleLowerCase()
-                        let lableLower = el.label && el.label.toLocaleLowerCase()
-                        return inputVal && lableLower.includes(inputText)
+                        let inputText =
+                          inputVal && inputVal.toLocaleLowerCase();
+                        let lableLower =
+                          el.label && el.label.toLocaleLowerCase();
+                        return inputVal && lableLower.includes(inputText);
                       })
                       .map((ele) => ({ ...ele, name: ele.label }));
                   }}
                   selectedItemChange={this.handleSelectChange}
-                  defaultValue={form && form.label}
+                  defaultValue={
+                    form &&
+                    form.key !== 'mixed_breed' &&
+                    form.key !== 'undefined'
+                      ? form.label
+                      : ''
+                  }
                   key={form && form.label}
                   placeholder={txt}
                   customStyle={true}
@@ -116,7 +129,7 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-mixbreed"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value='mixed_breed'
+                  value="mixed_breed"
                   key={1}
                   checked={form && form.key === 'mixed_breed'}
                   onChange={this.toggleCheckbox}
@@ -134,7 +147,7 @@ class SearchAnswer extends React.Component {
                   id="pf-checkbox-unkown"
                   type="checkbox"
                   className="rc-input__checkbox"
-                  value='undefined'
+                  value="undefined"
                   key={2}
                   checked={form && form.key === 'undefined'}
                   onChange={this.toggleCheckbox}
