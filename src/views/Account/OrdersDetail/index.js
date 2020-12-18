@@ -925,7 +925,7 @@ class AccountOrders extends React.Component {
                     </span>
                   </span>
                 ) : (
-                  <Link to="/account" className="rc-md-down mt-3 inlineblock">
+                  <Link to="/account/orders" className="rc-md-down mt-3 inlineblock">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
                       <FormattedMessage id="account.ordersTitle" />
@@ -1034,7 +1034,7 @@ class AccountOrders extends React.Component {
                                         <span className="rc-md-down">
                                           {getFormatDate(item.time1)}
                                           <br />
-                                          {item.time2}
+                                          {item.time2 || <span style={{color:'transparent'}}>&nbsp:;</span>}
                                         </span>
                                       </span>
                                     </span>
