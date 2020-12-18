@@ -50,6 +50,7 @@ const LogoutButton = () => {
       await doLogout();
       localItemRoyal.remove('rc-token');
       localItemRoyal.remove('rc-register');
+      localItemRoyal.remove('rc-consent-list');
       loginStore.removeUserInfo();
       checkoutStore.removeLoginCartData();
       await logout(process.env.REACT_APP_HOMEPAGE);
