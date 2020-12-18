@@ -81,11 +81,11 @@ function PetJSX(props) {
                 </div>
               </div>
               <div className="col-12 col-md-6">
-                <p className="text-center pt-3 pb-3">
+                <p className="text-center pt-3 pb-3 pf-pd-2rem">
                   <FormattedMessage id="productFinder.rigisterMyPetProfile" />
                   <br />
                 </p>
-                <div className="row justify-content-center text-center">
+                <div className="row justify-content-center text-center pf-pd-2rem">
                   {props.isLogin ? (
                     <Link
                       className="col-12 col-md-6 rc-btn rc-btn--one mb-3"
@@ -230,7 +230,7 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-1 order-md-0">
-                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                          <LazyLoad style={{ width: '100%' }}>
                             <img src={catImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
@@ -240,7 +240,7 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
-                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                          <LazyLoad style={{ width: '100%' }}>
                             <img src={dogImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
