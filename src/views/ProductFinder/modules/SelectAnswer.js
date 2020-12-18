@@ -1,8 +1,9 @@
 import React from 'react';
 import Selection from '@/components/Selection';
-import { FormattedMessage } from 'react-intl';
-
 class RadioAnswer extends React.Component {
+  static defaultProps = {
+    defaultData: []
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +13,16 @@ class RadioAnswer extends React.Component {
   }
   componentDidMount() {
     const { form } = this.state;
-    this.props.updateSaveBtnStatus(form.every((ele) => ele > -1));
+    const { defaultData } = this.props;
+    if (defaultData.length) {
+      this.setState({ form: [...defaultData] }, () => {
+        const { form } = this.state;
+        this.props.updateFormData(form);
+        this.props.updateSaveBtnStatus(form.every((ele) => ele > -1));
+      });
+    } else {
+      this.props.updateSaveBtnStatus(form.every((ele) => ele > -1));
+    }
   }
   handleSelectChange(data, idx) {
     let { form } = this.state;

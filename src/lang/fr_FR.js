@@ -112,7 +112,7 @@ const fr_FR = {
   billing2: 'Mon adresse de facturation',
   billingAddress: 'Adresse de facturation',
   birthday: 'Anniversaire',
-  callUs: 'Appelez nous',
+  callUs: 'Par téléphone',
   cancel: 'Annuler',
   card: 'Carte',
   cardCvvIsInvalid: "Le CV de votre carte n'est pas valide",
@@ -248,7 +248,7 @@ const fr_FR = {
   edit: 'Modifier',
   email: 'adresse e-mail',
   emailAddress: 'Adresse e-mail *',
-  emailUs: 'Envoyez-nous un email',
+  emailUs: 'Envoyer un email',
   enterCatBreed: 'Entrez la race de votre chat',
   enterClinicName: 'Votre cabinet vétérinaire recommandé.',
   enterCorrectEmail: "Veuillez saisir l'adresse e-mail correcte",
@@ -1112,5 +1112,6 @@ const fr_FR = {
   'confirmation.account':'Gérer votre abonnement',
   'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement',
   deliveredTip: 'Devrait arriver dans environ 3 jours',
+  checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
 }
 export default fr_FR;

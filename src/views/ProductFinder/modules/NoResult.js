@@ -81,11 +81,11 @@ function PetJSX(props) {
                 </div>
               </div>
               <div className="col-12 col-md-6">
-                <p className="text-center pt-3 pb-3">
+                <p className="text-center pt-3 pb-3 pf-pd-2rem">
                   <FormattedMessage id="productFinder.rigisterMyPetProfile" />
                   <br />
                 </p>
-                <div className="row justify-content-center text-center">
+                <div className="row justify-content-center text-center pf-pd-2rem">
                   {props.isLogin ? (
                     <Link
                       className="col-12 col-md-6 rc-btn rc-btn--one mb-3"
@@ -213,20 +213,6 @@ class ProductFinderNoResult extends React.Component {
                   history={history}
                 />
                 <div className="row">
-                  <div className="col-12 order-1 order-md-0">
-                    <div className="p-f-help-box mt-4">
-                      <p
-                        className="text-center pt-3"
-                        style={{ fontSize: '1.3rem' }}
-                      >
-                        <FormattedMessage id="productFinder.helpTip1" />
-                      </p>
-                      <p className="text-center">
-                        <FormattedMessage id="productFinder.helpTip2" />
-                      </p>
-                      <Help />
-                    </div>
-                  </div>
                   <div className="col-12 order-0 order-md-1">
                     <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
                       <div className="row">
@@ -244,7 +230,7 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-1 order-md-0">
-                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                          <LazyLoad style={{ width: '100%' }}>
                             <img src={catImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
@@ -254,7 +240,7 @@ class ProductFinderNoResult extends React.Component {
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
-                          <LazyLoad style={{ height: '100%', width: '100%' }}>
+                          <LazyLoad style={{ width: '100%' }}>
                             <img src={dogImg} alt="" />
                           </LazyLoad>
                           <div className="rc-md-down text-center mt-4">
@@ -265,11 +251,25 @@ class ProductFinderNoResult extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <hr className="rc-md-down" />
                   </div>
                 </div>
               </div>
             )}
+          </div>
+          <hr className="rc-md-down" />
+          <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
+            <div className="p-f-help-box mt-4">
+              <p
+                className="text-center pt-3"
+                style={{ fontSize: '1.3rem' }}
+              >
+                <FormattedMessage id="productFinder.helpTip1" />
+              </p>
+              <p className="text-center">
+                <FormattedMessage id="productFinder.helpTip2" />
+              </p>
+              <Help />
+            </div>
           </div>
         </main>
         <Footer />

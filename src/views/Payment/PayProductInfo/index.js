@@ -256,14 +256,17 @@ class PayProductInfo extends React.Component {
                     >
                       &#xe675;
                     </span>
-                    &nbsp; Vous avez économisé{' '}
-                    <span className="green">
-                      {formatMoney(
-                        el.buyCount * el.salePrice -
-                          el.buyCount * el.subscriptionPrice
-                      )}
-                    </span>{' '}
-                    avec labonnement
+                    &nbsp; 
+                    <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
+                      val1:(
+                        <span className="green">
+                          {formatMoney(
+                            el.buyCount * el.salePrice -
+                              el.buyCount * el.subscriptionPrice
+                          )}
+                        </span>
+                      )
+                    }}/>
                   </div>
                 ) : null}
               </div>

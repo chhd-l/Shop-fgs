@@ -28,7 +28,7 @@ class AdyenCreditCardForm extends React.Component {
     queryList: () => {},
     updateInitStatus: () => {},
     updateSelectedId: () => {},
-    cardList:[]
+    cardList: []
   };
   constructor(props) {
     super(props);
@@ -125,7 +125,8 @@ class AdyenCreditCardForm extends React.Component {
       const { adyenFormData } = this.state;
       let tmpSelectedId = '';
       let decoAdyenFormData = Object.assign({}, adyenFormData);
-      let currentCardEncryptedSecurityCode = adyenFormData.encryptedSecurityCode //获取当前保存卡的encryptedSecurityCode
+      let currentCardEncryptedSecurityCode =
+        adyenFormData.encryptedSecurityCode; //获取当前保存卡的encryptedSecurityCode
       if (adyenFormData.storePaymentMethod) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
@@ -154,7 +155,7 @@ class AdyenCreditCardForm extends React.Component {
       this.props.updateAdyenPayParam(decoAdyenFormData);
       this.props.updateSelectedId(tmpSelectedId);
 
-      this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId)
+      this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
@@ -179,13 +180,13 @@ class AdyenCreditCardForm extends React.Component {
           <span className="logo-payment-card-list logo-credit-card ml-0">
             {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
               <LazyLoad>
-              <img
-                key={idx}
-                style={{ width: '50px' }}
-                className="logo-payment-card mr-1"
-                src={el}
-                alt=""
-              />
+                <img
+                  key={idx}
+                  style={{ width: '50px' }}
+                  className="logo-payment-card mr-1"
+                  src={el}
+                  alt=""
+                />
               </LazyLoad>
             ))}
           </span>
@@ -201,7 +202,20 @@ class AdyenCreditCardForm extends React.Component {
               : 'hidden'
           }`}
         />
-        <div className="overflow-hidden mt-3">
+        <div className="mt-3 d-flex justify-content-between">
+          <div
+            class="text-danger-2"
+            style={{
+              marginTop: '-1rem',
+              fontSize: '.8em'
+            }}
+          >
+            {this.isLogin && (
+              <>
+                * <FormattedMessage id="checkboxIsRequiredForSubscription" />
+              </>
+            )}
+          </div>
           <div className="text-right">
             {showCancelBtn && (
               <>
