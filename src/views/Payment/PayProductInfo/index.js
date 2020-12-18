@@ -265,7 +265,7 @@ class PayProductInfo extends React.Component {
                     </span>{' '}
                     <FormattedMessage id="avec labonnement" />
                     &nbsp; 
-                    <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
+                    {/* <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
                       val1:(
                         <span className="green">
                           {formatMoney(
@@ -274,7 +274,7 @@ class PayProductInfo extends React.Component {
                           )}
                         </span>
                       )
-                    }}/>
+                    }}/> */}
                   </div>
                 ) : null}
               </div>

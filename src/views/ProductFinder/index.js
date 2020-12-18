@@ -93,7 +93,9 @@ class ProductFinder extends React.Component {
       event: "virtualPageView",
       page: {
         type: 'Product Finder',
-        virtualPageURL: match.path
+        hitTimestamp:new Date(),
+        virtualPageURL: match.path,
+        theme:''
       }
     };
     return (
