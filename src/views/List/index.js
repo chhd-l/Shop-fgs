@@ -16,6 +16,7 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
+import {Helmet} from 'react-helmet';
 import {
   getList,
   getLoginList,
@@ -27,7 +28,8 @@ import {
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType
+  getDeviceType,
+  setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
 
@@ -36,6 +38,22 @@ let isMobile = getDeviceType() === 'H5'
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function getMuntiImg(item) {
+  let img
+  if(
+    item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+  ) {
+    img = item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+    return `${img}, ${img.replace(".jpg", "_250.jpg")}`
+  }else {
+    img = IMG_DEFAULT
+    return `${img}`
+  }
+}
 function ListItem(props) {
   const { item } = props;
   return (
@@ -47,7 +65,8 @@ function ListItem(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="h-100">
-          <a className="ui-cursor-pointer" onClick={props.onClick}>
+          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
+          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
@@ -66,11 +85,12 @@ function ListItem(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT
+                          item? getMuntiImg(item): IMG_DEFAULT
+                          // item.goodsImg ||
+                          // item.goodsInfos.sort(
+                          //   (a, b) => a.marketPrice - b.marketPrice
+                          // )[0].goodsInfoImg ||
+                          // IMG_DEFAULT
                         }
                         alt={item.goodsName}
                         title={item.goodsName}
@@ -89,7 +109,7 @@ function ListItem(props) {
               ) : null}
               {props.children}
             </article>
-          </a>
+          </Link>
         </div>
       </article>
     </div>
@@ -126,10 +146,7 @@ function ListItemPC(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
+                          item? getMuntiImg(item): 
                           IMG_DEFAULT
                         }
                         alt={item.goodsName}
@@ -216,7 +233,7 @@ function ListItemBodyPC({ item }) {
       {/*商品价格*/}
       <div className="d-flex justify-content-center">
         <div className="rc-card__price text-left PriceFitScreen">
-          <div className={`rc-full-width PriceFitScreen`}>
+          <div className={`rc-full-width PriceFitScreen flex`} style={{justifyContent:'center'}}>
             <span
               style={{
                 color: '#323232',
@@ -239,11 +256,11 @@ function ListItemBodyPC({ item }) {
             </span>
           </div>
           {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div className="range position-relative SePriceScreen">
+            <div className="range position-relative SePriceScreen " style={{transform: 'translateX(24%)'}}>
               <span
                 style={{
                   color: '#323232',
-                  fontWeight: 400
+                  fontWeight: 400,
                 }}
               >
                 {formatMoney(item.miSubscriptionPrice)}{' '}
@@ -390,7 +407,12 @@ class List extends React.Component {
       },
 
       markPriceAndSubscriptionLangDict: [],
-      actionFromFilter: false
+      actionFromFilter: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
     this.pageSize = 12;
     this.fidFromSearch = ''; // 链接中所带筛选器参数
@@ -566,19 +588,28 @@ class List extends React.Component {
     //   });
 
     if (keywords) {
-      setSeoConfig({
-        pageName: 'Search Results Page'
+      // setSeoConfig({
+      //   pageName: 'Search Results Page'
+      // });
+      setSeoConfigCopy({ pageName: 'Search Results Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
     } else if (storeCateIds && storeCateIds.length) {
-      setSeoConfig({
-        categoryId: storeCateIds[0],
-        pageName: 'Product List Page' // Search Results Page
+      // setSeoConfig({
+      //   categoryId: storeCateIds[0],
+      //   pageName: 'Product List Page' // Search Results Page
+      // });
+      setSeoConfigCopy({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
+        this.setState({seoConfig: res})
       });
     }
     else {
-      setSeoConfig({
-        pageName: 'Product List Page'
+      setSeoConfigCopy({ pageName: 'Product List Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
+      // setSeoConfig({
+      //   pageName: 'Product List Page'
+      // });
     }
   }
   handleFilterResData(res) {
@@ -1057,6 +1088,11 @@ class List extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

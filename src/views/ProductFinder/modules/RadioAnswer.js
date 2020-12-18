@@ -26,7 +26,6 @@ class RadioAnswer extends React.Component {
     this.setState({ form: item }, () => {
       const { form } = this.state;
       this.props.updateSaveBtnStatus(form && form.key);
-      debugger;
       this.props.updateFormData(form);
     });
   }

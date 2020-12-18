@@ -287,9 +287,55 @@ function getchilds(id, array) {
   return childs;
 }
 
+export async function setSeoConfigCopy(
+  obj = { goodsId: '', categoryId: '', pageName: '' }
+) {
+  let goodsSeo = {},
+    cateSeo = {},
+    pageSeo = {},
+    siteSeo = {};
+  if (obj.goodsId) {
+    goodsSeo = await getGoodsSeo(obj.goodsId);
+  }
+  if (obj.categoryId) {
+    cateSeo = await getCateSeo(obj.categoryId);
+  }
+  if (obj.pageName) {
+    pageSeo = await getPageSeo(obj.pageName);
+  }
+  if (!sessionStorage.getItem('seoInfo')) {
+    siteSeo = await getSiteSeo();
+  } else {
+    siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'));
+  }
+
+  // setTimeout(() => {
+    let seoInfo = {
+      title:
+        goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
+      metaKeywords:
+        goodsSeo.metaKeywords ||
+        cateSeo.metaKeywords ||
+        pageSeo.metaKeywords ||
+        siteSeo.metaKeywords ||
+        '',
+      metaDescription:
+        goodsSeo.metaDescription ||
+        cateSeo.metaDescription ||
+        pageSeo.metaDescription ||
+        siteSeo.metaDescription ||
+        ''
+    };
+    // changeTitleAndMeta(seoInfo);
+    return seoInfo
+    
+  // }, 100);
+}
+
 export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
+  return
   let goodsSeo = {},
     cateSeo = {},
     pageSeo = {},
@@ -327,6 +373,7 @@ export async function setSeoConfig(
         ''
     };
     changeTitleAndMeta(seoInfo);
+    // return seoInfo
   }, 100);
 }
 
@@ -451,7 +498,6 @@ export function distributeLinktoPrecriberOrPaymentPage({
     cartData
   } = checkoutStore;
   console.log(toJS(AuditData), 'sas');
-  // debugger
   // 不开启地图，跳过prescriber页面
   if (!configStore.prescriberMap) {
     return '/checkout';

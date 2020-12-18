@@ -213,7 +213,7 @@ class Confirmation extends React.Component {
               </h4>
               <p style={{ marginBottom: '5px' }}>
                 <FormattedMessage id="confirmation.info2" values={{
-                  val1:`<${this.state.email}>`
+                  val1:`${this.state.email}`
                 }}/>
               </p>
               <div className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}>
