@@ -13,6 +13,7 @@ import './index.less';
 // import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
+import { setSeoConfig } from '@/utils/utils';
 import {
   getPetList,
   addPet,
@@ -116,6 +117,7 @@ class PetForm extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    setSeoConfig()
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'dogSize' })
       .then((res) => {

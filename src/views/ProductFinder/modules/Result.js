@@ -178,7 +178,7 @@ class ProductFinderResult extends React.Component {
     const questionlist = sessionItemRoyal.get('pf-questionlist');
     if (res) {
       setSeoConfig({
-        pageName: 'Product finder'
+        pageName: 'finder-recommendation'
       });
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
