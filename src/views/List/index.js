@@ -796,7 +796,7 @@ class List extends React.Component {
     (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
         this.handleFilterResData(
-          (res.context && res.context.storeGoodsFilterVOList) || []
+          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
         );
         const esGoods = res.context.esGoods;
         if (esGoods && esGoods.content.length) {
