@@ -304,7 +304,46 @@ class about extends React.Component {
             </div>
             <div className="rc-padding-y--md rc-md-down"></div>
           </div>
-          
+          <div className="rc-padding--xs rc-bg-colour--brand3">
+            <div className="rc-max-width--xl rc-spacer-sides-small">
+              <div className="rc-fade--x tabbed-nav__wrapper" data-ref="list-wrapper">
+                <ul className="rc-scroll--x rc-list rc-list--inline rc-list--align rc-list--blank tabbed-nav__list rc-tab--centered" role="tablist" data-ref="list">
+                  <li>
+                    <a className="rc-tab rc-tab--img rc-btn" href="https://www.royalcanin.com/de/about-us/acceptance-guarantee" data-toggle="image__panel-0" role="tab">
+                      <figure className="rc-tab__img rc-img--round rc-img--round--lg lazyloaded" data-bgset="https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=1440&auto=compress&fm=jpg 1440w" data-altset="test" style={{backgroundImage: "url('https://cdn.royalcanin-weshare-online.io/iLlZSG0B2t6cTeuUQwrd/v1/akzeptanzgarantie-logo-rc?w=320&auto=compress&fm=jpg')"}}>
+                        <figcaption className="rc-screen-reader-text"></figcaption>
+                      </figure>
+                      <span className="rc-tab__label" style={{visibility:'hidden'}}>Der kompetente Partner für Hunde- und Katzenzüchter</span>
+                      <span className="rc-tab__label" style={{visibility:'hidden'}}>ROYAL CANIN PROFESSIONAL</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a className="rc-tab rc-tab--img rc-btn" href="https://www.royalcanin.com/de/about-us/become-a-partner" data-toggle="image__panel-1" role="tab">
+                      <figure className="rc-tab__img rc-img--round rc-img--round--lg lazyloaded" data-bgset="https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=1440&auto=compress&fm=jpg 1440w" data-altset="test" style={{backgroundImage: "url('https://cdn.royalcanin-weshare-online.io/VCEia2QBaxEApS7LVvFj/v4/2014-sporting-and-working-dog-pro-logos-trail-4300-endurance-4800-marathon-5000-professional-logo?w=320&auto=compress&fm=jpg')"}}>
+                        <figcaption className="rc-screen-reader-text">ROYAL CANIN PROFESSIONAL</figcaption>
+                      </figure>
+                      <span className="rc-tab__label">Der kompetente Partner für Hunde- und Katzenzüchter</span>
+                      <span className="rc-tab__label">ROYAL CANIN PROFESSIONAL</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="rc-padding--sm rc-margin-bottom--xs rc-bg-colour--brand3 rc-full-width rc-animation-001--base rc-animation-001--active" data-component="content-animation" id="content-block-with-text-2-about-us-page">
+            <div className="rc-padding-y--md rc-md-down"></div>
+            <div className="rc-layout-container rc-one-column rc-max-width--md">
+              <div className="rc-column">
+                <div className="rc-full-width rc-text--center rc-padding-x--sm">
+                  <div>
+                    <h2 className="rc-beta ">Neuigkeiten und Veranstaltungen</h2>
+                    <p>Entdecken Sie unsere aktuellen Neuigkeiten und Veranstaltungen</p>
+                    <a className="rc-btn rc-btn--two" data-component="cta-event-tracker" data-track-category="About us / Button" data-track-custom="false" data-track-custom-action data-track-custom-category data-track-custom-event data-track-custom-label data-track-label="Jetzt entdecken / Neuigkeiten und Veranstaltungen / Gesundheit ist unsere Leidenschaft | Royal Canin DE - Royal Canin - DE" href="https://www.royalcanin.com/de/about-us/news">Jetzt entdecken</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
         <Footer />
       </div>
