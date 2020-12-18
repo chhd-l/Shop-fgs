@@ -132,10 +132,10 @@ class AccountHome extends React.Component {
                     {itemList.map((item, i) => (
                       <Link
                         key={i}
-                        className="col-12 col-md-4 mb-3"
+                        className="col-12 col-md-4 mb-3 my__account_padding05"
                         to={item.link}
                       >
-                        <div className="d-flex align-items-center border m-2 w-100 h-100 p-3 text-break nav_content">
+                        <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
                           {item.icon}
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">
