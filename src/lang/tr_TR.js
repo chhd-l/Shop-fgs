@@ -516,6 +516,7 @@ const tr_TR = {
   price: 'Fiyat',
   printEbanx: 'Ebanx Yazdır',
   privacyPolicy: 'Gizlilik Politikası',
+  'productFinder.resultHlep':"Pazartesi saat 8.30'dan 12.30'dan ve sabah saat 2'den 5'ye kadar",
   // 产品分类:
   'product.catogery1.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los perros con problemas diagnostados',
   'product.catogery1.name': 'Reçeteli köpekler',

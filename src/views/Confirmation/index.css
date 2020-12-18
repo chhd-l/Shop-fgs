@@ -18,3 +18,12 @@
   overflow: hidden;
   word-break: break-all;
 }
+.order1{
+  order:1
+}
+.order2{
+  order:2
+}
+.order3{
+  order:3
+}
