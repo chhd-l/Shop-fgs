@@ -127,7 +127,7 @@ class AddressList extends React.Component {
             (ele) => ele.deliveryAddressId === selectedId
           );
           updateData && updateData(tmpObj);
-          this.confirmToNextPanel(tmpObj);
+          this.confirmToNextPanel();
         }
       );
     } catch (err) {
@@ -138,7 +138,12 @@ class AddressList extends React.Component {
       this.setState({ loading: false });
     }
   }
-  confirmToNextPanel(data) {
+  confirmToNextPanel() {
+    const { selectedId } = this.state;
+    const data = find(
+      this.state.addressList,
+      (ele) => ele.deliveryAddressId === selectedId
+    );
     const { paymentStore } = this.props;
     const { billingChecked } = this.state;
     if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
@@ -291,7 +296,7 @@ class AddressList extends React.Component {
     return el.offsetTop;
   }
   handleClickCancel = () => {
-    // this.confirmToNextPanel()
+    this.confirmToNextPanel();
     this.setState({ addOrEdit: false, saveErrorMsg: '' });
     this.scrollToTitle();
   };
