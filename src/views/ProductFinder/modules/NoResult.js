@@ -213,20 +213,6 @@ class ProductFinderNoResult extends React.Component {
                   history={history}
                 />
                 <div className="row">
-                  <div className="col-12 order-1 order-md-0">
-                    <div className="p-f-help-box mt-4">
-                      <p
-                        className="text-center pt-3"
-                        style={{ fontSize: '1.3rem' }}
-                      >
-                        <FormattedMessage id="productFinder.helpTip1" />
-                      </p>
-                      <p className="text-center">
-                        <FormattedMessage id="productFinder.helpTip2" />
-                      </p>
-                      <Help />
-                    </div>
-                  </div>
                   <div className="col-12 order-0 order-md-1">
                     <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
                       <div className="row">
@@ -265,11 +251,25 @@ class ProductFinderNoResult extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <hr className="rc-md-down" />
                   </div>
                 </div>
               </div>
             )}
+          </div>
+          <hr className="rc-md-down" />
+          <div className="col-12 order-1 order-md-0 rc-padding-bottom--lg">
+            <div className="p-f-help-box mt-4">
+              <p
+                className="text-center pt-3"
+                style={{ fontSize: '1.3rem' }}
+              >
+                <FormattedMessage id="productFinder.helpTip1" />
+              </p>
+              <p className="text-center">
+                <FormattedMessage id="productFinder.helpTip2" />
+              </p>
+              <Help />
+            </div>
           </div>
         </main>
         <Footer />
