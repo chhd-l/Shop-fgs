@@ -112,7 +112,7 @@ class Filter extends React.Component {
     const { inputLabelKey } = this.props;
     return (
       <li
-        title={`Sort by ${parentItem.attributeNameEn.toLocaleLowerCase()}: ${
+        title={`Sort by ${parentItem.attributeNameEn &&parentItem.attributeNameEn.toLocaleLowerCase()}: ${
           childItem.attributeDetailNameEn
         }`}
         className="rc-list__item"

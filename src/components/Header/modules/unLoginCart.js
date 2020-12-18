@@ -368,10 +368,11 @@ class UnloginCart extends React.Component {
                                             .specText
                                         }{' '}
                                         -{' '}
-                                        {item.buyCount > 1
-                                          ? `${item.buyCount} `
-                                          : `${item.buyCount} `}
-                                          <FormattedMessage id="product"/>(s)
+
+                                          <FormattedMessage id="product"/>(s)：
+                                        {item.quantity > 1
+                                        ? `${item.quantity} `
+                                        : `${item.quantity} `}
                                       </p>
                                     </div>
                                   </div>
@@ -380,7 +381,15 @@ class UnloginCart extends React.Component {
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b className="pricing line-item-total-price-amount light" style={{textDecoration: 'line-through'}}>
+                                      <b className="pricing line-item-total-price-amount light" style={{
+                                        color: item.goodsInfoFlag
+                                        ? '#888'
+                                        : '#666',
+                                        textDecoration: item.goodsInfoFlag
+                                          ? 'line-through'
+                                          : 'inhert'
+                                        // textDecoration: 'line-through'
+                                      }}>
                                         {formatMoney(item.currentAmount)}
                                       </b>
                                     </div>

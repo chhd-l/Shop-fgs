@@ -518,6 +518,7 @@ const ru_RU = {
     'price': 'Цена',
     'printEbanx': "Печать Ebanx",
     'privacyPolicy': "Политика конфиденциальности",
+    'productFinder.resultHlep':'Понедельник - пятница с 8 ч. 30 м. до 12 ч. 30 м.',
     // 产品分类:
     'product.catogery1.desc': 'Dietas terapéuticas que ayudan a mantener la salud de los perros con issuesas diagnosticados',
     'product.catogery1.name': 'Собаки по рецепту',
@@ -764,7 +765,8 @@ const ru_RU = {
     'registerPasswordFormat': "Недействительный пароль.",
     'registerEmailFormate': "Адрес электронной почты не соответствует указанному формату.",
     invoice: 'выставленный счет',
-    'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark'
+    'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
+    checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
   }
 
   export default ru_RU;

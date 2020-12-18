@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 class RadioAnswer extends React.Component {
   static defaultProps = {
     updateSaveBtnStatus: () => {}
@@ -13,8 +12,15 @@ class RadioAnswer extends React.Component {
     this.handleRadioChange = this.handleRadioChange.bind(this);
   }
   componentDidMount() {
-    const { form } = this.state;
-    this.props.updateSaveBtnStatus(form && form.key);
+    const { config } = this.props;
+    this.setState(
+      { form: (config.list || []).filter((el) => el.selected)[0] || null },
+      () => {
+        const { form } = this.state;
+        this.props.updateSaveBtnStatus(form && form.key);
+        this.props.updateFormData(form);
+      }
+    );
   }
   handleRadioChange(item) {
     this.setState({ form: item }, () => {
@@ -40,7 +46,7 @@ class RadioAnswer extends React.Component {
               name="buyWay"
               value={i}
               onChange={this.handleRadioChange.bind(this, ele)}
-              defaultChecked={ele.defaultChecked}
+              // defaultChecked={ele.defaultChecked}
               checked={ele.selected}
             />
             <label

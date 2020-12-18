@@ -9,6 +9,28 @@ import { getDeviceType } from '@/utils/utils.js'
 import LazyLoad from 'react-lazyload';
 let isMobile = getDeviceType() === 'H5'
 
+function getMuntiImg(img) {
+  if(img) {
+    return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
+  }else {
+    return noPic
+  }
+  // let img
+  // if(
+  //   item.goodsImg || item.goodsInfos.sort(
+  //     (a, b) => a.marketPrice - b.marketPrice
+  //   )[0].goodsInfoImg
+  // ) {
+  //   img = item.goodsImg || item.goodsInfos.sort(
+  //     (a, b) => a.marketPrice - b.marketPrice
+  //   )[0].goodsInfoImg
+  //   return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
+  // }else {
+  //   img = noPic
+  //   return `${img}`
+  // }
+}
+
 class ImageMagnifier extends Component {
   static defaultProps = {
     taggingForText: null,
@@ -386,6 +408,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || noPic}
+                        srcSet={getMuntiImg(currentImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -398,6 +421,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || this.state.maxImg || noPic}
+                        srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -443,6 +467,7 @@ class ImageMagnifier extends Component {
               <img
                 style={cssStyle.imgStyle2}
                 src={currentImg || this.state.maxImg || noPic}
+                srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                 onLoad={this.handleImageLoaded.bind(this)}
                 onError={this.handleImageErrored.bind(this)}
                 alt=""

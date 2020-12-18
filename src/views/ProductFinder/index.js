@@ -90,9 +90,12 @@ class ProductFinder extends React.Component {
     const { match, history, location } = this.props;
     const { type } = this.state;
     const event = {
+      event: "virtualPageView",
       page: {
         type: 'Product Finder',
-        theme: ''
+        hitTimestamp:new Date(),
+        virtualPageURL: match.path,
+        theme:''
       }
     };
     return (

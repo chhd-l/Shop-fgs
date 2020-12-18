@@ -13,6 +13,7 @@ import './index.less';
 // import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
+import { setSeoConfig } from '@/utils/utils';
 import {
   getPetList,
   addPet,
@@ -116,6 +117,7 @@ class PetForm extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    setSeoConfig()
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'dogSize' })
       .then((res) => {
@@ -909,7 +911,7 @@ class PetForm extends React.Component {
                 className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
                 style={{ display: !isChoosePetType ? 'block' : 'none' }}
               >
-                <h5 style={{ color: '#333333', fontWeight: 400 }}>New PET</h5>
+                <h5 style={{ color: '#333333', fontWeight: 400 }}><FormattedMessage id="New Pet" /></h5>
                 <div className="content">
                   <LazyLoad>
                   <img src={Banner_Dog} style={{ left: '40px' }} alt=""/>
@@ -922,10 +924,10 @@ class PetForm extends React.Component {
                         fontSize: '22px'
                       }}
                     >
-                      Choose your pet type
+                      <FormattedMessage id="Choose your pet type" />
                     </p>
                     <p style={{ color: '#E2001A', fontSize: '22px' }}>
-                      Your Pet is a…
+                      <FormattedMessage id="Your Pet is a…" />
                     </p>
                     <div>
                       <button
@@ -935,7 +937,7 @@ class PetForm extends React.Component {
                           this.petTypeChange(false);
                         }}
                       >
-                        Dog
+                        <FormattedMessage id="Dog" />
                       </button>
                       <button
                         className="rc-btn rc-btn--sm rc-btn--one"
@@ -943,7 +945,7 @@ class PetForm extends React.Component {
                           this.petTypeChange(true);
                         }}
                       >
-                        Cat
+                        <FormattedMessage id="Cat" />
                       </button>
                     </div>
                   </div>

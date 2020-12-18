@@ -623,6 +623,7 @@ const en_US = {
   'product.en.catogery3.name': 'Puppy',
   'product.en.catogery4.name': 'Kitten',
   'productFinder.createMyPetProfile': 'Create my Pet Profile',
+  'productFinder.resultHlep': "Monday to Friday 8.30 a.m. to 12.30 p.m. and from 2 p.m. to 5 p.m",
   'productFinder.createMyPetProfileTip': 'Create your pet profile in RoyalCanin, and get the newsletter/specific offers which will be tailored for your pets.',
   'productFinder.healthTip1': "If your cat has health problems, we recommend that you visit your veterinarian to ensure the optimal nutrition solution for your pet's individual needs.",
   'productFinder.healthTip2': 'And, you can learn more about our veterinary diets product ranges.',
@@ -898,5 +899,6 @@ const en_US = {
   'orderDetail': 'Order Detail',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
+  checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
 }
 export default en_US;

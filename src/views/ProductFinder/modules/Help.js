@@ -10,87 +10,95 @@ class Help extends React.Component {
   render() {
     const { configStore } = this.props;
     return (
-      <div className="row">
-        <div className="col-12 col-md-6 ">
-          <div className="dropdown-nav__help__card call-us rc-border-all rc-border-colour--interface d-flex align-items-center">
-            <div className="rc-margin-right--xs flex-grow-1">
-              <b>
-                <FormattedMessage id="callUs" />
-              </b>
-              <div className="children-nomargin">
-                <p>{configStore.contactTimePeriod}</p>
-              </div>
-              <div>
-                <a
-                  href={`tel:${configStore.storeContactPhoneNumber}`}
-                  className="rc-large-body tel"
-                >
-                  {configStore.storeContactPhoneNumber}
-                </a>
+    <div class="rc-layout-container rc-two-column">
+      <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+        <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+          <div
+            class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+            <div
+              class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+              <div class="w-100">
+                <b style={{color: '#00A4A6'}}>
+                  <FormattedMessage id="callUs" />
+                </b>
+                {/* <p>{configStore.contactTimePeriod}</p> */}
+                <p>
+                  <FormattedMessage id="productFinder.resultHlep" />
+                </p>
+                <div class="rc-margin-top--xs">
+                  <a href={`tel:${configStore.storeContactPhoneNumber}`} style={{color: '#00A4A6'}}
+                    class="rc-numeric nowrap">{configStore.storeContactPhoneNumber}</a>
+                </div>
               </div>
             </div>
-            <div className="rc-padding-left--xs rc-lg-up">
-              <LazyLoad>
-              <img
-                className="ls-is-cached lazyloaded"
-                data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                alt="Par téléphone icon"
-                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-              />
-              </LazyLoad>
-            </div>
-            <div className="rc-padding-left--xs rc-md-down">
-              <LazyLoad>
-              <img
-                className="lazyload"
-                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                alt="Par téléphone icon"
-              />
-              </LazyLoad>
+            <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+              <picture class="align-self-center m-auto" data-rc-feature-objectfillpolyfill-setup="true">
+                <LazyLoad>
+                  <img className="ls-is-cached lazyloaded"
+                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg"
+                    alt="Par téléphone icon"
+                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg" />
+                </LazyLoad>
+                {/*
+                <source media="(max-width: 769px)"
+                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=240&amp;sfrm=jpg 2x">
+                <source media="(min-width: 769px)"
+                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=240&amp;sfrm=jpg 2x">
+                */}
+                {/* <img
+                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg"
+                  alt="Par téléphone" title="Par téléphone" /> */}
+              </picture>
             </div>
           </div>
         </div>
-        <div className="col-12 col-md-6 ">
-          <Link
-            className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
-            to="/help"
-          >
-            <div className="rc-margin-right--xs flex-grow-1">
-              <b>
-                <FormattedMessage id="emailUs" />
-              </b>
-              <br />
-              <a
-                className="rc-styled-link"
-                href={`mailto:${configStore.storeContactPhoneNumber}`}
-              >
-                <FormattedMessage id="sendUsAnEmail" />
-              </a>
-              <div className="children-nomargin" />
+      </article>
+      <article class="rc-full-width rc-column rc-padding-left--none--desktop">
+        <Link
+          // className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+          to="/help"
+        >
+          <div class="rc-border-all rc-border-colour--interface fullHeight contact_options__card">
+            <div
+              class="rc-layout-container rc-three-column rc-margin--none rc-content-h-middle rc-reverse-layout-mobile fullHeight">
+              {/*
+              <Link
+                className="dropdown-nav__help__card email-us rc-border-all rc-border-colour--interface d-flex align-items-center"
+                to="/help"> */}
+              <div
+                class="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
+                <div class="w-100">
+                  <b style={{color: '#0087BD'}}>Par mail</b>
+                  <div class="rc-margin-top--xs">
+                    <a href={`mailto:${configStore.storeContactPhoneNumber}`} class="rc-styled-link nowrap">
+                      <FormattedMessage id="emailUs" /></a>
+                  </div>
+                </div>
+              </div>
+              <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
+                <picture class="align-self-center m-auto" data-rc-feature-objectfillpolyfill-setup="true">
+                  {/*
+                  <source media="(max-width: 769px)"
+                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=240&amp;sfrm=png 2x">
+                  <source media="(min-width: 769px)"
+                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=240&amp;sfrm=png 2x">
+                  */}
+                  {/* <img
+                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png"
+                    alt="Par email" title="Par email" /> */}
+                  <LazyLoad>
+                    <img className=" ls-is-cached lazyloaded"
+                      data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png"
+                      alt="Par e-mail icon"
+                      src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png" />
+                  </LazyLoad>
+                </picture>
+              </div>
             </div>
-            <div className="rc-padding-left--xs rc-lg-up">
-              <LazyLoad>
-              <img
-                className=" ls-is-cached lazyloaded"
-                data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                alt="Par e-mail icon"
-                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-              />
-              </LazyLoad>
-            </div>
-            <div className="rc-padding-left--xs rc-md-down">
-              <LazyLoad>
-              <img
-                className="lazyload"
-                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-                alt="Par e-mail icon"
-              />
-              </LazyLoad>
-            </div>
-          </Link>
-        </div>
-      </div>
-    );
+          </div>
+        </Link>
+      </article>
+    </div>)
   }
 }
 

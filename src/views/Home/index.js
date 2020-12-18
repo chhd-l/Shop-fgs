@@ -11,10 +11,11 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, queryStoreCateList, setSeoConfigCopy } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
+import {Helmet} from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -388,14 +389,18 @@ const DEFUALT_FILTER_MAP_FR = {
     }
   ]
 };
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      deviceType: ''
+      deviceType: '',
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
   }
   async componentDidMount() {
@@ -404,8 +409,12 @@ class Home extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
+    setSeoConfigCopy({ pageName: 'Home Page' }).then(res => {
+      this.setState({seoConfig: res})
+    });
+    
     this.setState({ deviceType: getDeviceType() });
-    setSeoConfig({ pageName: 'Home Page' });
+    
     queryStoreCateList().then((res) => {
       let tmpRes = (res || [])
         .sort((a, b) => a.sort - b.sort)
@@ -446,7 +455,7 @@ class Home extends React.Component {
           curListNum >= 6
             ? curListNum === 15
               ? 'col-md-3'
-              : 'col-md-4'
+              : 'col-md-3'
             : 'col-md-3'
         }`}
         key={i}
@@ -505,6 +514,11 @@ class Home extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}

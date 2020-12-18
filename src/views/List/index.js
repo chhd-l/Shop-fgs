@@ -16,6 +16,7 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
+import {Helmet} from 'react-helmet';
 import {
   getList,
   getLoginList,
@@ -27,7 +28,8 @@ import {
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType
+  getDeviceType,
+  setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
 
@@ -36,6 +38,22 @@ let isMobile = getDeviceType() === 'H5'
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+function getMuntiImg(item) {
+  let img
+  if(
+    item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+  ) {
+    img = item.goodsImg || item.goodsInfos.sort(
+      (a, b) => a.marketPrice - b.marketPrice
+    )[0].goodsInfoImg
+    return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
+  }else {
+    img = IMG_DEFAULT
+    return `${img}`
+  }
+}
 function ListItem(props) {
   const { item } = props;
   return (
@@ -47,7 +65,8 @@ function ListItem(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="h-100">
-          <a className="ui-cursor-pointer" onClick={props.onClick}>
+          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
+          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
@@ -66,11 +85,12 @@ function ListItem(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT
+                          item? getMuntiImg(item): IMG_DEFAULT
+                          // item.goodsImg ||
+                          // item.goodsInfos.sort(
+                          //   (a, b) => a.marketPrice - b.marketPrice
+                          // )[0].goodsInfoImg ||
+                          // IMG_DEFAULT
                         }
                         alt={item.goodsName}
                         title={item.goodsName}
@@ -89,7 +109,7 @@ function ListItem(props) {
               ) : null}
               {props.children}
             </article>
-          </a>
+          </Link>
         </div>
       </article>
     </div>
@@ -107,7 +127,7 @@ function ListItemPC(props) {
         {props.rightPromotionJSX}
         <div className="fullHeight">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          <a className="ui-cursor-pointer" href={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
+          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="rc-card__image">
@@ -126,10 +146,7 @@ function ListItemPC(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
+                          item? getMuntiImg(item): 
                           IMG_DEFAULT
                         }
                         alt={item.goodsName}
@@ -149,7 +166,7 @@ function ListItemPC(props) {
               ) : null}
               {props.children}
             </article>
-          </a>
+          </Link>
         </div>
       </article>
     </div>
@@ -160,7 +177,7 @@ return (
   <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
   style={{paddingRight: '3rem'}}>
       <div className="product-name"  title={item.goodsName}> {item.goodsName}</div>
-      <div className="product-price">                 
+      <div className="product-price">
         {/* {formatMoney(item.miLinePrice)} */}
         {formatMoney(item.fromPrice)}
       </div>
@@ -216,7 +233,7 @@ function ListItemBodyPC({ item }) {
       {/*商品价格*/}
       <div className="d-flex justify-content-center">
         <div className="rc-card__price text-left PriceFitScreen">
-          <div className={`rc-full-width PriceFitScreen`}>
+          <div className={`rc-full-width PriceFitScreen flex`} style={{justifyContent:'center'}}>
             <span
               style={{
                 color: '#323232',
@@ -239,11 +256,11 @@ function ListItemBodyPC({ item }) {
             </span>
           </div>
           {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div className="range position-relative SePriceScreen">
+            <div className="range position-relative SePriceScreen " style={{transform: 'translateX(24%)'}}>
               <span
                 style={{
                   color: '#323232',
-                  fontWeight: 400
+                  fontWeight: 400,
                 }}
               >
                 {formatMoney(item.miSubscriptionPrice)}{' '}
@@ -390,7 +407,12 @@ class List extends React.Component {
       },
 
       markPriceAndSubscriptionLangDict: [],
-      actionFromFilter: false
+      actionFromFilter: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
     };
     this.pageSize = 12;
     this.fidFromSearch = ''; // 链接中所带筛选器参数
@@ -566,19 +588,28 @@ class List extends React.Component {
     //   });
 
     if (keywords) {
-      setSeoConfig({
-        pageName: 'Search Results Page'
+      // setSeoConfig({
+      //   pageName: 'Search Results Page'
+      // });
+      setSeoConfigCopy({ pageName: 'Search Results Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
     } else if (storeCateIds && storeCateIds.length) {
-      setSeoConfig({
-        categoryId: storeCateIds[0],
-        pageName: 'Product List Page' // Search Results Page
+      // setSeoConfig({
+      //   categoryId: storeCateIds[0],
+      //   pageName: 'Product List Page' // Search Results Page
+      // });
+      setSeoConfigCopy({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
+        this.setState({seoConfig: res})
       });
     }
     else {
-      setSeoConfig({
-        pageName: 'Product List Page'
+      setSeoConfigCopy({ pageName: 'Product List Page' }).then(res => {
+        this.setState({seoConfig: res})
       });
+      // setSeoConfig({
+      //   pageName: 'Product List Page'
+      // });
     }
   }
   handleFilterResData(res) {
@@ -796,7 +827,7 @@ class List extends React.Component {
     (this.isLogin ? getLoginList : getList)(params)
       .then((res) => {
         this.handleFilterResData(
-          (res.context && res.context.storeGoodsFilterVOList) || []
+          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
         );
         const esGoods = res.context.esGoods;
         if (esGoods && esGoods.content.length) {
@@ -931,7 +962,7 @@ class List extends React.Component {
         }
       });
       // window.on("scroll", function() {
-      
+
       //   // $(".js-toggle-filters").addClass("rc-brand1")) : ($("body").removeClass("sticky-refineBar"),
       //   // $(".js-toggle-filters").removeClass("rc-brand1"))
       // })
@@ -1057,6 +1088,11 @@ class List extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -1167,7 +1203,7 @@ class List extends React.Component {
                       }
                     </aside>
                   </div>
-                  
+
                   <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
                     <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
                       <span className="font-weight-normal">
@@ -1261,7 +1297,7 @@ class List extends React.Component {
                   <div
                     className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
                   >
-                     
+
 
 
 
@@ -1280,10 +1316,12 @@ class List extends React.Component {
                             />
                             )
                           </div>
-                         
+
+
                           <div className="col-12 col-md-4  rc-md-up">
-                           
+
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
+
                               <Selection
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
@@ -1428,7 +1466,7 @@ class List extends React.Component {
               id="notate"
               values={{
                 val: (
-                  <Link className="rc-styled-link" to="/FAQ/all">
+                  <Link className="rc-styled-link" to="/FAQ/catogery-1">
                     Versandkosten
                   </Link>
                 )
