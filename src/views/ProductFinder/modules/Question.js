@@ -49,7 +49,9 @@ class Question extends React.Component {
       valid: false,
       isEdit: false, // 是否处于编辑状态
       initDataFromFreshPage: false,
-      configSizeAttach: null, // when breed，attached size data
+      configSizeAttach: sessionItemRoyal.get('pf-configSizeAttach')
+        ? JSON.parse(sessionItemRoyal.get('pf-configSizeAttach'))
+        : null, // when breed，attached size data
       questionType: '',
       defaultDataForSelect: [],
       defaultDataForSearch: null
@@ -70,18 +72,21 @@ class Question extends React.Component {
         questionParams: { speciesCode: type }
       },
       () => {
+        debugger;
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
           const {
             finderNumber,
             stepOrder,
-            questionParams
+            questionParams,
+            configSizeAttach
           } = cachedQuestionData;
           this.setState(
             {
               finderNumber,
               stepOrder,
               questionParams,
+              configSizeAttach,
               initDataFromFreshPage: true
             },
             () => this.queryAnswers()
@@ -120,6 +125,14 @@ class Question extends React.Component {
       }
       return item;
     });
+
+    this.setDefaultDataFromCache({
+      questionName: targetItem.questionName,
+      answerList: targetItem.answerList,
+      questionType: qRes.questionType,
+      configSizeAttach: this.state.configSizeAttach
+    });
+
     this.setState({
       progress: progress || 100,
       stepOrder: editStopOrder,
@@ -145,6 +158,73 @@ class Question extends React.Component {
       questionType: qRes.questionType,
       isEdit: true
     });
+  }
+  // 根据缓存信息，每次每题进入时，设置上次选择值为默认值
+  setDefaultDataFromCache({
+    questionName,
+    answerList,
+    questionType,
+    configSizeAttach
+  }) {
+    const { type } = this.props;
+    const cachedSelectedData = localItemRoyal.get(
+      `pf-one-question-cached-${type}`
+    );
+    if (cachedSelectedData && cachedSelectedData[questionName]) {
+      const cachedSelectedVal = cachedSelectedData[questionName];
+      const cachedSelectedValKey = cachedSelectedVal.key;
+      const matchedList = answerList.filter(
+        (ele) => ele && ele.key === cachedSelectedValKey
+      );
+      let tmpQList = matchedList[0];
+      switch (questionType) {
+        case 'radio':
+          if (tmpQList) {
+            tmpQList.selected = true;
+          }
+          break;
+        case 'search':
+          if (
+            tmpQList ||
+            cachedSelectedValKey === 'mixed_breed' ||
+            cachedSelectedValKey === 'undefined'
+          ) {
+            if (
+              configSizeAttach &&
+              cachedSelectedData[`${questionName}_size_attach`]
+            ) {
+              let matchedSizeStep = configSizeAttach.answers.filter(
+                (e) =>
+                  e.key ===
+                  cachedSelectedData[`${questionName}_size_attach`].key
+              )[0];
+              if (matchedSizeStep) {
+                matchedSizeStep.selected = true;
+              }
+            }
+
+            this.setState({
+              defaultDataForSearch: tmpQList
+                ? tmpQList
+                : cachedSelectedValKey
+                ? { key: cachedSelectedValKey }
+                : null,
+              configSizeAttach
+            });
+          }
+          break;
+        case 'select':
+          if (cachedSelectedVal) {
+            this.setState({
+              defaultDataForSelect: cachedSelectedVal
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return { answerList };
   }
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
@@ -199,7 +279,6 @@ class Question extends React.Component {
       let tmpQuestionParams = Object.assign({}, questionParams);
       let cachedSelectedVal =
         localItemRoyal.get(`pf-one-question-cached-${type}`) || {};
-      // debugger;
 
       if (currentStepName) {
         let tmpObj = Object.assign(cachedSelectedVal, {
@@ -300,57 +379,17 @@ class Question extends React.Component {
               answers: [...resContext.step.mixedBreedPossibleValues],
               name: resContext.step.name
             });
-          }
-
-          this.setState({
-            configSizeAttach: sizeStep
-          });
-        }
-        const cachedSelectedVal = localItemRoyal.get(
-          `pf-one-question-cached-${type}`
-        );
-        // debugger;
-        if (cachedSelectedVal && cachedSelectedVal[resContext.step.name]) {
-          const cachedSelectddValKey =
-            cachedSelectedVal[resContext.step.name].key;
-          const matchedList = qResQuestionList.filter(
-            (ele) => ele && ele.key === cachedSelectddValKey
-          );
-          let tmpQList = matchedList[0];
-          if (
-            tmpQList ||
-            cachedSelectddValKey === 'mixed_breed' ||
-            cachedSelectddValKey === 'undefined'
-          ) {
-            if (qRes.questionType === 'select') {
-              this.setState({
-                defaultDataForSelect: cachedSelectedVal[resContext.step.name]
-              });
-            } else if (qRes.questionType === 'search') {
-              if (sizeStep) {
-                let matchedSizeStep = sizeStep.answers.filter(
-                  (e) =>
-                    e.key ===
-                    cachedSelectedVal[`${resContext.step.name}_size_attach`].key
-                )[0];
-                if (matchedSizeStep) {
-                  matchedSizeStep.selected = true;
-                }
-              }
-
-              this.setState({
-                defaultDataForSearch: tmpQList
-                  ? tmpQList
-                  : cachedSelectddValKey
-                  ? { key: cachedSelectddValKey }
-                  : null,
-                configSizeAttach: sizeStep
-              });
-            } else {
-              tmpQList.selected = true;
-            }
+            this.setState({
+              configSizeAttach: sizeStep
+            });
           }
         }
+        let { questionList } = this.setDefaultDataFromCache({
+          questionName: resContext.step.name,
+          answerList: qResQuestionList,
+          questionType: qRes.questionType,
+          configSizeAttach: sizeStep
+        });
 
         this.setState(
           {
@@ -370,13 +409,19 @@ class Question extends React.Component {
             initDataFromFreshPage: false
           },
           () => {
-            const { finderNumber, stepOrder, questionParams } = this.state;
+            const {
+              finderNumber,
+              stepOrder,
+              questionParams,
+              configSizeAttach
+            } = this.state;
             if (stepOrder - 1 > 0) {
               localItemRoyal.set(`pf-cache-type`, type);
               localItemRoyal.set(`pf-cache-${type}-question`, {
                 finderNumber,
                 stepOrder: stepOrder - 1,
-                questionParams
+                questionParams,
+                configSizeAttach
               });
             }
           }
@@ -392,6 +437,10 @@ class Question extends React.Component {
         sessionItemRoyal.set(
           'pf-questionlist',
           JSON.stringify(resContext.answerdQuestionList)
+        );
+        sessionItemRoyal.set(
+          'pf-configSizeAttach',
+          JSON.stringify(this.state.configSizeAttach)
         );
         let tmpUrl;
         if (proRes.context && proRes.context.mainProduct) {
