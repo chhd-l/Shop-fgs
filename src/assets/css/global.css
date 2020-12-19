@@ -16040,6 +16040,15 @@ header .rc-list--inline .rc-list__item.dropdown {
   height: auto;
   min-height: 133px
 }
+.rc-header--scrolled .rc-header__logo-text {
+  opacity: 0;
+  transition: opacity .2s;
+}
+.rc-header--scrolled .rc-header__logo-crown {
+  transform: scale(1.5);
+  transform-origin: center 0;
+  transition: transform .2s;
+}
 
 .rc-header--scrolled .dropdown-nav {
   display: none!important
