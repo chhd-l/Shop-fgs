@@ -118,6 +118,12 @@ class Help extends React.Component {
                     let tempObj = {}
                     let tempContent = ''
                     try{
+                      if(key === 'Description') {
+                        tmpGoodsDetail[key].map(el => {
+                          tempContent = tempContent + `<p>${Object.values(JSON.parse(el))[0]}</p>`
+                        })
+                        el.tabDescription = tempContent
+                      }
                       if(key === 'Bénéfices') {
                         tmpGoodsDetail[key].map(ele => {
                           // <div class="">${Object.keys(JSON.parse(ele))[0]}</div>
@@ -805,9 +811,17 @@ class Help extends React.Component {
                             </div>
                           )}
 
-                          <p className="mr-5">
-                            {productList[activeIndex].goodsInfo.goods
-                              .goodsDescription || ''}
+                          <p
+                            style={{
+                              width: '100%',
+                              margin: '0 auto',
+                              padding: isMobile?'0 20px': '0 40px'
+                            }}
+                            dangerouslySetInnerHTML={createMarkup(productList[activeIndex].goodsInfo.goods
+                              .goodsDescription || productList[activeIndex].tabDescription || '')}
+                          >
+                            {/* {productList[activeIndex].goodsInfo.goods
+                              .goodsDescription || productList[activeIndex].tabDescription || ''} */}
                           </p>
                         </div>
                         {/* <div className="description">
@@ -892,7 +906,9 @@ class Help extends React.Component {
                             <FormattedMessage id="recommendation.productDescription" />
                           </span>
                         </p> */}
-                        <p
+                        {
+                          productList[activeIndex].benefit?(
+                            <p
                           className="benefit"
                           style={{
                             width: '100%',
@@ -922,6 +938,9 @@ class Help extends React.Component {
                           ></p>
                           {/* <p>{productList[activeIndex]}</p> */}
                         </p>
+                          ): null
+                        }
+                        
                         <p
                           style={{
                             marginTop: '30px',
