@@ -523,28 +523,28 @@ class List extends React.Component {
       }
     }
 
-    this.setState({eEvents})
+    // this.setState({eEvents})
 
-    // dataLayer.push({
-    //   event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-    //   ecommerce: {
-    //     click: {
-    //       actionField: { list: '' }, //?上一页面
-    //       products: [
-    //         {
-    //           name: item.goodsName,
-    //           id: item.id,
-    //           club: 'no',
-    //           brand: item.goodsBrand.brandName,
-    //           category: JSON.parse(item.goodsCateName)[0],
-    //           list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-    //           position: index,
-    //           sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
-    //         }
-    //       ]
-    //     }
-    //   }
-    // });
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+      ecommerce: {
+        click: {
+          actionField: { list: '' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          products: [
+            {
+              name: item.goodsName,
+              id: item.id,
+              club: 'no',
+              brand: item.goodsBrand.brandName,
+              category: JSON.parse(item.goodsCateName)[0],
+              list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+              position: index,
+              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
+            }
+          ]
+        }
+      }
+    });
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
@@ -557,7 +557,7 @@ class List extends React.Component {
         club: 'no',
         category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:"",
         list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-        variant: item.goodsWeight || '',
+        variant: item.goodsWeight?parseInt(item.goodsWeight) :'',
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId,
         flag: !!item.taggingForImage?JSON.parse(item.taggingForImage).taggingName:''

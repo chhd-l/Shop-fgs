@@ -446,6 +446,7 @@ class Header extends React.Component {
             results,
             type
           };
+          //this.props.sendGAHeaderSearch(this.state.event)
           dataLayer.push({ search: this.state.event.search });
 
           this.setState({

@@ -27,6 +27,7 @@ class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      eEvents:'',
       productList: [],
       loading: true,
       paywithLogin: sessionItemRoyal.get('rc-paywith-login') === 'true',
@@ -119,6 +120,8 @@ class Confirmation extends React.Component {
           details: resContext,
           totalTid: resContext.totalTid,
           detailList: res.map((ele) => ele.context)
+        },()=>{
+          this.getGAEComTransaction()
         });
         const payRecordRes = await getPayRecord(resContext.totalTid);
         this.setState({
@@ -138,61 +141,62 @@ class Confirmation extends React.Component {
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
+  //GA 埋点 start
+  getGAEComTransaction(){
+    const { details } = this.state;
+
+    let products = details.tradeItems.map((item) => {
+      return {
+        id: item.spuId,//?
+        name: item.spuName,
+        price: item.price,
+        brand: 'Royal Canin',
+        category: item.cateName,
+        quantity: item.num,
+        variant: item.specDetails?parseInt(item.specDetails):'',
+        sku: item.skuId,//?
+        recommandation: details.recommendationId
+          ? 'recommended'
+          : 'self-selected'
+      };
+    });
+    let eEvents = {
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+      ecommerce: {
+        currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+        purchase: {
+          actionField: {
+            id: this.state.totalTid,
+            type: this.state.subNumber ? 'Subscription' : 'One-shot',
+            revenue: details.tradePrice.totalPrice,
+          },
+          products
+        }
+      }
+    };
+    this.setState({
+      eEvents
+    })
+  }
+  //GA 埋点 start
   render() {
     const { loading, details, subOrderNumberList } = this.state;
-    let event;
-    let eEvents;
-    if (!loading) {
-      let products = details.tradeItems.map((item) => {
-        return {
-          id: '',//?
-          name: item.spuName,
-          price: item.price,
-          brand: 'Royal Canin',
-          category: item.goodsCategory,
-          quantity: item.num,
-          variant: item.specDetails,
-          sku: item.skuId,
-          recommandation: details.recommendationId
-            ? 'recommended'
-            : 'self-selected'
-        };
-      });
-      event = {
-        page: {
-          type: 'Order Confirmation',
-          theme: ''
-        }
-      };
-      eEvents = {
-        event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
-        //action: 'purchase',
-        ecommerce: {
-          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-          // impressions: [],
-          purchase: {
-            actionField: {
-              id: this.state.totalTid,
-              type: this.state.subNumber ? 'Subscription' : 'One-shot',
-              revenue: details.tradePrice.totalPrice,
-              //shipping: details.tradePrice.deliveryPrice,
-              //coupon: 0
-            },
-            products
-          }
-        }
-      };
-      console.log({ eEvents })
-    }
-
+    const event = {
+      page: {
+        type: 'Order Confirmation',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
+    
     return (
       <div>
-        {event ? (
-          <GoogleTagManager
-            additionalEvents={event}
-            ecommerceEvents={eEvents}
-          />
-        ) : null}
+        {
+          this.state.eEvents?<GoogleTagManager additionalEvents={event} ecommerceEvents={this.state.eEvents} />:null
+        }
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           {/* <BannerTip /> */}

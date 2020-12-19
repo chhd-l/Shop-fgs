@@ -400,7 +400,8 @@ class Home extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      searchEvent:{}
     };
   }
   async componentDidMount() {
@@ -432,6 +433,11 @@ class Home extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
+  }
+  sendGAHeaderSearch=(event)=>{
+    this.setState({
+      searchEvent:event
+    })
   }
   render() {
     const { history, match, location } = this.props;
@@ -519,13 +525,14 @@ class Home extends React.Component {
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
         </Helmet>
-        <GoogleTagManager additionalEvents={event}/>
+        <GoogleTagManager additionalEvents={event} searchEvent={this.state.searchEvent}/>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
           match={match}
           location={location}
           history={history}
+          sendGAHeaderSearch={this.sendGAHeaderSearch}
         />
         <main className={'rc-content--fixed-header'}>
           <BannerTip />

@@ -1890,7 +1890,11 @@ class Payment extends React.Component {
     const event = {
       page: {
         type: 'Checkout',
-        theme: ''
+        theme: '',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const { history, location, checkoutStore } = this.props;

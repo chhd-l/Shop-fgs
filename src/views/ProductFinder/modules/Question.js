@@ -72,7 +72,7 @@ class Question extends React.Component {
         questionParams: { speciesCode: type }
       },
       () => {
-        debugger;
+        //debugger;
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
           const {
