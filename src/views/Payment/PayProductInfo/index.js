@@ -263,7 +263,7 @@ class PayProductInfo extends React.Component {
                           el.buyCount * el.subscriptionPrice
                       )}
                     </span>{' '}
-                    <FormattedMessage id="avec labonnement" />
+                    <FormattedMessage id="avecLabonnement" />
                     &nbsp; 
                     {/* <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
                       val1:(

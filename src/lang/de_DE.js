@@ -246,7 +246,7 @@ const de_DE = {
   'Choose your pet type':'Bitte wählen Sie:',
   'Your Pet is a…':'Mein Tier ist ein(e)…',
   'Vous avez économisé':'Sie sparen ',
-  'avec labonnement':'bei diesem Abonnement',
+  'avecLabonnement':'bei diesem Abonnement',
   'Dog':'Hund',
   'Cat':'Katze',
   dontHesitateToContactUs: 'Zögern Sie nicht uns zu kontaktieren',

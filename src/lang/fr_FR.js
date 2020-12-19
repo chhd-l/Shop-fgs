@@ -1114,5 +1114,6 @@ const fr_FR = {
   'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec l\'abonnement',
   deliveredTip: 'Devrait arriver dans environ 3 jours',
   checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
+  'avecLabonnement':'avec l\'abonnement',
 }
 export default fr_FR;
