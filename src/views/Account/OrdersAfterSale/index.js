@@ -230,7 +230,11 @@ class OrdersAfterSale extends React.Component {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const { afterSaleType, details, form } = this.state;

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
@@ -52,8 +53,19 @@ export default class OrdersAfterSaleSuccess extends React.Component {
   }
   render() {
     const { details, errMsg } = this.state;
+    const event = {
+      page: {
+        type: 'Account',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header">
           <BannerTip />

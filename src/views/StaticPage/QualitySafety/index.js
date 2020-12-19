@@ -27,7 +27,11 @@ class QualitySafety extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: 'Brand'
+        theme: 'Brand',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     return (

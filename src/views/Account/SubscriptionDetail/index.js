@@ -49,6 +49,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import GoogleTagManager from '@/components/GoogleTagManager';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -546,6 +547,16 @@ class SubscriptionDetail extends React.Component {
     });
   }
   render() {
+    const event = {
+      page: {
+        type: 'Account',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
     const data = this.state;
     const { checkoutStore } = this.props;
     let {
@@ -570,6 +581,7 @@ class SubscriptionDetail extends React.Component {
     return (
       <div className="subscriptionDetail">
         <div>
+          <GoogleTagManager additionalEvents={event} />
           <Header
             showMiniIcons={true}
             showUserIcon={true}

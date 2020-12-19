@@ -160,7 +160,11 @@ class Subscription extends React.Component {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const { frequencyList, isMobile } = this.state;

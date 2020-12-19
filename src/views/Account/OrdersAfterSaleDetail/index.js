@@ -4,6 +4,7 @@ import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
 import { formatMoney,setSeoConfig } from '@/utils/utils';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BreadCrumbs from '@/components/BreadCrumbs';
@@ -40,8 +41,19 @@ export default class OrdersAfterSaleDetail extends React.Component {
   }
   render() {
     const { details } = this.state;
+    const event = {
+      page: {
+        type: 'Account',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}
           showUserIcon={true}

@@ -1338,7 +1338,12 @@ class Details extends React.Component {
   GAProductDetailPageView(item){
     const event = {
       page: {
-        type: 'Product',
+        type: 'product',
+        theme: item.cateId=='1134'?'Cat':'Dog',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const eEvents = {
@@ -1351,9 +1356,9 @@ class Details extends React.Component {
               id: item.goodsId,
               name: item.goodsName,
               price: item.minMarketPrice,
-              brand: 'ROYAL CANIN',//?
+              brand: item.brandName||'ROYAL CANIN',//?
               club: 'no',
-              category:item.goodsCateName,
+              category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               variant: item.goodsWeight,
               sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
             }

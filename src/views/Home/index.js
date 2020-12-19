@@ -440,12 +440,12 @@ class Home extends React.Component {
 
     const event = {
       page: {
+        type: 'Homepage',
+        theme: '',
+        path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        path: match.path,
-        type: 'Homepage',
         filters: '',
-        theme: ''
       }
     };
 
@@ -519,7 +519,7 @@ class Home extends React.Component {
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
         </Helmet>
-        <GoogleTagManager additionalEvents={event} />
+        <GoogleTagManager additionalEvents={event}/>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

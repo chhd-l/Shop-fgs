@@ -6,6 +6,9 @@ import { sha256 } from 'js-sha256';
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
+  constructor(props){
+    super(props)
+  }
   static defaultProps = {
     searchEvents: {
       search: {
@@ -18,8 +21,7 @@ class GoogleTagManager extends React.Component {
   componentDidMount() {
     const event = {
       page: {
-        type: '',
-        theme: ''
+        
       },
       site: {
         id: process.env.REACT_APP_GTM_SITE_ID,
@@ -32,21 +34,28 @@ class GoogleTagManager extends React.Component {
 
     if (userInfo) {
       event.user = {
-        authentificationStatus: this.props.loginStore.isLogin?'authenticated':'not authenticated',
-        frequency: 'prospect',
+        authentificationStatus: 'authenticated',
         email: sha256(userInfo.email),
         id: userInfo.customerId,
-        country: process.env.REACT_APP_GA_COUNTRY,
-        locale: userInfo.city, // "es-MX"
-        accountType: 'test'
+        locale : userInfo.city
+        
       };
+    }else{
+      event.user = {
+        authentificationStatus:'not authenticated',
+        email: '',
+        id: '',
+        locale :'',
+      }
     }
+    event.user.frequency = 'prospect'
+    event.user.country = process.env.REACT_APP_GA_COUNTRY,
+    event.user.accountType = 'test'
 
     let additionalEvents = Object.assign(
       {},
       event,
       this.props.additionalEvents
-      //this.props.searchEvents
     );
 
     loadJS({

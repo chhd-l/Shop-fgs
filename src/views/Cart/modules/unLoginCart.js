@@ -1449,7 +1449,11 @@ class UnLoginCart extends React.Component {
     const event = {
       page: {
         type: 'Cart',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const dogsPic = process.env.REACT_APP_LANG === 'fr'?dogsImgFr:dogsImg

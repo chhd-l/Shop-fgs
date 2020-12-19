@@ -373,8 +373,10 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      eEvents:'',
       storeCateIds: [],
       category: '',
+      pathname:'',
       cateType: '',
       cateName: '',
       titleData: null,
@@ -500,27 +502,49 @@ class List extends React.Component {
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    dataLayer.push({
+    const eEvents = {
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
-          actionField: { list: '' }, //?上一页面
+          actionField: { list: '' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
               name: item.goodsName,
               id: item.id,
               club: 'no',
               brand: item.goodsBrand.brandName,
-              category: item.goodsCateName,
-              list: '', //?上一页面
+              category: JSON.parse(item.goodsCateName)[0],
+              list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
             }
           ]
         }
       }
-    });
-    //console.log(dataLayer)
+    }
+
+    this.setState({eEvents})
+
+    // dataLayer.push({
+    //   event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+    //   ecommerce: {
+    //     click: {
+    //       actionField: { list: '' }, //?上一页面
+    //       products: [
+    //         {
+    //           name: item.goodsName,
+    //           id: item.id,
+    //           club: 'no',
+    //           brand: item.goodsBrand.brandName,
+    //           category: JSON.parse(item.goodsCateName)[0],
+    //           list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+    //           position: index,
+    //           sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
+    //         }
+    //       ]
+    //     }
+    //   }
+    // });
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
@@ -531,12 +555,12 @@ class List extends React.Component {
         brand: item.goodsBrand.brandName,
         price: item.minMarketPrice,
         club: 'no',
-        category: item.goodsCateName,
-        list: '', //?上一页面
+        category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:"",
+        list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
         variant: item.goodsWeight || '',
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId,
-        flag: '' //?JSON.parse(item.taggingForImage).taggingName
+        flag: !!item.taggingForImage?JSON.parse(item.taggingForImage).taggingName:''
       };
     });
 
@@ -1003,6 +1027,7 @@ class List extends React.Component {
     }, 500);
   };
   render() {
+    const { pathname } = this.props.history.location;
     const {
       category,
       results,
@@ -1018,19 +1043,19 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
-      cateName
+      cateName,
+      eEvents
     } = this.state;
     let event;
-    let eEvents;
-    if (category) {
+    if (pathname) {
       let theme;
       let type;
-      switch (category) {
-        case 'dogs':
+      switch (pathname) {
+        case '/dogs':
           theme = 'Dog';
           type = 'Product Catalogue';
           break;
-        case 'cats':
+        case '/cats':
           theme = 'Cat';
           type = 'Product Catalogue';
           break;
@@ -1046,33 +1071,12 @@ class List extends React.Component {
       event = {
         page: {
           type,
-          theme
+          theme,
+          path: pathname,
+          error: '',
+          hitTimestamp: new Date(),
+          filters: '',
         },
-        impressions: {
-          name
-        }
-      };
-    }
-    if (!initingList) {
-      eEvents = {
-        event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
-        ecommerce: {
-          impressions: [
-            {
-              name: 'Mother and Bayycat',
-              id: '',
-              brand: 'Royal Canin',
-              price: '',
-              club: 'no',
-              category: 'Cat/{{Range}}/Dry',
-              list: 'Related Items',
-              variant: '2.00Kg',
-              position: 0,
-              sku: 'XFGHUIY',
-              flag: 'best-seller'
-            }
-          ]
-        }
       };
     }
 
