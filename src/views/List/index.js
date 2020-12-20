@@ -433,8 +433,15 @@ class List extends React.Component {
       let choosedCateItem = res.filter(item=>item.navigationCateIds == storeCateIds)
       let parentsLists = this.state.storeCateIds.length>1?[]:choosedCateItem// 如果有多个cateitem，那就是选择了上一级
       let breadList = []
+      if(!choosedCateItem[0]){
+        return
+      }
       if(choosedCateItem[0].parentId){
         breadList = getParentsNodesList(res, choosedCateItem[0], parentsLists)
+      }
+      if(this.props.history.location.pathname.split('/').length==2){
+        // 只选择了一级菜单的特殊情况
+        breadList.length=1
       }
       this.setState({
         breadList: breadList.map(item=>({

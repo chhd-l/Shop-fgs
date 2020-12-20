@@ -256,7 +256,6 @@ export function getParentsNodesList(list, child, parentslist){
       if(item.parentId){
         getParentsNodesList(list, item, parentslist)
       }else{
-        console.info('parentslist', parentslist)
         return parentslist
       }
     }
