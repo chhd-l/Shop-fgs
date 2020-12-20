@@ -523,7 +523,6 @@ class List extends React.Component {
         }
       }
     });
-    
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
