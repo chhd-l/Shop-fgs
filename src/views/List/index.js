@@ -29,6 +29,8 @@ import {
   getDictionary,
   setSeoConfig,
   getDeviceType,
+  getParentsNodesList,
+  queryHeaderNavigation,
   setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
@@ -376,6 +378,7 @@ class List extends React.Component {
       eEvents:'',
       storeCateIds: [],
       category: '',
+      breadList: [],
       pathname:'',
       cateType: '',
       cateName: '',
@@ -421,6 +424,34 @@ class List extends React.Component {
     this.cidFromSearch = ''; // 链接中所带catory参数
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
+  }
+  
+  breadListinit(){
+    queryHeaderNavigation().then(res=>{
+      let storeCateIds = this.state.storeCateIds[0];
+      // 找到id
+      let choosedCateItem = res.filter(item=>item.navigationCateIds == storeCateIds)
+      let parentsLists = this.state.storeCateIds.length>1?[]:choosedCateItem// 如果有多个cateitem，那就是选择了上一级
+      let breadList = []
+      if(!choosedCateItem[0]){
+        return
+      }
+      if(choosedCateItem[0].parentId){
+        breadList = getParentsNodesList(res, choosedCateItem[0], parentsLists)
+      }
+      if(this.props.history.location.pathname.split('/').length==2){
+        // 只选择了一级菜单的特殊情况
+        breadList.length=1
+      }
+      this.setState({
+        breadList: breadList.map(item=>({
+          ...item,
+          name: item.navigationName,
+          link: item.navigationLink
+        }))
+      })
+    });
+    
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
@@ -561,6 +592,7 @@ class List extends React.Component {
   }
   async initData() {
     const { storeCateIds, keywords } = this.state;
+    this.breadListinit()
     // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
@@ -1022,8 +1054,10 @@ class List extends React.Component {
       selectedSortParam,
       keywords,
       cateName,
+      breadList,
       eEvents
     } = this.state;
+    let breadName = breadList[breadList.length-1] && breadList[breadList.length-1].name
     let event;
     if (pathname) {
       let theme;
@@ -1093,7 +1127,9 @@ class List extends React.Component {
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbsNavigation
-            list={[{ name: cateName || '' }].filter((el) => el.name)}
+          history={this.props.history}
+          list={this.state.breadList}
+            // list={[{ name: cateName || '' }].filter((el) => el.name)}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
@@ -1197,7 +1233,7 @@ class List extends React.Component {
                   <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
                     <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
                       <span className="font-weight-normal">
-                        {this.state.cateName}{' '}
+                        {this.state.cateName||breadName}{' '}
                       </span>
                       (
                       <FormattedMessage

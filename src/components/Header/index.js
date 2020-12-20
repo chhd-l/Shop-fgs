@@ -442,9 +442,12 @@ class Header extends React.Component {
           console.log('搜索成功-成功', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: true });
           const { query, results, type } = this.props.headerSearchStore;
-          dataLayer[0].search.query = query
-          dataLayer[0].search.results = results
-          dataLayer[0].search.type = type
+          this.state.event.search = {
+            query,
+            results,
+            type
+          };
+          dataLayer.push({ search: this.state.event.search });
 
           this.setState({
             result: Object.assign(
@@ -751,6 +754,7 @@ class Header extends React.Component {
       <>
         <div id="page-top" name="page-top" />
         {/* 执行埋点 */}
+        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         <header className={`rc-header`} data-js-header-scroll>
