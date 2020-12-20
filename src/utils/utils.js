@@ -1,4 +1,4 @@
-import { getSeoConfig } from '@/api';
+import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict } from '@/api/dict';
@@ -245,6 +245,24 @@ export function dynamicLoadCss(url) {
   head.appendChild(link);
 }
 
+// 一维数组获取所有父节点
+export function getParentsNodesList(list, child, parentslist){
+  if(!parentslist){
+    parentslist = []
+  }
+  for (let item of list){
+    if(item.id == child.parentId){
+      parentslist.unshift(item)
+      if(item.parentId){
+        getParentsNodesList(list, item, parentslist)
+      }else{
+        console.info('parentslist', parentslist)
+        return parentslist
+      }
+    }
+  }
+  return parentslist
+}
 /**
  * 递归生成树形结构，依赖关系为id和parentId
  * @param {Array} params - 需要递归的源数据
@@ -564,6 +582,21 @@ export async function getFrequencyDict() {
     return Promise.resolve(flatten(res));
   });
 }
+
+ // 查询二级导航
+ export async function queryHeaderNavigation() {
+  let ret = sessionItemRoyal.get('header-navigations');
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await queryHeaderNavigations();
+    if (res.context) {
+      ret = res.context;
+      sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
+    }
+  }
+  return ret;
+};
 
 /**
  * 查询home页分类信息
