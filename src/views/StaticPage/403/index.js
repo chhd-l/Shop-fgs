@@ -4,11 +4,23 @@ import image from '@/assets/images/500.png';
 import logo from '@/assets/images/logo--animated.png';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import GoogleTagManager from '@/components/GoogleTagManager';
 function Page403() {
+  const event = {
+    page: {
+      type: '500',
+      theme: '',
+      path: location.pathname,
+      error: '',
+      hitTimestamp: new Date(),
+      filters: '',
+    }
+  };
   setSeoConfig();
   return (
     <React.Fragment>
       {/* <Header showMiniIcons={true} location={this.props.location} /> */}
+      <GoogleTagManager additionalEvents={event}/>
       <LazyLoad>
         <img
           src={logo}

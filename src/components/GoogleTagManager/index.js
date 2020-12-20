@@ -97,6 +97,29 @@ class GoogleTagManager extends React.Component {
         query:'',
         results:'',
         type:''
+      },
+      pet:{
+        specieId:'',
+        breedId:''
+      },
+      checkout:{
+        basketAmount:'',
+        basketID:'',
+        option:'',
+        step:'',
+        product:{
+          brand:'',
+          category:'',
+          club:'',
+          id:'',
+          name:'',
+          price:'',
+          quantity:'',
+          recommendation:'',
+          type:'',
+          variant:'',
+          sku:''
+        }
       }
     };
     let userInfo = this.props.loginStore.userInfo;

@@ -1310,6 +1310,7 @@ class Details extends React.Component {
   }
   //加入购物车，埋点
   GAAddToCar(item) {
+    console.log(item)
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
@@ -1317,22 +1318,23 @@ class Details extends React.Component {
           products: [
             {
               name: item.goodsName,
-              id: item.goodsId,
+              id: item.goodsNo,//已改
               club: 'no',
               type: '',//?是否订阅
               price: item.minMarketPrice,
               brand: item.brandName||'Royal Canin',
-              category: item.goodsCateName,
-              variant: item.goodsWeight,
+              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',//已改
+              variant: parseInt(item.goodsSpecDetails[0].detailName),
               quantity: '',//?数量
-              recommendation: 'recommended', //?self-selected, recommended
-              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
+              recommendation: 'self-selected', //?self-selected, recommended
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo//已改
             }
           ]
         }
       }
     });
     console.log('添加购物车埋点dataLayer',dataLayer);
+    //debugger
   }
   //商品详情页 埋点
   GAProductDetailPageView(item){
@@ -1344,6 +1346,9 @@ class Details extends React.Component {
         error: '',
         hitTimestamp: new Date(),
         filters: '',
+      },
+      pet:{
+        specieId: item.cateId=='1134'?'2':'1',
       }
     };
     const eEvents = {
@@ -1351,16 +1356,19 @@ class Details extends React.Component {
       ecommerce: {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
+          actionField: {
+            list: ''//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          },
           products: [
             {
-              id: item.goodsId,
+              id: item.Id,//?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
-              brand: item.brandName||'ROYAL CANIN',//?
+              brand: item.brandName||'ROYAL CANIN',
               club: 'no',
               category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
-              variant: item.goodsWeight,
-              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId,
+              variant: parseInt(item.goodsSpecDetails[0].detailName),
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }
           ]
         }

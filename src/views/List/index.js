@@ -502,29 +502,6 @@ class List extends React.Component {
   }
   //点击商品 埋点
   GAProductClick(item, index) {
-    const eEvents = {
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
-      ecommerce: {
-        click: {
-          actionField: { list: '' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-          products: [
-            {
-              name: item.goodsName,
-              id: item.id,
-              club: 'no',
-              brand: item.goodsBrand.brandName,
-              category: JSON.parse(item.goodsCateName)[0],
-              list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-              position: index,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
-            }
-          ]
-        }
-      }
-    }
-
-    // this.setState({eEvents})
-
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
@@ -532,34 +509,36 @@ class List extends React.Component {
           actionField: { list: '' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
-              name: item.goodsName,
-              id: item.id,
+              name: item.goodsName,//?
+              id: item.goodsNo,
               club: 'no',
               brand: item.goodsBrand.brandName,
               category: JSON.parse(item.goodsCateName)[0],
               list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+              variant: '',//不写
               position: index,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
+              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
           ]
         }
       }
     });
+    
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
     const impressions = productList.map((item, index) => {
       return {
-        name: item.goodsName,
-        id: item.id,
+        name: item.goodsName,//?
+        id: item.goodsNo,
         brand: item.goodsBrand.brandName,
         price: item.minMarketPrice,
         club: 'no',
         category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:"",
         list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-        variant: item.goodsWeight?parseInt(item.goodsWeight) :'',
+        variant: '',//不写
         position: index,
-        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId,
+        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
         flag: !!item.taggingForImage?JSON.parse(item.taggingForImage).taggingName:''
       };
     });
@@ -1050,22 +1029,27 @@ class List extends React.Component {
     if (pathname) {
       let theme;
       let type;
+      let specieId;
       switch (pathname) {
         case '/dogs':
           theme = 'Dog';
           type = 'Product Catalogue';
+          specieId = 1
           break;
         case '/cats':
           theme = 'Cat';
           type = 'Product Catalogue';
+          specieId = 2
           break;
         case 'keywords':
           theme = '';
           type = 'Search Results';
+          specieId = ''
           break;
         default:
           theme = 'Cat or Dog';
           type = 'Product';
+          specieId = ''
           break;
       }
       event = {
@@ -1077,6 +1061,9 @@ class List extends React.Component {
           hitTimestamp: new Date(),
           filters: '',
         },
+        pet:{
+          specieId
+        }
       };
     }
 
