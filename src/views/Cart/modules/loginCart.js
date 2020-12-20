@@ -395,11 +395,11 @@ class LoginCart extends React.Component {
         'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
         'price': product.goods.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': product.goods.goodsCateName,
+        'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
         //'variant': '',//?没找到
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
-        'sku':product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName):null
+        'sku':product.goodsInfoNo
     }
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,

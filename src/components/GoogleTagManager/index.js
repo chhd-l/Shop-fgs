@@ -116,8 +116,8 @@ class GoogleTagManager extends React.Component {
         authentificationStatus: 'authenticated',
         email: sha256(userInfo.email),
         id: userInfo.customerId,
-        locale : userInfo.city
-        
+        locale : userInfo.city,
+        frequency:'returning client'
       };
     }else{
       event.user = {
@@ -125,9 +125,9 @@ class GoogleTagManager extends React.Component {
         email: '',
         id: '',
         locale :'',
+        frequency:'prospect'
       }
     }
-    event.user.frequency = 'prospect'
     event.user.country = process.env.REACT_APP_GA_COUNTRY,
     event.user.accountType = 'test'
 

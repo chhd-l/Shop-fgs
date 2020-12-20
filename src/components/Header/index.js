@@ -413,6 +413,7 @@ class Header extends React.Component {
     };
     try {
       let res = await getList(params);
+      
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -437,7 +438,7 @@ class Header extends React.Component {
             });
           }
           //搜索成功-埋点
-          this.props.headerSearchStore.getResult(keywords, goodsContent.length);
+          this.props.headerSearchStore.getResult(keywords, esGoods.totalElements);
           console.log('搜索成功-成功', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: true });
           const { query, results, type } = this.props.headerSearchStore;
@@ -456,8 +457,8 @@ class Header extends React.Component {
           });
         } else {
           //搜索失败-埋点
-          this.props.headerSearchStore.getNoResult(keywords);
-          console.log('搜索失败-埋点', this.props.headerSearchStore);
+          // this.props.headerSearchStore.getNoResult(keywords);
+          // console.log('搜索失败-埋点', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: false });
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
@@ -465,7 +466,7 @@ class Header extends React.Component {
             results,
             type
           };
-          dataLayer.push({ search: this.state.event.search });
+          // dataLayer.push({ search: this.state.event.search });
 
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -610,7 +611,7 @@ class Header extends React.Component {
     this.GAClickMenu({
       category: 'menu',
       action: 'menu',
-      label: item.avigationLink,
+      label: item.navigationLink,
       value: item.navigationName
     });
     // 点击menu埋点-end
