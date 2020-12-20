@@ -388,27 +388,19 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
-    console.log(product)
-    //debugger
-    const list = product.map((item,index)=>{
-      return {
-        'name': item.goodsName, 
-        'id': item.goodsId, 
+    const list = {
+        'name': product.goodsName, 
+        'id': product.goods.goodsNo, 
         'club': 'no', 
-        'type': '', //club, subscription, one-time
-        'price': item.marketPrice,
+        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
+        'price': product.goods.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': item.goodsCategory,
-        'variant': item.goodsWeight,
-        'quantity': item.buyCount,
-        'recommendation':'recommended',//self-selected, recommanded
-        'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
-      }
-    })
-
-    console.log(list)
-    //debugger
-
+        'category': product.goods.goodsCateName,
+        //'variant': '',//?没找到
+        'quantity': product.buyCount,
+        'recommendation':'self-selected',//self-selected, recommanded
+        'sku':product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName):null
+    }
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
@@ -418,7 +410,6 @@ class LoginCart extends React.Component {
          }
     })
     console.log(dataLayer)
-    //debugger
   }
   async deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
@@ -432,7 +423,7 @@ class LoginCart extends React.Component {
     });
     this.setState({ deleteLoading: false });
 
-    //this.GARemoveFromCart(productList[currentProductIdx])
+    this.GARemoveFromCart(productList[currentProductIdx])
   }
   goBack(e) {
     e.preventDefault();
@@ -1085,6 +1076,8 @@ class LoginCart extends React.Component {
     return Lists;
   }
   updateConfirmTooltipVisible(item, status) {
+    console.log({item})
+    console.log({status})
     let { productList } = this.state;
     item.confirmTooltipVisible = status;
     this.setState({

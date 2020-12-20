@@ -31,7 +31,7 @@ class Carousel extends React.Component {
   }
   GABannerImpression(banners){
     const promotions = banners.map((item,index)=>{
-      return {id:item.bannerId,name:item.bannerName,creative: '',position:`slide_${index}`,}
+      return {id:item.bannerId,name:item.bannerName,creative: item.bannerName,position:`slide_${index}`,}
     })
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
@@ -53,7 +53,7 @@ class Carousel extends React.Component {
            {
              'id': cur_banner.bannerId,            // Name or ID is required
              'name': cur_banner.bannerName,
-             'creative': '',
+             'creative': cur_banner.bannerName,
              'position': idx
            }]
         }
