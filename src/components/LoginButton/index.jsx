@@ -63,7 +63,7 @@ const LoginButton = (props) => {
               ...{ oktaToken }
             }).then(res=>{
               if(res.code === 'K-000000') {
-                history.push(process.env.REACT_APP_HOMEPAGE)
+                history.push('/')
               }
             }).catch((e) => {
               console.log(e);
@@ -72,6 +72,7 @@ const LoginButton = (props) => {
           if (!loginStore.isLogin) {
             getToken({ oktaToken: `Bearer ${oktaToken}` })
               .then(async (res) => {
+                debugger
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);
