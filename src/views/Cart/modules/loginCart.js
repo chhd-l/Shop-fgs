@@ -162,7 +162,6 @@ class LoginCart extends React.Component {
   }
   GACheckout(productList){
     console.log(productList)
-    debugger
     let product = [],
         basketAmount = this.tradePrice,
         basketID = '',

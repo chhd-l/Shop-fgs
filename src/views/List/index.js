@@ -485,7 +485,7 @@ class List extends React.Component {
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
     this.setState({
-      GAListParam:state.GAListParam?state.GAListParam:'Homepage'
+      GAListParam:state&&state.GAListParam?state.GAListParam:'Homepage'
     })
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');

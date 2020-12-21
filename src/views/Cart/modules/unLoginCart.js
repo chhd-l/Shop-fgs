@@ -425,8 +425,34 @@ class UnLoginCart extends React.Component {
       }, 2000);
     }
   }
+  //GA 移除购物车商品 埋点
+  GARemoveFromCart(product){
+    console.log(product)
+    const list = {
+        'name': product.goodsName, 
+        'id': product.goodsNo, 
+        'club': 'no', 
+        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
+        'price': product.minMarketPrice,
+        'brand': 'Royal Canin',
+        'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
+        //'variant': '',//?没找到
+        'quantity': product.buyCount?product.buyCount:'',//?
+        'recommendation':'self-selected',//self-selected, recommanded
+        'sku':product.goodsInfoNo?product.goodsInfoNo:''//?
+    }
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'ecommerce': {
+           'remove': {
+                 'products': list
+             }
+         }
+    })
+  }
   deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
+    const product = productList[currentProductIdx]
     item.confirmTooltipVisible = false;
     productList.splice(currentProductIdx, 1);
     this.setState(
@@ -435,8 +461,10 @@ class UnLoginCart extends React.Component {
       },
       () => {
         this.updateStock();
+        this.GARemoveFromCart(product)
       }
     );
+    
   }
   goBack(e) {
     e.preventDefault();

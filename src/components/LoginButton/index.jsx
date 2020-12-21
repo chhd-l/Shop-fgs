@@ -72,7 +72,7 @@ const LoginButton = (props) => {
           if (!loginStore.isLogin) {
             getToken({ oktaToken: `Bearer ${oktaToken}` })
               .then(async (res) => {
-                debugger
+                //debugger
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);
