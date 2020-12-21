@@ -118,16 +118,23 @@ const LoginCallback = (props) => {
   const authStateReady = !authState.isPending;
 
   useEffect(async () => {
-    if (authStateReady) {
+    const consentString = localItemRoyal.get('rc-consent-list');
+    const authCallBack = window.location.search.indexOf('?code') >= 0 && window.location.search.indexOf('&state') >= 0
+    
+    if(consentString && !authStateReady && !authCallBack) {
+      await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } else {
-      await oktaAuth.handleLoginRedirect();
+      if (authStateReady) {
+      } else {
+        await oktaAuth.handleLoginRedirect();
+      }
+      let homePage = '';
+      process.env.REACT_APP_HOMEPAGE === '/'
+        ? (homePage = '')
+        : (homePage = process.env.REACT_APP_HOMEPAGE);
+      window.location.href = homePage + '/required';
+      sessionItemRoyal.set('fromLoginPage', true);
     }
-    let homePage = '';
-    process.env.REACT_APP_HOMEPAGE === '/'
-      ? (homePage = '')
-      : (homePage = process.env.REACT_APP_HOMEPAGE);
-    window.location.href = homePage + '/required';
-    sessionItemRoyal.set('fromLoginPage', true);
   }, [oktaAuth, authStateReady]);
 
   return <div />;
