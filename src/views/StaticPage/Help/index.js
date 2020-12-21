@@ -55,8 +55,8 @@ class Help extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: 'Brand',
+        type: 'other',
+        theme: '',
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),

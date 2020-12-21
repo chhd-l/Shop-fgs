@@ -480,7 +480,8 @@ class Home extends React.Component {
               cateTitle: ele.cateTitle || ele.cateName,
               cateDescription: ele.cateDescription,
               cateImgList: ele.cateImgList,
-              filters: ele.filters
+              filters: ele.filters,
+              GAListParam:'Catalogue'
             }
           }}
           title={ele.cateName}
