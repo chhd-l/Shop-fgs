@@ -9,7 +9,7 @@ import LazyLoad from 'react-lazyload';
 function Page500() {
   const event = {
     page: {
-      type: '500',
+      type: 'other',
       theme: '',
       path: location.pathname,
       error: '',

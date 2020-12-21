@@ -57,7 +57,7 @@ function getMuntiImg(item) {
   }
 }
 function ListItem(props) {
-  const { item } = props;
+  const { item,GAListParam } = props;
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
@@ -68,7 +68,15 @@ function ListItem(props) {
         {props.rightPromotionJSX}
         <div className="h-100">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
+          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
+          <Link className="ui-cursor-pointer" 
+          to={{
+            pathname:item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: '',
+            state:{
+              GAListParam
+            }
+          }} 
+          onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
@@ -118,7 +126,7 @@ function ListItem(props) {
   );
 }
 function ListItemPC(props) {
-  const { item } = props;
+  const { item,GAListParam } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -129,7 +137,15 @@ function ListItemPC(props) {
         {props.rightPromotionJSX}
         <div className="fullHeight">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}>
+          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
+          <Link className="ui-cursor-pointer" 
+            to={{
+              pathname:item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: '',
+              state:{
+                GAListParam:GAListParam
+              }
+            }} 
+            onClick={props.onClick}>
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="rc-card__image">
@@ -375,6 +391,7 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      GAListParam:'',//GA list参数
       eEvents:'',
       storeCateIds: [],
       category: '',
@@ -453,8 +470,24 @@ class List extends React.Component {
     });
     
   }
+  //判断GAListParam，后面再做
+  //  1.state.GAListParam存在
+  //    (1)state.GAListParam为Catalogue，GAListParam就为Catalogue,
+  //    (2)state.GAListParam为Search Results,GAListParam就为Search Results,
+  //    (3)state.GAListParam不存在，则判断pathname
+  //  2.pathname
+  //    (1) pathname包含Search-Show，GAListParam为Search Results
+  //    (2) pathname不包含Search-Show，则判断search
+  //  3.search
+  //    (1) search 包含prefn1，GAListParam为Catalogue
+  //    (2) search 不包含prefn1，GAListParam为homePage
+  // 
+
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
+    this.setState({
+      GAListParam:state.GAListParam?state.GAListParam:'Homepage'
+    })
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');
     this.cidFromSearch = getParaByName(search, 'cid');
@@ -537,7 +570,7 @@ class List extends React.Component {
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
       ecommerce: {
         click: {
-          actionField: { list: '' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
               name: item.goodsName,//?
@@ -545,7 +578,7 @@ class List extends React.Component {
               club: 'no',
               brand: item.goodsBrand.brandName,
               category: item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
-              list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+              list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               variant: '',//不写
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
@@ -557,9 +590,6 @@ class List extends React.Component {
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
-    const {history,match,location} = this.props
-    console.log({history,match,location})
-    debugger
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,//?
@@ -568,7 +598,7 @@ class List extends React.Component {
         price: item.minMarketPrice,
         club: 'no',
         category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:"",
-        list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+        list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
         variant: '',//不写
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
@@ -1428,6 +1458,7 @@ class List extends React.Component {
                                     i
                                   )}
                                   item={item}
+                                  GAListParam={this.state.GAListParam}
                                 >
                                   {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
                                 </ListItem>:
@@ -1466,6 +1497,7 @@ class List extends React.Component {
                                   i
                                 )}
                                 item={item}
+                                GAListParam={this.state.GAListParam}
                               >
                                 {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
                               </ListItemPC>

@@ -361,8 +361,15 @@ class Header extends React.Component {
     if (this.state.loading) return;
     if (process.env.REACT_APP_LANG == 'fr') {
       if (this.state.isSearchSuccess) {
-        this.props.history.push(
-          `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
+        // this.props.history.push(
+        //   `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
+        // );
+        this.props.history.push({
+          pathname:`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+          state:{
+            GAListParam: 'Search Results'
+          }
+        }
         );
       } else {
         this.props.history.push('/searchShow/' + e.current.value);

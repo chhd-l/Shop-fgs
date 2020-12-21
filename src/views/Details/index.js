@@ -122,6 +122,7 @@ class Details extends React.Component {
     this.state = {
       event:{},
       eEvents:{},
+      GAListParam:'',
       initing: true,
       details: {
         id: '',
@@ -200,7 +201,8 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname } = this.props.location;
+    const { pathname,state:{GAListParam} } = this.props.location;
+    this.setState({GAListParam})
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -1357,7 +1359,7 @@ class Details extends React.Component {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
           actionField: {
-            list: ''//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+            list: this.state.GAListParam//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           },
           products: [
             {

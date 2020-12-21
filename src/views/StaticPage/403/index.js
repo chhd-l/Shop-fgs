@@ -8,7 +8,7 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 function Page403() {
   const event = {
     page: {
-      type: '500',
+      type: 'other',
       theme: '',
       path: location.pathname,
       error: '',
