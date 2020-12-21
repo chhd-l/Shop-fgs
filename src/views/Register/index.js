@@ -273,7 +273,7 @@ class Register extends Component {
           const state = 'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
           const nonce = '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
           const regiserUrl = process.env.REACT_APP_HOMEPAGE === '/' ? '/implicit/callback' : 'implicit/callback'
-          const redirectUri = window.location.origin + regiserUrl;
+          const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE + regiserUrl;
           var callOktaCallBack = 
           `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
           localItemRoyal.set('rc-consent-list', JSON.stringify(this.state.list));
