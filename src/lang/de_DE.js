@@ -790,6 +790,7 @@ const de_DE = {
   'required.continue': 'Weiter',
   'required.fields': 'Pflichtfelder',
   'required.logoTitle': 'Willkommen im VET Online Shop von ROYAL CANIN®',
+  'required.checkRequired': 'Überprüfen Sie die erforderlichen Elemente',
   requiredConsentCheckedTip: 'Bitte bestätigen Sie die Pflichtfelder, in dem Sie ein Häkchen in der Box setzen.',
   requiredFields: '* Benötigte Felder',
   resetPasswordEmail: 'Passwort zurücksetzen E-Mail wurde an Ihre Mailbox gesendet, bitte beachten Sie, dass überprüfen!',

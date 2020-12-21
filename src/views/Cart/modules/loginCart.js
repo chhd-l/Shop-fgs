@@ -160,7 +160,36 @@ class LoginCart extends React.Component {
     this.setData();
     this.setState({ checkoutLoading: false });
   }
+  GACheckout(productList){
+    console.log(productList)
+    let product = [],
+        basketAmount = this.tradePrice,
+        basketID = '',
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
+    for (let item of productList) {
+      product.push({
+        brand:item.goods.brandName || 'ROYAL CANIN', //?
+        category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        club:'no',
+        id:item.goods.goodsNo,
+        name:item.goods.goodsName,
+        price:item.goods.minMarketPrice,//?
+        quantity:item.buyCount,
+        recommendation:'self-selected',
+        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        variant:item.specText?parseInt(item.specText):'',//?
+        sku:item.goodsInfos[0].goodsInfoNo
+      })
+    }     
+    dataLayer[0].checkout.basketAmount = basketAmount
+    dataLayer[0].checkout.basketID = basketID
+    dataLayer[0].checkout.option = option
+    dataLayer[0].checkout.product = product
+    dataLayer[0].checkout.step = step
+  }
   setData() {
+    this.GACheckout(this.checkoutStore.loginCartData)
     let productList = this.checkoutStore.loginCartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -432,7 +461,7 @@ class LoginCart extends React.Component {
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {

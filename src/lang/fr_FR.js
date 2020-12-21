@@ -712,6 +712,7 @@ const fr_FR = {
   'required.continue': 'Continuer',
   'required.fields': 'Ceinture requise',
   'required.logoTitle': 'Création de votre compte Royal Canin',
+  'required.checkRequired': 'Vérifiez les éléments nécessaires',
   requiredConsentCheckedTip: 'Finalisez votre inscription',
   requiredFields: '* Champs obligatoires',
   resetPasswordEmail: 'Réinitialiser le mot de passe Un e-mail a été envoyé dans votre boîte mail, veuillez noter que cochez!',
