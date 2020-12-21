@@ -106,7 +106,7 @@ class Help extends React.Component {
                             <div className="rc-column">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
-                                <FormattedMessage id="help.tip1"/>
+                                  {process.env.REACT_APP_LANG=='de'?null:<FormattedMessage id="help.tip1"/>}
                                 </p>
                               </div>
                             </div>
