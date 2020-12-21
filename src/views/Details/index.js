@@ -548,6 +548,7 @@ class Details extends React.Component {
                 sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
                 sdItem.packSize = filterproduct.packSize;
                 filterproduct.goodsInfoVal = parseFloat(sdItem.detailName)
+                console.log(filterproduct, 'filterproduct')
               }
               return sdItem.specId === sItem.specId;
             });
@@ -1838,7 +1839,7 @@ class Details extends React.Component {
                                       (
                                         currentUnitPrice /
                                         parseFloat(
-                                          selectedSpecItem.baseSpecLabel
+                                          selectedSpecItem.goodsInfoVal
                                         )
                                       ).toFixed(2)
                                     )}
@@ -1940,7 +1941,7 @@ class Details extends React.Component {
                                   {formatMoney(
                                     (
                                       currentUnitPrice /
-                                      parseFloat(selectedSpecItem.baseSpecLabel)
+                                      parseFloat(selectedSpecItem.goodsInfoVal)
                                     ).toFixed(2)
                                   )}
                                   /
@@ -2059,7 +2060,7 @@ class Details extends React.Component {
                                         (
                                           currentSubscriptionPrice /
                                           parseFloat(
-                                            selectedSpecItem.baseSpecLabel
+                                            selectedSpecItem.goodsInfoVal
                                           )
                                         ).toFixed(2)
                                       )}
@@ -2235,7 +2236,7 @@ class Details extends React.Component {
                                       (
                                         currentSubscriptionPrice /
                                         parseFloat(
-                                          selectedSpecItem.baseSpecLabel
+                                          selectedSpecItem.goodsInfoVal
                                         )
                                       ).toFixed(2)
                                     )}
