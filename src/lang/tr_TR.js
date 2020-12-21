@@ -589,6 +589,7 @@ const tr_TR = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'ROYALCANIN® online mağazasına hoş geldiniz',
+  'required.checkRequired': 'Gerekli öğeleri kontrol edin',
   requiredConsentCheckedTip: 'Lütfen kutuyu işaretleyerek zorunlu alanları onaylayın.',
   requiredFields: '* Zorunlu Alanlar',
   resetPasswordEmail: 'Şifre sıfırlama e-postası posta kutunuza gönderildi, lütfen kontrol edin!',

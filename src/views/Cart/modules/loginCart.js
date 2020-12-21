@@ -162,7 +162,6 @@ class LoginCart extends React.Component {
   }
   GACheckout(productList){
     console.log(productList)
-    debugger
     let product = [],
         basketAmount = this.tradePrice,
         basketID = '',
@@ -462,7 +461,7 @@ class LoginCart extends React.Component {
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {

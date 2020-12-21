@@ -182,11 +182,12 @@ class Confirmation extends React.Component {
         }
       }
     };
-    this.setState({
-      eEvents
-    })
+    // this.setState({
+    //   eEvents
+    // })
+    dataLayer.unshift(eEvents)
   }
-  //GA 埋点 start
+  //GA 埋点 end
   render() {
     const { loading, details, subOrderNumberList } = this.state;
     const event = {

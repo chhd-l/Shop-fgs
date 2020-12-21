@@ -140,22 +140,6 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
-const routesHeaderNav = sessionItemRoyal.get('header-navigations')
-  ? JSON.parse(sessionItemRoyal.get('header-navigations'))
-  : [];
-const routesHomeNav = sessionItemRoyal.get('home-navigations')
-  ? JSON.parse(sessionItemRoyal.get('home-navigations'))
-  : [];
-const routesFilterNav = sessionItemRoyal.get('filter-navigations')
-  ? JSON.parse(sessionItemRoyal.get('filter-navigations'))
-  : [];
-const listRoutes = [
-  ...Array.from(new Set(routesHeaderNav.map((r) => r.navigationLink))),
-  ...Array.from(new Set(routesHomeNav.map((r) => r.cateRouter))),
-  ...routesFilterNav,
-  ...['/cats', '/dogs']
-];
-
 const App = () => (
   <Provider {...stores}>
     <IntlProvider locale={process.env.REACT_APP_LANG} messages={locales}>
@@ -184,32 +168,6 @@ const App = () => (
                 }
               />
               <Route path="/requestinvoice" component={RequestInvoices} />
-              <Route
-                exact
-                path="/list/:category/:keywords"
-                render={(props) => (
-                  <List
-                    key={
-                      props.match.params.category + props.match.params.keywords
-                    }
-                    {...props}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                render={(props) => (
-                  <List key={props.location.search} {...props} />
-                )}
-              />
-              <Route
-                exact
-                path="/details/:id"
-                render={(props) => (
-                  <Details key={props.match.params.id} {...props} />
-                )}
-              />
               <Route exact path="/cart" component={Cart} />
               <Route
                 exact
@@ -255,10 +213,17 @@ const App = () => (
                 exact
                 path="/recommendation/:id"
                 render={(props) => {
-                  if(process.env.REACT_APP_LANG === 'fr') {
-                    return <Recommendation_FR key={props.match.params.id} {...props} />
-                  }else {
-                    return <Recommendation key={props.match.params.id} {...props} />
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    return (
+                      <Recommendation_FR
+                        key={props.match.params.id}
+                        {...props}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Recommendation key={props.match.params.id} {...props} />
+                    );
                   }
                 }}
               />
@@ -421,7 +386,13 @@ const App = () => (
                 exact
                 component={TR_GeneralConditions}
               />
-              <Route path="/aboutUs" exact component={process.env.REACT_APP_LANG == 'de' ? AboutUsDe:AboutUs}/>   
+              <Route
+                path="/aboutUs"
+                exact
+                component={
+                  process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
+                }
+              />
               <Route path="/cat-nutrition" exact component={CatNutrition} />
               <Route
                 path="/cadeau-coussin-chat"
@@ -462,6 +433,32 @@ const App = () => (
               <Route path="/register" component={register} />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
+                exact
+                path="/list/:category/:keywords"
+                render={(props) => (
+                  <List
+                    key={
+                      props.match.params.category + props.match.params.keywords
+                    }
+                    {...props}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                render={(props) => (
+                  <List key={props.location.search} {...props} />
+                )}
+              />
+              <Route
+                exact
+                path="/details/:id"
+                render={(props) => (
+                  <Details key={props.match.params.id} {...props} />
+                )}
+              />
+              <Route
                 path="/list/:category"
                 render={(props) => (
                   <List
@@ -474,15 +471,10 @@ const App = () => (
                 path="/"
                 render={(props) => {
                   const { location } = props;
-                  // 当前链接匹配router缓存，存在即跳转list页面
-                  let filterRoute = listRoutes.filter(
-                    (el) =>
-                      `${el && el.startsWith('/') ? el : `/${el}`}` ===
-                      decodeURIComponent(
-                        `${location.pathname}${location.search}`
-                      )
-                  )[0];
-                  if (filterRoute) {
+                  // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
+                  if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
+                    return <Details key={props.match.params.id} {...props} />;
+                  } else {
                     return (
                       <List
                         key={
@@ -491,10 +483,6 @@ const App = () => (
                         {...props}
                       />
                     );
-                  } else if (/^.+[-].+/.test(location.pathname)) {
-                    return <Details key={props.match.params.id} {...props} />;
-                  } else {
-                    return <Route path="*" component={Exception} />;
                   }
                 }}
               />

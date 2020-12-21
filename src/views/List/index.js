@@ -16,47 +16,45 @@ import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
 import { IMG_DEFAULT } from '@/utils/constant';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
+import { getList, getLoginList, findSortList } from '@/api/list';
 import {
-  getList,
-  getLoginList,
-  findFilterList,
-  findSortList
-} from '@/api/list';
-import {
+  fetchHeaderNavigations,
+  queryStoreCateList,
+  generateOptions,
+  getParentNodesByChild,
   formatMoney,
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType,
-  getParentsNodesList,
-  queryHeaderNavigation,
+  getDeviceType
 } from '@/utils/utils';
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
-let isMobile = getDeviceType() === 'H5'
+let isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function getMuntiImg(item) {
-  let img
-  if(
-    item.goodsImg || item.goodsInfos.sort(
-      (a, b) => a.marketPrice - b.marketPrice
-    )[0].goodsInfoImg
+  let img;
+  if (
+    item.goodsImg ||
+    item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
+      .goodsInfoImg
   ) {
-    img = item.goodsImg || item.goodsInfos.sort(
-      (a, b) => a.marketPrice - b.marketPrice
-    )[0].goodsInfoImg
-    return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
-  }else {
-    img = IMG_DEFAULT
-    return `${img}`
+    img =
+      item.goodsImg ||
+      item.goodsInfos.sort((a, b) => a.marketPrice - b.marketPrice)[0]
+        .goodsInfoImg;
+    return `${img.replace('.jpg', '_250.jpg')}, ${img} 2x`;
+  } else {
+    img = IMG_DEFAULT;
+    return `${img}`;
   }
 }
 function ListItem(props) {
-  const { item,GAListParam } = props;
+  const { item, GAListParam } = props;
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
@@ -68,20 +66,27 @@ function ListItem(props) {
         <div className="h-100">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
           {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
-          <Link className="ui-cursor-pointer" 
-          to={{
-            pathname:item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: '',
-            state:{
-              GAListParam
-            }
-          }} 
-          onClick={props.onClick}>
+          <Link
+            className="ui-cursor-pointer"
+            to={{
+              pathname: item
+                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                : '',
+              state: {
+                GAListParam
+              }
+            }}
+            onClick={props.onClick}
+          >
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
-                <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0" style={{margin:'0 !important'}}>
+                <picture
+                  className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0"
+                  style={{ margin: '0 !important' }}
+                >
                   <div
                     className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem',overflow: 'hidden' }}
+                    style={{ height: '15.7rem', overflow: 'hidden' }}
                   >
                     {/*循环遍历的图片*/}
                     <LazyLoad style={{ width: '100%' }}>
@@ -94,7 +99,7 @@ function ListItem(props) {
                           IMG_DEFAULT
                         }
                         srcSet={
-                          item? getMuntiImg(item): IMG_DEFAULT
+                          item ? getMuntiImg(item) : IMG_DEFAULT
                           // item.goodsImg ||
                           // item.goodsInfos.sort(
                           //   (a, b) => a.marketPrice - b.marketPrice
@@ -125,7 +130,7 @@ function ListItem(props) {
   );
 }
 function ListItemPC(props) {
-  const { item,GAListParam } = props;
+  const { item, GAListParam } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -137,14 +142,18 @@ function ListItemPC(props) {
         <div className="fullHeight">
           {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
           {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
-          <Link className="ui-cursor-pointer" 
+          <Link
+            className="ui-cursor-pointer"
             to={{
-              pathname:item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: '',
-              state:{
-                GAListParam:GAListParam
+              pathname: item
+                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                : '',
+              state: {
+                GAListParam: GAListParam
               }
-            }} 
-            onClick={props.onClick}>
+            }}
+            onClick={props.onClick}
+          >
             <article className="rc-card--a rc-text--center text-center">
               {item ? (
                 <picture className="rc-card__image">
@@ -162,10 +171,7 @@ function ListItemPC(props) {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        srcSet={
-                          item? getMuntiImg(item): 
-                          IMG_DEFAULT
-                        }
+                        srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
                         alt={item.goodsName}
                         title={item.goodsName}
                         className="ImgFitScreen pt-3"
@@ -189,17 +195,22 @@ function ListItemPC(props) {
     </div>
   );
 }
-function ListItemBody({item}){
-return (
-  <div className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-  style={{paddingRight: '3rem'}}>
-      <div className="product-name"  title={item.goodsName}> {item.goodsName}</div>
+function ListItemBody({ item }) {
+  return (
+    <div
+      className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
+      style={{ paddingRight: '3rem' }}
+    >
+      <div className="product-name" title={item.goodsName}>
+        {' '}
+        {item.goodsName}
+      </div>
       <div className="product-price">
         {/* {formatMoney(item.miLinePrice)} */}
         {formatMoney(item.fromPrice)}
       </div>
-  </div>
-)
+    </div>
+  );
 }
 function ListItemBodyPC({ item }) {
   const defaultJSX = (
@@ -250,7 +261,10 @@ function ListItemBodyPC({ item }) {
       {/*商品价格*/}
       <div className="d-flex justify-content-center">
         <div className="rc-card__price text-left PriceFitScreen">
-          <div className={`rc-full-width PriceFitScreen flex`} style={{justifyContent:'center'}}>
+          <div
+            className={`rc-full-width PriceFitScreen flex`}
+            style={{ justifyContent: 'center' }}
+          >
             <span
               style={{
                 color: '#323232',
@@ -273,11 +287,14 @@ function ListItemBodyPC({ item }) {
             </span>
           </div>
           {item.miSubscriptionPrice && item.miSubscriptionPrice > 0 ? (
-            <div className="range position-relative SePriceScreen " style={{transform: 'translateX(24%)'}}>
+            <div
+              className="range position-relative SePriceScreen "
+              style={{ transform: 'translateX(24%)' }}
+            >
               <span
                 style={{
                   color: '#323232',
-                  fontWeight: 400,
+                  fontWeight: 400
                 }}
               >
                 {formatMoney(item.miSubscriptionPrice)}{' '}
@@ -390,14 +407,13 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      GAListParam:'',//GA list参数
-      eEvents:'',
+      GAListParam: '', //GA list参数
+      eEvents: '',
       storeCateIds: [],
       category: '',
       breadList: [],
-      pathname:'',
+      pathname: '',
       cateType: '',
-      cateName: '',
       titleData: null,
       productList: Array(1).fill(null),
       loading: true,
@@ -441,98 +457,17 @@ class List extends React.Component {
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
-  
-  breadListinit(){
-    queryHeaderNavigation().then(res=>{
-      let storeCateIds = this.state.storeCateIds[0];
-      // 找到id
-      let choosedCateItem = res.filter(item=>item.navigationCateIds == storeCateIds)
-      let parentsLists = this.state.storeCateIds.length>1?[]:choosedCateItem// 如果有多个cateitem，那就是选择了上一级
-      let breadList = []
-      if(!choosedCateItem[0]){
-        return
-      }
-      if(choosedCateItem[0].parentId){
-        breadList = getParentsNodesList(res, choosedCateItem[0], parentsLists)
-      }
-      if(this.props.history.location.pathname.split('/').length==2){
-        // 只选择了一级菜单的特殊情况
-        breadList.length=1
-      }
-      this.setState({
-        breadList: breadList.map(item=>({
-          ...item,
-          name: item.navigationName,
-          link: item.navigationLink
-        }))
-      })
-    });
-    
-  }
-  //判断GAListParam，后面再做
-  //  1.state.GAListParam存在
-  //    (1)state.GAListParam为Catalogue，GAListParam就为Catalogue,
-  //    (2)state.GAListParam为Search Results,GAListParam就为Search Results,
-  //    (3)state.GAListParam不存在，则判断pathname
-  //  2.pathname
-  //    (1) pathname包含Search-Show，GAListParam为Search Results
-  //    (2) pathname不包含Search-Show，则判断search
-  //  3.search
-  //    (1) search 包含prefn1，GAListParam为Catalogue
-  //    (2) search 不包含prefn1，GAListParam为homePage
-  // 
-
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    this.setState({
-      GAListParam:state.GAListParam?state.GAListParam:'Homepage'
-    })
     const { category, keywords } = this.props.match.params;
     this.fidFromSearch = getParaByName(search, 'fid');
     this.cidFromSearch = getParaByName(search, 'cid');
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
-    let cateName = {
-      '/cats': <FormattedMessage id="cats3" />,
-      '/dogs': <FormattedMessage id="dogs3" />
-    }[pathname];
-    // 存在初始的filter查询数据
-    // 1 查询产品接口时，需要带上此参数
-    // 2 查询filterlist后，需初始化状态
-    if (state) {
-      cateName = state.cateName;
-      this.setState({
-        selectedSortParam: state.sortParam || null,
-        storeCateIds: state.cateIds || [],
-        defaultFilterSearchForm: {
-          attrList: (state.filters || [])
-            .filter((ele) => ele.filterType === '0')
-            .map((ele) => {
-              const { filterType, ...param } = ele;
-              return param;
-            }),
-          filterList: (state.filters || [])
-            .filter((ele) => ele.filterType === '1')
-            .map((ele) => {
-              const { filterType, ...param } = ele;
-              return param;
-            })
-        },
-        titleData:
-          state.cateName && state.cateDescription && state.cateImgList
-            ? {
-                cateName: state.cateName,
-                title: state.cateTitle,
-                description: state.cateDescription,
-                img: state.cateImgList
-              }
-            : null
-      });
-    }
-
     this.setState(
       {
+        GAListParam:
+          state && state.GAListParam ? state.GAListParam : 'Homepage',
         category,
-        cateName,
         keywords:
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
@@ -545,9 +480,9 @@ class List extends React.Component {
         this.initData();
       }
     );
-    setTimeout(()=>{
-      this.stickyMobileRefineBar()
-    })
+    setTimeout(() => {
+      this.stickyMobileRefineBar();
+    });
 
     Promise.all([
       getDictionary({ type: 'filterMarketPrice' }),
@@ -572,13 +507,15 @@ class List extends React.Component {
           actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
-              name: item.goodsName,//?
+              name: item.goodsName, //?
               id: item.goodsNo,
               club: 'no',
               brand: item.goodsBrand.brandName,
-              category: item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
+              category: item.goodsCateName
+                ? JSON.parse(item.goodsCateName)[0]
+                : '',
               list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-              variant: '',//不写
+              variant: '', //不写
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
@@ -591,17 +528,19 @@ class List extends React.Component {
   GAProductImpression(productList) {
     const impressions = productList.map((item, index) => {
       return {
-        name: item.goodsName,//?
+        name: item.goodsName, //?
         id: item.goodsNo,
         brand: item.goodsBrand.brandName,
         price: item.minMarketPrice,
         club: 'no',
-        category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:"",
+        category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
-        variant: '',//不写
+        variant: '', //不写
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
-        flag: !!item.taggingForImage?JSON.parse(item.taggingForImage).taggingName:''
+        flag: !!item.taggingForImage
+          ? JSON.parse(item.taggingForImage).taggingName
+          : ''
       };
     });
 
@@ -619,63 +558,154 @@ class List extends React.Component {
     return this.props.loginStore.isLogin;
   }
   toggleFilterModal(status) {
-    console.info('dsdsdsdsd', status)
     this.setState({ filterModalVisible: status });
   }
   async initData() {
-    const { storeCateIds, keywords } = this.state;
-    // this.breadListinit()
-    // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
-    findSortList().then((res) => {
-      let list = res.context || [];
-      list = list
-        .sort((a, b) => a.sort - b.sort)
-        .map((ele) => ({
-          ...ele,
-          name: ele.sortName,
-          value: ele.field
-        }));
-      this.setState(
-        {
-          sortList: list,
-          selectedSortParam: list[0]
-        },
-        () => {
-          this.getProductList();
+    const { pathname, search } = this.props.history.location;
+    Promise.all([
+      fetchHeaderNavigations(),
+      queryStoreCateList(),
+      findSortList()
+    ])
+      .then((res) => {
+        const routers = [...(res[0] || []), ...(res[1] || [])];
+        const targetRouter = routers.filter((r) =>
+          [
+            r.navigationLink,
+            r.cateRouter,
+            `${r.navigationLink}?${r.keywords}`
+          ].includes(decodeURIComponent(pathname + search))
+        )[0];
+        let sortParam = null;
+        let cateIds = [];
+        let filters = [];
+        let breadList = [];
+        const sortList = (res[2].context || [])
+          .sort((a, b) => a.sort - b.sort)
+          .map((ele) => ({
+            ...ele,
+            name: ele.sortName,
+            value: [ele.field, ele.id].join('|')
+          }));
+        if (targetRouter) {
+          // 匹配sort参数
+          if (targetRouter.searchSort) {
+            const targetSortItem = (
+              (res && res[2] && res[2].context) ||
+              []
+            ).filter((e) => e.id === targetRouter.searchSort)[0];
+            if (targetSortItem) {
+              sortParam = {
+                field: targetSortItem.field,
+                sortType: targetSortItem.sortType,
+                value: [targetSortItem.field, targetSortItem.id].join('|')
+              };
+            }
+          }
+          // sales category筛选
+          const tmpCateIds = (
+            targetRouter.navigationCateIds ||
+            targetRouter.storeCateId + '' ||
+            ''
+          ).split(',');
+          if (tmpCateIds.length) {
+            cateIds = tmpCateIds;
+          }
+          // filter筛选
+          try {
+            if (targetRouter.filter) {
+              const tmpFilter = JSON.parse(targetRouter.filter);
+              if (tmpFilter.length) {
+                filters = tmpFilter;
+              }
+            }
+          } catch (err) {}
         }
-      );
-    });
-    // findFilterList()
-    //   .then((res) => {
-    //     this.handleFilterResData(res.context || []);
-    //   })
-    //   .catch(() => {
-    //     this.setState({ initingFilter: false });
-    //   });
+        // 生成面包屑
+        const targetId =
+          (targetRouter && targetRouter.id) ||
+          (targetRouter && targetRouter.storeCateId) ||
+          '';
+        breadList = getParentNodesByChild({
+          data: generateOptions(res[0] || []).concat(res[1] || []),
+          // data: res[1] || [],
+          id: targetId,
+          indexArray: [],
+          matchIdName: targetRouter.id
+            ? 'id'
+            : targetRouter.storeCateId
+            ? 'storeCateId'
+            : ''
+        }).map((e) => ({
+          ...e,
+          name: e.navigationName || e.cateName,
+          link: e.navigationLink || e.cateRouter
+        }));
 
+        // set SEO
+        this.setSEO({ cateIds });
+        this.setState(
+          {
+            sortList,
+            selectedSortParam: sortParam || sortList[0] || null,
+            storeCateIds: cateIds,
+            defaultFilterSearchForm: {
+              attrList: filters
+                .filter((ele) => ele.filterType === '0')
+                .map((ele) => {
+                  const { filterType, ...param } = ele;
+                  return param;
+                }),
+              filterList: filters
+                .filter((ele) => ele.filterType === '1')
+                .map((ele) => {
+                  const { filterType, ...param } = ele;
+                  return param;
+                })
+            },
+            titleData: {
+              title:
+                (targetRouter && targetRouter.pageTitle) ||
+                (targetRouter && targetRouter.cateTitle),
+              description:
+                (targetRouter && targetRouter.pageDesc) ||
+                (targetRouter && targetRouter.cateDescription),
+              img:
+                (targetRouter && targetRouter.pageImg) ||
+                (targetRouter && targetRouter.cateImgForList)
+            },
+            breadList
+          },
+          () => {
+            this.getProductList();
+          }
+        );
+      })
+      .catch((err) => {
+        this.getProductList();
+        this.setSEO();
+      });
+  }
+  setSEO({ cateIds = [] } = {}) {
+    const { keywords } = this.state;
     if (keywords) {
-      // setSeoConfig({
-      //   pageName: 'Search Results Page'
-      // });
-      setSeoConfig({ pageName: 'Search Results Page' }).then(res => {
-        this.setState({seoConfig: res})
+      setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
+        this.setState({
+          seoConfig: res,
+          breadList: [{ name: <FormattedMessage id="searchShow" /> }]
+        });
       });
-    } else if (storeCateIds && storeCateIds.length) {
-      // setSeoConfig({
-      //   categoryId: storeCateIds[0],
-      //   pageName: 'Product List Page' // Search Results Page
-      // });
-      setSeoConfig({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
-        this.setState({seoConfig: res})
+    } else if (cateIds && cateIds.length) {
+      setSeoConfig({
+        categoryId: cateIds[0],
+        pageName: 'Product List Page'
+      }).then((res) => {
+        this.setState({ seoConfig: res });
       });
-    }
-    else {
-      setSeoConfig({ pageName: 'Product List Page' }).then(res => {
-        this.setState({seoConfig: res})
+    } else {
+      setSeoConfig({ pageName: 'Product List Page' }).then((res) => {
+        this.setState({ seoConfig: res });
       });
-      // setSeoConfig({
-      //   pageName: 'Product List Page'
-      // });
     }
   }
   handleFilterResData(res) {
@@ -801,9 +831,9 @@ class List extends React.Component {
       .concat(goodsFilterRelList)
       .slice(0, 1)
       .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${
-          item.attributeName
-        }&prefv${i + 1}=${item.attributeValues.join('|')}`;
+        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
+          i + 1
+        }=${item.attributeValues.join('|')}`;
         return item;
       });
     // 点击filter，触发局部刷新或整页面刷新
@@ -1002,29 +1032,29 @@ class List extends React.Component {
     // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   getElementToPageTop(el) {
-    if(el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop
+    if (el.parentElement) {
+      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
     }
-    return el.offsetTop
+    return el.offsetTop;
   }
 
   stickyMobileRefineBar() {
     if (isMobile) {
-      var t = document.getElementById('refineBar').getBoundingClientRect().top
-      window.addEventListener('scroll', ()=>{
-        var choosedVal = document.querySelector('.filter-value') // 有选择的时候才操作
-        if(window.pageYOffset + 33 >= t && choosedVal){
-          document.body.classList.add('sticky-refineBar')
+      var t = document.getElementById('refineBar').getBoundingClientRect().top;
+      window.addEventListener('scroll', () => {
+        var choosedVal = document.querySelector('.filter-value'); // 有选择的时候才操作
+        if (window.pageYOffset + 33 >= t && choosedVal) {
+          document.body.classList.add('sticky-refineBar');
           this.setState({
             isTop: true
-          })
-          document.querySelector('.rc-header').style.display = 'none'
-        }else{
-          document.querySelector('.rc-header').style.display = 'block'
+          });
+          document.querySelector('.rc-header').style.display = 'none';
+        } else {
+          document.querySelector('.rc-header').style.display = 'block';
           this.setState({
             isTop: false
-          })
-          document.body.classList.remove('sticky-refineBar')
+          });
+          document.body.classList.remove('sticky-refineBar');
         }
       });
       // window.on("scroll", function() {
@@ -1037,8 +1067,9 @@ class List extends React.Component {
 
   onSortChange = (data) => {
     // 在筛选的时候不让他刷新页面
-    this.setState({ selectedSortParam: data, currentPage: 1 ,initingList: true}, () =>
-      this.getProductList()
+    this.setState(
+      { selectedSortParam: data, currentPage: 1, initingList: true },
+      () => this.getProductList()
     );
   };
   updateOperatedFilterList = (data) => {
@@ -1085,11 +1116,14 @@ class List extends React.Component {
       markPriceAndSubscriptionLangDict,
       selectedSortParam,
       keywords,
-      cateName,
       breadList,
       eEvents
     } = this.state;
-    // let breadName = breadList[breadList.length-1] && breadList[breadList.length-1].name
+    const lastBreadListName =
+      (breadList[breadList.length - 1] &&
+        breadList[breadList.length - 1].name) ||
+      '';
+
     let event;
     if (pathname) {
       let reDog = /^\/dog/; // 匹配dog开头
@@ -1097,20 +1131,20 @@ class List extends React.Component {
       let theme;
       let type;
       let specieId;
-      if(reDog.test(pathname)){
+      if (reDog.test(pathname)) {
         theme = 'Dog';
         type = 'Product Catalogue';
-        specieId = 1
-      }else if(reCat.test(pathname)){
+        specieId = 1;
+      } else if (reCat.test(pathname)) {
         theme = 'Car';
         type = 'Product Catalogue';
-        specieId = 2
-      }else{
+        specieId = 2;
+      } else {
         theme = '';
-          type = 'Product';
-          specieId = ''
+        type = 'Product';
+        specieId = '';
       }
-    
+
       event = {
         page: {
           type,
@@ -1118,9 +1152,9 @@ class List extends React.Component {
           path: pathname,
           error: '',
           hitTimestamp: new Date(),
-          filters: '',
+          filters: ''
         },
-        pet:{
+        pet: {
           specieId
         }
       };
@@ -1140,8 +1174,11 @@ class List extends React.Component {
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -1152,11 +1189,7 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <BreadCrumbsNavigation
-          history={this.props.history}
-          // list={this.state.breadList}
-            list={[{ name: cateName || '' }].filter((el) => el.name)}
-          />
+          <BreadCrumbsNavigation list={breadList.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
               Homepage
@@ -1225,41 +1258,48 @@ class List extends React.Component {
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      {
-                        isMobile?<Filters
-                        maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                        initing={initingFilter}
-                        onToggleFilterModal={this.toggleFilterModal}
-                        filterList={filterList}
-                        key={`1-${filterList.length}`}
-                        inputLabelKey={1}
-                        updateParentData={this.updateOperatedFilterList}
-                        hanldePriceSliderChange={this.hanldePriceSliderChange}
-                        markPriceAndSubscriptionLangDict={
-                          markPriceAndSubscriptionLangDict
-                        }
-                      />:
-                      <FiltersPC
-                        maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                        initing={initingFilter}
-                        onToggleFilterModal={this.toggleFilterModal}
-                        filterList={filterList}
-                        key={`1-${filterList.length}`}
-                        inputLabelKey={1}
-                        updateParentData={this.updateOperatedFilterList}
-                        hanldePriceSliderChange={this.hanldePriceSliderChange}
-                        markPriceAndSubscriptionLangDict={
-                          markPriceAndSubscriptionLangDict
-                        }
-                      />
-                      }
+                      {isMobile ? (
+                        <Filters
+                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          initing={initingFilter}
+                          onToggleFilterModal={this.toggleFilterModal}
+                          filterList={filterList}
+                          key={`1-${filterList.length}`}
+                          inputLabelKey={1}
+                          updateParentData={this.updateOperatedFilterList}
+                          hanldePriceSliderChange={this.hanldePriceSliderChange}
+                          markPriceAndSubscriptionLangDict={
+                            markPriceAndSubscriptionLangDict
+                          }
+                        />
+                      ) : (
+                        <FiltersPC
+                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          initing={initingFilter}
+                          onToggleFilterModal={this.toggleFilterModal}
+                          filterList={filterList}
+                          key={`1-${filterList.length}`}
+                          inputLabelKey={1}
+                          updateParentData={this.updateOperatedFilterList}
+                          hanldePriceSliderChange={this.hanldePriceSliderChange}
+                          markPriceAndSubscriptionLangDict={
+                            markPriceAndSubscriptionLangDict
+                          }
+                        />
+                      )}
                     </aside>
                   </div>
 
-                  <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
-                    <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
+                  <div
+                    id="refineBar"
+                    className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
+                  >
+                    <div
+                      className="rc-meta rc-md-down"
+                      style={{ padding: '0 1em', fontSize: '1em' }}
+                    >
                       <span className="font-weight-normal">
-                        {this.state.cateName}{' '}
+                        {lastBreadListName}{' '}
                       </span>
                       (
                       <FormattedMessage
@@ -1268,17 +1308,21 @@ class List extends React.Component {
                       />
                       )
                     </div>
-                    <div className="d-flex justify-content-between align-items-center rc-md-down" style={{'padding': '0 1rem'}}>
-                      <span  style={{marginRight:'1em'}}
-                      className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0">
+                    <div
+                      className="d-flex justify-content-between align-items-center rc-md-down"
+                      style={{ padding: '0 1rem' }}
+                    >
+                      <span
+                        style={{ marginRight: '1em' }}
+                        className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
+                      >
                         <Selection
                           key={sortList.length}
                           selectedItemChange={this.onSortChange}
                           optionList={sortList}
                           selectedItemData={{
                             value:
-                              (selectedSortParam &&
-                                selectedSortParam.value) ||
+                              (selectedSortParam && selectedSortParam.value) ||
                               ''
                           }}
                           placeholder={<FormattedMessage id="sortBy" />}
@@ -1289,24 +1333,19 @@ class List extends React.Component {
                           customStyleType="select-one"
                         />
                       </span>
-                      {/* <div className="rc-meta">
-                        <span className="font-weight-normal">
-                          {this.state.cateName}{' '}
-                        </span>
-                        (
-                        <FormattedMessage
-                          id="results"
-                          values={{ val: results }}
-                        />
-                        )
-                      </div> */}
                       <i
                         className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) || (!filterModalVisible && isTop) ? 'rc-brand1' : ''
+                          (filterModalVisible && !isTop) ||
+                          (!filterModalVisible && isTop)
+                            ? 'rc-brand1'
+                            : ''
                         }`}
                         data-filter-trigger="filter-example"
-                        style={{position: 'relative',top: '0.4rem'}}
-                        onClick={this.toggleFilterModal.bind(this, !filterModalVisible)}
+                        style={{ position: 'relative', top: '0.4rem' }}
+                        onClick={this.toggleFilterModal.bind(
+                          this,
+                          !filterModalVisible
+                        )}
                       />
                       {/* <button
                         className="rc-btn rc-btn--icon-label rc-icon rc-filter--xs rc-iconography FilterFitScreen"
@@ -1319,47 +1358,46 @@ class List extends React.Component {
                         filterModalVisible ? 'active' : ''
                       }`}
                     >
-                      {isMobile?<Filters
-                        maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                        initing={initingFilter}
-                        onToggleFilterModal={this.toggleFilterModal}
-                        filterList={filterList}
-                        key={`2-${filterList.length}`}
-                        inputLabelKey={2}
-                        updateParentData={this.updateOperatedFilterList}
-                        hanldePriceSliderChange={this.hanldePriceSliderChange}
-                        markPriceAndSubscriptionLangDict={
-                          markPriceAndSubscriptionLangDict
-                        }
-                      />:<FiltersPC
-                      maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                      initing={initingFilter}
-                      onToggleFilterModal={this.toggleFilterModal}
-                      filterList={filterList}
-                      key={`2-${filterList.length}`}
-                      inputLabelKey={2}
-                      updateParentData={this.updateOperatedFilterList}
-                      hanldePriceSliderChange={this.hanldePriceSliderChange}
-                      markPriceAndSubscriptionLangDict={
-                        markPriceAndSubscriptionLangDict
-                      }
-                    />}
+                      {isMobile ? (
+                        <Filters
+                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          initing={initingFilter}
+                          onToggleFilterModal={this.toggleFilterModal}
+                          filterList={filterList}
+                          key={`2-${filterList.length}`}
+                          inputLabelKey={2}
+                          updateParentData={this.updateOperatedFilterList}
+                          hanldePriceSliderChange={this.hanldePriceSliderChange}
+                          markPriceAndSubscriptionLangDict={
+                            markPriceAndSubscriptionLangDict
+                          }
+                        />
+                      ) : (
+                        <FiltersPC
+                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                          initing={initingFilter}
+                          onToggleFilterModal={this.toggleFilterModal}
+                          filterList={filterList}
+                          key={`2-${filterList.length}`}
+                          inputLabelKey={2}
+                          updateParentData={this.updateOperatedFilterList}
+                          hanldePriceSliderChange={this.hanldePriceSliderChange}
+                          markPriceAndSubscriptionLangDict={
+                            markPriceAndSubscriptionLangDict
+                          }
+                        />
+                      )}
                     </aside>
                   </div>
                   <div
                     className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
                   >
-
-
-
-
-
                     {!loading && (
                       <>
                         <div className="row mb-3">
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="font-weight-normal">
-                              {this.state.cateName}{' '}
+                              {lastBreadListName}{' '}
                             </span>
                             (
                             <FormattedMessage
@@ -1369,11 +1407,8 @@ class List extends React.Component {
                             )
                           </div>
 
-
                           <div className="col-12 col-md-4  rc-md-up">
-
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
-
                               <Selection
                                 key={sortList.length}
                                 selectedItemChange={this.onSortChange}
@@ -1414,87 +1449,106 @@ class List extends React.Component {
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
                           {loading
                             ? _loadingJXS
-                            : productList.map((item, i) => (
-                              process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItem
-                                  key={item.id}
-                                  leftPromotionJSX={
-                                    item.taggingForText ? (
-                                      <div
-                                        className="product-item-flag-text fr-label"
-                                        style={{
-                                          backgroundColor:
-                                            item.taggingForText
-                                              .taggingFillColor,
-                                          color:
-                                            item.taggingForText.taggingFontColor
-                                        }}
-                                      >
-                                        {item.taggingForText.taggingName}
-                                      </div>
-                                    ) : null
-                                  }
-                                  rightPromotionJSX={
-                                    item.taggingForImage ? (
-                                      <div className="product-item-flag-image position-absolute">
-                                        <img
-                                         style={{width:'inherit',height:'inherit'}}
-                                          src={
-                                            item.taggingForImage.taggingImgUrl
-                                          }
-                                        />
-                                      </div>
-                                    ) : null
-                                  }
-                                  onClick={this.hanldeItemClick.bind(
-                                    this,
-                                    item,
-                                    i
-                                  )}
-                                  item={item}
-                                  GAListParam={this.state.GAListParam}
-                                >
-                                  {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
-                                </ListItem>:
-                                <ListItemPC
-                                key={item.id}
-                                leftPromotionJSX={
-                                  item.taggingForText ? (
-                                    <div
-                                      className="product-item-flag-text"
-                                      style={{
-                                        backgroundColor:
-                                          item.taggingForText
-                                            .taggingFillColor,
-                                        color:
-                                          item.taggingForText.taggingFontColor
-                                      }}
-                                    >
-                                      {item.taggingForText.taggingName}
-                                    </div>
-                                  ) : null
-                                }
-                                rightPromotionJSX={
-                                  item.taggingForImage ? (
-                                    <div className="product-item-flag-image position-absolute">
-                                      <img
-                                        src={
-                                          item.taggingForImage.taggingImgUrl
-                                        }
-                                      />
-                                    </div>
-                                  ) : null
-                                }
-                                onClick={this.hanldeItemClick.bind(
-                                  this,
-                                  item,
-                                  i
-                                )}
-                                item={item}
-                                GAListParam={this.state.GAListParam}
-                              >
-                                {process.env.REACT_APP_LANG === 'fr'&&isMobile?<ListItemBody item={item} />:<ListItemBodyPC item={item}/>}
-                              </ListItemPC>
-                              ))}
+                            : productList.map((item, i) =>
+                                process.env.REACT_APP_LANG === 'fr' &&
+                                isMobile ? (
+                                  <ListItem
+                                    key={item.id}
+                                    leftPromotionJSX={
+                                      item.taggingForText ? (
+                                        <div
+                                          className="product-item-flag-text fr-label"
+                                          style={{
+                                            backgroundColor:
+                                              item.taggingForText
+                                                .taggingFillColor,
+                                            color:
+                                              item.taggingForText
+                                                .taggingFontColor
+                                          }}
+                                        >
+                                          {item.taggingForText.taggingName}
+                                        </div>
+                                      ) : null
+                                    }
+                                    rightPromotionJSX={
+                                      item.taggingForImage ? (
+                                        <div className="product-item-flag-image position-absolute">
+                                          <img
+                                            style={{
+                                              width: 'inherit',
+                                              height: 'inherit'
+                                            }}
+                                            src={
+                                              item.taggingForImage.taggingImgUrl
+                                            }
+                                          />
+                                        </div>
+                                      ) : null
+                                    }
+                                    onClick={this.hanldeItemClick.bind(
+                                      this,
+                                      item,
+                                      i
+                                    )}
+                                    item={item}
+                                    GAListParam={this.state.GAListParam}
+                                  >
+                                    {process.env.REACT_APP_LANG === 'fr' &&
+                                    isMobile ? (
+                                      <ListItemBody item={item} />
+                                    ) : (
+                                      <ListItemBodyPC item={item} />
+                                    )}
+                                  </ListItem>
+                                ) : (
+                                  <ListItemPC
+                                    key={item.id}
+                                    leftPromotionJSX={
+                                      item.taggingForText ? (
+                                        <div
+                                          className="product-item-flag-text"
+                                          style={{
+                                            backgroundColor:
+                                              item.taggingForText
+                                                .taggingFillColor,
+                                            color:
+                                              item.taggingForText
+                                                .taggingFontColor
+                                          }}
+                                        >
+                                          {item.taggingForText.taggingName}
+                                        </div>
+                                      ) : null
+                                    }
+                                    rightPromotionJSX={
+                                      item.taggingForImage ? (
+                                        <div className="product-item-flag-image position-absolute">
+                                          <img
+                                            src={
+                                              item.taggingForImage.taggingImgUrl
+                                            }
+                                          />
+                                        </div>
+                                      ) : null
+                                    }
+                                    onClick={this.hanldeItemClick.bind(
+                                      this,
+                                      item,
+                                      i
+                                    )}
+                                    item={item}
+                                    GAListParam={this.state.GAListParam}
+                                  >
+                                    {process.env.REACT_APP_LANG === 'fr' &&
+                                    isMobile ? (
+                                      <ListItemBody item={item} />
+                                    ) : (
+                                      <ListItemBodyPC item={item} />
+                                    )}
+                                  </ListItemPC>
+                                )
+                              )}
                         </article>
                         <div className="grid-footer rc-full-width">
                           <Pagination
