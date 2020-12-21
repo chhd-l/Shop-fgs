@@ -10,24 +10,25 @@ import {
   generateOptions,
   getDictionary
 } from '@/utils/utils';
-import { getList, findSortList } from '@/api/list';
+import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
   getPrescriberByPrescriberIdAndStoreId
 } from '@/api/clinic';
-import { setBuryPoint, queryHeaderNavigations } from '@/api';
+import { setBuryPoint } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import MegaMenuMobile from './modules/MegaMenuMobile';
+import NavItem from './modules/NavItem';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { loadJS } from '@/utils/utils';
+import { loadJS, fetchHeaderNavigations } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 
@@ -223,26 +224,53 @@ class Header extends React.Component {
     );
   }
   initNavigations = async () => {
-    let res = await this.queryHeaderNavigations();
+    let res = await fetchHeaderNavigations();
     if (res) {
+      let treeData = generateOptions(res);
+
+      function handleLink(list) {
+        Array.from(list, async (item) => {
+          if (item.children && item.children.length) {
+            handleLink(item.children);
+          }
+          let pageEnumRes = await getDictionary({ type: 'pageType' });
+          const targetRes = pageEnumRes.filter((ele) => ele.id === item.pageId);
+          let tmpLink = null;
+          let tmpHref = null;
+          if (item.interaction === 0 && targetRes.length) {
+            const pageVal = targetRes[0].valueEn;
+            if (pageVal) tmpLink = { pathname: `${item.navigationLink}` };
+            switch (pageVal) {
+              case 'SRP':
+                if (pageVal === 'SRP') {
+                  tmpLink = Object.assign(tmpLink, {
+                    search: `?${item.keywords}`
+                  });
+                }
+                break;
+              case 'PDP':
+                tmpLink = Object.assign(tmpLink, {
+                  pathname: `${item.navigationLink}${item.paramsField}`
+                });
+                break;
+              default:
+                break;
+            }
+          } else if (item.interaction === 1) {
+            tmpHref = { pathname: item.navigationLink, target: item.target };
+          }
+          item.link = tmpLink;
+          item.href = tmpHref;
+          return item;
+        });
+      }
+
+      handleLink(treeData);
+
       this.setState({
-        headerNavigationList: generateOptions(res).filter((el) => el.enable)
+        headerNavigationList: treeData
       });
     }
-  };
-  // 查询二级导航
-  queryHeaderNavigations = async () => {
-    let ret = sessionItemRoyal.get('header-navigations');
-    if (ret) {
-      ret = JSON.parse(ret);
-    } else {
-      const res = await queryHeaderNavigations();
-      if (res.context) {
-        ret = res.context;
-        sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
-      }
-    }
-    return ret;
   };
 
   /**
@@ -420,7 +448,7 @@ class Header extends React.Component {
     };
     try {
       let res = await getList(params);
-      
+
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -445,7 +473,10 @@ class Header extends React.Component {
             });
           }
           //搜索成功-埋点
-          this.props.headerSearchStore.getResult(keywords, esGoods.totalElements);
+          this.props.headerSearchStore.getResult(
+            keywords,
+            esGoods.totalElements
+          );
           console.log('搜索成功-成功', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: true });
           const { query, results, type } = this.props.headerSearchStore;
@@ -624,98 +655,13 @@ class Header extends React.Component {
     });
   }
   async handleClickNavItem(item) {
-    // 点击menu埋点-start
+    // 点击menu埋点
     this.GAClickMenu({
       category: 'menu',
       action: 'menu',
       label: item.navigationLink,
       value: item.navigationName
     });
-    // 点击menu埋点-end
-    let res = await getDictionary({ type: 'pageType' });
-    const targetRes = res.filter((ele) => ele.id === item.pageId);
-    // interaction 0-page 1-External URL 2-text
-    if (item.interaction === 2) {
-      return false;
-    } else if (item.interaction === 0 && targetRes.length) {
-      let linkObj = null;
-      let sortParam = null;
-      let cateIds = [];
-      let filters = [];
-      const pageVal = targetRes[0].valueEn;
-      if (pageVal) linkObj = { pathname: `${item.navigationLink}` };
-      switch (pageVal) {
-        case 'PLP':
-        case 'SRP':
-          // 获取sort参数
-          if (item.searchSort) {
-            const sortRes = await findSortList();
-            const targetSortRes = (sortRes.context || []).filter(
-              (ele) => ele.id === item.searchSort
-            );
-            if (targetSortRes.length) {
-              sortParam = {
-                field: targetSortRes[0].field,
-                sortType: targetSortRes[0].sortType
-              };
-            }
-          }
-          // sales category筛选
-          const tmpCateIds = (item.navigationCateIds || '').split(',');
-          if (tmpCateIds.length) {
-            cateIds = tmpCateIds;
-          }
-          // filter筛选
-          try {
-            if (item.filter) {
-              const tmpFilter = JSON.parse(item.filter);
-              if (tmpFilter.length) {
-                filters = tmpFilter;
-              }
-            }
-          } catch (err) {}
-          if (pageVal === 'SRP') {
-            linkObj = Object.assign(linkObj, {
-              search: `?${item.keywords}`
-            });
-          }
-          break;
-        case 'PDP':
-          linkObj = Object.assign(linkObj, {
-            pathname: `${item.navigationLink}${item.paramsField}`
-          });
-          // link = `/details/${item.paramsField}`;
-          break;
-        // case 'HP':
-        //   link = '/';
-        //   break;
-        // case 'SP':
-        //   link = `${
-        //     {
-        //       en: '/subscription-landing-us',
-        //       ru: '/subscription-landing-ru',
-        //       tr: '/subscription-landing-tr'
-        //     }[process.env.REACT_APP_LANG] || '/subscription-landing'
-        //   }`;
-        //   break;
-        // case 'CUP':
-        //   link = '/help';
-        //   break;
-        default:
-          break;
-      }
-      if (linkObj && linkObj.pathname) {
-        linkObj = Object.assign(linkObj, {
-          state: { sortParam, cateIds, filters }
-        });
-        this.props.history.push(linkObj);
-        // this.props.history.push({
-        //   pathname: link,
-        //   state: { sortParam, cateIds, filters },
-        //   search: `?${item.keywords}`
-        // });
-      }
-    }
   }
   renderDropDownText = (item) => {
     return item.expanded ? (
@@ -956,8 +902,8 @@ class Header extends React.Component {
                                   //   );
                                   // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
                                   // this.signUp()
-                                  if(!process.env.REACT_APP_STOREID) {
-                                    return
+                                  if (!process.env.REACT_APP_STOREID) {
+                                    return;
                                   }
                                   if (
                                     process.env.REACT_APP_STOREID ===
@@ -1098,22 +1044,9 @@ class Header extends React.Component {
                   <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                     <li className="rc-list__item">
                       <span className="rc-list__header">
-                        {item.interaction === 1 ? (
-                          <a
-                            href={item.navigationLink}
-                            target={item.target}
-                            className="rc-list__header"
-                          >
-                            {this.renderDropDownText(item)}
-                          </a>
-                        ) : (
-                          <span
-                            onClick={this.handleClickNavItem.bind(this, item)}
-                            className={`rc-list__header`}
-                          >
-                            {this.renderDropDownText(item)}
-                          </span>
-                        )}
+                        <NavItem item={item} className="rc-list__header">
+                          {this.renderDropDownText(item)}
+                        </NavItem>
                       </span>
                     </li>
                   </ul>

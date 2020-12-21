@@ -757,8 +757,8 @@
 .filter-remove {
   display: inline-block;
   background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
   position: absolute;
