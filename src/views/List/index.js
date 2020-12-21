@@ -1092,31 +1092,25 @@ class List extends React.Component {
     // let breadName = breadList[breadList.length-1] && breadList[breadList.length-1].name
     let event;
     if (pathname) {
+      let reDog = /^\/dog/; // 匹配dog开头
+      let reCat = /^\/cat/; // 匹配cat开头
       let theme;
       let type;
       let specieId;
-      switch (pathname) {
-        case '/dogs':
-          theme = 'Dog';
-          type = 'Product Catalogue';
-          specieId = 1
-          break;
-        case '/cats':
-          theme = 'Cat';
-          type = 'Product Catalogue';
-          specieId = 2
-          break;
-        case 'keywords':
-          theme = '';
-          type = 'Search Results';
-          specieId = ''
-          break;
-        default:
-          theme = 'Cat or Dog';
+      if(reDog.test(pathname)){
+        theme = 'Dog';
+        type = 'Product Catalogue';
+        specieId = 1
+      }else if(reCat.test(pathname)){
+        theme = 'Car';
+        type = 'Product Catalogue';
+        specieId = 2
+      }else{
+        theme = '';
           type = 'Product';
           specieId = ''
-          break;
       }
+    
       event = {
         page: {
           type,
