@@ -159,7 +159,7 @@ class UnLoginCart extends React.Component {
         price: item.minMarketPrice,//?
         quantity: item.quantity,
         recommendation: 'self-selected',
-        type: item.subscriptionStatus == 1 ? 'subscription' : 'one-time',//?
+        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',//?
         //variant:item.goodsSpecDetails[0].detailName,
         sku: item.goodsInfos[0].goodsInfoNo
       })

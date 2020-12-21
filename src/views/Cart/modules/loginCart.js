@@ -177,7 +177,7 @@ class LoginCart extends React.Component {
         price:item.goods.minMarketPrice,//?
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
         variant:item.specText?parseInt(item.specText):'',//?
         sku:item.goodsInfos[0].goodsInfoNo
       })
