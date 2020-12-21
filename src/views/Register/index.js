@@ -1,5 +1,4 @@
 import React, { Component, useState  } from 'react';
-import PropTypes from 'prop-types';
 import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
@@ -19,12 +18,6 @@ const loginStore = stores.loginStore;
 
 @injectIntl
 class Register extends Component {
-  static propTypes = {
-    prop: PropTypes
-  };
-
-  static defaultProps = {};
-
   constructor(props) {
     super(props);
     this.state = {
@@ -276,12 +269,11 @@ class Register extends Component {
           checkoutStore.updateLoginCart();
         }
         if(res.context.oktaSessionToken) {        
-          debugger
           // hard code
           const state = 'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
           const nonce = '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
-          const regiserUrl = process.env.REACT_APP_HOMEPAGE === '/' ? '/implicit/callback' : 'implicit/callback'
-          const redirectUri = window.location.origin + regiserUrl;
+          const regiserUrl = process.env.REACT_APP_HOMEPAGE === '/' ? 'implicit/callback' : '/implicit/callback'
+          const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE + regiserUrl;
           var callOktaCallBack = 
           `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
           localItemRoyal.set('rc-consent-list', JSON.stringify(this.state.list));
@@ -390,7 +382,7 @@ class Register extends Component {
                     </aside>
                     <h2 className="text-center rc-margin-bottom--sm">
                       <FormattedMessage id="registerWelcome" />{' '}
-                      <span class="rc-text-colour--brand1">Royal Canin</span>
+                      <span className="rc-text-colour--brand1">Royal Canin</span>
                     </h2>
                     <p className="rc-margin-bottom--none text-center">
                       <FormattedMessage id="registerCompleteForm" />
@@ -439,7 +431,7 @@ class Register extends Component {
                                 className="rc-input__control"
                                 id="registerName"
                                 type="text"
-                                maxlength="50"
+                                maxLength="50"
                                 name="name"
                                 onChange={(e) => this.registerChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
@@ -456,7 +448,7 @@ class Register extends Component {
                               </label>
                               {nameValid ? null : (
                                 <span
-                                  class="input-cross icon-unsuscribe iconfont"
+                                  className="input-cross icon-unsuscribe iconfont"
                                   onClick={() => this.deleteInput('name')}
                                 >
                                   &#xe6b2;
@@ -478,7 +470,7 @@ class Register extends Component {
                                 className="rc-input__control"
                                 id="registerEmail"
                                 type="email"
-                                maxlength="50"
+                                maxLength="50"
                                 name="email"
                                 onChange={(e) => this.registerChange(e)}
                                 onBlur={(e) => this.inputBlur(e)}
@@ -494,7 +486,7 @@ class Register extends Component {
                               </label>
                               {emailValid ? null : (
                                 <span
-                                  class="input-cross icon-unsuscribe iconfont"
+                                  className="input-cross icon-unsuscribe iconfont"
                                   onClick={() => this.deleteInput('email')}
                                 >
                                   &#xe6b2;
@@ -517,8 +509,8 @@ class Register extends Component {
                                 className="rc-input__control rc-input__password"
                                 id="registerPassword"
                                 type="password"
-                                maxlength="255"
-                                minlength="8"
+                                maxLength="255"
+                                minLength="8"
                                 name="password"
                                 onChange={(e) => this.registerChange(e)}
                                 onFocus={(e) => this.inputFocus(e)}
@@ -543,7 +535,7 @@ class Register extends Component {
                               </button>
                               {passwordValid ? null : (
                                 <span
-                                  class="input-cross icon-unsuscribe iconfont"
+                                  className="input-cross icon-unsuscribe iconfont"
                                   onClick={() => this.deleteInput('password')}
                                 >
                                   &#xe6b2;
@@ -560,7 +552,6 @@ class Register extends Component {
                               }
                               role="tooltip"
                               id="password-tooltip"
-                              tabindex="-1"
                               x-placement="top"
                             >
                               <div

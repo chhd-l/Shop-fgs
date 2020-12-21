@@ -66,7 +66,8 @@ class PayProductInfo extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = '',
-        option = this.isLogin ? 'account already created':'guest'
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN', //?
@@ -86,7 +87,36 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.basketID = basketID
     dataLayer[0].checkout.option = option
     dataLayer[0].checkout.product = product
+    dataLayer[0].checkout.step = step
     console.log(dataLayer)
+  }
+  GACheckUnLogin(productList){
+        console.log(productList)
+        let product = [],
+        basketAmount = this.tradePrice,
+        basketID = '',
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
+    for (let item of productList) {
+      product.push({
+        brand:item.brandName || 'ROYAL CANIN', //?
+        category:item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
+        club:'no',
+        id:item.goodsNo,
+        name:item.goodsName,
+        price:item.minMarketPrice,//?
+        quantity:item.quantity,
+        recommendation:'self-selected',
+        type:item.subscriptionStatus==1?'subscription':'one-time',//?
+        //variant:item.goodsSpecDetails[0].detailName,
+        sku:item.goodsInfos[0].goodsInfoNo
+      })
+    }     
+    dataLayer[0].checkout.basketAmount = basketAmount
+    dataLayer[0].checkout.basketID = basketID
+    dataLayer[0].checkout.option = option
+    dataLayer[0].checkout.product = product
+    dataLayer[0].checkout.step = step
   }
   async componentDidMount() {
     let productList;
@@ -110,7 +140,12 @@ class PayProductInfo extends React.Component {
       });
     });
     
-    this.GACheckout(productList)
+    if(this.isLogin){
+      this.GACheckout(productList)
+    }else{
+      this.GACheckUnLogin(productList)
+    }
+    
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;

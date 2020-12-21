@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 
 const event = {
   page: {
-    type: '500',
+    type: 'other',
     theme: '',
     path: location.pathname,
     error: '',

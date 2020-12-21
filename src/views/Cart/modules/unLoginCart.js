@@ -178,7 +178,20 @@ class UnLoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
+  GAAccessToGuestCheck(){
+     dataLayer.push(
+      {
+        event:`${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+        interaction:{
+          category:'checkout',
+          action:'guest checkout',
+          label:'cart page', //"cart page cart pop-in "          
+          value:1
+        },
+      }) 
+  }
   async handleCheckout({ needLogin = false } = {}) {
+    this.GAAccessToGuestCheck()
     try {
       sessionItemRoyal.set('okta-redirectUrl', '/cart');
       const { configStore, checkoutStore, history, clinicStore } = this.props;

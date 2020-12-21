@@ -361,8 +361,15 @@ class Header extends React.Component {
     if (this.state.loading) return;
     if (process.env.REACT_APP_LANG == 'fr') {
       if (this.state.isSearchSuccess) {
-        this.props.history.push(
-          `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
+        // this.props.history.push(
+        //   `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
+        // );
+        this.props.history.push({
+          pathname:`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+          state:{
+            GAListParam: 'Search Results'
+          }
+        }
         );
       } else {
         this.props.history.push('/searchShow/' + e.current.value);
@@ -413,6 +420,7 @@ class Header extends React.Component {
     };
     try {
       let res = await getList(params);
+      
       this.setState({ loading: false });
       if (res && res.context) {
         const esGoods = res.context.esGoods;
@@ -437,7 +445,7 @@ class Header extends React.Component {
             });
           }
           //搜索成功-埋点
-          this.props.headerSearchStore.getResult(keywords, goodsContent.length);
+          this.props.headerSearchStore.getResult(keywords, esGoods.totalElements);
           console.log('搜索成功-成功', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: true });
           const { query, results, type } = this.props.headerSearchStore;
@@ -459,8 +467,8 @@ class Header extends React.Component {
           });
         } else {
           //搜索失败-埋点
-          this.props.headerSearchStore.getNoResult(keywords);
-          console.log('搜索失败-埋点', this.props.headerSearchStore);
+          // this.props.headerSearchStore.getNoResult(keywords);
+          // console.log('搜索失败-埋点', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: false });
           const { query, results, type } = this.props.headerSearchStore;
           this.state.event.search = {
@@ -468,7 +476,7 @@ class Header extends React.Component {
             results,
             type
           };
-          dataLayer.push({ search: this.state.event.search });
+          // dataLayer.push({ search: this.state.event.search });
 
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -485,8 +493,13 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
-    this.props.history.push(
-      `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+    this.props.history.push({
+      pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
+      state: {
+        GAListParam:'Search Results'
+      }
+    }
+      
     );
     // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
@@ -613,7 +626,7 @@ class Header extends React.Component {
     this.GAClickMenu({
       category: 'menu',
       action: 'menu',
-      label: item.avigationLink,
+      label: item.navigationLink,
       value: item.navigationName
     });
     // 点击menu埋点-end

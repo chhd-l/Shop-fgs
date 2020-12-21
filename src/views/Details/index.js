@@ -121,6 +121,7 @@ class Details extends React.Component {
     this.state = {
       event:{},
       eEvents:{},
+      GAListParam:'',
       initing: true,
       details: {
         id: '',
@@ -199,7 +200,10 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname } = this.props.location;
+    const { pathname,state } = this.props.location;
+    if(!!state.GAListParam) {
+      this.setState({GAListParam:state.GAListParam})
+    }
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -1008,7 +1012,7 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(details);
+    this.GAAddToCar(quantity,details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1356,7 +1360,7 @@ class Details extends React.Component {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
           actionField: {
-            list: ''//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+            list: this.state.GAListParam//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           },
           products: [
             {

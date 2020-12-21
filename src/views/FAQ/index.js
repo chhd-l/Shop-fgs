@@ -96,7 +96,7 @@ class FAQ extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
+        type: 'other',
         theme: 'Brand',
         path: location.pathname,
         error: '',
