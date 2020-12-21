@@ -433,7 +433,7 @@ class UnLoginCart extends React.Component {
     })
     const variant = cur_selected_size[0].specText
     const goodsInfoNo = cur_selected_size[0].goodsInfoNo
-    const list = {
+    const list = [{
         'name': product.goodsName, 
         'id': product.goodsNo, 
         'club': 'no', 
@@ -445,7 +445,7 @@ class UnLoginCart extends React.Component {
         'quantity': product.quantity?product.quantity:'',
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':goodsInfoNo
-    }
+    }]
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
