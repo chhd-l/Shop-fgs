@@ -428,6 +428,11 @@ class UnLoginCart extends React.Component {
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
     console.log(product)
+    const cur_selected_size = product.sizeList.filter((item)=>{
+      return item.selected == true
+    })
+    const variant = cur_selected_size.specText
+    debugger
     const list = {
         'name': product.goodsName, 
         'id': product.goodsNo, 
@@ -436,7 +441,7 @@ class UnLoginCart extends React.Component {
         'price': product.minMarketPrice,
         'brand': 'Royal Canin',
         'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
-        //'variant': '',//?没找到
+        'variant': variant,
         'quantity': product.buyCount?product.buyCount:'',//?
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':product.goodsInfoNo?product.goodsInfoNo:''//?
