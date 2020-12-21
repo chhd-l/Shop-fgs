@@ -493,8 +493,13 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
-    this.props.history.push(
-      `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+    this.props.history.push({
+      pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
+      state: {
+        GAListParam:'Search Results'
+      }
+    }
+      
     );
     // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
