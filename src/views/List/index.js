@@ -544,7 +544,7 @@ class List extends React.Component {
               id: item.goodsNo,
               club: 'no',
               brand: item.goodsBrand.brandName,
-              category: JSON.parse(item.goodsCateName)[0],
+              category: item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
               list: '', //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               variant: '',//不写
               position: index,
@@ -557,6 +557,9 @@ class List extends React.Component {
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
+    const {history,match,location} = this.props
+    console.log({history,match,location})
+    debugger
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,//?
