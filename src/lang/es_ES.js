@@ -684,6 +684,7 @@ const es_ES = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
+  'required.checkRequired': 'Compruebe los elementos necesarios',
   requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',
   requiredFields: '* Campos requeridos',
   resetPasswordEmail: 'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
