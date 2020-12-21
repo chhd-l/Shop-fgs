@@ -201,8 +201,10 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname,state:{GAListParam} } = this.props.location;
-    this.setState({GAListParam})
+    const { pathname,state } = this.props.location;
+    if(!!state.GAListParam) {
+      this.setState({GAListParam:state.GAListParam})
+    }
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
