@@ -1,12 +1,17 @@
 import React, {Component} from 'react'
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 class FrFaq extends Component {
     constructor(props){
         super(props)
         this.state = {
-            
+            seoConfig: {
+                title: '',
+                metaKeywords: '',
+                metaDescription: ''
+            }
         }
     }
     componentDidMount(){
@@ -14,11 +19,18 @@ class FrFaq extends Component {
             goodsId: '',
             categoryId: '',
             pageName: 'Contact Us Page'
-          })
+          }).then(res => {
+            this.setState({seoConfig: res})
+          });
     }
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>{this.state.seoConfig.title}</title>
+                    <meta name="description" content={this.state.seoConfig.metaDescription}/>
+                    <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+                </Helmet>
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
                     <div className='rc-layout-container rc-five-column rc-match-heights text-center text-md-left'>
                         <div className="rc-column rc-triple-width">

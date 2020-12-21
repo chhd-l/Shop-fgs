@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
+import { Helmet } from 'react-helmet';
 
 import image1 from './images/image1.jpeg';
 import image2 from './images/image2.jpeg';
@@ -18,11 +19,23 @@ import LazyLoad from 'react-lazyload';
 
 const localItemRoyal = window.__.localItemRoyal;
 class Help extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
   render(h) {
     const event = {
@@ -35,6 +48,11 @@ class Help extends React.Component {
     return (
       <div className="shipmentConditions">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

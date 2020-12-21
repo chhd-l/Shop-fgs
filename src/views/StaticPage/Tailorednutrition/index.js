@@ -16,6 +16,7 @@ import { inject, observer } from 'mobx-react';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -23,13 +24,25 @@ const localItemRoyal = window.__.localItemRoyal;
 @injectIntl
 @observer
 class Tailorednutrition extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
     setSeoConfig({
       pageName:'Health and nutrition page'
-    })
+    }).then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -47,6 +60,11 @@ class Tailorednutrition extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

@@ -19,6 +19,7 @@ import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 @inject('loginStore')
 @observer
@@ -28,12 +29,19 @@ class Pet extends React.Component {
     this.state = {
       loading: true,
       petList: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       isMobile: false
     };
   }
   componentDidMount() {
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     this.getPetList();
   }
   isHavePet() {
@@ -117,6 +125,11 @@ class Pet extends React.Component {
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

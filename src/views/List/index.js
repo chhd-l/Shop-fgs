@@ -31,7 +31,6 @@ import {
   getDeviceType,
   getParentsNodesList,
   queryHeaderNavigation,
-  setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
 
@@ -625,7 +624,7 @@ class List extends React.Component {
   }
   async initData() {
     const { storeCateIds, keywords } = this.state;
-    this.breadListinit()
+    // this.breadListinit()
     // this.getProductList(this.fidFromSearch ? 'search_fid' : '');
     findSortList().then((res) => {
       let list = res.context || [];
@@ -658,7 +657,7 @@ class List extends React.Component {
       // setSeoConfig({
       //   pageName: 'Search Results Page'
       // });
-      setSeoConfigCopy({ pageName: 'Search Results Page' }).then(res => {
+      setSeoConfig({ pageName: 'Search Results Page' }).then(res => {
         this.setState({seoConfig: res})
       });
     } else if (storeCateIds && storeCateIds.length) {
@@ -666,12 +665,12 @@ class List extends React.Component {
       //   categoryId: storeCateIds[0],
       //   pageName: 'Product List Page' // Search Results Page
       // });
-      setSeoConfigCopy({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
+      setSeoConfig({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
         this.setState({seoConfig: res})
       });
     }
     else {
-      setSeoConfigCopy({ pageName: 'Product List Page' }).then(res => {
+      setSeoConfig({ pageName: 'Product List Page' }).then(res => {
         this.setState({seoConfig: res})
       });
       // setSeoConfig({
@@ -1090,7 +1089,7 @@ class List extends React.Component {
       breadList,
       eEvents
     } = this.state;
-    let breadName = breadList[breadList.length-1] && breadList[breadList.length-1].name
+    // let breadName = breadList[breadList.length-1] && breadList[breadList.length-1].name
     let event;
     if (pathname) {
       let reDog = /^\/dog/; // 匹配dog开头
@@ -1155,8 +1154,8 @@ class List extends React.Component {
           <BannerTip />
           <BreadCrumbsNavigation
           history={this.props.history}
-          list={this.state.breadList}
-            // list={[{ name: cateName || '' }].filter((el) => el.name)}
+          // list={this.state.breadList}
+            list={[{ name: cateName || '' }].filter((el) => el.name)}
           />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
@@ -1260,7 +1259,7 @@ class List extends React.Component {
                   <div id="refineBar" className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0">
                     <div className="rc-meta rc-md-down" style={{padding: '0 1em', fontSize: '1em'}}>
                       <span className="font-weight-normal">
-                        {this.state.cateName||breadName}{' '}
+                        {this.state.cateName}{' '}
                       </span>
                       (
                       <FormattedMessage

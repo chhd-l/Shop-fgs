@@ -12,11 +12,17 @@ import SideMenu from '@/components/SideMenu';
 import { IMG_DEFAULT } from '@/utils/constant';
 import './index.css';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 export default class OrdersAfterSaleDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       returnNumber: '',
       details: null,
       loading: true
@@ -29,7 +35,9 @@ export default class OrdersAfterSaleDetail extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber).then((res) => {
@@ -54,6 +62,11 @@ export default class OrdersAfterSaleDetail extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
