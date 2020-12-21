@@ -202,7 +202,7 @@ class Details extends React.Component {
     //   return false;
     // }
     const { pathname,state } = this.props.location;
-    if(!!state.GAListParam) {
+    if(state&&(!!state.GAListParam)) {
       this.setState({GAListParam:state.GAListParam})
     }
     const goodsSpuNo =
@@ -1371,7 +1371,7 @@ class Details extends React.Component {
               brand: item.brandName||'ROYAL CANIN',
               club: 'no',
               category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
-              variant: parseInt(item.goodsSpecDetails[0].detailName),
+              variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }
           ]
