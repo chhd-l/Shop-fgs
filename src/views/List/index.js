@@ -557,6 +557,8 @@ class List extends React.Component {
   }
   // 商品列表 埋点
   GAProductImpression(productList) {
+    const {history,match,location} = this.props
+    console.log({history,match,location})
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName,//?
