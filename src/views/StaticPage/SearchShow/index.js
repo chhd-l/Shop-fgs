@@ -6,11 +6,17 @@ import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 class SearchShow extends React.Component {
     constructor(props){
         super(props)
         this.state={
+            seoConfig: {
+              title: '',
+              metaKeywords: '',
+              metaDescription: ''
+            },
             searchWords: ''
         }
     }
@@ -18,7 +24,9 @@ class SearchShow extends React.Component {
 
     }
     componentDidMount() {
-        setSeoConfig();
+        setSeoConfig().then(res => {
+            this.setState({seoConfig: res})
+        });
 
         const searchWords = this.props.match.params.searchWords//动态路由的参数
         this.setState({
@@ -40,6 +48,11 @@ class SearchShow extends React.Component {
         return (
             <div className="recommendation">
                 <GoogleTagManager additionalEvents={event} />
+                <Helmet>
+                <title>{this.state.seoConfig.title}</title>
+                <meta name="description" content={this.state.seoConfig.metaDescription}/>
+                <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+                </Helmet>
                 <Header
                     showMiniIcons={true}
                     showUserIcon={true}

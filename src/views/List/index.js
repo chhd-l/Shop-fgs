@@ -31,7 +31,6 @@ import {
   getDeviceType,
   getParentsNodesList,
   queryHeaderNavigation,
-  setSeoConfigCopy
 } from '@/utils/utils';
 import './index.less';
 
@@ -658,7 +657,7 @@ class List extends React.Component {
       // setSeoConfig({
       //   pageName: 'Search Results Page'
       // });
-      setSeoConfigCopy({ pageName: 'Search Results Page' }).then(res => {
+      setSeoConfig({ pageName: 'Search Results Page' }).then(res => {
         this.setState({seoConfig: res})
       });
     } else if (storeCateIds && storeCateIds.length) {
@@ -666,12 +665,12 @@ class List extends React.Component {
       //   categoryId: storeCateIds[0],
       //   pageName: 'Product List Page' // Search Results Page
       // });
-      setSeoConfigCopy({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
+      setSeoConfig({ categoryId: storeCateIds[0], pageName: 'Product List Page'}).then(res => {
         this.setState({seoConfig: res})
       });
     }
     else {
-      setSeoConfigCopy({ pageName: 'Product List Page' }).then(res => {
+      setSeoConfig({ pageName: 'Product List Page' }).then(res => {
         this.setState({seoConfig: res})
       });
       // setSeoConfig({

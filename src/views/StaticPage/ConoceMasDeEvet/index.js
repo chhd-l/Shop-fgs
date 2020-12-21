@@ -8,6 +8,8 @@ import { customerInfoSave } from '@/api/landing';
 import Loading from '@/components/Loading';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
+
 // import { confirmAndCommit } from "@/api/payment";
 // import {  Link } from 'react-router-dom'
 // import store from "storejs";
@@ -20,6 +22,11 @@ class Landing extends Component {
       showSuccess: false,
       showFail: false,
       errMessage: '',
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       inputType: [
         { name: 'Nombre', value: '', isRequired: true }, //姓名
         { name: 'Nombre de clínica', value: '', isRequired: true }, //诊所名字
@@ -116,7 +123,9 @@ class Landing extends Component {
     );
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     this.cal_clientWidth(document.body.clientWidth);
   }
   render() {
@@ -132,6 +141,11 @@ class Landing extends Component {
     return (
       <div className="landing-wrap">
         <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         {this.state.loading ? <Loading /> : null}
         <div className="rc-three-column">
           <div className="rc-column rc-double-width borderRight videoPadding">

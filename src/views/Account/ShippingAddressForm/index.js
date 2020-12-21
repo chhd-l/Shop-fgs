@@ -19,6 +19,7 @@ import { queryCityNameById } from '@/api';
 import Loading from '@/components/Loading';
 import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -29,6 +30,11 @@ class ShippingAddressFrom extends React.Component {
     this.state = {
       loading: false,
       showModal: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       isAdd: true,
       addressList: [],
       total: 0,
@@ -58,7 +64,9 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -328,6 +336,11 @@ class ShippingAddressFrom extends React.Component {
     const { addressForm } = this.state;
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

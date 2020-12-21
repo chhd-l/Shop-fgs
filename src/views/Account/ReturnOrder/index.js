@@ -13,6 +13,7 @@ import { formatMoney, setSeoConfig } from '@/utils/utils';
 import { getReturnList } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -26,6 +27,11 @@ export default class ReturnOrder extends React.Component {
         returnNumber: '',
         dateRangeKey: 'inWeek'
       },
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       loading: false,
       currentPage: 1,
       totalPage: 1,
@@ -38,7 +44,9 @@ export default class ReturnOrder extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -126,6 +134,11 @@ export default class ReturnOrder extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

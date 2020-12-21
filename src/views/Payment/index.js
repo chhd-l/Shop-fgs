@@ -53,6 +53,7 @@ import { queryCityNameById } from '@/api';
 import { setSeoConfig } from '@/utils/utils';
 import './modules/adyenCopy.css';
 import './index.css';
+import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -73,6 +74,11 @@ class Payment extends React.Component {
     this.state = {
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       deliveryAddress: {
         firstName: '',
         lastName: '',
@@ -142,7 +148,9 @@ class Payment extends React.Component {
   async componentDidMount() {
     const { checkoutStore, paymentStore, clinicStore } = this.props;
     const { tid } = this.state;
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     if (this.isLogin) {
       // 登录情况下，无需显示email panel
       paymentStore.setStsToCompleted({ key: 'email' });
@@ -1922,6 +1930,11 @@ class Payment extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           history={this.props.history}
           showMiniIcons={false}

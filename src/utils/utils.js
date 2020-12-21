@@ -304,7 +304,7 @@ function getchilds(id, array) {
   return childs;
 }
 
-export async function setSeoConfigCopy(
+export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
   let goodsSeo = {},
@@ -349,7 +349,7 @@ export async function setSeoConfigCopy(
   // }, 100);
 }
 
-export async function setSeoConfig(
+export async function beforeSetSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
   return
