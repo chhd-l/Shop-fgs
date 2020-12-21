@@ -14,6 +14,7 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -45,6 +46,11 @@ class ShippingAddressFrom extends React.Component {
         deliveryAddressId: '',
         customerId: ''
       },
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       cityList: [],
       creditCardInfo: {
         cardNumber: '',
@@ -61,7 +67,10 @@ class ShippingAddressFrom extends React.Component {
   }
   componentDidMount() {
     const { location } = this.props;
-    setSeoConfig()
+    // setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     if (location.query) {
       sessionItemRoyal.set('paymentMethodForm', JSON.stringify(location.query));
       this.setState({
@@ -275,6 +284,11 @@ class ShippingAddressFrom extends React.Component {
     );
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

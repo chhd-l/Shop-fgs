@@ -14,6 +14,8 @@ import './index.less';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
+
 import {
   getPetList,
   addPet,
@@ -61,6 +63,11 @@ class PetForm extends React.Component {
       isDisabled: true,
       isInputDisabled: false,
       isUnknownDisabled: false,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       //pet
       currentPetId: '',
       isCat: null,
@@ -117,7 +124,9 @@ class PetForm extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'dogSize' })
       .then((res) => {
@@ -882,6 +891,11 @@ class PetForm extends React.Component {
     } = this.state;
     return (
       <div className="petForm">
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

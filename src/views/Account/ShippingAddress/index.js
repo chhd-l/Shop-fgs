@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';
 import { getDictionary, setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -30,6 +31,11 @@ class ShippingAddress extends React.Component {
       showModal: false,
       isAdd: true,
       addressList: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       total: 0,
       errorMsg: '',
       successMsg: '',
@@ -57,7 +63,9 @@ class ShippingAddress extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -290,6 +298,11 @@ class ShippingAddress extends React.Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

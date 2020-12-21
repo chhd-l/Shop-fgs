@@ -15,15 +15,28 @@ import dog from './images/dog.png';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import './index.css';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
   componentDidMount() {
     setSeoConfig({
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
   }
   componentWillUnmount() {
@@ -41,6 +54,11 @@ class Help extends React.Component {
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

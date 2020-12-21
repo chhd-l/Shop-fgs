@@ -12,6 +12,7 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import {
   formatMoney,
   getDictionary,
@@ -46,6 +47,11 @@ class AccountOrders extends React.Component {
       },
       loading: true,
       initLoading: true,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -77,6 +83,8 @@ class AccountOrders extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'Account orders'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
@@ -512,6 +520,11 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

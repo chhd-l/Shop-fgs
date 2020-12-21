@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { inject, observer } from 'mobx-react';
+import { Helmet } from 'react-helmet';
 
 @inject('configStore')
 class Help extends Component {
@@ -9,6 +10,11 @@ class Help extends Component {
         super(props)
         this.state = {
             mailAddress: '',
+            seoConfig: {
+              title: '',
+              metaKeywords: '',
+              metaDescription: ''
+            }
         }
     }
     componentDidCatch(){
@@ -16,7 +22,9 @@ class Help extends Component {
             goodsId: '',
             categoryId: '',
             pageName: 'Subscription Page'
-          })
+          }).then(res => {
+            this.setState({seoConfig: res})
+          });
     }
     componentDidMount(){
         const mailAddress = 'mailto:' + this.props.configStore.storeContactEmail;
@@ -25,6 +33,11 @@ class Help extends Component {
     render() {
         return (
             <div className="rc-layout-container rc-three-column rc-match-heights rc-padding-bottom--lg rc-max-width--lg">
+                <Helmet>
+                <title>{this.state.seoConfig.title}</title>
+                <meta name="description" content={this.state.seoConfig.metaDescription}/>
+                <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+                </Helmet>
                 <div className="rc-column rc-padding--none">
                     <article className="rc-full-width rc-column rc-padding-left--none--desktop">
                         <div className="rc-border-all rc-border-colour--interface fullHeight contact_options__card">

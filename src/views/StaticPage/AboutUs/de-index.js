@@ -15,6 +15,7 @@ import './index.css';
 import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 import Faq from '../../Payment/Fr/faq';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -26,7 +27,13 @@ const localItemRoyal = window.__.localItemRoyal;
 class about extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
   }
 
   componentWillUnmount() {
@@ -35,7 +42,9 @@ class about extends React.Component {
   componentDidMount() {
     setSeoConfig(
       {pageName:"About Us Page"}
-    )
+    ).then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -57,6 +66,11 @@ class about extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

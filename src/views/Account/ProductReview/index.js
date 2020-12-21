@@ -15,12 +15,18 @@ import './index.css';
 import Skeleton from 'react-skeleton-loader';
 //import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 @injectIntl
 class ProductReview extends React.Component {
   constructor() {
     super();
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       orderId: 0,
       productList: [],
       purchaseRate: 0,
@@ -49,7 +55,9 @@ class ProductReview extends React.Component {
         this.getGoodsList(this.state.orderId);
       }
     );
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
   showErrMsg(msg) {
     this.setState({
@@ -290,6 +298,11 @@ class ProductReview extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

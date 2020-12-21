@@ -11,7 +11,7 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType, queryStoreCateList, setSeoConfigCopy } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
@@ -410,7 +410,7 @@ class Home extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfigCopy({ pageName: 'Home Page' }).then(res => {
+    setSeoConfig({ pageName: 'Home Page' }).then(res => {
       this.setState({seoConfig: res})
     });
     

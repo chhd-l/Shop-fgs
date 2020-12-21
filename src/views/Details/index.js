@@ -34,7 +34,6 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  setSeoConfigCopy
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
 import {Helmet} from 'react-helmet';
@@ -509,7 +508,7 @@ class Details extends React.Component {
               }
             }
           );
-          setSeoConfigCopy({ goodsId: res.context.goods.goodsId,
+          setSeoConfig({ goodsId: res.context.goods.goodsId,
             categoryId: '',
             pageName: 'Product Detail Page' }).then(res => {
             this.setState({seoConfig: res})

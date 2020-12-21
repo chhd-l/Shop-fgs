@@ -4,17 +4,30 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'configStore')
 @observer
 class Cart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
+    }
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -28,6 +41,11 @@ class Cart extends React.Component {
     const { configStore, history, match } = this.props;
     return (
       <>
+        <Helmet>
+            <title>{this.state.seoConfig.title}</title>
+            <meta name="description" content={this.state.seoConfig.metaDescription}/>
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         {this.isLogin ? (
           <LoginCart
             history={history}
