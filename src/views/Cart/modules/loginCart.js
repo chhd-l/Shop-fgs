@@ -417,15 +417,16 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
+    console.log(product)
     const list = {
         'name': product.goodsName, 
         'id': product.goods.goodsNo, 
         'club': 'no', 
-        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
-        'price': product.goods.minMarketPrice,
+        'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
+        'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
         'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
-        //'variant': '',//?没找到
+        'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':product.goodsInfoNo
