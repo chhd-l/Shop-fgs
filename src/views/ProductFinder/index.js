@@ -14,6 +14,29 @@ import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
 
+const stepVirtualPageURL = {
+  speciesCode:'productfinder/vAPI/choice/step',
+  reasonForDiet:'productfinder/vAPI/cat/reason_step1',
+  age:'productfinder/vAPI/cat/age_step',
+  breedCode:'productfinder/vAPI/cat/breed_step',
+  size:'productfinder/vAPI/cat/size_step',
+  lifestyle:'productfinder/vAPI/cat/lifestyle_step',
+  sterilized:'productfinder/vAPI/cat/sterilization_step',
+  name:'productfinder/vAPI/dog/name_step',
+  petActivityCode:'productfinder/vAPI/dog/activity_step',
+  weight:'productfinder/vAPI/dog/weight_step',
+  genderCode:'productfinder/vAPI/dog/gender_step',
+  neutered: 'productfinder/vAPI/dog/neutered_step',
+}
+let event = {
+  event: "virtualPageView",
+  page: {
+    type: 'Product Finder',
+    hitTimestamp:new Date(),
+    virtualPageURL: 'productfinder/vAPI/choice/step',//默认是主页
+    theme:''
+  }
+};
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -45,6 +68,16 @@ class ProductFinder extends React.Component {
     }).then(res => {
       this.setState({seoConfig: res})
     });
+  }
+  GAHandle=(stepName)=>{
+    event.page.virtualPageURL = this.getStepCurrent(stepName)
+    if(dataLayer && dataLayer[0] && dataLayer[0].page){
+      dataLayer[0].page = {...event.page}
+    }
+    console.info('event.page.virtualPageURL',  event.page.virtualPageURL)
+  };
+  getStepCurrent(stepCurrent) {
+    return stepVirtualPageURL[stepCurrent]
   }
   seletTheType(type) {
     this.setState({ type });
@@ -97,15 +130,6 @@ class ProductFinder extends React.Component {
     );
     const { match, history, location } = this.props;
     const { type } = this.state;
-    const event = {
-      event: "virtualPageView",
-      page: {
-        type: 'Product Finder',
-        hitTimestamp:new Date(),
-        virtualPageURL: match.path,
-        theme:''
-      }
-    };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -127,6 +151,7 @@ class ProductFinder extends React.Component {
           <div className="rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
             {type ? (
               <Question
+                GAHandle={this.GAHandle}
                 type={type}
                 defaultQuestionData={localItemRoyal.get(
                   `pf-cache-${type}-question`

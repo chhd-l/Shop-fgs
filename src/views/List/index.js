@@ -1136,7 +1136,7 @@ class List extends React.Component {
         type = 'Product Catalogue';
         specieId = 1;
       } else if (reCat.test(pathname)) {
-        theme = 'Car';
+        theme = 'Cat';
         type = 'Product Catalogue';
         specieId = 2;
       } else {

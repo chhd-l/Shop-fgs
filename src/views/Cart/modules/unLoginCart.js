@@ -428,18 +428,23 @@ class UnLoginCart extends React.Component {
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
     console.log(product)
+    const cur_selected_size = product.sizeList.filter((item)=>{
+      return item.selected == true
+    })
+    const variant = cur_selected_size[0].specText
+    const goodsInfoNo = cur_selected_size[0].goodsInfoNo
     const list = {
         'name': product.goodsName, 
         'id': product.goodsNo, 
         'club': 'no', 
-        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
-        'price': product.minMarketPrice,
+        'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
+        'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.minMarketPrice,
         'brand': 'Royal Canin',
         'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
-        //'variant': '',//?没找到
-        'quantity': product.buyCount?product.buyCount:'',//?
+        'variant': variant,
+        'quantity': product.quantity?product.quantity:'',
         'recommendation':'self-selected',//self-selected, recommanded
-        'sku':product.goodsInfoNo?product.goodsInfoNo:''//?
+        'sku':goodsInfoNo
     }
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
