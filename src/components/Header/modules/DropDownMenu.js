@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import Help from './Help';
+import NavItem from './NavItem';
 import LazyLoad from 'react-lazyload';
 
 /**
@@ -118,20 +119,12 @@ export default class DropDownMenu extends React.Component {
                 >
                   <div className="dropdown-nav__title rc-margin-bottom--xs">
                     <span className="dropdown-nav__item font-weight-normal">
-                      {mitem.interaction === 1 ? (
-                        <a href={mitem.navigationLink} target={mitem.target}>
-                          {mitem.navigationName}
-                        </a>
-                      ) : (
-                        <span
-                          onClick={this.handleClickNavItem.bind(this, mitem)}
-                          className={`${
-                            mitem.interaction !== 2 ? 'ui-cursor-pointer' : ''
-                          }`}
-                        >
-                          {mitem.navigationName}
-                        </span>
-                      )}
+                      <NavItem
+                        item={mitem}
+                        onClick={this.handleClickNavItem.bind(this, mitem)}
+                      >
+                        {mitem.navigationName}
+                      </NavItem>
                     </span>
                   </div>
                   <ul
@@ -153,50 +146,26 @@ export default class DropDownMenu extends React.Component {
                           )}
                           onMouseOut={this.handleNavChildrenMouseOut}
                         >
-                          {mitem.interaction === 1 ? (
-                            <a
-                              href={mitem.navigationLink}
-                              target={mitem.target}
-                              className="dropdown-nav__link"
-                            >
-                              {mitem.navigationName}
-                            </a>
-                          ) : (
-                            <span
-                              onClick={this.handleClickNavItem.bind(
-                                this,
-                                citem
-                              )}
-                              className={`dropdown-nav__link ${
-                                citem.interaction !== 2
-                                  ? 'ui-cursor-pointer'
-                                  : ''
-                              }`}
-                            >
-                              {citem.navigationName}
-                            </span>
-                          )}
+                          <NavItem
+                            className="dropdown-nav__link"
+                            item={citem}
+                            onClick={this.handleClickNavItem.bind(this, citem)}
+                            item={citem}
+                          >
+                            {citem.navigationName}
+                          </NavItem>
                         </li>
                       ))}
                   </ul>
                   {mIndx === 0 && (
                     <div className="dropdown-nav__cat-link rc-padding-bottom--xs">
-                      {item.interaction === 1 ? (
-                        <a
-                          href={item.navigationLink}
-                          target={item.target}
-                          className="rc-styled-link"
-                        >
-                          <FormattedMessage id="viewAll" />
-                        </a>
-                      ) : (
-                        <span
-                          onClick={this.handleClickNavItem.bind(this, item)}
-                          className="rc-styled-link"
-                        >
-                          <FormattedMessage id="viewAll" />
-                        </span>
-                      )}
+                      <NavItem
+                        item={item}
+                        onClick={this.handleClickNavItem.bind(this, item)}
+                        className="rc-styled-link"
+                      >
+                        <FormattedMessage id="viewAll" />
+                      </NavItem>
                     </div>
                   )}
                 </li>
