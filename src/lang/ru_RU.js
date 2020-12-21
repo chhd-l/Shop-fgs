@@ -614,6 +614,7 @@ const ru_RU = {
     'required.continue': 'continue',
     'required.fields': 'required frields',
     'required.logoTitle': "Добро пожаловать в интернет-магазин ROYALCANIN®",
+    'required.checkRequired': 'Отметьте необходимые предметы',
     'requiredConsentCheckedTip': 'Пожалуйста, подтвердите обязательные поля, установив галочку.',
     'requiredFields': "* Обязательные поля",
     'resetPasswordEmail': "На ваш почтовый ящик отправлено письмо для сброса пароля, обратите внимание, что проверьте!",

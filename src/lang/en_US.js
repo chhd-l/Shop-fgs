@@ -709,6 +709,7 @@ const en_US = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Welcome to ROYALCANIN® online store',
+  'required.checkRequired': 'Check the required items',
   requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
   resetPasswordEmail: 'Reset password email has been sent to your mailbox, please note that check!',

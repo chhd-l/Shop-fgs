@@ -40,7 +40,6 @@ const breadcrumbNameMap = {
   '/list/keywords': [{ name: 'viewResults' }],
   '/account': [{ name: 'home' }],
   '/account/information': [
-    { name: 'account.personalArea', href: '/account' },
     { name: 'account.profile' }
   ],
   '/account/pets': [

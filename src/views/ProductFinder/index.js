@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import Question from './modules/Question';
 import LazyLoad from 'react-lazyload';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -20,6 +21,11 @@ class ProductFinder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       type: '' // cat dog
     };
     this.seletTheType = this.seletTheType.bind(this);
@@ -36,6 +42,8 @@ class ProductFinder extends React.Component {
     }
     setSeoConfig({
       pageName: 'Product finder'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
   }
   seletTheType(type) {
@@ -101,6 +109,11 @@ class ProductFinder extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

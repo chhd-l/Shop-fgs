@@ -34,6 +34,7 @@ import {
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import transparentImg from './images/transparent.svg';
+import { Helmet } from 'react-helmet';
 
 import './index.css';
 
@@ -58,6 +59,11 @@ class Help extends React.Component {
         goodsCategory: '',
         goodsSpecDetails: [],
         goodsSpecs: []
+      },
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
       },
       productList: [],
       currentDetail: {},
@@ -99,6 +105,8 @@ class Help extends React.Component {
   async componentDidMount() {
     setSeoConfig({
       pageName: 'SPT reco landing page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
@@ -559,6 +567,11 @@ class Help extends React.Component {
     return (
       <div className="Recommendation_FR">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

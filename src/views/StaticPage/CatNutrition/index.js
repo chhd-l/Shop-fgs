@@ -33,7 +33,11 @@ class CatNutrition extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: 'Brand'
+        theme: 'Health Nutrition',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     return (

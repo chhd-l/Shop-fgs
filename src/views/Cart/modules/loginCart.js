@@ -160,7 +160,36 @@ class LoginCart extends React.Component {
     this.setData();
     this.setState({ checkoutLoading: false });
   }
+  GACheckout(productList){
+    console.log(productList)
+    let product = [],
+        basketAmount = this.tradePrice,
+        basketID = '',
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
+    for (let item of productList) {
+      product.push({
+        brand:item.goods.brandName || 'ROYAL CANIN', //?
+        category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        club:'no',
+        id:item.goods.goodsNo,
+        name:item.goods.goodsName,
+        price:item.goods.minMarketPrice,//?
+        quantity:item.buyCount,
+        recommendation:'self-selected',
+        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        variant:item.specText?parseInt(item.specText):'',//?
+        sku:item.goodsInfos[0].goodsInfoNo
+      })
+    }     
+    dataLayer[0].checkout.basketAmount = basketAmount
+    dataLayer[0].checkout.basketID = basketID
+    dataLayer[0].checkout.option = option
+    dataLayer[0].checkout.product = product
+    dataLayer[0].checkout.step = step
+  }
   setData() {
+    this.GACheckout(this.checkoutStore.loginCartData)
     let productList = this.checkoutStore.loginCartData.map((el) => {
       let filterData =
         this.computedList.filter((item) => item.id === el.periodTypeId)[0] ||
@@ -388,27 +417,19 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
-    console.log(product)
-    //debugger
-    const list = product.map((item,index)=>{
-      return {
-        'name': item.goodsName, 
-        'id': item.goodsId, 
+    const list = {
+        'name': product.goodsName, 
+        'id': product.goods.goodsNo, 
         'club': 'no', 
-        'type': '', //club, subscription, one-time
-        'price': item.marketPrice,
+        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
+        'price': product.goods.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': item.goodsCategory,
-        'variant': item.goodsWeight,
-        'quantity': item.buyCount,
-        'recommendation':'recommended',//self-selected, recommanded
-        'sku':item.goodsInfos.length&&item.goodsInfos[0].goodsInfoId
-      }
-    })
-
-    console.log(list)
-    //debugger
-
+        'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
+        //'variant': '',//?没找到
+        'quantity': product.buyCount,
+        'recommendation':'self-selected',//self-selected, recommanded
+        'sku':product.goodsInfoNo
+    }
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
@@ -418,7 +439,6 @@ class LoginCart extends React.Component {
          }
     })
     console.log(dataLayer)
-    //debugger
   }
   async deleteProduct(item) {
     let { currentProductIdx, productList } = this.state;
@@ -432,7 +452,7 @@ class LoginCart extends React.Component {
     });
     this.setState({ deleteLoading: false });
 
-    //this.GARemoveFromCart(productList[currentProductIdx])
+    this.GARemoveFromCart(productList[currentProductIdx])
   }
   goBack(e) {
     e.preventDefault();
@@ -1085,6 +1105,8 @@ class LoginCart extends React.Component {
     return Lists;
   }
   updateConfirmTooltipVisible(item, status) {
+    console.log({item})
+    console.log({status})
     let { productList } = this.state;
     item.confirmTooltipVisible = status;
     this.setState({
@@ -1445,7 +1467,11 @@ class LoginCart extends React.Component {
     const event = {
       page: {
         type: 'Cart',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const dogsPic = process.env.REACT_APP_LANG === 'fr'?dogsImgFr:dogsImg

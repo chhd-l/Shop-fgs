@@ -757,8 +757,8 @@
 .filter-remove {
   display: inline-block;
   background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
   position: absolute;
@@ -767,7 +767,8 @@
   -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
   background-position: 30.77% 33.33%;
-  background-image: url(https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/ru_RU/images/icons/royal-canin.sprite--iconography.svg);
+  /* background-image: url(https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/ru_RU/images/icons/royal-canin.sprite--iconography.svg); */
+  background-image: url(../images/royal-canin.sprite--iconography.svg);
 }
 
 .filter-bar li.swatch-filter {

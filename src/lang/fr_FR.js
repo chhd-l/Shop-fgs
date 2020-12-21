@@ -712,6 +712,7 @@ const fr_FR = {
   'required.continue': 'Continuer',
   'required.fields': 'Ceinture requise',
   'required.logoTitle': 'Création de votre compte Royal Canin',
+  'required.checkRequired': 'Vérifiez les éléments nécessaires',
   requiredConsentCheckedTip: 'Finalisez votre inscription',
   requiredFields: '* Champs obligatoires',
   resetPasswordEmail: 'Réinitialiser le mot de passe Un e-mail a été envoyé dans votre boîte mail, veuillez noter que cochez!',
@@ -1111,8 +1112,9 @@ const fr_FR = {
   'modalChangeDateTitle': 'Modifier la date d’expédition',
   'modalChangeDateContent': 'Êtes-vous sûr de vouloir modifier la prochaine date d’expédition ?',
   'confirmation.account':'Gérer votre abonnement',
-  'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec labonnement',
+  'confirmation.subscriptionDiscountPriceDes':'Vous avez économisé {val1} avec l\'abonnement',
   deliveredTip: 'Devrait arriver dans environ 3 jours',
   checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
+  'avecLabonnement':'avec l\'abonnement',
 }
 export default fr_FR;

@@ -8,19 +8,33 @@ import './index.css';
 import edit from '@/assets/images/edit.svg';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 export default class PetForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
   }
   componentDidMount(){
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
 
   render() {
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

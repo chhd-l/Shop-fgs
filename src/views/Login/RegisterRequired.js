@@ -311,7 +311,7 @@ class RegisterRequired extends Component {
                 className="rc-alert rc-alert--error rc-alert--with-close"
                 role="alert"
               >
-                <span>Compruebe los elementos necesarios</span>
+                <span><FormattedMessage id="required.checkRequired" /></span>
               </aside>
             ) : null}
             <div style={{ marginTop: '20px' }}>

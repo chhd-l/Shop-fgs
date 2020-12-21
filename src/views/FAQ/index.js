@@ -10,6 +10,7 @@ import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 import './index.less';
 
@@ -20,6 +21,11 @@ class FAQ extends React.Component {
     super(props);
     this.state = {
       dataFAQ: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       // 当前展开的FAQ
       showCur: -1,
       loading: true
@@ -31,6 +37,8 @@ class FAQ extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'FAQ page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -88,13 +96,22 @@ class FAQ extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: ''
+        type: 'other',
+        theme: 'Brand',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
       }
     };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -105,16 +122,13 @@ class FAQ extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div
-            className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"
-            style={{ maxWidth: '70%' }}
-          >
+          <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
             <div className="rc-bg-colour--brand3">
               <div className="rc-padding--sm rc-padding-left--none">
                 <div className="rc-padding-y--md rc-md-down" />
                 <div className="rc-one-column">
-                  <div className="rc-column rc-padding-left--none">
-                    <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none ">
+                  <div className="rc-column rc-padding-left--none text-center">
+                    <div className="rc-full-width rc-padding-x--sm rc- padding-left--none ">
                       <h1
                         className="text-center"
                         className="rc-alpha inherit-fontsize"
@@ -163,7 +177,7 @@ class FAQ extends React.Component {
                   <dl
                     data-toggle-group=""
                     data-toggle-effect="rc-expand--vertical"
-                    className=""
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                   >
                     {pitem.storeFaqVo.map((item, index) => (
                       <div

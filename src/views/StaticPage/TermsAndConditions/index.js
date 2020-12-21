@@ -8,6 +8,7 @@ import { setSeoConfig } from '@/utils/utils';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import BannerTip from '@/components/BannerTip';
 import './index.css';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -18,6 +19,11 @@ class TermsConditions extends React.Component {
     super(props);
     this.state = {
       tel: '',
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       mailAddress: ''
     };
   }
@@ -37,18 +43,29 @@ class TermsConditions extends React.Component {
     this.setState({ tel, mailAddress });
     setSeoConfig({
       pageName: 'general terms conditions page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
   }
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: ''
+        type: 'other',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

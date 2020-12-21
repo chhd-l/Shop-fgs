@@ -72,7 +72,6 @@ class Question extends React.Component {
         questionParams: { speciesCode: type }
       },
       () => {
-        debugger;
         // 从缓存中读取上次答题进度缓存
         if (cachedQuestionData) {
           const {
@@ -132,7 +131,6 @@ class Question extends React.Component {
       questionType: qRes.questionType,
       configSizeAttach: this.state.configSizeAttach
     });
-
     this.setState({
       progress: progress || 100,
       stepOrder: editStopOrder,
@@ -263,6 +261,7 @@ class Question extends React.Component {
   };
   queryAnswers = async () => {
     try {
+      const { type } = this.props;
       const {
         stepOrder,
         currentStepName,
@@ -274,9 +273,10 @@ class Question extends React.Component {
         initDataFromFreshPage,
         configSizeAttach
       } = this.state;
-      const { type } = this.props;
       this.setState({ isPageLoading: true });
       let tmpQuestionParams = Object.assign({}, questionParams);
+
+      // 每道题选项缓存
       let cachedSelectedVal =
         localItemRoyal.get(`pf-one-question-cached-${type}`) || {};
 
@@ -285,14 +285,13 @@ class Question extends React.Component {
           [currentStepName]: form
         });
         // breedSizeform 特殊处理
-        if (breedSizeform) {
+        if (breedSizeform && currentStepName === 'breedCode') {
           tmpObj = Object.assign(tmpObj, {
             [`${currentStepName}_size_attach`]: breedSizeform
           });
         }
         localItemRoyal.set(`pf-one-question-cached-${type}`, tmpObj);
-      }
-      if (currentStepName) {
+
         let tmpFormParam;
         switch (questionType) {
           case 'text':
@@ -327,18 +326,10 @@ class Question extends React.Component {
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [currentStepName]: tmpFormParam
         });
-
-        // 特殊处理breed size
-        if (breedSizeform) {
-          tmpQuestionParams = Object.assign(tmpQuestionParams, {
-            [configSizeAttach.name]: encodeURI(breedSizeform.key)
-          });
-        }
-        this.setState({ questionParams: tmpQuestionParams });
       }
 
       // 特殊处理breed size
-      if (breedSizeform) {
+      if (breedSizeform && currentStepName === 'breedCode') {
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
           [configSizeAttach.name]: encodeURI(breedSizeform.key)
         });
@@ -692,6 +683,7 @@ class Question extends React.Component {
                     config={questionCfg}
                     updateFormData={this.updateFormData}
                     updateSaveBtnStatus={this.updateSaveBtnStatus}
+                    key={questionCfg.title}
                   />
                 )}
                 {questionType === 'select' && (

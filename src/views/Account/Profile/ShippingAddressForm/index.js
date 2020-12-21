@@ -11,6 +11,7 @@ import { getDictionary, validData, setSeoConfig } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import Selection from '@/components/Selection';
 import classNames from 'classnames';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -22,6 +23,11 @@ class ShippingAddressFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       loading: false,
       saveLoading: false,
       showModal: false,
@@ -56,7 +62,9 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -294,6 +302,11 @@ class ShippingAddressFrom extends React.Component {
     } = this.state;
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <div className="content-asset">
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${

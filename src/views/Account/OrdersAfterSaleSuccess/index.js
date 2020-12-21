@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import { Link } from 'react-router-dom';
 import { getReturnDetails } from '@/api/order';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BannerTip from '@/components/BannerTip';
@@ -11,6 +12,7 @@ import successImg from '@/assets/images/credit-cards/success.png';
 import { setSeoConfig } from '@/utils/utils';
 import './index.css';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -22,6 +24,11 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       afterSaleType: '',
       details: null,
       loading: true,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       errMsg: ''
     };
   }
@@ -33,7 +40,9 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       },
       () => this.queryReturnDetails()
     );
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
   queryReturnDetails() {
     getReturnDetails(this.state.returnNumber)
@@ -52,8 +61,25 @@ export default class OrdersAfterSaleSuccess extends React.Component {
   }
   render() {
     const { details, errMsg } = this.state;
+    const event = {
+      page: {
+        type: 'Account',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
     return (
       <div>
+        <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
+        
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header">
           <BannerTip />

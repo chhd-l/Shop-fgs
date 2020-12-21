@@ -17,6 +17,7 @@ import { FormattedMessage } from 'react-intl';
 import { getToken } from '@/api/login';
 import { getCustomerInfo } from '@/api/user';
 import { mergeUnloginCartData } from '@/utils/utils';
+import { userBindConsent } from '@/api/consent';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -42,7 +43,6 @@ const LoginButton = (props) => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
-
       const parametersString = history.location.search;
       if(!parametersString) {
         return;
@@ -53,9 +53,26 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
+          const oktaToken = authState.accessToken ? authState.accessToken.value : '';
+          const consentString = localItemRoyal.get('rc-consent-list');
+          if(consentString && loginStore.isLogin) {
+            var consents = JSON.parse(consentString);
+            let submitParam = bindSubmitParam(consents);
+            userBindConsent({
+              ...submitParam,
+              ...{ oktaToken }
+            }).then(res=>{
+              if(res.code === 'K-000000') {
+                history.push('/')
+              }
+            }).catch((e) => {
+              console.log(e);
+            });
+          }
           if (!loginStore.isLogin) {
-            getToken({ oktaToken: `Bearer ${authState.accessToken ? authState.accessToken.value : ''}` })
+            getToken({ oktaToken: `Bearer ${oktaToken}` })
               .then(async (res) => {
+                //debugger
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);
@@ -96,6 +113,22 @@ const LoginButton = (props) => {
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {}
+  };
+
+  const bindSubmitParam = (list) => {
+    let obj = { optionalList: [], requiredList: [] };
+    list
+      .filter((item) => !item.isRequired)
+      .forEach((item) => {
+        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
+      });
+    list
+      .filter((item) => item.isRequired)
+      .forEach((item) => {
+        obj.requiredList.push({ id: item.id, selectedFlag: true });
+      });
+
+    return obj;
   };
 
   return (

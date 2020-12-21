@@ -11,7 +11,12 @@ import SideMenu from '@/components/SideMenu';
 import Modal from '@/components/Modal';
 import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { formatMoney, getDictionary, setSeoConfig, getFormatDate } from '@/utils/utils';
+import {
+  formatMoney,
+  getDictionary,
+  setSeoConfig,
+  getFormatDate
+} from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import { queryCityNameById } from '@/api';
@@ -25,6 +30,7 @@ import {
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -111,6 +117,11 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       orderNumber: '',
       totalTid: '',
       subNumber: '',
@@ -185,7 +196,9 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -637,9 +650,7 @@ class AccountOrders extends React.Component {
                   </svg>
                   <FormattedMessage id="deliveryDate" />:{' '}
                   <span className="medium">
-                    {
-                      getFormatDate((item.deliverTime || '').substr(0, 10))
-                    }
+                    {getFormatDate((item.deliverTime || '').substr(0, 10))}
                   </span>
                 </div>
                 <div className="col-12 col-md-4">
@@ -680,7 +691,9 @@ class AccountOrders extends React.Component {
             >
               <div className="col-10 medium color-444 d-flex align-items-center">
                 <span>
-                  {getFormatDate(item.syncLogisticsInfo.originInfo.trackInfo[0].date)}
+                  {getFormatDate(
+                    item.syncLogisticsInfo.originInfo.trackInfo[0].date
+                  )}
                 </span>
               </div>
               <div className="col-2">
@@ -887,7 +900,11 @@ class AccountOrders extends React.Component {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
       }
     };
 
@@ -903,6 +920,11 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -925,7 +947,10 @@ class AccountOrders extends React.Component {
                     </span>
                   </span>
                 ) : (
-                  <Link to="/account/orders" className="rc-md-down mt-3 inlineblock">
+                  <Link
+                    to="/account/orders"
+                    className="rc-md-down mt-3 inlineblock"
+                  >
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2">
                       <FormattedMessage id="account.ordersTitle" />
@@ -1029,12 +1054,23 @@ class AccountOrders extends React.Component {
                                       </span>
                                       <span className="od-prg-time position-absolute">
                                         <span className="rc-md-up">
-                                          {getFormatDate(item.time1)} {item.time2}
+                                          {item.time1
+                                            ? getFormatDate(item.time1)
+                                            : null}{' '}
+                                          {item.time2}
                                         </span>
                                         <span className="rc-md-down">
-                                          {getFormatDate(item.time1)}
+                                          {item.time1
+                                            ? getFormatDate(item.time1)
+                                            : null}
                                           <br />
-                                          {item.time2 || <span style={{color:'transparent'}}>&nbsp:;</span>}
+                                          {item.time2 || (
+                                            <span
+                                              style={{ color: 'transparent' }}
+                                            >
+                                              &nbsp;
+                                            </span>
+                                          )}
                                         </span>
                                       </span>
                                     </span>
@@ -1111,7 +1147,7 @@ class AccountOrders extends React.Component {
                                         <div className="col-4 col-md-2 d-flex justify-content-center align-items-center">
                                           <LazyLoad className="d-flex justify-content-center align-items-center">
                                             <img
-                                              style={{width:'100px'}}
+                                              style={{ width: '100px' }}
                                               className="order-details-img-fluid"
                                               src={item.pic || IMG_DEFAULT}
                                               alt={item.spuName}
@@ -1149,7 +1185,9 @@ class AccountOrders extends React.Component {
                                                   </span>
 
                                                   <span className="text-line-through ml-2">
-                                                    {formatMoney(item.originalPrice)}
+                                                    {formatMoney(
+                                                      item.originalPrice
+                                                    )}
                                                   </span>
                                                 </>
                                               ) : (
@@ -1475,7 +1513,9 @@ class AccountOrders extends React.Component {
                           <FormattedMessage id="deliveryDate" />
                           <br />
                           <span className="medium color-444">
-                            {getFormatDate((curLogisticInfo.deliverTime || '').substr(0, 10))}
+                            {getFormatDate(
+                              (curLogisticInfo.deliverTime || '').substr(0, 10)
+                            )}
                           </span>
                         </p>
                       </div>

@@ -49,6 +49,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
+import GoogleTagManager from '@/components/GoogleTagManager';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -64,6 +66,11 @@ class SubscriptionDetail extends React.Component {
       subShipping: 0,
       promotionDiscount: 0,
       promotionDesc: '',
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       subTradeTotal: 0,
       //订阅购物车参数
       discount: [], //促销码的折扣信息汇总
@@ -200,6 +207,8 @@ class SubscriptionDetail extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -546,6 +555,16 @@ class SubscriptionDetail extends React.Component {
     });
   }
   render() {
+    const event = {
+      page: {
+        type: 'Account',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      }
+    };
     const data = this.state;
     const { checkoutStore } = this.props;
     let {
@@ -570,6 +589,12 @@ class SubscriptionDetail extends React.Component {
     return (
       <div className="subscriptionDetail">
         <div>
+          <GoogleTagManager additionalEvents={event} />
+          <Helmet>
+            <title>{this.state.seoConfig.title}</title>
+            <meta name="description" content={this.state.seoConfig.metaDescription}/>
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          </Helmet>
           <Header
             showMiniIcons={true}
             showUserIcon={true}

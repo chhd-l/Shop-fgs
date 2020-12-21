@@ -57,7 +57,20 @@ class UnloginCart extends React.Component {
       };
     });
   }
+    GAAccessToGuestCheck(){
+      dataLayer.push(
+      {
+        event:`${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+        interaction:{
+          category:'checkout',
+          action:'guest checkout',
+          label:'cart pop-in', //"cart page  "          
+          value:1
+        },
+      }) 
+  }
   async handleCheckout({ needLogin = false } = {}) {
+    this.GAAccessToGuestCheck()
     try {
       const {
         configStore,

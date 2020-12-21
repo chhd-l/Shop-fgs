@@ -1,4 +1,4 @@
-import { getSeoConfig } from '@/api';
+import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict } from '@/api/dict';
@@ -6,7 +6,7 @@ import find from 'lodash/find';
 import flatten from 'lodash/flatten';
 import stores from '@/store';
 import { toJS } from 'mobx';
-import {createIntl, createIntlCache} from 'react-intl'
+import { createIntl, createIntlCache } from 'react-intl';
 import es from 'date-fns/locale/es';
 import de from 'date-fns/locale/de';
 import fr from 'date-fns/locale/de';
@@ -287,9 +287,43 @@ function getchilds(id, array) {
   return childs;
 }
 
-export async function setSeoConfigCopy(
+/**
+ * 树形结构数据，根据子节点寻找父节点
+ * @param {Array} data - 树形结构源数据
+ * @param {Number/String} id - 需要操作的子节点id
+ * @param {Array} indexArray - []
+ */
+export function getParentNodesByChild({ data, id, indexArray, matchIdName }) {
+  let arr = Array.from(indexArray);
+  for (let i = 0, len = data.length; i < len; i++) {
+    // arr.push(data[i].parentId);
+    arr.push(data[i]);
+    if (data[i][matchIdName] === id) {
+      return arr;
+    }
+    let children = data[i].children;
+    if (children && children.length) {
+      let result = getParentNodesByChild({
+        data: children,
+        id,
+        indexArray: arr,
+        matchIdName
+      });
+      if (result) return result;
+    }
+    arr.pop();
+  }
+  return [];
+}
+
+export async function setSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
+  // 如果页面调用了这个方法，就需要移除html里默认的字段
+  document.getElementsByTagName('meta')[(name = 'description')] &&
+    document.getElementsByTagName('meta')[(name = 'description')].remove();
+  document.getElementsByTagName('meta')[(name = 'keywords')] &&
+    document.getElementsByTagName('meta')[(name = 'keywords')].remove();
   let goodsSeo = {},
     cateSeo = {},
     pageSeo = {},
@@ -310,32 +344,32 @@ export async function setSeoConfigCopy(
   }
 
   // setTimeout(() => {
-    let seoInfo = {
-      title:
-        goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
-      metaKeywords:
-        goodsSeo.metaKeywords ||
-        cateSeo.metaKeywords ||
-        pageSeo.metaKeywords ||
-        siteSeo.metaKeywords ||
-        '',
-      metaDescription:
-        goodsSeo.metaDescription ||
-        cateSeo.metaDescription ||
-        pageSeo.metaDescription ||
-        siteSeo.metaDescription ||
-        ''
-    };
-    // changeTitleAndMeta(seoInfo);
-    return seoInfo
-    
+  let seoInfo = {
+    title:
+      goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
+    metaKeywords:
+      goodsSeo.metaKeywords ||
+      cateSeo.metaKeywords ||
+      pageSeo.metaKeywords ||
+      siteSeo.metaKeywords ||
+      '',
+    metaDescription:
+      goodsSeo.metaDescription ||
+      cateSeo.metaDescription ||
+      pageSeo.metaDescription ||
+      siteSeo.metaDescription ||
+      ''
+  };
+  // changeTitleAndMeta(seoInfo);
+  return seoInfo;
+
   // }, 100);
 }
 
-export async function setSeoConfig(
+export async function beforeSetSeoConfig(
   obj = { goodsId: '', categoryId: '', pageName: '' }
 ) {
-  return
+  return;
   let goodsSeo = {},
     cateSeo = {},
     pageSeo = {},
@@ -568,6 +602,49 @@ export async function getFrequencyDict() {
 /**
  * 查询home页分类信息
  */
+// 上线后修改id todo
+const DEFUALT_FILTER_MAP_FR = {
+  '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
+    {
+      attributeId: 'A20201209071242331',
+      attributeName: 'ÂGE',
+      filterType: '0',
+      attributeValues: ['Adult_Dog', 'Mature_Dog'],
+      attributeValueIdList: ['AV202012160309152796', 'AV202012160309161216']
+    }
+  ],
+  '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
+    {
+      attributeId: 'A20201209071242331',
+      attributeName: 'ÂGE',
+      filterType: '0',
+      attributeValues: ['Adult_Cat', 'Mature_Cat', 'Senior_Cat'],
+      attributeValueIdList: [
+        'AV202012160309229266',
+        'AV202012160309234996',
+        'AV202012160309253586'
+      ]
+    }
+  ],
+  '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
+    {
+      attributeId: 'A20201209071242331',
+      attributeName: 'ÂGE',
+      filterType: '0',
+      attributeValues: ['Puppy_Dog', 'Baby_Dog'],
+      attributeValueIdList: ['AV202012160309175316', 'AV202012160310184696']
+    }
+  ],
+  '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
+    {
+      attributeId: 'A20201209071242331',
+      attributeName: 'ÂGE',
+      filterType: '0',
+      attributeValues: ['Kitten_Cat', 'Baby_Cat'],
+      attributeValueIdList: ['AV202012160309246796', 'AV202012160309463736']
+    }
+  ]
+};
 export async function queryStoreCateList() {
   let ret = sessionItemRoyal.get('home-navigations');
   if (ret) {
@@ -576,23 +653,52 @@ export async function queryStoreCateList() {
     const res = await findStoreCateList();
     if (res.context) {
       ret = res.context;
+      Array.from(ret, (ele) => {
+        ele.filter = JSON.stringify(
+          DEFUALT_FILTER_MAP_FR[ele.cateRouter] || []
+        );
+        const tmpImgList = JSON.parse(ele.cateImg);
+        ele.cateImgForHome = tmpImgList[0].artworkUrl;
+        ele.cateImgForList = tmpImgList.length > 1 && tmpImgList[1].artworkUrl;
+        return ele;
+      });
+
       sessionItemRoyal.set('home-navigations', JSON.stringify(ret));
     }
   }
   return ret;
 }
 
+/**
+ * 查询二级导航
+ */
+export async function fetchHeaderNavigations() {
+  let ret = sessionItemRoyal.get('header-navigations');
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await queryHeaderNavigations();
+    if (res.context) {
+      ret = res.context.filter((el) => el.enable);
+      sessionItemRoyal.set('header-navigations', JSON.stringify(ret));
+    }
+  }
+  return ret;
+}
 
-export function getFormatDate(date){
-  if(process.env.REACT_APP_LANG === 'fr') {
-    const cache = createIntlCache()
-    const intl = createIntl({
-      locale: 'fr-FR',
-      messages: {}
-    }, cache)
-    return intl.formatDate(date)
-  }else {
-    return date  
+export function getFormatDate(date) {
+  if (process.env.REACT_APP_LANG === 'fr') {
+    const cache = createIntlCache();
+    const intl = createIntl(
+      {
+        locale: 'fr-FR',
+        messages: {}
+      },
+      cache
+    );
+    return intl.formatDate(date);
+  } else {
+    return date;
   }
 }
 
@@ -620,8 +726,9 @@ function getDatePickerConfig() {
     default: { format: 'yyyy-MM-dd', locale: '' }
   };
 
-  const curDatePickerCfg = datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
-  return curDatePickerCfg
+  const curDatePickerCfg =
+    datePickerCfg[process.env.REACT_APP_LANG] || datePickerCfg.default;
+  return curDatePickerCfg;
 }
-let datePickerConfig = getDatePickerConfig()
-export { datePickerConfig } 
+let datePickerConfig = getDatePickerConfig();
+export { datePickerConfig };

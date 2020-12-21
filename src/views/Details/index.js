@@ -34,7 +34,6 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  setSeoConfigCopy
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
@@ -120,8 +119,9 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      event: {},
-      eEvents: {},
+      event:{},
+      eEvents:{},
+      GAListParam:'',
       initing: true,
       details: {
         id: '',
@@ -200,7 +200,10 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname } = this.props.location;
+    const { pathname,state } = this.props.location;
+    if(state&&(!!state.GAListParam)) {
+      this.setState({GAListParam:state.GAListParam})
+    }
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
@@ -512,8 +515,7 @@ class Details extends React.Component {
               }
             }
           );
-          setSeoConfigCopy({
-            goodsId: res.context.goods.goodsId,
+          setSeoConfig({ goodsId: res.context.goods.goodsId,
             categoryId: '',
             pageName: 'Product Detail Page'
           }).then((res) => {
@@ -911,7 +913,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.GAAddToCar(details);
+      this.GAAddToCar(quantity,details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1041,7 +1043,7 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(details);
+    this.GAAddToCar(quantity,details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1342,7 +1344,8 @@ class Details extends React.Component {
     }
   }
   //加入购物车，埋点
-  GAAddToCar(item) {
+  GAAddToCar(num,item) {
+    let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
       ecommerce: {
@@ -1350,16 +1353,16 @@ class Details extends React.Component {
           products: [
             {
               name: item.goodsName,
-              id: item.goodsId,
+              id: item.goodsNo,//已改
               club: 'no',
-              type: '', //?是否订阅
+              type: form.buyWay==0?'one-time':'subscription',//?是否订阅
               price: item.minMarketPrice,
-              brand: item.brandName || 'Royal Canin',
-              category: item.goodsCateName,
-              variant: item.goodsWeight,
-              quantity: '', //?数量
-              recommendation: 'recommended', //?self-selected, recommended
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
+              brand: item.brandName||'Royal Canin',
+              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',//已改
+              //variant: parseInt(item.goodsSpecDetails[0].detailName),
+              quantity: num,
+              recommendation: 'self-selected', //?self-selected, recommended
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo//已改
             }
           ]
         }
@@ -1371,7 +1374,15 @@ class Details extends React.Component {
   GAProductDetailPageView(item) {
     const event = {
       page: {
-        type: 'Product'
+        type: 'product',
+        theme: item.cateId=='1134'?'Cat':'Dog',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
+      },
+      pet:{
+        specieId: item.cateId=='1134'?'2':'1',
       }
     };
     const eEvents = {
@@ -1379,16 +1390,19 @@ class Details extends React.Component {
       ecommerce: {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
+          actionField: {
+            list: this.state.GAListParam//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          },
           products: [
             {
-              id: item.goodsId,
+              id: item.Id,//?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
-              brand: 'ROYAL CANIN', //?
+              brand: item.brandName||'ROYAL CANIN',
               club: 'no',
-              category: item.goodsCateName,
-              variant: item.goodsWeight,
-              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoId
+              category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
+              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }
           ]
         }

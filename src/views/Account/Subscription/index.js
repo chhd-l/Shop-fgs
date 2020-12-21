@@ -19,6 +19,7 @@ import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
 import { setSeoConfig, getFormatDate } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 import './index.css';
 
@@ -30,6 +31,11 @@ class Subscription extends React.Component {
     this.state = {
       orderList: [],
       subList: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       form: {
         subscribeId: '',
         subscribeStatus: '0'
@@ -63,6 +69,8 @@ class Subscription extends React.Component {
   async componentDidMount() {
     setSeoConfig({
       pageName: 'Account subscriptions'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -160,13 +168,22 @@ class Subscription extends React.Component {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     const { frequencyList, isMobile } = this.state;
     return (
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

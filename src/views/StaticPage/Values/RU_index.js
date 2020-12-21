@@ -8,6 +8,7 @@ import image1 from './images/image1.jpg';
 import image2 from './images/image2.jpg';
 import image3 from './images/image3.jpg';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 import './index.css';
 import { toJS } from 'mobx';
@@ -18,14 +19,22 @@ const localItemRoyal = window.__.localItemRoyal;
 class Help extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
   }
 
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -37,12 +46,21 @@ class Help extends React.Component {
     const event = {
       page: {
         type: 'Content',
-        theme: 'Brand'
+        theme: 'Brand',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

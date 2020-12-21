@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
+import { Helmet } from 'react-helmet';
 
 const itemList = [
   {
@@ -87,25 +88,46 @@ const itemList = [
 @inject('loginStore', 'configStore')
 @observer
 class AccountHome extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    }
+  }
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
   componentDidMount() {
     setSeoConfig({
       pageName: 'Account index'
-    });
+    }).then(res => {
+      this.setState({seoConfig: res})
+    });;
   }
 
   render() {
     const event = {
       page: {
         type: 'Account',
-        theme: ''
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
