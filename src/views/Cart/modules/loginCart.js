@@ -177,7 +177,7 @@ class LoginCart extends React.Component {
         price:item.goods.minMarketPrice,//?
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
         variant:item.specText?parseInt(item.specText):'',//?
         sku:item.goodsInfos[0].goodsInfoNo
       })
@@ -417,19 +417,20 @@ class LoginCart extends React.Component {
   }
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
-    const list = {
+    console.log(product)
+    const list = [{
         'name': product.goodsName, 
         'id': product.goods.goodsNo, 
         'club': 'no', 
-        'type': product.subscriptionStatus==1?'subscription':'one-time', //？现在都是1
-        'price': product.goods.minMarketPrice,
+        'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
+        'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
         'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
-        //'variant': '',//?没找到
+        'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':product.goodsInfoNo
-    }
+    }]
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
@@ -461,7 +462,7 @@ class LoginCart extends React.Component {
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {

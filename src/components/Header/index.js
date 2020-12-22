@@ -485,7 +485,9 @@ class Header extends React.Component {
             results,
             type
           };
-          dataLayer.push({ search: this.state.event.search });
+          dataLayer[0].search.query = query
+          dataLayer[0].search.results = results
+          dataLayer[0].search.type = type
 
           this.setState({
             result: Object.assign(
