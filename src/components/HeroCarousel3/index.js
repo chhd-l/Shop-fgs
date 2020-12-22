@@ -46,28 +46,27 @@ class Carousel extends React.Component {
       }  });
   }
 
-  // GABannerClick = (idx) => {
-  //   const cur_banner = this.state.banner[idx]
-  //   dataLayer.push({
-  //     'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
-  //     'ecommerce': {
-  //       'promoClick': {
-  //         'promotions': [
-  //          {
-  //            'id': cur_banner.bannerId,            // Name or ID is required
-  //            'name': cur_banner.bannerName,
-  //            'creative': cur_banner.bannerName,
-  //            'position': idx
-  //          }]
-  //       }
-  //     }  });
-  // }
+  GABannerClick = (idx) => {
+    const cur_banner = this.state.banner[idx]
+    dataLayer.push({
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
+      'ecommerce': {
+        'promoClick': {
+          'promotions': [
+           {
+             'id': cur_banner.bannerId,            // Name or ID is required
+             'name': cur_banner.bannerName,
+             'creative': cur_banner.bannerName,
+             'position': idx
+           }]
+        }
+      }  });
+  }
 
   componentDidMount() {
     getBanner().then((res) => {
       this.setState({ banner: res.context },()=>{
-        
-        //this.GABannerImpression(this.state.banner)
+        console.log({banner:this.state.banner})
       });
     });
 
@@ -201,15 +200,6 @@ class Carousel extends React.Component {
 
   hanldeClick = (item) => {
     console.log(item);
-    // sessionItemRoyal.set(
-    //   'rc-goods-cate-name',
-    //   this.state.currentCatogery || ''
-    // );
-    // const { history, location } = this.props;
-    // sessionItemRoyal.set('recomment-preview', location.pathname);
-    // sessionItemRoyal.set('rc-goods-name', item.goodsName);
-
-    // history.push('/details/' + item.goodsInfoIds[0]);
   };
   render() {
     return (
@@ -254,13 +244,15 @@ class Carousel extends React.Component {
                                 process.env.REACT_APP_LANG == 'de'
                                 ?
                                 <Link
+                                  onClick={()=>this.GABannerClick(index)}
                                   to="/list/keywords"
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
                                 </Link>
                                 :<Link
-                                  to="/product-finder"
+                                  onClick={()=>this.GABannerClick(index)}
+                                  to={item.webSkipUrl}
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
@@ -278,7 +270,10 @@ class Carousel extends React.Component {
                             }}
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
-                            <Link to="/packmixfeedingwetdry" className="category-btn">
+                            <Link 
+                              onClick={()=>this.GABannerClick(index)}
+                              to={item.webSkipUrl} 
+                              className="category-btn">
                               <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>

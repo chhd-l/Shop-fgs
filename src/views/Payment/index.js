@@ -148,8 +148,8 @@ class Payment extends React.Component {
   async componentDidMount() {
     const { checkoutStore, paymentStore, clinicStore } = this.props;
     const { tid } = this.state;
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     if (this.isLogin) {
       // 登录情况下，无需显示email panel
@@ -1441,7 +1441,11 @@ class Payment extends React.Component {
     return (
       <>
         <div
-          className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3"
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
+            paymentStore.deliveryAddrPanelStatus.isEdit
+              ? 'border-333'
+              : 'border-transparent'
+          }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
@@ -1902,7 +1906,7 @@ class Payment extends React.Component {
         path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const { history, location, checkoutStore } = this.props;
@@ -1932,8 +1936,11 @@ class Payment extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           history={this.props.history}
@@ -2123,7 +2130,11 @@ class Payment extends React.Component {
                   </div>
                 )}
                 <div
-                  className="card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0"
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
+                    this.paymentMethodPanelStatus.isEdit
+                      ? 'border-333'
+                      : 'border-transparent'
+                  }`}
                   id="J_checkout_panel_paymentMethod"
                 >
                   <h5 className="ml-custom mr-custom mb-0">

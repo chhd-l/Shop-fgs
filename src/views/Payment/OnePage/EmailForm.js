@@ -61,10 +61,17 @@ class EmailForm extends React.Component {
     this.setState({ isValid: tmpStatus });
   };
   render() {
+    const {updateStepForEmail,paymentStep} = this.props.paymentStore
     const { isEdit, form, isValid } = this.state;
     const { intl, paymentStore } = this.props;
     const { emailPanelStatus } = paymentStore;
-    console.log(2323, toJS(paymentStore.emailPanelStatus));
+    
+    //更新邮件填写状态
+    updateStepForEmail(toJS(paymentStore.emailPanelStatus))
+    // if(paymentStep[0].isCompleted){
+    //   console.log(paymentStep[0])
+    //   debugger
+    // }
 
     const titleForPrepare = (
       <>
@@ -112,7 +119,11 @@ class EmailForm extends React.Component {
       : null;
 
     return (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+      <div
+        className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
+          emailPanelStatus.isEdit ? 'border-333' : 'border-transparent'
+        }`}
+      >
         <div className="bg-transparent d-flex justify-content-between align-items-center">
           {_title}
         </div>
