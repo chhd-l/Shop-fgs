@@ -63,7 +63,7 @@ export function getRecommendProducts(parameter) {
     param = param + k + '=' + parameter[k] + '&'
   }
   return axios({
-    url: `${api.getRecommendProducts}?${param.slice(0, param.length - 2)}`,
+    url: `${api.getRecommendProducts}?${param.slice(0, param.length - 1)}`,
     method: 'get',
     // data: JSON.stringify(parameter)
   })
