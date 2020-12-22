@@ -1346,6 +1346,11 @@ class Details extends React.Component {
   }
   //加入购物车，埋点
   GAAddToCar(num,item) {
+    let cur_selected_size = item.sizeList.filter((item2)=>{
+      return item2.selected == true
+    })
+    let variant = cur_selected_size[0].specText
+    let goodsInfoNo = cur_selected_size[0].goodsInfoNo
     let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
@@ -1354,16 +1359,16 @@ class Details extends React.Component {
           products: [
             {
               name: item.goodsName,
-              id: item.goodsNo,//已改
+              id: item.goodsNo,
               club: 'no',
-              type: form.buyWay==0?'one-time':'subscription',//?是否订阅
-              price: item.minMarketPrice,
+              type: form.buyWay==0?'one-time':'subscription',
+              price: form.buyWay==0?cur_selected_size[0].marketPrice:cur_selected_size[0].subscriptionPrice,
               brand: item.brandName||'Royal Canin',
-              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',//已改
-              //variant: parseInt(item.goodsSpecDetails[0].detailName),
+              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              variant: parseInt(variant),
               quantity: num,
-              recommendation: 'self-selected', //?self-selected, recommended
-              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo//已改
+              recommendation: 'self-selected',
+              sku: goodsInfoNo
             }
           ]
         }
