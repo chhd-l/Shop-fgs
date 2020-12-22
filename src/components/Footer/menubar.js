@@ -167,7 +167,7 @@ export const menubar = {
         titleId: 'footer.help2',
         list: [
           {
-            url: `${process.env.REACT_APP_ACCESS_PATH}help`,
+            link: `/help`,
             messageId: 'footer.contacts'
           },
           { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
