@@ -217,7 +217,7 @@
 
 
           dataLayer.push({
-            'event': '{{site.id}}eComRemoveFromCartt',
+            'event': '{{site.id}}eComRemoveFromCart',
             'ecommerce': {
                  'remove': {
                        'products': [{ // can only contain one product
