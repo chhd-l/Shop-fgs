@@ -46,5 +46,6 @@
 }
 
 .rc-header-with-icon.header-icon .rc-icon:after{
+  height: 31px;
   transform:scale(.438)
 }
