@@ -112,7 +112,11 @@ class EmailForm extends React.Component {
       : null;
 
     return (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+      <div
+        className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
+          emailPanelStatus.isEdit ? 'border-333' : 'border-transparent'
+        }`}
+      >
         <div className="bg-transparent d-flex justify-content-between align-items-center">
           {_title}
         </div>
