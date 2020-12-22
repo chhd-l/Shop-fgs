@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore','paymentStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -20,7 +20,8 @@ class PayProductInfo extends React.Component {
     style: {},
     className: '',
     onClickHeader: () => {},
-    headerIcon: null
+    headerIcon: null,
+    step:0,
   };
   constructor(props) {
     super(props);
@@ -45,6 +46,9 @@ class PayProductInfo extends React.Component {
         0
       )
     );
+  }
+  get paymentStep() {
+    return this.props.paymentStore.paymentStep
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
@@ -71,7 +75,7 @@ class PayProductInfo extends React.Component {
         basketAmount = this.tradePrice,
         basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        step = this.state.step
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN', //?
@@ -96,12 +100,13 @@ class PayProductInfo extends React.Component {
   }
   //游客
   GACheckUnLogin(productList){
+        this.getGACheckoutStep()
         console.log(productList)
         let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        step = this.state.step
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2)=>{
         return item2.selected == true
@@ -127,6 +132,11 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.option = option
     dataLayer[0].checkout.product = product
     dataLayer[0].checkout.step = step
+  }
+  //获取GA step
+  getGACheckoutStep(){
+    console.log(this.paymentStep)
+    //debugger
   }
   async componentDidMount() {
     let productList;

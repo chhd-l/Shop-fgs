@@ -151,6 +151,7 @@ class VisitorAddress extends React.Component {
     const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
+    const {updateStepForAddress,paymentStep} = this.props.paymentStore
 
     const _editForm = (
       <EditForm
@@ -168,6 +169,14 @@ class VisitorAddress extends React.Component {
       : panelStatus.isCompleted
       ? this.titleJSXForCompeleted()
       : null;
+    
+    //更新地址栏填写状态
+    updateStepForAddress(panelStatus)
+    // if(paymentStep[1].isCompleted){
+    //   console.log(paymentStep[1])
+    //   debugger
+    // }
+    
     return (
       <>
         {this.props.titleVisible && (

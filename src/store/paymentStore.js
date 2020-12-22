@@ -9,6 +9,7 @@ class PaymentStore {
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
   @observable hasConfimedPaymentVal = '';
+  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
@@ -168,6 +169,17 @@ class PaymentStore {
   @action
   updateFirstSavedCardCvv(data) {
     this.firstSavedCardCvv = data;
+  }
+
+  //更新填写邮件状态
+  @action.bound
+  updateStepForEmail(param){
+    this.paymentStep[0] = param
+  }
+  //更新填写地址状态
+  @action.bound
+  updateStepForAddress(param){
+    this.paymentStep[1] = param
   }
 }
 export default PaymentStore;
