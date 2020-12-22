@@ -879,5 +879,6 @@ const es_ES = {
   checkboxIsRequiredForSubscription: 'esta casilla de verificación es necesaria para la suscripción',
   'pet.petListTitle': 'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
   'pet.addNewPet': 'Agregar una nueva mascota',
+  'pet.deletePet': 'Eliminar perfil de mascota',
 }
 export default es_ES;

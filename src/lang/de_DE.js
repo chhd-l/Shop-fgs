@@ -981,5 +981,6 @@ const de_DE = {
   checkboxIsRequiredForSubscription: 'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
   'pet.petListTitle': 'Erstellen und verwalten Sie das Profil Ihres Haustieres, um die bestmögliche Gesundheit zu erhalten',
   'pet.addNewPet': 'Fügen Sie ein neues PET hinzu',
+  'pet.deletePet': 'Haustierprofil löschen',
 }
 export default de_DE;
