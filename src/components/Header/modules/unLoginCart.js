@@ -225,13 +225,11 @@ class UnloginCart extends React.Component {
               <div className="minicart__footer__msg text-center minicart-padding">
                 <span className="minicart__pointer" />
                 <div className="minicart__empty">
-                  <LazyLoad>
-                    <img
-                      className="cart-img"
-                      src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
-                      alt="Интернет-магазин ROYAL CANIN®"
-                    />
-                  </LazyLoad>
+                  <img
+                    className="cart-img"
+                    src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
+                    alt="Интернет-магазин ROYAL CANIN®"
+                  />
                   <p className="rc-delta">
                     <FormattedMessage id="header.basketEmpty" />
                   </p>

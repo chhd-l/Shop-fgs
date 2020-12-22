@@ -119,6 +119,7 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    console.log(this.props, 'props')
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -274,7 +275,8 @@ class PetForm extends React.Component {
     }
   };
   delPets = async (currentPet) => {
-    let params = { petsIds: [currentPet.petsId] };
+    // let params = { petsIds: [currentPet.petsId] };
+    let params = { petsIds: [this.props.match.params.id] };
     currentPet.confirmTooltipVisible = false;
     this.setState({
       loading: true,
@@ -696,6 +698,9 @@ class PetForm extends React.Component {
       // mainReason: selectedSpecialNeedsObj
       mainReason: param.selectedSpecialNeedsObj.value
     };
+    if(param.weight) {
+      params.size = param.weight
+    }
     getRecommendProducts(params).then((res) => {
       let result = res.context;
       if (result.otherProducts) {
@@ -711,7 +716,8 @@ class PetForm extends React.Component {
   };
   getDict = (type, name) => {
     this.setState({ loading: true });
-    getDict({ type, name })
+    getDict({ type, name, delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.setState({
           breedList: res.context.sysDictionaryVOS,
@@ -998,7 +1004,7 @@ class PetForm extends React.Component {
                     {this.state.errorMsg}
                   </aside>
                 </div>
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: isMobile?'block': 'flex' }}>
                   <div className="photoBox">
                     <LazyLoad>
                     <img

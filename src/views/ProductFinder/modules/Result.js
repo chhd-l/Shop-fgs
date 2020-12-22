@@ -353,14 +353,28 @@ class ProductFinderResult extends React.Component {
                         {productDetail.mainProduct.subTitle}
                       </div>
                       <div className="text-center mt-2">
-                        {formatMoney(
+                        {productDetail.mainProduct.toPrice ? (
+                          <span className="mr-1" style={{ fontSize: '.8em' }}>
+                            <FormattedMessage id="startFrom" />
+                          </span>
+                        ) : null}
+                        {formatMoney(productDetail.mainProduct.fromPrice)}
+                        {productDetail.mainProduct.toPrice ? (
+                          <>
+                            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                              <FormattedMessage id="startEnd" />
+                            </span>
+                            {formatMoney(productDetail.mainProduct.toPrice)}
+                          </>
+                        ) : null}
+                        {/* {formatMoney(
                           Math.min.apply(
                             null,
                             productDetail.mainProduct.goodsInfos.map(
                               (g) => g.marketPrice || 0
                             )
                           )
-                        )}
+                        )} */}
                       </div>
                       <div className="d-flex justify-content-center mt-3">
                         <Link
@@ -422,12 +436,26 @@ class ProductFinderResult extends React.Component {
                             {ele.subTitle}
                           </div>
                           <div className="text-center mt-2">
-                            {formatMoney(
+                            {productDetail.mainProduct.toPrice ? (
+                              <span className="mr-1" style={{ fontSize: '.8em' }}>
+                                <FormattedMessage id="startFrom" />
+                              </span>
+                            ) : null}
+                            {formatMoney(productDetail.mainProduct.fromPrice)}
+                            {productDetail.mainProduct.toPrice ? (
+                              <>
+                                <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                                  <FormattedMessage id="startEnd" />
+                                </span>
+                                {formatMoney(productDetail.mainProduct.toPrice)}
+                              </>
+                            ) : null}
+                            {/* {formatMoney(
                               Math.min.apply(
                                 null,
                                 ele.goodsInfos.map((g) => g.marketPrice || 0)
                               )
-                            )}
+                            )} */}
                           </div>
                           <div className="d-flex justify-content-center mt-3">
                             <Link

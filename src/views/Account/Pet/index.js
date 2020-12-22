@@ -170,6 +170,11 @@ class Pet extends React.Component {
                     />
                   ) : petList.length <= 0 ? (
                     <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                      <div className="rc-column rc-md-down">
+                        <LazyLoad>
+                        <img style={{width: '100%'}} src={noPet} alt="No pets" />
+                        </LazyLoad>
+                      </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
@@ -187,7 +192,7 @@ class Pet extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="rc-column">
+                      <div className="rc-column rc-md-up">
                         <LazyLoad>
                         <img src={noPet} alt="No pets" />
                         </LazyLoad>

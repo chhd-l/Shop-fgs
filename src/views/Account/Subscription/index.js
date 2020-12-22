@@ -396,7 +396,7 @@ class Subscription extends React.Component {
                                     marginLeft: '10px'
                                   }}
                                 >
-                                  <p>
+                                  <p style={{width: isMobile? '120px': 'auto', textOverflow: 'ellipsis', overflow: 'hidden'}}>
                                     <FormattedMessage id="autoShipStarted" />
                                   </p>
                                   <p

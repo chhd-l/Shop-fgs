@@ -39,7 +39,7 @@ const itemList = [
     ),
     titleLangKey: 'account.petsTitle',
     textLangKey: 'account.petsTip',
-    link: '/account/pets/petForm'
+    link: '/account/pets/'
   },
   {
     icon: (
