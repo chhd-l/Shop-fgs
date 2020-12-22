@@ -82,7 +82,7 @@ const LoginButton = (props) => {
                     label:'',
                     value:1
                   },
-                  })            
+                  })        
                 // GA 登陆成功埋点 end
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
