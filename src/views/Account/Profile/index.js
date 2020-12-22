@@ -83,8 +83,8 @@ class AccountProfile extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'Account personal information'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -171,7 +171,8 @@ class AccountProfile extends React.Component {
       loading,
       editOperationPaneName,
       originData,
-      personalData
+      personalData,
+      seoConfig
     } = this.state;
     const event = {
       page: {
@@ -180,16 +181,22 @@ class AccountProfile extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
       <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-          <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <title>{seoConfig ? seoConfig.title : ''}</title>
+          <meta
+            name="description"
+            content={seoConfig ? seoConfig.metaDescription : ''}
+          />
+          <meta
+            name="keywords"
+            content={seoConfig ? seoConfig.metaKeywords : ''}
+          />
         </Helmet>
         <Header
           showMiniIcons={true}
