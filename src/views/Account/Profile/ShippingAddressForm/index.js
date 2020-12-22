@@ -62,8 +62,8 @@ class ShippingAddressFrom extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -223,17 +223,24 @@ class ShippingAddressFrom extends React.Component {
     return el.offsetTop;
   }
 
-  inputBlur = (e) => {
-    let validDom = Array.from(
-      e.target.parentElement.parentElement.children
-    ).filter((el) => {
-      let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === 'invalid-feedback';
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = ADDRESS_RULE.filter((e) => e.key === target.name);
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
       });
-      return i > -1;
-    })[0];
-    if (validDom) {
-      validDom.style.display = e.target.value ? 'none' : 'block';
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
     }
   };
   handleInputChange = (e) => {
@@ -304,8 +311,11 @@ class ShippingAddressFrom extends React.Component {
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <div className="content-asset">
           <div
