@@ -10,13 +10,13 @@ import {
   generateOptions,
   getDictionary
 } from '@/utils/utils';
-import { getList } from '@/api/list';
 import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
   getPrescriberByPrescriberIdAndStoreId
 } from '@/api/clinic';
+import { getList } from '@/api/list';
 import { setBuryPoint } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
@@ -222,15 +222,15 @@ class Header extends React.Component {
   }
   initNavigations = async () => {
     let res = await fetchHeaderNavigations();
+    const pageEnumRes = await getDictionary({ type: 'pageType' });
     if (res) {
       let treeData = generateOptions(res);
 
       function handleLink(list) {
-        Array.from(list, async (item) => {
+        Array.from(list, (item) => {
           if (item.children && item.children.length) {
             handleLink(item.children);
           }
-          let pageEnumRes = await getDictionary({ type: 'pageType' });
           const targetRes = pageEnumRes.filter((ele) => ele.id === item.pageId);
           let tmpLink = null;
           let tmpHref = null;
@@ -390,12 +390,11 @@ class Header extends React.Component {
         //   `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
         // );
         this.props.history.push({
-          pathname:`/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-          state:{
+          pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+          state: {
             GAListParam: 'Search Results'
           }
-        }
-        );
+        });
       } else {
         this.props.history.push('/searchShow/' + e.current.value);
       }
@@ -470,9 +469,9 @@ class Header extends React.Component {
             });
           }
           this.setState({ isSearchSuccess: true });
-          dataLayer[0].search.query = keywords
-          dataLayer[0].search.results = esGoods.totalElements
-          dataLayer[0].search.type = 'with results'       
+          dataLayer[0].search.query = keywords;
+          dataLayer[0].search.results = esGoods.totalElements;
+          dataLayer[0].search.type = 'with results';
 
           this.setState({
             result: Object.assign(
@@ -484,9 +483,9 @@ class Header extends React.Component {
             )
           });
         } else {
-          dataLayer[0].search.query = keywords
-          dataLayer[0].search.results = esGoods.totalElements
-          dataLayer[0].search.type = 'without results' 
+          dataLayer[0].search.query = keywords;
+          dataLayer[0].search.results = esGoods.totalElements;
+          dataLayer[0].search.type = 'without results';
           this.setState({ isSearchSuccess: false });
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -506,11 +505,9 @@ class Header extends React.Component {
     this.props.history.push({
       pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
       state: {
-        GAListParam:'Search Results'
+        GAListParam: 'Search Results'
       }
-    }
-      
-    );
+    });
     // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   clickLogin() {
