@@ -6,6 +6,9 @@ import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
+import { v4 as uuidv4 } from 'uuid';
+
+const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore')
@@ -62,10 +65,11 @@ class PayProductInfo extends React.Component {
       );
     }
   }
+  //会员
   GACheckout(productList){
     let product = [],
         basketAmount = this.tradePrice,
-        basketID = '',
+        basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
         step = 2
     for (let item of productList) {
@@ -75,10 +79,10 @@ class PayProductInfo extends React.Component {
         club:'no',
         id:item.goods.goodsNo,
         name:item.goods.goodsName,
-        price:item.goods.minMarketPrice,//?
+        price:item.goodsInfoFlag==1?item.subscriptionPrice:item.salePrice,
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
         variant:item.specText?parseInt(item.specText):'',
         sku:item.goodsInfos[0].goodsInfoNo
       })
@@ -90,26 +94,32 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.step = step
     console.log(dataLayer)
   }
+  //游客
   GACheckUnLogin(productList){
         console.log(productList)
         let product = [],
         basketAmount = this.tradePrice,
-        basketID = '',
+        basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
         step = 2
     for (let item of productList) {
+      let cur_selected_size = item.sizeList.filter((item2)=>{
+        return item2.selected == true
+      })
+      let variant = cur_selected_size[0].specText
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
-        brand:item.brandName || 'ROYAL CANIN', //?
+        brand:item.brandName || 'ROYAL CANIN',
         category:item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
         club:'no',
         id:item.goodsNo,
         name:item.goodsName,
-        price:item.minMarketPrice,//?
+        price:item.minMarketPrice,
         quantity:item.quantity,
         recommendation:'self-selected',
-        type:item.subscriptionStatus==1?'subscription':'one-time',//?
-        //variant:item.goodsSpecDetails[0].detailName,
-        sku:item.goodsInfos[0].goodsInfoNo
+        type:'one-time',
+        variant:parseInt(variant),
+        sku:goodsInfoNo
       })
     }     
     dataLayer[0].checkout.basketAmount = basketAmount
@@ -282,7 +292,7 @@ class PayProductInfo extends React.Component {
                         id="item"
                         values={{ val: el.buyCount }}
                       />
-                    )}:{el.buyCount}
+                    )}
                     <br />
                     {el.goodsInfoFlag ? (
                       <>

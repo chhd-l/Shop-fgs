@@ -151,7 +151,7 @@ class VisitorAddress extends React.Component {
     const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
-    
+
     const _editForm = (
       <EditForm
         type="delivery"
@@ -197,19 +197,14 @@ class VisitorAddress extends React.Component {
                   {form.firstName + ' ' + form.lastName}
                 </span>
                 <br />
-                {form.postCode}, {form.phoneNumber}
-                <br />
-                {this.matchNamefromDict(
-                  this.state.countryList,
-                  form.country
-                )}{' '}
-                {form.cityName}
+                {form.phoneNumber}
                 <br />
                 {form.address1}
                 <br />
                 {form.address2}
                 {form.address2 ? <br /> : null}
-                {form.rfc}
+                {form.postCode}, {form.cityName},{' '}
+                {this.matchNamefromDict(this.state.countryList, form.country)}
               </div>
             )}
           </>

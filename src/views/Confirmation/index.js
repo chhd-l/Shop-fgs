@@ -155,7 +155,7 @@ class Confirmation extends React.Component {
 
     let products = details.tradeItems.map((item) => {
       return {
-        id: item.spuNo,//?
+        id: item.spuNo,
         name: item.spuName,
         price: item.price,
         brand: 'Royal Canin',
