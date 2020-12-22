@@ -10,6 +10,7 @@ import { getCustomerInfo } from '@/api/user';
 import stores from '@/store';
 import { mergeUnloginCartData } from '@/utils/utils';
 import { withOktaAuth } from '@okta/okta-react';
+import GoogleTagManager from '@/components/GoogleTagManager';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -309,6 +310,16 @@ class Register extends Component {
   };
 
   render() {
+    const event = {
+      page: {
+        type: 'register',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
     const url = this.props.match.url;
     const {
       ruleLength,
@@ -333,6 +344,9 @@ class Register extends Component {
     const registerDisabled = !(allValid && requireCheckd)
     return (
       <div>
+        <GoogleTagManager
+          additionalEvents={event}
+        />
         {/*全局loading */}
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         <div id="register" className="page" style={this.state.styleObj}>
