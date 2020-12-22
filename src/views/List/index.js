@@ -466,7 +466,7 @@ class List extends React.Component {
     this.setState(
       {
         GAListParam:
-          state && state.GAListParam ? state.GAListParam : 'Homepage',
+          state && state.GAListParam ? state.GAListParam : 'Catalogue',
         category,
         keywords:
           category && category.toLocaleLowerCase() === 'keywords'
@@ -525,7 +525,7 @@ class List extends React.Component {
   }
 
   // 商品列表 埋点
-  GAProductImpression(productList) {
+  GAProductImpression(productList,totalElements,keywords) {
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName, //
@@ -543,6 +543,10 @@ class List extends React.Component {
         flag:''
       };
     });
+
+    dataLayer[0].search.query = keywords;
+    dataLayer[0].search.results = totalElements;
+    dataLayer[0].search.type = 'with results';
 
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
@@ -928,6 +932,8 @@ class List extends React.Component {
           (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
         );
         const esGoods = res.context.esGoods;
+        const totalElements = esGoods.totalElements
+        const keywords = this.state.keywords
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
@@ -987,8 +993,7 @@ class List extends React.Component {
               totalPage: esGoods.totalPages
             },
             () => {
-              // 把每一页的商品全部传给GA
-              this.GAProductImpression(this.state.productList);
+              this.GAProductImpression(this.state.productList,totalElements,keywords);
             }
           );
         } else {

@@ -64,10 +64,10 @@ class UnloginCart extends React.Component {
         interaction:{
           category:'checkout',
           action:'guest checkout',
-          label:'cart pop-in', //"cart page  "          
+          label:'cart pop-in', //"cart page  "
           value:1
         },
-      }) 
+      })
   }
   async handleCheckout({ needLogin = false } = {}) {
     this.GAAccessToGuestCheck()
@@ -380,7 +380,7 @@ class UnloginCart extends React.Component {
                                         }{' '}
                                         -{' '}
 
-                                          <FormattedMessage id="product"/>(s)：
+                                          <FormattedMessage id="product"/>：
                                         {item.quantity > 1
                                         ? `${item.quantity} `
                                         : `${item.quantity} `}

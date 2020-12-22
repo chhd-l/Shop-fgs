@@ -903,5 +903,6 @@ const en_US = {
   checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
   'pet.petListTitle': 'Create and manage your pet\'s profile to maintain its best health possible',
   'pet.addNewPet': 'Add a new PET',
+  'pet.deletePet': 'Delete Pet Profile',
 }
 export default en_US;
