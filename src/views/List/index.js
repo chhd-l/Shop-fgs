@@ -635,11 +635,13 @@ class List extends React.Component {
             : targetRouter.storeCateId
             ? 'storeCateId'
             : ''
-        }).map((e) => ({
-          ...e,
-          name: e.navigationName || e.cateName,
-          link: e.navigationLink || e.cateRouter
-        }));
+        })
+          .map((e) => ({
+            ...e,
+            name: e.navigationName || e.cateName,
+            link: e.navigationLink || e.cateRouter
+          }))
+          .reverse();
 
         // set SEO
         this.setSEO({ cateIds });
