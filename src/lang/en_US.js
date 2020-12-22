@@ -901,5 +901,7 @@ const en_US = {
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
   checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
+  'pet.petListTitle': 'Create and manage your pet\'s profile to maintain its best health possible',
+  'pet.addNewPet': 'Add a new PET',
 }
 export default en_US;

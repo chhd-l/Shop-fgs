@@ -1116,5 +1116,7 @@ const fr_FR = {
   deliveredTip: 'Devrait arriver dans environ 3 jours',
   checkboxIsRequiredForSubscription: 'cette case est obligatoire pour l\'abonnement',
   'avecLabonnement':'avec l\'abonnement',
+  'pet.petListTitle': 'Créez et gérez le profil de votre animal pour maintenir sa meilleure santé possible',
+  'pet.addNewPet': 'Ajouter un nouveau PET',
 }
 export default fr_FR;

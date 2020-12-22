@@ -201,8 +201,7 @@ class Pet extends React.Component {
                   ) : (
                     <div>
                       <p className="title">
-                        Create and manage your pet's profile to maintain its
-                        best health possible
+                        <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
                         ? petList.map((el) => (
@@ -231,8 +230,8 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>Birthday</span>
-                                  <span>Breed</span>
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
@@ -250,7 +249,7 @@ class Pet extends React.Component {
                                     );
                                   }}
                                 >
-                                  Edit
+                                  <FormattedMessage id="edit" />
                                 </a>
                               </div>
                             </div>
@@ -281,8 +280,8 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>Birthday</span>
-                                  <span>Breed</span>
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
@@ -300,7 +299,7 @@ class Pet extends React.Component {
                                     );
                                   }}
                                 >
-                                  Edit
+                                  <FormattedMessage id="edit" />
                                 </a>
                               </div>
                             </div>
@@ -316,8 +315,8 @@ class Pet extends React.Component {
                           cursor: 'pointer'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }}>+</span> Add a new
-                        PET
+                        <span style={{ fontSize: '25px' }}>+</span> <FormattedMessage id="pet.addNewPet"/>
+                        {/* Add a new PET */}
                       </div>
                     </div>
                   )}

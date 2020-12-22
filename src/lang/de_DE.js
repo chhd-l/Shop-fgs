@@ -979,5 +979,7 @@ const de_DE = {
   'confirmation.subscriptionDiscountPriceDes':'Sie sparen {val1} bei diesem Abonnement',
   deliveredTip: 'Voraussichtlich in ca. 3 Tagen eintreffen',
   checkboxIsRequiredForSubscription: 'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
+  'pet.petListTitle': 'Erstellen und verwalten Sie das Profil Ihres Haustieres, um die bestmögliche Gesundheit zu erhalten',
+  'pet.addNewPet': 'Fügen Sie ein neues PET hinzu',
 }
 export default de_DE;
