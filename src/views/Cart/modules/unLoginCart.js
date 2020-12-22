@@ -24,8 +24,10 @@ import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
 import LazyLoad from 'react-lazyload';
+import { v4 as uuidv4 } from 'uuid';
 import './index.less';
 
+const guid = uuidv4();
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @injectIntl
@@ -147,7 +149,7 @@ class UnLoginCart extends React.Component {
     console.log(productList)
     let product = [],
       basketAmount = this.tradePrice,
-      basketID = '',
+      basketID = guid,
       option = this.isLogin ? 'account already created' : 'guest',
       step = 2
     for (let item of productList) {
@@ -166,7 +168,7 @@ class UnLoginCart extends React.Component {
         quantity: item.quantity,
         recommendation: 'self-selected',
         type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
-        variant:variant,
+        variant:parseInt(variant),
         sku: goodsInfoNo
       })
     }
@@ -487,6 +489,9 @@ class UnLoginCart extends React.Component {
     this.setState({ checkoutLoading: true });
     await this.props.checkoutStore.updateUnloginCart(productList);
     this.setState({ checkoutLoading: false });
+    //增加数量 重新埋点 start
+    this.GACheckUnLogin(this.props.checkoutStore.cartData)
+     //增加数量 重新埋点 end
   }
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');

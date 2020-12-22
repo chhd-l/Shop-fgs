@@ -36,6 +36,9 @@ import LazyLoad from 'react-lazyload';
 import './index.less';
 import '../index.css';
 import BannerTip from '@/components/BannerTip';
+import { v4 as uuidv4 } from 'uuid';
+
+const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -164,21 +167,21 @@ class LoginCart extends React.Component {
     console.log(productList)
     let product = [],
         basketAmount = this.tradePrice,
-        basketID = '',
+        basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
         step = 2
     for (let item of productList) {
       product.push({
-        brand:item.goods.brandName || 'ROYAL CANIN', //?
+        brand:item.goods.brandName || 'ROYAL CANIN',
         category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
         club:'no',
         id:item.goods.goodsNo,
         name:item.goods.goodsName,
-        price:item.goods.minMarketPrice,//?
+        price:item.goodsInfoFlag==1?item.subscriptionPrice:item.salePrice,
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
-        variant:item.specText?parseInt(item.specText):'',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',
+        variant:item.specText?parseInt(item.specText):'',
         sku:item.goodsInfos[0].goodsInfoNo
       })
     }     
@@ -189,6 +192,7 @@ class LoginCart extends React.Component {
     dataLayer[0].checkout.step = step
   }
   setData() {
+    //每次数据变化调用
     this.GACheckout(this.checkoutStore.loginCartData)
     let productList = this.checkoutStore.loginCartData.map((el) => {
       let filterData =
@@ -422,7 +426,7 @@ class LoginCart extends React.Component {
         'name': product.goodsName, 
         'id': product.goods.goodsNo, 
         'club': 'no', 
-        'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
+        'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
         'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',

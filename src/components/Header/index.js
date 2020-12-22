@@ -61,9 +61,6 @@ class Header extends React.Component {
       isScrollToTop: true,
       headerNavigationList: [],
       activeTopParentId: -1,
-      event: {
-        search: {}
-      },
       isSearchSuccess: false, //是否搜索成功
       hideNavRouter: ['/confirmation', '/checkout'],
       hideLoginInfoRouter: ['/checkout']
@@ -472,22 +469,10 @@ class Header extends React.Component {
               return ret;
             });
           }
-          //搜索成功-埋点
-          this.props.headerSearchStore.getResult(
-            keywords,
-            esGoods.totalElements
-          );
-          console.log('搜索成功-成功', this.props.headerSearchStore);
           this.setState({ isSearchSuccess: true });
-          const { query, results, type } = this.props.headerSearchStore;
-          this.state.event.search = {
-            query,
-            results,
-            type
-          };
-          dataLayer[0].search.query = query
-          dataLayer[0].search.results = results
-          dataLayer[0].search.type = type
+          dataLayer[0].search.query = keywords
+          dataLayer[0].search.results = esGoods.totalElements
+          dataLayer[0].search.type = 'with results'       
 
           this.setState({
             result: Object.assign(
@@ -499,18 +484,10 @@ class Header extends React.Component {
             )
           });
         } else {
-          //搜索失败-埋点
-          // this.props.headerSearchStore.getNoResult(keywords);
-          // console.log('搜索失败-埋点', this.props.headerSearchStore);
+          dataLayer[0].search.query = keywords
+          dataLayer[0].search.results = esGoods.totalElements
+          dataLayer[0].search.type = 'without results' 
           this.setState({ isSearchSuccess: false });
-          const { query, results, type } = this.props.headerSearchStore;
-          this.state.event.search = {
-            query,
-            results,
-            type
-          };
-          // dataLayer.push({ search: this.state.event.search });
-
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
           });
