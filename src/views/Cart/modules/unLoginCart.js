@@ -144,24 +144,30 @@ class UnLoginCart extends React.Component {
     this.setCartData();
   }
   GACheckUnLogin(productList) {
+    console.log(productList)
     let product = [],
       basketAmount = this.tradePrice,
       basketID = '',
       option = this.isLogin ? 'account already created' : 'guest',
       step = 2
     for (let item of productList) {
+      let cur_selected_size = item.sizeList.filter((item2)=>{
+        return item2.selected == true
+      })
+      let variant = cur_selected_size[0].specText
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
-        brand: item.brandName || 'ROYAL CANIN', //?
+        brand: item.brandName || 'ROYAL CANIN',
         category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         club: 'no',
         id: item.goodsNo,
         name: item.goodsName,
-        price: item.minMarketPrice,//?
+        price: item.goodsInfoFlag==1?item.minSubscriptionPrice:item.minMarketPrice,
         quantity: item.quantity,
         recommendation: 'self-selected',
-        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',//?
-        //variant:item.goodsSpecDetails[0].detailName,
-        sku: item.goodsInfos[0].goodsInfoNo
+        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
+        variant:variant,
+        sku: goodsInfoNo
       })
     }
     dataLayer[0].checkout.basketAmount = basketAmount
@@ -437,7 +443,7 @@ class UnLoginCart extends React.Component {
         'name': product.goodsName, 
         'id': product.goodsNo, 
         'club': 'no', 
-        'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
+        'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.minMarketPrice,
         'brand': 'Royal Canin',
         'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',

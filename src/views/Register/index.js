@@ -256,6 +256,17 @@ class Register extends Component {
       customerName:registerForm.name
     }).then((res) => {
       if(res.code === 'K-000000') {
+        //GA 注册成功 start
+        dataLayer.push({
+          'event': `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+          interaction:{
+          'category':'account creation',
+          'action':'accounct creation',
+          'label':'',
+          'value':1},
+        })
+        //GA 注册成功 end
+
         loginStore.changeLoginModal(false);
         loginStore.changeIsLogin(true);
 
