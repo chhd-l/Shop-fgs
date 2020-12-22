@@ -466,7 +466,7 @@ class List extends React.Component {
     this.setState(
       {
         GAListParam:
-          state && state.GAListParam ? state.GAListParam : 'Homepage',
+          state && state.GAListParam ? state.GAListParam : 'Catalogue',
         category,
         keywords:
           category && category.toLocaleLowerCase() === 'keywords'
