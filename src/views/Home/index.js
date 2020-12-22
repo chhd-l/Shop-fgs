@@ -420,7 +420,10 @@ class Home extends React.Component {
               ele.cateRouter && ele.cateRouter.startsWith('/')
                 ? ele.cateRouter
                 : `/${ele.cateRouter}`
-            }`
+            }`,
+            state:{
+              GAListParam:'Catalogue'
+            }
           }}
           title={ele.cateName}
         >
