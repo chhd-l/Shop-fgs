@@ -464,8 +464,6 @@ class LoginCart extends React.Component {
     this.props.history.goBack();
   }
   gotoDetails(pitem) {
-    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    
     this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
