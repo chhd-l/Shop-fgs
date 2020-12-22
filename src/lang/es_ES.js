@@ -877,5 +877,7 @@ const es_ES = {
   'orderDetail': 'Detalle de la orden',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'esta casilla de verificación es necesaria para la suscripción',
+  'pet.petListTitle': 'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
+  'pet.addNewPet': 'Agregar una nueva mascota',
 }
 export default es_ES;

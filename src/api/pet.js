@@ -60,7 +60,7 @@ export function editPets (parameter) {
 export function getRecommendProducts(parameter) {
   let param = ''
   for (let k in parameter) {
-    param = param + k + '=' + parameter[k] + '&&'
+    param = param + k + '=' + parameter[k] + '&'
   }
   return axios({
     url: `${api.getRecommendProducts}?${param.slice(0, param.length - 2)}`,
