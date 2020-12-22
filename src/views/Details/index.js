@@ -1397,7 +1397,7 @@ class Details extends React.Component {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
           actionField: {
-            list: this.state.GAListParam//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+            list: this.state.GAListParam//list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           },
           products: [
             {
