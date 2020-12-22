@@ -72,7 +72,18 @@ const LoginButton = (props) => {
           if (!loginStore.isLogin) {
             getToken({ oktaToken: `Bearer ${oktaToken}` })
               .then(async (res) => {
-                //debugger
+                // GA 登录成功埋点 start
+                dataLayer.push(
+                  {
+                    event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                    interaction:{
+                    category:'registration',
+                    action:'login',
+                    label:'',
+                    value:1
+                  },
+                  })            
+                // GA 登陆成功埋点 end
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);

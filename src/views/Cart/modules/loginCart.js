@@ -177,7 +177,7 @@ class LoginCart extends React.Component {
         price:item.goods.minMarketPrice,//?
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
         variant:item.specText?parseInt(item.specText):'',//?
         sku:item.goodsInfos[0].goodsInfoNo
       })
@@ -418,19 +418,19 @@ class LoginCart extends React.Component {
   //GA 移除购物车商品 埋点
   GARemoveFromCart(product){
     console.log(product)
-    const list = {
+    const list = [{
         'name': product.goodsName, 
         'id': product.goods.goodsNo, 
         'club': 'no', 
         'type': product.goodsInfoFlag==1?'subscription':'one-time', //？现在都是1
-        'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.salePrice,
+        'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
         'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
         'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':product.goodsInfoNo
-    }
+    }]
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {

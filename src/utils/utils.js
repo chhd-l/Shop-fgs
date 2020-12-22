@@ -291,29 +291,27 @@ function getchilds(id, array) {
  * 树形结构数据，根据子节点寻找父节点
  * @param {Array} data - 树形结构源数据
  * @param {Number/String} id - 需要操作的子节点id
- * @param {Array} indexArray - []
+ * @param {String} matchIdName - 需要匹配的节点key name
  */
-export function getParentNodesByChild({ data, id, indexArray, matchIdName }) {
-  let arr = Array.from(indexArray);
-  for (let i = 0, len = data.length; i < len; i++) {
-    // arr.push(data[i].parentId);
-    arr.push(data[i]);
-    if (data[i][matchIdName] === id) {
-      return arr;
+
+export function getParentNodesByChild({ data: arr1, id, matchIdName }) {
+  var temp = [];
+  var forFn = function (arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+      var item = arr[i];
+      if (item[matchIdName] === id) {
+        temp.push(item);
+        forFn(arr1, item.parentId);
+        break;
+      } else {
+        if (item.children) {
+          forFn(item.children, id);
+        }
+      }
     }
-    let children = data[i].children;
-    if (children && children.length) {
-      let result = getParentNodesByChild({
-        data: children,
-        id,
-        indexArray: arr,
-        matchIdName
-      });
-      if (result) return result;
-    }
-    arr.pop();
-  }
-  return [];
+  };
+  forFn(arr1, id);
+  return temp;
 }
 
 export async function setSeoConfig(
