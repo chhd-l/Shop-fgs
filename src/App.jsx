@@ -119,9 +119,11 @@ const LoginCallback = (props) => {
 
   useEffect(async () => {
     const consentString = localItemRoyal.get('rc-consent-list');
-    const authCallBack = window.location.search.indexOf('?code') >= 0 && window.location.search.indexOf('&state') >= 0
-    
-    if(consentString && !authStateReady && !authCallBack) {
+    const authCallBack =
+      window.location.search.indexOf('?code') >= 0 &&
+      window.location.search.indexOf('&state') >= 0;
+
+    if (consentString && !authStateReady && !authCallBack) {
       await oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } else {
       if (authStateReady) {
@@ -200,6 +202,13 @@ const App = () => (
               <Route
                 exact
                 path="/FAQ/:catogery"
+                render={(props) => (
+                  <FAQ key={props.match.params.catogery} {...props} />
+                )}
+              />
+              <Route
+                exact
+                path="/faq"
                 render={(props) => (
                   <FAQ key={props.match.params.catogery} {...props} />
                 )}
@@ -408,16 +417,11 @@ const App = () => (
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values" exact component={FR_Values} />
               <Route
-                path="/tailorednutrition"
+                path="/Tailorednutrition"
                 exact
                 component={Tailorednutrition}
               />
-              <Route path="/qualitySafety" exact component={QualitySafety} />
-              <Route
-                path="/searchShow/:searchWords"
-                exact
-                component={SearchShow}
-              />
+              <Route path="/Quality-safety" exact component={QualitySafety} />
               <Route
                 path="/shipmentConditions"
                 exact
@@ -446,9 +450,13 @@ const App = () => (
               <Route
                 exact
                 path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
-                render={(props) => (
-                  <List key={props.location.search} {...props} />
-                )}
+                render={(props) => {
+                  if (props.location.state && props.location.state.noresult) {
+                    return <SearchShow {...props} />;
+                  } else {
+                    return <List key={props.location.search} {...props} />;
+                  }
+                }}
               />
               <Route
                 exact

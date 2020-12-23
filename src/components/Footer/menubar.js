@@ -12,11 +12,11 @@ export const menubar = {
             messageId: 'Values'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'qualitySafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]
@@ -63,7 +63,7 @@ export const menubar = {
             messageId: 'footer.ourValues'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
@@ -205,7 +205,7 @@ export const menubar = {
             messageId: 'footer.ourValues'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           }
         ]
@@ -218,7 +218,7 @@ export const menubar = {
           { link: '/cats', messageId: 'account.cat' },
           { link: '/dogs', messageId: 'account.dog' },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           },
           {
@@ -282,11 +282,11 @@ export const menubar = {
           },
           {
             // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]
@@ -371,11 +371,11 @@ export const menubar = {
             messageId: 'Değerlerimiz'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]
