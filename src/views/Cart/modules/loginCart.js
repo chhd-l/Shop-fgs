@@ -1240,52 +1240,11 @@ class LoginCart extends React.Component {
               </button>
             </p>
           </div>
-          <div className="col-6">
-            <FormattedMessage id="total" />
-          </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
-              {formatMoney(this.totalPrice)}
-            </p>
-          </div>
         </div>
-        {/* 显示订阅折扣 */}
-        <div
-          className={`row leading-lines shipping-item red ${
-            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.subscriptionPrice)}
-            </p>
-          </div>
-        </div>
-        {/* 显示 默认折扣 */}
-        <div
-          className={`row leading-lines shipping-item red ${
-            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
-              ? 'd-flex'
-              : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.discountPrice)}
-            </p>
-          </div>
-        </div>
-        {/* 显示 promotionCode */}
-        <div style={{ marginTop: '10px' }}>
-          {!this.state.isShowValidCode &&
+        {!this.state.isShowValidCode &&
             this.state.discount.map((el) => (
-              <div className={`row leading-lines shipping-item red d-flex`}>
+              <>
+              <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
                 <div className="col-6">
                   <p>
                     {this.promotionDesc || (
@@ -1295,9 +1254,8 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="col-6">
                   <p className="text-right shipping-cost">
-                    {/* - {formatMoney(this.discountPrice)} */}
-                    <b>-{formatMoney(this.discountPrice)}</b>
                     <span
+                      className="rc-icon rc-close--sm rc-iconography"
                       style={{
                         fontSize: '18px',
                         marginLeft: '10px',
@@ -1325,8 +1283,71 @@ class LoginCart extends React.Component {
                         }
                       }}
                     >
-                      x
                     </span>
+                  </p>
+                </div>
+              </div>
+              </>
+            ))}
+        <div className="row">
+          <div className="col-6">
+            <FormattedMessage id="total" />
+          </div>
+          <div className="col-6 no-padding-left">
+            <p className="text-right sub-total">
+              {formatMoney(this.totalPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示订阅折扣 */}
+        <div
+          className={`row leading-lines shipping-item green ${
+            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+          }`}
+        >
+          <div className="col-8">
+            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">
+              - {formatMoney(this.subscriptionPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示 默认折扣 */}
+        <div
+          className={`row leading-lines shipping-item green ${
+            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
+              ? 'd-flex'
+              : 'hidden'
+          }`}
+        >
+          <div className="col-8">
+            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">
+              - {formatMoney(this.discountPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示 promotionCode */}
+        <div style={{ marginTop: '10px' }}>
+          {!this.state.isShowValidCode &&
+            this.state.discount.map((el) => (
+              <div className={`row leading-lines shipping-item green d-flex`}>
+                <div className="col-6">
+                  <p>
+                    {/* {this.promotionDesc || (
+                      <FormattedMessage id="NoPromotionDesc" />
+                    )} */}
+                    <FormattedMessage id="promotion" />
+                  </p>
+                </div>
+                <div className="col-6">
+                  <p className="text-right shipping-cost">
+                    {/* - {formatMoney(this.discountPrice)} */}
+                    <b>-{formatMoney(this.discountPrice)}</b>
                   </p>
                 </div>
               </div>

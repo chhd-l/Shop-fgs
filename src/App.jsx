@@ -153,7 +153,7 @@ const App = () => (
           <Security oktaAuth={config}>
             <Switch>
               <Route exact path={'/'} component={Home} />
-              <Route exact path={'/home'} component={Home} />
+              <Route exact path={'/home/'} component={Home} />
               <Route
                 exact
                 path="/implicit/callback"
@@ -164,7 +164,7 @@ const App = () => (
                 exact
                 path="/login"
                 render={(props) =>
-                  token ? <Redirect to="/account" /> : <Login {...props} />
+                  token ? <Redirect to="/account/" /> : <Login {...props} />
                 }
               />
               <Route path="/requestinvoice" component={RequestInvoices} />

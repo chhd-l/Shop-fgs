@@ -622,8 +622,9 @@ class PetForm extends React.Component {
     } else {
       param.isPurebred = true;
     }
+    
     let filterSize = this.sizeOptions.filter(
-      (el) => el.name === currentPet.petsSizeValueName
+      (el) => el.value === currentPet.petsSizeValueName
     );
     if (filterSize.length) {
       param.selectedSizeObj = Object.assign(this.state.selectedSizeObj, {
@@ -662,16 +663,15 @@ class PetForm extends React.Component {
       params.size = param.weight
     }
     getRecommendProducts(params).then((res) => {
-      console.log(res, 'recommendData')
       if (res.code === 'K-000000') {
         let result = res.context.context
-        let recommendData = result.otherProducts;
-        console.log(recommendData, result, 'recommendData')
-        recommendData.unshift(result.mainProduct);
-        // console.log(result.otherProducts.unshift(result.mainProduct), result,'hahahaa')
-        this.setState({
-          recommendData: recommendData
-        });
+        if(result.otherProducts) {
+          let recommendData = result.otherProducts;
+          recommendData.unshift(result.mainProduct);
+          this.setState({
+            recommendData: recommendData
+          });
+        }
       }
     });
     this.setState(param);
@@ -809,9 +809,10 @@ class PetForm extends React.Component {
     }
   }
   sizeOptionsChange(data) {
+    console.log(data)
     this.setState({
-      weight: data.name,
-      selectedSizeObj: { value: data.valueEn }
+      weight: data.value,
+      selectedSizeObj: { value: data.value }
     });
   }
   breedCheckboxChange(e) {

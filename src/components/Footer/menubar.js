@@ -34,10 +34,11 @@ export const menubar = {
     [
       {
         titleId: 'ACCOUNT',
+        
         list: [
-          { link: '/account', messageId: 'My Account' },
-          { link: '/account/orders', messageId: 'My Orders' },
-          { link: '/account/subscription', messageId: 'My Club Shipments' }
+          { link: '/account', messageId: 'My Account', needLogin: true },
+          { link: '/account/orders', messageId: 'My Orders', needLogin: true },
+          { link: '/account/subscription', messageId: 'My Club Shipments', needLogin: true }
         ]
       }
     ],
@@ -235,10 +236,11 @@ export const menubar = {
           // 我的账户，订单，订阅单
           {
             link: '/account',
-            messageId: 'Mon compte'
+            messageId: 'Mon compte',
+            needLogin: true
           },
-          { link: '/account/orders', messageId: 'Mes commandes' },
-          { link: '/account/subscription', messageId: 'Mes abonnements' }
+          { link: '/account/orders', messageId: 'Mes commandes', needLogin: true },
+          { link: '/account/subscription', messageId: 'Mes abonnements', needLogin: true }
         ]
       }
     ],
