@@ -525,7 +525,7 @@ class List extends React.Component {
 
   // 商品列表 埋点
   GAProductImpression(productList, totalElements, keywords) {
-    console.log(productList)
+    console.log(productList);
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName, //
@@ -544,9 +544,11 @@ class List extends React.Component {
       };
     });
 
-    dataLayer[0].search.query = keywords;
-    dataLayer[0].search.results = totalElements;
-    dataLayer[0].search.type = 'with results';
+    if (dataLayer[0] && dataLayer[0].search) {
+      dataLayer[0].search.query = keywords;
+      dataLayer[0].search.results = totalElements;
+      dataLayer[0].search.type = 'with results';
+    }
 
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,

@@ -469,9 +469,11 @@ class Header extends React.Component {
             });
           }
           this.setState({ isSearchSuccess: true });
-          dataLayer[0].search.query = keywords;
-          dataLayer[0].search.results = esGoods.totalElements;
-          dataLayer[0].search.type = 'with results';
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.type = 'with results';
+          }
 
           this.setState({
             result: Object.assign(
@@ -483,9 +485,11 @@ class Header extends React.Component {
             )
           });
         } else {
-          dataLayer[0].search.query = keywords;
-          dataLayer[0].search.results = esGoods.totalElements;
-          dataLayer[0].search.type = 'without results';
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.type = 'without results';
+          }
           this.setState({ isSearchSuccess: false });
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -493,6 +497,7 @@ class Header extends React.Component {
         }
       }
     } catch (err) {
+      console.log(222, err);
       this.setState({
         loading: false,
         result: Object.assign({}, { productList: [], totalElements: 0 })
