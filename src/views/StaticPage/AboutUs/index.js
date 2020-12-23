@@ -189,7 +189,7 @@ class AboutUs extends React.Component {
                               <p>La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous
                                 faisons dans le monde.</p>
                               <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 to="/qualitySafety" title="En savoir plus">En savoir
+                                 to="/Quality-safety" title="En savoir plus">En savoir
                                 plus</Link>
                             </div>
                           </div>
