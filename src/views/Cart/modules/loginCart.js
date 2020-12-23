@@ -168,7 +168,7 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
+        option = '',
         step = 1
     for (let item of productList) {
       product.push({
