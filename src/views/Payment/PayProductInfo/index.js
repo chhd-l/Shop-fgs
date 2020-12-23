@@ -74,7 +74,7 @@ class PayProductInfo extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
+        option = this.isLogin ? 'account already created':'new account',
         step = this.state.step
     for (let item of productList) {
       product.push({
@@ -105,7 +105,7 @@ class PayProductInfo extends React.Component {
         let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
+        option = this.isLogin ? 'account already created':'new account',
         step = this.state.step
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2)=>{

@@ -1580,6 +1580,7 @@ class Payment extends React.Component {
       deliveryAddress,
       countryList
     } = this.state;
+  
     return (
       <>
         <SameAsCheckbox

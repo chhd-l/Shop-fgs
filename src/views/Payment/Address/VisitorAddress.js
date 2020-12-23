@@ -176,6 +176,7 @@ class VisitorAddress extends React.Component {
       // console.log(paymentStep[1])
       // debugger
       dataLayer[0].checkout.step = 3
+      //debugger
     }
     
     return (
