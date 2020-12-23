@@ -1119,5 +1119,6 @@ const fr_FR = {
   'pet.petListTitle': 'Créez et gérez le profil de votre animal pour maintenir sa meilleure santé possible',
   'pet.addNewPet': 'Ajouter un nouveau PET',
   'pet.deletePet': 'Supprimer le profil de l\'animal',
+  'validPromotionCode': 'Impossible d\'ajouter le bon de réduction à votre panier',
 }
 export default fr_FR;

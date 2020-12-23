@@ -168,8 +168,8 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = '',
-        step = 1
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
@@ -436,7 +436,7 @@ class LoginCart extends React.Component {
         'sku':product.goodsInfoNo
     }]
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
       'ecommerce': {
            'remove': {
                  'products': list
@@ -464,6 +464,8 @@ class LoginCart extends React.Component {
     this.props.history.goBack();
   }
   gotoDetails(pitem) {
+    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
+    
     this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
@@ -1239,6 +1241,12 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
+        {this.state.isShowValidCode ? (
+          <div className="red pl-3 pb-3 pt-2" style={{fontSize: '14px'}}>
+            {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+            <FormattedMessage id="validPromotionCode"/>
+          </div>
+        ) : null}
         {!this.state.isShowValidCode &&
             this.state.discount.map((el) => (
               <>
@@ -1392,12 +1400,6 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
-          {this.state.isShowValidCode ? (
-            <div className="red pl-3 pb-3 border-top pt-2">
-              Promotion code({this.state.lastPromotionInputValue}) is not Valid
-            </div>
-          ) : null}
-
           <div className="row checkout-proccess">
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>

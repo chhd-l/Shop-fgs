@@ -160,7 +160,7 @@ class UnLoginCart extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
         brand: item.brandName || 'ROYAL CANIN',
-        category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
+        // category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         club: 'no',
         id: item.goodsNo,
         name: item.goodsName,
@@ -1302,18 +1302,24 @@ class UnLoginCart extends React.Component {
               </p>
             </div>
           </div>
+          {this.state.isShowValidCode ? (
+              <div className="red pl-3 pb-3 pt-2" style={{fontSize: '14px'}}>
+                {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+                <FormattedMessage id="validPromotionCode"/>
+              </div>
+            ) : null}
           {!this.state.isShowValidCode &&
             this.state.discount.map((el) => (
               <>
               <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
-                <div className="col-6">
+                <div className="col-8">
                   <p>
                     {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )}
                   </p>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                   <p className="text-right shipping-cost">
                     <span
                       className="rc-icon rc-close--sm rc-iconography"
@@ -1325,7 +1331,7 @@ class UnLoginCart extends React.Component {
                       }}
                       onClick={async () => {
                         let result = {};
-                        if (!loginStore.isLogin) {
+                        if (!this.props.loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();
                         } else {
@@ -1382,7 +1388,7 @@ class UnLoginCart extends React.Component {
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1399,7 +1405,7 @@ class UnLoginCart extends React.Component {
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1411,48 +1417,16 @@ class UnLoginCart extends React.Component {
           <div style={{ marginTop: '10px' }}>
             {!this.state.isShowValidCode &&
               this.state.discount.map((el) => (
-                <div className={`row leading-lines shipping-item red d-flex`}>
+                <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
                     <p>
-                      {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )}
+                      <FormattedMessage id="promotion" />
                     </p>
                   </div>
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
                       <b>-{formatMoney(this.discountPrice)}</b>
-                      <span
-                        style={{
-                          fontSize: '18px',
-                          marginLeft: '10px',
-                          lineHeight: '20px',
-                          cursor: 'pointer'
-                        }}
-                        onClick={async () => {
-                          let result = {};
-                          if (!this.props.loginStore.isLogin) {
-                            //游客
-                            result = await checkoutStore.updateUnloginCart();
-                          } else {
-                            //会员
-                            result = await checkoutStore.updateLoginCart(
-                              '',
-                              this.props.buyWay === 'frequency'
-                            );
-                          }
-                          if (result.backCode === 'K-000000') {
-                            discount.pop();
-                            this.setState({
-                              discount: discount,
-                              isShowValidCode: false
-                            });
-                          }
-                        }}
-                      >
-                        x
-                      </span>
                     </p>
                   </div>
                 </div>
