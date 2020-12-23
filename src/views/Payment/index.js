@@ -146,7 +146,7 @@ class Payment extends React.Component {
     this.timer = null;
   }
   async componentDidMount() {
-    const { checkoutStore, paymentStore, clinicStore } = this.props;
+    const { checkoutStore, paymentStore, clinicStore, history } = this.props;
     const { tid } = this.state;
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
@@ -206,14 +206,9 @@ class Payment extends React.Component {
         }
       }
     );
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !tid) {
-        this.props.history.push('/cart');
+        history.push('/cart');
         return false;
       }
       if (
@@ -221,7 +216,7 @@ class Payment extends React.Component {
         (!this.cartData.length ||
           !this.cartData.filter((ele) => ele.selected).length)
       ) {
-        this.props.history.push('/cart');
+        history.push('/cart');
         return false;
       }
     }
@@ -327,7 +322,6 @@ class Payment extends React.Component {
           detailList: item.detailList
         };
       });
-
       const requiredList = result.context.requiredList.map((item) => {
         return {
           id: item.id,
@@ -343,11 +337,8 @@ class Payment extends React.Component {
   }
   //判断consent接口是否存在选填项
   isExistOptionalListFun(result) {
-    if (
-      result.code === 'K-000000' &&
-      result.context.optionalList.length !== 0
-    ) {
-      const optionalList = result.context.optionalList.map((item) => {
+    if (result.context.optionalList.length !== 0) {
+      let optionalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
@@ -356,6 +347,18 @@ class Payment extends React.Component {
           detailList: item.detailList
         };
       });
+      // 为法国添加一条写死一条consent
+      if (process.env.REACT_APP_LANG === 'fr') {
+        optionalList = [
+          {
+            consentTitle: `<p><span style="font-size:11ptpx"><span style="color:#000000">J&#x27;ai lu et j&#x27;accepte les <a href="${process.env.REACT_APP_SUCCESSFUL_URL}/general-terms-conditions" target="_blank">conditions générales de vente</a></span></span></p>`,
+            detailList: [],
+            isChecked: false,
+            isRequired: true
+          },
+          ...optionalList
+        ];
+      }
       this.rebindListData(optionalList);
     }
   }
@@ -1580,7 +1583,7 @@ class Payment extends React.Component {
       deliveryAddress,
       countryList
     } = this.state;
-  
+
     return (
       <>
         <SameAsCheckbox
