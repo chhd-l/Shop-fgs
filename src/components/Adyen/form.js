@@ -150,6 +150,8 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
       }
+      
+      
 
       this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);

@@ -74,7 +74,7 @@ class PayProductInfo extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
+        option = this.isLogin ? 'account already created':'new account',
         step = this.state.step
     for (let item of productList) {
       product.push({
@@ -105,7 +105,7 @@ class PayProductInfo extends React.Component {
         let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
+        option = this.isLogin ? 'account already created':'new account',
         step = this.state.step
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2)=>{
@@ -136,7 +136,7 @@ class PayProductInfo extends React.Component {
   //获取GA step
   getGACheckoutStep(){
     console.log(this.paymentStep)
-    debugger
+    //debugger
   }
   async componentDidMount() {
     console.log(this.refs.applyButtton.click() ,' hahaha')
