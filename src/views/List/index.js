@@ -1017,9 +1017,9 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
-        // esGoodsStoreGoodsFilterVOList todo
+        // storeGoodsFilterVOList
         this.handleFilterResData(
-          (res.context && res.context.storeGoodsFilterVOList) || []
+          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
         );
         const esGoods = res.context.esGoods;
         const totalElements = esGoods.totalElements;
