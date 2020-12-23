@@ -250,10 +250,6 @@ class PayProductInfo extends React.Component {
     return el.goodsInfoFlag;
   }
   handleClickProName(item) {
-    sessionItemRoyal.set(
-      'rc-goods-cate-name',
-      (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
-    );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     // this.props.history.push(
     //   `/details/${

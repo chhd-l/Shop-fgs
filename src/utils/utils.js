@@ -2,6 +2,7 @@ import { getSeoConfig, queryHeaderNavigations } from '@/api';
 import { purchases, mergePurchase } from '@/api/cart';
 import { findStoreCateList } from '@/api/home';
 import { getDict } from '@/api/dict';
+import { findFilterList, findSortList } from '@/api/list';
 import find from 'lodash/find';
 import flatten from 'lodash/flatten';
 import stores from '@/store';
@@ -299,7 +300,7 @@ export function getParentNodesByChild({ data: arr1, id, matchIdName }) {
   var forFn = function (arr, id) {
     for (var i = 0; i < arr.length; i++) {
       var item = arr[i];
-      if (item[matchIdName] === id) {
+      if (id && item[matchIdName] === id) {
         temp.push(item);
         forFn(arr1, item.parentId);
         break;
@@ -600,49 +601,6 @@ export async function getFrequencyDict() {
 /**
  * 查询home页分类信息
  */
-// 上线后修改id todo
-const DEFUALT_FILTER_MAP_FR = {
-  '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Adult_Dog', 'Mature_Dog'],
-      attributeValueIdList: ['AV202012160309152796', 'AV202012160309161216']
-    }
-  ],
-  '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Adult_Cat', 'Mature_Cat', 'Senior_Cat'],
-      attributeValueIdList: [
-        'AV202012160309229266',
-        'AV202012160309234996',
-        'AV202012160309253586'
-      ]
-    }
-  ],
-  '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Puppy_Dog', 'Baby_Dog'],
-      attributeValueIdList: ['AV202012160309175316', 'AV202012160310184696']
-    }
-  ],
-  '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Kitten_Cat', 'Baby_Cat'],
-      attributeValueIdList: ['AV202012160309246796', 'AV202012160309463736']
-    }
-  ]
-};
 export async function queryStoreCateList() {
   let ret = sessionItemRoyal.get('home-navigations');
   if (ret) {
@@ -652,9 +610,6 @@ export async function queryStoreCateList() {
     if (res.context) {
       ret = res.context;
       Array.from(ret, (ele) => {
-        ele.filter = JSON.stringify(
-          DEFUALT_FILTER_MAP_FR[ele.cateRouter] || []
-        );
         const tmpImgList = JSON.parse(ele.cateImg);
         ele.cateImgForHome = tmpImgList[0].artworkUrl;
         ele.cateImgForList = tmpImgList.length > 1 && tmpImgList[1].artworkUrl;
@@ -666,6 +621,41 @@ export async function queryStoreCateList() {
   }
   return ret;
 }
+
+/**
+ * 查询PLP filter数据
+ */
+export async function fetchFilterList() {
+  let ret = sessionItemRoyal.get('filter-navigations');
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await findFilterList();
+    if (res.context) {
+      ret = res.context;
+      sessionItemRoyal.set('filter-navigations', JSON.stringify(ret));
+    }
+  }
+  return ret;
+}
+/**
+ * 查询PLP sort数据
+ */
+export async function fetchSortList() {
+  let ret = sessionItemRoyal.get('sort-navigations');
+  if (ret) {
+    ret = JSON.parse(ret);
+  } else {
+    const res = await findSortList();
+    if (res.context) {
+      ret = res.context;
+      sessionItemRoyal.set('sort-navigations', JSON.stringify(ret));
+    }
+  }
+  return ret;
+}
+
+// findSortList
 
 /**
  * 查询二级导航

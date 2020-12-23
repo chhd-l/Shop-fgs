@@ -25,7 +25,9 @@ function BreadCrumbsNavigation({ list }) {
                 itemProp="itemListElement"
                 itemType="https://schema.org/ListItem"
               >
-                {item.link ? (
+                {index === decoList.length - 1 || !item.link ? (
+                  <span itemProp="name">{item.name}</span>
+                ) : (
                   <Link
                     className="rc-styled-link rc-progress__breadcrumb mr-0"
                     itemType="https://schema.org/Thing"
@@ -34,8 +36,6 @@ function BreadCrumbsNavigation({ list }) {
                   >
                     <span itemProp="name">{item.name}</span>
                   </Link>
-                ) : (
-                  <span itemProp="name">{item.name}</span>
                 )}
               </li>
               {index !== decoList.length - 1 && (

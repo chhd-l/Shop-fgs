@@ -501,7 +501,6 @@ class Header extends React.Component {
   }
   gotoDetails(item) {
     console.log(item);
-    sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
     this.props.history.push({
       pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
       state: {
