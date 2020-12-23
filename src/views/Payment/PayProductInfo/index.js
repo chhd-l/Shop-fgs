@@ -136,7 +136,7 @@ class PayProductInfo extends React.Component {
   //获取GA step
   getGACheckoutStep(){
     console.log(this.paymentStep)
-    debugger
+    //debugger
   }
   async componentDidMount() {
     let productList;
