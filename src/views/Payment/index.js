@@ -282,22 +282,18 @@ class Payment extends React.Component {
     });
   };
   //总的调用consense接口
-  getConsentList() {
-    this.isLogin
-      ? this.doFindUserConsentList()
-      : this.doGetStoreOpenConsentList();
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
-      this.isExistOptionalListFun(result);
-    });
-  }
-  //2.游客调用consense接口
-  doGetStoreOpenConsentList() {
-    getStoreOpenConsentList({}).then((result) => {
-      this.isExistListFun(result);
-    });
+  async getConsentList() {
+    //1.会员调用consense接口
+    //2.游客调用consense接口
+    const { isLogin } = this;
+    const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
+      {}
+    );
+    if (isLogin) {
+      this.isExistOptionalListFun(res);
+    } else {
+      this.isExistListFun(res);
+    }
   }
   //重新组装listData
   rebindListData(listData) {
@@ -312,33 +308,32 @@ class Payment extends React.Component {
   }
   //判断consent接口是否存在项目
   isExistListFun(result) {
-    if (result.code === 'K-000000') {
-      const optioalList = result.context.optionalList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: false,
-          detailList: item.detailList
-        };
-      });
-      const requiredList = result.context.requiredList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: true,
-          detailList: item.detailList
-        };
-      });
-      let listData = [...requiredList, ...optioalList]; //必填项+选填项
-      this.rebindListData(listData);
-    }
+    const optioalList = result.context.optionalList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: false,
+        detailList: item.detailList
+      };
+    });
+    const requiredList = result.context.requiredList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: true,
+        detailList: item.detailList
+      };
+    });
+    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    this.rebindListData(listData);
   }
   //判断consent接口是否存在选填项
   isExistOptionalListFun(result) {
-    if (result.context.optionalList.length !== 0) {
-      let optionalList = result.context.optionalList.map((item) => {
+    let optionalList = [];
+    if (result.context.optionalList.length > 0) {
+      optionalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
@@ -347,18 +342,20 @@ class Payment extends React.Component {
           detailList: item.detailList
         };
       });
-      // 为法国添加一条写死一条consent
-      if (process.env.REACT_APP_LANG === 'fr') {
-        optionalList = [
-          {
-            consentTitle: `<p><span style="font-size:11ptpx"><span style="color:#000000">J&#x27;ai lu et j&#x27;accepte les <a href="${process.env.REACT_APP_SUCCESSFUL_URL}/general-terms-conditions" target="_blank">conditions générales de vente</a></span></span></p>`,
-            detailList: [],
-            isChecked: false,
-            isRequired: true
-          },
-          ...optionalList
-        ];
-      }
+    }
+    // 为法国添加一条写死一条consent
+    if (process.env.REACT_APP_LANG === 'fr') {
+      optionalList = [
+        {
+          consentTitle: `<p><span style="font-size:11ptpx"><span style="color:#000000">J&#x27;ai lu et j&#x27;accepte les <a href="${process.env.REACT_APP_SUCCESSFUL_URL}/general-terms-conditions" target="_blank">conditions générales de vente</a></span></span></p>`,
+          detailList: [],
+          isChecked: false,
+          isRequired: true
+        },
+        ...optionalList
+      ];
+    }
+    if (optionalList.length > 0) {
       this.rebindListData(optionalList);
     }
   }
