@@ -798,12 +798,14 @@ class List extends React.Component {
         if (cEle.selected) {
           // 该子节点被选中，从链接中移除
           // 1 若移除后，子节点为空了，则移除该父节点
-          const idx = targetPItem.prefvs.findIndex(
-            (p) => p === cEle.attributeDetailNameEn
-          );
-          targetPItem.prefvs.splice(idx, 1);
-          if (!targetPItem.prefvs.length) {
-            prefnParamList.splice(targetPIdx, 1);
+          if (targetPItem) {
+            const idx = targetPItem.prefvs.findIndex(
+              (p) => p === cEle.attributeDetailNameEn
+            );
+            targetPItem.prefvs.splice(idx, 1);
+            if (!targetPItem.prefvs.length) {
+              prefnParamList.splice(targetPIdx, 1);
+            }
           }
         } else {
           // 该子节点未被选中，在链接中新增prefn/prefv

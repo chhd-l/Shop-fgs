@@ -187,7 +187,7 @@ const fr_FR = {
   consignee: 'Destinataire',
   consigneeNumber: 'Numéro du destinataire',
   contactUs: 'AIDE',
-  contactUsViaPhone: 'Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0 800 005 360 (appel gratuit depuis un poste fixe)',
+  contactUsViaPhone: 'Pour toute question ou demande: suivi.dtc.france@royalcanin.com - Tél 0 800 005 360 (appel non surtaxé)',
   continue: 'Continuer',
   continueAsGuest: "Continuer en tant qu'invité",
   continueShopping: 'Continuer mes achats',
