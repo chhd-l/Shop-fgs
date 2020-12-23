@@ -69,7 +69,7 @@ export default class DropDownMenu extends React.Component {
     };
     this.GAClickMenu(interaction);
     // 点击subMenu埋点-end
-    this.props.handleClickNavItem(item);
+    // this.props.handleClickNavItem(item);
   };
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
@@ -162,7 +162,7 @@ export default class DropDownMenu extends React.Component {
                       <NavItem
                         item={item}
                         onClick={this.handleClickNavItem.bind(this, item)}
-                        className="rc-styled-link"
+                        className="rc-styled-link border-0"
                       >
                         <FormattedMessage id="viewAll" />
                       </NavItem>

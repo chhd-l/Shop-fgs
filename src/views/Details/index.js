@@ -1364,7 +1364,7 @@ class Details extends React.Component {
               type: form.buyWay==0?'one-time':'subscription',
               price: form.buyWay==0?cur_selected_size[0].marketPrice:cur_selected_size[0].subscriptionPrice,
               brand: item.brandName||'Royal Canin',
-              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               variant: parseInt(variant),
               quantity: num,
               recommendation: 'self-selected',
@@ -1401,12 +1401,12 @@ class Details extends React.Component {
           },
           products: [
             {
-              id: item.Id,//?goodsId客户反馈不对，id这里为空
+              id: item.goodsNo,//?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
               brand: item.brandName||'ROYAL CANIN',
               club: 'no',
-              category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }

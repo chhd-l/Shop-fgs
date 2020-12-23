@@ -172,10 +172,11 @@ class VisitorAddress extends React.Component {
     
     //更新地址栏填写状态
     updateStepForAddress(panelStatus)
-    // if(paymentStep[1].isCompleted){
-    //   console.log(paymentStep[1])
-    //   debugger
-    // }
+    if(paymentStep[1].isCompleted){
+      // console.log(paymentStep[1])
+      // debugger
+      dataLayer[0].checkout.step = 3
+    }
     
     return (
       <>

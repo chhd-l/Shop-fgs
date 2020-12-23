@@ -385,19 +385,13 @@ class Header extends React.Component {
   handleSearch = (e) => {
     if (this.state.loading) return;
     if (process.env.REACT_APP_LANG == 'fr') {
-      if (this.state.isSearchSuccess) {
-        // this.props.history.push(
-        //   `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`
-        // );
-        this.props.history.push({
-          pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-          state: {
-            GAListParam: 'Search Results'
-          }
-        });
-      } else {
-        this.props.history.push('/searchShow/' + e.current.value);
-      }
+      this.props.history.push({
+        pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+        state: {
+          GAListParam: 'Search Results',
+          noresult: !this.state.isSearchSuccess
+        }
+      });
     }
   };
   handleSearchInputChange(e) {
@@ -469,9 +463,11 @@ class Header extends React.Component {
             });
           }
           this.setState({ isSearchSuccess: true });
-          dataLayer[0].search.query = keywords;
-          dataLayer[0].search.results = esGoods.totalElements;
-          dataLayer[0].search.type = 'with results';
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.type = 'with results';
+          }
 
           this.setState({
             result: Object.assign(
@@ -483,9 +479,11 @@ class Header extends React.Component {
             )
           });
         } else {
-          dataLayer[0].search.query = keywords;
-          dataLayer[0].search.results = esGoods.totalElements;
-          dataLayer[0].search.type = 'without results';
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.type = 'without results';
+          }
           this.setState({ isSearchSuccess: false });
           this.setState({
             result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -493,6 +491,7 @@ class Header extends React.Component {
         }
       }
     } catch (err) {
+      console.log(222, err);
       this.setState({
         loading: false,
         result: Object.assign({}, { productList: [], totalElements: 0 })
@@ -501,7 +500,6 @@ class Header extends React.Component {
   }
   gotoDetails(item) {
     console.log(item);
-    sessionItemRoyal.set('rc-goods-cate-name', item.goodsCateName || '');
     this.props.history.push({
       pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
       state: {
@@ -653,22 +651,36 @@ class Header extends React.Component {
       item.navigationName
     );
   };
+  toggleShowBodyMask({ visible = false }) {
+    if (visible) {
+      let cls = document.querySelector('body').className.split(' ') || [];
+      cls.push('open-dropdown');
+      document.querySelector('body').className = cls.join(' ');
+    } else {
+      let cls = document.querySelector('body').className.split(' ') || [];
+      const idx = cls.findIndex((c) => c === 'open-dropdown');
+      cls.splice(idx, 1);
+      document.querySelector('body').className = cls.join(' ');
+    }
+  }
   hanldeListItemMouseOver(item) {
     if (!item.expanded) {
       return false;
     }
-    this.setState({
-      activeTopParentId: item.id
-    });
+    this.updateActiveTopParentId(item.id);
   }
   hanldeListItemMouseOut(item) {
     if (!item.expanded) {
       return false;
     }
-    this.setState({
-      activeTopParentId: -1
-    });
+    this.updateActiveTopParentId(-1);
   }
+  updateActiveTopParentId = (id) => {
+    this.setState({ activeTopParentId: id }, () => {
+      const { activeTopParentId } = this.state;
+      this.toggleShowBodyMask({ visible: activeTopParentId !== -1 });
+    });
+  };
   render() {
     const {
       showMiniIcons,
@@ -1030,12 +1042,11 @@ class Header extends React.Component {
           </nav>
           <DropDownMenu
             activeTopParentId={this.state.activeTopParentId}
-            updateActiveTopParentId={(id) => {
-              this.setState({ activeTopParentId: id });
-            }}
+            updateActiveTopParentId={this.updateActiveTopParentId}
             headerNavigationList={headerNavigationList}
             configStore={configStore}
-            handleClickNavItem={this.handleClickNavItem}
+            // handleClickNavItem={this.handleClickNavItem}
+            toggleShowBodyMask={this.toggleShowBodyMask}
           />
           <div className="search">
             <div className="rc-sm-down">

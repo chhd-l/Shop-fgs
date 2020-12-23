@@ -152,40 +152,126 @@ class Confirmation extends React.Component {
   //GA 埋点 start
   getGAEComTransaction(){
     const { details } = this.state;
+    console.log({details})
 
-    let products = details.tradeItems.map((item) => {
-      return {
-        id: item.spuNo,
-        name: item.spuName,
-        price: item.price,
-        brand: 'Royal Canin',
-        category: item.cateName,
-        quantity: item.num,
-        variant: item.specDetails?parseInt(item.specDetails):'',
-        sku: item.skuNo,
-        recommandation: details.recommendationId
-          ? 'recommended'
-          : 'self-selected'
+    let isAllOneShootGoods = details.tradeItems.every((item)=>{
+      return item.goodsInfoFlag != 1
+    })
+    let isAllSubscriptionGoods =  details.tradeItems.every((item)=>{
+      return item.goodsInfoFlag == 1
+    })
+
+    if(isAllOneShootGoods||isAllSubscriptionGoods){ //商品均是oneshoot或者均是subscription
+      let products = details.tradeItems.map((item) => {
+        return {
+          id: item.spuNo,
+          name: item.spuName,
+          price: item.price,
+          brand: 'Royal Canin',
+          category: item.cateName,
+          quantity: item.num,
+          variant: item.specDetails?parseInt(item.specDetails):'',
+          sku: item.skuNo,
+          recommandation: details.recommendationId
+            ? 'recommended'
+            : 'self-selected'
+        };
+      });
+      let eEvents = {
+        event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+        ecommerce: {
+          currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+          purchase: {
+            actionField: {
+              id: this.state.totalTid,
+              type: isAllOneShootGoods?'One-shot':'Subscription',
+              revenue: details.tradePrice.totalPrice,
+              coupon:'',
+              shipping: details.tradePrice.deliveryPrice
+            },
+            products
+          }
+        }
       };
-    });
-    let eEvents = {
-      event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
-      ecommerce: {
-        currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
-        purchase: {
-          actionField: {
-            id: this.state.totalTid,
-            type: this.state.subNumber ? 'Subscription' : 'One-shot',
-            revenue: details.tradePrice.totalPrice,
-          },
-          products
+      dataLayer.push(eEvents)
+    }else{ //既有oneshoot，又有subscription
+      let oneShootProduct = []
+      let oneShootProductTotalPrice = ''
+      let subscriptionProduct = []
+      let subscriptionProductTotalPrice = ''
+      for (let item of details.tradeItems) {
+        if(item.goodsInfoFlag){
+          subscriptionProductTotalPrice = subscriptionProductTotalPrice+item.price
+          subscriptionProduct.push({
+            id: item.spuNo,
+            name: item.spuName,
+            price: item.price,
+            brand: 'Royal Canin',
+            category: item.cateName,
+            quantity: item.num,
+            variant: item.specDetails?parseInt(item.specDetails):'',
+            sku: item.skuNo,
+            recommandation: details.recommendationId
+              ? 'recommended'
+              : 'self-selected'
+          })
+          let eEvents = {
+            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            ecommerce: {
+              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              purchase: {
+                actionField: {
+                  id: this.state.totalTid,
+                  type:'Subscription',
+                  revenue: subscriptionProductTotalPrice,
+                  coupon:'',
+                  shipping: details.tradePrice.deliveryPrice
+                },
+                products:subscriptionProduct
+              }
+            }
+          };
+          dataLayer.push(eEvents)
+        }else{
+          oneShootProductTotalPrice = oneShootProductTotalPrice+item.price
+          oneShootProduct.push({
+            id: item.spuNo,
+            name: item.spuName,
+            price: item.price,
+            brand: 'Royal Canin',
+            category: item.cateName,
+            quantity: item.num,
+            variant: item.specDetails?parseInt(item.specDetails):'',
+            sku: item.skuNo,
+            recommandation: details.recommendationId
+              ? 'recommended'
+              : 'self-selected'
+          })
+          let eEvents = {
+            event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
+            ecommerce: {
+              currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
+              purchase: {
+                actionField: {
+                  id: this.state.totalTid,
+                  type:'one-shoot',
+                  revenue: oneShootProductTotalPrice,
+                  coupon:'',
+                  shipping: details.tradePrice.deliveryPrice
+                },
+                products:oneShootProduct
+              }
+            }
+          };
+          dataLayer.push(eEvents)
         }
       }
-    };
-    // this.setState({
-    //   eEvents
-    // })
-    dataLayer.unshift(eEvents)
+      // console.log({oneShootProduct})
+      // console.log({oneShootProduct})
+      // console.log({oneShootProductTotalPrice})
+      // console.log({subscriptionProductTotalPrice})
+    }
+    
   }
   //GA 埋点 end
   render() {
@@ -204,7 +290,7 @@ class Confirmation extends React.Component {
     return (
       <div>
         {
-          this.state.eEvents?<GoogleTagManager additionalEvents={event} ecommerceEvents={this.state.eEvents} />:null
+          <GoogleTagManager additionalEvents={event} />
         }
         <Helmet>
           <title>{this.state.seoConfig.title}</title>

@@ -21,7 +21,6 @@ class PayProductInfo extends React.Component {
     className: '',
     onClickHeader: () => {},
     headerIcon: null,
-    step:0,
   };
   constructor(props) {
     super(props);
@@ -32,7 +31,8 @@ class PayProductInfo extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      frequencyList: []
+      frequencyList: [],
+      step:2,
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -136,7 +136,7 @@ class PayProductInfo extends React.Component {
   //获取GA step
   getGACheckoutStep(){
     console.log(this.paymentStep)
-    //debugger
+    debugger
   }
   async componentDidMount() {
     let productList;
@@ -250,10 +250,6 @@ class PayProductInfo extends React.Component {
     return el.goodsInfoFlag;
   }
   handleClickProName(item) {
-    sessionItemRoyal.set(
-      'rc-goods-cate-name',
-      (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
-    );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     // this.props.history.push(
     //   `/details/${

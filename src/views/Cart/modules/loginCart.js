@@ -168,8 +168,8 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        option = '',
+        step = 1
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
@@ -436,7 +436,7 @@ class LoginCart extends React.Component {
         'sku':product.goodsInfoNo
     }]
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       'ecommerce': {
            'remove': {
                  'products': list
@@ -464,8 +464,6 @@ class LoginCart extends React.Component {
     this.props.history.goBack();
   }
   gotoDetails(pitem) {
-    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-    
     this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }

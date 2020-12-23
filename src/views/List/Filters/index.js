@@ -1,12 +1,14 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import PriceSlider from '@/components/PriceSlider';
 import '@/assets/css/search.css';
 import './index.less';
 
 class Filter extends React.Component {
   static defaultProps = {
+    history: null,
     initing: true,
     filterList: [],
     updateParentData: () => {},
@@ -112,13 +114,14 @@ class Filter extends React.Component {
     const { inputLabelKey } = this.props;
     return (
       <li
-        title={`Sort by ${parentItem.attributeNameEn &&parentItem.attributeNameEn.toLocaleLowerCase()}: ${
-          childItem.attributeDetailNameEn
-        }`}
+        title={`Sort by ${
+          parentItem.attributeNameEn &&
+          parentItem.attributeNameEn.toLocaleLowerCase()
+        }: ${childItem.attributeDetailNameEn}`}
         className="rc-list__item"
         key={childItem.id}
       >
-        <div className="rc-input rc-input--stacked">
+        <Link to={childItem.router} className="rc-input rc-input--stacked">
           <input
             className={`rc-input__checkbox`}
             id={`filter-input-${childItem.id}-${inputLabelKey}`}
@@ -136,7 +139,7 @@ class Filter extends React.Component {
           >
             {childItem.attributeDetailNameEn}
           </label>
-        </div>
+        </Link>
       </li>
     );
   };
@@ -147,7 +150,10 @@ class Filter extends React.Component {
         key={childItem.id}
         className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
       >
-        <div className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+        <Link
+          to={childItem.router}
+          className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
+        >
           <input
             className="rc-input__radio"
             id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
@@ -173,17 +179,19 @@ class Filter extends React.Component {
                 )[0].valueEn
               : childItem.attributeDetailNameEn}
           </label>
-        </div>
+        </Link>
       </div>
     );
   };
   render() {
     const { filterList } = this.state;
     const {
+      history,
       initing,
       hanldePriceSliderChange,
       markPriceAndSubscriptionLangDict
     } = this.props;
+    const { pathname } = history.location;
     return (
       <div className="rc-filters__form fr-mobile" name="example-filter">
         {initing ? (
@@ -192,7 +200,10 @@ class Filter extends React.Component {
           </div>
         ) : (
           <>
-            <header className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto" style={{backgroundColor: '#f6f6f6'}}>
+            <header
+              className="rc-rc-filters__header rc-padding-left--none--desktop pointer-events-auto"
+              style={{ backgroundColor: '#f6f6f6' }}
+            >
               {/* <button
                 className="rc-md-down rc-stick-left rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography"
                 type="button"
@@ -213,15 +224,17 @@ class Filter extends React.Component {
                       if (cItem.selected) {
                         return (
                           <li className="filter-value" key={cItem.id}>
-                            {cItem.attributeDetailNameEn}
-                            <i
-                              className="filter-remove"
-                              onClick={this.handleClickValueItem.bind(this, {
-                                parentItem: pItem,
-                                item: cItem,
-                                isRemoveOperate: true
-                              })}
-                            />
+                            <Link to={cItem.router}>
+                              {cItem.attributeDetailNameEn}
+                              <i
+                                className="filter-remove"
+                                // onClick={this.handleClickValueItem.bind(this, {
+                                //   parentItem: pItem,
+                                //   item: cItem,
+                                //   isRemoveOperate: true
+                                // })}
+                              />
+                            </Link>
                           </li>
                         );
                       } else {
@@ -229,11 +242,17 @@ class Filter extends React.Component {
                       }
                     });
                   })}
-                  {this.hasSelecedItems &&
-                    <li className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block" key="removeAllFilters" onClick={this.hanldeClickRemoveAll}>
-                      <FormattedMessage id="removeAllFilters" />
+                  {this.hasSelecedItems && (
+                    <li
+                      className="d-md-none rc-margin-top--sm--mobile rc-margin-left--md--mobile rc-margin-bottom--md--mobile d-inline-block"
+                      key="removeAllFilters"
+                      // onClick={this.hanldeClickRemoveAll}
+                    >
+                      <Link to={{ pathname }}>
+                        <FormattedMessage id="removeAllFilters" />
+                      </Link>
                     </li>
-                  }
+                  )}
                 </ul>
               </div>
               {/* {this.hasSelecedItems && (

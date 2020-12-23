@@ -106,7 +106,7 @@ const breadcrumbNameMap = {
       name: 'GeneralConditions'
     }
   ],
-  '/qualitySafety': [
+  '/Quality-safety': [
     {
       name: 'Qualité et sécurité alimentaire'
     }
@@ -116,7 +116,7 @@ const breadcrumbNameMap = {
       name: 'aboutUs2'
     }
   ],
-  '/tailorednutrition': [
+  '/Tailorednutrition': [
     {
       name: 'tailorednutrition'
     }
@@ -137,6 +137,11 @@ const breadcrumbNameMap = {
     }
   ],
   '/FAQ/all':[
+    {
+      name:"FAQ"
+    }
+  ],
+  '/faq':[
     {
       name:"FAQ"
     }

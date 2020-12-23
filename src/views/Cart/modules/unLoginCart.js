@@ -150,8 +150,8 @@ class UnLoginCart extends React.Component {
     let product = [],
       basketAmount = this.tradePrice,
       basketID = guid,
-      option = this.isLogin ? 'account already created' : 'guest',
-      step = 2
+      option = '',
+      step = 1
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2)=>{
         return item2.selected == true
@@ -455,7 +455,7 @@ class UnLoginCart extends React.Component {
         'sku':goodsInfoNo
     }]
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       'ecommerce': {
            'remove': {
                  'products': list
@@ -494,7 +494,6 @@ class UnLoginCart extends React.Component {
      //增加数量 重新埋点 end
   }
   gotoDetails(pitem) {
-    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
     // this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
