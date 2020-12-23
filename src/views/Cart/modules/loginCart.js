@@ -169,7 +169,7 @@ class LoginCart extends React.Component {
         basketAmount = this.tradePrice,
         basketID = guid,
         option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        step = 1
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
