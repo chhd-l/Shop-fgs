@@ -15,11 +15,14 @@ import Rate from '@/components/Rate';
 import Filters from './Filters';
 import FiltersPC from './FiltersPC';
 import find from 'lodash/find';
+import cloneDeep from 'lodash/cloneDeep';
 import { IMG_DEFAULT } from '@/utils/constant';
 import { Helmet } from 'react-helmet';
-import { getList, getLoginList, findSortList } from '@/api/list';
+import { getList } from '@/api/list';
 import {
   fetchHeaderNavigations,
+  fetchFilterList,
+  fetchSortList,
   queryStoreCateList,
   generateOptions,
   getParentNodesByChild,
@@ -89,7 +92,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem', overflow: 'hidden' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%' }}>
+                    <LazyLoad style={{ width: '100%', heigth: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
@@ -162,7 +165,7 @@ function ListItemPC(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%' }}>
+                    <LazyLoad style={{ width: '100%', height: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
@@ -452,16 +455,12 @@ class List extends React.Component {
       }
     };
     this.pageSize = 12;
-    this.fidFromSearch = ''; // 链接中所带筛选器参数
-    this.cidFromSearch = ''; // 链接中所带catory参数
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
     const { category, keywords } = this.props.match.params;
-    this.fidFromSearch = getParaByName(search, 'fid');
-    this.cidFromSearch = getParaByName(search, 'cid');
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     this.setState(
       {
@@ -525,7 +524,7 @@ class List extends React.Component {
   }
 
   // 商品列表 埋点
-  GAProductImpression(productList,totalElements,keywords) {
+  GAProductImpression(productList, totalElements, keywords) {
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName, //
@@ -540,7 +539,7 @@ class List extends React.Component {
         // flag: !!item.taggingForImage
         //   ? JSON.parse(item.taggingForImage).taggingName
         //   : ''
-        flag:''
+        flag: ''
       };
     });
 
@@ -565,26 +564,33 @@ class List extends React.Component {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
-    const { pathname, search } = this.props.history.location;
+    const { pathname, search, state } = this.props.history.location;
     Promise.all([
       fetchHeaderNavigations(),
       queryStoreCateList(),
-      findSortList()
+      fetchSortList(),
+      fetchFilterList()
     ])
       .then((res) => {
         const routers = [...(res[0] || []), ...(res[1] || [])];
-        const targetRouter = routers.filter((r) =>
-          [
-            r.navigationLink,
-            r.cateRouter,
-            `${r.navigationLink}?${r.keywords}`
-          ].includes(decodeURIComponent(pathname + search))
+        const targetRouter = routers.filter(
+          (r) =>
+            [
+              r.navigationLink,
+              // r.cateRouter,
+              `${r.navigationLink}?${r.keywords}`
+            ].includes(decodeURIComponent(pathname + search)) ||
+            [
+              r.navigationLink,
+              r.cateRouter,
+              `${r.navigationLink}?${r.keywords}`
+            ].includes(pathname)
         )[0];
         let sortParam = null;
         let cateIds = [];
         let filters = [];
         let breadList = [];
-        const sortList = (res[2].context || [])
+        const sortList = (res[2] || [])
           .sort((a, b) => a.sort - b.sort)
           .map((ele) => ({
             ...ele,
@@ -594,10 +600,9 @@ class List extends React.Component {
         if (targetRouter) {
           // 匹配sort参数
           if (targetRouter.searchSort) {
-            const targetSortItem = (
-              (res && res[2] && res[2].context) ||
-              []
-            ).filter((e) => e.id === targetRouter.searchSort)[0];
+            const targetSortItem = ((res && res[2]) || []).filter(
+              (e) => e.id === targetRouter.searchSort
+            )[0];
             if (targetSortItem) {
               sortParam = {
                 field: targetSortItem.field,
@@ -632,14 +637,13 @@ class List extends React.Component {
           '';
         breadList = getParentNodesByChild({
           data: generateOptions(res[0] || []).concat(res[1] || []),
-          // data: res[1] || [],
           id: targetId,
-          indexArray: [],
-          matchIdName: targetRouter.id
-            ? 'id'
-            : targetRouter.storeCateId
-            ? 'storeCateId'
-            : ''
+          matchIdName:
+            targetRouter && targetRouter.id
+              ? 'id'
+              : targetRouter && targetRouter.storeCateId
+              ? 'storeCateId'
+              : ''
         })
           .map((e) => ({
             ...e,
@@ -650,6 +654,39 @@ class List extends React.Component {
 
         // set SEO
         this.setSEO({ cateIds });
+
+        // 解析prefn/prefv, 匹配filter, 设置默认值
+        const prefnNum = (search.match(/prefn/gi) || []).length;
+        for (let index = 0; index < prefnNum; index++) {
+          const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+          const fvEles = decodeURI(
+            getParaByName(search, `prefv${index + 1}`)
+          ).split('|');
+          const tItem = (res[3] || []).filter(
+            (r) => r.attributeName === fnEle
+          )[0];
+          if (tItem) {
+            let attributeValues = [];
+            let attributeValueIdList = [];
+            Array.from(fvEles, (fvItem) => {
+              const tFvItem = tItem.attributesValueList.filter(
+                (t) => t.attributeDetailNameEn === fvItem
+              )[0];
+              if (tFvItem) {
+                attributeValues.push(tFvItem.attributeDetailName);
+                attributeValueIdList.push(tFvItem.id);
+              }
+              return fvItem;
+            });
+            filters.push(
+              Object.assign(tItem, {
+                attributeValues,
+                attributeValueIdList
+              })
+            );
+          }
+        }
+
         this.setState(
           {
             sortList,
@@ -688,6 +725,7 @@ class List extends React.Component {
         );
       })
       .catch((err) => {
+        console.log(err);
         this.getProductList();
         this.setSEO();
       });
@@ -715,6 +753,7 @@ class List extends React.Component {
     }
   }
   handleFilterResData(res) {
+    const { state, pathname, search } = this.props.history.location;
     let tmpList = res
       .filter((ele) => +ele.filterStatus)
       .sort((a) => (a.filterType === '0' ? -1 : 1))
@@ -737,6 +776,75 @@ class List extends React.Component {
       filterType: '1',
       pIdName: 'id',
       orginChildListName: 'storeGoodsFilterValueVOList'
+    });
+    let prefnParamListFromSearch = [];
+    const prefnNum = (search.match(/prefn/gi) || []).length;
+    for (let index = 0; index < prefnNum; index++) {
+      const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
+      const fvEles = decodeURI(
+        getParaByName(search, `prefv${index + 1}`)
+      ).split('|');
+      prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
+    }
+
+    // 处理每个filter的router
+    Array.from(tmpList, (pEle) => {
+      Array.from(pEle.attributesValueList, (cEle) => {
+        let prefnParamList = cloneDeep(prefnParamListFromSearch);
+        const targetPIdx = prefnParamList.findIndex(
+          (p) => p.prefn === pEle.attributeName
+        );
+        const targetPItem = prefnParamList[targetPIdx];
+        if (cEle.selected) {
+          // 该子节点被选中，从链接中移除
+          // 1 若移除后，子节点为空了，则移除该父节点
+          const idx = targetPItem.prefvs.findIndex(
+            (p) => p === cEle.attributeDetailNameEn
+          );
+          targetPItem.prefvs.splice(idx, 1);
+          if (!targetPItem.prefvs.length) {
+            prefnParamList.splice(targetPIdx, 1);
+          }
+        } else {
+          // 该子节点未被选中，在链接中新增prefn/prefv
+          // 1 该父节点存在于链接中，
+          // 1-1 该子节点为多选，找出并拼接上该子节点
+          // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
+          // 2 该父节点不存在于链接中，直接新增
+
+          if (targetPItem) {
+            if (pEle.choiceStatus === 'Single choice') {
+              targetPItem.prefvs = [cEle.attributeDetailNameEn];
+            } else {
+              targetPItem.prefvs.push(cEle.attributeDetailNameEn);
+            }
+          } else {
+            prefnParamList.push({
+              prefn: pEle.attributeName,
+              prefvs: [cEle.attributeDetailNameEn]
+            });
+          }
+        }
+        const decoParam = prefnParamList.reduce(
+          (pre, cur) => {
+            return {
+              ret:
+                pre.ret +
+                `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
+                  '|'
+                )}`,
+              i: ++pre.i
+            };
+          },
+          { i: 1, ret: '' }
+        );
+        cEle.router = {
+          pathname,
+          search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : ''
+        };
+        return cEle;
+      });
+      return pEle;
     });
     this.setState({ filterList: tmpList, initingFilter: false });
   }
@@ -767,7 +875,7 @@ class List extends React.Component {
       return pItem;
     });
   }
-  async getProductList(type) {
+  async getProductList() {
     const { history } = this.props;
     let {
       cateType,
@@ -845,7 +953,6 @@ class List extends React.Component {
     // 点击filter，触发局部刷新或整页面刷新
     if (!initingList && actionFromFilter) {
       pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      sessionItemRoyal.set('filter-navigations', JSON.stringify([pathname]));
       history.push({
         pathname,
         state: {
@@ -903,37 +1010,15 @@ class List extends React.Component {
       });
     }
 
-    if (this.cidFromSearch) {
-      params.storeCateIds = this.cidFromSearch.split('|');
-    }
-    let tmpArr;
-    switch (type) {
-      case 'search_fid':
-        tmpArr = this.fidFromSearch.split('|');
-        params.propDetails = [{ propId: tmpArr[0], detailIds: [tmpArr[1]] }];
-        break;
-      default:
-        for (let item of []) {
-          let tmp = find(params.propDetails, (p) => p.propId === item.propId);
-          if (tmp) {
-            tmp.detailIds.push(item.detailId);
-          } else {
-            params.propDetails.push({
-              propId: item.propId,
-              detailIds: [item.detailId]
-            });
-          }
-        }
-    }
-
-    (this.isLogin ? getLoginList : getList)(params)
+    getList(params)
       .then((res) => {
+        // esGoodsStoreGoodsFilterVOList todo
         this.handleFilterResData(
-          (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
+          (res.context && res.context.storeGoodsFilterVOList) || []
         );
         const esGoods = res.context.esGoods;
-        const totalElements = esGoods.totalElements
-        const keywords = this.state.keywords
+        const totalElements = esGoods.totalElements;
+        const keywords = this.state.keywords;
         if (esGoods && esGoods.content.length) {
           let goodsContent = esGoods.content;
           if (res.context.goodsList) {
@@ -993,7 +1078,11 @@ class List extends React.Component {
               totalPage: esGoods.totalPages
             },
             () => {
-              this.GAProductImpression(this.state.productList,totalElements,keywords);
+              this.GAProductImpression(
+                this.state.productList,
+                totalElements,
+                keywords
+              );
             }
           );
         } else {
@@ -1007,7 +1096,8 @@ class List extends React.Component {
           initingList: false
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(1111, err);
         this.setState({
           loading: false,
           productList: [],
@@ -1030,10 +1120,6 @@ class List extends React.Component {
     if (this.state.loading) {
       return false;
     }
-    sessionItemRoyal.set(
-      'rc-goods-cate-name',
-      this.state.currentCatogery || ''
-    );
     sessionItemRoyal.set('recomment-preview', location.pathname);
     // history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
     // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
@@ -1107,7 +1193,8 @@ class List extends React.Component {
     }, 500);
   };
   render() {
-    const { pathname } = this.props.history.location;
+    const { history } = this.props;
+    const { pathname } = history.location;
     const {
       category,
       results,
@@ -1191,7 +1278,7 @@ class List extends React.Component {
           showMiniIcons={true}
           showUserIcon={true}
           location={this.props.location}
-          history={this.props.history}
+          history={history}
           match={this.props.match}
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
@@ -1199,7 +1286,7 @@ class List extends React.Component {
           <BreadCrumbsNavigation list={breadList.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
-              Homepage
+              <FormattedMessage id="homePage" />
             </Link>
           </div>
           {titleData ? (
@@ -1267,6 +1354,7 @@ class List extends React.Component {
                     >
                       {isMobile ? (
                         <Filters
+                          history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
@@ -1281,6 +1369,7 @@ class List extends React.Component {
                         />
                       ) : (
                         <FiltersPC
+                          history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
@@ -1323,22 +1412,25 @@ class List extends React.Component {
                         style={{ marginRight: '1em' }}
                         className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0"
                       >
-                        <Selection
-                          key={sortList.length}
-                          selectedItemChange={this.onSortChange}
-                          optionList={sortList}
-                          selectedItemData={{
-                            value:
-                              (selectedSortParam && selectedSortParam.value) ||
-                              ''
-                          }}
-                          placeholder={<FormattedMessage id="sortBy" />}
-                          customInnerStyle={{
-                            paddingTop: '.7em',
-                            paddingBottom: '.7em'
-                          }}
-                          customStyleType="select-one"
-                        />
+                        {sortList.length > 0 && (
+                          <Selection
+                            key={sortList.length}
+                            selectedItemChange={this.onSortChange}
+                            optionList={sortList}
+                            selectedItemData={{
+                              value:
+                                (selectedSortParam &&
+                                  selectedSortParam.value) ||
+                                ''
+                            }}
+                            placeholder={<FormattedMessage id="sortBy" />}
+                            customInnerStyle={{
+                              paddingTop: '.7em',
+                              paddingBottom: '.7em'
+                            }}
+                            customStyleType="select-one"
+                          />
+                        )}
                       </span>
                       <i
                         className={`rc-icon rc-filter--xs rc-iconography ${
@@ -1367,6 +1459,7 @@ class List extends React.Component {
                     >
                       {isMobile ? (
                         <Filters
+                          history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
@@ -1381,6 +1474,7 @@ class List extends React.Component {
                         />
                       ) : (
                         <FiltersPC
+                          history={history}
                           maxGoodsPrice={this.props.configStore.maxGoodsPrice}
                           initing={initingFilter}
                           onToggleFilterModal={this.toggleFilterModal}
@@ -1416,23 +1510,25 @@ class List extends React.Component {
 
                           <div className="col-12 col-md-4  rc-md-up">
                             <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
-                              <Selection
-                                key={sortList.length}
-                                selectedItemChange={this.onSortChange}
-                                optionList={sortList}
-                                selectedItemData={{
-                                  value:
-                                    (selectedSortParam &&
-                                      selectedSortParam.value) ||
-                                    ''
-                                }}
-                                // placeholder={<FormattedMessage id="sortBy" />}
-                                customInnerStyle={{
-                                  paddingTop: '.7em',
-                                  paddingBottom: '.7em'
-                                }}
-                                customStyleType="select-one"
-                              />
+                              {sortList.length > 0 && (
+                                <Selection
+                                  key={sortList.length}
+                                  selectedItemChange={this.onSortChange}
+                                  optionList={sortList}
+                                  selectedItemData={{
+                                    value:
+                                      (selectedSortParam &&
+                                        selectedSortParam.value) ||
+                                      ''
+                                  }}
+                                  // placeholder={<FormattedMessage id="sortBy" />}
+                                  customInnerStyle={{
+                                    paddingTop: '.7em',
+                                    paddingBottom: '.7em'
+                                  }}
+                                  customStyleType="select-one"
+                                />
+                              )}
                             </span>
                           </div>
                         </div>
