@@ -151,7 +151,7 @@ class UnLoginCart extends React.Component {
       basketAmount = this.tradePrice,
       basketID = guid,
       option = this.isLogin ? 'account already created' : 'guest',
-      step = 2
+      step = 1
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2)=>{
         return item2.selected == true

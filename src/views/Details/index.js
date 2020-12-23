@@ -1401,7 +1401,7 @@ class Details extends React.Component {
           },
           products: [
             {
-              id: item.Id,//?goodsId客户反馈不对，id这里为空
+              id: item.goodsNo,//?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
               brand: item.brandName||'ROYAL CANIN',
