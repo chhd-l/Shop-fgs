@@ -387,7 +387,7 @@ const App = () => (
                 component={TR_GeneralConditions}
               />
               <Route
-                path="/aboutUs"
+                path="/About-Us"
                 exact
                 component={
                   process.env.REACT_APP_LANG == 'de' ? AboutUsDe : AboutUs
@@ -406,8 +406,7 @@ const App = () => (
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />
-              <Route path="/values-fr" exact component={FR_Values} />
-              <Route path="/Values" exact component={RU_Values} />
+              <Route path="/values" exact component={FR_Values} />
               <Route
                 path="/tailorednutrition"
                 exact

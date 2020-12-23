@@ -6,7 +6,10 @@ class FooterImage extends React.Component {
   render() {
     const defaultVal = (
       <div className="row rc-margin-x--none d-flex">
-        <div className="col-6 col-lg-4 order-1 order-lg-0">
+        <div
+          className="col-6 col-lg-4 order-1 order-lg-0"
+          style={{ fontSize: 0 }}
+        >
           <picture>
             <source
               media="(max-width: 640px)"
@@ -61,7 +64,10 @@ class FooterImage extends React.Component {
     const footerImage = {
       es: (
         <div className="row rc-margin-x--none d-flex">
-          <div className="col-6 col-lg-4 order-1 order-lg-0">
+          <div
+            className="col-6 col-lg-4 order-1 order-lg-0"
+            style={{ fontSize: 0 }}
+          >
             <picture>
               <source
                 media="(max-width: 640px)"
@@ -178,7 +184,10 @@ class FooterImage extends React.Component {
       ),
       fr: (
         <div className="row rc-margin-x--none d-flex">
-          <div className="col-6 col-lg-4 order-1 order-lg-0">
+          <div
+            className="col-6 col-lg-4 order-1 order-lg-0"
+            style={{ fontSize: 0 }}
+          >
             <picture>
               <source
                 media="(max-width: 640px)"
