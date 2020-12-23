@@ -1039,7 +1039,7 @@ class Header extends React.Component {
             }}
             headerNavigationList={headerNavigationList}
             configStore={configStore}
-            handleClickNavItem={this.handleClickNavItem}
+            // handleClickNavItem={this.handleClickNavItem}
           />
           <div className="search">
             <div className="rc-sm-down">

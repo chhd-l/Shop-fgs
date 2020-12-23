@@ -69,7 +69,7 @@ export default class DropDownMenu extends React.Component {
     };
     this.GAClickMenu(interaction);
     // 点击subMenu埋点-end
-    this.props.handleClickNavItem(item);
+    // this.props.handleClickNavItem(item);
   };
   renderNormalMenu = (item, i) => {
     const { activeTopParentId } = this.props;
