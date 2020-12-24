@@ -1368,6 +1368,7 @@ class Details extends React.Component {
               price: form.buyWay==0?cur_selected_size[0].marketPrice:cur_selected_size[0].subscriptionPrice,
               brand: item.brandName||'Royal Canin',
               // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              category: item.goodsCateName,
               variant: parseInt(variant),
               quantity: num,
               recommendation: 'self-selected',
@@ -1410,6 +1411,7 @@ class Details extends React.Component {
               brand: item.brandName||'ROYAL CANIN',
               club: 'no',
               // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              category:item.goodsCateName,
               variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }
