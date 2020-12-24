@@ -494,7 +494,7 @@ class UnLoginCart extends React.Component {
      //增加数量 重新埋点 end
   }
   gotoDetails(pitem) {
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', ' ')}-${pitem.goodsNo}`);
     // this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {

@@ -258,7 +258,7 @@ class PayProductInfo extends React.Component {
     //   }`
     // );
     this.props.history.push(
-      `/${item.goodsName.toLowerCase().split(' ').join('-')}-${item.goodsNo}`
+      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', ' ')}-${item.goodsNo}`
     );
   }
   getProductsForLogin(plist) {
