@@ -501,7 +501,7 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', ' ')}-${item.goodsNo}`,
       state: {
         GAListParam: 'Search Results'
       }

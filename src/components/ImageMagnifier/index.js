@@ -47,9 +47,10 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: isMobile? '230': ((props.config && props.config.width) || '400'),
+        width: isMobile? '230': ((props.config && props.config.width) || '350'),
         // 组件高
-        height: isMobile? '324': ((props.config && props.config.height) || '450')
+        height: isMobile? '324': ((props.config && props.config.height) || '250')
+        // height: 'auto'
       },
       // 缩略图
       minImg: '',
@@ -97,10 +98,10 @@ class ImageMagnifier extends Component {
         //  放大镜容器样式
         magnifierContainer: {
           position: 'absolute',
-          left: '-400px',
+          left: '-350px',
           top: '0',
-          width: '400px',
-          height: '400px',
+          width: '350px',
+          height: '250px',
           border: '1px solid #ccc',
           overflow: 'hidden',
           zIndex: 5,
@@ -108,15 +109,15 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: isMobile? '230': '400',
-          height: '100%',
+          width: isMobile? '230px': '250px',
+          // height: '100%',
           margin: '0 auto',
           display: 'block'
         },
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: isMobile? '230px': '400px',
+          width: isMobile? '230px': '350px',
           height: isMobile? '324px': '400px',
           position: 'absolute',
           top: 0,
@@ -148,7 +149,6 @@ class ImageMagnifier extends Component {
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
     }
-    console.log(currentImg, 'currentImg');
     this.setState({
       currentImg: currentImg
     });
@@ -173,7 +173,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 400
+        offsetX: isMobile? hoverIndex * 230: hoverIndex * 350
       });
     }
   }
@@ -206,7 +206,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 400
+        offsetX: isMobile? hoverIndex * 230: hoverIndex * 350
       });
     }
   }
@@ -282,7 +282,7 @@ class ImageMagnifier extends Component {
     let params = JSON.parse(JSON.stringify(this.state.params));
     console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (400 + 'px');
+    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (350 + 'px');
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = params.width + 'px';
     cssStyle.magnifierContainer.height = params.height + 'px';
@@ -312,7 +312,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: isMobile? i * 230: i * 400
+      offsetX: isMobile? i * 230: i * 350
     });
   }
   // 图片加载情况
@@ -496,7 +496,7 @@ class ImageMagnifier extends Component {
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
                 width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5? '-17px': (this.state.positionLeft + 'px')
+                left: imgCount <= 5? '-10px': (this.state.positionLeft + 'px')
               }}
             >
               {images.filter((el) => el.goodsInfoImg).length ? (
@@ -547,7 +547,7 @@ class ImageMagnifier extends Component {
                       videoShow: true,
                       cssStyle,
                       hoverIndex: images.length,
-                      offsetX: isMobile?images.length * 230: images.length * 400
+                      offsetX: isMobile?images.length * 230: images.length * 350
                     });
                   }}
                   src={video ? video : ''}

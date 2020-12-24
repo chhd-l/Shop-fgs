@@ -109,6 +109,7 @@ const LoginButton = (props) => {
               });
           } else {
             loginStore.changeLoginModal(false);
+            setIsGetUserInfoDown(true);
           }
         })
         .catch(() => {

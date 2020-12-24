@@ -466,7 +466,7 @@ class LoginCart extends React.Component {
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', ' ')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {
@@ -1215,8 +1215,8 @@ class LoginCart extends React.Component {
                     );
                   }
                   if (
-                    result.backCode === 'K-000000' &&
-                    result.context.promotionDiscount
+                    result.backCode === 'K-000000' 
+                    && result.context.promotionDiscount
                   ) {
                     //表示输入apply promotionCode成功
                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
