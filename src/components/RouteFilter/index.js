@@ -273,6 +273,12 @@ class RouteFilter extends Component {
         }
       });
     }
+    if (process.env.REACT_APP_CONSENT_SCRIPT) {
+      loadJS({
+        url: process.env.REACT_APP_CONSENT_SCRIPT,
+        id: 'global-script'
+      });
+    }
   }
   //判断consent接口是否存在必填项
   isExistRequiredListFun(result) {
