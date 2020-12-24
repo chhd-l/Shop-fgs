@@ -683,7 +683,7 @@ export const ADDRESS_RULE = [
   {
     key: 'phoneNumber',
     regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
-    require: true,
+    require: process.env.REACT_APP_LANG === 'de'? false : true,
     errMsg: CURRENT_LANGFILE['enterCorrectPhoneNumber']
   },
   {
