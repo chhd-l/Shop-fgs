@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
+import BannerFR from '@/assets/images/home/Banner-FR@2x.webp';
 
 function Divider() {
   return (
@@ -83,11 +84,11 @@ export function Ads() {
                           srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=1336, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2004 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2380 2x"
                         />
                         <img
-                            className="w-100 lazyloaded"
-                            alt="Large Gamme De Produits Royal Canin"
-                            title="Large Gamme De Produits Royal Canin"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2004"
-                          />
+                          className="w-100 lazyloaded"
+                          alt="Large Gamme De Produits Royal Canin"
+                          title="Large Gamme De Produits Royal Canin"
+                          src={BannerFR}
+                        />
                       </picture>
                     </Link>
                   </div>
