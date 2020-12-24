@@ -409,7 +409,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || noPic}
-                        srcSet={getMuntiImg(currentImg)}
+                        // srcSet={getMuntiImg(currentImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -422,7 +422,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || this.state.maxImg || noPic}
-                        srcSet={getMuntiImg(currentImg || this.state.maxImg)}
+                        // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -468,7 +468,7 @@ class ImageMagnifier extends Component {
               <img
                 style={cssStyle.imgStyle2}
                 src={currentImg || this.state.maxImg || noPic}
-                srcSet={getMuntiImg(currentImg || this.state.maxImg)}
+                // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                 onLoad={this.handleImageLoaded.bind(this)}
                 onError={this.handleImageErrored.bind(this)}
                 alt=""

@@ -101,14 +101,14 @@ function ListItem(props) {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        srcSet={
-                          item ? getMuntiImg(item) : IMG_DEFAULT
-                          // item.goodsImg ||
-                          // item.goodsInfos.sort(
-                          //   (a, b) => a.marketPrice - b.marketPrice
-                          // )[0].goodsInfoImg ||
-                          // IMG_DEFAULT
-                        }
+                        // srcSet={
+                        //   item ? getMuntiImg(item) : IMG_DEFAULT
+                        //   // item.goodsImg ||
+                        //   // item.goodsInfos.sort(
+                        //   //   (a, b) => a.marketPrice - b.marketPrice
+                        //   // )[0].goodsInfoImg ||
+                        //   // IMG_DEFAULT
+                        // }
                         alt={item.goodsName}
                         title={item.goodsName}
                         className="ImgFitScreen pt-3"
@@ -174,7 +174,7 @@ function ListItemPC(props) {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
+                        // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
                         alt={item.goodsName}
                         title={item.goodsName}
                         className="ImgFitScreen pt-3"
