@@ -145,6 +145,21 @@ class Payment extends React.Component {
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
     this.timer = null;
   }
+  
+  // getCheckoutStep(panelStatus){
+  //   let step = 2
+  //   let panelStatusArr = toJS(panelStatus)
+  //   console.log(panelStatusArr)
+  //   const email = find(panelStatusArr, (ele) => ele.key === 'email')
+  //   const deliveryAddr = find(panelStatusArr, (ele) => ele.key === 'deliveryAddr')
+  //   const paymentMethod = find(panelStatusArr, (ele) => ele.key === 'paymentMethod')
+  //   debugger
+  //   if(email.status.isCompleted) step = 2
+  //   if(deliveryAddr.status.isCompleted) step = 3
+  //   if(paymentMethod.status.isCompleted) step = 4
+
+  //   dataLayer[0].checkout.step = step
+  // }
   async componentDidMount() {
     const { checkoutStore, paymentStore, clinicStore, history } = this.props;
     const { tid } = this.state;
