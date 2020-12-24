@@ -125,7 +125,7 @@ class Question extends React.Component {
       }
       return item;
     });
-    this.props.GAHandle(targetItem.questionName)
+    this.props.GAHandle(targetItem.questionName);
     this.setDefaultDataFromCache({
       questionName: targetItem.questionName,
       answerList: targetItem.answerList,
@@ -383,7 +383,7 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-        this.props.GAHandle(resContext.step.name)
+        this.props.GAHandle(resContext.step.name);
         this.setState(
           {
             questionCfg: {
@@ -805,14 +805,14 @@ class Question extends React.Component {
                   <FormattedMessage id="productFinder.healthTip2" />
                 </p>
                 <div className="rc-btn-group mb-3">
-                  <a
+                  <Link
                     className="rc-btn rc-btn--one"
-                    href="https://shop.royalcanin.fr/dog-range/veterinary-care-nutrition/"
+                    to="/dog-range/canine-care-nutrition"
                     target="_blank"
                     rel="nofollow"
                   >
                     <FormattedMessage id="aboutUs.learnMore" />
-                  </a>
+                  </Link>
                   <Link
                     className="rc-btn rc-btn--two"
                     to="/help"

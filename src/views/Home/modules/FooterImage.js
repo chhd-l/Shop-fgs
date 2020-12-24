@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import LazyLoad from 'react-lazyload';
+import footerpet from '@/assets/images/home/footerpet@2x.jpg';
+import togetherwithu from '@/assets/images/home/togetherwithu.jpg';
 
 class FooterImage extends React.Component {
   render() {
@@ -26,7 +28,7 @@ class FooterImage extends React.Component {
             <LazyLoad height={200}>
               <img
                 className="w-100"
-                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png"
+                src={footerpet}
                 alt="Royal Canin® - for dogs and cats"
                 title="Royal Canin® - for dogs and cats"
               />
@@ -44,8 +46,8 @@ class FooterImage extends React.Component {
           <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
             <LazyLoad height={200}>
               <img
-                src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png"
-                srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=116&amp;sfrm=png 2x"
+                src={togetherwithu}
+                srcSet={togetherwithu}
                 width="58"
                 alt="together with you"
                 title="together with you"
@@ -84,7 +86,7 @@ class FooterImage extends React.Component {
               <LazyLoad height={200}>
                 <img
                   className="w-100"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png"
+                  src={footerpet}
                   alt="Royal Canin® - for dogs and cats"
                   title="Royal Canin® - for dogs and cats"
                 />
@@ -102,8 +104,8 @@ class FooterImage extends React.Component {
             <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
               <LazyLoad height={200}>
                 <img
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png"
-                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=116&amp;sfrm=png 2x"
+                  src={togetherwithu}
+                  srcSet={togetherwithu}
                   width="58"
                   alt="together with you"
                   title="together with you"
@@ -138,7 +140,7 @@ class FooterImage extends React.Component {
               <LazyLoad height={200}>
                 <img
                   className="w-100"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png"
+                  src={footerpet}
                   alt="Royal Canin® - for dogs and cats"
                   title="Royal Canin® - for dogs and cats"
                 />
@@ -204,7 +206,7 @@ class FooterImage extends React.Component {
               <LazyLoad height={200}>
                 <img
                   className="w-100"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw6c03729b/homepage/footerpet@2x.jpg?sw=415&amp;sfrm=png"
+                  src={footerpet}
                   alt="Royal Canin® - for dogs and cats"
                   title="Royal Canin® - for dogs and cats"
                 />
@@ -222,8 +224,8 @@ class FooterImage extends React.Component {
             <div className="image-container rc-padding-bottom--xs rc-margin-right--xs--desktop">
               <LazyLoad height={200}>
                 <img
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png"
-                  srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=58&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3905477a/homepage/50y@2x.jpg?sw=116&amp;sfrm=png 2x"
+                  src={togetherwithu}
+                  srcSet={togetherwithu}
                   width="58"
                   alt="together with you"
                   title="together with you"

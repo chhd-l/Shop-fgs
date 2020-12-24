@@ -81,7 +81,7 @@ class ImageMagnifier extends Component {
           width: '100px',
           height: '100px',
           background: 'rgba(0,0,0,0.1)',
-          zIndex: 99
+          zIndex: 6
         },
         // 鼠标悬停遮罩层样式
         maskBlock: {
@@ -91,7 +91,7 @@ class ImageMagnifier extends Component {
           width: '100%',
           height: '100%',
           background: 'rgba(0,0,0,0)',
-          zIndex: 100
+          zIndex: 7
         },
 
         //  放大镜容器样式
@@ -103,7 +103,7 @@ class ImageMagnifier extends Component {
           height: '400px',
           border: '1px solid #ccc',
           overflow: 'hidden',
-          zIndex: 98,
+          zIndex: 5,
           background: '#fff'
         },
         // 图片样式

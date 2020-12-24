@@ -33,7 +33,7 @@ class Consent extends Component {
           <div
             class="rc-text--left"
             dangerouslySetInnerHTML={{ __html: this.props.description }}
-          ></div>
+          />
         ) : null}
         {this.renderCheckBox(optionalList)}
       </div>
@@ -62,9 +62,9 @@ class Consent extends Component {
             disabled={disabled}
             onChange={() => {
               //勾选checkbox
-              this.props.list.map(x=>{
-                if(x.id === item.id) {
-                  x.isChecked = !item.isChecked
+              this.props.list.map((x) => {
+                if (x.id === item.id) {
+                  x.isChecked = !item.isChecked;
                 }
                 return x;
               });
@@ -89,7 +89,9 @@ class Consent extends Component {
                     }
                     dangerouslySetInnerHTML={createMarkup(item.consentTitle)}
                   />
-                  <span class="rc-text-colour--brand1">{item.isRequired ? '*' : ''}</span>
+                  <span class="rc-text-colour--brand1">
+                    {item.isRequired ? '*' : ''}
+                  </span>
                 </div>
               </div>
               <div

@@ -160,7 +160,7 @@ class UnLoginCart extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
         brand: item.brandName || 'ROYAL CANIN',
-        category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
+        // category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         club: 'no',
         id: item.goodsNo,
         name: item.goodsName,
@@ -1301,6 +1301,62 @@ class UnLoginCart extends React.Component {
                 </button>
               </p>
             </div>
+          </div>
+          {this.state.isShowValidCode ? (
+              <div className="red pl-3 pb-3 pt-2" style={{fontSize: '14px'}}>
+                {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+                <FormattedMessage id="validPromotionCode"/>
+              </div>
+            ) : null}
+          {!this.state.isShowValidCode &&
+            this.state.discount.map((el) => (
+              <>
+              <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
+                <div className="col-8">
+                  <p>
+                    {this.promotionDesc || (
+                      <FormattedMessage id="NoPromotionDesc" />
+                    )}
+                  </p>
+                </div>
+                <div className="col-4">
+                  <p className="text-right shipping-cost">
+                    <span
+                      className="rc-icon rc-close--sm rc-iconography"
+                      style={{
+                        fontSize: '18px',
+                        marginLeft: '10px',
+                        lineHeight: '20px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={async () => {
+                        let result = {};
+                        if (!this.props.loginStore.isLogin) {
+                          //游客
+                          result = await checkoutStore.updateUnloginCart();
+                        } else {
+                          //会员
+                          result = await checkoutStore.updateLoginCart(
+                            '',
+                            this.props.buyWay === 'frequency'
+                          );
+                        }
+                        if (result.backCode === 'K-000000') {
+                          discount.pop();
+                          this.setState({
+                            discount: discount,
+                            isShowValidCode: false
+                          });
+                        }
+                      }}
+                    >
+                    </span>
+                  </p>
+                </div>
+              </div>
+              </>
+            ))}
+          <div className="row">
             <div className="col-6">
               <FormattedMessage id="total" />
             </div>
@@ -1328,11 +1384,11 @@ class UnLoginCart extends React.Component {
           </div> */}
           {/* 显示订阅折扣 */}
           <div
-            className={`row leading-lines shipping-item red ${parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+            className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1342,14 +1398,14 @@ class UnLoginCart extends React.Component {
           </div>
           {/* 显示 默认折扣 */}
           <div
-            className={`row leading-lines shipping-item red ${parseInt(this.discountPrice) > 0 &&
+            className={`row leading-lines shipping-item green ${parseInt(this.discountPrice) > 0 &&
                 this.state.discount.length === 0
                 ? 'd-flex'
                 : 'hidden'
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1361,48 +1417,16 @@ class UnLoginCart extends React.Component {
           <div style={{ marginTop: '10px' }}>
             {!this.state.isShowValidCode &&
               this.state.discount.map((el) => (
-                <div className={`row leading-lines shipping-item red d-flex`}>
+                <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
                     <p>
-                      {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )}
+                      <FormattedMessage id="promotion" />
                     </p>
                   </div>
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
                       <b>-{formatMoney(this.discountPrice)}</b>
-                      <span
-                        style={{
-                          fontSize: '18px',
-                          marginLeft: '10px',
-                          lineHeight: '20px',
-                          cursor: 'pointer'
-                        }}
-                        onClick={async () => {
-                          let result = {};
-                          if (!this.props.loginStore.isLogin) {
-                            //游客
-                            result = await checkoutStore.updateUnloginCart();
-                          } else {
-                            //会员
-                            result = await checkoutStore.updateLoginCart(
-                              '',
-                              this.props.buyWay === 'frequency'
-                            );
-                          }
-                          if (result.backCode === 'K-000000') {
-                            discount.pop();
-                            this.setState({
-                              discount: discount,
-                              isShowValidCode: false
-                            });
-                          }
-                        }}
-                      >
-                        x
-                      </span>
                     </p>
                   </div>
                 </div>
