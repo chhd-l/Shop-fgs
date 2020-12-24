@@ -173,7 +173,8 @@ class LoginCart extends React.Component {
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
-        category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        //category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        category: item.goods.goodsCateName,
         club:'no',
         id:item.goods.goodsNo,
         name:item.goods.goodsName,

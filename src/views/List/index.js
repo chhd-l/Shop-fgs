@@ -518,7 +518,7 @@ class List extends React.Component {
               // category: item.goodsCateName
               //   ? JSON.parse(item.goodsCateName)[0]
               //   : '',
-              category:"",
+              category:item.goodsCateName,
               list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
@@ -531,7 +531,6 @@ class List extends React.Component {
 
   // 商品列表 埋点
   GAProductImpression(productList, totalElements, keywords) {
-    console.log(productList);
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName, //
@@ -540,7 +539,7 @@ class List extends React.Component {
         price: item.minMarketPrice,
         club: 'no',
         //category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
-        category:'',
+        category:item.goodsCateName,
         list: this.state.GAListParam, //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,

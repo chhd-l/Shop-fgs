@@ -161,6 +161,7 @@ class UnLoginCart extends React.Component {
       product.push({
         brand: item.brandName || 'ROYAL CANIN',
         // category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
+        category: item.goodsCateName,
         club: 'no',
         id: item.goodsNo,
         name: item.goodsName,
