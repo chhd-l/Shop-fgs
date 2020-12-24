@@ -132,8 +132,7 @@ class ImageMagnifier extends Component {
       listenerCount: 1,
       positionLeft: 0,
       hoverIndex: 0,
-      offsetX: 0,
-      showSpuImage: false
+      offsetX: 0
     };
   }
 
@@ -182,12 +181,6 @@ class ImageMagnifier extends Component {
   // props 变化时更新
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log(nextProps, 'nextProps');
-    if(!images || images.filter(el => el.goodsInfoImg).length === 0) {
-      this.setState({
-        showSpuImage: true,
-        imgLoad: true
-      })
-    }
     let { currentImg } = this.state;
     let { images } = this.props;
     if (!currentImg && images && images.length > 0) {
@@ -326,7 +319,7 @@ class ImageMagnifier extends Component {
   // 图片加载情况
   handleImageLoaded(e) {
     // console.log(e);
-    // this.setState({ imgLoad: true });
+    this.setState({ imgLoad: true });
   }
 
   // 图片加载中
@@ -370,8 +363,7 @@ class ImageMagnifier extends Component {
       currentImg,
       videoShow,
       videoModalShow,
-      hoverIndex,
-      showSpuImage
+      hoverIndex
     } = this.state;
     let { images, video, taggingForText, taggingForImage, spuImages } = this.props;
     console.log(images, 'images');
@@ -410,7 +402,7 @@ class ImageMagnifier extends Component {
               }}
             >
               {
-                showSpuImage && spuImages.map((el, i) => (
+                spuImages.map((el, i) => (
                   <div key={i}>
                     <LazyLoad>
                     <img
@@ -424,45 +416,6 @@ class ImageMagnifier extends Component {
                   </div>
                 ))}
               }
-              {/* {images.filter((el) => el.goodsInfoImg).length
-                ? images.map((el, i) => (
-                    <div key={i}>
-                      <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || noPic}
-                        srcSet={getMuntiImg(currentImg)}
-                        alt=""
-                      />
-                      </LazyLoad>
-                    </div>
-                  ))
-                : images.map((el, i) => (
-                    <div key={i}>
-                      <LazyLoad>
-                      <img
-                        id="J_detail_img"
-                        style={cssStyle.imgStyle}
-                        src={currentImg || this.state.maxImg || noPic}
-                        srcSet={getMuntiImg(currentImg || this.state.maxImg)}
-                        alt=""
-                      />
-                      </LazyLoad>
-                    </div>
-                  ))}
-              {videoShow && video && (
-                <div>
-                  <video
-                    ref="video"
-                    style={cssStyle.imgStyle}
-                    src={video ? video : ''}
-                    controlsList="nodownload"
-                    onContextMenu="return false;"
-                    controls
-                  />
-                </div>
-              )} */}
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -513,77 +466,6 @@ class ImageMagnifier extends Component {
             }}
           />
           {/* <img className="moveImg" src={LeftImg} /> */}
-          {
-            !showSpuImage && (
-          <div className="imageOutBox">
-            <div
-              className="justify-content-center imageInnerBox"
-              style={{
-                marginTop: '2rem',
-                textAlign: imgCount <= 5 ? 'center' : 'left',
-                width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5? '-10px': (this.state.positionLeft + 'px')
-              }}
-            >
-              {images.filter((el) => el.goodsInfoImg).length ? (
-                images &&
-                images.map((el, i) => (
-                  <div
-                    key={i}
-                    className={`rc-img--square rc-img--square-custom ${
-                      hoverIndex === i ? 'hover' : ''
-                    }`}
-                    onMouseEnter={(e) =>
-                      this.imageChange(e, el.artworkUrl || el.goodsInfoImg, i)
-                    }
-                    style={{
-                      backgroundImage:
-                        'url(' +
-                        (el.artworkUrl || el.goodsInfoImg || noPic) +
-                        ')'
-                    }}
-                  ></div>
-                ))
-              ) : this.state.minImg ? (
-                <div
-                  className={`rc-img--square rc-img--square-custom hover`}
-                  style={{
-                    backgroundImage: 'url(' + this.state.minImg + ')'
-                  }}
-                ></div>
-              ) : (
-                <div
-                  className={`rc-img--square rc-img--square-custom hover`}
-                  style={{
-                    backgroundImage: 'url(' + noPic + ')'
-                  }}
-                ></div>
-              )}
-              {video && (
-                <video
-                  className={`rc-img--square rc-img--square-custom ${
-                    hoverIndex === images.length ? 'hover' : ''
-                  }`}
-                  onMouseEnter={() => {
-                    let cssStyle = JSON.parse(
-                      JSON.stringify(this.state.cssStyle)
-                    );
-                    cssStyle.imgContainer.cursor = 'pointer';
-                    this.setState({
-                      videoShow: true,
-                      cssStyle,
-                      hoverIndex: images.length,
-                      offsetX: isMobile?images.length * 230: images.length * 350
-                    });
-                  }}
-                  src={video ? video : ''}
-                />
-              )}
-            </div>
-          </div>)
-          }
-          {
-            showSpuImage && (
           <div className="imageOutBox">
             <div
               className="justify-content-center imageInnerBox"
@@ -649,8 +531,7 @@ class ImageMagnifier extends Component {
                 />
               )}
             </div>
-          </div>)
-          }
+          </div>
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${

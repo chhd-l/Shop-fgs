@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import Selection from '@/components/Selection';
 import BreadCrumbsNavigation from '@/components/BreadCrumbsNavigation';
 import ImageMagnifier from '@/components/ImageMagnifier';
+import ImageMagnifier_fr from './components/ImageMagnifier';
 import LoginButton from '@/components/LoginButton';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import Reviews from './components/Reviews';
@@ -184,7 +185,8 @@ class Details extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      spuImages: []
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -491,6 +493,7 @@ class Details extends React.Component {
                     e.showPage.includes('PDP')
                 )[0]
               }),
+              spuImages: res.context.images,
               breadCrumbs: [{ name: res.context.goods.goodsName }]
             },
             async () => {
@@ -1444,7 +1447,8 @@ class Details extends React.Component {
       isMobile,
       breadCrumbs,
       event,
-      eEvents
+      eEvents,
+      spuImages
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1573,16 +1577,33 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  <ImageMagnifier
-                                    sizeList={details.sizeList}
-                                    video={details.goodsVideo}
-                                    images={images}
-                                    minImg={details.goodsImg}
-                                    maxImg={details.goodsImg}
-                                    config={this.state.imageMagnifierCfg.config}
-                                    taggingForText={details.taggingForText}
-                                    taggingForImage={details.taggingForImage}
-                                  />
+                                  {
+                                    process.env.REACT_APP_LANG === 'fr'? (
+                                      <ImageMagnifier_fr
+                                        sizeList={details.sizeList}
+                                        video={details.goodsVideo}
+                                        images={images}
+                                        minImg={details.goodsImg}
+                                        maxImg={details.goodsImg}
+                                        config={this.state.imageMagnifierCfg.config}
+                                        taggingForText={details.taggingForText}
+                                        taggingForImage={details.taggingForImage}
+                                        spuImages={spuImages}
+                                      />
+                                    ): (
+                                      <ImageMagnifier
+                                        sizeList={details.sizeList}
+                                        video={details.goodsVideo}
+                                        images={images}
+                                        minImg={details.goodsImg}
+                                        maxImg={details.goodsImg}
+                                        config={this.state.imageMagnifierCfg.config}
+                                        taggingForText={details.taggingForText}
+                                        taggingForImage={details.taggingForImage}
+                                        spuImages={spuImages}
+                                      />
+                                    )
+                                  }
                                 </div>
                               }
                             </div>
