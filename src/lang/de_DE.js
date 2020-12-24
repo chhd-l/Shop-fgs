@@ -525,6 +525,8 @@ const de_DE = {
   'order.toBeDeliveredTip': 'Ihre Bestellung wurde erfolgreich bezahlt und wir bereiten den Versand vor.',
   'order.toBePaidTip': 'Ihre Bestellung wurde nicht bezahlt, bitte zahlen Sie so schnell wie möglich. {val}',
   'order.viewOrder': 'Bestellung anzeigen',
+  'order.viewLogisticDetail': 'Logistische Details anzeigen',
+  'order.inTranistTip': 'Ihre Bestellung wurde versendet und Sie erhalten das Produkt bald. {val}',
   orders: 'Aufträge',
   'orderStatus.AUDIT': 'wird geliefert',
   'orderStatus.COMPLETED': 'abgeschlossen',

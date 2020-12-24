@@ -493,6 +493,8 @@ const fr_FR = {
   'order.toBeDeliveredTip': 'Votre commande a été payée avec succès et nous nous préparons à l\'expédier.',
   'order.toBePaidTip': 'Votre commande n\'a pas été payée, veuillez payer au plus vite. {val}',
   'order.viewOrder': "Voir l'ordre",
+  'order.viewLogisticDetail': 'Afficher les détails logistiques',
+  'order.inTranistTip': 'Votre commande a été expédiée et vous recevrez bientôt le produit. {val}',
   orders: 'Affectations',
   'orderStatus.AUDIT': 'Être délivré',
   'orderStatus.COMPLETED': 'terminé',
