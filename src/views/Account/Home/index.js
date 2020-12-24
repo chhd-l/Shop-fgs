@@ -18,7 +18,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4rem' }}
+        style={{ width: '2.6rem' }}
       >
         <use xlinkHref="#iconMyinformation" />
       </svg>
@@ -32,7 +32,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4rem' }}
+        style={{ width: '2.6rem' }}
       >
         <use xlinkHref="#iconMypets" />
       </svg>
@@ -46,7 +46,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4rem' }}
+        style={{ width: '2.6rem' }}
       >
         <use xlinkHref="#iconMyorders1" />
       </svg>
@@ -60,7 +60,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4rem' }}
+        style={{ width: '2.6rem' }}
       >
         <use xlinkHref="#iconMySubsciptions1" />
       </svg>
@@ -74,7 +74,7 @@ const itemList = [
       <svg
         className="svg-icon account-home-icon"
         aria-hidden="true"
-        style={{ width: '4rem' }}
+        style={{ width: '2.6rem' }}
       >
         <use xlinkHref="#iconFAQ" />
       </svg>
@@ -158,7 +158,7 @@ class AccountHome extends React.Component {
                         to={item.link}
                       >
                         <div className="d-flex margin-left0 align-items-center border w-100 h-100 m-2 p-3 text-break nav_content">
-                          {item.icon}
+                          <div>{item.icon}</div>
                           <div className="ml-3">
                             <h3 className="rc-delta profileTextColor mb-1">
                               <b>
