@@ -466,7 +466,7 @@ class LoginCart extends React.Component {
   gotoDetails(pitem) {
     sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
     
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', ' ')}-${pitem.goods.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {
