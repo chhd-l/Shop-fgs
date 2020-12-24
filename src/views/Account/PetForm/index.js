@@ -351,7 +351,7 @@ class PetForm extends React.Component {
     //   pets.petsBreed = 'unknown Breed';
     // }
     if (!this.state.isPurebred) {
-      pets.petsBreed = 'mix Breed';
+      pets.petsBreed = 'mixed Breed';
     }
     let param = {
       customerPets: pets,
@@ -613,7 +613,7 @@ class PetForm extends React.Component {
       param.isUnknown = true;
       // param.isInputDisabled = true;
       param.breed = '';
-    } else if (currentPet.petsBreed === 'mix Breed') {
+    } else if (currentPet.petsBreed === 'mixed Breed') {
       param.isMix = true;
       param.isUnknown = false;
       // param.isInputDisabled = true;
@@ -652,7 +652,7 @@ class PetForm extends React.Component {
     // }
     param.selectedSpecialNeedsObj = { value: currentPet.customerPetsPropRelations[0].propName };
     let params = {
-      breedCode: param.isPurebred ? param.breed : 'mix Breed',
+      breedCode: param.isPurebred ? param.breed : 'mixed Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj
@@ -814,27 +814,6 @@ class PetForm extends React.Component {
       weight: data.value,
       selectedSizeObj: { value: data.value }
     });
-  }
-  breedCheckboxChange(e) {
-    console.log(e.currentTarget.value, e.currentTarget.checked);
-    if (e.currentTarget.checked) {
-      this.setState({ isInputDisabled: true });
-    } else {
-      this.setState({ isInputDisabled: false });
-    }
-    if (e.currentTarget.value === 'Mix breed') {
-      this.setState({
-        isMix: !this.state.isMix,
-        isUnknown: false
-      });
-    }
-    if (e.currentTarget.value === "Don't know") {
-      this.setState({
-        isMix: false,
-        isUnknown: !this.state.isUnknown
-      });
-    }
-    // }
   }
   handelImgChange(data) {
     console.log(data);

@@ -115,7 +115,7 @@ function ListItem(props) {
                         style={{
                           maxWidth: '100%',
                           maxHeight: '100%',
-                          width: 'auto',
+                          width: '150px',
                           height: 'auto',
                           margin: 'auto'
                         }}
@@ -181,7 +181,7 @@ function ListItemPC(props) {
                         style={{
                           maxWidth: '50%',
                           maxHeight: '100%',
-                          width: 'auto',
+                          width: '150px',
                           height: 'auto',
                           margin: 'auto'
                         }}
@@ -364,7 +364,12 @@ function ListItemBodyPC({ item }) {
                   ) : null}
                 </span>
               </div>
+      
             </div>
+      
+          </div>
+          <div class="rc-card__meta text-center col-12" style={{padding: '0', marginBottom: '10px'}}>
+            {item.goodsSubtitle}
           </div>
         </>
       ) : (

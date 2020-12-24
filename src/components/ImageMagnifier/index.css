@@ -18,7 +18,7 @@
   }
 }
 .imageOutBox {
-  width: 345px;
+  width: 350px;
   height: 102px;
   overflow: hidden;
   display: inline-block;
@@ -58,8 +58,8 @@
   transition: all .2s linear !important;
 }
 .bigImageInnerBox div {
-  width: 400px;
-  height: 450px;
+  width: 350px;
+  /* height: 250px; */
   float: left;
 }
 @media(max-width: 769px) {
