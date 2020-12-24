@@ -546,7 +546,6 @@ class Details extends React.Component {
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 )[0];
                 sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                sdItem.packSize = filterproduct.packSize;
                 filterproduct.goodsInfoVal = parseFloat(sdItem.detailName)
                 console.log(filterproduct, 'filterproduct')
               }
@@ -640,6 +639,7 @@ class Details extends React.Component {
               tabs
             });
           } catch (err) {
+            console.log(err, 'err')
             getDict({
               type: 'goodsDetailTab',
               storeId: process.env.REACT_APP_STOREID
@@ -1521,7 +1521,7 @@ class Details extends React.Component {
                         <div className="desAndStars">
                           <div className="des">
                             <h3 className="text-break mb-1 mt-2">
-                              {details.goodsSubtitle}
+                              {/* {details.goodsSubtitle} */}
                             </h3>
                           </div>
                           <div className="stars">
@@ -1602,7 +1602,7 @@ class Details extends React.Component {
                               <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
                                   <h3 className="text-break mb-1 mt-2">
-                                    {details.goodsSubtitle}
+                                    {/* {details.goodsSubtitle} */}
                                   </h3>
                                 </div>
                                 <div
@@ -1729,9 +1729,6 @@ class Details extends React.Component {
                                         <span>
                                           {parseFloat(sdItem.detailName)}{' '}
                                           {sdItem.goodsInfoUnit}{' '}
-                                          {sdItem.packSize
-                                            ? `(${sdItem.packSize})`
-                                            : ''}
                                         </span>
                                       </div>
                                     ))}
@@ -1850,9 +1847,6 @@ class Details extends React.Component {
                                     )}
                                     /
                                     {selectedSpecItem.goodsInfoUnit}{' '}
-                                    {selectedSpecItem.packSize
-                                      ? `(${selectedSpecItem.packSize})`
-                                      : ''}
                                   </div>
                                 ) : null}
                               </div>
@@ -1951,9 +1945,6 @@ class Details extends React.Component {
                                   )}
                                   /
                                   {selectedSpecItem.goodsInfoUnit}{' '}
-                                  {selectedSpecItem.packSize
-                                    ? `(${selectedSpecItem.packSize})`
-                                    : ''}
                                 </div>
                               ) : null}
                             </div>
@@ -2071,9 +2062,6 @@ class Details extends React.Component {
                                       )}
                                       /
                                       {selectedSpecItem.goodsInfoUnit}{' '}
-                                      {selectedSpecItem.packSize
-                                        ? `(${selectedSpecItem.packSize})`
-                                        : ''}
                                     </div>
                                   ) : null}
                                 </div>
@@ -2247,9 +2235,6 @@ class Details extends React.Component {
                                     )}
                                     /
                                     {selectedSpecItem.goodsInfoUnit}{' '}
-                                    {selectedSpecItem.packSize
-                                      ? `(${selectedSpecItem.packSize})`
-                                      : ''}
                                   </div>
                                 ) : null}
                               </div>
