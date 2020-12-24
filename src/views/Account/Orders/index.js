@@ -12,6 +12,7 @@ import Selection from '@/components/Selection';
 import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import {
   formatMoney,
   getDictionary,
@@ -46,6 +47,11 @@ class AccountOrders extends React.Component {
       },
       loading: true,
       initLoading: true,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       currentPage: 1,
       totalPage: 1,
       initing: true,
@@ -77,6 +83,8 @@ class AccountOrders extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'Account orders'
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
     this.FormateOderTimeFilter();
     // if (localItemRoyal.get('isRefresh')) {
@@ -453,36 +461,34 @@ class AccountOrders extends React.Component {
         ) : null}
         {order.canViewTrackInfo ? (
           <button className="rc-btn rc-btn--sm rc-btn--one ord-list-operation-btn">
-            {order.tradeDelivers[0] &&
-            order.tradeDelivers[0].trackingUrl ? null : (
-              <FormattedMessage id="trackDelivery">
-                {(txt) => (
-                  <>
-                    {order.tradeDelivers[0] &&
-                    order.tradeDelivers[0].trackingUrl ? (
-                      <a
-                        href={order.tradeDelivers[0].trackingUrl}
-                        target="_blank"
-                        rel="nofollow"
-                        title={txt}
-                        alt={txt}
-                      >
-                        {txt}
-                      </a>
-                    ) : (
-                      <Link
-                        className="text-white"
-                        to={`/account/orders/detail/${order.id}`}
-                        title={txt}
-                        alt={txt}
-                      >
-                        {txt}
-                      </Link>
-                    )}
-                  </>
-                )}
-              </FormattedMessage>
-            )}
+            <FormattedMessage id="trackDelivery">
+              {(txt) => (
+                <>
+                  {order.tradeDelivers[0] &&
+                  order.tradeDelivers[0].trackingUrl ? (
+                    <a
+                      className="text-white"
+                      href={order.tradeDelivers[0].trackingUrl}
+                      target="_blank"
+                      rel="nofollow"
+                      title={txt}
+                      alt={txt}
+                    >
+                      {txt}
+                    </a>
+                  ) : (
+                    <Link
+                      className="text-white"
+                      to={`/account/orders/detail/${order.id}`}
+                      title={txt}
+                      alt={txt}
+                    >
+                      {txt}
+                    </Link>
+                  )}
+                </>
+              )}
+            </FormattedMessage>
           </button>
         ) : null}
       </>
@@ -496,7 +502,7 @@ class AccountOrders extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const {
@@ -512,6 +518,14 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -640,7 +654,10 @@ class AccountOrders extends React.Component {
                             {orderList.map((order) => (
                               <div
                                 className="card-container"
-                                style={{paddingBottom: this.deviceType === 'H5'? '20px': '0'}}
+                                style={{
+                                  paddingBottom:
+                                    this.deviceType === 'H5' ? '20px' : '0'
+                                }}
                                 key={order.id}
                                 onClick={this.handleClickCardItem.bind(
                                   this,
@@ -735,26 +752,39 @@ class AccountOrders extends React.Component {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="row mb-3 mt-3 align-items-center m-0" style={{position: 'relative'}}>
-                                  <div style={{position: 'absolute',right: '15px', bottom: '-20px'}}>
-                                    {
-                                      order.tradeState.deliverStatus ===
+                                <div
+                                  className="row mb-3 mt-3 align-items-center m-0"
+                                  style={{ position: 'relative' }}
+                                >
+                                  <div
+                                    style={{
+                                      position: 'absolute',
+                                      right: '15px',
+                                      bottom: '-20px'
+                                    }}
+                                  >
+                                    {order.tradeState.deliverStatus ===
                                       'SHIPPED' && (
-                                        <span className="rc-styled-link" onClick={this.handleDownInvoice.bind(
+                                      <span
+                                        className="rc-styled-link"
+                                        onClick={this.handleDownInvoice.bind(
                                           this,
                                           order
-                                        )}>
-                                          <FormattedMessage id="invoice" />
-                                        </span>
-                                      )
-                                    }
+                                        )}
+                                      >
+                                        <FormattedMessage id="invoice" />
+                                      </span>
+                                    )}
                                   </div>
                                   {/* 订单发货tip */}
                                   {((order.tradeState.payState === 'PAID' &&
                                     order.tradeState.auditState === 'CHECKED' &&
-                                    order.tradeState.deliverStatus === 'SHIPPED' &&
-                                    order.tradeState.flowState === 'DELIVERED') ||
-                                    (order.tradeState.deliverStatus === 'PART_SHIPPED' &&
+                                    order.tradeState.deliverStatus ===
+                                      'SHIPPED' &&
+                                    order.tradeState.flowState ===
+                                      'DELIVERED') ||
+                                    (order.tradeState.deliverStatus ===
+                                      'PART_SHIPPED' &&
                                       order.tradeState.flowState ===
                                         'DELIVERED_PART')) && (
                                     <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">

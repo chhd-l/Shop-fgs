@@ -19,6 +19,7 @@ import Male from '@/assets/images/male.png';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 @inject('loginStore')
 @observer
@@ -28,12 +29,19 @@ class Pet extends React.Component {
     this.state = {
       loading: true,
       petList: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       isMobile: false
     };
   }
   componentDidMount() {
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     this.getPetList();
   }
   isHavePet() {
@@ -117,6 +125,11 @@ class Pet extends React.Component {
     return (
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -157,6 +170,11 @@ class Pet extends React.Component {
                     />
                   ) : petList.length <= 0 ? (
                     <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
+                      <div className="rc-column rc-md-down">
+                        <LazyLoad>
+                        <img style={{width: '100%'}} src={noPet} alt="No pets" />
+                        </LazyLoad>
+                      </div>
                       <div className="rc-column">
                         <div className="rc-padding-right-lg rc-padding-y--sm ">
                           <div className="children-nomargin">
@@ -174,7 +192,7 @@ class Pet extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="rc-column">
+                      <div className="rc-column rc-md-up">
                         <LazyLoad>
                         <img src={noPet} alt="No pets" />
                         </LazyLoad>
@@ -183,8 +201,7 @@ class Pet extends React.Component {
                   ) : (
                     <div>
                       <p className="title">
-                        Create and manage your pet's profile to maintain its
-                        best health possible
+                        <FormattedMessage id="pet.petListTitle" />
                       </p>
                       {isMobile
                         ? petList.map((el) => (
@@ -213,8 +230,8 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>Birthday</span>
-                                  <span>Breed</span>
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
@@ -232,7 +249,7 @@ class Pet extends React.Component {
                                     );
                                   }}
                                 >
-                                  Edit
+                                  <FormattedMessage id="edit" />
                                 </a>
                               </div>
                             </div>
@@ -263,8 +280,8 @@ class Pet extends React.Component {
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span>Birthday</span>
-                                  <span>Breed</span>
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
@@ -282,7 +299,7 @@ class Pet extends React.Component {
                                     );
                                   }}
                                 >
-                                  Edit
+                                  <FormattedMessage id="edit" />
                                 </a>
                               </div>
                             </div>
@@ -298,8 +315,8 @@ class Pet extends React.Component {
                           cursor: 'pointer'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }}>+</span> Add a new
-                        PET
+                        <span style={{ fontSize: '25px' }}>+</span> <FormattedMessage id="pet.addNewPet"/>
+                        {/* Add a new PET */}
                       </div>
                     </div>
                   )}

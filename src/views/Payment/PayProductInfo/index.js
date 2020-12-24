@@ -6,9 +6,12 @@ import find from 'lodash/find';
 import { formatMoney, getFrequencyDict } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
+import { v4 as uuidv4 } from 'uuid';
+
+const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore')
+@inject('checkoutStore', 'loginStore','paymentStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -17,18 +20,19 @@ class PayProductInfo extends React.Component {
     style: {},
     className: '',
     onClickHeader: () => {},
-    headerIcon: null
+    headerIcon: null,
   };
   constructor(props) {
     super(props);
     this.state = {
       productList: [],
       discount: [], //促销码的折扣信息汇总
-      promotionInputValue: '', //输入的促销码
+      promotionInputValue: this.props.checkoutStore.promotionCode || '', //输入的促销码
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      frequencyList: []
+      frequencyList: [],
+      step:2,
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -42,6 +46,9 @@ class PayProductInfo extends React.Component {
         0
       )
     );
+  }
+  get paymentStep() {
+    return this.props.paymentStore.paymentStep
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
@@ -62,23 +69,24 @@ class PayProductInfo extends React.Component {
       );
     }
   }
+  //会员
   GACheckout(productList){
     let product = [],
         basketAmount = this.tradePrice,
-        basketID = '',
-        option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        basketID = guid,
+        option = this.isLogin ? 'account already created':'new account',
+        step = this.state.step
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN', //?
-        category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        // category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
         club:'no',
         id:item.goods.goodsNo,
         name:item.goods.goodsName,
-        price:item.goods.minMarketPrice,//?
+        price:item.goodsInfoFlag==1?item.subscriptionPrice:item.salePrice,
         quantity:item.buyCount,
         recommendation:'self-selected',
-        type:item.goods.subscriptionStatus==1?'subscription':'one-time',//?
+        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
         variant:item.specText?parseInt(item.specText):'',
         sku:item.goodsInfos[0].goodsInfoNo
       })
@@ -90,26 +98,33 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.step = step
     console.log(dataLayer)
   }
+  //游客
   GACheckUnLogin(productList){
+        this.getGACheckoutStep()
         console.log(productList)
         let product = [],
         basketAmount = this.tradePrice,
-        basketID = '',
-        option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        basketID = guid,
+        option = this.isLogin ? 'account already created':'new account',
+        step = this.state.step
     for (let item of productList) {
+      let cur_selected_size = item.sizeList.filter((item2)=>{
+        return item2.selected == true
+      })
+      let variant = cur_selected_size[0].specText
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
-        brand:item.brandName || 'ROYAL CANIN', //?
+        brand:item.brandName || 'ROYAL CANIN',
         category:item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
         club:'no',
         id:item.goodsNo,
         name:item.goodsName,
-        price:item.minMarketPrice,//?
+        price:item.minMarketPrice,
         quantity:item.quantity,
         recommendation:'self-selected',
-        type:item.subscriptionStatus==1?'subscription':'one-time',//?
-        //variant:item.goodsSpecDetails[0].detailName,
-        sku:item.goodsInfos[0].goodsInfoNo
+        type:'one-time',
+        variant:parseInt(variant),
+        sku:goodsInfoNo
       })
     }     
     dataLayer[0].checkout.basketAmount = basketAmount
@@ -118,7 +133,13 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.product = product
     dataLayer[0].checkout.step = step
   }
+  //获取GA step
+  getGACheckoutStep(){
+    console.log(this.paymentStep)
+    //debugger
+  }
   async componentDidMount() {
+    console.log(this.refs.applyButtton.click() ,' hahaha')
     let productList;
     if (this.props.data.length) {
       productList = this.props.data;
@@ -230,10 +251,6 @@ class PayProductInfo extends React.Component {
     return el.goodsInfoFlag;
   }
   handleClickProName(item) {
-    sessionItemRoyal.set(
-      'rc-goods-cate-name',
-      (item.goodsCategory.split('/') && item.goodsCategory.split('/')[1]) || ''
-    );
     sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
     // this.props.history.push(
     //   `/details/${
@@ -282,7 +299,7 @@ class PayProductInfo extends React.Component {
                         id="item"
                         values={{ val: el.buyCount }}
                       />
-                    )}:{el.buyCount}
+                    )}
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
@@ -424,6 +441,7 @@ class PayProductInfo extends React.Component {
                   <label className="rc-input__label" htmlFor="id-text2" />
                 </span>
                 <button
+                  ref="applyButtton"
                   id="promotionApply"
                   className={`rc-btn rc-btn--sm rc-btn--two ${
                     this.state.isClickApply
@@ -477,6 +495,60 @@ class PayProductInfo extends React.Component {
                   <FormattedMessage id="apply" />
                 </button>
               </div>
+              {this.state.isShowValidCode ? (
+                <div className="red" style={{fontSize: '14px'}}>
+                  {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+                  <FormattedMessage id="validPromotionCode"/>
+                </div>
+              ) : null}
+              {!this.state.isShowValidCode &&
+            this.state.discount.map((el) => (
+              <>
+              <div className={`row leading-lines shipping-item d-flex`} style={{ border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden', marginBottom: '10px'}}>
+                <div className="col-8">
+                  <p>
+                    {this.promotionDesc || (
+                      <FormattedMessage id="NoPromotionDesc" />
+                    )}
+                  </p>
+                </div>
+                <div className="col-4">
+                  <p className="text-right shipping-cost">
+                    <span
+                      className="rc-icon rc-close--sm rc-iconography"
+                      style={{
+                        fontSize: '18px',
+                        marginLeft: '10px',
+                        lineHeight: '20px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={async () => {
+                        let result = {};
+                        if (!this.props.loginStore.isLogin) {
+                          //游客
+                          result = await checkoutStore.updateUnloginCart();
+                        } else {
+                          //会员
+                          result = await checkoutStore.updateLoginCart(
+                            '',
+                            this.props.buyWay === 'frequency'
+                          );
+                        }
+                        if (result.backCode === 'K-000000') {
+                          discount.pop();
+                          this.setState({
+                            discount: discount,
+                            isShowValidCode: false
+                          });
+                        }
+                      }}
+                    >
+                    </span>
+                  </p>
+                </div>
+              </div>
+              </>
+            ))}
               <div className="product-summary__fees order-total-summary">
                 <div className="row leading-lines subtotal-item">
                   <div className="col-8 start-lines">
@@ -561,50 +633,19 @@ class PayProductInfo extends React.Component {
                   {!this.state.isShowValidCode &&
                   this.props.checkoutStore.promotionCode ? (
                     <div
-                      className="flex-layout"
-                      style={{ marginRight: '18px' }}
+                      className="flex-layout green"
                     >
-                      <label className="saveDiscount font14 red">
-                        {this.promotionDesc || (
+                      <label className="saveDiscount font14" style={{flex: 2}}>
+                        {/* {this.promotionDesc || (
                           <FormattedMessage id="NoPromotionDesc" />
-                        )}
+                        )} */}
+                        <FormattedMessage id="promotion" />
                       </label>
                       <div
-                        className="text-right red-text"
-                        style={{ position: 'relative', paddingTop: '7px' }}
+                        className="text-right"
+                        style={{ position: 'relative', textAlign: 'right', flex: 1}}
                       >
                         <b>-{formatMoney(this.discountPrice)}</b>
-                        <span
-                          style={{
-                            position: 'absolute',
-                            right: '-18px',
-                            fontSize: '18px',
-                            top: '6px',
-                            cursor: 'pointer'
-                          }}
-                          onClick={async () => {
-                            let result = {};
-                            if (!this.isLogin) {
-                              //游客
-                              result = await checkoutStore.updateUnloginCart();
-                            } else {
-                              //会员
-                              result = await checkoutStore.updateLoginCart(
-                                '',
-                                this.props.buyWay === 'frequency'
-                              );
-                            }
-                            if (result.backCode === 'K-000000') {
-                              discount.pop();
-                              this.setState({
-                                discount: discount,
-                                isShowValidCode: false
-                              });
-                            }
-                          }}
-                        >
-                          x
-                        </span>
                       </div>
                     </div>
                   ) : null}
@@ -655,11 +696,11 @@ class PayProductInfo extends React.Component {
             </div>
           ) : null}
 
-          {this.state.isShowValidCode ? (
+          {/* {this.state.isShowValidCode ? (
             <div className="red pl-3 pb-3 border-top pt-2">
               Promotion code({this.state.lastPromotionInputValue}) is not Valid
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     );

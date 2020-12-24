@@ -18,6 +18,7 @@ import {
 import { IMG_DEFAULT } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 import './index.css';
 
@@ -28,6 +29,11 @@ class OrdersAfterSale extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       afterSaleType: '', //操作类型 - exchange/return
       orderNumber: '',
       details: null,
@@ -48,7 +54,9 @@ class OrdersAfterSale extends React.Component {
     this.imgUploaderRef = React.createRef();
   }
   componentDidMount() {
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -241,6 +249,11 @@ class OrdersAfterSale extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

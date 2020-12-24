@@ -29,18 +29,21 @@ class Carousel extends React.Component {
     this.clickCircle = this.clickCircle.bind(this);
     this.resize = this.resize.bind(this);
   }
-  GABannerImpression(banners){
-    const promotions = banners.map((item,index)=>{
-      return {id:item.bannerId,name:item.bannerName,creative: item.bannerName,position:`slide_${index}`,}
-    })
+  GABannerImpression(idx){
+    const cur_banner = this.state.banner[idx]
     dataLayer.push({
       'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
       'ecommerce': {
-          'promoView': {
-              'promotions': promotions
-          }
-      }
-  });
+        'promoClick': {
+          'promotions': [
+           {
+             'id': cur_banner.bannerId,            // Name or ID is required
+             'name': cur_banner.bannerName,
+             'creative': cur_banner.bannerName,
+             'position': idx
+           }]
+        }
+      }  });
   }
 
   GABannerClick = (idx) => {
@@ -63,8 +66,7 @@ class Carousel extends React.Component {
   componentDidMount() {
     getBanner().then((res) => {
       this.setState({ banner: res.context },()=>{
-        
-        this.GABannerImpression(this.state.banner)
+        console.log({banner:this.state.banner})
       });
     });
 
@@ -102,7 +104,7 @@ class Carousel extends React.Component {
     circlesLis[n].className = 'cur';
 
      //点击banner埋点
-     this.GABannerClick(n)
+     this.GABannerImpression(n)
   };
   leftBtnClick = () => {
     const { options } = this.state
@@ -198,15 +200,6 @@ class Carousel extends React.Component {
 
   hanldeClick = (item) => {
     console.log(item);
-    // sessionItemRoyal.set(
-    //   'rc-goods-cate-name',
-    //   this.state.currentCatogery || ''
-    // );
-    // const { history, location } = this.props;
-    // sessionItemRoyal.set('recomment-preview', location.pathname);
-    // sessionItemRoyal.set('rc-goods-name', item.goodsName);
-
-    // history.push('/details/' + item.goodsInfoIds[0]);
   };
   render() {
     return (
@@ -251,13 +244,15 @@ class Carousel extends React.Component {
                                 process.env.REACT_APP_LANG == 'de'
                                 ?
                                 <Link
+                                  onClick={()=>this.GABannerClick(index)}
                                   to="/list/keywords"
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
                                 </Link>
                                 :<Link
-                                  to="/product-finder"
+                                  onClick={()=>this.GABannerClick(index)}
+                                  to={item.webSkipUrl}
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
@@ -275,7 +270,10 @@ class Carousel extends React.Component {
                             }}
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
-                            <Link to="/packmixfeedingwetdry" className="category-btn">
+                            <Link 
+                              onClick={()=>this.GABannerClick(index)}
+                              to={item.webSkipUrl} 
+                              className="category-btn">
                               <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>

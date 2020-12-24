@@ -14,6 +14,7 @@ import PaymentComp from '@/components/PaymentComp';
 import { CREDIT_CARD_IMGURL_ENUM } from '@/utils/constant';
 import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -27,6 +28,11 @@ class PaymentMethod extends React.Component {
       loading: false,
       showModal: false,
       isAdd: true,
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       addressList: [],
       total: 0,
       errorMsg: '',
@@ -51,7 +57,9 @@ class PaymentMethod extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -74,6 +82,11 @@ class PaymentMethod extends React.Component {
     } = this.state;
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <div>
           <Header
             showMiniIcons={true}

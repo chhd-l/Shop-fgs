@@ -30,6 +30,7 @@ class Question extends React.Component {
     super(props);
     this.state = {
       progress: 0,
+      stepCurrent: '',
       questionCfg: null,
       ageErrorShow: false,
       isPageLoading: false,
@@ -124,7 +125,7 @@ class Question extends React.Component {
       }
       return item;
     });
-
+    this.props.GAHandle(targetItem.questionName);
     this.setDefaultDataFromCache({
       questionName: targetItem.questionName,
       answerList: targetItem.answerList,
@@ -138,6 +139,7 @@ class Question extends React.Component {
       answerdQuestionList: tmpList,
       descriptionTips: targetItem.frenchDescription,
       currentStepName: targetItem.questionName,
+      stepCurrent: targetItem.questionName,
       questionParams: tmpList
         .filter((ele) => ele.stepOrder <= editStopOrder)
         .reduce(
@@ -381,7 +383,7 @@ class Question extends React.Component {
           questionType: qRes.questionType,
           configSizeAttach: sizeStep
         });
-
+        this.props.GAHandle(resContext.step.name);
         this.setState(
           {
             questionCfg: {
@@ -393,6 +395,7 @@ class Question extends React.Component {
             descriptionTips: resContext.step.metadataDescription,
             progress: resContext.progressRate.replace(/%/g, ''),
             currentStepName: resContext.step.name,
+            stepCurrent: resContext.step.name,
             stepOrder: resContext.stepOrder,
             finderNumber: resContext.finderNumber,
             answerdQuestionList: resContext.answerdQuestionList || [],
@@ -698,6 +701,7 @@ class Question extends React.Component {
                   <SearchAnswer
                     defaultData={this.state.defaultDataForSearch}
                     config={questionCfg}
+                    updateStepCurrent={this.props.GAHandle}
                     updateFormData={this.updateFormData}
                     updateBreedSizeFormData={this.updateBreedSizeFormData}
                     updateSaveBtnStatus={this.updateSaveBtnStatus}
@@ -801,14 +805,14 @@ class Question extends React.Component {
                   <FormattedMessage id="productFinder.healthTip2" />
                 </p>
                 <div className="rc-btn-group mb-3">
-                  <a
+                  <Link
                     className="rc-btn rc-btn--one"
-                    href="https://shop.royalcanin.fr/dog-range/veterinary-care-nutrition/"
+                    to="/dog-range/canine-care-nutrition"
                     target="_blank"
                     rel="nofollow"
                   >
                     <FormattedMessage id="aboutUs.learnMore" />
-                  </a>
+                  </Link>
                   <Link
                     className="rc-btn rc-btn--two"
                     to="/help"

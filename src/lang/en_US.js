@@ -493,6 +493,8 @@ const en_US = {
   'order.toBeDeliveredTip': 'Your order has been successfully paid and we are preparing to ship.',
   'order.toBePaidTip': 'Your order has not been paid, please pay as soon as possible. {val}',
   'order.viewOrder': 'View order',
+  'order.viewLogisticDetail': 'View logistic detail',
+  'order.inTranistTip': 'Your order has been shipped and you will receive the product soon. {val}',
   orders: 'Orders',
   'orderStatus.AUDIT': 'To be delivered',
   'orderStatus.COMPLETED': 'Completed',
@@ -709,6 +711,7 @@ const en_US = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Welcome to ROYALCANIN® online store',
+  'required.checkRequired': 'Check the required items',
   requiredConsentCheckedTip: 'Please confirm the mandatory fields by ticking the box.',
   requiredFields: '* Required fields',
   resetPasswordEmail: 'Reset password email has been sent to your mailbox, please note that check!',
@@ -900,5 +903,8 @@ const en_US = {
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
   checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
+  'pet.petListTitle': 'Create and manage your pet\'s profile to maintain its best health possible',
+  'pet.addNewPet': 'Add a new PET',
+  'pet.deletePet': 'Delete Pet Profile',
 }
 export default en_US;

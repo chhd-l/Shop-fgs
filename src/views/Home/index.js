@@ -11,11 +11,16 @@ import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
-import { setSeoConfig, getDeviceType, queryStoreCateList, setSeoConfigCopy } from '@/utils/utils';
+import { setSeoConfig, getDeviceType, queryStoreCateList } from '@/utils/utils';
 import './index.css';
 import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
+
+import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
+import premiumHome from '@/assets/images/home/premium@2x.png';
+import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
+import shippmentHome from '@/assets/images/home/shippment@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -346,49 +351,6 @@ function Share() {
   );
 }
 
-// 上线后修改id todo
-const DEFUALT_FILTER_MAP_FR = {
-  '/dogs/?prefn1=ages&prefv1=Adulte|Sénior': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Adult_Dog', 'Mature_Dog'],
-      attributeValueIdList: ['AV202012160309152796', 'AV202012160309161216']
-    }
-  ],
-  '/cats/?prefn1=ages&prefv1=Adulte (1-7 ans)|Mature (7-12 ans)|Senior (+ 12 ans)': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Adult_Cat', 'Mature_Cat', 'Senior_Cat'],
-      attributeValueIdList: [
-        'AV202012160309229266',
-        'AV202012160309234996',
-        'AV202012160309253586'
-      ]
-    }
-  ],
-  '/dogs/?prefn1=ages&prefv1=Chiot de 0 à 2 mois|Chiot de plus de 2 mois': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Puppy_Dog', 'Baby_Dog'],
-      attributeValueIdList: ['AV202012160309175316', 'AV202012160310184696']
-    }
-  ],
-  '/cats/?prefn1=ages&prefv1=Chaton (0-4 mois)|Chaton (5 mois-1 an)': [
-    {
-      attributeId: 'A20201209071242331',
-      attributeName: 'ÂGE',
-      filterType: '0',
-      attributeValues: ['Kitten_Cat', 'Baby_Cat'],
-      attributeValueIdList: ['AV202012160309246796', 'AV202012160309463736']
-    }
-  ]
-};
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -401,7 +363,7 @@ class Home extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
-      searchEvent:{}
+      searchEvent: {}
     };
   }
   async componentDidMount() {
@@ -410,35 +372,25 @@ class Home extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfigCopy({ pageName: 'Home Page' }).then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig({ pageName: 'Home Page' }).then((res) => {
+      this.setState({ seoConfig: res });
     });
-    
+
     this.setState({ deviceType: getDeviceType() });
-    
+
     queryStoreCateList().then((res) => {
-      let tmpRes = (res || [])
-        .sort((a, b) => a.sort - b.sort)
-        .map((ele) => {
-          try {
-            let tmpList = JSON.parse(ele.cateImg);
-            ele.cateImgHome = tmpList[0].artworkUrl;
-            ele.cateImgList = tmpList.length > 1 && tmpList[1].artworkUrl;
-            ele.filters = DEFUALT_FILTER_MAP_FR[ele.cateRouter] || [];
-          } catch (e) {}
-          return ele;
-        });
+      let tmpRes = (res || []).sort((a, b) => a.sort - b.sort);
       this.setState({ categoryList: tmpRes, categoryLoading: false });
     });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  sendGAHeaderSearch=(event)=>{
+  sendGAHeaderSearch = (event) => {
     this.setState({
-      searchEvent:event
-    })
-  }
+      searchEvent: event
+    });
+  };
   render() {
     const { history, match, location } = this.props;
     const { categoryList, deviceType } = this.state;
@@ -451,7 +403,7 @@ class Home extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
 
@@ -475,21 +427,16 @@ class Home extends React.Component {
                 : `/${ele.cateRouter}`
             }`,
             state: {
-              cateIds: [ele.storeCateId],
-              cateName: ele.cateName,
-              cateTitle: ele.cateTitle || ele.cateName,
-              cateDescription: ele.cateDescription,
-              cateImgList: ele.cateImgList,
-              filters: ele.filters
+              GAListParam: 'Catalogue'
             }
           }}
-          title={ele.cateName}
+          title={ele.altName || ele.cateName}
         >
           <picture className="category-cards__card__img">
-            <source srcSet={ele.cateImgHome} />
+            <source srcSet={ele.cateImgForHome} />
             <LazyLoad height={200}>
               <img
-                src={ele.cateImgHome}
+                src={ele.cateImgForHome}
                 alt={ele.cateName}
                 title={ele.cateName}
                 style={{ width: '144px' }}
@@ -522,10 +469,16 @@ class Home extends React.Component {
       <div>
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <GoogleTagManager additionalEvents={event} searchEvent={this.state.searchEvent}/>
+        <GoogleTagManager
+          additionalEvents={event}
+          searchEvent={this.state.searchEvent}
+        />
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -611,8 +564,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={PaymentSecureHome}
+                            srcSet={PaymentSecureHome}
                             className="mx-auto"
                             alt="Secure payments"
                             title="Secure payments"
@@ -626,8 +579,8 @@ class Home extends React.Component {
                         <div className="col-6 col-md-3 centered-icon-list__icon">
                           <LazyLoad height={200}>
                             <img
-                              src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                              srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                              src={reimbursedHome}
+                              srcSet={reimbursedHome}
                               className="mx-auto"
                               alt="Quality assurance"
                               title="Quality assurance"
@@ -641,8 +594,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={premiumHome}
+                            srcSet={premiumHome}
                             className="mx-auto"
                             alt="Premium service"
                             title="Premium service"
@@ -655,8 +608,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={shippmentHome}
+                            srcSet={shippmentHome}
                             className="mx-auto"
                             alt="Fast shipping"
                             title="Fast shipping"

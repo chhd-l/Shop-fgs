@@ -32,6 +32,10 @@ class SearchAnswer extends React.Component {
     const mixedRaceText = this.props.intl.formatMessage({
       id: 'account.mixBreed'
     });
+    // 选择按钮的时候datalayer可能改变
+    if(this.props.configSizeAttach){
+      this.props.updateStepCurrent('size')
+    }
     let tmp = null;
     const target = e.target;
     if (target.checked) {

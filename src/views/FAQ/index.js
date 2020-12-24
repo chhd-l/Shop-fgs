@@ -10,6 +10,7 @@ import LazyLoad from 'react-lazyload';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import { Link } from 'react-router-dom';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 import './index.less';
 
@@ -20,6 +21,11 @@ class FAQ extends React.Component {
     super(props);
     this.state = {
       dataFAQ: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       // 当前展开的FAQ
       showCur: -1,
       loading: true
@@ -31,6 +37,8 @@ class FAQ extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'FAQ page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -88,7 +96,7 @@ class FAQ extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
+        type: 'other',
         theme: 'Brand',
         path: location.pathname,
         error: '',
@@ -99,6 +107,11 @@ class FAQ extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

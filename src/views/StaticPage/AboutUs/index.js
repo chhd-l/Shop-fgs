@@ -16,6 +16,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import Faq from '../../Payment/Fr/faq';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -26,7 +27,13 @@ const localItemRoyal = window.__.localItemRoyal;
 class AboutUs extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
   }
 
   componentWillUnmount() {
@@ -35,7 +42,9 @@ class AboutUs extends React.Component {
   componentDidMount() {
     setSeoConfig(
       {pageName:"About Us Page"}
-    )
+    ).then(res => {
+      this.setState({seoConfig: res})
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -57,6 +66,11 @@ class AboutUs extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -175,7 +189,7 @@ class AboutUs extends React.Component {
                               <p>La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous
                                 faisons dans le monde.</p>
                               <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club"
-                                 to="/qualitySafety" title="En savoir plus">En savoir
+                                 to="/Quality-safety" title="En savoir plus">En savoir
                                 plus</Link>
                             </div>
                           </div>

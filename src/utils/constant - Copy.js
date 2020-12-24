@@ -675,7 +675,7 @@ export const ADDRESS_RULE = [
   //   key: 'email',
   //   regExp: EMAIL_REGEXP,
   //   require: true,
-  //   errMsg: CURRENT_LANGFILE['EnterCorrectValue'].replace(
+  //   errMsg: CURRENT_LANGFILE['enterCorrectValue'].replace(
   //     /{.+}/,
   //     CURRENT_LANGFILE['email']
   //   )
@@ -692,7 +692,7 @@ export const ADDRESS_RULE = [
     key: 'postCode',
     regExp: /\d{5}/,
     require: true,
-    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['EnterCorrectValue'].replace(
+    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE&&CURRENT_LANGFILE['payment.postCode2']
     )
@@ -720,7 +720,7 @@ export const PAYMENT_METHOD_RULE = [
     key: 'email',
     regExp: EMAIL_REGEXP,
     require: true,
-    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['EnterCorrectValue'].replace(
+    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE&&CURRENT_LANGFILE['email']
     )
@@ -772,7 +772,7 @@ export const PRESONAL_INFO_RULE = [
     key: 'email',
     regExp: EMAIL_REGEXP,
     require: true,
-    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['EnterCorrectValue'].replace(
+    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE&&CURRENT_LANGFILE['email']
     )
@@ -789,7 +789,7 @@ export const PRESONAL_INFO_RULE = [
     key: 'postCode',
     regExp: /\d{5}/,
     require: true,
-    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['EnterCorrectValue'].replace(
+    errMsg: CURRENT_LANGFILE&&CURRENT_LANGFILE['enterCorrectValue'].replace(
       /{.+}/,
       CURRENT_LANGFILE&&CURRENT_LANGFILE['payment.postCode2']
     )

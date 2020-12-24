@@ -7162,6 +7162,14 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
   border-color: #3957a7!important
 }
 
+.border-333 {
+  border-color: #333!important;
+}
+
+.border-transparent {
+  border-color: transparent!important
+}
+
 .rounded,.rounded-sm {
   border-radius: .1875rem!important
 }

@@ -11,6 +11,7 @@ import LoginButton from '@/components/LoginButton';
 import Help from './Help';
 import { formatMoney } from '@/utils/utils';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -170,6 +171,11 @@ class ProductFinderResult extends React.Component {
       productDetail: null,
       isLoading: true,
       questionlist: [],
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       petBaseInfo: null
     };
   }
@@ -179,6 +185,8 @@ class ProductFinderResult extends React.Component {
     if (res) {
       setSeoConfig({
         pageName: 'finder-recommendation'
+      }).then(res => {
+        this.setState({seoConfig: res})
       });
       const parsedQuestionlist = questionlist ? JSON.parse(questionlist) : null;
       const ageItem = parsedQuestionlist.filter(
@@ -245,6 +253,11 @@ class ProductFinderResult extends React.Component {
     } = this.state;
     return (
       <div>
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -340,14 +353,28 @@ class ProductFinderResult extends React.Component {
                         {productDetail.mainProduct.subTitle}
                       </div>
                       <div className="text-center mt-2">
-                        {formatMoney(
+                        {productDetail.mainProduct.toPrice ? (
+                          <span className="mr-1" style={{ fontSize: '.8em' }}>
+                            <FormattedMessage id="startFrom" />
+                          </span>
+                        ) : null}
+                        {formatMoney(productDetail.mainProduct.fromPrice)}
+                        {productDetail.mainProduct.toPrice ? (
+                          <>
+                            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                              <FormattedMessage id="startEnd" />
+                            </span>
+                            {formatMoney(productDetail.mainProduct.toPrice)}
+                          </>
+                        ) : null}
+                        {/* {formatMoney(
                           Math.min.apply(
                             null,
                             productDetail.mainProduct.goodsInfos.map(
                               (g) => g.marketPrice || 0
                             )
                           )
-                        )}
+                        )} */}
                       </div>
                       <div className="d-flex justify-content-center mt-3">
                         <Link
@@ -409,12 +436,26 @@ class ProductFinderResult extends React.Component {
                             {ele.subTitle}
                           </div>
                           <div className="text-center mt-2">
-                            {formatMoney(
+                            {productDetail.mainProduct.toPrice ? (
+                              <span className="mr-1" style={{ fontSize: '.8em' }}>
+                                <FormattedMessage id="startFrom" />
+                              </span>
+                            ) : null}
+                            {formatMoney(productDetail.mainProduct.fromPrice)}
+                            {productDetail.mainProduct.toPrice ? (
+                              <>
+                                <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                                  <FormattedMessage id="startEnd" />
+                                </span>
+                                {formatMoney(productDetail.mainProduct.toPrice)}
+                              </>
+                            ) : null}
+                            {/* {formatMoney(
                               Math.min.apply(
                                 null,
                                 ele.goodsInfos.map((g) => g.marketPrice || 0)
                               )
-                            )}
+                            )} */}
                           </div>
                           <div className="d-flex justify-content-center mt-3">
                             <Link

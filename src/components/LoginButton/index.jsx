@@ -63,7 +63,7 @@ const LoginButton = (props) => {
               ...{ oktaToken }
             }).then(res=>{
               if(res.code === 'K-000000') {
-                history.push(process.env.REACT_APP_HOMEPAGE)
+                history.push('/')
               }
             }).catch((e) => {
               console.log(e);
@@ -72,6 +72,18 @@ const LoginButton = (props) => {
           if (!loginStore.isLogin) {
             getToken({ oktaToken: `Bearer ${oktaToken}` })
               .then(async (res) => {
+                // GA 登录成功埋点 start
+                dataLayer.push(
+                  {
+                    event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                    interaction:{
+                    category:'registration',
+                    action:'login',
+                    label:'',
+                    value:1
+                  },
+                  })        
+                // GA 登陆成功埋点 end
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);
@@ -107,11 +119,15 @@ const LoginButton = (props) => {
 
   const login = async () => {
     try {
+      debugger
       sessionItemRoyal.remove('rc-token-lose');
       sessionItemRoyal.set('okta-redirectUrl', props.history.location.pathname);
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
-    } catch (err) {}
+    } catch (err) {
+      debugger
+      console.log(err)
+    }
   };
 
   const bindSubmitParam = (list) => {

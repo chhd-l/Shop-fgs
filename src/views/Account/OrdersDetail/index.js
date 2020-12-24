@@ -30,6 +30,7 @@ import {
 import { IMG_DEFAULT, CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
 import './index.less';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -116,6 +117,11 @@ class AccountOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      },
       orderNumber: '',
       totalTid: '',
       subNumber: '',
@@ -190,7 +196,9 @@ class AccountOrders extends React.Component {
     this.handleClickLogisticsCard = this.handleClickLogisticsCard.bind(this);
   }
   componentDidMount() {
-    setSeoConfig();
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
+    });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
@@ -583,136 +591,147 @@ class AccountOrders extends React.Component {
       .filter((ele) => ele);
     return (
       <>
-        <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
-          {logisticsList.length > 1 ? (
-            <nav className="rc-bg-colour--brand4 p-3">
+        {logisticsList[0] && logisticsList[0].trackingUrl ? null : (
+          <>
+            <div className="col-12 mt-4 border1 rounded mb-4 pl-0 pr-0 rc-md-up">
+              {logisticsList.length > 1 ? (
+                <nav className="rc-bg-colour--brand4 p-3">
+                  {logisticsList.map((item, i) => (
+                    <span
+                      className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
+                        activeTabIdx === i
+                          ? 'active red rc-bg-colour--brand3'
+                          : ''
+                      }`}
+                      onClick={this.changeTab.bind(this, i)}
+                      key={i}
+                    >
+                      <FormattedMessage id="packageX" values={{ val: i + 1 }} />
+                    </span>
+                  ))}
+                </nav>
+              ) : null}
+
               {logisticsList.map((item, i) => (
-                <span
-                  className={`ui-cursor-pointer mr-2 pl-3 pr-3 pb-2 pt-2 rounded ${
-                    activeTabIdx === i ? 'active red rc-bg-colour--brand3' : ''
-                  }`}
-                  onClick={this.changeTab.bind(this, i)}
+                <div
+                  key={i}
+                  className={`ml-3 mr-3 ${i === activeTabIdx ? '' : 'hidden'}`}
+                >
+                  <LogisticsProgress
+                    list={
+                      (item.syncLogisticsInfo &&
+                        item.syncLogisticsInfo.originInfo &&
+                        item.syncLogisticsInfo.originInfo.trackInfo) ||
+                      []
+                    }
+                    hasMoreLessOperation={true}
+                    moreLogistics={moreLogistics}
+                    handleToggleMoreLess={this.handleToggleMoreLess}
+                    customDateCls="text-nowrap"
+                  />
+
+                  <div className="row">
+                    {(item.shippingItems || []).map((ele) => (
+                      <div className="text-center col-2" key={ele.skuId}>
+                        <LazyLoad>
+                          <img
+                            src={ele.pic || IMG_DEFAULT}
+                            alt={ele.itemName}
+                            title={ele.itemName}
+                            style={{ width: '70%', margin: '0 auto' }}
+                          />
+                        </LazyLoad>
+                        <p className="font-weight-normal ui-text-overflow-line1">
+                          {ele.itemName} X {ele.itemNum}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="row border-top m-0 pt-2 pb-2">
+                    <div className="col-12 col-md-3">
+                      <svg className="svg-icon mr-1" aria-hidden="true">
+                        <use xlinkHref="#iconDeliverydate" />
+                      </svg>
+                      <FormattedMessage id="deliveryDate" />:{' '}
+                      <span className="medium">
+                        {getFormatDate((item.deliverTime || '').substr(0, 10))}
+                      </span>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <svg className="svg-icon mr-1" aria-hidden="true">
+                        <use xlinkHref="#iconLogisticscompany" />
+                      </svg>
+                      <FormattedMessage id="logisticsCompany" />:{' '}
+                      <span className="medium">
+                        {item.logistics
+                          ? item.logistics.logisticCompanyName
+                          : ''}
+                      </span>
+                    </div>
+                    <div className="col-12 col-md-5">
+                      <svg className="svg-icon mr-1" aria-hidden="true">
+                        <use xlinkHref="#iconLogisticssinglenumber" />
+                      </svg>
+                      <FormattedMessage id="logisticsSingleNumber" />:{' '}
+                      <span className="medium">
+                        {item.logistics ? item.logistics.logisticNo : ''}
+                      </span>
+                      <CopyToClipboard
+                        text={item.logistics ? item.logistics.logisticNo : ''}
+                      >
+                        <span className="iconfont ui-cursor-pointer ml-2">
+                          &#xe6c0;
+                        </span>
+                      </CopyToClipboard>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
+              {filteredLogisticsList.map((item, i) => (
+                <div
+                  className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
+                  onClick={this.handleClickLogisticsCard.bind(this, item)}
                   key={i}
                 >
-                  <FormattedMessage id="packageX" values={{ val: i + 1 }} />
-                </span>
-              ))}
-            </nav>
-          ) : null}
-
-          {logisticsList.map((item, i) => (
-            <div
-              key={i}
-              className={`ml-3 mr-3 ${i === activeTabIdx ? '' : 'hidden'}`}
-            >
-              <LogisticsProgress
-                list={
-                  (item.syncLogisticsInfo &&
-                    item.syncLogisticsInfo.originInfo &&
-                    item.syncLogisticsInfo.originInfo.trackInfo) ||
-                  []
-                }
-                hasMoreLessOperation={true}
-                moreLogistics={moreLogistics}
-                handleToggleMoreLess={this.handleToggleMoreLess}
-                customDateCls="text-nowrap"
-              />
-
-              <div className="row">
-                {(item.shippingItems || []).map((ele) => (
-                  <div className="text-center col-2" key={ele.skuId}>
-                    <LazyLoad>
-                      <img
-                        src={ele.pic || IMG_DEFAULT}
-                        alt={ele.itemName}
-                        title={ele.itemName}
-                        style={{ width: '70%', margin: '0 auto' }}
-                      />
-                    </LazyLoad>
-                    <p className="font-weight-normal ui-text-overflow-line1">
-                      {ele.itemName} X {ele.itemNum}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="row border-top m-0 pt-2 pb-2">
-                <div className="col-12 col-md-3">
-                  <svg className="svg-icon mr-1" aria-hidden="true">
-                    <use xlinkHref="#iconDeliverydate" />
-                  </svg>
-                  <FormattedMessage id="deliveryDate" />:{' '}
-                  <span className="medium">
-                    {getFormatDate((item.deliverTime || '').substr(0, 10))}
-                  </span>
-                </div>
-                <div className="col-12 col-md-4">
-                  <svg className="svg-icon mr-1" aria-hidden="true">
-                    <use xlinkHref="#iconLogisticscompany" />
-                  </svg>
-                  <FormattedMessage id="logisticsCompany" />:{' '}
-                  <span className="medium">
-                    {item.logistics ? item.logistics.logisticCompanyName : ''}
-                  </span>
-                </div>
-                <div className="col-12 col-md-5">
-                  <svg className="svg-icon mr-1" aria-hidden="true">
-                    <use xlinkHref="#iconLogisticssinglenumber" />
-                  </svg>
-                  <FormattedMessage id="logisticsSingleNumber" />:{' '}
-                  <span className="medium">
-                    {item.logistics ? item.logistics.logisticNo : ''}
-                  </span>
-                  <CopyToClipboard
-                    text={item.logistics ? item.logistics.logisticNo : ''}
-                  >
-                    <span className="iconfont ui-cursor-pointer ml-2">
-                      &#xe6c0;
+                  <div className="col-10 medium color-444 d-flex align-items-center">
+                    <span>
+                      {getFormatDate(
+                        item.syncLogisticsInfo.originInfo.trackInfo[0].date
+                      )}
                     </span>
-                  </CopyToClipboard>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="ml-4 mr-4 rc-md-down mt-2 mt-md-0">
-          {filteredLogisticsList.map((item, i) => (
-            <div
-              className="row rc-bg-colour--brand4 rounded mb-2 pb-2"
-              onClick={this.handleClickLogisticsCard.bind(this, item)}
-              key={i}
-            >
-              <div className="col-10 medium color-444 d-flex align-items-center">
-                <span>
-                  {getFormatDate(
-                    item.syncLogisticsInfo.originInfo.trackInfo[0].date
-                  )}
-                </span>
-              </div>
-              <div className="col-2">
-                <span
-                  className="rc-icon rc-right rc-iconography rc-md-down"
-                  style={{ transform: 'scale(.85)' }}
-                />
-              </div>
-              <div className="col-12 mt-2">
-                {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
-                {
-                  item.syncLogisticsInfo.originInfo.trackInfo[0]
-                    .statusDescription
-                }
-              </div>
-              <div className="col-12 row mt-2">
-                {item.shippingItems.map((sItem) => (
-                  <div className="col-3" key={sItem.skuId}>
-                    <LazyLoad>
-                      <img className="rc-bg-colour--brand4" src={sItem.pic} />
-                    </LazyLoad>
                   </div>
-                ))}
-              </div>
+                  <div className="col-2">
+                    <span
+                      className="rc-icon rc-right rc-iconography rc-md-down"
+                      style={{ transform: 'scale(.85)' }}
+                    />
+                  </div>
+                  <div className="col-12 mt-2">
+                    {item.syncLogisticsInfo.originInfo.trackInfo[0].details}
+                    {
+                      item.syncLogisticsInfo.originInfo.trackInfo[0]
+                        .statusDescription
+                    }
+                  </div>
+                  <div className="col-12 row mt-2">
+                    {item.shippingItems.map((sItem) => (
+                      <div className="col-3" key={sItem.skuId}>
+                        <LazyLoad>
+                          <img
+                            className="rc-bg-colour--brand4"
+                            src={sItem.pic}
+                          />
+                        </LazyLoad>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </>
     );
   };
@@ -723,7 +742,8 @@ class AccountOrders extends React.Component {
       canPayNow,
       payNowLoading,
       defaultLocalDateTime,
-      orderNumber
+      orderNumber,
+      logisticsList
     } = this.state;
     const tradeState = details.tradeState;
     let ret = null;
@@ -824,6 +844,28 @@ class AccountOrders extends React.Component {
           title={<FormattedMessage id="inTransit" />}
           titleColor="text-success"
           moreTip={this.renderLogitiscsJSX()}
+          tip={
+            logisticsList[0] && logisticsList[0].trackingUrl ? (
+              <FormattedMessage
+                id="order.inTranistTip"
+                values={{
+                  val: (
+                    <span className={`red ui-cursor-pointer`}>
+                      <a
+                        href={logisticsList[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        className={`red rc-styled-link mr-2`}
+                      >
+                        <FormattedMessage id="order.viewLogisticDetail" />
+                      </a>
+                      &gt;
+                    </span>
+                  )
+                }}
+              />
+            ) : null
+          }
         />
       );
     } else if (auditRejectReason) {
@@ -912,6 +954,14 @@ class AccountOrders extends React.Component {
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}
@@ -951,7 +1001,7 @@ class AccountOrders extends React.Component {
                   }`}
                 >
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage ml-0 mr-0">
+                    <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
                       {this.state.loading ? (
                         <Skeleton
                           color="#f5f5f5"

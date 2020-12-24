@@ -5,12 +5,25 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
 import './index.css';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
 
 class Help extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
   componentDidMount(){
-    setSeoConfig()
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -27,6 +40,11 @@ class Help extends React.Component {
     return (
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <Header
           showMiniIcons={true}
           showUserIcon={true}

@@ -64,10 +64,10 @@ class UnloginCart extends React.Component {
         interaction:{
           category:'checkout',
           action:'guest checkout',
-          label:'cart pop-in', //"cart page  "          
+          label:'cart pop-in', //"cart page  "
           value:1
         },
-      }) 
+      })
   }
   async handleCheckout({ needLogin = false } = {}) {
     this.GAAccessToGuestCheck()
@@ -225,13 +225,11 @@ class UnloginCart extends React.Component {
               <div className="minicart__footer__msg text-center minicart-padding">
                 <span className="minicart__pointer" />
                 <div className="minicart__empty">
-                  <LazyLoad>
-                    <img
-                      className="cart-img"
-                      src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
-                      alt="Интернет-магазин ROYAL CANIN®"
-                    />
-                  </LazyLoad>
+                  <img
+                    className="cart-img"
+                    src="https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/default/dwbedbf812/images/cart.png"
+                    alt="Интернет-магазин ROYAL CANIN®"
+                  />
                   <p className="rc-delta">
                     <FormattedMessage id="header.basketEmpty" />
                   </p>
@@ -382,7 +380,7 @@ class UnloginCart extends React.Component {
                                         }{' '}
                                         -{' '}
 
-                                          <FormattedMessage id="product"/>(s)：
+                                          <FormattedMessage id="product"/>：
                                         {item.quantity > 1
                                         ? `${item.quantity} `
                                         : `${item.quantity} `}

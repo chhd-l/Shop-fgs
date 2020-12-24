@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Help from '../modules/Help';
+import NavItem from '../modules/NavItem';
 import LazyLoad from 'react-lazyload';
 
 function SecondItemContainer(props) {
@@ -117,16 +118,16 @@ class MegaMenu extends React.Component {
                           >
                             <ul className="rc-list rc-list--blank subcategories">
                               <li className="rc-list__item w-100">
-                                <span
+                                <NavItem
+                                  item={eItem}
+                                  className="rc-list__link submenu-padding-mobile"
                                   onClick={this.handleClickNavItem.bind(
                                     this,
                                     eItem
                                   )}
-                                  role="menuitem"
-                                  className="rc-list__link submenu-padding-mobile"
                                 >
                                   {eItem.navigationName}
-                                </span>
+                                </NavItem>
                               </li>
                             </ul>
                           </dd>
@@ -137,14 +138,13 @@ class MegaMenu extends React.Component {
               ))}
             </ul>
             <li className="rc-list__item w-100">
-              <span
+              <NavItem
                 className="rc-list__header rc-list__link submenu-padding-mobile"
+                item={item}
                 onClick={this.handleClickNavItem.bind(this, item)}
-                role="menuitem"
-                data-tab-init="true"
               >
                 <FormattedMessage id="viewAll" />
-              </span>
+              </NavItem>
             </li>
           </>
         }
@@ -163,11 +163,11 @@ class MegaMenu extends React.Component {
               </div>
               <div className="mt-auto">
                 <LazyLoad>
-                <img
-                  className="pull-right rc-md-down lazyloaded"
-                  alt="Trouver l'alimentation adaptée"
-                  src={item.imageLink}
-                />
+                  <img
+                    className="pull-right rc-md-down lazyloaded"
+                    alt="Trouver l'alimentation adaptée"
+                    src={item.imageLink}
+                  />
                 </LazyLoad>
               </div>
             </div>
@@ -192,22 +192,14 @@ class MegaMenu extends React.Component {
             </span>
             {this.renderSecondChildItem(item)}
           </>
-        ) : item.interaction === 1 ? (
-          <a
-            className="rc-list__header bg-transparent"
-            href={item.navigationLink}
-            target={item.target}
-            rel="noopener noreferrer"
-          >
-            {item.navigationName}
-          </a>
         ) : (
-          <span
-            className="rc-list__header bg-transparent"
+          <NavItem
             onClick={this.handleClickNavItem.bind(this, item)}
+            item={item}
+            className="rc-list__header bg-transparent"
           >
             {item.navigationName}
-          </span>
+          </NavItem>
         )}
       </>
     );

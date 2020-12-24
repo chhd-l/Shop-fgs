@@ -463,6 +463,8 @@ const es_ES = {
   'order.toBeDeliveredTip': 'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
   'order.toBePaidTip': 'Su pedido no ha sido pagado, pague lo antes posible. {val}',
   'order.viewOrder': 'Ver pedido',
+  'order.viewLogisticDetail': 'Ver detalle logístico',
+  'order.inTranistTip': 'Su pedido ha sido enviado y pronto recibirá el producto. {val}',
   orders: 'Pedidos',
   'orderStatus.AUDIT': 'Para ser entregado',
   'orderStatus.COMPLETED': 'Terminado',
@@ -684,6 +686,7 @@ const es_ES = {
   'required.continue': 'continue',
   'required.fields': 'required frields',
   'required.logoTitle': 'Bienvenido a la tienda en línea ROYALCANIN®',
+  'required.checkRequired': 'Compruebe los elementos necesarios',
   requiredConsentCheckedTip: 'Confirme los campos obligatorios marcando la casilla.',
   requiredFields: '* Campos requeridos',
   resetPasswordEmail: 'El correo electrónico de restablecimiento de contraseña se ha enviado a su buzón, tenga en cuenta que marque',
@@ -876,5 +879,8 @@ const es_ES = {
   'orderDetail': 'Detalle de la orden',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'esta casilla de verificación es necesaria para la suscripción',
+  'pet.petListTitle': 'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
+  'pet.addNewPet': 'Agregar una nueva mascota',
+  'pet.deletePet': 'Eliminar perfil de mascota',
 }
 export default es_ES;

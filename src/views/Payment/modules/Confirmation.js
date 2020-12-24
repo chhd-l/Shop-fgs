@@ -101,7 +101,11 @@ class Confirmation extends React.Component {
       <>
         <div
           id="J_checkout_panel_confirmation"
-          className="card-panel checkout--padding rc-bg-colour--brand3 rounded"
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${
+            confirmationPanelStatus.isEdit
+              ? 'border-333'
+              : 'border-transparent'
+          }`}
         >
           <div className="bg-transparent d-flex justify-content-between align-items-center">
             {_title}

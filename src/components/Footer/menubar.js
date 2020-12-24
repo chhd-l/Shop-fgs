@@ -12,11 +12,11 @@ export const menubar = {
             messageId: 'Values'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'qualitySafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]
@@ -34,10 +34,11 @@ export const menubar = {
     [
       {
         titleId: 'ACCOUNT',
+        
         list: [
-          { link: '/account', messageId: 'My Account' },
-          { link: '/account/orders', messageId: 'My Orders' },
-          { link: '/account/subscription', messageId: 'My Club Shipments' }
+          { link: '/account', messageId: 'My Account', needLogin: true },
+          { link: '/account/orders', messageId: 'My Orders', needLogin: true },
+          { link: '/account/subscription', messageId: 'My Club Shipments', needLogin: true }
         ]
       }
     ],
@@ -63,7 +64,7 @@ export const menubar = {
             messageId: 'footer.ourValues'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
@@ -167,7 +168,7 @@ export const menubar = {
         titleId: 'footer.help2',
         list: [
           {
-            url: `${process.env.REACT_APP_ACCESS_PATH}help`,
+            link: `/help`,
             messageId: 'footer.contacts'
           },
           { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
@@ -205,7 +206,7 @@ export const menubar = {
             messageId: 'footer.ourValues'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           }
         ]
@@ -218,7 +219,7 @@ export const menubar = {
           { link: '/cats', messageId: 'account.cat' },
           { link: '/dogs', messageId: 'account.dog' },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           },
           {
@@ -235,10 +236,11 @@ export const menubar = {
           // 我的账户，订单，订阅单
           {
             link: '/account',
-            messageId: 'Mon compte'
+            messageId: 'Mon compte',
+            needLogin: true
           },
-          { link: '/account/orders', messageId: 'Mes commandes' },
-          { link: '/account/subscription', messageId: 'Mes abonnements' }
+          { link: '/account/orders', messageId: 'Mes commandes', needLogin: true },
+          { link: '/account/subscription', messageId: 'Mes abonnements', needLogin: true }
         ]
       }
     ],
@@ -282,11 +284,11 @@ export const menubar = {
           },
           {
             // url: 'https://www.shop.royal-canin.ru/ru/Quality-safety.html',
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]
@@ -371,11 +373,11 @@ export const menubar = {
             messageId: 'Değerlerimiz'
           },
           {
-            link: '/qualitySafety',
+            link: '/Quality-safety',
             messageId: 'footer.qualityAndSafety'
           },
           {
-            link: '/tailorednutrition',
+            link: '/Tailorednutrition',
             messageId: 'tailorednutrition'
           }
         ]

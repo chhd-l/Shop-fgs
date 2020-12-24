@@ -1,10 +1,31 @@
 import React from 'react';
 import { setSeoConfig } from '@/utils/utils';
+import { Helmet } from 'react-helmet';
 
-function Consent2() {
-  setSeoConfig()
+class Consent2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
+  componentDidMount() {
+    setSeoConfig().then(res => {
+      this.setState({seoConfig: res})
+    });
+  }
+ render() {
   return (
     <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
+      <Helmet>
+        <title>{this.state.seoConfig.title}</title>
+        <meta name="description" content={this.state.seoConfig.metaDescription}/>
+        <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+      </Helmet>
       <div className="rc-padding--sm rc-margin-bottom--sm rc-agreements-container">
         <h2 className="rc-beta text-center">MESAFELİ SATIŞ SÖZLEŞMESİ </h2>
         <br />
@@ -376,6 +397,7 @@ function Consent2() {
       </div>
     </div>
   );
+ }
 }
 
 export default Consent2;

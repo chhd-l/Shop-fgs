@@ -21,28 +21,50 @@ import './index.css';
 import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
+import { Helmet } from 'react-helmet';
 
 @inject('configStore')
 @observer
 @injectIntl
 class SubscriptionLanding extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seoConfig: {
+        title: '',
+        metaKeywords: '',
+        metaDescription: ''
+      }
+    };
+  }
   componentDidMount() {
     setSeoConfig({
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
+    }).then(res => {
+      this.setState({seoConfig: res})
     });
   }
   render(h) {
     const event = {
       page: {
         type: 'Content',
-        theme: ''
+        theme: '',
+        path: this.props.location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: '',
       }
     };
 
     return (
       <div className="recommendation">
+        <Helmet>
+          <title>{this.state.seoConfig.title}</title>
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+        </Helmet>
         <GoogleTagManager additionalEvents={event} />
         <Header
           showMiniIcons={true}

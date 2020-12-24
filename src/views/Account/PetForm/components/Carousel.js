@@ -135,11 +135,6 @@ class Carousel extends React.Component {
   }
 
   hanldeClick = (item) => {
-    console.log(item)
-    // sessionItemRoyal.set(
-    //   'rc-goods-cate-name',
-    //   this.state.currentCatogery || ''
-    // );
     const { history, location } = this.props;
     sessionItemRoyal.set('recomment-preview', location.pathname);
 

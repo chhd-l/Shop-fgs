@@ -34,10 +34,9 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  setSeoConfigCopy
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 import './index.css';
 import './index.less';
@@ -122,6 +121,7 @@ class Details extends React.Component {
     this.state = {
       event:{},
       eEvents:{},
+      GAListParam:'',
       initing: true,
       details: {
         id: '',
@@ -200,13 +200,19 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname } = this.props.location;
+    const { pathname,state } = this.props.location;
+    if(state&&(!!state.GAListParam)) {
+      this.setState({GAListParam:state.GAListParam})
+    }
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
         ? pathname.split('-').reverse()[0]
         : '';
     await getFrequencyDict().then((res) => {
-      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
+      if (
+        process.env.REACT_APP_ACCESS_PATH ===
+        'https://shopstg.royalcanin.com/fr/'
+      ) {
         this.setState({
           frequencyList: res,
           form: Object.assign(this.state.form, {
@@ -215,7 +221,7 @@ class Details extends React.Component {
             frequencyId: 3560
           })
         });
-      }else {
+      } else {
         this.setState({
           frequencyList: res,
           form: Object.assign(this.state.form, {
@@ -509,10 +515,11 @@ class Details extends React.Component {
               }
             }
           );
-          setSeoConfigCopy({ goodsId: res.context.goods.goodsId,
+          setSeoConfig({ goodsId: res.context.goods.goodsId,
             categoryId: '',
-            pageName: 'Product Detail Page' }).then(res => {
-            this.setState({seoConfig: res})
+            pageName: 'Product Detail Page'
+          }).then((res) => {
+            this.setState({ seoConfig: res });
           });
           // setSeoConfig({
           //   goodsId: res.context.goods.goodsId,
@@ -524,11 +531,25 @@ class Details extends React.Component {
             errMsg: <FormattedMessage id="details.errMsg" />
           });
         }
+
+        let sizeList = [];
+        let goodsInfos = res.context.goodsInfos || [];
+
         if (res && res.context && res.context.goodsSpecDetails) {
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
-          specList.map((sItem) => {
+          specList.map((sItem, index) => {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
+              if (index === 0) {
+                // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
+                let filterproduct = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+                )[0];
+                sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
+                sdItem.packSize = filterproduct.packSize;
+                filterproduct.goodsInfoVal = parseFloat(sdItem.detailName)
+                console.log(filterproduct, 'filterproduct')
+              }
               return sdItem.specId === sItem.specId;
             });
             sItem.chidren[0].selected = true;
@@ -536,8 +557,6 @@ class Details extends React.Component {
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-          let sizeList = [];
-          let goodsInfos = res.context.goodsInfos || [];
 
           sizeList = goodsInfos.map((g) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
@@ -555,48 +574,62 @@ class Details extends React.Component {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-              console.log(tmpGoodsDetail, 'tmpGoodsDetail')
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  console.log(tmpGoodsDetail[key], 'ghaha')
-                  if(process.env.REACT_APP_LANG === 'fr') {
-                    let tempObj = {}
-                    let tempContent = ''
-                    try{
-                      if(key === 'Description') {
-                        tmpGoodsDetail[key].map(el => {
-                          tempContent = tempContent + `<p>${Object.values(JSON.parse(el))[0]}</p>`
-                        })
-                      }else if(key === 'Bénéfices') {
-                        tmpGoodsDetail[key].map(el => {
-                          tempContent = tempContent + `<li>
-                            <div class="list_title">${Object.keys(JSON.parse(el))[0]}</div>
-                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${Object.values(JSON.parse(el))[0]['Description']}</div>
-                          </li>`
-                        })
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                        });
+                      } else if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
-                        </ul>`
-                      }else if(key === 'Composition') {
-                        tmpGoodsDetail[key].map(el => {
-                          tempContent = tempContent + `<p>
-                            <div class="title">${Object.keys(JSON.parse(el))[0]}</div>
-                            <div class="content">${Object.values(JSON.parse(el))[0]}</div> 
-                          </p>`
-                        })
-                      }else {
-                        tempContent = tmpGoodsDetail[key]
+                        </ul>`;
+                      } else if (key === 'Composition') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<p>
+                            <div class="title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="content">${
+                              Object.values(JSON.parse(el))[0]
+                            }</div> 
+                          </p>`;
+                        });
+                      } else {
+                        tempContent = tmpGoodsDetail[key];
                       }
                       goodsDetailTab.tabName.push(key);
                       goodsDetailTab.tabContent.push(tempContent);
-                    }catch(e) {
-                      console.log(e)
+                    } catch (e) {
+                      console.log(e);
                     }
-                  }else {
+                  } else {
                     goodsDetailTab.tabName.push(key);
                     goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
                   }
-                  console.log(tmpGoodsDetail[key], 'ghaha')
+                  console.log(tmpGoodsDetail[key], 'ghaha');
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
@@ -654,7 +687,7 @@ class Details extends React.Component {
             },
             () => {
               //Product Detail Page view 埋点start
-              this.GAProductDetailPageView(this.state.details)
+              this.GAProductDetailPageView(this.state.details);
               //Product Detail Page view 埋点end
               this.matchGoods();
             }
@@ -817,8 +850,10 @@ class Details extends React.Component {
       // this.props.updateSelectedData(this.state.form);
     });
   };
-  handleChooseSize(sId, sdId) {
-    debugger
+  handleChooseSize(sId, sdId, isSelected) {
+    if(isSelected) {
+      return
+    }
     let { specList } = this.state;
     specList
       .filter((item) => item.specId === sId)[0]
@@ -1202,12 +1237,12 @@ class Details extends React.Component {
       this.setState({ addToCartLoading: false });
     }
     if (this.state.isMobile) {
-      this.refs.showModalButton.click()
+      this.refs.showModalButton.click();
     } else {
-      headerCartStore.show()
+      headerCartStore.show();
       setTimeout(() => {
-        headerCartStore.hide()
-      }, 1000)
+        headerCartStore.hide();
+      }, 1000);
     }
   }
 
@@ -1311,6 +1346,11 @@ class Details extends React.Component {
   }
   //加入购物车，埋点
   GAAddToCar(num,item) {
+    let cur_selected_size = item.sizeList.filter((item2)=>{
+      return item2.selected == true
+    })
+    let variant = cur_selected_size[0].specText
+    let goodsInfoNo = cur_selected_size[0].goodsInfoNo
     let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
@@ -1319,25 +1359,25 @@ class Details extends React.Component {
           products: [
             {
               name: item.goodsName,
-              id: item.goodsNo,//已改
+              id: item.goodsNo,
               club: 'no',
-              type: form.buyWay==0?'one-time':'subscription',//?是否订阅
-              price: item.minMarketPrice,
+              type: form.buyWay==0?'one-time':'subscription',
+              price: form.buyWay==0?cur_selected_size[0].marketPrice:cur_selected_size[0].subscriptionPrice,
               brand: item.brandName||'Royal Canin',
-              category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',//已改
-              //variant: parseInt(item.goodsSpecDetails[0].detailName),
+              // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              variant: parseInt(variant),
               quantity: num,
-              recommendation: 'self-selected', //?self-selected, recommended
-              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo//已改
+              recommendation: 'self-selected',
+              sku: goodsInfoNo
             }
           ]
         }
       }
     });
-    console.log('添加购物车埋点dataLayer',dataLayer);
+    console.log('添加购物车埋点dataLayer', dataLayer);
   }
   //商品详情页 埋点
-  GAProductDetailPageView(item){
+  GAProductDetailPageView(item) {
     const event = {
       page: {
         type: 'product',
@@ -1357,24 +1397,24 @@ class Details extends React.Component {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
           actionField: {
-            list: ''//? list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+            list: this.state.GAListParam//list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           },
           products: [
             {
-              id: item.Id,//?goodsId客户反馈不对，id这里为空
+              id: item.goodsNo,//?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
               brand: item.brandName||'ROYAL CANIN',
               club: 'no',
-              category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
-              variant: parseInt(item.goodsSpecDetails[0].detailName),
+              // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
+              variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
             }
           ]
         }
       }
     };
-    this.setState({event,eEvents})
+    this.setState({ event, eEvents });
   }
   render() {
     const createMarkup = (text) => ({ __html: text });
@@ -1407,19 +1447,25 @@ class Details extends React.Component {
       eEvents
     } = this.state;
 
-
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    console.log(selectedSpecItem, 'selectedSpecItem');
 
     return (
       <div id="Details">
-        {
-          Object.keys(event).length>0?<GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />:null
-        }
+        {Object.keys(event).length > 0 ? (
+          <GoogleTagManager
+            additionalEvents={event}
+            ecommerceEvents={eEvents}
+          />
+        ) : null}
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -1553,17 +1599,21 @@ class Details extends React.Component {
                               >
                                 {details.goodsName}
                               </h1>
-                              <div
-                                className="desAndStars rc-margin-bottom--xs"
-                              >
+                              <div className="desAndStars rc-margin-bottom--xs">
                                 <div className="des">
                                   <h3 className="text-break mb-1 mt-2">
                                     {details.goodsSubtitle}
                                   </h3>
                                 </div>
-                                <div className="stars" style={{
-                                  display: process.env.REACT_APP_LANG == 'fr'? 'none': 'block'
-                                }}>
+                                <div
+                                  className="stars"
+                                  style={{
+                                    display:
+                                      process.env.REACT_APP_LANG == 'fr'
+                                        ? 'none'
+                                        : 'block'
+                                  }}
+                                >
                                   <div className="rc-card__price flex-inline">
                                     <div
                                       className="display-inline"
@@ -1671,11 +1721,18 @@ class Details extends React.Component {
                                         onClick={() =>
                                           this.handleChooseSize(
                                             sItem.specId,
-                                            sdItem.specDetailId
+                                            sdItem.specDetailId,
+                                            sdItem.selected
                                           )
                                         }
                                       >
-                                        <span>{sdItem.detailName}</span>
+                                        <span>
+                                          {parseFloat(sdItem.detailName)}{' '}
+                                          {sdItem.goodsInfoUnit}{' '}
+                                          {sdItem.packSize
+                                            ? `(${sdItem.packSize})`
+                                            : ''}
+                                        </span>
                                       </div>
                                     ))}
                                   </div>
@@ -1787,15 +1844,15 @@ class Details extends React.Component {
                                       (
                                         currentUnitPrice /
                                         parseFloat(
-                                          selectedSpecItem.baseSpecLabel
+                                          selectedSpecItem.goodsInfoVal
                                         )
                                       ).toFixed(2)
                                     )}
                                     /
-                                    {selectedSpecItem.baseSpecLabel &&
-                                      this.formatUnit(
-                                        selectedSpecItem.baseSpecLabel
-                                      )}
+                                    {selectedSpecItem.goodsInfoUnit}{' '}
+                                    {selectedSpecItem.packSize
+                                      ? `(${selectedSpecItem.packSize})`
+                                      : ''}
                                   </div>
                                 ) : null}
                               </div>
@@ -1826,10 +1883,7 @@ class Details extends React.Component {
                             }}
                             onClick={() => this.ChangeFormat(0)}
                           >
-                            <div
-                              className="radioBox"
-                              style={{ paddingTop: '1rem' }}
-                            >
+                            <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                 <FormattedMessage id="email">
                                   {(txt) => (
@@ -1892,14 +1946,14 @@ class Details extends React.Component {
                                   {formatMoney(
                                     (
                                       currentUnitPrice /
-                                      parseFloat(selectedSpecItem.baseSpecLabel)
+                                      parseFloat(selectedSpecItem.goodsInfoVal)
                                     ).toFixed(2)
                                   )}
                                   /
-                                  {selectedSpecItem.baseSpecLabel &&
-                                    this.formatUnit(
-                                      selectedSpecItem.baseSpecLabel
-                                    )}
+                                  {selectedSpecItem.goodsInfoUnit}{' '}
+                                  {selectedSpecItem.packSize
+                                    ? `(${selectedSpecItem.packSize})`
+                                    : ''}
                                 </div>
                               ) : null}
                             </div>
@@ -2011,15 +2065,15 @@ class Details extends React.Component {
                                         (
                                           currentSubscriptionPrice /
                                           parseFloat(
-                                            selectedSpecItem.baseSpecLabel
+                                            selectedSpecItem.goodsInfoVal
                                           )
                                         ).toFixed(2)
                                       )}
                                       /
-                                      {selectedSpecItem.baseSpecLabel &&
-                                        this.formatUnit(
-                                          selectedSpecItem.baseSpecLabel
-                                        )}
+                                      {selectedSpecItem.goodsInfoUnit}{' '}
+                                      {selectedSpecItem.packSize
+                                        ? `(${selectedSpecItem.packSize})`
+                                        : ''}
                                     </div>
                                   ) : null}
                                 </div>
@@ -2068,10 +2122,7 @@ class Details extends React.Component {
                               }}
                               onClick={() => this.ChangeFormat(1)}
                             >
-                              <div
-                                className="radioBox"
-                                style={{ paddingTop: '1rem' }}
-                              >
+                              <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                   <FormattedMessage id="email">
                                     {(txt) => (
@@ -2083,10 +2134,6 @@ class Details extends React.Component {
                                         name="buyWay"
                                         value="1"
                                         key="1"
-                                        // onChange={(event) =>
-                                        //   this.handleInputChange(event)
-                                        // }
-                                        // defaultChecked
                                         checked={form.buyWay === 1}
                                       />
                                     )}
@@ -2144,11 +2191,6 @@ class Details extends React.Component {
                                     id="saveExtra"
                                     values={{ val: '5%' }}
                                   />
-                                  {/* Save extra&nbsp;
-                                <b className="product-pricing__card__head__price rc-padding-y--none">
-                                  {formatMoney(currentUnitPrice - quantity * currentSubscriptionPrice)}
-                                  10%
-                                </b> */}
                                 </div>
                                 <br />
                                 <div className="freeshippingBox">
@@ -2199,15 +2241,15 @@ class Details extends React.Component {
                                       (
                                         currentSubscriptionPrice /
                                         parseFloat(
-                                          selectedSpecItem.baseSpecLabel
+                                          selectedSpecItem.goodsInfoVal
                                         )
                                       ).toFixed(2)
                                     )}
                                     /
-                                    {selectedSpecItem.baseSpecLabel &&
-                                      this.formatUnit(
-                                        selectedSpecItem.baseSpecLabel
-                                      )}
+                                    {selectedSpecItem.goodsInfoUnit}{' '}
+                                    {selectedSpecItem.packSize
+                                      ? `(${selectedSpecItem.packSize})`
+                                      : ''}
                                   </div>
                                 ) : null}
                               </div>
@@ -2241,7 +2283,7 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp; */}
                               <button
-                                style={{padding:'2px 30px'}}
+                                style={{ padding: '2px 30px' }}
                                 className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
                                   addToCartLoading ? 'ui-btn-loading' : ''
                                 } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}

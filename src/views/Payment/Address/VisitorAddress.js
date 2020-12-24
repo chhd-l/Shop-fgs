@@ -151,7 +151,8 @@ class VisitorAddress extends React.Component {
     const { panelStatus } = this;
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
-    
+    const {updateStepForAddress,paymentStep} = this.props.paymentStore
+
     const _editForm = (
       <EditForm
         type="delivery"
@@ -168,6 +169,16 @@ class VisitorAddress extends React.Component {
       : panelStatus.isCompleted
       ? this.titleJSXForCompeleted()
       : null;
+    
+    //更新地址栏填写状态
+    updateStepForAddress(panelStatus)
+    if(paymentStep[1].isCompleted){
+      // console.log(paymentStep[1])
+      // debugger
+      dataLayer[0].checkout.step = 3
+      //debugger
+    }
+    
     return (
       <>
         {this.props.titleVisible && (
@@ -197,19 +208,14 @@ class VisitorAddress extends React.Component {
                   {form.firstName + ' ' + form.lastName}
                 </span>
                 <br />
-                {form.postCode}, {form.phoneNumber}
-                <br />
-                {this.matchNamefromDict(
-                  this.state.countryList,
-                  form.country
-                )}{' '}
-                {form.cityName}
+                {form.phoneNumber}
                 <br />
                 {form.address1}
                 <br />
                 {form.address2}
                 {form.address2 ? <br /> : null}
-                {form.rfc}
+                {form.postCode}, {form.cityName},{' '}
+                {this.matchNamefromDict(this.state.countryList, form.country)}
               </div>
             )}
           </>
