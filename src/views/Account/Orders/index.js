@@ -708,17 +708,13 @@ class AccountOrders extends React.Component {
                                             this,
                                             order
                                           )}
+                                          className="text-nowrap"
                                         >
                                           <span className="rc-icon rc-pdf--xs rc-iconography" />
                                           <FormattedMessage id="invoice">
                                             {(txt) => (
                                               <span
-                                                className="medium pull-right--desktop rc-styled-link text-nowrap"
-                                                style={{
-                                                  textOverflow: 'ellipsis',
-                                                  overflow: 'hidden',
-                                                  maxWidth: '66%'
-                                                }}
+                                                className="medium pull-right--desktop rc-styled-link text-wrap"
                                                 title={txt}
                                               >
                                                 {txt}
@@ -728,20 +724,15 @@ class AccountOrders extends React.Component {
                                         </div>
                                       )}
                                     </div>
-                                    <div className="col-12 col-md-2 d-flex justify-content-end flex-column flex-md-row rc-padding-left--none--mobile">
+                                    <div className="col-12 col-md-2 text-nowrap">
                                       <FormattedMessage id="order.orderDetails">
                                         {(txt) => (
                                           <Link
-                                            className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse"
+                                            className="rc-btn rc-btn--icon-label rc-icon rc-news--xs rc-iconography rc-padding-right--none orderDetailBtn btn--inverse rc-btn--inverse text-wrap"
                                             to={`/account/orders/detail/${order.id}`}
                                           >
                                             <span
-                                              className="medium pull-right--desktop rc-styled-link text-nowrap"
-                                              style={{
-                                                textOverflow: 'ellipsis',
-                                                overflow: 'hidden',
-                                                maxWidth: '99%'
-                                              }}
+                                              className="medium pull-right--desktop rc-styled-link"
                                               title={txt}
                                             >
                                               {txt}

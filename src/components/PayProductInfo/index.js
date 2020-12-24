@@ -41,7 +41,7 @@ class PayProductInfo extends React.Component {
       sessionItemRoyal.set('recomment-preview', this.props.location.pathname);
       // this.props.history.push(`/details/${item.skuId}`);
       this.props.history.push(
-        `/${item.spuName.split(' ').join('-')}-${item.goodsNo}`
+        `/${item.spuName.split(' ').join('-').replace('/', ' ')}-${item.goodsNo}`
       );
     }
   }
