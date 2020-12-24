@@ -430,7 +430,7 @@ class Home extends React.Component {
               GAListParam: 'Catalogue'
             }
           }}
-          title={ele.cateName}
+          title={ele.altName || ele.cateName}
         >
           <picture className="category-cards__card__img">
             <source srcSet={ele.cateImgForHome} />

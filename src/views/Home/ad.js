@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
-import BannerFR from '@/assets/images/home/Banner-FR@2x.webp';
+import BannerFRLg from '@/assets/images/home/Banner-FR-lg@2x.png';
+import BannerFRMd from '@/assets/images/home/Banner-mob-FR-md@2x.png';
+import BannerFRSm from '@/assets/images/home/Banner-mob-sm-FR@2x.png';
 
 function Divider() {
   return (
@@ -66,28 +68,25 @@ export function Ads() {
               <div className="rc-full-width">
                 <div className="experience-component experience-assets-banner">
                   <div className="rc-max-width--xl rc-padding-x--sm rc-margin-y--sm rc-margin-y--lg--mobile portfolio-content">
-                    <Link to="/cats">
+                    <Link to="/cat-range/wet-products">
                       <picture data-rc-feature-objectfillpolyfill-setup="true">
                         <source
                           media="(max-width: 640px)"
-                          data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=400, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=600 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=800 2x"
-                          srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=400, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=600 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=800 2x"
+                          srcSet={BannerFRSm}
                         />
                         <source
                           media="(min-width: 640px) and (max-width: 769px)"
-                          data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=750, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=1125 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=1500 2x"
-                          srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=750, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=1125 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc5ac2a12/Homepage/Banner-mob-FR@2x.png?sw=1500 2x"
+                          srcSet={BannerFRMd}
                         />
                         <source
                           media="(min-width: 769px)"
-                          data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=1336, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2004 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2380 2x"
-                          srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=1336, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2004 1.5x, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc9d19f40/Homepage/Banner-FR@2x.png?sw=2380 2x"
+                          srcSet={BannerFRLg}
                         />
                         <img
                           className="w-100 lazyloaded"
                           alt="Large Gamme De Produits Royal Canin"
                           title="Large Gamme De Produits Royal Canin"
-                          src={BannerFR}
+                          src={BannerFRLg}
                         />
                       </picture>
                     </Link>
