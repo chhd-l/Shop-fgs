@@ -20,7 +20,7 @@
 .imageOutBox {
   width: 350px;
   height: 102px;
-  /* overflow: hidden; */
+  overflow: hidden;
   display: inline-block;
   position: relative;
 }
@@ -39,7 +39,7 @@
   /* height: 64px; */
 }
 .scrollOutBox {
-  width: 413px;
+  width: 414px;
   position: relative;
 }
 .rightArrow,.leftArrow {
