@@ -199,6 +199,9 @@ class Footer extends React.Component {
           {/* 底部横向链接 */}
           <MarsFooterMap />
         </div>
+        {/* <!-- OneTrust Cookies Settings button start --> */}
+        {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+        {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );
   }

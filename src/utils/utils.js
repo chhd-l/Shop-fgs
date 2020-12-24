@@ -191,13 +191,18 @@ export function loadJS({
   dataSets,
   code,
   className,
-  type
+  type,
+  id
 }) {
   var script = document.createElement('script');
   if (className) {
     script.className = className;
   }
   script.type = type || 'text/javascript';
+
+  if (id) {
+    script.id = id;
+  }
 
   if (dataSets) {
     for (let key in dataSets) {

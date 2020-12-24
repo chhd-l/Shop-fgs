@@ -430,7 +430,7 @@ class Home extends React.Component {
               GAListParam: 'Catalogue'
             }
           }}
-          title={ele.altName || ele.cateName}
+          title={ele.cateName}
         >
           <picture className="category-cards__card__img">
             <source srcSet={ele.cateImgForHome} />
@@ -438,7 +438,7 @@ class Home extends React.Component {
               <img
                 src={ele.cateImgForHome}
                 alt={ele.cateName}
-                title={ele.cateName}
+                title={ele.altName}
                 style={{ width: '144px' }}
               />
             </LazyLoad>
