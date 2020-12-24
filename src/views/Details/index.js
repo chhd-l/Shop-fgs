@@ -549,7 +549,7 @@ class Details extends React.Component {
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 )[0];
                 sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                filterproduct.goodsInfoVal = parseFloat(sdItem.detailName)
+                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
                 console.log(filterproduct, 'filterproduct')
               }
               return sdItem.specId === sItem.specId;
@@ -1750,8 +1750,8 @@ class Details extends React.Component {
                                         }
                                       >
                                         <span>
-                                          {parseFloat(sdItem.detailName)}{' '}
-                                          {sdItem.goodsInfoUnit}{' '}
+                                          {/* {parseFloat(sdItem.detailName)}{' '} */}
+                                          {sdItem.detailName}
                                         </span>
                                       </div>
                                     ))}
@@ -1864,7 +1864,7 @@ class Details extends React.Component {
                                       (
                                         currentUnitPrice /
                                         parseFloat(
-                                          selectedSpecItem.goodsInfoVal
+                                          selectedSpecItem.goodsInfoWeight
                                         )
                                       ).toFixed(2)
                                     )}
@@ -1963,7 +1963,7 @@ class Details extends React.Component {
                                   {formatMoney(
                                     (
                                       currentUnitPrice /
-                                      parseFloat(selectedSpecItem.goodsInfoVal)
+                                      parseFloat(selectedSpecItem.goodsInfoWeight)
                                     ).toFixed(2)
                                   )}
                                   /
@@ -2079,7 +2079,7 @@ class Details extends React.Component {
                                         (
                                           currentSubscriptionPrice /
                                           parseFloat(
-                                            selectedSpecItem.goodsInfoVal
+                                            selectedSpecItem.goodsInfoWeight
                                           )
                                         ).toFixed(2)
                                       )}
@@ -2252,7 +2252,7 @@ class Details extends React.Component {
                                       (
                                         currentSubscriptionPrice /
                                         parseFloat(
-                                          selectedSpecItem.goodsInfoVal
+                                          selectedSpecItem.goodsInfoWeight
                                         )
                                       ).toFixed(2)
                                     )}

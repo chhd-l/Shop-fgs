@@ -47,10 +47,9 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: isMobile? '230': ((props.config && props.config.width) || '350'),
+        width: isMobile? '230': ((props.config && props.config.width) || '250'),
         // 组件高
-        height: isMobile? '324': ((props.config && props.config.height) || '250')
-        // height: 'auto'
+        height: isMobile? '324': ((props.config && props.config.height) || '354')
       },
       // 缩略图
       minImg: '',
@@ -70,7 +69,7 @@ class ImageMagnifier extends Component {
           // width: "400px",
           // height: "400px",
           // border: "1px solid #ccc",
-          height: 'auto',
+          height: '354px',
           margin: '0 auto',
           cursor: 'move',
           position: 'relative'
@@ -99,9 +98,9 @@ class ImageMagnifier extends Component {
         //  放大镜容器样式
         magnifierContainer: {
           position: 'absolute',
-          left: '-350px',
+          left: '-250px',
           top: '0',
-          width: '350px',
+          width: '250px',
           height: '250px',
           border: '1px solid #ccc',
           overflow: 'hidden',
@@ -118,7 +117,7 @@ class ImageMagnifier extends Component {
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: isMobile? '230px': '350px',
+          width: isMobile? '230px': '250px',
           height: isMobile? '324px': '400px',
           position: 'absolute',
           top: 0,
@@ -174,7 +173,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 350
+        offsetX: isMobile? hoverIndex * 230: hoverIndex * 250
       });
     }
   }
@@ -186,30 +185,30 @@ class ImageMagnifier extends Component {
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
     }
-    this.setState({
-      currentImg: currentImg
-    });
-    this.updataImg(nextProps);
-    const { sizeList } = nextProps;
-    let selectedSizeInfo = sizeList.filter((item) => item.selected);
-    if (!selectedSizeInfo.length) {
-      selectedSizeInfo = [sizeList[0]];
-    }
-    if (selectedSizeInfo.length) {
-      let hoverIndex = 0;
-      images.map((el, i) => {
-        if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
-          hoverIndex = i;
-        }
-        return el;
-      });
-      this.setState({
-        currentImg: selectedSizeInfo[0].goodsInfoImg,
-        videoShow: false,
-        hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 350
-      });
-    }
+    // this.setState({
+    //   currentImg: currentImg
+    // });
+    // this.updataImg(nextProps);
+    // const { sizeList } = nextProps;
+    // let selectedSizeInfo = sizeList.filter((item) => item.selected);
+    // if (!selectedSizeInfo.length) {
+    //   selectedSizeInfo = [sizeList[0]];
+    // }
+    // if (selectedSizeInfo.length) {
+    //   let hoverIndex = 0;
+    //   images.map((el, i) => {
+    //     if (selectedSizeInfo[0].goodsInfoId === el.goodsInfoId) {
+    //       hoverIndex = i;
+    //     }
+    //     return el;
+    //   });
+    //   this.setState({
+    //     currentImg: selectedSizeInfo[0].goodsInfoImg,
+    //     videoShow: false,
+    //     hoverIndex,
+    //     offsetX: isMobile? hoverIndex * 230: hoverIndex * 250
+    //   });
+    // }
   }
 
   /**
@@ -240,8 +239,9 @@ class ImageMagnifier extends Component {
   };
   // 鼠标移动
   mouseMove = (event) => {
-    // console.log(event);
+    
     let e = event.nativeEvent;
+    console.log(event, 'event', e);
     this.calculationBlock(e.offsetX, e.offsetY);
   };
 
@@ -271,7 +271,7 @@ class ImageMagnifier extends Component {
     /* 计算图片放大位置 */
     cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
     cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
-
+    console.log(offsetX , cssStyle.imgStyle2.left,cssStyle.magnifierContainer.left, 'cssStyle')
     this.setState({
       cssStyle: cssStyle
     });
@@ -283,7 +283,7 @@ class ImageMagnifier extends Component {
     let params = JSON.parse(JSON.stringify(this.state.params));
     console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (350 + 'px');
+    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (250 + 'px');
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = params.width + 'px';
     cssStyle.magnifierContainer.height = params.height + 'px';
@@ -313,7 +313,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: isMobile? i * 230: i * 350
+      offsetX: isMobile? i * 230: i *250
     });
   }
   // 图片加载情况
@@ -404,7 +404,7 @@ class ImageMagnifier extends Component {
               {
                 spuImages.map((el, i) => (
                   <div key={i}>
-                    <LazyLoad>
+                    {/* <LazyLoad> */}
                     <img
                       id="J_detail_img"
                       style={cssStyle.imgStyle}
@@ -412,10 +412,9 @@ class ImageMagnifier extends Component {
                       srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
                       alt=""
                     />
-                    </LazyLoad>
+                    {/* </LazyLoad> */}
                   </div>
                 ))}
-              }
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -473,7 +472,7 @@ class ImageMagnifier extends Component {
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
                 width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5? '-10px': (this.state.positionLeft + 'px')
+                left: imgCount <= 5? '0': (this.state.positionLeft + 'px')
               }}
             >
               {spuImages.filter((el) => el.artworkUrl).length ? (
@@ -524,7 +523,7 @@ class ImageMagnifier extends Component {
                       videoShow: true,
                       cssStyle,
                       hoverIndex: images.length,
-                      offsetX: isMobile?images.length * 230: images.length * 350
+                      offsetX: isMobile?images.length * 230: images.length * 250
                     });
                   }}
                   src={video ? video : ''}

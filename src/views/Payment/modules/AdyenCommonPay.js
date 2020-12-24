@@ -3,8 +3,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import TermsCommon from '../Terms/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { searchNextConfirmPanel } from '../modules/utils';
-
+import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
+import { toJS } from 'mobx';
 @inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
@@ -90,9 +90,9 @@ class AdyenCommonPay extends Component {
   }
   handleClickConfirm = () => {
     this.setState({ isEdit: false });
-
     const { paymentStore } = this.props;
-    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    const curPanelKey = 'paymentMethod';
+    paymentStore.setStsToCompleted({ key: curPanelKey });
     const isReadyPrev = isPrevReady({
       list: toJS(paymentStore.panelStatus),
       curKey: curPanelKey

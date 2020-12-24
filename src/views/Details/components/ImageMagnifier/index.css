@@ -58,8 +58,8 @@
   transition: all .2s linear !important;
 }
 .bigImageInnerBox div {
-  width: 350px;
-  /* height: 250px; */
+  width: 250px;
+  height: 354px;
   float: left;
 }
 @media(max-width: 769px) {
