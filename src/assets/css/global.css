@@ -22267,6 +22267,10 @@ height: 0;
   overflow: hidden;
 }
 
+a.rc-styled-link,b.rc-styled-link,button.rc-styled-link,span.rc-styled-link {
+  border-bottom: 1px solid transparent
+}
+
 @media(min-width: 769px) {
   .p-md-2rem {
     padding: 2rem
