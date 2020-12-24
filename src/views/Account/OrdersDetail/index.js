@@ -1001,7 +1001,7 @@ class AccountOrders extends React.Component {
                   }`}
                 >
                   <div className="order_listing_details col-12 no-padding">
-                    <div className="card confirm-details orderDetailsPage ml-0 mr-0">
+                    <div className="card confirm-details orderDetailsPage ml-0 mr-0 border-0">
                       {this.state.loading ? (
                         <Skeleton
                           color="#f5f5f5"
