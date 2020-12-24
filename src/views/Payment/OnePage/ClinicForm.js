@@ -40,14 +40,19 @@ class ClinicForm extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
   componentDidMount() {
-    const n = this.props.clinicStore.clinicName;
+    const nName = this.props.clinicStore.clinicName;
+    const nId = this.props.clinicStore.clinicId;
+    if (nName && nId) {
+      this.setState({
+        form: Object.assign(this.state.form, {
+          clinicName: nName
+        })
+      });
+    }
     this.setState({
-      form: Object.assign(this.state.form, {
-        clinicName: n
-      }),
-      isEdit: !n
+      isEdit: !(nId && nName)
     });
-    if (this.prescriberMap || n) {
+    if (this.prescriberMap || (nName && nId)) {
       this.confirmToNextPanel();
     }
   }
