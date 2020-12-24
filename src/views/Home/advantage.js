@@ -3,6 +3,11 @@ import { FormattedMessage } from 'react-intl';
 import { formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 
+import pack from '@/assets/images/home/pack@2x.png';
+import autoship from '@/assets/images/home/autoship@2x.webp';
+import delivery from '@/assets/images/home/delivery@2x.png';
+import question from '@/assets/images/home/question@2x.png';
+
 export function Advantage() {
   const defaultJSX = (
     <>
@@ -11,7 +16,7 @@ export function Advantage() {
           <LazyLoad height={200}>
             <img
               className="value-proposition__img"
-              src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+              src={pack}
               alt=""
               title=""
             />
@@ -29,7 +34,7 @@ export function Advantage() {
           <LazyLoad height={200}>
             <img
               className="value-proposition__img"
-              src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+              src={delivery}
               alt=""
               title=""
             />
@@ -51,7 +56,7 @@ export function Advantage() {
           <LazyLoad height={200}>
             <img
               className="value-proposition__img"
-              src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw91a30682/homepage/question@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+              src={question}
               alt=""
               title=""
             />
@@ -153,9 +158,9 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={pack}
                   alt=""
                   title=""
                 />
@@ -174,9 +179,9 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw3df20153/Homepage/autoship@2x.png?sw=90&sh=90&sm=cut&sfrm=png"
+                  src={autoship}
                   alt=""
                   title=""
                 />
@@ -195,9 +200,9 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={delivery}
                   alt=""
                   title=""
                 />
@@ -221,9 +226,9 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw81db9340/Homepage/question@2x.png?sw=180&sh=180&sm=cut&sfrm=png"
+                  src={question}
                   alt=""
                   title=""
                 />
@@ -246,7 +251,7 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
                   src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                   alt=""
@@ -267,7 +272,7 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw3df20153/Homepage/autoship@2x.png?sw=90&sh=90&sm=cut&sfrm=png"
                   alt=""
@@ -288,7 +293,7 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
                   src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
                   alt=""
@@ -314,7 +319,7 @@ export function Advantage() {
             <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
               <LazyLoad height={200}>
                 <img
-                  style={{width:'80px'}}
+                  style={{ width: '80px' }}
                   className="value-proposition__img"
                   src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw81db9340/Homepage/question@2x.png?sw=180&sh=180&sm=cut&sfrm=png"
                   alt=""

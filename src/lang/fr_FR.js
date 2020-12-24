@@ -376,7 +376,7 @@ const fr_FR = {
   'home.point1': 'Paiement sécurisé',
   'home.point2': 'Satisfait ou remboursé',
   'home.point3': 'Qualité premium',
-  'home.point4': 'Livraison gratuite 72h',
+  'home.point4': 'Livraison offerte 72h',
   'home.point5': 'LA SANTÉ EST NOTRE OBSESSION DEPUIS 1968',
   'home.point6': 'ENSEMBLE, AVEC VOUS',
   'home.productsCategory': "Découvrez nos gammes d'aliments",
