@@ -134,8 +134,9 @@ const LoginCallback = (props) => {
       process.env.REACT_APP_HOMEPAGE === '/'
         ? (homePage = '')
         : (homePage = process.env.REACT_APP_HOMEPAGE);
-      window.location.href = homePage + '/required';
+      
       sessionItemRoyal.set('fromLoginPage', true);
+      window.location.href = homePage + '/required';
     }
   }, [oktaAuth, authStateReady]);
 

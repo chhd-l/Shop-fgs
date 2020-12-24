@@ -463,6 +463,8 @@ const es_ES = {
   'order.toBeDeliveredTip': 'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
   'order.toBePaidTip': 'Su pedido no ha sido pagado, pague lo antes posible. {val}',
   'order.viewOrder': 'Ver pedido',
+  'order.viewLogisticDetail': 'Ver detalle logístico',
+  'order.inTranistTip': 'Su pedido ha sido enviado y pronto recibirá el producto. {val}',
   orders: 'Pedidos',
   'orderStatus.AUDIT': 'Para ser entregado',
   'orderStatus.COMPLETED': 'Terminado',

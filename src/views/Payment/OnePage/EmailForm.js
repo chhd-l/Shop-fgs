@@ -68,9 +68,9 @@ class EmailForm extends React.Component {
     
     //更新邮件填写状态
     updateStepForEmail(toJS(paymentStore.emailPanelStatus))
-    if(paymentStep[0].isCompleted){
-      console.log(paymentStep[0])
-    }
+    // if(paymentStep[0].isCompleted){
+    //   console.log(paymentStep[0])
+    // }
 
     const titleForPrepare = (
       <>

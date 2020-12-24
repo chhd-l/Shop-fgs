@@ -493,6 +493,8 @@ const en_US = {
   'order.toBeDeliveredTip': 'Your order has been successfully paid and we are preparing to ship.',
   'order.toBePaidTip': 'Your order has not been paid, please pay as soon as possible. {val}',
   'order.viewOrder': 'View order',
+  'order.viewLogisticDetail': 'View logistic detail',
+  'order.inTranistTip': 'Your order has been shipped and you will receive the product soon. {val}',
   orders: 'Orders',
   'orderStatus.AUDIT': 'To be delivered',
   'orderStatus.COMPLETED': 'Completed',

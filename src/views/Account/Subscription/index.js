@@ -360,7 +360,7 @@ class Subscription extends React.Component {
                                         </p>
                                         <p>
                                           {item.specText} - {item.subscribeNum}{' '}
-                                          <FormattedMessage id="footer.products" />
+                                          <FormattedMessage id="units" />
                                         </p>
                                         <p>
                                           <FormattedMessage id="subscription.frequency" />

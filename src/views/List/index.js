@@ -73,7 +73,7 @@ function ListItem(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                ? `/${item.lowGoodsName.split(' ').join('-').replace('/', ' ').replace('/', ' ')}-${item.goodsNo}`
                 : '',
               state: {
                 GAListParam
@@ -149,7 +149,7 @@ function ListItemPC(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                ? `/${item.lowGoodsName.split(' ').join('-').replace('/', ' ')}-${item.goodsNo}`
                 : '',
               state: {
                 GAListParam: GAListParam
