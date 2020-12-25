@@ -430,7 +430,7 @@ class LoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
-        'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
+        'category': product.goods.goodsCateName,
         'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
