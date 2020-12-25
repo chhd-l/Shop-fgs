@@ -1331,11 +1331,9 @@ class List extends React.Component {
           <div className="search-results rc-max-width--xl pt-sm-1">
             <div className="search-nav border-bottom-0">
               {keywords ? (
-                <div className="nav-tabs-wrapper rc-text--center">
-                  <div className="rc-intro">
-                    <FormattedMessage id="list.youSearchedFor" />:
-                  </div>
-                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                <div class="rc-padding-y--md--mobile rc-text--center">
+                  <div class="rc-intro"><FormattedMessage id="list.youSearchedFor" />:</div>
+                  <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <b>"{keywords}"</b>(
                     <FormattedMessage id="results" values={{ val: results }} />)
                   </div>
