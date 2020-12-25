@@ -58,6 +58,7 @@ function getMuntiImg(item) {
 }
 function ListItem(props) {
   const { item, GAListParam } = props;
+  // console.log('★★★★★★★★★ item: ',item);
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
@@ -67,64 +68,55 @@ function ListItem(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="h-100">
-          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
           <Link
             className="ui-cursor-pointer"
             to={{
               pathname: item
                 ? `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${item.goodsNo}`
-                : '',
-              state: {
-                GAListParam
-              }
+                : '', state: { GAListParam }
             }}
             onClick={props.onClick}
           >
-            <article className="rc-card--a rc-text--center text-center">
+            <article className="rc-card--a rc-text--center text-center" style={{ flexWrap: 'wrap' }}>
               {item ? (
-                <picture
-                  className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0"
-                  style={{ margin: '0 !important' }}
-                >
-                  <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem', overflow: 'hidden' }}
-                  >
-                    {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', heigth: '100%' }}>
-                      <img
-                        src={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT
-                        }
-                        // srcSet={
-                        //   item ? getMuntiImg(item) : IMG_DEFAULT
-                        //   // item.goodsImg ||
-                        //   // item.goodsInfos.sort(
-                        //   //   (a, b) => a.marketPrice - b.marketPrice
-                        //   // )[0].goodsInfoImg ||
-                        //   // IMG_DEFAULT
-                        // }
-                        alt={item.goodsName}
-                        title={item.goodsName}
-                        className="ImgFitScreen pt-3"
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '100%',
-                          width: '150px',
-                          height: 'auto',
-                          margin: 'auto'
-                        }}
-                      />
-                    </LazyLoad>
-                  </div>
+                <picture className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope" style={{
+                  marginLeft: '-10px',
+                  paddingLeft: '5px',
+                  paddingRight: '15px',
+                  fontSize: '0'
+                }} >
+                  {/*循环遍历的图片*/}
+                  <LazyLoad style={{ width: '100%', heigth: '100%' }}>
+                    <img
+                      src={
+                        item.goodsImg ||
+                        item.goodsInfos.sort(
+                          (a, b) => a.marketPrice - b.marketPrice
+                        )[0].goodsInfoImg ||
+                        IMG_DEFAULT
+                      }
+                      alt={item.goodsName}
+                      title={item.goodsName}
+                      className="ImgFitScreen"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        width: 'auto',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                    />
+                  </LazyLoad>
                 </picture>
               ) : null}
               {props.children}
+
+              {item ? (
+                <div class="rc-card__meta text-center col-12" style={{ margin: '0' }}>
+                  {item.goodsSubtitle}
+                </div>
+              ) : null}
+
             </article>
           </Link>
         </div>
@@ -143,8 +135,6 @@ function ListItemPC(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="fullHeight">
-          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
           <Link
             className="ui-cursor-pointer"
             to={{
@@ -200,17 +190,33 @@ function ListItemPC(props) {
 }
 function ListItemBody({ item }) {
   return (
+    // <div
+    //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
+    //   style={{ paddingRight: '3rem' }}
+    // >
     <div
       className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-      style={{ paddingRight: '3rem' }}
+      style={{ paddingRight: '0' }}
     >
       <div className="product-name" title={item.goodsName}>
         {' '}
         {item.goodsName}
       </div>
       <div className="product-price">
-        {/* {formatMoney(item.miLinePrice)} */}
+        {item.toPrice ? (
+          <span className="mr-1" style={{ fontSize: '.8em' }}>
+            <FormattedMessage id="startFrom" />
+          </span>
+        ) : null}
         {formatMoney(item.fromPrice)}
+        {item.toPrice ? (
+          <>
+            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+              <FormattedMessage id="startEnd" />
+            </span>
+            {formatMoney(item.toPrice)}
+          </>
+        ) : null}
       </div>
     </div>
   );
@@ -364,17 +370,17 @@ function ListItemBodyPC({ item }) {
                   ) : null}
                 </span>
               </div>
-      
+
             </div>
-      
+
           </div>
-          <div class="rc-card__meta text-center col-12" style={{padding: '0', marginBottom: '10px'}}>
+          <div class="rc-card__meta text-center col-12" style={{ padding: '0', marginBottom: '10px' }}>
             {item.goodsSubtitle}
           </div>
         </>
       ) : (
-        defaultJSX
-      )}
+          defaultJSX
+        )}
     </div>
   );
 }
@@ -476,8 +482,8 @@ class List extends React.Component {
           category && category.toLocaleLowerCase() === 'keywords'
             ? keywords
             : keywordsSearch
-            ? keywordsSearch
-            : '',
+              ? keywordsSearch
+              : '',
         cateType: { '/cats': 'cats', '/dogs': 'dogs' }[pathname] || ''
       },
       () => {
@@ -518,7 +524,7 @@ class List extends React.Component {
               // category: item.goodsCateName
               //   ? JSON.parse(item.goodsCateName)[0]
               //   : '',
-              category:item.goodsCateName,
+              category: item.goodsCateName,
               list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
@@ -539,7 +545,7 @@ class List extends React.Component {
         price: item.minMarketPrice,
         club: 'no',
         //category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
-        category:item.goodsCateName,
+        category: item.goodsCateName,
         list: this.state.GAListParam, //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
@@ -637,7 +643,7 @@ class List extends React.Component {
                 filters = tmpFilter;
               }
             }
-          } catch (err) {}
+          } catch (err) { }
         }
         // 生成面包屑
         const targetId =
@@ -651,8 +657,8 @@ class List extends React.Component {
             targetRouter && targetRouter.id
               ? 'id'
               : targetRouter && targetRouter.storeCateId
-              ? 'storeCateId'
-              : ''
+                ? 'storeCateId'
+                : ''
         })
           .map((e) => ({
             ...e,
@@ -956,9 +962,8 @@ class List extends React.Component {
       .concat(goodsFilterRelList)
       .slice(0, 1)
       .map((item, i) => {
-        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${
-          i + 1
-        }=${item.attributeValues.join('|')}`;
+        urlPreVal += `${i ? '&' : ''}prefn${i + 1}=${item.attributeName}&prefv${i + 1
+          }=${item.attributeValues.join('|')}`;
         return item;
       });
     // 点击filter，触发局部刷新或整页面刷新
@@ -1322,7 +1327,8 @@ class List extends React.Component {
             </div>
           ) : null}
           <div id="J-product-list" />
-          <div className="search-results rc-max-width--xl pt-4 pt-sm-1">
+          {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
+          <div className="search-results rc-max-width--xl pt-sm-1">
             <div className="search-nav border-bottom-0">
               {keywords ? (
                 <div class="rc-padding-y--md--mobile rc-text--center">
@@ -1357,9 +1363,8 @@ class List extends React.Component {
                       <FormattedMessage id="filters" />
                     </button>
                     <aside
-                      className={`rc-filters border-top ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters border-top ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       {isMobile ? (
                         <Filters
@@ -1377,21 +1382,21 @@ class List extends React.Component {
                           }
                         />
                       ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`1-${filterList.length}`}
-                          inputLabelKey={1}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      )}
+                          <FiltersPC
+                            history={history}
+                            maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`1-${filterList.length}`}
+                            inputLabelKey={1}
+                            updateParentData={this.updateOperatedFilterList}
+                            hanldePriceSliderChange={this.hanldePriceSliderChange}
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                          />
+                        )}
                     </aside>
                   </div>
 
@@ -1442,12 +1447,11 @@ class List extends React.Component {
                         )}
                       </span>
                       <i
-                        className={`rc-icon rc-filter--xs rc-iconography ${
-                          (filterModalVisible && !isTop) ||
+                        className={`rc-icon rc-filter--xs rc-iconography ${(filterModalVisible && !isTop) ||
                           (!filterModalVisible && isTop)
-                            ? 'rc-brand1'
-                            : ''
-                        }`}
+                          ? 'rc-brand1'
+                          : ''
+                          }`}
                         data-filter-trigger="filter-example"
                         style={{ position: 'relative', top: '0.4rem' }}
                         onClick={this.toggleFilterModal.bind(
@@ -1462,9 +1466,8 @@ class List extends React.Component {
                       /> */}
                     </div>
                     <aside
-                      className={`rc-filters ${
-                        filterModalVisible ? 'active' : ''
-                      }`}
+                      className={`rc-filters ${filterModalVisible ? 'active' : ''
+                        }`}
                     >
                       {isMobile ? (
                         <Filters
@@ -1482,21 +1485,21 @@ class List extends React.Component {
                           }
                         />
                       ) : (
-                        <FiltersPC
-                          history={history}
-                          maxGoodsPrice={this.props.configStore.maxGoodsPrice}
-                          initing={initingFilter}
-                          onToggleFilterModal={this.toggleFilterModal}
-                          filterList={filterList}
-                          key={`2-${filterList.length}`}
-                          inputLabelKey={2}
-                          updateParentData={this.updateOperatedFilterList}
-                          hanldePriceSliderChange={this.hanldePriceSliderChange}
-                          markPriceAndSubscriptionLangDict={
-                            markPriceAndSubscriptionLangDict
-                          }
-                        />
-                      )}
+                          <FiltersPC
+                            history={history}
+                            maxGoodsPrice={this.props.configStore.maxGoodsPrice}
+                            initing={initingFilter}
+                            onToggleFilterModal={this.toggleFilterModal}
+                            filterList={filterList}
+                            key={`2-${filterList.length}`}
+                            inputLabelKey={2}
+                            updateParentData={this.updateOperatedFilterList}
+                            hanldePriceSliderChange={this.hanldePriceSliderChange}
+                            markPriceAndSubscriptionLangDict={
+                              markPriceAndSubscriptionLangDict
+                            }
+                          />
+                        )}
                     </aside>
                   </div>
                   <div
@@ -1557,122 +1560,121 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
-                        <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
-                          {loading
-                            ? _loadingJXS
-                            : productList.map((item, i) =>
+                        <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                          <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
+                            {loading
+                              ? _loadingJXS
+                              : productList.map((item, i) =>
                                 process.env.REACT_APP_LANG === 'fr' &&
-                                isMobile ? (
-                                  <ListItem
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text fr-label"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
+                                  isMobile ? (
+                                    <ListItem key={item.id}
+                                      leftPromotionJSX={
+                                        item.taggingForText ? (
+                                          <div
+                                            className="product-item-flag-text fr-label"
                                             style={{
-                                              width: 'inherit',
-                                              height: 'inherit'
+                                              backgroundColor:
+                                                item.taggingForText
+                                                  .taggingFillColor,
+                                              color:
+                                                item.taggingForText
+                                                  .taggingFontColor
                                             }}
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={this.state.GAListParam}
-                                  >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBody item={item} />
-                                    ) : (
-                                      <ListItemBodyPC item={item} />
-                                    )}
-                                  </ListItem>
-                                ) : (
-                                  <ListItemPC
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text"
-                                          style={{
-                                            backgroundColor:
-                                              item.taggingForText
-                                                .taggingFillColor,
-                                            color:
-                                              item.taggingForText
-                                                .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={this.state.GAListParam}
-                                  >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBody item={item} />
-                                    ) : (
-                                      <ListItemBodyPC item={item} />
-                                    )}
-                                  </ListItemPC>
-                                )
+                                          >
+                                            {item.taggingForText.taggingName}
+                                          </div>
+                                        ) : null
+                                      }
+                                      rightPromotionJSX={
+                                        item.taggingForImage ? (
+                                          <div className="product-item-flag-image position-absolute">
+                                            <img
+                                              style={{
+                                                width: 'inherit',
+                                                height: 'inherit'
+                                              }}
+                                              src={
+                                                item.taggingForImage.taggingImgUrl
+                                              }
+                                            />
+                                          </div>
+                                        ) : null
+                                      }
+                                      onClick={this.hanldeItemClick.bind(
+                                        this,
+                                        item,
+                                        i
+                                      )}
+                                      item={item}
+                                      GAListParam={this.state.GAListParam}
+                                    >
+                                      {process.env.REACT_APP_LANG === 'fr' &&
+                                        isMobile ? (
+                                          <ListItemBody item={item} />
+                                        ) : (
+                                          <ListItemBodyPC item={item} />
+                                        )}
+                                    </ListItem>
+                                  ) : (
+                                    <ListItemPC
+                                      key={item.id}
+                                      leftPromotionJSX={
+                                        item.taggingForText ? (
+                                          <div
+                                            className="product-item-flag-text"
+                                            style={{
+                                              backgroundColor:
+                                                item.taggingForText
+                                                  .taggingFillColor,
+                                              color:
+                                                item.taggingForText
+                                                  .taggingFontColor
+                                            }}
+                                          >
+                                            {item.taggingForText.taggingName}
+                                          </div>
+                                        ) : null
+                                      }
+                                      rightPromotionJSX={
+                                        item.taggingForImage ? (
+                                          <div className="product-item-flag-image position-absolute">
+                                            <img
+                                              src={
+                                                item.taggingForImage.taggingImgUrl
+                                              }
+                                            />
+                                          </div>
+                                        ) : null
+                                      }
+                                      onClick={this.hanldeItemClick.bind(
+                                        this,
+                                        item,
+                                        i
+                                      )}
+                                      item={item}
+                                      GAListParam={this.state.GAListParam}
+                                    >
+                                      {process.env.REACT_APP_LANG === 'fr' &&
+                                        isMobile ? (
+                                          <ListItemBody item={item} />
+                                        ) : (
+                                          <ListItemBodyPC item={item} />
+                                        )}
+                                    </ListItemPC>
+                                  )
                               )}
-                        </article>
-                        <div className="grid-footer rc-full-width">
-                          <Pagination
-                            loading={this.state.loading}
-                            defaultCurrentPage={this.state.currentPage}
-                            key={this.state.currentPage}
-                            totalPage={this.state.totalPage}
-                            onPageNumChange={this.hanldePageNumChange}
-                          />
+                          </article>
+                          <div className="grid-footer rc-full-width" style={{ marginTop: '0.5rem' }}>
+                            <Pagination
+                              loading={this.state.loading}
+                              defaultCurrentPage={this.state.currentPage}
+                              key={this.state.currentPage}
+                              totalPage={this.state.totalPage}
+                              onPageNumChange={this.hanldePageNumChange}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                 </div>
               </div>
