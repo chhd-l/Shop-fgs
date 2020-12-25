@@ -77,11 +77,10 @@ class PetForm extends React.Component {
       isMix: false,
       breed: '',
       weight: '',
-      isSterilized: null,
+      isSterilized: true,
       birthdate: '',
       sizeArr: [],
       specialNeeds: [],
-
       selectedSpecialNeeds: [],
       selectedSpecialNeedsObj: {
         value: ''
@@ -344,7 +343,7 @@ class PetForm extends React.Component {
       petsSizeValueId: '10086',
       petsSizeValueName: this.state.weight,
       petsType: this.state.isCat ? 'cat' : 'dog',
-      sterilized: this.state.isSterilized ? '0' : '1',
+      sterilized: this.state.isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID
     };
     // if (this.state.isUnknown) {
@@ -518,7 +517,9 @@ class PetForm extends React.Component {
 
     getDict({
       type: this.state.isCat ? 'catBreed' : 'dogBreed',
-      name: e.target.value
+      name: e.target.value,
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
     })
       .then((res) => {
         this.setState({
@@ -605,7 +606,7 @@ class PetForm extends React.Component {
       breed:
         currentPet.petsBreed === 'unknown Breed' ? '' : currentPet.petsBreed,
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
-      isSterilized: currentPet.sterilized === 0 ? true : false,
+      isSterilized: currentPet.sterilized === 1 ? true : false,
       birthdate: currentPet.birthOfPets
     };
     if (currentPet.petsBreed === 'unknown Breed') {

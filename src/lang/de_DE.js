@@ -984,5 +984,6 @@ const de_DE = {
   'pet.petListTitle': 'Erstellen und verwalten Sie das Profil Ihres Tieres.',
   'pet.addNewPet': 'Fügen Sie ein neues Tier hinzu',
   'pet.deletePet': 'Haustierprofil löschen',
+  'mixed Breed': 'gemischte Rasse',
 }
 export default de_DE;
