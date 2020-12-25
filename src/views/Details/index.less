@@ -189,15 +189,16 @@ ul.ui-star-list li:before {
     display: flex;
   }
   #Details .choices[data-type*=select-one]:after {
-    margin-top: -11.5px;
+    //margin-top: -11.5px;
+    top: 1.1rem;
   }
   #Details .buyMethod {
     display: block;
     // border: 1px solid #e2001a;
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 15px 20px;
-
+    padding: 12px 20px 20px 20px;
+    margin-top: 1rem;
     .radioBox {
       flex: 2;
     }
@@ -214,18 +215,73 @@ ul.ui-star-list li:before {
         flex: 2;
       }
     }
-
+    .freqency2 {
+      height: 2.2rem!important;
+    }
+    .freqency3 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      height: 2.2rem!important;
+      align-items: flex-end;
+      span {
+        line-height: 1rem;
+      }
+    }
     .price {
       flex: 1;
       padding-top: .5rem;
       font-weight: 400;
     }
   }
+  .choices__inner {
+    position: relative;
+    bottom: .5rem;
+  }
   #Details .desAndStars .stars {
     padding-top: 0;
   }
   #Details .desAndStars .rate img {
     width: 18px;
+  }
+  .specAndQuantity {
+    display: flex;
+    flex-direction: column;
+
+    .spec {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .Quantity {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      .amount {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .quantity {
+        justify-content: flex-end!important;
+      }
+    }
+    .rc-quantity {
+      margin: 0;
+    }
+  }
+  .rc-down, .rc-up {
+    display: inline-block;
+    transform: scale(.7);
+  }
+  .rc-list__header {
+    padding: .5rem;
+    align-items: center;
+
+  }
+  .choices__list--dropdown {
+    margin-top: .5rem!important;
   }
 }
 
@@ -237,12 +293,14 @@ ul.ui-star-list li:before {
 
   .showItem>div:first-child {
     color: red;
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   .hiddenItem>div:first-child {
     color: #666;
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   .hiddenItem>div:last-child {
@@ -300,6 +358,11 @@ ul.ui-star-list li:before {
   }
   dl[data-toggle-effect]:first-child > .rc-list__accordion-item:first-child {
     border-width: 2px;
+
+  }
+  .rc-list__accordion-item {
+    border-top: none;
+    margin: 0 15px;
   }
 }
 
