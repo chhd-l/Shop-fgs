@@ -6,14 +6,15 @@ const api = {
   returnTrade: '/return/trade',
   return: '/return',
   returnAdd: '/return/add',
-  cancelOrder: '/tradeCustom/cancelAndRefund',
+  cancelOrder: `/trade-custom/cancel-refund/`,
+  // cancelOrder: '/tradeCustom/cancelAndRefund',
   returnReason: '/return/reasons',
   returnWays: '/return/ways',
   returnList: 'return/page',
   payRecord: '/pay/record',
   returnFindByTid: '/return/findByTid',
-
-  addEvaluate: '/evaluate/addEvaluate',
+  addEvaluate: '/evaluate',
+  // addEvaluate: '/evaluate/addEvaluate',
   logistics: '/trade/logistics/refresh', // 查询物流信息
   exportInvoicePDF: '/account/orderInvoice/exportPDF/'
 };

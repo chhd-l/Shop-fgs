@@ -1,14 +1,14 @@
 import axios from '@/utils/request'
 
 const api = {
-  getFaq:'/store/storeFAQList'
+  getFaq:`/faqs/${process.env.REACT_APP_STOREID}`
 }
 
 export default api
 export function getFaq(data) {
   return axios({
     url: `${api.getFaq}`,
-    method: 'post',
-    data
+    method: 'get',
+    params: data
   })
 }
