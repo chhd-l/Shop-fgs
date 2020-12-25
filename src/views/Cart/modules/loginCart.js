@@ -437,7 +437,7 @@ class LoginCart extends React.Component {
         'sku':product.goodsInfoNo
     }]
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       'ecommerce': {
            'remove': {
                  'products': list

@@ -167,7 +167,7 @@ class Confirmation extends React.Component {
           name: item.spuName,
           price: item.price,
           brand: 'Royal Canin',
-          category: item.cateName,
+          category: item.goodsCateName,
           quantity: item.num,
           variant: item.specDetails?parseInt(item.specDetails):'',
           sku: item.skuNo,
