@@ -6,6 +6,8 @@ const api = {
   queryCityNameById: '/system-city/query-system-city-by-id',
   queryCityByName: '/system-city/query-system-city-by-name',
   buryPoint: '/wm.gif',
+  // "Invalid or Expired jwtToken" apiupdate
+  // buryPoint: `/${process.env.REACT_APP_STOREID}/fgs.gif`,
   getConfig: '/initConfig/getConfig',
   navigations: '/navigations', //  查询二级菜单
   seo:'seo/setting'

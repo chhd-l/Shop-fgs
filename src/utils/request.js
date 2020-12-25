@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -24,6 +25,14 @@ service.interceptors.request.use((config) => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }
+  if(config.method&&config.method.toLocaleLowerCase() === 'get'){
+      Object.assign(config,{
+        paramsSerializer: function (params) {
+          return qs.stringify(params, { arrayFormat: "indices" });
+        }
+      })
+      console.info('testtest',config)
+    }
   config.headers['Accept-Language'] = {
     en: 'en-US',
     es: 'es-MX',

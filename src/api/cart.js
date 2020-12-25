@@ -3,12 +3,12 @@ import axios from '@/utils/request'
 const api = {
   miniPurchases: '/site/front/miniPurchases',
   purchases: '/site/front/purchases',
-
-  sitePurchase: '/site/purchase', // 加入后台购物车
+  // sitePurchase: '/site/purchase', // 加入后台购物车
+  sitePurchase: `/site/${process.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
   siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
   sitePurchases: '/site/purchases', // 计算价格
-  mergePurchase: '/site/mergePurchase', // 合并前后台购物车
-  switchSize: '/site/updatePurchase', // 切换规格
+  mergePurchase: `/site/${process.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
+  switchSize: `/site/${process.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
   goodsRelationBatch: '/goodsRelation/batch',//购物车related product
 }
 
@@ -101,7 +101,7 @@ export function mergePurchase (parameter) {
 export function switchSize (parameter) {
   return axios({
     url: `${api.switchSize}`,
-    method: 'post',
+    method: 'put',
     data: parameter
   })
 }

@@ -1,6 +1,8 @@
 import axios from '@/utils/request';
 
 const api = {
+  // apiupdate erreur de fonctionnement 原本接口就报错
+  // details: '/guest/products',
   details: '/goods/unLogin/spu',
   loginDetails: '/goods/spu',
   detailsBySpu: '/goods/spu_no',

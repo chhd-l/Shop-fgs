@@ -1,12 +1,13 @@
 import axios from '@/utils/request';
 
 const api = {
-  visitorRegisterAndLogin: '/visitorRegisterAndLogin',
-  batchAdd: '/site/batchAdd',
-  confirmAndCommit: '/tradeCustom/confirmCommitAndPay',
-  addOrUpdatePaymentMethod: '/payment-method/updata',
+  visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
+  batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
+  confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
+  // addOrUpdatePaymentMethod: '/payment-method/updata',
+  addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/payment-method`,
   getPaymentMethod: '/payment-method/query-by-customer-id',
-  deleteCard: '/payment-method/delete-by-id',
+  deleteCard: '/payment-method',
   setDefaltCard: '/payment-method/default',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
@@ -63,8 +64,8 @@ export function getPaymentMethod(parameter) {
 
 export function deleteCard(para) {
   return axios({
-    url: api.deleteCard,
-    method: 'post',
+    url: `${api.deleteCard}/${para.id}`,
+    method: 'delete',
     data: para
   });
 }

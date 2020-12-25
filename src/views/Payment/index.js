@@ -966,7 +966,7 @@ class Payment extends React.Component {
         // clinicStore.setDefaultClinicId(clinicStore.clinicId);
         // clinicStore.setDefaultClinicName(clinicStore.clinicName);
       }
-
+      
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
         this.props.history.push('/confirmation');

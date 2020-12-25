@@ -21,7 +21,6 @@ import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
 import refreshImg from './images/refresh.png';
 //import { getPetList } from '@/api/pet';
-//import { getCustomerInfo } from '@/api/user';
 import {
   updateBackendCart,
   deleteItemFromBackendCart,

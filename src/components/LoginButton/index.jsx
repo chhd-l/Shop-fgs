@@ -44,7 +44,7 @@ const LoginButton = (props) => {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
       const parametersString = history.location.search;
-      if(!parametersString) {
+      if (!parametersString) {
         return;
       }
     } else {
@@ -55,14 +55,14 @@ const LoginButton = (props) => {
           setUserInfo(info);
           const oktaToken = authState.accessToken ? authState.accessToken.value : '';
           const consentString = localItemRoyal.get('rc-consent-list');
-          if(consentString && loginStore.isLogin) {
+          if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
             userBindConsent({
               ...submitParam,
               ...{ oktaToken }
-            }).then(res=>{
-              if(res.code === 'K-000000') {
+            }).then(res => {
+              if (res.code === 'K-000000') {
                 history.push('/')
               }
             }).catch((e) => {
@@ -75,21 +75,22 @@ const LoginButton = (props) => {
                 // GA 登录成功埋点 start
                 dataLayer.push(
                   {
-                    event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
-                    interaction:{
-                    category:'registration',
-                    action:'login',
-                    label:'',
-                    value:1
-                  },
-                  })        
+                    event: `${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                    interaction: {
+                      category: 'registration',
+                      action: 'login',
+                      label: '',
+                      value: 1
+                    },
+                  })
                 // GA 登陆成功埋点 end
                 let userinfo = res.context.customerDetail;
                 loginStore.changeLoginModal(false);
                 loginStore.changeIsLogin(true);
-
+                
                 localItemRoyal.set('rc-token', res.context.token);
-                let customerInfoRes = await getCustomerInfo();
+                let customerId = userinfo &&userinfo.customerId
+                let customerInfoRes = await getCustomerInfo({ customerId });
                 userinfo.defaultClinics =
                   customerInfoRes.context.defaultClinics;
                 loginStore.setUserInfo(customerInfoRes.context);
@@ -123,7 +124,7 @@ const LoginButton = (props) => {
       sessionItemRoyal.set('okta-redirectUrl', props.history.location.pathname);
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const bindSubmitParam = (list) => {

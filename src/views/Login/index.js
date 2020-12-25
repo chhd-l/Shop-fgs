@@ -109,7 +109,9 @@ class Login extends React.Component {
     // this.inputBlur(e);
     this.setState({ loginForm: loginForm });
   }
-
+  get getUserInfo() {
+    return this.props.loginStore.userInfo;
+  }
   registerFormChange = ({ field, value }) => {
     const { registerForm } = this.state;
     registerForm[field] = value;
@@ -127,13 +129,15 @@ class Login extends React.Component {
     this.props.loginStore.removeUserInfo();
 
     const { history } = this.props;
+    let customerId =  this.getUserInfo &&  this.getUserInfo.customerId
     login(this.state.loginForm)
       .then((res) => {
+        debugger
         localItemRoyal.set('rc-token', res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-
-        getCustomerInfo()
+        console.info('customerId1',customerId)
+        getCustomerInfo({customerId})
           .then((customerInfoRes) => {
             if (res.code === 'K-000000') {
               userinfo.defaultClinics = customerInfoRes.context.defaultClinics;
