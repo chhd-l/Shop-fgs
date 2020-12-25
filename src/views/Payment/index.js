@@ -945,6 +945,10 @@ class Payment extends React.Component {
             ); // 只移除selected
             sessionItemRoyal.remove('rc-token');
           }
+          // 给klana支付跳转用
+          if (res.context.pId) {
+            sessionItemRoyal.set('orderNumber', res.context.pId);
+          }
           window.location.href = res.context.url;
           break;
         default:
