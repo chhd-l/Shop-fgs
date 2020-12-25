@@ -430,14 +430,14 @@ class LoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
-        'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
+        'category': product.goods.goodsCateName,
         'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
         'sku':product.goodsInfoNo
     }]
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCartt`,
+      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComRemoveFromCart`,
       'ecommerce': {
            'remove': {
                  'products': list
@@ -1216,8 +1216,7 @@ class LoginCart extends React.Component {
                     );
                   }
                   if (
-                    result.backCode === 'K-000000' 
-                    && result.context.promotionDiscount
+                    result.backCode === 'K-000000'
                   ) {
                     //表示输入apply promotionCode成功
                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -1271,6 +1270,7 @@ class LoginCart extends React.Component {
                       }}
                       onClick={async () => {
                         let result = {};
+                        await checkoutStore.removePromotionCode()
                         if (!loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();

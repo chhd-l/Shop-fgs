@@ -115,7 +115,7 @@ class PayProductInfo extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
         brand:item.brandName || 'ROYAL CANIN',
-        category:item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
+        category:item.goodsCateName,
         club:'no',
         id:item.goodsNo,
         name:item.goodsName,
@@ -471,8 +471,7 @@ class PayProductInfo extends React.Component {
                       );
                     }
                     if (
-                      result.backCode === 'K-000000' &&
-                      !result.context.promotionFlag
+                      result.backCode === 'K-000000'
                     ) {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)

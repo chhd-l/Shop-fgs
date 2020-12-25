@@ -774,7 +774,7 @@ export const PRESONAL_INFO_RULE = [
   },
   {
     key: 'phoneNumber',
-    require: true,
+    require: process.env.REACT_APP_LANG == 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']

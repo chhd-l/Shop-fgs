@@ -152,7 +152,6 @@ class Confirmation extends React.Component {
   //GA 埋点 start
   getGAEComTransaction(){
     const { details } = this.state;
-    console.log({details})
 
     let isAllOneShootGoods = details.tradeItems.every((item)=>{
       return item.goodsInfoFlag != 1
@@ -168,7 +167,7 @@ class Confirmation extends React.Component {
           name: item.spuName,
           price: item.price,
           brand: 'Royal Canin',
-          category: item.cateName,
+          category: item.goodsCateName,
           quantity: item.num,
           variant: item.specDetails?parseInt(item.specDetails):'',
           sku: item.skuNo,

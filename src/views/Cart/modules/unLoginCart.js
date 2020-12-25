@@ -449,7 +449,7 @@ class UnLoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
+        'category': product.goodsCateName,
         'variant': variant,
         'quantity': product.quantity?product.quantity:'',
         'recommendation':'self-selected',//self-selected, recommanded
@@ -1277,8 +1277,7 @@ class UnLoginCart extends React.Component {
                       );
                     }
                     if (
-                      result.backCode === 'K-000000' &&
-                      result.context.promotionDiscount
+                      result.backCode === 'K-000000'
                     ) {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -1332,6 +1331,7 @@ class UnLoginCart extends React.Component {
                       }}
                       onClick={async () => {
                         let result = {};
+                        await checkoutStore.removePromotionCode()
                         if (!this.props.loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();
