@@ -512,7 +512,8 @@ class LoginCart extends React.Component {
             )}
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
-          <div className="d-flex pl-3">
+          {/* <div className="d-flex pl-3"> */}
+          <div className="d-flex">
             <div className="product-info__img w-100">
               <LazyLoad>
                 <img
@@ -567,10 +568,10 @@ class LoginCart extends React.Component {
                     width: isMobile ? '9rem' : 'inherit'
                   }}
                 >
-                  <div className="productGoodsSubtitle">
+                  {/* <div className="productGoodsSubtitle">
                     {pitem.goods.goodsSubtitle}
-                  </div>
-                  <div className="align-left flex rc-margin-bottom--xs">
+                  </div> */}
+                  <div className="align-left flex">
                     {/* <div className="stock__wrapper">
                     <div className="stock">
                       <label className="availability instock">
@@ -1539,7 +1540,7 @@ class LoginCart extends React.Component {
                               title={txt}
                             >
                               <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography"></span>
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
                                 {txt}
                               </span>
                             </a>
