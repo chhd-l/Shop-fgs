@@ -1216,8 +1216,7 @@ class LoginCart extends React.Component {
                     );
                   }
                   if (
-                    result.backCode === 'K-000000' 
-                    && result.context.promotionDiscount
+                    result.backCode === 'K-000000'
                   ) {
                     //表示输入apply promotionCode成功
                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -1271,6 +1270,7 @@ class LoginCart extends React.Component {
                       }}
                       onClick={async () => {
                         let result = {};
+                        await checkoutStore.removePromotionCode()
                         if (!loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();

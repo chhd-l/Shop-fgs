@@ -2679,6 +2679,13 @@ class Details extends React.Component {
             </section>
           </div>
         </aside>
+        <div class="rc-bg-colour--brand4">
+<div class="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
+<div class="content-asset">
+&nbsp;
+</div> 
+</div>
+</div>
         <Footer />
       </div>
     );
