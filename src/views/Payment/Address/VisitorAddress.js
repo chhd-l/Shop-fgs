@@ -74,7 +74,7 @@ class VisitorAddress extends React.Component {
     if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
-    dataLayer[0].checkout.step = 3
+    dataLayer[0].checkout.step = 3;
 
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
@@ -153,7 +153,7 @@ class VisitorAddress extends React.Component {
 
     const { isOnepageCheckout } = this.props;
     const { form, isValid } = this.state;
-    const {updateStepForAddress,paymentStep} = this.props.paymentStore
+    const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
     const _editForm = (
       <EditForm
@@ -171,13 +171,13 @@ class VisitorAddress extends React.Component {
       : panelStatus.isCompleted
       ? this.titleJSXForCompeleted()
       : null;
-    
+
     //更新地址栏填写状态
     // updateStepForAddress(panelStatus)
     // if(paymentStep[1].isCompleted){
     //   dataLayer[0].checkout.step = 3
     // }
-    
+
     return (
       <>
         {this.props.titleVisible && (
@@ -201,7 +201,7 @@ class VisitorAddress extends React.Component {
                   </button>
                 </div>
               </fieldset>
-            ) : (
+            ) : form ? (
               <div>
                 <span className="medium">
                   {form.firstName + ' ' + form.lastName}
@@ -216,7 +216,7 @@ class VisitorAddress extends React.Component {
                 {form.postCode}, {form.cityName},{' '}
                 {this.matchNamefromDict(this.state.countryList, form.country)}
               </div>
-            )}
+            ) : null}
           </>
         ) : null}
         {!isOnepageCheckout && <>{_editForm}</>}

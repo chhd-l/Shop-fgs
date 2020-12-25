@@ -36,6 +36,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function HeadTip(props) {
+  console.log(props, 'props')
   return (
     <>
       <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
@@ -845,26 +846,26 @@ class AccountOrders extends React.Component {
           titleColor="text-success"
           moreTip={this.renderLogitiscsJSX()}
           tip={
-            logisticsList[0] && logisticsList[0].trackingUrl ? (
-              <FormattedMessage
-                id="order.inTranistTip"
-                values={{
-                  val: (
-                    <span className={`red ui-cursor-pointer`}>
-                      <a
-                        href={logisticsList[0].trackingUrl}
-                        target="_blank"
-                        rel="nofollow"
-                        className={`red rc-styled-link mr-2`}
-                      >
-                        <FormattedMessage id="order.viewLogisticDetail" />
-                      </a>
-                      &gt;
-                    </span>
-                  )
-                }}
-              />
-            ) : null
+            <FormattedMessage
+              id="order.inTranistTip"
+              values={{
+                val: (
+                  logisticsList[0] && logisticsList[0].trackingUrl ? (
+                  <span className={`red ui-cursor-pointer`}>
+                    <a
+                      href={logisticsList[0].trackingUrl}
+                      target="_blank"
+                      rel="nofollow"
+                      className={`red rc-styled-link mr-2`}
+                    >
+                      <FormattedMessage id="order.viewLogisticDetail" />
+                    </a>
+                    &gt;
+                  </span>
+                  ) : null
+                )
+              }}
+            />
           }
         />
       );

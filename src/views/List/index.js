@@ -1113,7 +1113,7 @@ class List extends React.Component {
         });
       })
       .catch((err) => {
-        console.log(1111, err);
+        console.log(err)
         this.setState({
           loading: false,
           productList: [],

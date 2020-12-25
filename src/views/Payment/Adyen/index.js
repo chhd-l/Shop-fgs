@@ -184,7 +184,7 @@ class AdyenCreditCard extends React.Component {
                     className={`rc-btn rc-btn--one submit-payment`}
                     type="submit"
                     name="submit"
-                    value="submit-shipping 11111"
+                    value="submit-shipping"
                     disabled={!isValid}
                     onClick={this.clickPay}
                   >

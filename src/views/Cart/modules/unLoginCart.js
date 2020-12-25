@@ -335,7 +335,7 @@ class UnLoginCart extends React.Component {
       console.log(e);
       this.setState({
         errorShow: true,
-        errorMsg: e.toString()
+        errorMsg: e.message
       });
     } finally {
       this.setState({ checkoutLoading: false });
