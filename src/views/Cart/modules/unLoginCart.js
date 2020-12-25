@@ -449,7 +449,7 @@ class UnLoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
+        'category': product.goodsCateName,
         'variant': variant,
         'quantity': product.quantity?product.quantity:'',
         'recommendation':'self-selected',//self-selected, recommanded

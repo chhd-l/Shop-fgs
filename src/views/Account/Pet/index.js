@@ -318,7 +318,7 @@ class Pet extends React.Component {
                           cursor: 'pointer'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }}>+</span> <FormattedMessage id="pet.addNewPet"/>
+                        <span style={{ fontSize: '25px' }}></span> <FormattedMessage id="pet.addNewPet"/>
                         {/* Add a new PET */}
                       </div>
                     </div>

@@ -115,7 +115,7 @@ class PayProductInfo extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
         brand:item.brandName || 'ROYAL CANIN',
-        // category:item.goodsCateName?JSON.parse(item.goodsCateName)[0]:'',
+        category:item.goodsCateName,
         club:'no',
         id:item.goodsNo,
         name:item.goodsName,
