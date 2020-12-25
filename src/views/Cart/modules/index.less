@@ -88,6 +88,24 @@
   }
 }
 
+// 返回按钮
+.Carts{
+  .rc-bg-colour--brand3{
+    padding-top:1rem !important;
+  }
+  .rc-icon-btnback{
+    display: flex;
+    margin-left: -11px;
+  }
+  .rc-icon-btnback.rc-iconography{
+    &:after{
+      -webkit-transform: scale(0.7);
+      transform: scale(0.7);
+      margin-right: .3em;
+    }
+  }
+}
+
 @media(max-width: 960px) {
   .Carts .buyMethod .freqency {
     > span {
