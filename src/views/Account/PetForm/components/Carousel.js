@@ -189,8 +189,41 @@ class Carousel extends React.Component {
                                   ({item.goodsEvaluateNum})
                               </span>
                               </div>
-                              <div className="marketPrice">{formatMoney(item.minMarketPrice)}
+                              {/* <div className="marketPrice">
+                              {formatMoney(item.minMarketPrice)}
                               {item.minLinePrice&&<span>{formatMoney(item.minLinePrice)}</span>}
+                              </div> */}
+                              {/* <div className="marketPrice" style={{textAlign: "center"}}>
+                                from 12 to 24
+                              </div> */}
+                              <div className="d-flex justify-content-center" style={{paddingTop: '1.5rem'}}>
+                                <div className="rc-card__price text-left PriceFitScreen">
+                                  <div className={`rc-full-width PriceFitScreen`}>
+                                    <span
+                                      style={{
+                                        color: '#000'
+                                      }}
+                                      className="value sales"
+                                    >
+                                      {item.toPrice ? (
+                                        <span className="mr-1" style={{ fontSize: '.8em' }}>
+                                          <FormattedMessage id="startFrom" />
+                                        </span>
+                                      ) : null}
+                                      {formatMoney(item.fromPrice)}
+                                      {item.toPrice ? (
+                                        <>
+                                          <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+                                            <FormattedMessage id="startEnd" />
+                                          </span>
+                                          {formatMoney(item.toPrice)}
+                                        </>
+                                      ) : null}
+                                    </span>
+                                  </div>
+
+                                </div>
+
                               </div>
                               {
                                 item.minSubscriptionPrice
