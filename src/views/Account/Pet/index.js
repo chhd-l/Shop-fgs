@@ -286,7 +286,9 @@ class Pet extends React.Component {
                                 </div>
                                 <div className="value">
                                   <span>{el.birthOfPets}</span>
-                                  <span>{el.petsBreed}</span>
+                                  <span>
+                                    <FormattedMessage id={el.petsBreed} />
+                                  </span>
                                 </div>
                               </div>
                               <div className="operation">

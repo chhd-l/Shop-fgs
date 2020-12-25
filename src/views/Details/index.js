@@ -549,6 +549,7 @@ class Details extends React.Component {
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 )[0];
                 sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
+                sdItem.isEmpty = filterproduct.stock === 0
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
                 console.log(filterproduct, 'filterproduct')
               }
@@ -1695,7 +1696,6 @@ class Details extends React.Component {
                                     className="availability-msg"
                                     data-ready-to-order="true"
                                   >
-                                    {/* todo */}
                                     <div className={`out-stock`}>
                                       <FormattedMessage id="details.outStock" />
                                     </div>
@@ -1741,13 +1741,17 @@ class Details extends React.Component {
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
                                         }`}
-                                        onClick={() =>
-                                          this.handleChooseSize(
-                                            sItem.specId,
-                                            sdItem.specDetailId,
-                                            sdItem.selected
-                                          )
-                                        }
+                                        onClick={() => {
+                                          if(sdItem.isEmpty) {
+                                            return false
+                                          }else {
+                                            this.handleChooseSize(
+                                              sItem.specId,
+                                              sdItem.specDetailId,
+                                              sdItem.selected
+                                            )
+                                          }
+                                        }}
                                       >
                                         <span>
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
@@ -2134,7 +2138,7 @@ class Details extends React.Component {
                               onClick={() => this.ChangeFormat(1)}
                             >
                               <div className="radioBox">
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
+                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width" style={{margin: '0'}}>
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input

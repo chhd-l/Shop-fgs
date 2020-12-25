@@ -906,5 +906,6 @@ const en_US = {
   'pet.petListTitle': 'Create and manage your pet\'s profile to maintain its best health possible',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
+  'mixed Breed': 'mixed Breed',
 }
 export default en_US;

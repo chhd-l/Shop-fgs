@@ -882,5 +882,6 @@ const es_ES = {
   'pet.petListTitle': 'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
   'pet.addNewPet': 'Agregar una nueva mascota',
   'pet.deletePet': 'Eliminar perfil de mascota',
+  'mixed Breed': 'raza Mixta',
 }
 export default es_ES;
