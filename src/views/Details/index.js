@@ -211,16 +211,16 @@ class Details extends React.Component {
         ? pathname.split('-').reverse()[0]
         : '';
     await getFrequencyDict().then((res) => {
+      console.log(process.env.REACT_APP_FREQUENCY_ID , process.env.REACT_APP_FREQUENCY_VAL , process.env.REACT_APP_FREQUENCY_NAME ,process.env,'aaaa')
       if (
-        process.env.REACT_APP_ACCESS_PATH ===
-        'https://shopstg.royalcanin.com/fr/'
+        process.env.REACT_APP_FREQUENCY_ID && process.env.REACT_APP_FREQUENCY_VAL && process.env.REACT_APP_FREQUENCY_NAME
       ) {
         this.setState({
           frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: '4',
-            frequencyName: '4 semaine(s)',
-            frequencyId: 3560
+            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
+            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
+            frequencyId: process.env.REACT_APP_FREQUENCY_ID
           })
         });
       } else {
@@ -2493,6 +2493,7 @@ class Details extends React.Component {
                           <div className="block">
                             <p
                               className="content rc-scroll--x"
+                              style={{marginBottom: '4rem'}}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
                           </div>
@@ -2680,12 +2681,12 @@ class Details extends React.Component {
           </div>
         </aside>
         <div class="rc-bg-colour--brand4">
-<div class="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
-<div class="content-asset">
-&nbsp;
-</div> 
-</div>
-</div>
+          <div class="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
+            <div class="content-asset">
+              &nbsp;
+            </div> 
+          </div>
+        </div>
         <Footer />
       </div>
     );
