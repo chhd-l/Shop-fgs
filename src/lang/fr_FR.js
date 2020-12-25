@@ -1124,5 +1124,9 @@ const fr_FR = {
   'pet.deletePet': 'Supprimer le profil de l\'animal',
   'validPromotionCode': 'Impossible d\'ajouter le bon de réduction à votre panier',
   'mixed Breed': 'race Mixte',
+  // SubscriptionLanding START
+  "subscription.title":"",
+  "subscription.subTitle":"",
+  // SubscriptionLanding END
 }
 export default fr_FR;
