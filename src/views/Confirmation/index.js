@@ -152,7 +152,6 @@ class Confirmation extends React.Component {
   //GA 埋点 start
   getGAEComTransaction(){
     const { details } = this.state;
-    console.log({details})
 
     let isAllOneShootGoods = details.tradeItems.every((item)=>{
       return item.goodsInfoFlag != 1
