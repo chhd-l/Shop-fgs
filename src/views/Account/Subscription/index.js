@@ -29,7 +29,6 @@ const subscriptionLandingRouter = (lang)=>{
   return {
     'de': '/subscription-landing-de',
     'fr': '/subscription-landing',
-    'mx': '/subscription-landing',
     'us': '/subscription-landing-us',
     'ru': '/subscription-landing-ru',
     'tr': '/subscription-landing-tr',
