@@ -15635,7 +15635,7 @@ ul li:not(.rc-list__item) {
   right: 0;
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
-  z-index: 2
+  z-index: 10;
 }
 
 .optanon-show-settings-button.optanon-toggle-display .optanon-show-settings-middle,.ot-sdk-show-settings .optanon-show-settings-middle {
