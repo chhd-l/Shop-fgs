@@ -285,6 +285,9 @@ class RouteFilter extends Component {
     }
   }
 
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   //总的调用consense接口
   getConsentList() {
     if (this.isLogin) {
@@ -293,7 +296,11 @@ class RouteFilter extends Component {
   }
   //1.会员调用consense接口
   doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
+    let customerId = this.userInfo && this.userInfo.customerId
+    if(!customerId){
+      return
+    }
+    findUserConsentList({customerId}).then((result) => {
       this.isExistRequiredListFun(result);
     });
   }

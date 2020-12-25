@@ -28,6 +28,9 @@ class RegisterRequired extends Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -130,7 +133,11 @@ class RegisterRequired extends Component {
       isLoading: true
     });
     try {
-      const result = await findUserConsentList({});
+      let customerId = this.userInfo && this.userInfo.customerId
+      if(!customerId){
+        return
+      }
+      const result = await findUserConsentList({customerId});
       //没有必选项，直接跳回
       if (result.context.requiredList.length === 0) {
         const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');

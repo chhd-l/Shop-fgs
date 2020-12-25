@@ -1,6 +1,7 @@
 import axios from '@/utils/request'
 
 const api = {
+    // findUserConsentList: `/${process.env.REACT_APP_STOREID}/consents/customer-id=`,
     findUserConsentList: '/consent/findUserConsentList',
     consentListDetail:'/consent/detail/list',
     userBindConsent:'/consent/userBindConsent',
@@ -15,6 +16,9 @@ export function findUserConsentList (parameter) {
       url: `${api.findUserConsentList}`,
       method: 'post',
       data: parameter
+      // url: `${api.findUserConsentList}${parameter.customerId}`,
+      // method: 'get',
+      // params: parameter
     })
   }
 

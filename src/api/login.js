@@ -7,9 +7,12 @@ const api = {
   // login:'/base/login', //okta
   // getToken: '/okta/getJwtToken',
   getToken: `/${process.env.REACT_APP_STOREID}/okta/token`,
-  getQuestions:'/questions/all',
-  register:'/baseRegister',
-  forgetPassword:'/base/forgetPassword',
+  // getQuestions:'/questions/all',
+  getQuestions:'/questions',
+  register:'/customer/register',
+  // register:'/baseRegister',
+  forgetPassword:'/base/forget-pass',
+  // forgetPassword:'/base/forgetPassword',
   // modifyPassword:'/base/modifyPassword',
   modifyPassword:'/base/modify-pass',
   logout: '/logout'

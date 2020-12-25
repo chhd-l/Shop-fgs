@@ -294,7 +294,11 @@ class Payment extends React.Component {
   }
   //1.会员调用consense接口
   doFindUserConsentList() {
-    findUserConsentList({}).then((result) => {
+    let customerId = this.userInfo && this.userInfo.customerId
+    if(!customerId){
+      return
+    }
+    findUserConsentList({customerId}).then((result) => {
       this.isExistOptionalListFun(result);
     });
   }
