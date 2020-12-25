@@ -25,6 +25,17 @@ import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
+const subscriptionLandingRouter = (lang)=>{
+  return {
+    'de': '/subscription-landing-de',
+    'fr': '/subscription-landing',
+    'mx': '/subscription-landing',
+    'us': '/subscription-landing-us',
+    'ru': '/subscription-landing-ru',
+    'tr': '/subscription-landing-tr',
+  }[lang]
+}
+
 class Subscription extends React.Component {
   constructor(props) {
     super(props);
@@ -481,7 +492,7 @@ class Subscription extends React.Component {
                             <div className="rc-margin-top--sm">
                               <Link
                                 className="rc-btn rc-btn--one"
-                                to="/subscription-landing"
+                                to={subscriptionLandingRouter(process.env.REACT_APP_LANG)}
                               >
                                 <FormattedMessage id="account.startAutoShipping"></FormattedMessage>
                               </Link>

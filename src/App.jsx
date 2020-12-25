@@ -88,6 +88,7 @@ import Help from '@/views/StaticPage/Help';
 import Packfeed from './views/StaticPage/PackmixfeedingwetDry';
 import TermsConditions from '@/views/StaticPage/TermsAndConditions';
 import SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding';
+import DE_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/DE_index.js';
 import US_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/US_index.js';
 import RU_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/RU_index.js';
 import TR_SubscriptionLanding from '@/views/StaticPage/SubscriptionLanding/TR_index.js';
@@ -369,7 +370,11 @@ const App = () => (
                 path="/product-finder-noresult"
                 component={ProductFinderNoResult}
               />
-
+              <Route
+                path="/subscription-landing-de"
+                exact
+                component={DE_SubscriptionLanding}
+              />
               <Route
                 path="/subscription-landing"
                 exact

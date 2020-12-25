@@ -985,5 +985,28 @@ const de_DE = {
   'pet.addNewPet': 'Fügen Sie ein neues Tier hinzu',
   'pet.deletePet': 'Haustierprofil löschen',
   'mixed Breed': 'gemischte Rasse',
+  // SubscriptionLanding START
+  "subscription.title":"Mit dem Abonnement haben sie immer das, was sie brauchen",
+  "subscription.subTitle":"Certaines choses ne devraient jamais s'épuiser.La nourriture de votre animal de compagnie en fait partie.Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.",
+  "subscription.list1":'10% Rabatt auf alle Abonnementbestellungen',
+  "subscription.list2":'Sie können jederzeit anhalten, ändern oder abbrechen',
+  "subscription.list3":'Kostenlose Lieferung',
+  "subscription.list4":'Kostenlose Hotline auf der Ernährung',
+  "subscription.list.btn1":'Siehe die Katzenformeln',
+  "subscription.list.btn2":'Siehe Hundeformeln',
+  "subscription.ad.title":'Wie funktioniert es?',
+  "subscription.ad.list1":'Fügen Sie die Ernährungsprodukte, die den Bedürfnissen Ihres Haustieres entsprechen, in Ihren Warenkorb.',
+  "subscription.ad.list2":'Wählen Sie automatischen Versand und geben Sie Ihre Zahlungsmethode ein.',
+  "subscription.ad.list3":'Erhalten Sie Ihr Produkt automatisch nach Ihrem Zeitplan.',
+  "subscription.ad.list4":'Ändern Sie Ihre Einstellungen jederzeit.',
+  "subscription.banner.title":'Starten Sie jetzt Ihr Abonnement',
+  "subscription.banner.subTitle":'Entdecken Sie die besten Ernährungsformeln und wählen Sie vor dem Kauf die Mitgliedschaft aus',
+  "subscription.banner.btn":'Auswählen',
+  "subscription.help.title":'Brauchen Sie Hilfe ?',
+  "subscription.help.subTitle":'Unsere Berater sind echte Experten und leidenschaftlich. Sie stehen zu Ihrer Verfügung, um jede Anfrage zu beantworten.',
+  // SubscriptionLanding END
+  'account.noSubscriptionTitle': "Entdecken Sie das Abonnement",
+  'account.noSubscription':"Sie kennen das Abonnement noch nicht? {val1} Mit dem Abonnement können Sie regelmäßig und einfach das Lieblingsfutter Ihres Haustieres erhalten. Sagen Sie uns einfach, wohin und wann wir es versenden sollen, und wir sorgen dafür, dass alles, was es braucht, direkt vor Ihrer Haustür eintrifft.",
+  'account.startAutoShipping': 'Finde mehr heraus',
 }
 export default de_DE;
