@@ -1524,7 +1524,13 @@ class Details extends React.Component {
                         >
                           {details.goodsName}
                         </h1>
-                        <div className="desAndStars">
+                        <div className="desAndStars"
+                             style={{
+                               display:
+                                 process.env.REACT_APP_LANG == 'fr'
+                                   ? 'none'
+                                   : 'block'
+                             }}>
                           <div className="des">
                             <h3 className="text-break mb-1 mt-2">
                               {/* {details.goodsSubtitle} */}
@@ -1722,7 +1728,7 @@ class Details extends React.Component {
                             </div>
                           </div>
                         </div> */}
-                        <div className="specAndQuantity rc-margin-bottom--xs">
+                        <div className="specAndQuantity rc-margin-bottom--xs ">
                           <div className="spec">
                             {specList.map((sItem, i) => (
                               <div id="choose-select" key={i}>
@@ -1764,7 +1770,7 @@ class Details extends React.Component {
                             ))}
                           </div>
                           <div className="Quantity">
-                            <span>
+                            <span className="amount">
                               <FormattedMessage id="amount" />:
                             </span>
                             <div className="quantity d-flex justify-content-between align-items-center">
@@ -1850,6 +1856,7 @@ class Details extends React.Component {
                                 className="price"
                                 style={{
                                   fontSize: '22px',
+                                  textAlign: 'right',
                                   paddingTop: isMobile
                                     ? '.2rem'
                                     : process.env.REACT_APP_LANG === 'de'
@@ -1881,7 +1888,7 @@ class Details extends React.Component {
                               <FormattedMessage id="freeShipping" />
                             </div>
                             <div
-                              className="freqency"
+                              className="freqency freqency2"
                               style={{ textAlign: 'center' }}
                             >
                               <span
@@ -1988,6 +1995,7 @@ class Details extends React.Component {
                               }}
                               onClick={() => this.ChangeFormat(1)}
                             >
+                              {/*222*/}
                               <div className="buyMethodInnerBox">
                                 <div className="radioBox">
                                   <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -2060,6 +2068,7 @@ class Details extends React.Component {
                                 <div
                                   className="price"
                                   style={{
+                                    textAlign: 'right',
                                     paddingTop: isMobile
                                       ? '.2rem'
                                       : process.env.REACT_APP_LANG === 'de'
@@ -2102,7 +2111,7 @@ class Details extends React.Component {
                               <div className="freeshippingBox">
                                 <FormattedMessage id="freeShipping" />
                               </div>
-                              <div className="freqency">
+                              <div className="freqency freqency3">
                                 <span>
                                   <FormattedMessage id="subscription.frequency" />
                                   :
@@ -2111,7 +2120,7 @@ class Details extends React.Component {
                                   customContainerStyle={{
                                     display: 'inline-block',
                                     marginLeft: isMobile ? '50px' : '1.5rem',
-                                    height: isMobile ? '70px' : 'auto'
+                                    height: isMobile ? '2rem' : 'auto'
                                   }}
                                   selectedItemChange={
                                     this.handleSelectedItemChange
@@ -2420,7 +2429,7 @@ class Details extends React.Component {
                 className=""
               >
                 <div
-                  className={`rc-list__accordion-item test-color 
+                  className={`rc-list__accordion-item test-color
                   ${reviewShow ? 'showItem' : 'hiddenItem'}`}
                 >
                   <div

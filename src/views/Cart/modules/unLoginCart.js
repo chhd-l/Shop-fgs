@@ -23,6 +23,7 @@ import refreshImg from './images/refresh.png';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
+import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.less';
@@ -545,7 +546,8 @@ class UnLoginCart extends React.Component {
               )}
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
-          <div className="d-flex pl-3">
+          {/* <div className="d-flex pl-3"> */}
+          <div className="d-flex">
             <div className="product-info__img w-100">
               <LazyLoad>
                 <img
@@ -601,10 +603,10 @@ class UnLoginCart extends React.Component {
                     width: isMobile ? '9rem' : 'inherit'
                   }}
                 >
-                  <div className="productGoodsSubtitle">
+                  {/* <div className="productGoodsSubtitle">
                     {pitem.goodsSubtitle}
-                  </div>
-                  <div className="align-left flex rc-margin-bottom--xs">
+                  </div> */}
+                  <div className="align-left flex">
                     <div className="stock__wrapper">
                       <div className="stock">
                         <label
@@ -1478,7 +1480,7 @@ class UnLoginCart extends React.Component {
                         </div>
                       )}
                   </div>
-                  <div className="rc-padding-y--xs rc-column">
+                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                     {this.totalNum > 0 ? (
                       this.props.checkoutStore.cartData.filter(
                         (el) => el.goodsInfoFlag
@@ -1580,6 +1582,7 @@ class UnLoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           ].join(' ')}
         >
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {productList.length ? (
               <>
@@ -1594,7 +1597,7 @@ class UnLoginCart extends React.Component {
                           title={txt}
                         >
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography"></span>
+                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
                             {txt}
                           </span>
                         </a>
