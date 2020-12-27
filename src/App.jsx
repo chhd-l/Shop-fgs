@@ -102,6 +102,7 @@ import AboutUsDe from '@/views/StaticPage/AboutUs/de-index';
 import CatNutrition from '@/views/StaticPage/CatNutrition/index.js';
 import CadeauCoussinChat from '@/views/StaticPage/CadeauCoussinChat/index.js';
 import PromotionRefuge from '@/views/StaticPage/PromotionRefuge/index.js';
+import RefugeSource from '@/views/StaticPage/PromotionRefuge/source.js';
 import RU_Values from '@/views/StaticPage/Values/RU_index.js';
 import FR_Values from '@/views/StaticPage/Values/FR_index.js';
 import ShipmentConditions from '@/views/StaticPage/ShipmentConditions';
@@ -148,6 +149,12 @@ const LoginCallback = (props) => {
 window.addEventListener("popstate",function(e){
   location.reload()
 },false)
+
+const regRefuge = (props)=>{
+  console.log(props)
+  debugger
+  return '/refuge108782'
+}
 
 const App = () => (
   <Provider {...stores}>
@@ -419,23 +426,9 @@ const App = () => (
                 exact
                 component={CadeauCoussinChat}
               />
-
               <Route
                 exact
                 path="/promotion-refuge"
-                // render={(props)=>{
-                //   console.log({props})
-                //   const shortLinkSuffix = props.location.pathname.split("/")[1]
-                //   linkTransform({shortLinkSuffix}).then((res)=>{
-                //     console.log(res)
-                //     if(res.code=='K-000000'){
-                //       const sourceParam = res.context.longLink.split("?")[1]
-                //       return <PromotionRefuge sourceParam={sourceParam}/>;
-                //     }
-                //   }).catch((err)=>{
-                //     console.log(err)
-                //   })
-                // }}
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />
@@ -498,10 +491,13 @@ const App = () => (
                   />
                 )}
               />
+              
               <Route
                 path="/"
                 render={(props) => {
                   const { location } = props;
+                  //为了匹配/refuge108785 这种数字动态的短链接
+                  if(/^\/refuge/.test(location.pathname)) return <RefugeSource key={Math.random()} {...props}/>
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
                     return <Details key={props.match.params.id} {...props} />;

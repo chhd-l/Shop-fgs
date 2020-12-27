@@ -9,7 +9,6 @@ import { inject, observer } from 'mobx-react';
 import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
 import {list1,list2,list3,list4} from "./goods"
-import {linkTransform} from "@/api/refuge"
 const localItemRoyal = window.__.localItemRoyal;
 
 
@@ -21,20 +20,16 @@ const localItemRoyal = window.__.localItemRoyal;
 class PromotionRefuge extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      sourceParam: ''
+    };
   }
 
-  // async componentWillMount(){
-  //   try{
-  //     const shortLinkSuffix = this.props.location.pathname.split("/")[1]
-  //     const res = await linkTransform({shortLinkSuffix})
-  //     if(res.code=='K-000000'){
-  //       const param = res.context.longLink.split("?")[1]
-  //     }
-  //   }catch(err){
-  //     console.log(err)
-  //   }
-  // }
+  componentDidMount(){
+    this.setState({
+      sourceParam: this.props.location.search
+    })
+  }
 
   render(h) {
     const event = {
@@ -107,7 +102,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’élément le plus adapté à votre chaton</h4>
                           </div>
-                          <Carouselem list={list1}/>
+                          <Carouselem list={list1} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -125,7 +120,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chat</h4>
                           </div>
-                          <Carouselem list={list2}/>
+                          <Carouselem list={list2} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -143,7 +138,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’aliment le plus adapté à votre chien slide 1 to 4 of 4</h4>
                           </div>
-                          <Carouselem list={list3}/>
+                          <Carouselem list={list3} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -161,7 +156,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chien</h4>
                           </div>
-                          <Carouselem list={list4}/>
+                          <Carouselem list={list4} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>

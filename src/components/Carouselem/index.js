@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import "./index.less"
 
 const Carouselem = withRouter((props) => {
-  const list = props.list
+  const {list,sourceParam} = props
   return (
     <div className="refuge tns-outer">
       <div className="rc-carousel rc-carousel--cards rc-match-heights" data-js-carousel="" data-rc-cards="true"
@@ -20,7 +20,7 @@ const Carouselem = withRouter((props) => {
             list.map((item, index) => {
               return (
                 <article className="rc-card rc-card--b tns-item tns-slide-active">
-                  <Link to={item.linkUrl} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
+                  <Link to={item.linkUrl+sourceParam} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
                     <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
                       <div className="row h-100">
                         <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop">
