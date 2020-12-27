@@ -8,7 +8,11 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
+import {list1,list2,list3,list4} from "./goods"
+import {linkTransform} from "@/api/refuge"
 const localItemRoyal = window.__.localItemRoyal;
+
+
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -20,18 +24,27 @@ class PromotionRefuge extends React.Component {
     this.state = {};
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-
-  }
+  // async componentWillMount(){
+  //   try{
+  //     const shortLinkSuffix = this.props.location.pathname.split("/")[1]
+  //     const res = await linkTransform({shortLinkSuffix})
+  //     if(res.code=='K-000000'){
+  //       const param = res.context.longLink.split("?")[1]
+  //     }
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
 
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: 'Brand'
+        error: "none",
+        filters: "none",
+        hitTimestamp:  new Date(),
+        path: location.pathname,
+        theme: "none",
+        type: "Other",
       }
     };
     return (
@@ -94,7 +107,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’élément le plus adapté à votre chaton</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list1}/>
                         </div>
                       </div>
                     </div>
@@ -112,7 +125,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chat</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list2}/>
                         </div>
                       </div>
                     </div>
@@ -130,7 +143,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’aliment le plus adapté à votre chien slide 1 to 4 of 4</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list3}/>
                         </div>
                       </div>
                     </div>
@@ -148,7 +161,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chien</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list4}/>
                         </div>
                       </div>
                     </div>

@@ -113,6 +113,7 @@ import register from '@/views/Register';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
+import {linkTransform} from "@/api/refuge"
 
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
@@ -420,8 +421,21 @@ const App = () => (
               />
 
               <Route
-                path="/promotion-refuge"
                 exact
+                path="/promotion-refuge"
+                // render={(props)=>{
+                //   console.log({props})
+                //   const shortLinkSuffix = props.location.pathname.split("/")[1]
+                //   linkTransform({shortLinkSuffix}).then((res)=>{
+                //     console.log(res)
+                //     if(res.code=='K-000000'){
+                //       const sourceParam = res.context.longLink.split("?")[1]
+                //       return <PromotionRefuge sourceParam={sourceParam}/>;
+                //     }
+                //   }).catch((err)=>{
+                //     console.log(err)
+                //   })
+                // }}
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />

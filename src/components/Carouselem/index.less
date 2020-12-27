@@ -1,0 +1,26 @@
+.refuge{
+    @media (min-width: 769px){
+        .rc-card--product header {
+            min-height: 70px;
+        }
+    }
+    
+    .rc-card--product .rc-card__price {
+        color: #000;
+    }
+    .rc-card--product .rc-card__price .range {
+        font-size: 1rem;
+    }
+    .rc-card--product .rc-card__price .range .sales, .rc-card--product .rc-card__price .range .value {
+        font-size: 1.25rem;
+    }
+    .rc-card--product .rc-card__meta {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        -ms-flex-item-align: end;
+        align-self: flex-end;
+    }
+}
