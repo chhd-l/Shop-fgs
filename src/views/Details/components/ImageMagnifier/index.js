@@ -372,6 +372,7 @@ class ImageMagnifier extends Component {
     if (video) {
       imgCount = imgCount + 1;
     }
+    let offsetX = isMobile? 60: 69
     return (
       <div>
         <div className="position-relative">
@@ -461,10 +462,9 @@ class ImageMagnifier extends Component {
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
-              this.setState({ positionLeft: this.state.positionLeft + 69 });
+              this.setState({ positionLeft: this.state.positionLeft + offsetX });
             }}
           />
-          {/* <img className="moveImg" src={LeftImg} /> */}
           <div className="imageOutBox">
             <div
               className="justify-content-center imageInnerBox"
@@ -490,7 +490,8 @@ class ImageMagnifier extends Component {
                       backgroundImage:
                         'url(' +
                         (el.artworkUrl || el.goodsInfoImg || noPic) +
-                        ')'
+                        ')',
+                      backgroundSize: '100% 100%'
                     }}
                   ></div>
                 ))
@@ -534,14 +535,14 @@ class ImageMagnifier extends Component {
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - 5) * -69
+              this.state.positionLeft === (imgCount - 5) * (-offsetX)
                 ? ''
                 : 'rc-brand1'
             }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - 5) * -69) return;
-              this.setState({ positionLeft: this.state.positionLeft - 69 });
+              if (this.state.positionLeft === (imgCount - 5) * (-offsetX)) return;
+              this.setState({ positionLeft: this.state.positionLeft - offsetX });
             }}
           />
         </div>

@@ -68,4 +68,16 @@
     height: 324px;
     float: left;
   }
+  .imageInnerBox > div {
+    float: left;
+    width: 55px;
+    height: 55px;
+  }
+  .imageOutBox {
+    width: 300px;
+    overflow: hidden;
+  }
+  .scrollOutBox {
+    width: 100%;
+  }
 }
