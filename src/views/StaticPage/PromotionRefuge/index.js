@@ -9,6 +9,7 @@ import { inject, observer } from 'mobx-react';
 import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
 import {list1,list2,list3,list4} from "./goods"
+import { Link } from 'react-router-dom';
 const localItemRoyal = window.__.localItemRoyal;
 
 
@@ -83,7 +84,7 @@ class PromotionRefuge extends React.Component {
                             <h2 className="rc-beta markup-text">Nos promotions suite aux adoptions en refuge</h2>
                             <p><span style={{color:'black'}}>Vous avez adopté un compagnon à quatre pattes dans un refuge ou au sein d'une association ? Pour vous remercier d'offrir une seconde chance à un chien ou chat dans le besoin, bénéficiez de réductions sur les produits ROYAL CANIN. </span></p>
                             <p><span style={{color:'black'}}> Découvrez notre formule abonnement et profitez de 10% sur toutes vos commandes ! Des réductions sont également applicables sur notre boutique en ligne : 4€, 5€ ou 12€ de remise sur tous les produits ROYAL CANIN si vous avez adoptez un animal dans un refuge.</span></p>
-                            <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" href="https://shop.royalcanin.fr/subscription-landing.html" title="En savoir plus">En savoir plus</a>
+                            <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" to="/subscription-landing" title="En savoir plus">En savoir plus</Link>
                           </div>
                         </div>
                       </div>
@@ -274,7 +275,7 @@ class PromotionRefuge extends React.Component {
                                       Nous vous répondons sous deux jours ouvrés.
                                     </p>
                                     <div className="rc-margin-top--xs">
-                                      <a href="https://shop.royalcanin.fr/help/contact" className="rc-styled-link nowrap">Envoyer un email</a>
+                                      <Link to="/help" className="rc-styled-link nowrap">Envoyer un email</Link>
                                     </div>
                                   </div>
                                 </div>
@@ -296,7 +297,7 @@ class PromotionRefuge extends React.Component {
                                     <b style={{color:'#00A4A6'}}>Des questions?</b>
                                     <p>
                                       Vous pouvez également consulter notre rubrique
-                                      <a href="https://staging-eu01-marsuk.demandware.net/on/demandware.store/Sites-Site/default/ViewLdsBusinessManagerScreen-PageDesigner/https://shop.royalcanin.fr/on/demandware.store/Sites-FR-Site/fr_FR/Page-Show?%2520%27cid%27=%2520%27faq%27" target="_self" data-link-type="page" data-link-label="FAQ" data-content-page-id="faq" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</a>qui vous apportera de nombreuses réponses.
+                                      <Link to="/FAQ/all" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</Link>qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
                                 </div>
