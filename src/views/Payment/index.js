@@ -935,7 +935,8 @@ class Payment extends React.Component {
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
-          // subOrderNumberList = [res.context.pId];
+          subOrderNumberList = [res.context.pId];
+          debugger
           // 删除本地购物车
           if (this.isLogin) {
             this.props.checkoutStore.removeLoginCartData();
