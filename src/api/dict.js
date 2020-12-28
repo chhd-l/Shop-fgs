@@ -1,15 +1,15 @@
 import axios from '@/utils/request'
 
 const api = {
-  getDict:'/sysdict/querySysDictionary'
-  // getDict:'/sysdict/dictionary'
+  // getDict:'/sysdict/querySysDictionary'
+  getDict:'/sysdict/dictionary'
 }
 
 export default api
 export function getDict (parameter) {
   return axios({
     url: `${api.getDict}`,
-    method: 'post',
-    data: parameter
+    method: 'get',
+    params: parameter
   })
 }

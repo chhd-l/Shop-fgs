@@ -74,7 +74,6 @@ class ProductFinder extends React.Component {
     if(dataLayer && dataLayer[0] && dataLayer[0].page){
       dataLayer[0].page = {...event.page}
     }
-    console.info('event.page.virtualPageURL',  event.page.virtualPageURL)
   };
   getStepCurrent(stepCurrent) {
     return stepVirtualPageURL[stepCurrent]

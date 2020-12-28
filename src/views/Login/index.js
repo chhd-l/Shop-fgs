@@ -136,7 +136,6 @@ class Login extends React.Component {
         localItemRoyal.set('rc-token', res.context.token);
         let userinfo = res.context.customerDetail;
         userinfo.customerAccount = res.context.accountName;
-        console.info('customerId1',customerId)
         getCustomerInfo({customerId})
           .then((customerInfoRes) => {
             if (res.code === 'K-000000') {

@@ -58,9 +58,13 @@ const LoginButton = (props) => {
           if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
+            debugger
+            // 不知道能不能拿到customerId
+            let customerId = loginStore.userinfo && loginStore.userinfo.customerId
             userBindConsent({
               ...submitParam,
-              ...{ oktaToken }
+              ...{ oktaToken },
+              customerId
             }).then(res => {
               if (res.code === 'K-000000') {
                 history.push('/')

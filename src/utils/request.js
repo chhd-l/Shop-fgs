@@ -31,7 +31,6 @@ service.interceptors.request.use((config) => {
           return qs.stringify(params, { arrayFormat: "indices" });
         }
       })
-      console.info('testtest',config)
     }
   config.headers['Accept-Language'] = {
     en: 'en-US',

@@ -97,10 +97,12 @@ class RegisterRequired extends Component {
       if (isRequiredChecked) {
         //组装submit参数
         let submitParam = this.bindSubmitParam(this.state.list);
-
+        debugger
+        let customerId = this.userInfo && this.userInfo.customerId
         const result = await userBindConsent({
           ...submitParam,
-          ...{ oktaToken }
+          ...{ oktaToken },
+          customerId
         });
         if (result.code === 'K-000000') {
           this.props.history.push(lastPath);

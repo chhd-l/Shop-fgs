@@ -99,7 +99,6 @@ class AccountProfile extends React.Component {
   queryCustomerBaseInfo = () => {
     this.setState({ loading: true });
     let customerId = this.getUserInfo.customerId
-    console.info('customerId2',customerId)
 
     getCustomerInfo({customerId})
       .then((res) => {
@@ -116,6 +115,7 @@ class AccountProfile extends React.Component {
         this.setState({
           originData: context,
           personalData: {
+            customerId,
             firstName: context.firstName,
             lastName: context.lastName,
             email: context.email,
@@ -299,9 +299,8 @@ class AccountProfile extends React.Component {
 
                     <PanleContainer
                       customCls={classNames({
-                        hidden:
-                          editOperationPaneName &&
-                          editOperationPaneName !== 'Communication'
+                        hidden: false
+                
                       })}
                     >
                       <CommunicationDataEditForm
