@@ -81,9 +81,9 @@ class PromotionRefuge extends React.Component {
                         </div>
                         <div className=" col-12 col-lg-6">
                           <div className=" text-center text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                            <h2 className="rc-beta markup-text">Nos promotions suite aux adoptions en refuge</h2>
-                            <p><span style={{color:'black'}}>Vous avez adopté un compagnon à quatre pattes dans un refuge ou au sein d'une association ? Pour vous remercier d'offrir une seconde chance à un chien ou chat dans le besoin, bénéficiez de réductions sur les produits ROYAL CANIN. </span></p>
-                            <p><span style={{color:'black'}}> Découvrez notre formule abonnement et profitez de 10% sur toutes vos commandes ! Des réductions sont également applicables sur notre boutique en ligne : 4€, 5€ ou 12€ de remise sur tous les produits ROYAL CANIN si vous avez adoptez un animal dans un refuge.</span></p>
+                            <h2 className="rc-beta markup-text">Nos offres de bienvenue suite à l’adoption dans un refuge partenaire</h2>
+                            <p><span style={{color:'black'}}><strong>Vous avez adopté un compagnon à quatre pattes dans un refuge ou au sein d'une association ?</strong> Pour vous remercier d'offrir une seconde chance à un chien ou chat dans le besoin,<strong>bénéficiez de réductions</strong> sur les produits ROYAL CANIN®. </span></p>
+                            <p><span style={{color:'black'}}> Découvrez notre formule abonnement et profitez de <strong style={{color:'rgb(239 105 80)'}}>10€</strong><strong> sur toutes vos commandes !</strong> Des réductions sont également applicables sur notre boutique en ligne : <strong style={{color:'rgb(239 105 80)'}}>4€</strong>,  <strong style={{color:'rgb(239 105 80)'}}>5€</strong> ou  <strong style={{color:'rgb(239 105 80)'}}>12€</strong>  <strong style={{color:'rgb(239 105 80)'}}>de remise</strong> sur tous les produits ROYAL CANIN si vous avez adoptez un animal dans un refuge.</span></p>
                             <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" to="/subscription-landing" title="En savoir plus">En savoir plus</Link>
                           </div>
                         </div>
@@ -98,7 +98,7 @@ class PromotionRefuge extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
-                      <div className="product-reco rc-sm-up">
+                      <div className="product-reco">
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’élément le plus adapté à votre chaton</h4>
@@ -116,7 +116,7 @@ class PromotionRefuge extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
-                      <div className="product-reco rc-sm-up">
+                      <div className="product-reco ">
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chat</h4>
@@ -134,7 +134,7 @@ class PromotionRefuge extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
-                      <div className="product-reco rc-sm-up">
+                      <div className="product-reco">
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’aliment le plus adapté à votre chien slide 1 to 4 of 4</h4>
@@ -147,12 +147,12 @@ class PromotionRefuge extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="experience-component experience-layouts-1column">
+            <div className="experience-component experience-layouts-1column" >
               <div className="row rc-margin-x--none">
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
-                      <div className="product-reco rc-sm-up">
+                      <div className="product-reco" >
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chien</h4>
