@@ -34,7 +34,7 @@ import {
   setSeoConfig,
   getDeviceType,
   getFrequencyDict,
-  queryStoreCateList,
+  queryStoreCateList
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
@@ -120,9 +120,9 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      event:{},
-      eEvents:{},
-      GAListParam:'',
+      event: {},
+      eEvents: {},
+      GAListParam: '',
       initing: true,
       details: {
         id: '',
@@ -202,18 +202,17 @@ class Details extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    const { pathname,state } = this.props.location;
-    if(state&&(!!state.GAListParam)) {
-      this.setState({GAListParam:state.GAListParam})
+    const { pathname, state } = this.props.location;
+    if (state) {
+      if (!!state.GAListParam) {
+        this.setState({ GAListParam: state.GAListParam });
+      }
     }
-    const goodsSpuNo =
-      pathname.split('-').reverse().length > 1
-        ? pathname.split('-').reverse()[0]
-        : '';
     await getFrequencyDict().then((res) => {
-      console.log(process.env.REACT_APP_FREQUENCY_ID , process.env.REACT_APP_FREQUENCY_VAL , process.env.REACT_APP_FREQUENCY_NAME ,process.env,'aaaa')
       if (
-        process.env.REACT_APP_FREQUENCY_ID && process.env.REACT_APP_FREQUENCY_VAL && process.env.REACT_APP_FREQUENCY_NAME
+        process.env.REACT_APP_FREQUENCY_ID &&
+        process.env.REACT_APP_FREQUENCY_VAL &&
+        process.env.REACT_APP_FREQUENCY_NAME
       ) {
         this.setState({
           frequencyList: res,
@@ -234,6 +233,10 @@ class Details extends React.Component {
         });
       }
     });
+    const goodsSpuNo =
+      pathname.split('-').reverse().length > 1
+        ? pathname.split('-').reverse()[0]
+        : '';
     this.setState(
       {
         id: this.props.match.params.id,
@@ -496,29 +499,44 @@ class Details extends React.Component {
               spuImages: res.context.images,
               breadCrumbs: [{ name: res.context.goods.goodsName }]
             },
-            async () => {
+            () => {
+              // 面包屑展示规则
+              // 1 正向流程，使用history
+              // 2 逆向流程，进行分类匹配【从sales catogery(home page)中，至少匹配一个进行展示】
+              const { state } = this.props.location;
               const { breadCrumbs } = this.state;
-              const cateNameInfo = (res.context.storeCates || [])[0];
-              if (cateNameInfo && cateNameInfo.storeCateId) {
-                const res = await queryStoreCateList();
-                const matchedItem = (res || []).filter(
-                  (f) => f.storeCateId === cateNameInfo.storeCateId
-                )[0];
-                if (matchedItem) {
-                  this.setState({
-                    breadCrumbs: [
-                      {
-                        name: matchedItem.cateName,
-                        link: matchedItem.cateRouter
-                      },
-                      ...breadCrumbs
-                    ]
-                  });
-                }
+              const cateNameInfos = res.context.storeCates || [];
+
+              if (state && state.historyBreads) {
+                this.setState({
+                  breadCrumbs: [...state.historyBreads, ...breadCrumbs]
+                });
+              } else if (cateNameInfos.length) {
+                queryStoreCateList().then((tmpRes) => {
+                  for (let index = 0; index < cateNameInfos.length; index++) {
+                    const info = cateNameInfos[index];
+                    const matchedItem = (tmpRes || []).filter(
+                      (f) => f.storeCateId === info.storeCateId
+                    )[0];
+                    if (matchedItem) {
+                      this.setState({
+                        breadCrumbs: [
+                          {
+                            name: matchedItem.cateName,
+                            link: matchedItem.cateRouter
+                          },
+                          ...breadCrumbs
+                        ]
+                      });
+                      break;
+                    }
+                  }
+                });
               }
             }
           );
-          setSeoConfig({ goodsId: res.context.goods.goodsId,
+          setSeoConfig({
+            goodsId: res.context.goods.goodsId,
             categoryId: '',
             pageName: 'Product Detail Page'
           }).then((res) => {
@@ -549,9 +567,9 @@ class Details extends React.Component {
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 )[0];
                 sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                sdItem.isEmpty = filterproduct.stock === 0
+                sdItem.isEmpty = filterproduct.stock === 0;
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-                console.log(filterproduct, 'filterproduct')
+                console.log(filterproduct, 'filterproduct');
               }
               return sdItem.specId === sItem.specId;
             });
@@ -643,7 +661,7 @@ class Details extends React.Component {
               tabs
             });
           } catch (err) {
-            console.log(err, 'err')
+            console.log(err, 'err');
             getDict({
               type: 'goodsDetailTab',
               storeId: process.env.REACT_APP_STOREID
@@ -854,8 +872,8 @@ class Details extends React.Component {
     });
   };
   handleChooseSize(sId, sdId, isSelected) {
-    if(isSelected) {
-      return
+    if (isSelected) {
+      return;
     }
     let { specList } = this.state;
     specList
@@ -917,7 +935,7 @@ class Details extends React.Component {
       } = this.props;
       const { quantity, form, details } = this.state;
 
-      this.GAAddToCar(quantity,details);
+      this.GAAddToCar(quantity, details);
 
       const { sizeList } = details;
       let currentSelectedSize;
@@ -1047,7 +1065,7 @@ class Details extends React.Component {
     } = this.state;
     const { goodsId, sizeList } = details;
     // 加入购物车 埋点start
-    this.GAAddToCar(quantity,details);
+    this.GAAddToCar(quantity, details);
     // 加入购物车 埋点end
     this.setState({ checkOutErrMsg: '' });
     if (!this.btnStatus || loading) {
@@ -1348,12 +1366,12 @@ class Details extends React.Component {
     }
   }
   //加入购物车，埋点
-  GAAddToCar(num,item) {
-    let cur_selected_size = item.sizeList.filter((item2)=>{
-      return item2.selected == true
-    })
-    let variant = cur_selected_size[0].specText
-    let goodsInfoNo = cur_selected_size[0].goodsInfoNo
+  GAAddToCar(num, item) {
+    let cur_selected_size = item.sizeList.filter((item2) => {
+      return item2.selected == true;
+    });
+    let variant = cur_selected_size[0].specText;
+    let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
     let { form } = this.state;
     dataLayer.push({
       event: `${process.env.REACT_APP_GTM_SITE_ID}eComAddToBasket`,
@@ -1364,9 +1382,12 @@ class Details extends React.Component {
               name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
-              type: form.buyWay==0?'one-time':'subscription',
-              price: form.buyWay==0?cur_selected_size[0].marketPrice:cur_selected_size[0].subscriptionPrice,
-              brand: item.brandName||'Royal Canin',
+              type: form.buyWay == 0 ? 'one-time' : 'subscription',
+              price:
+                form.buyWay == 0
+                  ? cur_selected_size[0].marketPrice
+                  : cur_selected_size[0].subscriptionPrice,
+              brand: item.brandName || 'Royal Canin',
               // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant: parseInt(variant),
@@ -1385,14 +1406,14 @@ class Details extends React.Component {
     const event = {
       page: {
         type: 'product',
-        theme: item.cateId=='1134'?'Cat':'Dog',
+        theme: item.cateId == '1134' ? 'Cat' : 'Dog',
         path: this.props.location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       },
-      pet:{
-        specieId: item.cateId=='1134'?'2':'1',
+      pet: {
+        specieId: item.cateId == '1134' ? '2' : '1'
       }
     };
     const eEvents = {
@@ -1401,19 +1422,21 @@ class Details extends React.Component {
         currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
         detail: {
           actionField: {
-            list: this.state.GAListParam//list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+            list: this.state.GAListParam //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           },
           products: [
             {
-              id: item.goodsNo,//?goodsId客户反馈不对，id这里为空
+              id: item.goodsNo, //?goodsId客户反馈不对，id这里为空
               name: item.goodsName,
               price: item.minMarketPrice,
-              brand: item.brandName||'ROYAL CANIN',
+              brand: item.brandName || 'ROYAL CANIN',
               club: 'no',
               // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
-              category:item.goodsCateName,
-              variant: item.goodsSpecDetails[0] && parseInt(item.goodsSpecDetails[0].detailName),
-              sku: item.goodsInfos.length&&item.goodsInfos[0].goodsInfoNo,
+              category: item.goodsCateName,
+              variant:
+                item.goodsSpecDetails[0] &&
+                parseInt(item.goodsSpecDetails[0].detailName),
+              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
           ]
         }
@@ -1509,7 +1532,6 @@ class Details extends React.Component {
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
-                {/* todo 接口有返回salescatogery类别吗 */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
                 <div className="rc-padding--sm--desktop">
                   <div className="rc-content-h-top">
@@ -1524,13 +1546,15 @@ class Details extends React.Component {
                         >
                           {details.goodsName}
                         </h1>
-                        <div className="desAndStars"
-                             style={{
-                               display:
-                                 process.env.REACT_APP_LANG == 'fr'
-                                   ? 'none'
-                                   : 'block'
-                             }}>
+                        <div
+                          className="desAndStars"
+                          style={{
+                            display:
+                              process.env.REACT_APP_LANG == 'fr'
+                                ? 'none'
+                                : 'block'
+                          }}
+                        >
                           <div className="des">
                             <h3 className="text-break mb-1 mt-2">
                               {/* {details.goodsSubtitle} */}
@@ -1585,33 +1609,35 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {
-                                    process.env.REACT_APP_LANG === 'fr'? (
-                                      <ImageMagnifier_fr
-                                        sizeList={details.sizeList}
-                                        video={details.goodsVideo}
-                                        images={images}
-                                        minImg={details.goodsImg}
-                                        maxImg={details.goodsImg}
-                                        config={this.state.imageMagnifierCfg.config}
-                                        taggingForText={details.taggingForText}
-                                        taggingForImage={details.taggingForImage}
-                                        spuImages={spuImages}
-                                      />
-                                    ): (
-                                      <ImageMagnifier
-                                        sizeList={details.sizeList}
-                                        video={details.goodsVideo}
-                                        images={images}
-                                        minImg={details.goodsImg}
-                                        maxImg={details.goodsImg}
-                                        config={this.state.imageMagnifierCfg.config}
-                                        taggingForText={details.taggingForText}
-                                        taggingForImage={details.taggingForImage}
-                                        spuImages={spuImages}
-                                      />
-                                    )
-                                  }
+                                  {process.env.REACT_APP_LANG === 'fr' ? (
+                                    <ImageMagnifier_fr
+                                      sizeList={details.sizeList}
+                                      video={details.goodsVideo}
+                                      images={images}
+                                      minImg={details.goodsImg}
+                                      maxImg={details.goodsImg}
+                                      config={
+                                        this.state.imageMagnifierCfg.config
+                                      }
+                                      taggingForText={details.taggingForText}
+                                      taggingForImage={details.taggingForImage}
+                                      spuImages={spuImages}
+                                    />
+                                  ) : (
+                                    <ImageMagnifier
+                                      sizeList={details.sizeList}
+                                      video={details.goodsVideo}
+                                      images={images}
+                                      minImg={details.goodsImg}
+                                      maxImg={details.goodsImg}
+                                      config={
+                                        this.state.imageMagnifierCfg.config
+                                      }
+                                      taggingForText={details.taggingForText}
+                                      taggingForImage={details.taggingForImage}
+                                      spuImages={spuImages}
+                                    />
+                                  )}
                                 </div>
                               }
                             </div>
@@ -1686,7 +1712,6 @@ class Details extends React.Component {
                                     className="availability-msg"
                                     data-ready-to-order="true"
                                   >
-                                    {/* todo */}
                                     <div>
                                       <FormattedMessage id="details.inStock" />
                                     </div>
@@ -1747,14 +1772,14 @@ class Details extends React.Component {
                                           sdItem.selected ? 'selected' : ''
                                         }`}
                                         onClick={() => {
-                                          if(sdItem.isEmpty) {
-                                            return false
-                                          }else {
+                                          if (sdItem.isEmpty) {
+                                            return false;
+                                          } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
-                                            )
+                                            );
                                           }
                                         }}
                                       >
@@ -1878,8 +1903,7 @@ class Details extends React.Component {
                                         )
                                       ).toFixed(2)
                                     )}
-                                    /
-                                    {selectedSpecItem.goodsInfoUnit}{' '}
+                                    /{selectedSpecItem.goodsInfoUnit}{' '}
                                   </div>
                                 ) : null}
                               </div>
@@ -1973,11 +1997,12 @@ class Details extends React.Component {
                                   {formatMoney(
                                     (
                                       currentUnitPrice /
-                                      parseFloat(selectedSpecItem.goodsInfoWeight)
+                                      parseFloat(
+                                        selectedSpecItem.goodsInfoWeight
+                                      )
                                     ).toFixed(2)
                                   )}
-                                  /
-                                  {selectedSpecItem.goodsInfoUnit}{' '}
+                                  /{selectedSpecItem.goodsInfoUnit}{' '}
                                 </div>
                               ) : null}
                             </div>
@@ -2095,8 +2120,7 @@ class Details extends React.Component {
                                           )
                                         ).toFixed(2)
                                       )}
-                                      /
-                                      {selectedSpecItem.goodsInfoUnit}{' '}
+                                      /{selectedSpecItem.goodsInfoUnit}{' '}
                                     </div>
                                   ) : null}
                                 </div>
@@ -2146,7 +2170,10 @@ class Details extends React.Component {
                               onClick={() => this.ChangeFormat(1)}
                             >
                               <div className="radioBox">
-                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width" style={{margin: '0'}}>
+                                <div
+                                  className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width"
+                                  style={{ margin: '0' }}
+                                >
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input
@@ -2268,8 +2295,7 @@ class Details extends React.Component {
                                         )
                                       ).toFixed(2)
                                     )}
-                                    /
-                                    {selectedSpecItem.goodsInfoUnit}{' '}
+                                    /{selectedSpecItem.goodsInfoUnit}{' '}
                                   </div>
                                 ) : null}
                               </div>
@@ -2501,7 +2527,7 @@ class Details extends React.Component {
                           <div className="block">
                             <p
                               className="content rc-scroll--x"
-                              style={{marginBottom: '4rem'}}
+                              style={{ marginBottom: '4rem' }}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
                           </div>
@@ -2690,9 +2716,7 @@ class Details extends React.Component {
         </aside>
         <div class="rc-bg-colour--brand4">
           <div class="contact-section rc-max-width--xl rc-padding-y--md rc-padding-x--sm">
-            <div class="content-asset">
-              &nbsp;
-            </div> 
+            <div class="content-asset">&nbsp;</div>
           </div>
         </div>
         <Footer />
