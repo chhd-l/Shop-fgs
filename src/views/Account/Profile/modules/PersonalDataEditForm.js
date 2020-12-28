@@ -147,8 +147,10 @@ class PersonalDataEditForm extends React.Component {
       });
     }
   };
+  // 表单验证
   validFormData = async () => {
     try {
+      // console.log('★★★★★★★★★ validFormData: ',this.state.isValid);
       await validData(PRESONAL_INFO_RULE, this.state.form);
       this.setState({ isValid: true });
     } catch (err) {
@@ -705,7 +707,7 @@ class PersonalDataEditForm extends React.Component {
                   </span>
                 </div> */}
               </div>
-              <span className="rc-meta mandatoryField">
+              <span className={`rc-meta mandatoryField ${isValid?'hidden':''}`}>
                 * <FormattedMessage id="account.requiredFields" />
               </span>
               <div className="text-right">
