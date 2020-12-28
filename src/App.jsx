@@ -513,6 +513,16 @@ const App = () => (
                   //为了匹配labrador01，labrador02等
                   if(/^\/labrador/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
 
+                  if(/^\/shihtzu/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/yorkshire/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/british/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/mainecoon/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/persan/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
                     return <Details key={props.match.params.id} {...props} />;
