@@ -299,8 +299,9 @@ class AccountProfile extends React.Component {
 
                     <PanleContainer
                       customCls={classNames({
-                        hidden: false
-                
+                        hidden:
+                          editOperationPaneName &&
+                          editOperationPaneName !== 'Communication'
                       })}
                     >
                       <CommunicationDataEditForm

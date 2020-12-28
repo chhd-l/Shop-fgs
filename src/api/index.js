@@ -5,7 +5,7 @@ const api = {
   uploadResource: '/common/uploadResource',
   queryCityNameById: '/system-city/query-system-city-by-id', //http://localhost:3000/account/information
   // queryCityNameById: '/system/city/',
-  queryCityByName: '/system/city/name=',
+  queryCityByName: `${process.env.REACT_APP_STOREID}/system/city/name=`,
   // queryCityByName: '/system-city/query-system-city-by-name',
   buryPoint: '/fgs.gif',
   // buryPoint: '/wm.gif',
