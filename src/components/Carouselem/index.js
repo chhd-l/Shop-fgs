@@ -12,7 +12,7 @@ const Carouselem = withRouter((props) => {
           {
             list.map((item, index) => {
               return (
-                <article className="rc-card rc-card--b tns-item tns-slide-active">
+                <article className="rc-card rc-card--b tns-item tns-slide-active" style={{margin:'25px'}}>
                   <Link to={item.linkUrl+sourceParam} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
                     <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
                       <div className="row h-100">
@@ -32,7 +32,7 @@ const Carouselem = withRouter((props) => {
                               <span>
                                 <span className="sales">
                                   <span className="value" content={item.marketPrice}>
-                                    {item.marketPrice>0?item.marketPrice +' €': '' } 
+                                    {item.marketPrice>0?item.marketPrice +' €': '' }
                                   </span>
                                 </span>
                               </span>
@@ -42,7 +42,7 @@ const Carouselem = withRouter((props) => {
                               <span>
                               <span className="sales">
                                   <span className="value" content={item.price}>
-                                  {item.price>0?item.price+' €': '' } 
+                                  {item.price>0?item.price+' €': '' }
                                   </span>
                                 </span>
                               </span>
