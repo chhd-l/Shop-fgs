@@ -107,12 +107,10 @@ class Confirmation extends React.Component {
       .then(async (res) => {
         debugger
         let resContext = res[0].context;
-        debugger
         let cityRes = await queryCityNameById({
           id: [resContext.consignee.cityId, resContext.invoice.cityId]
         });
         cityRes = cityRes.context.systemCityVO || [];
-        debugger
         resContext.consignee.cityName = this.matchCityName(
           cityRes,
           resContext.consignee.cityId
