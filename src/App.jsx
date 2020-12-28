@@ -501,7 +501,7 @@ const App = () => (
                   if(/^\/refuge/.test(location.pathname)) return <RefugeSource key={Math.random()} {...props}/>
 
                   //为了匹配/boxer01，boxer02等
-                  if(/^\/box/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if(/^\/boxer/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
                   //为了匹配/bulldog01，bulldog02等
                   if(/^\/bulldog/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
                   //为了匹配chihuahua01,chihuahua02等
