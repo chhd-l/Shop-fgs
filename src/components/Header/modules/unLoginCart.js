@@ -419,8 +419,9 @@ class UnloginCart extends React.Component {
                                           <FormattedMessage id="subscription.frequency"/>:{' '}
                                           {frequencyList.length &&
                                             frequencyList.filter(
-                                              (el) =>
-                                                el.id === item.periodTypeId
+                                              (el) => {
+                                                return el.id === item.periodTypeId
+                                              }
                                             )[0].name}
                                         </p>
                                       </div>
