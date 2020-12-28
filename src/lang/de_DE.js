@@ -977,6 +977,8 @@ const de_DE = {
   'VAT_included': 'inkl. MwSt',
   'skiped': 'Übersprungen',
   'orderDetail': 'Bestelldetails',
+  'modalChangeDateTitle': 'Ändern Sie das Versanddatum',
+  'modalChangeDateContent': 'Möchten Sie das nächste Versanddatum wirklich ändern?',
   'confirmation.account':'Go to my account',
   'confirmation.subscriptionDiscountPriceDes':'Sie sparen {val1} bei diesem Abonnement',
   deliveredTip: 'Voraussichtlich in ca. 3 Tagen eintreffen',

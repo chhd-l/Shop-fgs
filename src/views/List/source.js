@@ -2,7 +2,7 @@ import React, {Component,Fragment} from 'react'
 import {linkTransform} from "@/api/refuge"
 import Loading from '@/components/Loading';
 
-// 这个组件的目的  是为了输入/refuge108782 这种短链接 去通过接口获取长链接，再跳转到promotion-refuge.html页面
+// 这个组件的目的  是为了输入/box01 这种短链接 去通过接口获取长链接，再跳转到PLP页面
 class RefugeSource extends Component {
     constructor(props){
         super(props)
@@ -15,9 +15,7 @@ class RefugeSource extends Component {
           const shortLinkSuffix = this.props.location.pathname.split("/")[1]
           const res = await linkTransform({shortLinkSuffix})
           if(res.code=='K-000000'){
-            const sourceParam = res.context.longLink.split("?")[1]
-            this.props.history.push('/promotion-refuge.html'+'?'+sourceParam)
-            //window.location.href = `https://${res.context.longLink}`
+            window.location.href = `https://${res.context.longLink}`
           }
         }catch(err){
           console.log(err)

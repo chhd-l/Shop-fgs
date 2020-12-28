@@ -39,6 +39,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 import RouteFilter from '@/components/RouteFilter';
 import Home from '@/views/Home';
 import List from '@/views/List';
+import ListSource from '@/views/List/source';
 import Login from '@/views/Login';
 // import Details from '@/views/Details';
 import Details from '@/views/Details/index.js';
@@ -428,7 +429,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/promotion-refuge"
+                path="/promotion-refuge.html"
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />
@@ -498,6 +499,20 @@ const App = () => (
                   const { location } = props;
                   //为了匹配/refuge108785 这种数字动态的短链接
                   if(/^\/refuge/.test(location.pathname)) return <RefugeSource key={Math.random()} {...props}/>
+
+                  //为了匹配/boxer01，boxer02等
+                  if(/^\/box/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  //为了匹配/bulldog01，bulldog02等
+                  if(/^\/bulldog/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  //为了匹配chihuahua01,chihuahua02等
+                  if(/^\/chihuahua/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  //为了匹配bergerallemand01，bergerallemand02等
+                  if(/^\/bergerallemand/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  //为了匹配golden01，golden02等
+                  if(/^\/golden/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  //为了匹配labrador01，labrador02等
+                  if(/^\/labrador/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
                     return <Details key={props.match.params.id} {...props} />;

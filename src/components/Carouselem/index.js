@@ -1,12 +1,5 @@
 import React from 'react'
-import { withRouter, link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
-import find from 'lodash/find';
-import imagemain from './image/Main-Coon-Adult-1-bis.jpg';
-import imagePersan from './image/Persan-1-bis.jpg';
-import imageBritish from './image/British-Shortair1-bis.jpg';
-import imageappetite from './image/Appetite-control-1.jpg';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import "./index.less"
 
 const Carouselem = withRouter((props) => {
