@@ -1,3 +1,5 @@
+import React from 'react';
+
 const fr_FR = {
   aboutUs: 'À propos de nous',
   'aboutUs.description': 'Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution efficace à leurs problèmes de santé.',
@@ -1127,6 +1129,10 @@ const fr_FR = {
   // SubscriptionLanding START
   "subscription.title":"",
   "subscription.subTitle":"",
+  "subscription.banner.title":"Commencez dès maintenant votre Abonnement",
+  "subscription.banner.subTitle":" Découvrez les meilleures formules nutritionnelleset sélectionnez l'Abonnement avant d'acheter",
+  "subscription.help.title":"Besoin d'aide ?",
+  "subscription.help.subTitle":"Nos conseillers sont de vrais experts et passionnés. Ils setiennent à votre disposition pour répondre à toute demande.",
   // SubscriptionLanding END
 }
 export default fr_FR;

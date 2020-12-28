@@ -277,12 +277,11 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
                           <div className="rc-gamma rc-text--center rc-margin-bottom--xs">
-                            Commencez dès maintenant votre Abonnement
+                            <FormattedMessage id="subscription.banner.title" />
                           </div>
                           <div className="rc-intro inherit-fontsize rc-text--center rc-padding-x--sm rc-margin-bottom--sm">
                             <p>
-                              Découvrez les meilleures formules nutritionnelles
-                              et sélectionnez l'Abonnement avant d'acheter
+                              <FormattedMessage id="subscription.banner.subTitle" />
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
@@ -326,11 +325,11 @@ class SubscriptionLanding extends React.Component {
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Besoin d'aide ?
+                <FormattedMessage id="subscription.help.title" />
+
               </h2>
               <p>
-                Nos conseillers sont de vrais experts et passionnés. Ils se
-                tiennent à votre disposition pour répondre à toute demande.
+                <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
             {process.env.REACT_APP_LANG == 'fr' ? (
