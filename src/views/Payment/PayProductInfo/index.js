@@ -140,7 +140,7 @@ class PayProductInfo extends React.Component {
   }
   async componentDidMount() {
     // console.log(this.refs.applyButtton.click() ,' hahaha')
-    // this.refs.applyButtton.click()
+    this.refs.applyButtton.click()
     let productList;
     if (this.props.data.length) {
       productList = this.props.data;

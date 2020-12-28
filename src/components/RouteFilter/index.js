@@ -192,10 +192,6 @@ class RouteFilter extends Component {
     return true;
   }
   componentWillMount() {
-    if (window.location.pathname !== '/checkout') {
-      localItemRoyal.set('rc-promotionCode', '');
-      // localItemRoyal.remove('rc-totalInfo')
-    }
   }
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
