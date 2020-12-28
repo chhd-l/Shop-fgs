@@ -14,7 +14,7 @@ class RefugeSource extends Component {
           const res = await linkTransform({shortLinkSuffix})
           if(res.code=='K-000000'){
             const sourceParam = res.context.longLink.split("?")[1]
-            this.props.history.push('/promotion-refuge'+'?'+sourceParam)
+            this.props.history.push('/promotion-refuge.html'+'?'+sourceParam)
           }
         }catch(err){
           console.log(err)
