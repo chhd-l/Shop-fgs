@@ -25,10 +25,10 @@ export function getList(parameter) {
 export function getLoginList(parameter) {
   return axios({
     url: api.loginList,
-    // method: 'post',
-    // data: parameter
-    method: 'get',
-    params: parameter
+    method: 'post',
+    data: parameter
+    // method: 'get',
+    // params: parameter
   });
 }
 

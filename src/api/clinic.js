@@ -6,7 +6,7 @@ const api = {
   allClinics: `/${process.env.REACT_APP_STOREID}/prescribers/all`, //所有Clinic
   getPrescriberByKeyWord: `/${process.env.REACT_APP_STOREID}/prescribers/key-word=`, //根据clinic name/id查询
   getPrescriberByCode: `/${process.env.REACT_APP_STOREID}/prescribers/code=`, //根据recommendation code查询(明文)
-  getPrescriberByEncryptCode: '/prescribers/ecode=',//根据recommendation code查询(密文)
+  getPrescriberByEncryptCode: `/${process.env.REACT_APP_STOREID}/prescribers/ecode=`,//根据recommendation code查询(密文)
   // getPrescriberByEncryptCode: '/prescriber/getPrescriberByEncryptCode',//根据recommendation code查询(密文)
   getPrescriberByPrescriberIdAndStoreId: '/prescriber/getPrescriberByPrescriberIdAndStoreId',
 }

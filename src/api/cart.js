@@ -5,8 +5,8 @@ const api = {
   purchases: '/site/front/purchases',
   // sitePurchase: '/site/purchase', // 加入后台购物车
   sitePurchase: `/site/${process.env.REACT_APP_STOREID}/carts`, // 加入后台购物车
-  siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
-  // siteMiniPurchases: `/site/${process.env.REACT_APP_STOREID}/mini_carts`, // 查询后台购物车
+  // siteMiniPurchases: '/site/miniPurchases', // 查询后台购物车
+  siteMiniPurchases: `/site/${process.env.REACT_APP_STOREID}/mini-carts`, // 查询后台购物车
   sitePurchases: '/site/purchases', // 计算价格
   mergePurchase: `/site/${process.env.REACT_APP_STOREID}/carts/merge`, // 合并前后台购物车
   switchSize: `/site/${process.env.REACT_APP_STOREID}/carts/specific`, // 切换规格
@@ -78,10 +78,10 @@ export function deleteItemFromBackendCart (parameter) {
 export function siteMiniPurchases (parameter) {
   return axios({
     url: `${api.siteMiniPurchases}`,
-    method: 'post',
-    data: parameter
-    // method: 'get',
-    // params: parameter
+    // method: 'post',
+    // data: parameter
+    method: 'get',
+    params: parameter
   })
 }
 

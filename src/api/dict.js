@@ -2,6 +2,7 @@ import axios from '@/utils/request'
 
 const api = {
   getDict:'/sysdict/querySysDictionary'
+  // getDict:'/sysdict/dictionary'
 }
 
 export default api
