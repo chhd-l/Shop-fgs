@@ -220,7 +220,7 @@ class Details extends React.Component {
           form: Object.assign(this.state.form, {
             frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
             frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
-            frequencyId: process.env.REACT_APP_FREQUENCY_ID
+            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
           })
         });
       } else {
