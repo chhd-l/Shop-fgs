@@ -1,11 +1,12 @@
 import React, {Component,Fragment} from 'react'
 import {linkTransform} from "@/api/refuge"
+import Loading from '@/components/Loading';
 
 class RefugeSource extends Component {
     constructor(props){
         super(props)
         this.state = {
-            
+          circleLoading: true,
         }
     }
     async componentWillMount(){
@@ -18,11 +19,17 @@ class RefugeSource extends Component {
           }
         }catch(err){
           console.log(err)
+        }finally{
+          this.setState({
+            circleLoading: false
+          });
         }
       }
     render() {
         return (
-            <Fragment/>
+            <div>
+              {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
+            </div>
         )
     }
 }
