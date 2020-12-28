@@ -76,11 +76,10 @@ class PetForm extends React.Component {
       isMix: false,
       breed: '',
       weight: '',
-      isSterilized: null,
+      isSterilized: true,
       birthdate: '',
       sizeArr: [],
       specialNeeds: [],
-
       selectedSpecialNeeds: [],
       selectedSpecialNeedsObj: {
         value: ''
@@ -329,14 +328,14 @@ class PetForm extends React.Component {
       petsSizeValueId: '10086',
       petsSizeValueName: this.state.weight,
       petsType: this.state.isCat ? 'cat' : 'dog',
-      sterilized: this.state.isSterilized ? '0' : '1',
+      sterilized: this.state.isSterilized ? '1' : '0',
       storeId: process.env.REACT_APP_STOREID
     };
     // if (this.state.isUnknown) {
     //   pets.petsBreed = 'unknown Breed';
     // }
     if (!this.state.isPurebred) {
-      pets.petsBreed = 'mix Breed';
+      pets.petsBreed = 'mixed Breed';
     }
     let param = {
       customerPets: pets,
@@ -503,7 +502,9 @@ class PetForm extends React.Component {
 
     getDict({
       type: this.state.isCat ? 'catBreed' : 'dogBreed',
-      name: e.target.value
+      name: e.target.value,
+      delFlag: 0,
+      storeId: process.env.REACT_APP_STOREID
     })
       .then((res) => {
         this.setState({
@@ -590,7 +591,7 @@ class PetForm extends React.Component {
       breed:
         currentPet.petsBreed === 'unknown Breed' ? '' : currentPet.petsBreed,
       weight: currentPet.petsType === 'dog' ? currentPet.petsSizeValueName : '',
-      isSterilized: currentPet.sterilized === 0 ? true : false,
+      isSterilized: currentPet.sterilized === 1 ? true : false,
       birthdate: currentPet.birthOfPets
     };
     if (currentPet.petsBreed === 'unknown Breed') {
@@ -598,7 +599,7 @@ class PetForm extends React.Component {
       param.isUnknown = true;
       // param.isInputDisabled = true;
       param.breed = '';
-    } else if (currentPet.petsBreed === 'mix Breed') {
+    } else if (currentPet.petsBreed === 'mixed Breed') {
       param.isMix = true;
       param.isUnknown = false;
       // param.isInputDisabled = true;
@@ -607,8 +608,9 @@ class PetForm extends React.Component {
     } else {
       param.isPurebred = true;
     }
+    
     let filterSize = this.sizeOptions.filter(
-      (el) => el.name === currentPet.petsSizeValueName
+      (el) => el.value === currentPet.petsSizeValueName
     );
     if (filterSize.length) {
       param.selectedSizeObj = Object.assign(this.state.selectedSizeObj, {
@@ -636,7 +638,7 @@ class PetForm extends React.Component {
     // }
     param.selectedSpecialNeedsObj = { value: currentPet.customerPetsPropRelations[0].propName };
     let params = {
-      breedCode: param.isPurebred ? param.breed : 'mix Breed',
+      breedCode: param.isPurebred ? param.breed : 'mixed Breed',
       birth: param.birthdate,
       petsType: param.isCat ? 'cat' : 'dog',
       // mainReason: selectedSpecialNeedsObj
@@ -647,16 +649,15 @@ class PetForm extends React.Component {
       params.size = param.weight
     }
     getRecommendProducts(params).then((res) => {
-      console.log(res, 'recommendData')
       if (res.code === 'K-000000') {
         let result = res.context.context
-        let recommendData = result.otherProducts;
-        console.log(recommendData, result, 'recommendData')
-        recommendData.unshift(result.mainProduct);
-        // console.log(result.otherProducts.unshift(result.mainProduct), result,'hahahaa')
-        this.setState({
-          recommendData: recommendData
-        });
+        if(result.otherProducts) {
+          let recommendData = result.otherProducts;
+          recommendData.unshift(result.mainProduct);
+          this.setState({
+            recommendData: recommendData
+          });
+        }
       }
     });
     this.setState(param);
@@ -794,31 +795,11 @@ class PetForm extends React.Component {
     }
   }
   sizeOptionsChange(data) {
+    console.log(data)
     this.setState({
-      weight: data.name,
-      selectedSizeObj: { value: data.valueEn }
+      weight: data.value,
+      selectedSizeObj: { value: data.value }
     });
-  }
-  breedCheckboxChange(e) {
-    console.log(e.currentTarget.value, e.currentTarget.checked);
-    if (e.currentTarget.checked) {
-      this.setState({ isInputDisabled: true });
-    } else {
-      this.setState({ isInputDisabled: false });
-    }
-    if (e.currentTarget.value === 'Mix breed') {
-      this.setState({
-        isMix: !this.state.isMix,
-        isUnknown: false
-      });
-    }
-    if (e.currentTarget.value === "Don't know") {
-      this.setState({
-        isMix: false,
-        isUnknown: !this.state.isUnknown
-      });
-    }
-    // }
   }
   handelImgChange(data) {
     console.log(data);

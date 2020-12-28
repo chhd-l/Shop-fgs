@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Skeleton from 'react-skeleton-loader';
@@ -20,6 +20,7 @@ import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+@injectIntl
 @inject('loginStore')
 @observer
 class Pet extends React.Component {
@@ -39,7 +40,7 @@ class Pet extends React.Component {
   componentDidMount() {
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     setSeoConfig().then(res => {
-      this.setState({ seoConfig: res })
+      this.setState({seoConfig: res})
     });
     this.getPetList();
   }
@@ -47,28 +48,32 @@ class Pet extends React.Component {
     const { history } = this.props;
     // history.push('/account/pets/petForm');
   }
-  get getUserInfo() {
+
+  get userInfo() {
     return this.props.loginStore.userInfo;
   }
 
-  getPetList = async () => { 
-    if (!this.getUserInfo || !this.getUserInfo.customerAccount) {
-      // this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed)
+  getPetList = async () => {
+    let customerId = this.userInfo && this.userInfo.customerId
+    let consumerAccount = this.userInfo && this.userInfo.consumerAccount
+    if (!customerId) {
+      this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
         loading: false
       });
       return false;
     }
-    await getPetList({
-      customerId: this.getUserInfo.customerId,
-      consumerAccount: this.getUserInfo.customerAccount
-    })
+    let params = {
+      customerId,
+      consumerAccount
+    };
+    await getPetList(params)
       .then((res) => {
-        let petList = res.context.context;
-        this.setState({
-          loading: false,
-          petList: petList
-        });
+          let petList = res.context.context;
+          this.setState({
+            loading: false,
+            petList: petList
+          });
       })
       .catch((err) => {
         this.setState({
@@ -93,8 +98,8 @@ class Pet extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription} />
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
+          <meta name="description" content={this.state.seoConfig.metaDescription}/>
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -118,8 +123,8 @@ class Pet extends React.Component {
                   </Link>
                 </div>
               ) : (
-                  <SideMenu type="Pets" />
-                )}
+                <SideMenu type="Pets" />
+              )}
               <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
                 {/* <div className="rc-border-bottom rc-border-colour--interface rc-margin-bottom--sm">
                   <h4 className="rc-delta rc-margin--none">
@@ -138,7 +143,7 @@ class Pet extends React.Component {
                     <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column rc-md-down">
                         <LazyLoad>
-                          <img style={{ width: '100%' }} src={noPet} alt="No pets" />
+                        <img style={{width: '100%'}} src={noPet} alt="No pets" />
                         </LazyLoad>
                       </div>
                       <div className="rc-column">
@@ -160,132 +165,134 @@ class Pet extends React.Component {
                       </div>
                       <div className="rc-column rc-md-up">
                         <LazyLoad>
-                          <img src={noPet} alt="No pets" />
+                        <img src={noPet} alt="No pets" />
                         </LazyLoad>
                       </div>
                     </div>
                   ) : (
-                        <div>
-                          <p className="title">
-                            <FormattedMessage id="pet.petListTitle" />
-                          </p>
-                          {isMobile
-                            ? petList.map((el) => (
-                              <div className="petItem">
-                                <div className="photo">
+                    <div>
+                      <p className="title">
+                        <FormattedMessage id="pet.petListTitle" />
+                      </p>
+                      {isMobile
+                        ? petList.map((el) => (
+                            <div className="petItem">
+                              <div className="photo">
+                                <LazyLoad>
+                                <img
+                                  style={{ width: '90px', borderRadius: '50%' }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                />
+                                </LazyLoad>
+                              </div>
+                              <div className="content">
+                                <h1 className="name red">
+                                  {el.petsName}{' '}
                                   <LazyLoad>
-                                    <img
-                                      style={{ width: '90px', borderRadius: '50%' }}
-                                      src={
-                                        (el.petsImg && el.petsImg.includes('https')
-                                          ? el.petsImg
-                                          : null) ||
-                                        (el.petsType === 'cat' ? Cat : Dog)
-                                      }
-                                    />
+                                  <img
+                                    style={{ width: '20px' }}
+                                    src={!el.petsSex ? Male : Female}
+                                  />
                                   </LazyLoad>
+                                </h1>
+                                <div className="key">
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
-                                <div className="content">
-                                  <h1 className="name red">
-                                    {el.petsName}{' '}
-                                    <LazyLoad>
-                                      <img
-                                        style={{ width: '20px' }}
-                                        src={!el.petsSex ? Male : Female}
-                                      />
-                                    </LazyLoad>
-                                  </h1>
-                                  <div className="key">
-                                    <span><FormattedMessage id="birthday" /></span>
-                                    <span><FormattedMessage id="breed" /></span>
-                                  </div>
-                                  <div className="value">
-                                    <span>{el.birthOfPets}</span>
-                                    <span>{el.petsBreed}</span>
-                                  </div>
-                                </div>
-                                <div className="operation">
-                                  <a
-                                    className="edit rc-styled-link"
-                                    href="#/"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      this.props.history.push(
-                                        '/account/pets/petForm/' + el.petsId
-                                      );
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />
-                                  </a>
+                                <div className="value">
+                                  <span>{el.birthOfPets}</span>
+                                  <span>{el.petsBreed}</span>
                                 </div>
                               </div>
-                            ))
-                            : this.state.petList.map((el) => (
-                              <div className="petItem">
-                                <div className="photo">
+                              <div className="operation">
+                                <a
+                                  className="edit rc-styled-link"
+                                  href="#/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    this.props.history.push(
+                                      '/account/pets/petForm/' + el.petsId
+                                    );
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />
+                                </a>
+                              </div>
+                            </div>
+                          ))
+                        : this.state.petList.map((el) => (
+                            <div className="petItem">
+                              <div className="photo">
+                                <LazyLoad>
+                                <img
+                                  style={{ width: '90px', borderRadius: '50%' }}
+                                  src={
+                                    (el.petsImg && el.petsImg.includes('https')
+                                      ? el.petsImg
+                                      : null) ||
+                                    (el.petsType === 'cat' ? Cat : Dog)
+                                  }
+                                />
+                                </LazyLoad>
+                              </div>
+                              <div className="content">
+                                <h1 className="name red">
+                                  {el.petsName}{' '}
                                   <LazyLoad>
-                                    <img
-                                      style={{ width: '90px', borderRadius: '50%' }}
-                                      src={
-                                        (el.petsImg && el.petsImg.includes('https')
-                                          ? el.petsImg
-                                          : null) ||
-                                        (el.petsType === 'cat' ? Cat : Dog)
-                                      }
-                                    />
+                                  <img
+                                    style={{ width: '15px' }}
+                                    src={!el.petsSex ? Male : Female}
+                                  />
                                   </LazyLoad>
+                                </h1>
+                                <div className="key">
+                                  <span><FormattedMessage id="birthday" /></span>
+                                  <span><FormattedMessage id="breed" /></span>
                                 </div>
-                                <div className="content">
-                                  <h1 className="name red">
-                                    {el.petsName}{' '}
-                                    <LazyLoad>
-                                      <img
-                                        style={{ width: '15px' }}
-                                        src={!el.petsSex ? Male : Female}
-                                      />
-                                    </LazyLoad>
-                                  </h1>
-                                  <div className="key">
-                                    <span><FormattedMessage id="birthday" /></span>
-                                    <span><FormattedMessage id="breed" /></span>
-                                  </div>
-                                  <div className="value">
-                                    <span>{el.birthOfPets}</span>
-                                    <span>{el.petsBreed}</span>
-                                  </div>
-                                </div>
-                                <div className="operation">
-                                  <a
-                                    className="edit rc-styled-link"
-                                    href="#/"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      this.props.history.push(
-                                        '/account/pets/petForm/' + el.petsId
-                                      );
-                                    }}
-                                  >
-                                    <FormattedMessage id="edit" />
-                                  </a>
+                                <div className="value">
+                                  <span>{el.birthOfPets}</span>
+                                  <span>
+                                    <FormattedMessage id={el.petsBreed} />
+                                  </span>
                                 </div>
                               </div>
-                            ))}
-                          <div
-                            className="petItem addNew"
-                            onClick={() => {
-                              this.props.history.push('/account/pets/petForm');
-                            }}
-                            style={{
-                              textAlign: 'center',
-                              display: 'block',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            <span style={{ fontSize: '25px' }}>+</span> <FormattedMessage id="pet.addNewPet" />
-                            {/* Add a new PET */}
-                          </div>
-                        </div>
-                      )}
+                              <div className="operation">
+                                <a
+                                  className="edit rc-styled-link"
+                                  href="#/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    this.props.history.push(
+                                      '/account/pets/petForm/' + el.petsId
+                                    );
+                                  }}
+                                >
+                                  <FormattedMessage id="edit" />
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                      <div
+                        className="petItem addNew"
+                        onClick={() => {
+                          this.props.history.push('/account/pets/petForm');
+                        }}
+                        style={{
+                          textAlign: 'center',
+                          display: 'block',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <span style={{ fontSize: '25px' }}></span> <FormattedMessage id="pet.addNewPet"/>
+                        {/* Add a new PET */}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

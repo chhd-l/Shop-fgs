@@ -118,8 +118,6 @@ class Confirmation extends React.Component {
           cityRes,
           resContext.invoice.cityId
         );
-
-        console.log(111111,resContext.consignee.email)
         this.setState({
           email: resContext.consignee.email
         })
@@ -152,10 +150,9 @@ class Confirmation extends React.Component {
   //GA 埋点 start
   getGAEComTransaction(){
     const { details } = this.state;
-    console.log({details})
 
     let isAllOneShootGoods = details.tradeItems.every((item)=>{
-      return item.goodsInfoFlag != 1
+      return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
     })
     let isAllSubscriptionGoods =  details.tradeItems.every((item)=>{
       return item.goodsInfoFlag == 1
@@ -168,7 +165,7 @@ class Confirmation extends React.Component {
           name: item.spuName,
           price: item.price,
           brand: 'Royal Canin',
-          category: item.cateName,
+          category: item.goodsCateName,
           quantity: item.num,
           variant: item.specDetails?parseInt(item.specDetails):'',
           sku: item.skuNo,
@@ -199,15 +196,17 @@ class Confirmation extends React.Component {
       let oneShootProductTotalPrice = ''
       let subscriptionProduct = []
       let subscriptionProductTotalPrice = ''
+      let subscription_eEvents = ''
+      let oneShooteEvents = ''
       for (let item of details.tradeItems) {
         if(item.goodsInfoFlag){
-          subscriptionProductTotalPrice = subscriptionProductTotalPrice+item.price
+          subscriptionProductTotalPrice = (subscriptionProductTotalPrice*1000+item.price*1000)/1000
           subscriptionProduct.push({
             id: item.spuNo,
             name: item.spuName,
             price: item.price,
             brand: 'Royal Canin',
-            category: item.cateName,
+            category: item.goodsCateName,
             quantity: item.num,
             variant: item.specDetails?parseInt(item.specDetails):'',
             sku: item.skuNo,
@@ -215,7 +214,7 @@ class Confirmation extends React.Component {
               ? 'recommended'
               : 'self-selected'
           })
-          let eEvents = {
+          subscription_eEvents = {
             event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
               currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
@@ -231,15 +230,14 @@ class Confirmation extends React.Component {
               }
             }
           };
-          dataLayer.push(eEvents)
         }else{
-          oneShootProductTotalPrice = oneShootProductTotalPrice+item.price
+          oneShootProductTotalPrice = (oneShootProductTotalPrice*1000+item.price*1000)/1000
           oneShootProduct.push({
             id: item.spuNo,
             name: item.spuName,
             price: item.price,
             brand: 'Royal Canin',
-            category: item.cateName,
+            category: item.goodsCateName,
             quantity: item.num,
             variant: item.specDetails?parseInt(item.specDetails):'',
             sku: item.skuNo,
@@ -247,7 +245,7 @@ class Confirmation extends React.Component {
               ? 'recommended'
               : 'self-selected'
           })
-          let eEvents = {
+          oneShooteEvents = {
             event: `${process.env.REACT_APP_GTM_SITE_ID}eComTransaction`,
             ecommerce: {
               currencyCode: process.env.REACT_APP_GA_CURRENCY_CODE,
@@ -263,13 +261,10 @@ class Confirmation extends React.Component {
               }
             }
           };
-          dataLayer.push(eEvents)
         }
       }
-      // console.log({oneShootProduct})
-      // console.log({oneShootProduct})
-      // console.log({oneShootProductTotalPrice})
-      // console.log({subscriptionProductTotalPrice})
+        dataLayer.push(subscription_eEvents)
+        dataLayer.push(oneShooteEvents)
     }
     
   }

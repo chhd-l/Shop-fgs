@@ -62,6 +62,11 @@ class CheckoutStore {
     this.promotionCode = data;
     localItemRoyal.set('rc-promotionCode', data);
   }
+  @action.bound
+  removePromotionCode(data) {
+    this.promotionCode = '';
+    localItemRoyal.remove('rc-promotionCode');
+  }
 
   @action.bound
   setAutoAuditFlag(data) {
@@ -186,7 +191,7 @@ class CheckoutStore {
       promotionDiscount: purchasesRes.promotionDiscount,
       subscriptionPrice: purchasesRes.subscriptionPrice
     };
-    if (!promotionCode || !purchasesRes.promotionFlag) {
+    if (!promotionCode || !purchasesRes.promotionFlag || purchasesRes.couponCodeFlag) {
       params.discountPrice = purchasesRes.discountPrice;
     } else {
       params.discountPrice = this.discountPrice;
@@ -301,7 +306,7 @@ class CheckoutStore {
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice
         };
-        if (!promotionCode || !sitePurchasesRes.promotionFlag) {
+        if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
           params.discountPrice = sitePurchasesRes.discountPrice;
         } else {
           params.discountPrice = this.discountPrice;

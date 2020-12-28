@@ -23,6 +23,7 @@ import refreshImg from './images/refresh.png';
 import { toJS } from 'mobx';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
+import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
 import { v4 as uuidv4 } from 'uuid';
 import './index.less';
@@ -160,7 +161,8 @@ class UnLoginCart extends React.Component {
       let goodsInfoNo = cur_selected_size[0].goodsInfoNo
       product.push({
         brand: item.brandName || 'ROYAL CANIN',
-        category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
+        // category: item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
+        category: item.goodsCateName,
         club: 'no',
         id: item.goodsNo,
         name: item.goodsName,
@@ -333,7 +335,7 @@ class UnLoginCart extends React.Component {
       console.log(e);
       this.setState({
         errorShow: true,
-        errorMsg: e.toString()
+        errorMsg: e.message
       });
     } finally {
       this.setState({ checkoutLoading: false });
@@ -448,7 +450,7 @@ class UnLoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.minSubscriptionPrice:product.minMarketPrice,
         'brand': 'Royal Canin',
-        'category': product.goodsCateName?JSON.parse(product.goodsCateName)[0]:'',
+        'category': product.goodsCateName,
         'variant': variant,
         'quantity': product.quantity?product.quantity:'',
         'recommendation':'self-selected',//self-selected, recommanded
@@ -494,7 +496,7 @@ class UnLoginCart extends React.Component {
      //增加数量 重新埋点 end
   }
   gotoDetails(pitem) {
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goodsNo}`);
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${pitem.goodsNo}`);
     // this.props.history.push('/details/' + pitem.sizeList[0].goodsInfoId);
   }
   toggleSelect(pitem) {
@@ -544,7 +546,8 @@ class UnLoginCart extends React.Component {
               )}
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
-          <div className="d-flex pl-3">
+          {/* <div className="d-flex pl-3"> */}
+          <div className="d-flex">
             <div className="product-info__img w-100">
               <LazyLoad>
                 <img
@@ -600,10 +603,10 @@ class UnLoginCart extends React.Component {
                     width: isMobile ? '9rem' : 'inherit'
                   }}
                 >
-                  <div className="productGoodsSubtitle">
+                  {/* <div className="productGoodsSubtitle">
                     {pitem.goodsSubtitle}
-                  </div>
-                  <div className="align-left flex rc-margin-bottom--xs">
+                  </div> */}
+                  <div className="align-left flex">
                     <div className="stock__wrapper">
                       <div className="stock">
                         <label
@@ -1276,8 +1279,7 @@ class UnLoginCart extends React.Component {
                       );
                     }
                     if (
-                      result.backCode === 'K-000000' &&
-                      result.context.promotionDiscount
+                      result.backCode === 'K-000000' && (!result.context.promotionFlag || result.context.couponCodeFlag)
                     ) {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -1301,6 +1303,63 @@ class UnLoginCart extends React.Component {
                 </button>
               </p>
             </div>
+          </div>
+          {this.state.isShowValidCode ? (
+              <div className="red pl-3 pb-3 pt-2" style={{fontSize: '14px'}}>
+                {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+                <FormattedMessage id="validPromotionCode"/>
+              </div>
+            ) : null}
+          {!this.state.isShowValidCode &&
+            this.state.discount.map((el) => (
+              <>
+              <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
+                <div className="col-8">
+                  <p>
+                    {this.promotionDesc || (
+                      <FormattedMessage id="NoPromotionDesc" />
+                    )}
+                  </p>
+                </div>
+                <div className="col-4">
+                  <p className="text-right shipping-cost">
+                    <span
+                      className="rc-icon rc-close--sm rc-iconography"
+                      style={{
+                        fontSize: '18px',
+                        marginLeft: '10px',
+                        lineHeight: '20px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={async () => {
+                        let result = {};
+                        await checkoutStore.removePromotionCode()
+                        if (!this.props.loginStore.isLogin) {
+                          //游客
+                          result = await checkoutStore.updateUnloginCart();
+                        } else {
+                          //会员
+                          result = await checkoutStore.updateLoginCart(
+                            '',
+                            this.props.buyWay === 'frequency'
+                          );
+                        }
+                        if (result.backCode === 'K-000000') {
+                          discount.pop();
+                          this.setState({
+                            discount: discount,
+                            isShowValidCode: false
+                          });
+                        }
+                      }}
+                    >
+                    </span>
+                  </p>
+                </div>
+              </div>
+              </>
+            ))}
+          <div className="row">
             <div className="col-6">
               <FormattedMessage id="total" />
             </div>
@@ -1328,11 +1387,11 @@ class UnLoginCart extends React.Component {
           </div> */}
           {/* 显示订阅折扣 */}
           <div
-            className={`row leading-lines shipping-item red ${parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+            className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1342,14 +1401,14 @@ class UnLoginCart extends React.Component {
           </div>
           {/* 显示 默认折扣 */}
           <div
-            className={`row leading-lines shipping-item red ${parseInt(this.discountPrice) > 0 &&
+            className={`row leading-lines shipping-item green ${parseInt(this.discountPrice) > 0 &&
                 this.state.discount.length === 0
                 ? 'd-flex'
                 : 'hidden'
               }`}
           >
             <div className="col-8">
-              <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+              <p>{<FormattedMessage id="promotion" />}</p>
             </div>
             <div className="col-4">
               <p className="text-right shipping-cost">
@@ -1361,48 +1420,16 @@ class UnLoginCart extends React.Component {
           <div style={{ marginTop: '10px' }}>
             {!this.state.isShowValidCode &&
               this.state.discount.map((el) => (
-                <div className={`row leading-lines shipping-item red d-flex`}>
+                <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
                     <p>
-                      {this.promotionDesc || (
-                        <FormattedMessage id="NoPromotionDesc" />
-                      )}
+                      <FormattedMessage id="promotion" />
                     </p>
                   </div>
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
                       <b>-{formatMoney(this.discountPrice)}</b>
-                      <span
-                        style={{
-                          fontSize: '18px',
-                          marginLeft: '10px',
-                          lineHeight: '20px',
-                          cursor: 'pointer'
-                        }}
-                        onClick={async () => {
-                          let result = {};
-                          if (!this.props.loginStore.isLogin) {
-                            //游客
-                            result = await checkoutStore.updateUnloginCart();
-                          } else {
-                            //会员
-                            result = await checkoutStore.updateLoginCart(
-                              '',
-                              this.props.buyWay === 'frequency'
-                            );
-                          }
-                          if (result.backCode === 'K-000000') {
-                            discount.pop();
-                            this.setState({
-                              discount: discount,
-                              isShowValidCode: false
-                            });
-                          }
-                        }}
-                      >
-                        x
-                      </span>
                     </p>
                   </div>
                 </div>
@@ -1453,7 +1480,7 @@ class UnLoginCart extends React.Component {
                         </div>
                       )}
                   </div>
-                  <div className="rc-padding-y--xs rc-column">
+                  <div className="rc-padding-y--xs rc-column rc-bg-colour--brand4">
                     {this.totalNum > 0 ? (
                       this.props.checkoutStore.cartData.filter(
                         (el) => el.goodsInfoFlag
@@ -1555,6 +1582,7 @@ class UnLoginCart extends React.Component {
             productList.length ? '' : 'cart-empty'
           ].join(' ')}
         >
+          <BannerTip />
           <div className="rc-bg-colour--brand3 rc-max-width--xl rc-padding--sm rc-bottom-spacing pt-0">
             {productList.length ? (
               <>
@@ -1569,7 +1597,7 @@ class UnLoginCart extends React.Component {
                           title={txt}
                         >
                           <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                            <span className="rc-icon rc-left rc-iconography"></span>
+                            <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
                             {txt}
                           </span>
                         </a>

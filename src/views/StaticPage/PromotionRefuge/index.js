@@ -8,7 +8,11 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import Carouselem from '@/components/Carouselem';
 import LazyLoad from 'react-lazyload';
+import {list1,list2,list3,list4} from "./goods"
+import { Link } from 'react-router-dom';
 const localItemRoyal = window.__.localItemRoyal;
+
+
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -17,21 +21,26 @@ const localItemRoyal = window.__.localItemRoyal;
 class PromotionRefuge extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      sourceParam: ''
+    };
   }
 
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  componentDidMount() {
-
+  componentDidMount(){
+    this.setState({
+      sourceParam: this.props.location.search
+    })
   }
 
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: 'Brand'
+        error: "none",
+        filters: "none",
+        hitTimestamp:  new Date(),
+        path: location.pathname,
+        theme: "none",
+        type: "Other",
       }
     };
     return (
@@ -75,7 +84,7 @@ class PromotionRefuge extends React.Component {
                             <h2 className="rc-beta markup-text">Nos promotions suite aux adoptions en refuge</h2>
                             <p><span style={{color:'black'}}>Vous avez adopté un compagnon à quatre pattes dans un refuge ou au sein d'une association ? Pour vous remercier d'offrir une seconde chance à un chien ou chat dans le besoin, bénéficiez de réductions sur les produits ROYAL CANIN. </span></p>
                             <p><span style={{color:'black'}}> Découvrez notre formule abonnement et profitez de 10% sur toutes vos commandes ! Des réductions sont également applicables sur notre boutique en ligne : 4€, 5€ ou 12€ de remise sur tous les produits ROYAL CANIN si vous avez adoptez un animal dans un refuge.</span></p>
-                            <a className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" href="https://shop.royalcanin.fr/subscription-landing.html" title="En savoir plus">En savoir plus</a>
+                            <Link className="rc-btn rc-btn--one gtm-content-block-btn js-hnc-try-the-club" to="/subscription-landing" title="En savoir plus">En savoir plus</Link>
                           </div>
                         </div>
                       </div>
@@ -94,7 +103,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’élément le plus adapté à votre chaton</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list1} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -112,7 +121,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chat</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list2} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -130,7 +139,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Choisissez l’aliment le plus adapté à votre chien slide 1 to 4 of 4</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list3} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -148,7 +157,7 @@ class PromotionRefuge extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Les besoins spécifiques de votre chien</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={list4} sourceParam={this.state.sourceParam}/>
                         </div>
                       </div>
                     </div>
@@ -266,7 +275,7 @@ class PromotionRefuge extends React.Component {
                                       Nous vous répondons sous deux jours ouvrés.
                                     </p>
                                     <div className="rc-margin-top--xs">
-                                      <a href="https://shop.royalcanin.fr/help/contact" className="rc-styled-link nowrap">Envoyer un email</a>
+                                      <Link to="/help" className="rc-styled-link nowrap">Envoyer un email</Link>
                                     </div>
                                   </div>
                                 </div>
@@ -288,7 +297,7 @@ class PromotionRefuge extends React.Component {
                                     <b style={{color:'#00A4A6'}}>Des questions?</b>
                                     <p>
                                       Vous pouvez également consulter notre rubrique
-                                      <a href="https://staging-eu01-marsuk.demandware.net/on/demandware.store/Sites-Site/default/ViewLdsBusinessManagerScreen-PageDesigner/https://shop.royalcanin.fr/on/demandware.store/Sites-FR-Site/fr_FR/Page-Show?%2520%27cid%27=%2520%27faq%27" target="_self" data-link-type="page" data-link-label="FAQ" data-content-page-id="faq" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</a>qui vous apportera de nombreuses réponses.
+                                      <Link to="/FAQ/all" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</Link>qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
                                 </div>

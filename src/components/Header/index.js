@@ -501,7 +501,7 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`,
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${item.goodsNo}`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -540,6 +540,7 @@ class Header extends React.Component {
                         <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
                           <span
                             className="ui-cursor-pointer"
+                            style={{width: '100%'}}
                             onClick={this.gotoDetails.bind(this, item)}
                           >
                             <LazyLoad>
@@ -547,6 +548,7 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.goodsName}
                                 title={item.goodsName}
+                                style={{width: '100%'}}
                                 src={
                                   item.goodsImg ||
                                   item.goodsInfos.sort(

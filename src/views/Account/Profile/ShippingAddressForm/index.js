@@ -607,7 +607,7 @@ class ShippingAddressFrom extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="form-group col-6 required d-flex flex-column justify-content-between">
+                <div className={["form-group", "col-6","d-flex", "flex-column","justify-content-between",process.env.REACT_APP_LANG == 'de'?'':'required'].join(" ")}>
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="phone"

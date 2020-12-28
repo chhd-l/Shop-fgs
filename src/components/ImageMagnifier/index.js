@@ -47,9 +47,10 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: isMobile? '230': ((props.config && props.config.width) || '400'),
+        width: isMobile? '230': ((props.config && props.config.width) || '250'),
         // 组件高
-        height: isMobile? '324': ((props.config && props.config.height) || '450')
+        height: isMobile? '324': ((props.config && props.config.height) || '354')
+        // height: 'auto'
       },
       // 缩略图
       minImg: '',
@@ -69,6 +70,7 @@ class ImageMagnifier extends Component {
           // width: "400px",
           // height: "400px",
           // border: "1px solid #ccc",
+          height: 'auto',
           margin: '0 auto',
           cursor: 'move',
           position: 'relative'
@@ -81,7 +83,7 @@ class ImageMagnifier extends Component {
           width: '100px',
           height: '100px',
           background: 'rgba(0,0,0,0.1)',
-          zIndex: 99
+          zIndex: 6
         },
         // 鼠标悬停遮罩层样式
         maskBlock: {
@@ -91,32 +93,32 @@ class ImageMagnifier extends Component {
           width: '100%',
           height: '100%',
           background: 'rgba(0,0,0,0)',
-          zIndex: 100
+          zIndex: 7
         },
 
         //  放大镜容器样式
         magnifierContainer: {
           position: 'absolute',
-          left: '-400px',
+          left: '-250px',
           top: '0',
-          width: '400px',
-          height: '400px',
+          width: '250px',
+          height: '250px',
           border: '1px solid #ccc',
           overflow: 'hidden',
-          zIndex: 98,
+          zIndex: 5,
           background: '#fff'
         },
         // 图片样式
         imgStyle: {
-          width: isMobile? '230': '400',
-          height: '100%',
+          width: isMobile? '230px': '250px',
+          // height: '100%',
           margin: '0 auto',
           display: 'block'
         },
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: isMobile? '230px': '400px',
+          width: isMobile? '230px': '250px',
           height: isMobile? '324px': '400px',
           position: 'absolute',
           top: 0,
@@ -148,7 +150,6 @@ class ImageMagnifier extends Component {
     if (!currentImg && images && images.length > 0) {
       currentImg = images[0].artworkUrl;
     }
-    console.log(currentImg, 'currentImg');
     this.setState({
       currentImg: currentImg
     });
@@ -173,7 +174,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 400
+        offsetX: isMobile? hoverIndex * 230: hoverIndex * 250
       });
     }
   }
@@ -206,7 +207,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 400
+        offsetX: isMobile? hoverIndex * 230: hoverIndex * 250
       });
     }
   }
@@ -270,7 +271,7 @@ class ImageMagnifier extends Component {
     /* 计算图片放大位置 */
     cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
     cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
-
+    console.log(cssStyle, 'cssStyle')
     this.setState({
       cssStyle: cssStyle
     });
@@ -282,7 +283,7 @@ class ImageMagnifier extends Component {
     let params = JSON.parse(JSON.stringify(this.state.params));
     console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (400 + 'px');
+    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (250 + 'px');
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = params.width + 'px';
     cssStyle.magnifierContainer.height = params.height + 'px';
@@ -312,7 +313,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: isMobile? i * 230: i * 400
+      offsetX: isMobile? i * 230: i * 250
     });
   }
   // 图片加载情况
@@ -364,7 +365,7 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let { images, video, taggingForText, taggingForImage } = this.props;
+    let { images, video, taggingForText, taggingForImage, spuImages } = this.props;
     console.log(images, 'images');
     // images = this.filterImage(images)
     let imgCount = images.length;
@@ -408,7 +409,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || noPic}
-                        srcSet={getMuntiImg(currentImg)}
+                        // srcSet={getMuntiImg(currentImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -421,7 +422,7 @@ class ImageMagnifier extends Component {
                         id="J_detail_img"
                         style={cssStyle.imgStyle}
                         src={currentImg || this.state.maxImg || noPic}
-                        srcSet={getMuntiImg(currentImg || this.state.maxImg)}
+                        // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                         alt=""
                       />
                       </LazyLoad>
@@ -467,7 +468,7 @@ class ImageMagnifier extends Component {
               <img
                 style={cssStyle.imgStyle2}
                 src={currentImg || this.state.maxImg || noPic}
-                srcSet={getMuntiImg(currentImg || this.state.maxImg)}
+                // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
                 onLoad={this.handleImageLoaded.bind(this)}
                 onError={this.handleImageErrored.bind(this)}
                 alt=""
@@ -496,7 +497,7 @@ class ImageMagnifier extends Component {
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
                 width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5? '-17px': (this.state.positionLeft + 'px')
+                left: imgCount <= 5? '0': (this.state.positionLeft + 'px')
               }}
             >
               {images.filter((el) => el.goodsInfoImg).length ? (
@@ -547,7 +548,7 @@ class ImageMagnifier extends Component {
                       videoShow: true,
                       cssStyle,
                       hoverIndex: images.length,
-                      offsetX: isMobile?images.length * 230: images.length * 400
+                      offsetX: isMobile?images.length * 230: images.length * 250
                     });
                   }}
                   src={video ? video : ''}

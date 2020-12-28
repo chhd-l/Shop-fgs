@@ -192,10 +192,6 @@ class RouteFilter extends Component {
     return true;
   }
   componentWillMount() {
-    if (window.location.pathname !== '/checkout') {
-      localItemRoyal.set('rc-promotionCode', '');
-      // localItemRoyal.remove('rc-totalInfo')
-    }
   }
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
@@ -271,6 +267,12 @@ class RouteFilter extends Component {
           domainScript: process.env.REACT_APP_ONTRUST_DOMAIN_SCRIPT,
           documentLanguage: 'true'
         }
+      });
+    }
+    if (process.env.REACT_APP_CONSENT_SCRIPT) {
+      loadJS({
+        url: process.env.REACT_APP_CONSENT_SCRIPT,
+        id: 'global-script'
       });
     }
   }

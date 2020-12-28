@@ -70,7 +70,6 @@ class EmailForm extends React.Component {
     updateStepForEmail(toJS(paymentStore.emailPanelStatus))
     // if(paymentStep[0].isCompleted){
     //   console.log(paymentStep[0])
-    //   debugger
     // }
 
     const titleForPrepare = (

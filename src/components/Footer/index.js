@@ -7,8 +7,12 @@ import MarsFooterMap from './MarsFooterMap';
 import { menubar } from './menubar';
 import { contactInfo } from './contactInfo';
 import './index.css';
+import LoginButton from '@/components/LoginButton';
+import { withRouter } from 'react-router-dom'
 
-@inject('configStore')
+const sessionItemRoyal = window.__.sessionItemRoyal;
+
+@inject('configStore', 'loginStore')
 @observer
 class Footer extends React.Component {
   constructor(props) {
@@ -20,6 +24,9 @@ class Footer extends React.Component {
   }
   async componentDidMount() {
     this.props.configStore.queryConfig();
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
   }
   scrollToTop = () => {
     const widget = document.querySelector('#page-top');
@@ -75,7 +82,17 @@ class Footer extends React.Component {
                           {item[0].list.map((listItem, i) => {
                             return (
                               <li className="rc-list__item" key={i}>
-                                {!!listItem.link ? (
+                                {!!listItem.link ? (listItem.needLogin && !this.isLogin?(
+                                  <LoginButton
+                                    beforeLoginCallback={ async () => {
+                                      sessionItemRoyal.set('okta-redirectUrl', listItem.link);  
+                                    }}
+                                    btnClass="rc-list__link text-decoration-none color-f6f6f6"
+                                    history={this.props.history}
+                                  >
+                                    <FormattedMessage id={listItem.messageId} />
+                                  </LoginButton>
+                                ): (
                                   <Link
                                     className="rc-list__link text-decoration-none color-f6f6f6"
                                     to={listItem.link}
@@ -83,7 +100,7 @@ class Footer extends React.Component {
                                   >
                                     <FormattedMessage id={listItem.messageId} />
                                   </Link>
-                                ) : (
+                                )) : (
                                   <a
                                     className="rc-list__link text-decoration-none color-f6f6f6"
                                     href={
@@ -182,9 +199,12 @@ class Footer extends React.Component {
           {/* 底部横向链接 */}
           <MarsFooterMap />
         </div>
+        {/* <!-- OneTrust Cookies Settings button start --> */}
+        {cookieSettingsBtn[process.env.REACT_APP_LANG]}
+        {/* <!-- OneTrust Cookies Settings button end --> */}
       </footer>
     );
   }
 }
 
-export default Footer;
+export default withRouter(Footer);

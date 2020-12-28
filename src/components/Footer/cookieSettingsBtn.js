@@ -6,5 +6,10 @@ export const cookieSettingsBtn = {
     <button id="ot-sdk-btn" className="ot-sdk-show-settings">
       Cookie Settings
     </button>
+  ),
+  fr: (
+    <button id="ot-sdk-btn" className="ot-sdk-show-settings">
+      Cookie Settings
+    </button>
   )
 };

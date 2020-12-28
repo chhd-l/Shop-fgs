@@ -17,6 +17,11 @@ import Loading from '@/components/Loading';
 import { withOktaAuth } from '@okta/okta-react';
 import { Helmet } from 'react-helmet';
 
+import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
+import premiumHome from '@/assets/images/home/premium@2x.png';
+import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
+import shippmentHome from '@/assets/images/home/shippment@2x.png';
+
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -421,8 +426,8 @@ class Home extends React.Component {
                 ? ele.cateRouter
                 : `/${ele.cateRouter}`
             }`,
-            state:{
-              GAListParam:'Catalogue'
+            state: {
+              GAListParam: 'Catalogue'
             }
           }}
           title={ele.cateName}
@@ -433,7 +438,7 @@ class Home extends React.Component {
               <img
                 src={ele.cateImgForHome}
                 alt={ele.cateName}
-                title={ele.cateName}
+                title={ele.altName}
                 style={{ width: '144px' }}
               />
             </LazyLoad>
@@ -559,8 +564,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw489a492c/homepage/Payment-secure@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={PaymentSecureHome}
+                            srcSet={PaymentSecureHome}
                             className="mx-auto"
                             alt="Secure payments"
                             title="Secure payments"
@@ -574,8 +579,8 @@ class Home extends React.Component {
                         <div className="col-6 col-md-3 centered-icon-list__icon">
                           <LazyLoad height={200}>
                             <img
-                              src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                              srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw128623a0/homepage/reimbursed@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                              src={reimbursedHome}
+                              srcSet={reimbursedHome}
                               className="mx-auto"
                               alt="Quality assurance"
                               title="Quality assurance"
@@ -589,8 +594,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dwb61f3539/homepage/premium@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={premiumHome}
+                            srcSet={premiumHome}
                             className="mx-auto"
                             alt="Premium service"
                             title="Premium service"
@@ -603,8 +608,8 @@ class Home extends React.Component {
                       <div className="col-6 col-md-3 centered-icon-list__icon">
                         <LazyLoad height={200}>
                           <img
-                            src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png"
-                            srcSet="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=40&amp;sh=31&amp;sm=cut&amp;sfrm=png, https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw2e4c369e/homepage/shippment@2x.png?sw=80&amp;sh=62&amp;sm=cut&amp;sfrm=png 2x"
+                            src={shippmentHome}
+                            srcSet={shippmentHome}
                             className="mx-auto"
                             alt="Fast shipping"
                             title="Fast shipping"

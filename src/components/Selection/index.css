@@ -1,3 +1,6 @@
 .choices.disabled:after {
   display: none;
 }
+.Carts .choices__item.choices__item--choice.choices__item--selectable{
+  text-align: left !important;
+}

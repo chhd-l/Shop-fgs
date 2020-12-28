@@ -147,8 +147,10 @@ class PersonalDataEditForm extends React.Component {
       });
     }
   };
+  // 表单验证
   validFormData = async () => {
     try {
+      // console.log('★★★★★★★★★ validFormData: ',this.state.isValid);
       await validData(PRESONAL_INFO_RULE, this.state.form);
       this.setState({ isValid: true });
     } catch (err) {
@@ -617,7 +619,7 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className="form-group col-lg-6 required">
+                <div className={["form-group", "col-lg-6",process.env.REACT_APP_LANG == 'de'?'':'required'].join(" ")}>
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="phone"
@@ -705,7 +707,7 @@ class PersonalDataEditForm extends React.Component {
                   </span>
                 </div> */}
               </div>
-              <span className="rc-meta mandatoryField">
+              <span className={`rc-meta mandatoryField ${isValid?'hidden':''}`}>
                 * <FormattedMessage id="account.requiredFields" />
               </span>
               <div className="text-right">

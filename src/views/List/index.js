@@ -56,8 +56,9 @@ function getMuntiImg(item) {
     return `${img}`;
   }
 }
-function ListItem(props) {
-  const { item, GAListParam } = props;
+function ListItemH5ForFr(props) {
+  const { item, GAListParam, breadListByDeco } = props;
+  // console.log('★★★★★★★★★ item: ',item);
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
@@ -67,64 +68,67 @@ function ListItem(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="h-100">
-          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
           <Link
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                ? `/${item.lowGoodsName
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${item.goodsNo}`
                 : '',
-              state: {
-                GAListParam
-              }
+              state: { GAListParam, historyBreads: breadListByDeco }
             }}
             onClick={props.onClick}
           >
-            <article className="rc-card--a rc-text--center text-center">
+            <article
+              className="rc-card--a rc-text--center text-center"
+              style={{ flexWrap: 'wrap' }}
+            >
               {item ? (
                 <picture
-                  className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope margin0 padding0"
-                  style={{ margin: '0 !important' }}
+                  className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
+                  style={{
+                    marginLeft: '-10px',
+                    paddingLeft: '5px',
+                    paddingRight: '15px',
+                    fontSize: '0'
+                  }}
                 >
-                  <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem', overflow: 'hidden' }}
-                  >
-                    {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', heigth: '100%' }}>
-                      <img
-                        src={
-                          item.goodsImg ||
-                          item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT
-                        }
-                        srcSet={
-                          item ? getMuntiImg(item) : IMG_DEFAULT
-                          // item.goodsImg ||
-                          // item.goodsInfos.sort(
-                          //   (a, b) => a.marketPrice - b.marketPrice
-                          // )[0].goodsInfoImg ||
-                          // IMG_DEFAULT
-                        }
-                        alt={item.goodsName}
-                        title={item.goodsName}
-                        className="ImgFitScreen pt-3"
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '100%',
-                          width: 'auto',
-                          height: 'auto',
-                          margin: 'auto'
-                        }}
-                      />
-                    </LazyLoad>
-                  </div>
+                  {/*循环遍历的图片*/}
+                  <LazyLoad style={{ width: '100%', heigth: '100%' }}>
+                    <img
+                      src={
+                        item.goodsImg ||
+                        item.goodsInfos.sort(
+                          (a, b) => a.marketPrice - b.marketPrice
+                        )[0].goodsInfoImg ||
+                        IMG_DEFAULT
+                      }
+                      alt={item.goodsName}
+                      title={item.goodsName}
+                      className="ImgFitScreen"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        width: 'auto',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                    />
+                  </LazyLoad>
                 </picture>
               ) : null}
               {props.children}
+
+              {item ? (
+                <div
+                  class="rc-card__meta text-center col-12"
+                  style={{ margin: '0' }}
+                >
+                  {item.goodsSubtitle}
+                </div>
+              ) : null}
             </article>
           </Link>
         </div>
@@ -132,8 +136,8 @@ function ListItem(props) {
     </div>
   );
 }
-function ListItemPC(props) {
-  const { item, GAListParam } = props;
+function ListItem(props) {
+  const { item, GAListParam, breadListByDeco } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -143,16 +147,18 @@ function ListItemPC(props) {
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
         <div className="fullHeight">
-          {/* <a className="ui-cursor-pointer" onClick={props.onClick}> */}
-          {/* <Link className="ui-cursor-pointer" to={item? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`: ''} onClick={props.onClick}> */}
           <Link
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`
+                ? `/${item.lowGoodsName
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${item.goodsNo}`
                 : '',
               state: {
-                GAListParam: GAListParam
+                GAListParam,
+                historyBreads: breadListByDeco
               }
             }}
             onClick={props.onClick}
@@ -174,14 +180,14 @@ function ListItemPC(props) {
                           )[0].goodsInfoImg ||
                           IMG_DEFAULT
                         }
-                        srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
+                        // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
                         alt={item.goodsName}
                         title={item.goodsName}
                         className="ImgFitScreen pt-3"
                         style={{
                           maxWidth: '50%',
                           maxHeight: '100%',
-                          width: 'auto',
+                          width: '150px',
                           height: 'auto',
                           margin: 'auto'
                         }}
@@ -198,24 +204,40 @@ function ListItemPC(props) {
     </div>
   );
 }
-function ListItemBody({ item }) {
+function ListItemBodyH5ForFr({ item }) {
   return (
+    // <div
+    //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
+    //   style={{ paddingRight: '3rem' }}
+    // >
     <div
       className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-      style={{ paddingRight: '3rem' }}
+      style={{ paddingRight: '0' }}
     >
       <div className="product-name" title={item.goodsName}>
         {' '}
         {item.goodsName}
       </div>
       <div className="product-price">
-        {/* {formatMoney(item.miLinePrice)} */}
+        {item.toPrice ? (
+          <span className="mr-1" style={{ fontSize: '.8em' }}>
+            <FormattedMessage id="startFrom" />
+          </span>
+        ) : null}
         {formatMoney(item.fromPrice)}
+        {item.toPrice ? (
+          <>
+            <span className="ml-1 mr-1" style={{ fontSize: '.8em' }}>
+              <FormattedMessage id="startEnd" />
+            </span>
+            {formatMoney(item.toPrice)}
+          </>
+        ) : null}
       </div>
     </div>
   );
 }
-function ListItemBodyPC({ item }) {
+function ListItemBody({ item }) {
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
@@ -366,6 +388,12 @@ function ListItemBodyPC({ item }) {
               </div>
             </div>
           </div>
+          <div
+            class="rc-card__meta text-center col-12"
+            style={{ padding: '0', marginBottom: '10px' }}
+          >
+            {item.goodsSubtitle}
+          </div>
         </>
       ) : (
         defaultJSX
@@ -497,6 +525,36 @@ class List extends React.Component {
       });
     });
   }
+  get lastBreadListName() {
+    const { breadList } = this.state;
+    return (
+      (breadList[breadList.length - 1] &&
+        breadList[breadList.length - 1].name) ||
+      ''
+    );
+  }
+  get breadListByDeco() {
+    let ret = [];
+    const { pathname, search } = this.props.location;
+    const { breadList } = this.state;
+    // 一旦某层级无link，则将其与后一项合并
+    for (let index = 0; index < breadList.length; index++) {
+      const element = breadList[index];
+      let tmpEle = { ...element };
+      if (!element.link) {
+        tmpEle = Object.assign(tmpEle, {
+          name: [element.name, breadList[++index].name].join(': ')
+        });
+      }
+      ret.push(tmpEle);
+    }
+    // 将当前路由加入到最有一项上
+    let lastItem = ret[ret.length - 1];
+    if (lastItem) {
+      lastItem.link = { pathname, search };
+    }
+    return ret;
+  }
   //点击商品 埋点
   GAProductClick(item, index) {
     dataLayer.push({
@@ -513,7 +571,7 @@ class List extends React.Component {
               // category: item.goodsCateName
               //   ? JSON.parse(item.goodsCateName)[0]
               //   : '',
-              category:"",
+              category: item.goodsCateName,
               list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
@@ -526,7 +584,6 @@ class List extends React.Component {
 
   // 商品列表 埋点
   GAProductImpression(productList, totalElements, keywords) {
-    console.log(productList);
     const impressions = productList.map((item, index) => {
       return {
         name: item.goodsName, //
@@ -535,7 +592,7 @@ class List extends React.Component {
         price: item.minMarketPrice,
         club: 'no',
         //category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
-        category:'',
+        category: item.goodsCateName,
         list: this.state.GAListParam, //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
@@ -1104,7 +1161,7 @@ class List extends React.Component {
         });
       })
       .catch((err) => {
-        console.log(1111, err);
+        console.log(err);
         this.setState({
           loading: false,
           productList: [],
@@ -1123,13 +1180,6 @@ class List extends React.Component {
   };
   hanldeItemClick(item, index) {
     this.GAProductClick(item, index);
-    const { history, location } = this.props;
-    if (this.state.loading) {
-      return false;
-    }
-    sessionItemRoyal.set('recomment-preview', location.pathname);
-    // history.push(`/${item.lowGoodsName.split(' ').join('-')}-${item.goodsNo}`);
-    // history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -1200,6 +1250,7 @@ class List extends React.Component {
     }, 500);
   };
   render() {
+    const { breadListByDeco, lastBreadListName } = this;
     const { history } = this.props;
     const { pathname } = history.location;
     const {
@@ -1218,12 +1269,9 @@ class List extends React.Component {
       selectedSortParam,
       keywords,
       breadList,
-      eEvents
+      eEvents,
+      GAListParam
     } = this.state;
-    const lastBreadListName =
-      (breadList[breadList.length - 1] &&
-        breadList[breadList.length - 1].name) ||
-      '';
 
     let event;
     if (pathname) {
@@ -1290,7 +1338,7 @@ class List extends React.Component {
         />
         <main className="rc-content--fixed-header rc-main-content__wrapper rc-bg-colour--brand3">
           <BannerTip />
-          <BreadCrumbsNavigation list={breadList.filter((b) => b)} />
+          <BreadCrumbsNavigation list={breadListByDeco.filter((b) => b)} />
           <div className="rc-md-down rc-padding-x--sm rc-padding-top--sm">
             <Link to="/home" className="back-link">
               <FormattedMessage id="homePage" />
@@ -1318,14 +1366,15 @@ class List extends React.Component {
             </div>
           ) : null}
           <div id="J-product-list" />
-          <div className="search-results rc-max-width--xl pt-4 pt-sm-1">
+          {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
+          <div className="search-results rc-max-width--xl pt-sm-1">
             <div className="search-nav border-bottom-0">
               {keywords ? (
-                <div className="nav-tabs-wrapper rc-text--center">
-                  <div className="rc-intro">
+                <div class="rc-padding-y--md--mobile rc-text--center">
+                  <div class="rc-intro">
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
-                  <div className="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
+                  <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
                     <b>"{keywords}"</b>(
                     <FormattedMessage id="results" values={{ val: results }} />)
                   </div>
@@ -1562,7 +1611,7 @@ class List extends React.Component {
                             : productList.map((item, i) =>
                                 process.env.REACT_APP_LANG === 'fr' &&
                                 isMobile ? (
-                                  <ListItem
+                                  <ListItemH5ForFr
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
@@ -1602,17 +1651,18 @@ class List extends React.Component {
                                       i
                                     )}
                                     item={item}
-                                    GAListParam={this.state.GAListParam}
+                                    GAListParam={GAListParam}
+                                    breadListByDeco={breadListByDeco}
                                   >
                                     {process.env.REACT_APP_LANG === 'fr' &&
                                     isMobile ? (
-                                      <ListItemBody item={item} />
+                                      <ListItemBodyH5ForFr item={item} />
                                     ) : (
-                                      <ListItemBodyPC item={item} />
+                                      <ListItemBody item={item} />
                                     )}
-                                  </ListItem>
+                                  </ListItemH5ForFr>
                                 ) : (
-                                  <ListItemPC
+                                  <ListItem
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
@@ -1648,19 +1698,23 @@ class List extends React.Component {
                                       i
                                     )}
                                     item={item}
-                                    GAListParam={this.state.GAListParam}
+                                    GAListParam={GAListParam}
+                                    breadListByDeco={breadListByDeco}
                                   >
                                     {process.env.REACT_APP_LANG === 'fr' &&
                                     isMobile ? (
-                                      <ListItemBody item={item} />
+                                      <ListItemBodyH5ForFr item={item} />
                                     ) : (
-                                      <ListItemBodyPC item={item} />
+                                      <ListItemBody item={item} />
                                     )}
-                                  </ListItemPC>
+                                  </ListItem>
                                 )
                               )}
                         </article>
-                        <div className="grid-footer rc-full-width">
+                        <div
+                          className="grid-footer rc-full-width"
+                          style={{ marginTop: '0.5rem' }}
+                        >
                           <Pagination
                             loading={this.state.loading}
                             defaultCurrentPage={this.state.currentPage}

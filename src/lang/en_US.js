@@ -493,6 +493,8 @@ const en_US = {
   'order.toBeDeliveredTip': 'Your order has been successfully paid and we are preparing to ship.',
   'order.toBePaidTip': 'Your order has not been paid, please pay as soon as possible. {val}',
   'order.viewOrder': 'View order',
+  'order.viewLogisticDetail': 'View logistic detail',
+  'order.inTranistTip': 'Your order has been shipped and you will receive the product soon. {val}',
   orders: 'Orders',
   'orderStatus.AUDIT': 'To be delivered',
   'orderStatus.COMPLETED': 'Completed',
@@ -898,11 +900,14 @@ const en_US = {
   'VAT_included': 'VAT included',
   'skiped': 'Skiped',
   'orderDetail': 'Order Detail',
+  'modalChangeDateTitle': 'Change the shipping date',
+  'modalChangeDateContent': 'Are you sure you want to change the next shipment date?',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
   checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
   'pet.petListTitle': 'Create and manage your pet\'s profile to maintain its best health possible',
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
+  'mixed Breed': 'mixed Breed',
 }
 export default en_US;

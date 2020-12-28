@@ -683,7 +683,7 @@ export const ADDRESS_RULE = [
   {
     key: 'phoneNumber',
     regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
-    require: true,
+    require: process.env.REACT_APP_LANG === 'de'? false : true,
     errMsg: CURRENT_LANGFILE['enterCorrectPhoneNumber']
   },
   {
@@ -697,6 +697,7 @@ export const ADDRESS_RULE = [
 export const PAYMENT_METHOD_RULE = [
   {
     key: 'phoneNumber',
+    regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
     require: true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
@@ -774,7 +775,8 @@ export const PRESONAL_INFO_RULE = [
   },
   {
     key: 'phoneNumber',
-    require: true,
+    regExp: process.env.REACT_APP_LANG === 'fr' ? /[+(33)|0]\d{9}$/ : '',
+    require: process.env.REACT_APP_LANG == 'de' ? false : true,
     errMsg: CURRENT_LANGFILE['payment.errorInfo'].replace(
       /{.+}/,
       CURRENT_LANGFILE['payment.phoneNumber']

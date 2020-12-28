@@ -145,8 +145,23 @@ class Payment extends React.Component {
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
     this.timer = null;
   }
+  
+  // getCheckoutStep(panelStatus){
+  //   let step = 2
+  //   let panelStatusArr = toJS(panelStatus)
+  //   console.log(panelStatusArr)
+  //   const email = find(panelStatusArr, (ele) => ele.key === 'email')
+  //   const deliveryAddr = find(panelStatusArr, (ele) => ele.key === 'deliveryAddr')
+  //   const paymentMethod = find(panelStatusArr, (ele) => ele.key === 'paymentMethod')
+  //   debugger
+  //   if(email.status.isCompleted) step = 2
+  //   if(deliveryAddr.status.isCompleted) step = 3
+  //   if(paymentMethod.status.isCompleted) step = 4
+
+  //   dataLayer[0].checkout.step = step
+  // }
   async componentDidMount() {
-    const { checkoutStore, paymentStore, clinicStore } = this.props;
+    const { checkoutStore, paymentStore, clinicStore, history } = this.props;
     const { tid } = this.state;
     setSeoConfig().then((res) => {
       this.setState({ seoConfig: res });
@@ -206,14 +221,9 @@ class Payment extends React.Component {
         }
       }
     );
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !tid) {
-        this.props.history.push('/cart');
+        history.push('/cart');
         return false;
       }
       if (
@@ -221,7 +231,7 @@ class Payment extends React.Component {
         (!this.cartData.length ||
           !this.cartData.filter((ele) => ele.selected).length)
       ) {
-        this.props.history.push('/cart');
+        history.push('/cart');
         return false;
       }
     }
@@ -287,26 +297,22 @@ class Payment extends React.Component {
     });
   };
   //总的调用consense接口
-  getConsentList() {
-    this.isLogin
-      ? this.doFindUserConsentList()
-      : this.doGetStoreOpenConsentList();
-  }
-  //1.会员调用consense接口
-  doFindUserConsentList() {
-    let customerId = this.userInfo && this.userInfo.customerId
-    if(!customerId){
-      return
+  async getConsentList() {
+    //1.会员调用consense接口
+    //2.游客调用consense接口
+    const { isLogin } = this;
+    let action = getStoreOpenConsentList
+    let params = {}
+    if(isLogin){
+      action = findUserConsentList
+      params = {customerId:this.userInfo && this.userInfo.customerId}
     }
-    findUserConsentList({customerId}).then((result) => {
-      this.isExistOptionalListFun(result);
-    });
-  }
-  //2.游客调用consense接口
-  doGetStoreOpenConsentList() {
-    getStoreOpenConsentList({}).then((result) => {
-      this.isExistListFun(result);
-    });
+    const res = await action(params);
+    if (isLogin) {
+      this.isExistOptionalListFun(res);
+    } else {
+      this.isExistListFun(res);
+    }
   }
   //重新组装listData
   rebindListData(listData) {
@@ -321,37 +327,32 @@ class Payment extends React.Component {
   }
   //判断consent接口是否存在项目
   isExistListFun(result) {
-    if (result.code === 'K-000000') {
-      const optioalList = result.context.optionalList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: false,
-          detailList: item.detailList
-        };
-      });
-
-      const requiredList = result.context.requiredList.map((item) => {
-        return {
-          id: item.id,
-          consentTitle: item.consentTitle,
-          isChecked: false,
-          isRequired: true,
-          detailList: item.detailList
-        };
-      });
-      let listData = [...requiredList, ...optioalList]; //必填项+选填项
-      this.rebindListData(listData);
-    }
+    const optioalList = result.context.optionalList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: false,
+        detailList: item.detailList
+      };
+    });
+    const requiredList = result.context.requiredList.map((item) => {
+      return {
+        id: item.id,
+        consentTitle: item.consentTitle,
+        isChecked: false,
+        isRequired: true,
+        detailList: item.detailList
+      };
+    });
+    let listData = [...requiredList, ...optioalList]; //必填项+选填项
+    this.rebindListData(listData);
   }
   //判断consent接口是否存在选填项
   isExistOptionalListFun(result) {
-    if (
-      result.code === 'K-000000' &&
-      result.context.optionalList.length !== 0
-    ) {
-      const optionalList = result.context.optionalList.map((item) => {
+    let optionalList = [];
+    if (result.context.optionalList.length > 0) {
+      optionalList = result.context.optionalList.map((item) => {
         return {
           id: item.id,
           consentTitle: item.consentTitle,
@@ -360,6 +361,20 @@ class Payment extends React.Component {
           detailList: item.detailList
         };
       });
+    }
+    // 为法国添加一条写死一条consent
+    if (process.env.REACT_APP_LANG === 'fr') {
+      optionalList = [
+        {
+          consentTitle: `<p><span style="font-size:11ptpx"><span style="color:#000000">J&#x27;ai lu et j&#x27;accepte les <a href="${process.env.REACT_APP_SUCCESSFUL_URL}/general-terms-conditions" target="_blank">conditions générales de vente</a></span></span></p>`,
+          detailList: [],
+          isChecked: false,
+          isRequired: true
+        },
+        ...optionalList
+      ];
+    }
+    if (optionalList.length > 0) {
       this.rebindListData(optionalList);
     }
   }
@@ -933,6 +948,10 @@ class Payment extends React.Component {
               this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
             ); // 只移除selected
             sessionItemRoyal.remove('rc-token');
+          }
+          // 给klana支付跳转用
+          if (res.context.pId) {
+            sessionItemRoyal.set('orderNumber', res.context.pId);
           }
           window.location.href = res.context.url;
           break;
@@ -1584,6 +1603,7 @@ class Payment extends React.Component {
       deliveryAddress,
       countryList
     } = this.state;
+
     return (
       <>
         <SameAsCheckbox

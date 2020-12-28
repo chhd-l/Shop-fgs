@@ -463,6 +463,8 @@ const es_ES = {
   'order.toBeDeliveredTip': 'Su pedido se ha pagado correctamente y nos estamos preparando para enviarlo.',
   'order.toBePaidTip': 'Su pedido no ha sido pagado, pague lo antes posible. {val}',
   'order.viewOrder': 'Ver pedido',
+  'order.viewLogisticDetail': 'Ver detalle logístico',
+  'order.inTranistTip': 'Su pedido ha sido enviado y pronto recibirá el producto. {val}',
   orders: 'Pedidos',
   'orderStatus.AUDIT': 'Para ser entregado',
   'orderStatus.COMPLETED': 'Terminado',
@@ -875,10 +877,13 @@ const es_ES = {
   'VAT_included': 'VAT incluido',
   'skiped': 'Esquiado',
   'orderDetail': 'Detalle de la orden',
+  'modalChangeDateTitle': 'Cambiar la fecha de envío',
+  'modalChangeDateContent': '¿Está seguro de que desea cambiar la próxima fecha de envío?',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'esta casilla de verificación es necesaria para la suscripción',
   'pet.petListTitle': 'Crea y gestiona el perfil de tu mascota para mantener la mejor salud posible',
   'pet.addNewPet': 'Agregar una nueva mascota',
   'pet.deletePet': 'Eliminar perfil de mascota',
+  'mixed Breed': 'raza Mixta',
 }
 export default es_ES;

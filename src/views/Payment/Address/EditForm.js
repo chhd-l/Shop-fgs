@@ -230,7 +230,7 @@ class EditForm extends React.Component {
     const { address, errMsgObj } = this.state;
     return (
       <div className="col-12 col-md-6">
-        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+        <div className={['form-group','dwfrm_shipping_shippingAddress_addressFields_phone',process.env.REACT_APP_LANG == 'de' ? '' : 'required'].join(" ")}> {/* 德国电话非必填 */}
           <label className="form-control-label" htmlFor="shippingPhoneNumber">
             <FormattedMessage id="payment.phoneNumber" />
           </label>

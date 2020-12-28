@@ -167,12 +167,13 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = '',
-        step = 1
+        option = this.isLogin ? 'account already created':'guest',
+        step = 2
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
-        category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        //category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        category: item.goods.goodsCateName,
         club:'no',
         id:item.goods.goodsNo,
         name:item.goods.goodsName,
@@ -428,7 +429,7 @@ class LoginCart extends React.Component {
         'type': product.goodsInfoFlag==1?'subscription':'one-time',
         'price': product.goodsInfoFlag==1?product.subscriptionPrice:product.salePrice,
         'brand': 'Royal Canin',
-        'category': product.goods.goodsCateName?JSON.parse(product.goods.goodsCateName)[0]:'',
+        'category': product.goods.goodsCateName,
         'variant': product.specText,
         'quantity': product.buyCount,
         'recommendation':'self-selected',//self-selected, recommanded
@@ -463,7 +464,9 @@ class LoginCart extends React.Component {
     this.props.history.goBack();
   }
   gotoDetails(pitem) {
-    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-')}-${pitem.goods.goodsNo}`);
+    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
+    
+    this.props.history.push(`/${pitem.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${pitem.goods.goodsNo}`);
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   toggleSelect(pitem) {
@@ -508,7 +511,8 @@ class LoginCart extends React.Component {
             )}
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
-          <div className="d-flex pl-3">
+          {/* <div className="d-flex pl-3"> */}
+          <div className="d-flex">
             <div className="product-info__img w-100">
               <LazyLoad>
                 <img
@@ -563,10 +567,10 @@ class LoginCart extends React.Component {
                     width: isMobile ? '9rem' : 'inherit'
                   }}
                 >
-                  <div className="productGoodsSubtitle">
+                  {/* <div className="productGoodsSubtitle">
                     {pitem.goods.goodsSubtitle}
-                  </div>
-                  <div className="align-left flex rc-margin-bottom--xs">
+                  </div> */}
+                  <div className="align-left flex">
                     {/* <div className="stock__wrapper">
                     <div className="stock">
                       <label className="availability instock">
@@ -1212,8 +1216,7 @@ class LoginCart extends React.Component {
                     );
                   }
                   if (
-                    result.backCode === 'K-000000' &&
-                    result.context.promotionDiscount
+                    result.backCode === 'K-000000' && (!result.context.promotionFlag || result.context.couponCodeFlag)
                   ) {
                     //表示输入apply promotionCode成功
                     discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -1237,52 +1240,17 @@ class LoginCart extends React.Component {
               </button>
             </p>
           </div>
-          <div className="col-6">
-            <FormattedMessage id="total" />
-          </div>
-          <div className="col-6 no-padding-left">
-            <p className="text-right sub-total">
-              {formatMoney(this.totalPrice)}
-            </p>
-          </div>
         </div>
-        {/* 显示订阅折扣 */}
-        <div
-          className={`row leading-lines shipping-item red ${
-            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+        {this.state.isShowValidCode ? (
+          <div className="red pl-3 pb-3 pt-2" style={{fontSize: '14px'}}>
+            {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
+            <FormattedMessage id="validPromotionCode"/>
           </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.subscriptionPrice)}
-            </p>
-          </div>
-        </div>
-        {/* 显示 默认折扣 */}
-        <div
-          className={`row leading-lines shipping-item red ${
-            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
-              ? 'd-flex'
-              : 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
-          </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              - {formatMoney(this.discountPrice)}
-            </p>
-          </div>
-        </div>
-        {/* 显示 promotionCode */}
-        <div style={{ marginTop: '10px' }}>
-          {!this.state.isShowValidCode &&
+        ) : null}
+        {!this.state.isShowValidCode &&
             this.state.discount.map((el) => (
-              <div className={`row leading-lines shipping-item red d-flex`}>
+              <>
+              <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
                 <div className="col-6">
                   <p>
                     {this.promotionDesc || (
@@ -1292,9 +1260,8 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="col-6">
                   <p className="text-right shipping-cost">
-                    {/* - {formatMoney(this.discountPrice)} */}
-                    <b>-{formatMoney(this.discountPrice)}</b>
                     <span
+                      className="rc-icon rc-close--sm rc-iconography"
                       style={{
                         fontSize: '18px',
                         marginLeft: '10px',
@@ -1303,6 +1270,7 @@ class LoginCart extends React.Component {
                       }}
                       onClick={async () => {
                         let result = {};
+                        await checkoutStore.removePromotionCode()
                         if (!loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();
@@ -1322,8 +1290,71 @@ class LoginCart extends React.Component {
                         }
                       }}
                     >
-                      x
                     </span>
+                  </p>
+                </div>
+              </div>
+              </>
+            ))}
+        <div className="row">
+          <div className="col-6">
+            <FormattedMessage id="total" />
+          </div>
+          <div className="col-6 no-padding-left">
+            <p className="text-right sub-total">
+              {formatMoney(this.totalPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示订阅折扣 */}
+        <div
+          className={`row leading-lines shipping-item green ${
+            parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
+          }`}
+        >
+          <div className="col-8">
+            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">
+              - {formatMoney(this.subscriptionPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示 默认折扣 */}
+        <div
+          className={`row leading-lines shipping-item green ${
+            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
+              ? 'd-flex'
+              : 'hidden'
+          }`}
+        >
+          <div className="col-8">
+            <p>{this.promotionDesc || <FormattedMessage id="promotion" />}</p>
+          </div>
+          <div className="col-4">
+            <p className="text-right shipping-cost">
+              - {formatMoney(this.discountPrice)}
+            </p>
+          </div>
+        </div>
+        {/* 显示 promotionCode */}
+        <div style={{ marginTop: '10px' }}>
+          {!this.state.isShowValidCode &&
+            this.state.discount.map((el) => (
+              <div className={`row leading-lines shipping-item green d-flex`}>
+                <div className="col-6">
+                  <p>
+                    {/* {this.promotionDesc || (
+                      <FormattedMessage id="NoPromotionDesc" />
+                    )} */}
+                    <FormattedMessage id="promotion" />
+                  </p>
+                </div>
+                <div className="col-6">
+                  <p className="text-right shipping-cost">
+                    {/* - {formatMoney(this.discountPrice)} */}
+                    <b>-{formatMoney(this.discountPrice)}</b>
                   </p>
                 </div>
               </div>
@@ -1370,12 +1401,6 @@ class LoginCart extends React.Component {
               </p>
             </div>
           </div>
-          {this.state.isShowValidCode ? (
-            <div className="red pl-3 pb-3 border-top pt-2">
-              Promotion code({this.state.lastPromotionInputValue}) is not Valid
-            </div>
-          ) : null}
-
           <div className="row checkout-proccess">
             <div className="col-lg-12 checkout-continue">
               <a onClick={this.handleCheckout}>
@@ -1514,7 +1539,7 @@ class LoginCart extends React.Component {
                               title={txt}
                             >
                               <span className="rc-header-with-icon rc-header-with-icon--gamma">
-                                <span className="rc-icon rc-left rc-iconography"></span>
+                                <span className="rc-icon rc-left rc-iconography rc-icon-btnback"></span>
                                 {txt}
                               </span>
                             </a>
