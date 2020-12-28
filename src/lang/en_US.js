@@ -900,6 +900,8 @@ const en_US = {
   'VAT_included': 'VAT included',
   'skiped': 'Skiped',
   'orderDetail': 'Order Detail',
+  'modalChangeDateTitle': 'Change the shipping date',
+  'modalChangeDateContent': 'Are you sure you want to change the next shipment date?',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   deliveredTip: 'Expected to arrive in about 3 days',
   checkboxIsRequiredForSubscription: 'this checkbox is required for subscription',
