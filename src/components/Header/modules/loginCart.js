@@ -14,6 +14,7 @@ import { getProductPetConfig } from '@/api/payment';
 import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
@@ -27,6 +28,9 @@ class LoginCart extends React.Component {
     this.handleCheckout = this.handleCheckout.bind(this);
   }
   async componentDidMount() {
+    if (window.location.pathname !== '/checkout') {
+      await this.checkoutStore.removePromotionCode()
+    }
     await getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
