@@ -315,7 +315,7 @@ class Payment extends React.Component {
     return this.props.paymentStore.selectedBillingAddress;
   }
   get isOnepageCheckout() {
-    return true;
+    // return true;
     return this.props.configStore.isOnePageCheckout;
   }
   checkRequiredItem = (list) => {
