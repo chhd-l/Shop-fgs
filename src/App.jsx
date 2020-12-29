@@ -117,6 +117,24 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 import {linkTransform} from "@/api/refuge"
 
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import fr from "date-fns/locale/fr";
+import es from "date-fns/locale/es";
+import de from "date-fns/locale/de";
+if(process.env.REACT_APP_LANG === 'fr') {
+  registerLocale(process.env.REACT_APP_LANG, fr)
+  setDefaultLocale('fr')
+}else if(process.env.REACT_APP_LANG === 'de') {
+  registerLocale(process.env.REACT_APP_LANG, de)
+  setDefaultLocale('de')
+}else if(process.env.REACT_APP_LANG === 'es') {
+  registerLocale(process.env.REACT_APP_LANG, es)
+  setDefaultLocale('es')
+}else if(process.env.REACT_APP_LANG === 'us') {
+  
+}
+
+
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;

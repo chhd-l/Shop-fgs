@@ -1772,15 +1772,15 @@ class Details extends React.Component {
                                           sdItem.selected ? 'selected' : ''
                                         }`}
                                         onClick={() => {
-                                          if (sdItem.isEmpty) {
-                                            return false;
-                                          } else {
+                                          // if (sdItem.isEmpty) {
+                                          //   return false;
+                                          // } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
                                             );
-                                          }
+                                          // }
                                         }}
                                       >
                                         <span>
