@@ -944,7 +944,7 @@ class Payment extends React.Component {
             this.props.checkoutStore.setCartData(
               this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
             ); // 只移除selected
-            sessionItemRoyal.remove('rc-token');
+            //sessionItemRoyal.remove('rc-token');
           }
           // 给klana支付跳转用
           if (res.context.pId) {

@@ -956,11 +956,10 @@ class Details extends React.Component {
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
       }
-      if(this.state.requestJson.hasOwnProperty('utm_campaign')){
-        param = {...param,...this.state.requestJson}
-      }
-      console.log(param)
-      //debugger
+
+      // if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+      //   param = {...param,...this.state.requestJson}
+      // }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (this.state.isMobile) {
@@ -1177,11 +1176,6 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
-    //添加商品来源属性 start
-    // cartDataCopy[0].utmSource = requestJson['utm_source'] || ""
-    // cartDataCopy[0].utmMedium = requestJson['utm_medium'] || ""
-    // cartDataCopy[0].utm_campaign = requestJson['utm_campaign'] || ""
-    //添加商品来源属性 end
     
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
