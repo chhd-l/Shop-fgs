@@ -725,3 +725,14 @@ function getDatePickerConfig() {
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
+
+/**
+ * 根据id匹配name
+ * @param {Array} dictList 字典数据
+ * @param {Number/String} id 需要匹配的id
+ */
+export function matchNamefromDict(dictList = [], id) {
+  return dictList.filter((ele) => ele.id.toString() === id.toString())[0]
+    ? dictList.filter((ele) => ele.id.toString() === id.toString())[0].name
+    : id;
+}

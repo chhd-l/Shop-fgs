@@ -105,7 +105,6 @@ class Confirmation extends React.Component {
 
     Promise.all(subOrderNumberList.map((ele) => getOrderDetails(ele)))
       .then(async (res) => {
-        debugger
         let resContext = res[0].context;
         let cityRes = await queryCityNameById({
           id: [resContext.consignee.cityId, resContext.invoice.cityId]

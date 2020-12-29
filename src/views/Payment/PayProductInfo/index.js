@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
-import { formatMoney, getFrequencyDict } from '@/utils/utils';
+import { formatMoney, getFrequencyDict, matchNamefromDict } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
@@ -187,11 +187,6 @@ class PayProductInfo extends React.Component {
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
   }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id.toString() === id.toString())
-      ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
-      : id;
-  }
   getProducts(plist) {
     const List = plist.map((el, i) => {
       let selectedSizeItem = el.sizeList.filter((item) => item.selected)[0];
@@ -305,7 +300,7 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {this.matchNamefromDict(
+                        {matchNamefromDict(
                           this.state.frequencyList,
                           el.periodTypeId
                         )}{' '}

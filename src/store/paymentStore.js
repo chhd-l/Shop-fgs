@@ -113,6 +113,7 @@ class PaymentStore {
       for (let tmpKey in panelStatusJS) {
         const tmpSts = this.panelStatus[tmpKey].status;
         if (tmpSts.isEdit) {
+          tmpSts.isEdit = false;
           tmpSts.isPrepare = true;
         }
       }

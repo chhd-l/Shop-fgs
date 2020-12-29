@@ -1,8 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getDictionary } from '@/utils/utils';
-import find from 'lodash/find';
-import { CREDIT_CARD_IMG_ENUM } from '@/utils/constant';
+import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { getDeviceType } from '@/utils/utils';
 
@@ -14,53 +12,53 @@ class InfosPreview extends React.Component {
     super(props);
     this.state = {
       countryList: [],
-      deviceType:'',
-      orderArr:[]
+      deviceType: '',
+      orderArr: []
     };
   }
   componentDidMount() {
+    this.setState({ deviceType: getDeviceType() }, () => {
+      this.computedOrder(); //地址栏三个部分的order顺序需要动态调整
+    });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
       });
     });
   }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id === id)
-      ? find(dictList, (ele) => ele.id === id).name
-      : id;
-  }
-  computedOrder=()=>{
-    if(this.state.deviceType=='PC'){
-      this.setState({orderArr:['order1','order2','order3']})
-    }else{
-      this.setState({orderArr:['order1','order3','order2']})
+  computedOrder = () => {
+    if (this.state.deviceType == 'PC') {
+      this.setState({ orderArr: ['order1', 'order2', 'order3'] });
+    } else {
+      this.setState({ orderArr: ['order1', 'order3', 'order2'] });
     }
-   
-  }
-  componentDidMount(){
-    this.setState({ deviceType: getDeviceType() },()=>{
-      this.computedOrder() //地址栏三个部分的order顺序需要动态调整
-    });
-  }
+  };
   render() {
     const { payRecord, details } = this.props;
-    console.log({payRecord})
     return (
       <div style={{ padding: '0 15px' }}>
-        <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break">
+        <div className="row rc-bg-colour--brand3 pt-3 pb-3 text-break 1111111111111">
           {details ? (
-            <div className={['col-12','col-md-6','mb-3',this.state.orderArr[0]].join(" ")}>
-              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+            <div
+              className={[
+                'col-12',
+                'col-md-6',
+                'mb-3',
+                this.state.orderArr[0]
+              ].join(' ')}
+            >
+              <div
+                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
+              >
                 <FormattedMessage id="deliveryAddress" />
               </div>
               <div>
-               <span>{details.consignee.name}</span>
+                <span>{details.consignee.name}</span>
               </div>
               <div>
                 {details.consignee.postCode}, {details.consignee.phone}
               </div>
-              {this.matchNamefromDict(
+              {matchNamefromDict(
                 this.state.countryList,
                 details.consignee.countryId
               )}{' '}
@@ -77,16 +75,23 @@ class InfosPreview extends React.Component {
           ) : null}
           {payRecord && payRecord.last4Digits ? (
             // && payRecord.paymentMethod !== 'ADYEN'
-            <div className={['col-12','col-md-6','mb-3',this.state.orderArr[1]].join(" ")}>
-              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+            <div
+              className={[
+                'col-12',
+                'col-md-6',
+                'mb-3',
+                this.state.orderArr[1]
+              ].join(' ')}
+            >
+              <div
+                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
+              >
                 <FormattedMessage id="payment.paymentInformation" />
               </div>
               <div>
-               <span>{details.consignee.name}</span>
+                <span>{details.consignee.name}</span>
               </div>
-              <div>
-                {payRecord.vendor}
-              </div>
+              <div>{payRecord.vendor}</div>
               <div>
                 {payRecord.last4Digits ? (
                   <>
@@ -100,14 +105,12 @@ class InfosPreview extends React.Component {
               <div>
                 {payRecord.expirationDate ? (
                   <>
-                    <span className="medium">
-                      {payRecord.expirationDate}
-                    </span>
+                    <span className="medium">{payRecord.expirationDate}</span>
                     <br />
                   </>
                 ) : null}
               </div>
-              
+
               {payRecord.accountName ? (
                 <>
                   {payRecord.accountName}
@@ -124,18 +127,26 @@ class InfosPreview extends React.Component {
             </div>
           ) : null}
           {details ? (
-            <div className={['col-12','col-md-6','mb-3',this.state.orderArr[2]].join(" ")}>
-              <div style={{margin:'10px 0',color:"#666",fontWeight:"bold"}}>
+            <div
+              className={[
+                'col-12',
+                'col-md-6',
+                'mb-3',
+                this.state.orderArr[2]
+              ].join(' ')}
+            >
+              <div
+                style={{ margin: '10px 0', color: '#666', fontWeight: 'bold' }}
+              >
                 <FormattedMessage id="billingAddress" />
               </div>
-              
               <div>
                 <span>{details.invoice.contacts}</span>
-              </div>           
+              </div>
               <div>
                 {details.invoice.postCode}, {details.invoice.phone}
               </div>
-              {this.matchNamefromDict(
+              {matchNamefromDict(
                 this.state.countryList,
                 details.invoice.countryId
               )}{' '}
@@ -149,8 +160,6 @@ class InfosPreview extends React.Component {
               {details.invoice.rfc ? <br /> : null}
             </div>
           ) : null}
-          
-          
         </div>
       </div>
     );
