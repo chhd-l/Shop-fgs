@@ -1690,6 +1690,7 @@ class Payment extends React.Component {
         >
           {Object.entries(payWayObj).map((item, i) => {
             return (
+              // subForm.buyWay为frequency表示商品中有订阅商品，有订阅商品不显示klarna pay later支付方式
               <div className="rc-input rc-input--inline" key={i} style={{display:this.state.subForm.buyWay=='frequency'&&item[1].id=='adyenPayLater'?'none':'inline-block'}}>
                 <input
                   className="rc-input__radio"
