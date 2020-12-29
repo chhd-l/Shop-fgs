@@ -1252,14 +1252,14 @@ class LoginCart extends React.Component {
             this.state.discount.map((el) => (
               <>
               <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
-                <div className="col-6">
+                <div className="col-8">
                   <p>
                     {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )}
                   </p>
                 </div>
-                <div className="col-6">
+                <div className="col-4">
                   <p className="text-right shipping-cost">
                     <span
                       className="rc-icon rc-close--sm rc-iconography"
@@ -1579,7 +1579,8 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          fixToHeader: false
                         })}
                       </div>
                     </div>

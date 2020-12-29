@@ -725,3 +725,20 @@ function getDatePickerConfig() {
 }
 let datePickerConfig = getDatePickerConfig();
 export { datePickerConfig };
+
+//js获取地址栏参数，并将其转换为json对象
+
+//例如 ： http://localhost:3000/mother-&-babycat-2544?utm_source=vanityURL&utm_medium=leaflet&utm_campaign=shelter108782
+//转化成:  {utm_source: "vanityURL", utm_medium: "leaflet", utm_campaign: "shelter108782"}
+export function getRequest(){
+  var url=window.location.search;
+  var jsonList={};
+  if(url.indexOf("?")>-1){
+    var str=url.slice(url.indexOf("?")+1);
+    var strs=str.split("&");
+    for(var i=0;i<strs.length;i++){
+        jsonList[strs[i].split("=")[0]]=strs[i].split("=")[1];//如果出现乱码的话，可以用decodeURI()进行解码
+      }
+    }
+    return jsonList;
+}

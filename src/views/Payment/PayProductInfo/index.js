@@ -100,7 +100,6 @@ class PayProductInfo extends React.Component {
   }
   //游客
   GACheckUnLogin(productList){
-        this.getGACheckoutStep()
         console.log(productList)
         let product = [],
         basketAmount = this.tradePrice,
@@ -132,11 +131,6 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.option = option
     dataLayer[0].checkout.product = product
     dataLayer[0].checkout.step = step
-  }
-  //获取GA step
-  getGACheckoutStep(){
-    console.log(this.paymentStep)
-    //debugger
   }
   async componentDidMount() {
     // console.log(this.refs.applyButtton.click() ,' hahaha')
