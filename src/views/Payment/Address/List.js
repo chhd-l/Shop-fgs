@@ -503,17 +503,17 @@ class AddressList extends React.Component {
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
-        className="bg-transparent d-flex justify-content-between align-items-center"
+        className="bg-transparent d-flex justify-content-between align-items-center flex-wrap"
       >
         <h5
-          className="mb-0"
+          className="mb-0 text-nowrap"
           style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
         >
           <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
           <FormattedMessage id="payment.deliveryTitle" />
         </h5>
         <p
-          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center ${
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
             addOrEdit ? 'hidden' : ''
           }`}
           onClick={this.addOrEditAddress}

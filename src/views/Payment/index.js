@@ -1660,7 +1660,6 @@ class Payment extends React.Component {
   };
 
   clickConfirmPaymentPanel = async (e) => {
-    debugger;
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -1909,7 +1908,7 @@ class Payment extends React.Component {
           {/* 出现卡列表时，才显示此按钮 */}
           {paymentTypeVal === 'adyenCard' &&
             Object.keys(adyenPayParam || {}).length > 0 && (
-              <div className="d-flex justify-content-end mt-3 sssssfffffffff">
+              <div className="d-flex justify-content-end mt-3">
                 <button
                   className={`rc-btn rc-btn--one ${
                     saveBillingLoading ? 'ui-btn-loading' : ''
@@ -1918,8 +1917,7 @@ class Payment extends React.Component {
                   // 1 卡，校验是否存在encryptedSecurityCode
                   // 2 billing校验
                   disabled={
-                    // !adyenPayParam.encryptedSecurityCode ||
-                    validForBilling
+                    !adyenPayParam.encryptedSecurityCode || validForBilling
                   }
                   onClick={this.clickConfirmPaymentPanel}
                 >
