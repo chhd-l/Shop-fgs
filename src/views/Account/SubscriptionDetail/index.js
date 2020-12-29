@@ -52,6 +52,7 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
+
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'loginStore')
@@ -192,6 +193,7 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(datePickerConfig, 'datePickerConfig')
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
@@ -2594,7 +2596,7 @@ class SubscriptionDetail extends React.Component {
                                             </span>
                                           </div>
                                           {isMobile ? null : (
-                                            <div className="col-12 col-md-4"></div>
+                                            <div className="col-12 col-md-3"></div>
                                           )}
                                           {isMobile ? null : (
                                             <div className="col-12 col-md-3 pl-4">
@@ -2613,7 +2615,7 @@ class SubscriptionDetail extends React.Component {
                                             </div>
                                           )}
                                           <div
-                                            className="col-7 col-md-2"
+                                            className="col-7 col-md-3"
                                             style={{
                                               padding: isMobile ? '0' : '0 15px'
                                             }}

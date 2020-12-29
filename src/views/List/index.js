@@ -641,12 +641,14 @@ class List extends React.Component {
               r.navigationLink,
               // r.cateRouter,
               `${r.navigationLink}?${r.keywords}`
-            ].includes(decodeURIComponent(pathname + search)) ||
+            ].includes(
+              decodeURIComponent(pathname.replace(/\/$/, '') + search)
+            ) ||
             [
               r.navigationLink,
               r.cateRouter,
               `${r.navigationLink}?${r.keywords}`
-            ].includes(pathname)
+            ].includes(pathname.replace(/\/$/, ''))
         )[0];
         let sortParam = null;
         let cateIds = [];
