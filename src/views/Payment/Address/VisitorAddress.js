@@ -5,21 +5,26 @@ import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
 import { getDictionary, validData, getDeviceType } from '@/utils/utils';
-import { searchNextConfirmPanel, scrollIntoView } from '../modules/utils';
+import {
+  searchNextConfirmPanel
+  // scrollIntoView
+} from '../modules/utils';
 import './VisitorAddress.css';
 
 /**
  * delivery/billing adress module - visitor
  */
 @inject('paymentStore')
-@injectIntl
+// @injectIntl
 @observer
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
     isOnepageCheckout: false,
     initData: null,
-    titleVisible: true
+    titleVisible: true,
+    showConfirmBtn: true,
+    updateValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -37,6 +42,7 @@ class VisitorAddress extends React.Component {
         countryList: res
       });
     });
+    this.validData({ data: this.state.form });
   }
   get panelStatus() {
     const tmpKey =
@@ -48,15 +54,22 @@ class VisitorAddress extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
-  handleEditFormChange = async (data) => {
+  validData = async ({ data }) => {
+    try {
+      await validData(ADDRESS_RULE, data);
+      this.setState({ isValid: true, form: data }, () => {
+        this.props.updateValidStatus(this.state.isValid);
+      });
+    } catch (err) {
+      this.setState({ isValid: false }, () => {
+        this.props.updateValidStatus(this.state.isValid);
+      });
+      console.log(err);
+    }
+  };
+  handleEditFormChange = (data) => {
     if (this.props.isOnepageCheckout) {
-      try {
-        await validData(ADDRESS_RULE, data);
-        this.setState({ isValid: true, form: data });
-      } catch (err) {
-        this.setState({ isValid: false });
-        console.log(err);
-      }
+      this.validData({ data });
     } else {
       this.setState({ form: data });
       this.props.updateData(data);
@@ -82,6 +95,7 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+    // todo
     setTimeout(() => {
       isMobile &&
         scrollIntoView(
@@ -151,7 +165,7 @@ class VisitorAddress extends React.Component {
   render() {
     const { panelStatus } = this;
 
-    const { isOnepageCheckout } = this.props;
+    const { isOnepageCheckout, showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
     const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
@@ -191,15 +205,17 @@ class VisitorAddress extends React.Component {
             {panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
                 {_editForm}
-                <div className="d-flex justify-content-end mb-2">
-                  <button
-                    className="rc-btn rc-btn--one rc-btn--sm"
-                    onClick={this.handleClickConfirm}
-                    disabled={!isValid}
-                  >
-                    <FormattedMessage id="clinic.confirm" />
-                  </button>
-                </div>
+                {showConfirmBtn && (
+                  <div className="d-flex justify-content-end mb-2">
+                    <button
+                      className="rc-btn rc-btn--one rc-btn--sm"
+                      onClick={this.handleClickConfirm}
+                      disabled={!isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                )}
               </fieldset>
             ) : form ? (
               <div>

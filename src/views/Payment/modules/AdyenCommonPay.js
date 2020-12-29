@@ -10,7 +10,7 @@ import { toJS } from 'mobx';
 @observer
 class AdyenCommonPay extends Component {
   static defaultProps = {
-    showCancelBtn: false,
+    billingJSX: null,
     updateEmail: () => {}
   };
   constructor(props) {
@@ -67,6 +67,7 @@ class AdyenCommonPay extends Component {
         text: val
       },
       () => {
+        this.props.updateEmail(this.state.text);
         try {
           this.isTestMail();
           this.setState({ isValid: true });
@@ -92,6 +93,7 @@ class AdyenCommonPay extends Component {
     this.setState({ isEdit: false });
     const { paymentStore } = this.props;
     const curPanelKey = 'paymentMethod';
+    debugger;
     paymentStore.setStsToCompleted({ key: curPanelKey });
     const isReadyPrev = isPrevReady({
       list: toJS(paymentStore.panelStatus),
@@ -108,6 +110,7 @@ class AdyenCommonPay extends Component {
     this.props.updateEmail(this.state.text);
   };
   render() {
+    const { billingJSX } = this.props;
     const { isEdit } = this.state;
     return (
       <>
@@ -115,11 +118,7 @@ class AdyenCommonPay extends Component {
           <div className="address">
             {isEdit ? (
               <>
-                <form
-                  className="address-form"
-                  action="/destination"
-                  method="get"
-                >
+                <form className="address-form">
                   <div className="address-line" id="addressLine2">
                     <div
                       className="address-input full-width"
@@ -133,7 +132,7 @@ class AdyenCommonPay extends Component {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Email"
+                        placeholder={`${this.props.intl.messages.mailAddress}*`}
                         name="street"
                         value={this.state.text}
                         onChange={this.handleChange}
@@ -141,30 +140,13 @@ class AdyenCommonPay extends Component {
                     </div>
                   </div>
                 </form>
-                <div className="overflow-hidden mb-1">
+                {billingJSX}
+                {/* <div className="overflow-hidden mb-1">
                   <div className="text-right">
-                    {this.props.showCancelBtn && (
-                      <>
-                        <a
-                          className="rc-styled-link editPersonalInfoBtn"
-                          name="contactInformation"
-                          onClick={() => {
-                            this.props.updateFormVisible(false);
-                          }}
-                        >
-                          <FormattedMessage id="cancel" />
-                        </a>{' '}
-                        <FormattedMessage id="or" />{' '}
-                      </>
-                    )}
-
                     <button
                       className={`rc-btn rc-btn--one submitBtn editAddress ${
                         this.state.saveLoading ? 'ui-btn-loading' : ''
                       }`}
-                      data-sav="false"
-                      name="contactInformation"
-                      type="submit"
                       disabled={!this.state.isValid}
                       onClick={this.handleClickConfirm}
                     >
@@ -172,6 +154,7 @@ class AdyenCommonPay extends Component {
                     </button>
                   </div>
                 </div>
+               */}
               </>
             ) : (
               <div className="d-flex justify-content-between align-items-start">

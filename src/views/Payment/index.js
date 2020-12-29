@@ -21,9 +21,19 @@ import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
-import { searchNextConfirmPanel, isPrevReady } from './modules/utils';
-import { formatMoney, validData, generatePayUScript } from '@/utils/utils';
-import { ADDRESS_RULE } from '@/utils/constant';
+import {
+  searchNextConfirmPanel,
+  isPrevReady,
+  scrollPaymentPanelIntoView
+} from './modules/utils';
+import {
+  formatMoney,
+  validData,
+  generatePayUScript,
+  getDictionary,
+  matchNamefromDict
+} from '@/utils/utils';
+import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
 import LazyLoad from 'react-lazyload';
@@ -40,6 +50,7 @@ import {
 
 import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
+// import AdyenCreditCard2 from './Adyen2';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
@@ -85,7 +96,7 @@ class Payment extends React.Component {
         address1: '',
         address2: '',
         rfc: '',
-        country: 'Mexico',
+        country: process.env.REACT_APP_DEFAULT_COUNTRYID || '',
         city: '',
         postCode: '',
         phoneNumber: ''
@@ -140,12 +151,17 @@ class Payment extends React.Component {
       needPrescriber: false,
       unLoginBackPets: [],
       guestEmail: '',
-      mobileCartVisibleKey: 'less' // less/more
+      mobileCartVisibleKey: 'less', // less/more
+      countryList: [],
+      validSts: { billingAddr: true },
+      saveBillingLoading: false
     };
-    this.toggleMobileCart = this.toggleMobileCart.bind(this);
     this.timer = null;
+    this.toggleMobileCart = this.toggleMobileCart.bind(this);
+    this.unLoginBillingAddrRef = React.createRef();
+    this.loginBillingAddrRef = React.createRef();
   }
-  
+
   // getCheckoutStep(panelStatus){
   //   let step = 2
   //   let panelStatusArr = toJS(panelStatus)
@@ -223,16 +239,16 @@ class Payment extends React.Component {
     );
     if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !tid) {
-        history.push('/cart');
-        return false;
+        // history.push('/cart');
+        // return false;
       }
       if (
         !this.isLogin &&
         (!this.cartData.length ||
           !this.cartData.filter((ele) => ele.selected).length)
       ) {
-        history.push('/cart');
-        return false;
+        // history.push('/cart');
+        // return false;
       }
     }
 
@@ -253,42 +269,54 @@ class Payment extends React.Component {
 
     this.initPaymentWay();
 
-    const { creditCardInfo, deliveryAddress, billingAddress } = this.state;
-    const defaultCountryId = process.env.REACT_APP_DEFAULT_COUNTRYID || '';
-
-    if (!this.isLogin) {
-      let deliveryInfo = localItemRoyal.get('deliveryInfo');
-      if (deliveryInfo) {
-        creditCardInfo.cardOwner =
-          deliveryInfo.deliveryAddress.firstName +
-          ' ' +
-          deliveryInfo.deliveryAddress.lastName;
-        creditCardInfo.phoneNumber = deliveryInfo.deliveryAddress.phoneNumber;
-        this.setState({
-          deliveryAddress: Object.assign(deliveryInfo.deliveryAddress, {
-            country: defaultCountryId
-          }),
-          billingAddress: Object.assign(deliveryInfo.billingAddress, {
-            country: defaultCountryId
-          }),
-          billingChecked: deliveryInfo.billingChecked,
-          creditCardInfo: creditCardInfo
-        });
-      } else {
-        deliveryAddress.country = defaultCountryId;
-        billingAddress.country = defaultCountryId;
-        this.setState({
-          deliveryAddress,
-          billingAddress
-        });
-      }
-    }
+    getDictionary({ type: 'country' }).then((res) => {
+      this.setState({
+        countryList: res
+      });
+    });
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
     sessionItemRoyal.remove('rc-tid');
     sessionItemRoyal.remove('rc-tidList');
     sessionItemRoyal.remove('recommend_product');
+  }
+  get isLogin() {
+    return this.props.loginStore.isLogin;
+  }
+  get userInfo() {
+    return this.props.loginStore.userInfo;
+  }
+  get cartData() {
+    return this.props.checkoutStore.cartData;
+  }
+  get loginCartData() {
+    return this.props.checkoutStore.loginCartData;
+  }
+  get tradePrice() {
+    return this.props.checkoutStore.tradePrice;
+  }
+  get checkoutWithClinic() {
+    return (
+      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
+      this.state.needPrescriber
+    );
+  }
+  get paymentMethodPanelStatus() {
+    return this.props.paymentStore.paymentMethodPanelStatus;
+  }
+  get hasConfimedPaymentVal() {
+    return this.props.paymentStore.hasConfimedPaymentVal;
+  }
+  get selectedDeliveryAddress() {
+    return this.props.paymentStore.selectedDeliveryAddress;
+  }
+  get selectedBillingAddress() {
+    return this.props.paymentStore.selectedBillingAddress;
+  }
+  get isOnepageCheckout() {
+    return true;
+    return this.props.configStore.isOnePageCheckout;
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
@@ -513,42 +541,6 @@ class Payment extends React.Component {
       this.fingerprint = fingerprint;
     }
   };
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
-  get cartData() {
-    return this.props.checkoutStore.cartData;
-  }
-  get loginCartData() {
-    return this.props.checkoutStore.loginCartData;
-  }
-  get tradePrice() {
-    return this.props.checkoutStore.tradePrice;
-  }
-  get checkoutWithClinic() {
-    return (
-      process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
-      this.state.needPrescriber
-    );
-  }
-  get paymentMethodPanelStatus() {
-    return this.props.paymentStore.paymentMethodPanelStatus;
-  }
-  get hasConfimedPaymentVal() {
-    return this.props.paymentStore.hasConfimedPaymentVal;
-  }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedBillingAddress() {
-    return this.props.paymentStore.selectedBillingAddress;
-  }
-  get isOnepageCheckout() {
-    return this.props.configStore.isOnePageCheckout;
-  }
   queryOrderDetails() {
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
@@ -578,10 +570,10 @@ class Payment extends React.Component {
     this.setState({
       errorMsg: msg
     });
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: 'smooth'
+    // });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
@@ -1416,9 +1408,9 @@ class Payment extends React.Component {
       promotionCode
     });
   };
-  handlePaymentTypeChange(e) {
-    this.setState({ paymentTypeVal: e.target.value });
-  }
+  handlePaymentTypeChange = (e) => {
+    this.setState({ paymentTypeVal: e.target.value, email: '' });
+  };
 
   updateSameAsCheckBoxVal = (val) => {
     const { paymentStore } = this.props;
@@ -1452,6 +1444,25 @@ class Payment extends React.Component {
     }
   };
 
+  updateDeliveryAddrData = (data) => {
+    this.props.paymentStore.updateSelectedDeliveryAddress(data);
+    this.setState({
+      deliveryAddress: data
+    });
+    if (this.state.billingChecked) {
+      this.setState({
+        billingAddress: data
+      });
+    }
+  };
+
+  updateBillingAddrData = (data) => {
+    if (!this.state.billingChecked) {
+      this.props.paymentStore.updateSelectedBillingAddress(data);
+      this.setState({ billingAddress: data });
+    }
+  };
+
   /**
    * 渲染address panel
    */
@@ -1472,11 +1483,7 @@ class Payment extends React.Component {
             <AddressList
               id="1"
               isOnepageCheckout={this.isOnepageCheckout}
-              updateData={(data) => {
-                paymentStore.updateSelectedDeliveryAddress(data);
-                this.setState({ deliveryAddress: data });
-              }}
-              updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
+              updateData={this.updateDeliveryAddrData}
             />
           ) : (
             <VisitorAddress
@@ -1484,12 +1491,7 @@ class Payment extends React.Component {
               type="delivery"
               isOnepageCheckout={this.isOnepageCheckout}
               initData={deliveryAddress}
-              updateData={(data) => {
-                paymentStore.updateSelectedDeliveryAddress(data);
-                this.setState({
-                  deliveryAddress: data
-                });
-              }}
+              updateData={this.updateDeliveryAddrData}
             />
           )}
         </div>
@@ -1598,130 +1600,198 @@ class Payment extends React.Component {
       billingChecked,
       billingAddress,
       deliveryAddress,
-      countryList
+      adyenPayParam
     } = this.state;
 
     return (
       <>
         <SameAsCheckbox
+          initVal={billingChecked}
           updateSameAsCheckBoxVal={this.updateSameAsCheckBoxVal}
           type={type}
         />
         {billingChecked ? (
           deliveryAddress && deliveryAddress.firstName ? (
-            <div className="ml-custom mr-custom">
-              <span className="medium">
-                {deliveryAddress.firstName + ' ' + deliveryAddress.lastName}
-              </span>
-              <br />
-              {[deliveryAddress.postCode, deliveryAddress.phoneNumber].join(
-                ', '
-              )}
-              <br />
-              {this.matchNamefromDict(
-                countryList,
-                deliveryAddress.country
-              )}{' '}
-              {deliveryAddress.cityName}
-              <br />
-              {deliveryAddress.address1}
-              <br />
-              {deliveryAddress.address2}
-              {deliveryAddress.address2 ? <br /> : null}
-              {deliveryAddress.rfc}
-            </div>
+            <>
+              <div className="ml-custom mr-custom">
+                {this.renderAddrPreview({
+                  form: billingAddress,
+                  titleVisible: false,
+                  boldName: true
+                })}
+              </div>
+            </>
           ) : null
-        ) : (
-          <div className="card-panel rc-bg-colour--brand3 rounded mb-3">
+        ) : null}
+
+        {!billingChecked && (
+          <>
             {this.isLogin ? (
               <AddressList
+                ref={this.loginBillingAddrRef}
                 id="2"
                 type="billing"
+                showOperateBtn={false}
                 isOnepageCheckout={this.isOnepageCheckout}
                 visible={!billingChecked}
-                updateData={(data) => {
-                  this.props.paymentStore.updateSelectedBillingAddress(data);
-                  this.setState({ billingAddress: data });
-                }}
+                updateData={this.updateBillingAddrData}
               />
             ) : (
               <VisitorAddress
+                ref={this.unLoginBillingAddrRef}
                 key={2}
                 titleVisible={false}
+                showConfirmBtn={false}
                 type="billing"
                 isOnepageCheckout={this.isOnepageCheckout}
                 initData={billingAddress}
-                updateData={(data) => {
-                  this.props.paymentStore.updateSelectedBillingAddress(data);
+                updateData={this.updateBillingAddrData}
+                updateValidStatus={(status) => {
                   this.setState({
-                    billingAddress: data
+                    validSts: Object.assign({ billingAddr: status })
                   });
                 }}
               />
             )}
-          </div>
+          </>
         )}
       </>
     );
   };
 
+  clickConfirmPaymentPanel = async (e) => {
+    debugger;
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    const { paymentStore } = this.props;
+
+    // 当billing未确认时，需确认
+    const { billingChecked } = this.state;
+    this.setState({ saveBillingLoading: true });
+    console.log(this.loginBillingAddrRef);
+
+    if (!billingChecked) {
+      if (this.isLogin) {
+        // 只有在编辑状态下，才需要调用save操作
+        if (
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current &&
+          this.loginBillingAddrRef.current.state.addOrEdit &&
+          this.loginBillingAddrRef.current.state.isValid
+        ) {
+          await this.loginBillingAddrRef.current.handleSave();
+        }
+      } else {
+        if (this.unLoginBillingAddrRef && this.unLoginBillingAddrRef.current) {
+          this.unLoginBillingAddrRef.current.handleClickConfirm();
+        }
+      }
+    }
+    paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+    paymentStore.setStsToEdit({ key: 'confirmation' });
+    this.setState({ saveBillingLoading: false });
+    setTimeout(() => {
+      scrollPaymentPanelIntoView();
+    });
+  };
+
+  handleClickPaymentPanelEdit = () => {
+    this.props.paymentStore.setStsToEdit({
+      key: 'paymentMethod',
+      hideOthers: true
+    });
+    const { billingChecked } = this.state;
+    if (!billingChecked) {
+      this.props.paymentStore.setStsToEdit({
+        key: 'billingAddr'
+      });
+    }
+  };
+
   /**
    * 渲染支付方式
    */
-  renderPayTab = () => {
+  renderPayTab = ({ visible = false }) => {
     const { checkoutStore } = this.props;
-    const { paymentTypeVal, subForm, listData, payWayObj, tid } = this.state;
-    return (
-      <div
-        // 没有开启onepagecheckout 或者 不是prepare状态时，才会显示
-        className={`pb-3 ${
-          !this.isOnepageCheckout || !this.paymentMethodPanelStatus.isPrepare
-            ? ''
-            : 'hidden'
-        }`}
-      >
-        {/* *******************支付tab栏start************************************ */}
-        {/* payWayObj为支付方式，如果小于等于1种，就不显示此tab栏 */}
-        <div
-          className={`ml-custom mr-custom`}
-          style={{
-            display: Object.keys(payWayObj).length > 1 ? 'block' : 'none'
-          }}
+    const {
+      paymentTypeVal,
+      subForm,
+      listData,
+      payWayObj,
+      billingAddress,
+      tid,
+      adyenPayParam,
+      billingChecked,
+      email,
+      validSts,
+      saveBillingLoading
+    } = this.state;
+
+    // 未勾选same as billing时，校验billing addr
+    const validForBilling = !billingChecked && !validSts.billingAddr;
+
+    const payConfirmBtn = (
+      <div className="d-flex justify-content-end mt-3">
+        <button
+          className={`rc-btn rc-btn--one`}
+          // 校验状态
+          // 1 校验邮箱
+          // 2 billing校验
+          disabled={!EMAIL_REGEXP.test(email) || validForBilling}
+          onClick={this.clickConfirmPaymentPanel}
         >
-          {Object.entries(payWayObj).map((item, i) => {
-            return (
-              // subForm.buyWay为frequency表示商品中有订阅商品，有订阅商品不显示klarna pay later支付方式
-              <div className="rc-input rc-input--inline" key={i} style={{display:this.state.subForm.buyWay=='frequency'&&item[1].id=='adyenPayLater'?'none':'inline-block'}}>
-                <input
-                  className="rc-input__radio"
-                  id={`payment-info-${item[1].id}`}
-                  value={item[1].paymentTypeVal}
-                  type="radio"
-                  name="payment-info"
-                  onChange={(event) => this.handlePaymentTypeChange(event)}
-                  checked={paymentTypeVal === item[1].paymentTypeVal}
-                  key={item[1].id}
-                />
-                <label
-                  className="rc-input__label--inline"
-                  htmlFor={`payment-info-${item[1].id}`}
+          <FormattedMessage id="yes" />
+        </button>
+      </div>
+    );
+    return (
+      <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
+        {/* *******************支付tab栏start************************************ */}
+        {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
+        {Object.keys(payWayObj).length > 1 && (
+          <div className={`ml-custom mr-custom`}>
+            {Object.entries(payWayObj).map((item, i) => {
+              return (
+                <div
+                  className="rc-input rc-input--inline"
+                  key={i}
+                  style={{
+                    display:
+                      this.state.subForm.buyWay == 'frequency' &&
+                      item[1].id == 'adyenPayLater'
+                        ? 'none'
+                        : 'inline-block'
+                  }}
                 >
-                  <FormattedMessage id={item[1].id} />
-                </label>
-              </div>
-            );
-          })}
-        </div>
+                  <input
+                    className="rc-input__radio"
+                    id={`payment-info-${item[1].id}`}
+                    value={item[1].paymentTypeVal}
+                    type="radio"
+                    name="payment-info"
+                    onChange={this.handlePaymentTypeChange}
+                    checked={paymentTypeVal === item[1].paymentTypeVal}
+                    key={item[1].id}
+                  />
+                  <label
+                    className="rc-input__label--inline"
+                    htmlFor={`payment-info-${item[1].id}`}
+                  >
+                    <FormattedMessage id={item[1].id} />
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        )}
         {/* ********************支付tab栏end********************************** */}
 
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
           {/* ***********************支付选项卡的内容start******************************* */}
           {/* oxxo */}
-          <div
-            className={`${
-              this.state.paymentTypeVal === 'oxxo' ? '' : 'hidden'
-            }`}
-          >
+          <div className={`${paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}>
             <OxxoConfirm
               type={'oxxo'}
               listData={listData}
@@ -1768,81 +1838,168 @@ class Payment extends React.Component {
               checkRequiredItem={this.checkRequiredItem}
               clickPay={this.initCommonPay}
               showErrorMsg={this.showErrorMsg}
-              updateAdyenPayParam={(data) => {
-                this.setState({ adyenPayParam: data }, () => {
-                  console.log(this.state.adyenPayParam);
-                  // debugger
-                });
-              }}
+              updateAdyenPayParam={this.updateAdyenPayParam}
               isOnepageCheckout={this.isOnepageCheckout}
               checkoutStore={checkoutStore}
+              billingAddress={billingAddress}
+              billingJSX={
+                paymentTypeVal === 'adyenCard' &&
+                this.renderBillingJSX({ type: 'adyenCard' })
+              }
             />
           </div>
           {/* KlarnaPayLater */}
-          <div
-            className={`${
-              paymentTypeVal === 'adyenKlarnaPayLater' ? '' : 'hidden'
-            }`}
-          >
-            <AdyenCommonPay
-              type={'adyenKlarnaPayLater'}
-              isOnepageCheckout={this.isOnepageCheckout}
-              listData={listData}
-              clickPay={this.initCommonPay}
-              showErrorMsg={this.showErrorMsg}
-              updateEmail={(email) => {
-                this.setState({ email });
-              }}
-            />
-          </div>
+          {paymentTypeVal === 'adyenKlarnaPayLater' && (
+            <>
+              <AdyenCommonPay
+                type={'adyenKlarnaPayLater'}
+                isOnepageCheckout={this.isOnepageCheckout}
+                listData={listData}
+                clickPay={this.initCommonPay}
+                showErrorMsg={this.showErrorMsg}
+                updateEmail={this.updateEmail}
+                billingJSX={this.renderBillingJSX({
+                  type: 'adyenKlarnaPayLater'
+                })}
+              />
+              {payConfirmBtn}
+            </>
+          )}
           {/* KlarnaPayNow  */}
-          <div
-            className={`${
-              paymentTypeVal === 'adyenKlarnaPayNow' ? '' : 'hidden'
-            }`}
-          >
-            <AdyenCommonPay
-              type={'adyenKlarnaPayNow'}
-              isOnepageCheckout={this.isOnepageCheckout}
-              listData={listData}
-              clickPay={this.initCommonPay}
-              showErrorMsg={this.showErrorMsg}
-              updateEmail={(email) => {
-                this.setState({ email });
-              }}
-            />
-          </div>
+          {paymentTypeVal === 'adyenKlarnaPayNow' && (
+            <>
+              <AdyenCommonPay
+                type={'adyenKlarnaPayNow'}
+                isOnepageCheckout={this.isOnepageCheckout}
+                listData={listData}
+                clickPay={this.initCommonPay}
+                showErrorMsg={this.showErrorMsg}
+                updateEmail={this.updateEmail}
+                billingJSX={this.renderBillingJSX({
+                  type: 'adyenKlarnaPayNow'
+                })}
+              />
+              {payConfirmBtn}
+            </>
+          )}
           {/* Sofort */}
-          <div
-            className={`${paymentTypeVal === 'directEbanking' ? '' : 'hidden'}`}
-          >
-            <AdyenCommonPay
-              isOnepageCheckout={this.isOnepageCheckout}
-              type={'directEbanking'}
-              listData={listData}
-              clickPay={this.initCommonPay}
-              showErrorMsg={this.showErrorMsg}
-              updateEmail={(email) => {
-                this.setState({ email });
-              }}
-            />
-          </div>
+          {paymentTypeVal === 'directEbanking' && (
+            <>
+              <AdyenCommonPay
+                isOnepageCheckout={this.isOnepageCheckout}
+                type={'directEbanking'}
+                listData={listData}
+                clickPay={this.initCommonPay}
+                showErrorMsg={this.showErrorMsg}
+                updateEmail={this.updateEmail}
+                billingJSX={this.renderBillingJSX({ type: 'directEbanking' })}
+              />
+              {payConfirmBtn}
+            </>
+          )}
 
           {/* ***********************支付选项卡的内容end******************************* */}
 
           {/* billing address */}
-          {this.isOnepageCheckout &&
+          {/* {this.isOnepageCheckout &&
             !tid &&
-            this.renderBillingJSX({ type: 'common' })}
+            this.renderBillingJSX({ type: 'common' })} */}
+
+          {/* todo */}
+          {/* 出现卡列表时，才显示此按钮 */}
+          {paymentTypeVal === 'adyenCard' &&
+            Object.keys(adyenPayParam || {}).length > 0 && (
+              <div className="d-flex justify-content-end mt-3 sssssfffffffff">
+                <button
+                  className={`rc-btn rc-btn--one ${
+                    saveBillingLoading ? 'ui-btn-loading' : ''
+                  }`}
+                  // 校验状态
+                  // 1 卡，校验是否存在encryptedSecurityCode
+                  // 2 billing校验
+                  disabled={
+                    // !adyenPayParam.encryptedSecurityCode ||
+                    validForBilling
+                  }
+                  onClick={this.clickConfirmPaymentPanel}
+                >
+                  <FormattedMessage id="yes" />
+                </button>
+              </div>
+            )}
         </div>
       </div>
     );
   };
 
-  matchNamefromDict = (dictList, id) => {
-    return find(dictList, (ele) => ele.id === id)
-      ? find(dictList, (ele) => ele.id === id).name
-      : id;
+  renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
+    return (
+      <>
+        {titleVisible && (
+          <>
+            <span className="medium">
+              <FormattedMessage id="billingAddress" />:
+            </span>
+            <br />
+          </>
+        )}
+        <span className={`${boldName ? 'medium' : ''}`}>
+          {form.firstName + ' ' + form.lastName}
+        </span>
+        <br />
+        {form.phoneNumber}
+        <br />
+        {form.address1}
+        <br />
+        {form.address2}
+        {form.address2 ? <br /> : null}
+        {form.postCode}, {form.cityName},{' '}
+        {matchNamefromDict(
+          this.state.countryList,
+          form.country || form.countryId
+        )}
+      </>
+    );
+  };
+
+  /**
+   * 渲染pay panel预览信息
+   * 不同情况预览不同规则
+   */
+  renderPayPreview = () => {
+    const {
+      paymentTypeVal,
+      email,
+      billingAddress: form,
+      adyenPayParam: { adyenPaymentMethod }
+    } = this.state;
+    return (
+      <div className="ml-custom mr-custom mb-3">
+        <div className="row">
+          {paymentTypeVal === 'payUCreditCard' ||
+          paymentTypeVal === 'adyenCard' ? (
+            <div className="col-12 col-md-6">
+              <span className="medium">{adyenPaymentMethod.brand}</span>
+              <br />
+              {adyenPaymentMethod.holderName}
+              <br />
+              {adyenPaymentMethod.lastFour
+                ? `************${adyenPaymentMethod.lastFour}`
+                : null}
+            </div>
+          ) : (
+            <div className="col-12 col-md-6">{email}</div>
+          )}
+          <div className="col-12 col-md-6 mt-2 mt-md-0">
+            {this.renderAddrPreview({
+              form,
+              titleVisible: true,
+              boldName: false
+            })}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   closePetModal = () => {
@@ -1872,7 +2029,6 @@ class Payment extends React.Component {
                 el.petsId = data.value;
                 el.petName = data.name;
               }
-              console.log(el, 'ellll');
               return recomEl;
             });
           } else {
@@ -1920,17 +2076,33 @@ class Payment extends React.Component {
   toggleMobileCart(name) {
     this.setState({ mobileCartVisibleKey: name });
   }
+  updateAdyenPayParam = (data) => {
+    this.setState({ adyenPayParam: data }, () => {
+      console.log(this.state.adyenPayParam);
+    });
+  };
+  updateEmail = (email) => {
+    this.setState({ email });
+  };
+  clickPay = () => {
+    const { payWayObj } = this.state;
+    this.setState({
+      paymentTypeVal: this.hasConfimedPaymentVal
+    });
+    this.initCommonPay({
+      type: find(
+        payWayObj,
+        (el) => el.paymentTypeVal === this.hasConfimedPaymentVal
+      )
+        ? find(
+            payWayObj,
+            (el) => el.paymentTypeVal === this.hasConfimedPaymentVal
+          ).paymentTypeVal
+        : ''
+    });
+  };
   render() {
-    const event = {
-      page: {
-        type: 'Checkout',
-        theme: '',
-        path: this.props.location.pathname,
-        error: '',
-        hitTimestamp: new Date(),
-        filters: ''
-      }
-    };
+    const { paymentMethodPanelStatus } = this;
     const { history, location, checkoutStore } = this.props;
     const {
       loading,
@@ -1946,13 +2118,79 @@ class Payment extends React.Component {
       isAdd,
       mobileCartVisibleKey
     } = this.state;
-
-    console.log(
-      toJS(this.props.checkoutStore.AuditData),
-      this.checkoutWithClinic,
-      this.isOnepageCheckout,
-      'this.props.checkoutStore.AuditData'
+    const event = {
+      page: {
+        type: 'Checkout',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
+    const paymentMethodTitleForPrepare = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-iconography inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+        </h5>
+      </div>
     );
+
+    const paymentMethodTitleForEdit = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center red">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-brand1 inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+        </h5>
+      </div>
+    );
+
+    const paymentMethodTitleForCompeleted = (
+      <div className="ml-custom mr-custom d-flex justify-content-between align-items-center">
+        <h5 className="mb-0">
+          <i
+            className="rc-icon rc-payment--sm rc-iconography inlineblock"
+            style={{
+              transform: 'scale(.8)',
+              transformOrigin: 'left',
+              marginRight: '-.1rem'
+            }}
+          />{' '}
+          <FormattedMessage id="payment.paymentInformation" />
+          <span className="iconfont font-weight-bold green ml-2">&#xe68c;</span>
+        </h5>
+        <p
+          onClick={this.handleClickPaymentPanelEdit}
+          className="rc-styled-link mb-1"
+        >
+          <FormattedMessage id="edit" />
+        </p>
+      </div>
+    );
+
+    const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
+      ? paymentMethodTitleForPrepare
+      : paymentMethodPanelStatus.isEdit
+      ? paymentMethodTitleForEdit
+      : paymentMethodPanelStatus.isCompleted
+      ? paymentMethodTitleForCompeleted
+      : null;
+
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
@@ -2153,57 +2391,33 @@ class Payment extends React.Component {
                 )}
                 <div
                   className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    this.paymentMethodPanelStatus.isEdit
+                    paymentMethodPanelStatus.isEdit
                       ? 'border-333'
                       : 'border-transparent'
                   }`}
                   id="J_checkout_panel_paymentMethod"
                 >
-                  <h5 className="ml-custom mr-custom mb-0">
-                    <i
-                      className="rc-icon rc-payment--sm rc-iconography inlineblock"
-                      style={{
-                        transform: 'scale(.8)',
-                        transformOrigin: 'left',
-                        marginRight: '-.1rem'
-                      }}
-                    />{' '}
-                    <FormattedMessage id="payment.paymentInformation" />
-                  </h5>
-
-                  {this.renderPayTab()}
+                  {paymentMethodTitle}
+                  {/* 没有开启onepagecheckout 或者 不是prepare状态时，才会显示 */}
+                  {this.renderPayTab({
+                    visible:
+                      !this.isOnepageCheckout || paymentMethodPanelStatus.isEdit
+                  })}
+                  {paymentMethodPanelStatus.isCompleted &&
+                    this.renderPayPreview()}
                 </div>
-                {this.isOnepageCheckout && (
-                  <Confirmation
-                    clickPay={() => {
-                      this.setState({
-                        paymentTypeVal: this.hasConfimedPaymentVal
-                      });
-                      this.initCommonPay({
-                        type: find(
-                          payWayObj,
-                          (el) =>
-                            el.paymentTypeVal === this.hasConfimedPaymentVal
-                        )
-                          ? find(
-                              payWayObj,
-                              (el) =>
-                                el.paymentTypeVal === this.hasConfimedPaymentVal
-                            ).paymentTypeVal
-                          : ''
-                      });
-                    }}
-                    listData={listData}
-                    checkRequiredItem={this.checkRequiredItem}
-                    checkoutStore={checkoutStore}
-                  />
-                )}
+                <Confirmation
+                  clickPay={this.clickPay}
+                  listData={listData}
+                  checkRequiredItem={this.checkRequiredItem}
+                  checkoutStore={checkoutStore}
+                />
               </div>
               <div className="rc-column pl-md-0 rc-md-up">
                 {tid ? (
                   <>
                     <RePayProductInfo
-                      fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                      fixToHeader={false}
                       style={{ background: '#fff' }}
                       details={orderDetails}
                       navigateToProDetails={true}
@@ -2214,7 +2428,7 @@ class Payment extends React.Component {
                 ) : (
                   <PayProductInfo
                     data={recommend_data}
-                    fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+                    fixToHeader={false}
                     style={{ background: '#fff' }}
                     ref="payProductInfo"
                     location={location}
@@ -2250,7 +2464,7 @@ class Payment extends React.Component {
             </div>
             <PayProductInfo
               data={recommend_data}
-              fixToHeader={process.env.REACT_APP_LANG !== 'fr'}
+              fixToHeader={false}
               style={{
                 background: '#fff',
                 maxHeight: '80vh'
