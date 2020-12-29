@@ -117,6 +117,24 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
 import {linkTransform} from "@/api/refuge"
 
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import fr from "date-fns/locale/fr";
+import es from "date-fns/locale/es";
+import de from "date-fns/locale/de";
+if(process.env.REACT_APP_LANG === 'fr') {
+  registerLocale(process.env.REACT_APP_LANG, fr)
+  setDefaultLocale('fr')
+}else if(process.env.REACT_APP_LANG === 'de') {
+  registerLocale(process.env.REACT_APP_LANG, de)
+  setDefaultLocale('de')
+}else if(process.env.REACT_APP_LANG === 'es') {
+  registerLocale(process.env.REACT_APP_LANG, es)
+  setDefaultLocale('es')
+}else if(process.env.REACT_APP_LANG === 'us') {
+  
+}
+
+
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
   const authStateReady = !authState.isPending;
@@ -150,12 +168,6 @@ const LoginCallback = (props) => {
 window.addEventListener("popstate",function(e){
   location.reload()
 },false)
-
-const regRefuge = (props)=>{
-  console.log(props)
-  debugger
-  return '/refuge108782'
-}
 
 const App = () => (
   <Provider {...stores}>
@@ -512,6 +524,16 @@ const App = () => (
                   if(/^\/golden/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
                   //为了匹配labrador01，labrador02等
                   if(/^\/labrador/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/shihtzu/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/yorkshire/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/british/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/mainecoon/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+
+                  if(/^\/persan/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {

@@ -1,6 +1,16 @@
 .choices.disabled:after {
   display: none;
 }
-.Carts .choices__item.choices__item--choice.choices__item--selectable{
+
+.Carts .choices__item.choices__item--choice.choices__item--selectable {
   text-align: left !important;
+}
+
+@media(max-width:769px) {
+  .Carts .choices__inner {
+    margin-top: 8px !important;
+  }
+  .Carts .choices::after{
+    margin-top:-12px !important;
+  }
 }

@@ -42,6 +42,7 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
+import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -186,7 +187,8 @@ class Details extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
-      spuImages: []
+      spuImages: [],
+      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,11 +199,11 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    
+    const requestJson = getRequest() 
+    this.setState({requestJson})
+
+
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -1170,6 +1172,12 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
+    //添加商品来源属性 start
+    // cartDataCopy[0].utmSource = requestJson['utm_source'] || ""
+    // cartDataCopy[0].utmMedium = requestJson['utm_medium'] || ""
+    // cartDataCopy[0].utm_campaign = requestJson['utm_campaign'] || ""
+    //添加商品来源属性 end
+    
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1530,6 +1538,7 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
+            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
@@ -1772,15 +1781,15 @@ class Details extends React.Component {
                                           sdItem.selected ? 'selected' : ''
                                         }`}
                                         onClick={() => {
-                                          if (sdItem.isEmpty) {
-                                            return false;
-                                          } else {
+                                          // if (sdItem.isEmpty) {
+                                          //   return false;
+                                          // } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
                                             );
-                                          }
+                                          // }
                                         }}
                                       >
                                         <span>
