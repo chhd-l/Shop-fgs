@@ -1530,6 +1530,7 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
+            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />

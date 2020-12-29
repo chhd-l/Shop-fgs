@@ -151,7 +151,7 @@ const breadcrumbNameMap = {
       name: 'ShipmentConditions'
     }
   ],
-  '/promotion-refuge':[{
+  '/promotion-refuge.html':[{
     name:'Nos promotions refuge'
   }],
   '/cadeau-coussin-chat':[{

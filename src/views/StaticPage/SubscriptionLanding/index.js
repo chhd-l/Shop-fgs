@@ -83,16 +83,11 @@ class SubscriptionLanding extends React.Component {
                     <div className="rc-max-width--lg rc-padding-y--sm">
                       <div className="rc-max-width--md text-center rc-padding-x--sm">
                         <h2 className="rc-beta text-center">
-                          Avec l'Abonnement, ils auront toujours ce dont ils ont
-                          besoin
+                          <FormattedMessage id="subscription.title" />
                         </h2>
                         <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                           <h2>
-                            Certaines choses ne devraient jamais s'épuiser. La
-                            nourriture de votre animal de compagnie en fait
-                            partie. Dites-nous simplement où et quand
-                            l'expédier, et nous nous assurerons que tout ce dont
-                            il a besoin arrive directement à votre porte.
+                            <FormattedMessage id="subscription.subTitle" />
                           </h2>
                         </div>
                         <div className="d-block d-md-none rc-text--center">
@@ -108,39 +103,37 @@ class SubscriptionLanding extends React.Component {
                           </Link>
                         </div>
                       </div>
-                      
+
                       <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
                             <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
                               <li className="rc-list__item">
                                 <i className="wof rc-margin-right--xs"></i>
-                                10% de réduction sur toutes les commandes en
-                                Abonnement
+                                <FormattedMessage id="subscription.list1" />
                               </li>
                               <li className="rc-list__item">
                                 <i className="wof rc-margin-right--xs"></i>
-                                Suspendre, modifier ou annuler à tout moment
+                                <FormattedMessage id="subscription.list2" />
                               </li>
                               <li className="rc-list__item">
                                 <i className="wof rc-margin-right--xs"></i>
-                                Livraison offerte
+                                <FormattedMessage id="subscription.list3" />
                               </li>
                               <li className="rc-list__item">
                                 <i className="wof rc-margin-right--xs"></i>
-                                Ligne d'assistance téléphonique gratuite sur la
-                                nutrition
+                                <FormattedMessage id="subscription.list4" />
                               </li>
                             </ul>
                             <div className="d-none d-md-block rc-btn-group m-0 rc-column rc-padding-x--none">
                               <Link to="/cats">
                                 <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
-                                  Voir les formules pour chat
+                                  <FormattedMessage id="subscription.list.btn1" />
                                 </button>
                               </Link>
                               <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
-                                  Voir les formules pour chien
+                                  <FormattedMessage id="subscription.list.btn2" />
                                 </button>
                               </Link>
                             </div>
@@ -187,11 +180,13 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
+
                         <h7>
-                          Ajoutez les produits nutritionnels{' '}
-                          <strong>répondant aux besoins de votre animal</strong>{' '}
-                          dans votre panier.
+                          <FormattedMessage id="subscription.ad.list1" values={{
+                            val1:(<br/>),val2:(<strong>répondant aux besoins de votre animal</strong>),val3:(<br/>)
+                          }}/>
                         </h7>
+
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
@@ -206,8 +201,9 @@ class SubscriptionLanding extends React.Component {
                           ></img>
                         </div>
                         <h7>
-                          Sélectionnez l'<strong>expédition automatique</strong>{' '}
-                          et entrez votre mode de paiement.
+                          <FormattedMessage id="subscription.ad.list2" values={{
+                            val1:(<strong>expédition automatique</strong>)
+                          }}/>
                         </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
@@ -222,9 +218,11 @@ class SubscriptionLanding extends React.Component {
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
+
                         <h7>
-                          <strong>Recevez votre produit automatiquement</strong>{' '}
-                          en fonction de votre calendrier.
+                          <FormattedMessage id="subscription.ad.list3" values={{
+                            val1:(<strong>Recevez votre produit automatiquement</strong>)
+                          }}/>
                         </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
@@ -240,8 +238,9 @@ class SubscriptionLanding extends React.Component {
                           ></img>
                         </div>
                         <h7>
-                          Modifiez vos préférences à{' '}
-                          <strong>tout moment</strong>.
+                          <FormattedMessage id="subscription.ad.list4" values={{
+                            val1:(<strong>tout moment</strong>)
+                          }}/>
                         </h7>
                       </div>
                     </div>
@@ -277,12 +276,11 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
                           <div className="rc-gamma rc-text--center rc-margin-bottom--xs">
-                            Commencez dès maintenant votre Abonnement
+                            <FormattedMessage id="subscription.banner.title" />
                           </div>
                           <div className="rc-intro inherit-fontsize rc-text--center rc-padding-x--sm rc-margin-bottom--sm">
                             <p>
-                              Découvrez les meilleures formules nutritionnelles
-                              et sélectionnez l'Abonnement avant d'acheter
+                              <FormattedMessage id="subscription.banner.subTitle" />
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
@@ -326,11 +324,11 @@ class SubscriptionLanding extends React.Component {
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                Besoin d'aide ?
+                <FormattedMessage id="subscription.help.title" />
+
               </h2>
               <p>
-                Nos conseillers sont de vrais experts et passionnés. Ils se
-                tiennent à votre disposition pour répondre à toute demande.
+                <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
             {process.env.REACT_APP_LANG == 'fr' ? (
