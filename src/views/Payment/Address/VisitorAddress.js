@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData, getDeviceType } from '@/utils/utils';
+import { getDictionary, validData, getDeviceType, matchNamefromDict } from '@/utils/utils';
 import {
   searchNextConfirmPanel
   // scrollIntoView
@@ -108,11 +108,6 @@ class VisitorAddress extends React.Component {
       key: this.curPanelKey,
       hideOthers: true
     });
-  };
-  matchNamefromDict = (dictList, id) => {
-    return dictList.filter((ele) => ele.id + '' === id).length
-      ? dictList.filter((ele) => ele.id + '' === id)[0].name
-      : id;
   };
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
@@ -230,7 +225,7 @@ class VisitorAddress extends React.Component {
                 {form.address2}
                 {form.address2 ? <br /> : null}
                 {form.postCode}, {form.cityName},{' '}
-                {this.matchNamefromDict(this.state.countryList, form.country)}
+                {matchNamefromDict(this.state.countryList, form.country)}
               </div>
             ) : null}
           </>

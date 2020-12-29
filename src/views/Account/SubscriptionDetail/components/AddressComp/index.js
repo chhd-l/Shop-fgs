@@ -10,7 +10,7 @@ import {
   setDefaltAddress
 } from '@/api/address';
 import { queryCityNameById } from '@/api';
-import { getDictionary, validData } from '@/utils/utils';
+import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import AddressForm from './form';
 import Loading from '@/components/Loading';
@@ -179,20 +179,6 @@ class AddressList extends React.Component {
       });
     } finally {
       this.setState({ loading: false });
-    }
-  }
-  getDictValue(list, id) {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
     }
   }
   selectAddress(idx) {
@@ -681,7 +667,7 @@ class AddressList extends React.Component {
                               //   'list'
                               // )}
                               handleClick={() => this.selectAddress(i)}
-                              countryName={this.getDictValue(
+                              countryName={matchNamefromDict(
                                 countryList,
                                 item.countryId
                               )}
@@ -732,7 +718,7 @@ class AddressList extends React.Component {
                             ) : null}
                             <br />
                             {[
-                              this.getDictValue(
+                              matchNamefromDict(
                                 this.state.countryList,
                                 item.countryId
                               ),
