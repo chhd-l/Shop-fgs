@@ -157,20 +157,6 @@ class PersonalDataEditForm extends React.Component {
       this.setState({ isValid: false });
     }
   };
-  getDictValue(list, id) {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
-    }
-  }
   onDateChange(date) {
     const { form } = this.state;
     form['birthdate'] = format(date, 'yyyy-MM-dd');

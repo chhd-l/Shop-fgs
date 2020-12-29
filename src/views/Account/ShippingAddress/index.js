@@ -17,7 +17,7 @@ import { queryCityNameById } from '@/api';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Skeleton from 'react-skeleton-loader';
-import { getDictionary, setSeoConfig } from '@/utils/utils';
+import { getDictionary, setSeoConfig, matchNamefromDict } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
@@ -263,21 +263,6 @@ class ShippingAddress extends React.Component {
     const { history } = this.props;
     history.push('/account/shippingAddress/' + id);
   };
-
-  getDictValue = (list, id) => {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
-    }
-  };
   updateConfirmTooltipVisible(item, status) {
     let { addressList } = this.state;
     item.confirmTooltipVisible = status;
@@ -513,7 +498,7 @@ class ShippingAddress extends React.Component {
                               </div>
                               <div>
                                 <span>
-                                  {this.getDictValue(
+                                  {matchNamefromDict(
                                     this.state.countryList,
                                     item.countryId
                                   )}

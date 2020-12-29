@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
 import { getAddressList, saveAddress, editAddress } from '@/api/address';
 import { queryCityNameById } from '@/api';
-import { getDictionary, validData } from '@/utils/utils';
+import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
 import { ADDRESS_RULE } from '@/utils/constant';
 import EditForm from './EditForm';
@@ -17,14 +17,15 @@ import './list.less';
  * address list(delivery/billing) - member
  */
 @inject('paymentStore')
-@injectIntl
+// @injectIntl
 @observer
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
     isOnepageCheckout: false,
     type: 'delivery',
-    updateSameAsCheckBoxVal: () => {}
+    showOperateBtn: true,
+    updateValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -132,13 +133,16 @@ class AddressList extends React.Component {
       );
     } catch (err) {
       this.setState({
-        errMsg: err.message.toString()
+        errMsg: err.message
       });
     } finally {
       this.setState({ loading: false });
     }
   }
   confirmToNextPanel() {
+    if (this.curPanelKey !== 'deliveryAddr') {
+      return false;
+    }
     const { selectedId } = this.state;
     const data = find(
       this.state.addressList,
@@ -146,6 +150,7 @@ class AddressList extends React.Component {
     );
     const { paymentStore } = this.props;
     const { billingChecked } = this.state;
+    // debugger;
     if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
@@ -167,21 +172,9 @@ class AddressList extends React.Component {
       isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
       // 没有地址的情况
-      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
-    }
-  }
-  getDictValue(list, id) {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
+      if (this.curPanelKey === 'deliveryAddr') {
+        paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
       }
-    } else {
-      return id;
     }
   }
   selectAddress(e, idx) {
@@ -207,8 +200,10 @@ class AddressList extends React.Component {
     );
   }
   addOrEditAddress(idx = -1) {
+    const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
+    // debugger;
     let tmpDeliveryAddress = {
       firstName: '',
       lastName: '',
@@ -239,6 +234,7 @@ class AddressList extends React.Component {
         email: tmp.email
       };
     }
+
     this.setState(
       {
         deliveryAddress: Object.assign({}, deliveryAddress, tmpDeliveryAddress)
@@ -247,10 +243,13 @@ class AddressList extends React.Component {
         this.setState({
           addOrEdit: true
         });
-        this.props.paymentStore.setStsToEdit({
-          key: this.curPanelKey,
-          hideOthers: true
-        });
+        if (type === 'delivery') {
+          this.props.paymentStore.setStsToEdit({
+            key: this.curPanelKey,
+            hideOthers: true
+          });
+        }
+
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
@@ -266,9 +265,13 @@ class AddressList extends React.Component {
   updateDeliveryAddress = async (data) => {
     try {
       await validData(ADDRESS_RULE, data);
-      this.setState({ isValid: true, saveErrorMsg: '' });
+      this.setState({ isValid: true, saveErrorMsg: '' }, () => {
+        this.props.updateValidStatus(this.state.isValid);
+      });
     } catch (err) {
-      this.setState({ isValid: false });
+      this.setState({ isValid: false }, () => {
+        this.props.updateValidStatus(this.state.isValid);
+      });
       console.log(err);
     } finally {
       this.setState({ deliveryAddress: data });
@@ -387,6 +390,7 @@ class AddressList extends React.Component {
     this.setState((curState) => ({ foledMore: !curState.foledMore }));
   };
   render() {
+    const { showOperateBtn } = this.props;
     const {
       deliveryAddress,
       addOrEdit,
@@ -439,7 +443,7 @@ class AddressList extends React.Component {
             ) : null}
             <br />
             {[
-              this.getDictValue(this.state.countryList, item.countryId),
+              matchNamefromDict(this.state.countryList, item.countryId),
               item.cityName,
               item.address1
             ].join(', ')}
@@ -499,17 +503,17 @@ class AddressList extends React.Component {
     const _title = (
       <div
         id={`J-address-title-${this.props.id}`}
-        className="bg-transparent d-flex justify-content-between align-items-center"
+        className="bg-transparent d-flex justify-content-between align-items-center flex-wrap"
       >
         <h5
-          className="mb-0"
+          className="mb-0 text-nowrap"
           style={{ opacity: this.props.type === 'billing' ? 0 : 1 }}
         >
           <i className="rc-icon rc-indoors--xs rc-iconography" />{' '}
           <FormattedMessage id="payment.deliveryTitle" />
         </h5>
         <p
-          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center ${
+          className={`red rc-margin-top--xs ui-cursor-pointer inlineblock m-0 align-items-center text-nowrap ${
             addOrEdit ? 'hidden' : ''
           }`}
           onClick={this.addOrEditAddress}
@@ -536,77 +540,81 @@ class AddressList extends React.Component {
           />
         )}
 
-        {this.state.saveLoading ? <Loading positionAbsolute="true" /> : null}
+        {this.state.saveLoading ? (
+          <Loading positionAbsolute="true" customStyle={{ zIndex: 9 }} />
+        ) : null}
         <div className="rc-layout-container ml-1 mr-1">
           <div className="rc-column rc-padding-y--none rc-padding-left--none--md-down rc-padding-right--none--md-down d-flex flex-wrap justify-content-between align-items-center pl-0 pr-0">
             <div>
               {this.props.type === 'delivery' ? _defaultCheckBox : null}
             </div>
-            {addressList.length ? (
-              <>
-                <div className="rc-md-up">
-                  <span
-                    className="rc-styled-link"
-                    onClick={this.handleClickCancel}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </span>{' '}
-                  <FormattedMessage id="or" />{' '}
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
-                <div className="rc-md-down rc-full-width text-right">
-                  <span
-                    className="rc-styled-link"
-                    onClick={this.handleClickCancel}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </span>{' '}
-                  <FormattedMessage id="or" />{' '}
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="rc-md-up">
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="clinic.confirm" />
-                  </button>
-                </div>
-                <div className="rc-md-down rc-full-width text-right">
-                  <button
-                    className="rc-btn rc-btn--one submitBtn"
-                    name="contactPreference"
-                    type="submit"
-                    onClick={this.handleSave}
-                    disabled={!this.state.isValid}
-                  >
-                    <FormattedMessage id="clinic.confirm" />
-                  </button>
-                </div>
-              </>
-            )}
+            {showOperateBtn ? (
+              addressList.length ? (
+                <>
+                  <div className="rc-md-up">
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="save" />
+                    </button>
+                  </div>
+                  <div className="rc-md-down rc-full-width text-right">
+                    <span
+                      className="rc-styled-link"
+                      onClick={this.handleClickCancel}
+                    >
+                      <FormattedMessage id="cancel" />
+                    </span>{' '}
+                    <FormattedMessage id="or" />{' '}
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="save" />
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="rc-md-up">
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                  <div className="rc-md-down rc-full-width text-right">
+                    <button
+                      className="rc-btn rc-btn--one submitBtn"
+                      name="contactPreference"
+                      type="submit"
+                      onClick={this.handleSave}
+                      disabled={!this.state.isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                </>
+              )
+            ) : null}
           </div>
         </div>
       </fieldset>
