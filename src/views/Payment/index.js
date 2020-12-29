@@ -1690,7 +1690,7 @@ class Payment extends React.Component {
         >
           {Object.entries(payWayObj).map((item, i) => {
             return (
-              <div className="rc-input rc-input--inline" key={i}>
+              <div className="rc-input rc-input--inline" key={i} style={{display:this.state.subForm.buyWay=='frequency'&&item[1].id=='adyenPayLater'?'none':'inline-block'}}>
                 <input
                   className="rc-input__radio"
                   id={`payment-info-${item[1].id}`}
