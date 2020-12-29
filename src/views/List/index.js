@@ -1463,8 +1463,8 @@ class List extends React.Component {
                       )
                     </div>
                     <div
-                      className="d-flex justify-content-between align-items-center rc-md-down"
-                      style={{ padding: '0 1rem' }}
+                      className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
+                      style={{ padding: '0 1rem', boxShadow: '0 2px 4px #f1f1f1' }}
                     >
                       <span
                         style={{ marginRight: '1em' }}
@@ -1484,7 +1484,8 @@ class List extends React.Component {
                             placeholder={<FormattedMessage id="sortBy" />}
                             customInnerStyle={{
                               paddingTop: '.7em',
-                              paddingBottom: '.7em'
+                              paddingBottom: '.7em',
+                              bottom: 0
                             }}
                             customStyleType="select-one"
                           />
