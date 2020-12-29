@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getDictionary } from '@/utils/utils';
-import find from 'lodash/find';
+import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 
 class InfosPreview extends React.Component {
@@ -17,11 +16,6 @@ class InfosPreview extends React.Component {
         countryList: res
       });
     });
-  }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id === id)
-      ? find(dictList, (ele) => ele.id === id).name
-      : id;
   }
   render() {
     const { details } = this.props;
@@ -77,7 +71,7 @@ class InfosPreview extends React.Component {
                         </div>
                         <div className="col-md-6">
                           &nbsp;
-                          {this.matchNamefromDict(
+                          {matchNamefromDict(
                             this.state.countryList,
                             details.consignee.countryId
                           )}
@@ -156,7 +150,7 @@ class InfosPreview extends React.Component {
                         </div>
                         <div className="col-md-6">
                           &nbsp;
-                          {this.matchNamefromDict(
+                          {matchNamefromDict(
                             this.state.countryList,
                             details.invoice.countryId
                           )}

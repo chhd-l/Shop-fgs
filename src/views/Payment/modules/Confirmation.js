@@ -21,7 +21,7 @@ class Confirmation extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.checkRequiredItem(nextProps.listData);
   }
-  get confirmationPanelStatus() {
+  get panelStatus() {
     return this.props.paymentStore.confirmationPanelStatus;
   }
   //是否consent必填项勾选
@@ -66,7 +66,7 @@ class Confirmation extends React.Component {
     this.props.clickPay();
   };
   render() {
-    const { confirmationPanelStatus } = this;
+    const { panelStatus } = this;
     const { checkoutStore } = this.props;
     const { tradePrice } = checkoutStore;
     const { isValid } = this.state;
@@ -92,9 +92,9 @@ class Confirmation extends React.Component {
         <FormattedMessage id="confirmation" />
       </h5>
     );
-    const _title = confirmationPanelStatus.isPrepare
+    const _title = panelStatus.isPrepare
       ? titleJSXForPrepare
-      : confirmationPanelStatus.isEdit
+      : panelStatus.isEdit
       ? titleJSXForEdit
       : null;
     return (
@@ -102,19 +102,13 @@ class Confirmation extends React.Component {
         <div
           id="J_checkout_panel_confirmation"
           className={`card-panel checkout--padding rc-bg-colour--brand3 rounded border ${
-            confirmationPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
+            panelStatus.isEdit ? 'border-333' : 'border-transparent'
           }`}
         >
           <div className="bg-transparent d-flex justify-content-between align-items-center">
             {_title}
           </div>
-          <div
-            className={`pt-3 ${
-              !confirmationPanelStatus.isPrepare ? '' : 'hidden'
-            }`}
-          >
+          <div className={`pt-3 ${!panelStatus.isPrepare ? '' : 'hidden'}`}>
             {/* 条款 */}
             <TermsCommon
               id={'confirmation'}
