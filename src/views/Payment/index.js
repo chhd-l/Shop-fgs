@@ -1600,8 +1600,11 @@ class Payment extends React.Component {
       billingChecked,
       billingAddress,
       deliveryAddress,
-      adyenPayParam
+      adyenPayParam,
+      tid
     } = this.state;
+
+    if (tid) return null;
 
     return (
       <>
@@ -1899,11 +1902,6 @@ class Payment extends React.Component {
 
           {/* ***********************支付选项卡的内容end******************************* */}
 
-          {/* billing address */}
-          {/* {this.isOnepageCheckout &&
-            !tid &&
-            this.renderBillingJSX({ type: 'common' })} */}
-
           {/* todo */}
           {/* 出现卡列表时，才显示此按钮 */}
           {paymentTypeVal === 'adyenCard' &&
@@ -1969,7 +1967,8 @@ class Payment extends React.Component {
       paymentTypeVal,
       email,
       billingAddress: form,
-      adyenPayParam: { adyenPaymentMethod }
+      adyenPayParam: { adyenPaymentMethod },
+      tid
     } = this.state;
     return (
       <div className="ml-custom mr-custom mb-3">
@@ -1988,13 +1987,15 @@ class Payment extends React.Component {
           ) : (
             <div className="col-12 col-md-6">{email}</div>
           )}
-          <div className="col-12 col-md-6 mt-2 mt-md-0">
-            {this.renderAddrPreview({
-              form,
-              titleVisible: true,
-              boldName: false
-            })}
-          </div>
+          {!tid && (
+            <div className="col-12 col-md-6 mt-2 mt-md-0">
+              {this.renderAddrPreview({
+                form,
+                titleVisible: true,
+                boldName: false
+              })}
+            </div>
+          )}
         </div>
       </div>
     );
