@@ -176,20 +176,6 @@ class AddressList extends React.Component {
     this.setState({ listVisible: status });
     this.props.updateEditOperationPanelName(status ? 'My payments' : '');
   };
-  getDictValue(list, id) {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
-    }
-  }
   handleClickEditBtn = () => {
     window.scrollTo({
       top: 0,

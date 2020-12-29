@@ -8,31 +8,13 @@ const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
 class SameAsCheckbox extends React.Component {
-  static defaultProps = { type: '' };
+  static defaultProps = { type: '', initVal: false };
   constructor(props) {
     super(props);
     this.state = {
-      billingChecked: true,
+      billingChecked: this.props.initVal,
       toolTipVisible: false
     };
-  }
-  componentDidMount() {
-    let deliveryInfo = localItemRoyal.get('deliveryInfo');
-    let tmp = this.state.billingChecked;
-    if (!this.isLogin && deliveryInfo) {
-      tmp = deliveryInfo.billingChecked;
-    }
-    this.setState(
-      {
-        billingChecked: tmp
-      },
-      () => {
-        this.props.updateSameAsCheckBoxVal(this.state.billingChecked);
-      }
-    );
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
   }
   billingCheckedChange = () => {
     this.setState(
@@ -89,7 +71,7 @@ class SameAsCheckbox extends React.Component {
             </span>
             <ConfirmTooltip
               containerStyle={{
-                transform: 'translate(-65%, 112%)'
+                transform: 'translate(-62%, 117%)'
               }}
               arrowStyle={{ left: '92%' }}
               display={this.state.toolTipVisible}

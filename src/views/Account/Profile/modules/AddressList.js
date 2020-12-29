@@ -1,7 +1,7 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Loading from '@/components/Loading';
-import { getDictionary } from '@/utils/utils';
+import { getDictionary, matchNamefromDict } from '@/utils/utils';
 import Skeleton from 'react-skeleton-loader';
 import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
@@ -123,20 +123,6 @@ class AddressList extends React.Component {
     this.setState({ listVisible: status });
     this.props.updateEditOperationPanelName(status ? 'My addresses' : '');
   };
-  getDictValue(list, id) {
-    if (list && list.length > 0) {
-      let item = list.find((item) => {
-        return item.id === id;
-      });
-      if (item) {
-        return item.name;
-      } else {
-        return id;
-      }
-    } else {
-      return id;
-    }
-  }
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -312,7 +298,7 @@ class AddressList extends React.Component {
                           item,
                           'cover'
                         )}
-                        countryName={this.getDictValue(
+                        countryName={matchNamefromDict(
                           countryList,
                           item.countryId
                         )}
@@ -405,7 +391,7 @@ class AddressList extends React.Component {
                             item,
                             'list'
                           )}
-                          countryName={this.getDictValue(
+                          countryName={matchNamefromDict(
                             countryList,
                             item.countryId
                           )}

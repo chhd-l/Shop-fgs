@@ -16,7 +16,8 @@ import TermsCommon from '../Terms/common';
 @observer
 class AdyenCreditCard extends React.Component {
   static defaultProps = {
-    subBuyWay: '' // once/frequence
+    subBuyWay: '', // once/frequence
+    billingJSX: null
   };
   constructor(props) {
     super(props);
@@ -67,21 +68,22 @@ class AdyenCreditCard extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: curPanelKey });
+      // todo 在此处不能设置为compelte了
+      // paymentStore.setStsToCompleted({ key: curPanelKey });
       // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: curPanelKey
-      });
-      if (isReadyPrev) {
-        paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-        setTimeout(() => {
-          isMobile &&
-            scrollIntoView(
-              document.querySelector(`#J_checkout_panel_confirmation`)
-            );
-        });
-      }
+      // const nextConfirmPanel = searchNextConfirmPanel({
+      //   list: toJS(paymentStore.panelStatus),
+      //   curKey: curPanelKey
+      // });
+      // if (isReadyPrev) {
+      //   paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+      //   setTimeout(() => {
+      //     isMobile &&
+      //       scrollIntoView(
+      //         document.querySelector(`#J_checkout_panel_confirmation`)
+      //       );
+      //   });
+      // }
     } else {
       // 删除卡的时候
       paymentStore.setStsToEdit({ key: 'paymentMethod' });
@@ -164,6 +166,7 @@ class AdyenCreditCard extends React.Component {
           showErrorMsg={this.showErrorMsg}
           subBuyWay={subBuyWay}
           paymentStore={paymentStore}
+          billingJSX={this.props.billingJSX}
         />
 
         {!isOnepageCheckout && (

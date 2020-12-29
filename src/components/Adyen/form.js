@@ -17,6 +17,7 @@ class AdyenCreditCardForm extends React.Component {
   static defaultProps = {
     isCheckoutPage: false, // 是否为支付页
     showCancelBtn: false,
+    showSaveBtn: true,
     enableStoreDetails: false, // 是否显示保存卡checkbox
     mustSaveForFutherPayments: true, // 是否必须勾选保存卡checkbox，true-只有勾选了之后保存卡按钮才可用
     isOnepageCheckout: false,
@@ -101,15 +102,20 @@ class AdyenCreditCardForm extends React.Component {
                 _this.setState({ isValid: tmpValidSts }, () => {
                   console.log('adyen form state.isValid:', state.isValid);
                 });
-                _this.props.updateClickPayBtnValidStatus(state.isValid);
+                _this.props.updateClickPayBtnValidStatus(tmpValidSts);
                 if (tmpValidSts) {
-                  _this.setState({
-                    adyenFormData: Object.assign(
-                      _this.state.adyenFormData,
-                      getAdyenParam(card.data),
-                      { storePaymentMethod: card.data.storePaymentMethod }
-                    )
-                  });
+                  _this.setState(
+                    {
+                      adyenFormData: Object.assign(
+                        _this.state.adyenFormData,
+                        getAdyenParam(card.data),
+                        { storePaymentMethod: card.data.storePaymentMethod }
+                      )
+                    },
+                    () => {
+                      // _this.props.updateAdyenPayParam(_this.state.adyenFormData);
+                    }
+                  );
                 }
               }
             })
@@ -150,8 +156,6 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
       }
-      
-      
 
       this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);
@@ -172,6 +176,7 @@ class AdyenCreditCardForm extends React.Component {
       isOnepageCheckout,
       isCheckoutPage,
       showCancelBtn,
+      showSaveBtn,
       paymentStore,
       mustSaveForFutherPayments
     } = this.props;
@@ -207,7 +212,9 @@ class AdyenCreditCardForm extends React.Component {
         />
         <div className="mt-3 d-flex justify-content-between row">
           <div
-            class="text-danger-2 col-12 col-md-6"
+            className={`text-danger-2 col-12 ${
+              showCancelBtn || showSaveBtn ? 'col-md-6' : ''
+            }`}
             style={{
               marginTop: '-1rem',
               fontSize: '.8em'
@@ -219,33 +226,36 @@ class AdyenCreditCardForm extends React.Component {
               </>
             )}
           </div>
-          <div className="text-right col-12 col-md-6">
-            {showCancelBtn && (
-              <>
-                <span
-                  className="rc-styled-link editPersonalInfoBtn"
+          {showCancelBtn || showSaveBtn ? (
+            <div className="text-right col-12 col-md-6">
+              {showCancelBtn && (
+                <>
+                  <span
+                    className="rc-styled-link editPersonalInfoBtn"
+                    name="contactInformation"
+                    onClick={this.handleClickCancel}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </span>{' '}
+                  <FormattedMessage id="or" />{' '}
+                </>
+              )}
+              {showSaveBtn && (
+                <button
+                  className={`rc-btn rc-btn--one submitBtn editAddress ${
+                    saveLoading ? 'ui-btn-loading' : ''
+                  }`}
+                  data-sav="false"
                   name="contactInformation"
-                  onClick={this.handleClickCancel}
+                  type="submit"
+                  disabled={!isValid}
+                  onClick={this.handleSave}
                 >
-                  <FormattedMessage id="cancel" />
-                </span>{' '}
-                <FormattedMessage id="or" />{' '}
-              </>
-            )}
-
-            <button
-              className={`rc-btn rc-btn--one submitBtn editAddress ${
-                saveLoading ? 'ui-btn-loading' : ''
-              }`}
-              data-sav="false"
-              name="contactInformation"
-              type="submit"
-              disabled={!isValid}
-              onClick={this.handleSave}
-            >
-              <FormattedMessage id="save" />
-            </button>
-          </div>
+                  <FormattedMessage id="save" />
+                </button>
+              )}
+            </div>
+          ) : null}
         </div>
         {isOnepageCheckout &&
           !this.isLogin &&

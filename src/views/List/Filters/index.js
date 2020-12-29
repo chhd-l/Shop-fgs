@@ -192,6 +192,31 @@ class Filter extends React.Component {
       markPriceAndSubscriptionLangDict
     } = this.props;
     const { pathname } = history.location;
+    let isSelectedFilter = false // 是否有选择筛选项
+    for(let pItem in filterList){
+      let lists = filterList[pItem].attributesValueList || filterList[pItem].storeGoodsFilterValueVOList || []
+      for(let cItem in lists){
+        if(lists[cItem].selected){
+          isSelectedFilter = true;
+          break
+        }
+      }
+      if(isSelectedFilter){
+        break
+      }
+    }
+    console.info('isSelectedFilter', isSelectedFilter)
+
+    // filterList.forEach(item=>{
+    //   lists.forEach(cItem=>{
+    //     if(cItem.selected){
+    //       isSelectedFilter = true
+    //     }
+    //   })
+    // })
+    // let isSelectedFilter = filterList.forEach(element => {
+      
+    // });(()=>)
     return (
       <div className="rc-filters__form fr-mobile" name="example-filter">
         {initing ? (
@@ -214,7 +239,8 @@ class Filter extends React.Component {
                 <FormattedMessage id="filters" />
               </div> */}
               <div className="filter-bar">
-                <ul className="mt-md-0">
+                {isSelectedFilter?
+                  <ul className="mt-md-0">
                   {filterList.map((pItem) => {
                     return (
                       pItem.attributesValueList ||
@@ -254,6 +280,9 @@ class Filter extends React.Component {
                     </li>
                   )}
                 </ul>
+                :
+                <div style={{borderBottom: '1px solid #ccc'}}></div>
+              }
               </div>
               {/* {this.hasSelecedItems && (
                 <div className="text-center rc-margin-y--xs rc-padding-bottom--xs">

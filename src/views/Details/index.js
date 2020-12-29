@@ -42,6 +42,7 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
+import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -186,7 +187,8 @@ class Details extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
-      spuImages: []
+      spuImages: [],
+      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,11 +199,11 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    
+    const requestJson = getRequest() 
+    this.setState({requestJson})
+
+
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -954,6 +956,10 @@ class Details extends React.Component {
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
       }
+
+      // if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+      //   param = {...param,...this.state.requestJson}
+      // }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (this.state.isMobile) {
@@ -1170,6 +1176,7 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
+    
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1388,7 +1395,6 @@ class Details extends React.Component {
                   ? cur_selected_size[0].marketPrice
                   : cur_selected_size[0].subscriptionPrice,
               brand: item.brandName || 'Royal Canin',
-              // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant: parseInt(variant),
               quantity: num,
@@ -1399,7 +1405,6 @@ class Details extends React.Component {
         }
       }
     });
-    console.log('添加购物车埋点dataLayer', dataLayer);
   }
   //商品详情页 埋点
   GAProductDetailPageView(item) {
@@ -1773,15 +1778,15 @@ class Details extends React.Component {
                                           sdItem.selected ? 'selected' : ''
                                         }`}
                                         onClick={() => {
-                                          if (sdItem.isEmpty) {
-                                            return false;
-                                          } else {
+                                          // if (sdItem.isEmpty) {
+                                          //   return false;
+                                          // } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
                                             );
-                                          }
+                                          // }
                                         }}
                                       >
                                         <span>

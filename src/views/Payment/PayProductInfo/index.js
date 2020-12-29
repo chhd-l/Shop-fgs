@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import find from 'lodash/find';
-import { formatMoney, getFrequencyDict } from '@/utils/utils';
+import {
+  formatMoney,
+  getFrequencyDict,
+  matchNamefromDict
+} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-@inject('checkoutStore', 'loginStore','paymentStore')
+@inject('checkoutStore', 'loginStore', 'paymentStore')
 @observer
 class PayProductInfo extends React.Component {
   static defaultProps = {
@@ -20,7 +24,7 @@ class PayProductInfo extends React.Component {
     style: {},
     className: '',
     onClickHeader: () => {},
-    headerIcon: null,
+    headerIcon: null
   };
   constructor(props) {
     super(props);
@@ -32,7 +36,7 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      step:2,
+      step: 2
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -48,7 +52,7 @@ class PayProductInfo extends React.Component {
     );
   }
   get paymentStep() {
-    return this.props.paymentStore.paymentStep
+    return this.props.paymentStore.paymentStep;
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
@@ -70,77 +74,72 @@ class PayProductInfo extends React.Component {
     }
   }
   //会员
-  GACheckout(productList){
+  GACheckout(productList) {
     let product = [],
-        basketAmount = this.tradePrice,
-        basketID = guid,
-        option = this.isLogin ? 'account already created':'new account',
-        step = this.state.step
+      basketAmount = this.tradePrice,
+      basketID = guid,
+      option = this.isLogin ? 'account already created' : 'new account',
+      step = this.state.step;
     for (let item of productList) {
       product.push({
-        brand:item.goods.brandName || 'ROYAL CANIN', //?
+        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN', //?
         // category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
-        club:'no',
-        id:item.goods.goodsNo,
-        name:item.goods.goodsName,
-        price:item.goodsInfoFlag==1?item.subscriptionPrice:item.salePrice,
-        quantity:item.buyCount,
-        recommendation:'self-selected',
-        type:item.goodsInfoFlag==1?'subscription':'one-time',//?
-        variant:item.specText?parseInt(item.specText):'',
-        sku:item.goodsInfos[0].goodsInfoNo
-      })
-    }     
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
-    console.log(dataLayer)
+        club: 'no',
+        id: (item.goods && item.goods.goodsNo) || '',
+        name: (item.goods && item.goods.goodsName) || '',
+        price:
+          item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice,
+        quantity: item.buyCount,
+        recommendation: 'self-selected',
+        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time', //?
+        variant: item.specText ? parseInt(item.specText) : '',
+        sku: (item.goodsInfos && item.goodsInfos[0].goodsInfoNo) || ''
+      });
+    }
+    dataLayer[0].checkout.basketAmount = basketAmount;
+    dataLayer[0].checkout.basketID = basketID;
+    dataLayer[0].checkout.option = option;
+    dataLayer[0].checkout.product = product;
+    dataLayer[0].checkout.step = step;
+    console.log(dataLayer);
   }
   //游客
-  GACheckUnLogin(productList){
-        this.getGACheckoutStep()
-        console.log(productList)
-        let product = [],
-        basketAmount = this.tradePrice,
-        basketID = guid,
-        option = this.isLogin ? 'account already created':'new account',
-        step = this.state.step
+  GACheckUnLogin(productList) {
+    console.log(productList);
+    let product = [],
+      basketAmount = this.tradePrice,
+      basketID = guid,
+      option = this.isLogin ? 'account already created' : 'new account',
+      step = this.state.step;
     for (let item of productList) {
-      let cur_selected_size = item.sizeList.filter((item2)=>{
-        return item2.selected == true
-      })
-      let variant = cur_selected_size[0].specText
-      let goodsInfoNo = cur_selected_size[0].goodsInfoNo
+      let cur_selected_size = item.sizeList.filter((item2) => {
+        return item2.selected == true;
+      });
+      let variant = cur_selected_size[0].specText;
+      let goodsInfoNo = cur_selected_size[0].goodsInfoNo;
       product.push({
-        brand:item.brandName || 'ROYAL CANIN',
-        category:item.goodsCateName,
-        club:'no',
-        id:item.goodsNo,
-        name:item.goodsName,
-        price:item.minMarketPrice,
-        quantity:item.quantity,
-        recommendation:'self-selected',
-        type:'one-time',
-        variant:parseInt(variant),
-        sku:goodsInfoNo
-      })
-    }     
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
-  }
-  //获取GA step
-  getGACheckoutStep(){
-    console.log(this.paymentStep)
-    //debugger
+        brand: item.brandName || 'ROYAL CANIN',
+        category: item.goodsCateName,
+        club: 'no',
+        id: item.goodsNo,
+        name: item.goodsName,
+        price: item.minMarketPrice,
+        quantity: item.quantity,
+        recommendation: 'self-selected',
+        type: 'one-time',
+        variant: parseInt(variant),
+        sku: goodsInfoNo
+      });
+    }
+    dataLayer[0].checkout.basketAmount = basketAmount;
+    dataLayer[0].checkout.basketID = basketID;
+    dataLayer[0].checkout.option = option;
+    dataLayer[0].checkout.product = product;
+    dataLayer[0].checkout.step = step;
   }
   async componentDidMount() {
     // console.log(this.refs.applyButtton.click() ,' hahaha')
-    this.refs.applyButtton.click()
+    this.refs.applyButtton.click();
     let productList;
     if (this.props.data.length) {
       productList = this.props.data;
@@ -161,13 +160,12 @@ class PayProductInfo extends React.Component {
         frequencyList: res
       });
     });
-    
-    if(this.isLogin){
-      this.GACheckout(productList)
-    }else{
-      this.GACheckUnLogin(productList)
+
+    if (this.isLogin) {
+      this.GACheckout(productList);
+    } else {
+      this.GACheckUnLogin(productList);
     }
-    
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -186,11 +184,6 @@ class PayProductInfo extends React.Component {
   }
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
-  }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id.toString() === id.toString())
-      ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
-      : id;
   }
   getProducts(plist) {
     const List = plist.map((el, i) => {
@@ -259,7 +252,9 @@ class PayProductInfo extends React.Component {
     //   }`
     // );
     this.props.history.push(
-      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${item.goodsNo}`
+      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${
+        item.goodsNo
+      }`
     );
   }
   getProductsForLogin(plist) {
@@ -305,7 +300,7 @@ class PayProductInfo extends React.Component {
                     {el.goodsInfoFlag ? (
                       <>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
-                        {this.matchNamefromDict(
+                        {matchNamefromDict(
                           this.state.frequencyList,
                           el.periodTypeId
                         )}{' '}
@@ -346,7 +341,7 @@ class PayProductInfo extends React.Component {
                       )}
                     </span>{' '}
                     <FormattedMessage id="avecLabonnement" />
-                    &nbsp; 
+                    &nbsp;
                     {/* <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
                       val1:(
                         <span className="green">
@@ -472,7 +467,9 @@ class PayProductInfo extends React.Component {
                       );
                     }
                     if (
-                      result.backCode === 'K-000000' && (!result.context.promotionFlag || result.context.couponCodeFlag)
+                      result.backCode === 'K-000000' &&
+                      (!result.context.promotionFlag ||
+                        result.context.couponCodeFlag)
                     ) {
                       //表示输入apply promotionCode成功
                       discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
@@ -496,59 +493,67 @@ class PayProductInfo extends React.Component {
                 </button>
               </div>
               {this.state.isShowValidCode ? (
-                <div className="red" style={{fontSize: '14px'}}>
+                <div className="red" style={{ fontSize: '14px' }}>
                   {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
-                  <FormattedMessage id="validPromotionCode"/>
+                  <FormattedMessage id="validPromotionCode" />
                 </div>
               ) : null}
               {!this.state.isShowValidCode &&
-            this.state.discount.map((el) => (
-              <>
-              <div className={`row leading-lines shipping-item d-flex`} style={{ border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden', marginBottom: '10px'}}>
-                <div className="col-8">
-                  <p>
-                    {this.promotionDesc || (
-                      <FormattedMessage id="NoPromotionDesc" />
-                    )}
-                  </p>
-                </div>
-                <div className="col-4">
-                  <p className="text-right shipping-cost">
-                    <span
-                      className="rc-icon rc-close--sm rc-iconography"
+                this.state.discount.map((el) => (
+                  <>
+                    <div
+                      className={`row leading-lines shipping-item d-flex`}
                       style={{
-                        fontSize: '18px',
-                        marginLeft: '10px',
-                        lineHeight: '20px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={async () => {
-                        let result = {};
-                        if (!this.props.loginStore.isLogin) {
-                          //游客
-                          result = await checkoutStore.updateUnloginCart();
-                        } else {
-                          //会员
-                          result = await checkoutStore.updateLoginCart(
-                            '',
-                            this.props.buyWay === 'frequency'
-                          );
-                        }
-                        if (result.backCode === 'K-000000') {
-                          discount.pop();
-                          this.setState({
-                            discount: discount,
-                            isShowValidCode: false
-                          });
-                        }
+                        border: '1px solid #ccc',
+                        height: '60px',
+                        lineHeight: '60px',
+                        overflow: 'hidden',
+                        marginBottom: '10px'
                       }}
                     >
-                    </span>
-                  </p>
-                </div>
-              </div>
-              </>
-            ))}
+                      <div className="col-8">
+                        <p>
+                          {this.promotionDesc || (
+                            <FormattedMessage id="NoPromotionDesc" />
+                          )}
+                        </p>
+                      </div>
+                      <div className="col-4">
+                        <p className="text-right shipping-cost">
+                          <span
+                            className="rc-icon rc-close--sm rc-iconography"
+                            style={{
+                              fontSize: '18px',
+                              marginLeft: '10px',
+                              lineHeight: '20px',
+                              cursor: 'pointer'
+                            }}
+                            onClick={async () => {
+                              let result = {};
+                              if (!this.props.loginStore.isLogin) {
+                                //游客
+                                result = await checkoutStore.updateUnloginCart();
+                              } else {
+                                //会员
+                                result = await checkoutStore.updateLoginCart(
+                                  '',
+                                  this.props.buyWay === 'frequency'
+                                );
+                              }
+                              if (result.backCode === 'K-000000') {
+                                discount.pop();
+                                this.setState({
+                                  discount: discount,
+                                  isShowValidCode: false
+                                });
+                              }
+                            }}
+                          ></span>
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ))}
               <div className="product-summary__fees order-total-summary">
                 <div className="row leading-lines subtotal-item">
                   <div className="col-8 start-lines">
@@ -632,10 +637,11 @@ class PayProductInfo extends React.Component {
                 <div style={{ marginTop: '10px' }}>
                   {!this.state.isShowValidCode &&
                   this.props.checkoutStore.promotionCode ? (
-                    <div
-                      className="flex-layout green"
-                    >
-                      <label className="saveDiscount font14" style={{flex: 2}}>
+                    <div className="flex-layout green">
+                      <label
+                        className="saveDiscount font14"
+                        style={{ flex: 2 }}
+                      >
                         {/* {this.promotionDesc || (
                           <FormattedMessage id="NoPromotionDesc" />
                         )} */}
@@ -643,7 +649,11 @@ class PayProductInfo extends React.Component {
                       </label>
                       <div
                         className="text-right"
-                        style={{ position: 'relative', textAlign: 'right', flex: 1}}
+                        style={{
+                          position: 'relative',
+                          textAlign: 'right',
+                          flex: 1
+                        }}
                       >
                         <b>-{formatMoney(this.discountPrice)}</b>
                       </div>
