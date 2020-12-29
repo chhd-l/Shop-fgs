@@ -956,6 +956,11 @@ class Details extends React.Component {
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
       }
+      if(this.state.requestJson.hasOwnProperty('utm_campaign')){
+        param = {...param,...this.state.requestJson}
+      }
+      console.log(param)
+      //debugger
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (this.state.isMobile) {
@@ -1396,7 +1401,6 @@ class Details extends React.Component {
                   ? cur_selected_size[0].marketPrice
                   : cur_selected_size[0].subscriptionPrice,
               brand: item.brandName || 'Royal Canin',
-              // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant: parseInt(variant),
               quantity: num,
@@ -1407,7 +1411,6 @@ class Details extends React.Component {
         }
       }
     });
-    console.log('添加购物车埋点dataLayer', dataLayer);
   }
   //商品详情页 埋点
   GAProductDetailPageView(item) {

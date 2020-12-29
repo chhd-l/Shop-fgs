@@ -306,6 +306,7 @@ class CheckoutStore {
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice
         };
+
         if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
           params.discountPrice = sitePurchasesRes.discountPrice;
         } else {
