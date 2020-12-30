@@ -650,6 +650,12 @@ class List extends React.Component {
               `${r.navigationLink}?${r.keywords}`
             ].includes(pathname.replace(/\/$/, ''))
         )[0];
+        
+        // 暂时加一个判断，特定路由storeCateId为空
+        // if(pathname=='/list/keywords'){
+        //   targetRouter.storeCateId = ''
+        // }
+
         let sortParam = null;
         let cateIds = [];
         let filters = [];
@@ -1052,7 +1058,8 @@ class List extends React.Component {
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds,
+      //storeCateIds,
+      storeCateIds:this.props.location.pathname=='/list/keywords'?[]:storeCateIds,//暂时加一个判断，特定路由storeCateId为空
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
