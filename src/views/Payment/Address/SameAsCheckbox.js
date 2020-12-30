@@ -69,7 +69,8 @@ class SameAsCheckbox extends React.Component {
             >
               i
             </span>
-            <ConfirmTooltip
+            {
+              process.env.REACT_APP_LANG == 'fr'? null: <ConfirmTooltip
               containerStyle={{
                 transform: 'translate(-62%, 117%)'
               }}
@@ -84,6 +85,7 @@ class SameAsCheckbox extends React.Component {
               }
               content={<FormattedMessage id="payment.forFreeTip" />}
             />
+            }
           </span>
         </div>
       </div>
