@@ -957,9 +957,9 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      // if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
-      //   param = {...param,...this.state.requestJson}
-      // }
+      if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+        param = {...param,...this.state.requestJson}
+      }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (this.state.isMobile) {
