@@ -511,14 +511,21 @@ class PayProductInfo extends React.Component {
                         marginBottom: '10px'
                       }}
                     >
-                      <div className="col-8">
-                        <p>
+                      <div className={`${!checkoutStore.couponCodeFitFlag? 'col-6': 'col-10'}`}>
+                        <p style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
                           {this.promotionDesc || (
                             <FormattedMessage id="NoPromotionDesc" />
                           )}
                         </p>
                       </div>
-                      <div className="col-4">
+                      <div className={`${!checkoutStore.couponCodeFitFlag? 'col-4': 'col-0'} red`} style={{padding: 0}}>
+                        <p>
+                          {!checkoutStore.couponCodeFitFlag && (
+                            <FormattedMessage id="Non appliqué" />
+                          )}
+                        </p>
+                      </div>
+                      <div className="col-2" style={{padding: '0 15px 0 0'}}>
                         <p className="text-right shipping-cost">
                           <span
                             className="rc-icon rc-close--sm rc-iconography"
@@ -530,6 +537,8 @@ class PayProductInfo extends React.Component {
                             }}
                             onClick={async () => {
                               let result = {};
+                              await checkoutStore.removePromotionCode()
+                              await checkoutStore.removeCouponCodeFitFlag()
                               if (!this.props.loginStore.isLogin) {
                                 //游客
                                 result = await checkoutStore.updateUnloginCart();
