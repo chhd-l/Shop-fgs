@@ -4,7 +4,12 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData, getDeviceType, matchNamefromDict } from '@/utils/utils';
+import {
+  getDictionary,
+  validData,
+  getDeviceType,
+  matchNamefromDict
+} from '@/utils/utils';
 import {
   searchNextConfirmPanel
   // scrollIntoView
@@ -20,11 +25,10 @@ import './VisitorAddress.css';
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
-    isOnepageCheckout: false,
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
-    updateValidStatus: () => {}
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -58,22 +62,17 @@ class VisitorAddress extends React.Component {
     try {
       await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, form: data }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
       this.setState({ isValid: false }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
       console.log(err);
     }
   };
   handleEditFormChange = (data) => {
-    if (this.props.isOnepageCheckout) {
-      this.validData({ data });
-    } else {
-      this.setState({ form: data });
-      this.props.updateData(data);
-    }
+    this.validData({ data });
   };
   handleClickConfirm = () => {
     const { isMobile, isValid, form } = this.state;
@@ -160,7 +159,7 @@ class VisitorAddress extends React.Component {
   render() {
     const { panelStatus } = this;
 
-    const { isOnepageCheckout, showConfirmBtn } = this.props;
+    const { showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
     const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
@@ -169,7 +168,6 @@ class VisitorAddress extends React.Component {
         type="delivery"
         initData={form}
         isLogin={false}
-        isOnepageCheckout={isOnepageCheckout}
         updateData={this.handleEditFormChange}
       />
     );
@@ -195,7 +193,7 @@ class VisitorAddress extends React.Component {
           </div>
         )}
 
-        {isOnepageCheckout && !panelStatus.isPrepare ? (
+        {!panelStatus.isPrepare ? (
           <>
             {panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
@@ -230,7 +228,6 @@ class VisitorAddress extends React.Component {
             ) : null}
           </>
         ) : null}
-        {!isOnepageCheckout && <>{_editForm}</>}
       </>
     );
   }

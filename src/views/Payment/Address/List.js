@@ -22,7 +22,6 @@ import './list.less';
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
-    isOnepageCheckout: false,
     type: 'delivery',
     showOperateBtn: true,
     updateValidStatus: () => {}
@@ -534,7 +533,6 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             isLogin={true}
-            isOnepageCheckout={this.props.isOnepageCheckout}
             initData={deliveryAddress}
             updateData={this.updateDeliveryAddress}
           />
@@ -685,10 +683,7 @@ class AddressList extends React.Component {
                   )
                 ) : null}
                 {/* add or edit address form */}
-                {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
-                  <>{_form}</>
-                ) : null}
-                {!this.props.isOnepageCheckout && <>{_form}</>}
+                {this.panelStatus.isEdit ? <>{_form}</> : null}
               </>
             )}
           </div>

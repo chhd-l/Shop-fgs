@@ -46,6 +46,7 @@ function CardItemCover({
 @observer
 class AdyenCreditCardList extends React.Component {
   static defaultProps = {
+    updateFormValidStatus: () => {},
     updateSelectedCardInfo: () => {},
     subBuyWay: '', // once/fre
     billingJSX: null
@@ -54,13 +55,11 @@ class AdyenCreditCardList extends React.Component {
     super(props);
     this.state = {
       listLoading: false,
-      listErr: '',
       cardList: [],
       selectedId: '',
       formVisible: false,
       visitorAdyenFormData: null,
       memberUnsavedCardList: [], // 会员，选择不保存卡情况下，卡信息存储该字段中
-      formStatus: false,
       saveLoading: false
     };
     this.handleClickConfirmDeleteBtn = this.handleClickConfirmDeleteBtn.bind(
@@ -83,8 +82,11 @@ class AdyenCreditCardList extends React.Component {
   get userInfo() {
     return this.props.loginStore.userInfo;
   }
-  queryList = async (currentCardEncryptedSecurityCode) => {
-    this.setState({ listLoading: true });
+  queryList = async ({
+    currentCardEncryptedSecurityCode,
+    showListLoading = true
+  } = {}) => {
+    showListLoading && this.setState({ listLoading: true });
     try {
       let res = await getPaymentMethod({
         customerId: this.userInfo ? this.userInfo.customerId : '',
@@ -124,7 +126,7 @@ class AdyenCreditCardList extends React.Component {
       );
     } catch (err) {
       console.log(err);
-      this.setState({ listErr: err.toString() });
+      this.props.showErrorMsg(err.message);
     } finally {
       this.setState({
         listLoading: false
@@ -143,6 +145,7 @@ class AdyenCreditCardList extends React.Component {
     // 从数据库删除卡信息/从本地存储中删除卡信息
     if (el.paymentToken) {
       el.confirmTooltipVisible = false;
+      const currentId = el.id;
       this.setState(
         {
           listLoading: true,
@@ -150,11 +153,12 @@ class AdyenCreditCardList extends React.Component {
           selectedId: ''
         },
         () => {
+          scrollPaymentPanelIntoView();
           this.hanldeUpdateSelectedCardInfo();
         }
       );
       deleteCard({
-        id: el.id,
+        id: currentId,
         storeId: process.env.REACT_APP_STOREID
       })
         .then(() => {
@@ -162,9 +166,15 @@ class AdyenCreditCardList extends React.Component {
         })
         .catch((err) => {
           this.props.showErrorMsg(err.message);
-          this.setState({
-            listLoading: false
-          });
+          this.setState(
+            {
+              listLoading: false
+              // selectedId: currentId
+            },
+            () => {
+              // this.handlUpdateSelectedId();
+            }
+          );
         });
     } else {
       let { memberUnsavedCardList, selectedId, cardList } = this.state;
@@ -213,8 +223,15 @@ class AdyenCreditCardList extends React.Component {
     this.props.updateSelectedCardInfo(el);
     // 被选中的卡，才加载cvv
     el && el.adyenPaymentMethod && this.loadCvv(el);
+    this.updateFormValidStatus(el);
   };
+  updateFormValidStatus(el) {
+    this.props.updateFormValidStatus(
+      el && el.encryptedSecurityCode ? true : false
+    );
+  }
   loadCvv = (el) => {
+    const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
     const {
@@ -264,7 +281,9 @@ class AdyenCreditCardList extends React.Component {
                 // ****************************************************************
                 //el.encryptedSecurityCode = tmpCode;
                 // ****************************************************************
+
                 updateSelectedCardInfo(result);
+                updateFormValidStatus(result);
                 // ****************************************************************
                 //_this.setState({ cardList: _this.state.cardList });
                 // ****************************************************************
@@ -282,17 +301,6 @@ class AdyenCreditCardList extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     this.updateConfirmTooltipVisible(el, true);
-  }
-  getElementTop(element) {
-    var actualTop = element.offsetTop;
-    var current = element.offsetParent;
-
-    while (current !== null) {
-      actualTop += current.offsetTop;
-      current = current.offsetParent;
-    }
-
-    return actualTop;
   }
   handleClickAddBtn = () => {
     this.setState({ formVisible: true, selectedId: '' }, () => {
@@ -395,14 +403,6 @@ class AdyenCreditCardList extends React.Component {
   };
   renderList = () => {
     let { visitorAdyenFormData, selectedId } = this.state;
-    if (visitorAdyenFormData) {
-      visitorAdyenFormData.adyenPaymentMethod = {
-        name: visitorAdyenFormData.brand,
-        holderName: visitorAdyenFormData.hasHolderName,
-        lastFour: '',
-        brand: visitorAdyenFormData.brand
-      };
-    }
     return this.isLogin ? (
       this.renderMemberCardPanel()
     ) : (
@@ -526,6 +526,14 @@ class AdyenCreditCardList extends React.Component {
   };
   updateAdyenPayParam = (data) => {
     let { cardList, memberUnsavedCardList } = this.state;
+    if (data && !data.adyenPaymentMethod) {
+      data.adyenPaymentMethod = {
+        name: data.brand,
+        holderName: data.hasHolderName,
+        lastFour: '',
+        brand: data.brand
+      };
+    }
     // 会员，选择不保存卡情况下，重置保存卡列表的isLoadCvv状态
     Array.from(cardList, (c) => {
       c.isLoadCvv = false;
@@ -554,21 +562,17 @@ class AdyenCreditCardList extends React.Component {
     }
     scrollPaymentPanelIntoView();
   };
-  // 确认卡表单，显示credit card预览
   clickConfirm = async () => {
     this.setState({ saveLoading: true });
     if (this.editFormRef) {
       await this.editFormRef.current.handleSave();
-      this.setState({ formVisible: false });
+      // this.setState({ formVisible: false });
     }
     this.setState({ saveLoading: false });
     scrollPaymentPanelIntoView();
   };
-  updateFormValidStatus = (status) => {
-    this.setState({ formStatus: status });
-  };
   renderEditForm = () => {
-    const { isOnepageCheckout, showErrorMsg, subBuyWay } = this.props;
+    const { showErrorMsg, subBuyWay } = this.props;
     const { cardList } = this.state;
     return (
       <EditForm
@@ -576,24 +580,18 @@ class AdyenCreditCardList extends React.Component {
         cardList={cardList}
         isCheckoutPage={true}
         showSaveBtn={false}
-        isOnepageCheckout={isOnepageCheckout}
+        isOnepageCheckout={true}
         enableStoreDetails={this.isLogin}
         mustSaveForFutherPayments={subBuyWay === 'frequency'} // 所有商品均不订阅 才能不绑卡
         key={subBuyWay}
-        // showCancelBtn={cardList.length > 0}
         showCancelBtn={false}
         updateFormVisible={(val) => {
-          this.setState({ formVisible: val }, () => {
-            // if (!val) {
-            //   //取消操作，重新刷列表才会出现cvv框
-            //   this.queryList();
-            // }
-          });
+          this.setState({ formVisible: val });
         }}
         queryList={this.queryList}
         updateSelectedId={this.handlUpdateSelectedId}
         updateAdyenPayParam={this.updateAdyenPayParam}
-        updateClickPayBtnValidStatus={this.updateFormValidStatus}
+        updateClickPayBtnValidStatus={this.props.updateFormValidStatus}
         showErrorMsg={showErrorMsg}
       />
     );
@@ -605,42 +603,25 @@ class AdyenCreditCardList extends React.Component {
       memberUnsavedCardList,
       formVisible,
       listLoading,
-      formStatus,
       saveLoading
     } = this.state;
     const footerJSX = (
       <>
         {billingJSX}
-        {/* 此按钮只用来确认卡 */}
-        {formVisible && (
-          <div className="d-flex justify-content-end align-items-center mt-3">
-            {cardList.length > 1 && (
-              <>
-                <span
-                  className="rc-styled-link editPersonalInfoBtn"
-                  name="contactInformation"
-                  onClick={this.handleClickCancel}
-                >
-                  <FormattedMessage id="cancel" />
-                </span>
-                <span className="mr-1 ml-1">
-                  <FormattedMessage id="or" />
-                </span>
-              </>
-            )}
 
-            <button
-              className={`rc-btn rc-btn--one ${
-                saveLoading ? 'ui-btn-loading' : ''
-              }`}
-              // 校验card form表单
-              disabled={!formStatus}
-              onClick={this.clickConfirm}
-            >
-              <FormattedMessage id="yes" />
-            </button>
-          </div>
-        )}
+        {/* 会员取消新增form操作按钮 */}
+        {/* <>
+          <span
+            className="rc-styled-link editPersonalInfoBtn"
+            name="contactInformation"
+            onClick={this.handleClickCancel}
+          >
+            <FormattedMessage id="cancel" />
+          </span>
+          <span className="mr-1 ml-1">
+            <FormattedMessage id="or" />
+          </span>
+        </> */}
       </>
     );
     return (
