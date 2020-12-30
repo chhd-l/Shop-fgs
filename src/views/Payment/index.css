@@ -93,7 +93,7 @@
   vertical-align: middle;
 }
 
-.cardImage>img {
+.cardImage .img {
   width: 40px;
   height: 45px;
   color: rgb(102, 102, 102);

@@ -190,6 +190,7 @@ class AddressList extends React.Component {
   handleClickAddBtn(fromPage) {
     this.changeEditFormVisible(true);
     this.setState({ fromPage });
+    window.scroll({ top: 0, behavior: 'smooth' });
   }
   updateConfirmTooltipVisible(el, status) {
     let { creditCardList } = this.state;

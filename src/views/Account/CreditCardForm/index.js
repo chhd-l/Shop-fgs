@@ -366,6 +366,7 @@ class ShippingAddressFrom extends React.Component {
                                         <img
                                           alt="Card"
                                           src="https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg"
+                                          className="img"
                                         />
                                         </LazyLoad>
                                       </span>

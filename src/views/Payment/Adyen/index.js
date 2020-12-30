@@ -51,44 +51,8 @@ class AdyenCreditCard extends React.Component {
     });
   };
   updateSelectedCardInfo = (data) => {
-    const { paymentStore, isOnepageCheckout } = this.props;
-    const { isMobile } = this.state;
-    const curPanelKey = 'paymentMethod';
     this.setState({ adyenPayParam: data, isValid: !!data });
     this.props.updateAdyenPayParam(data);
-    data && paymentStore.updateHasConfimedPaymentVal('adyenCard');
-
-    if (!isOnepageCheckout) {
-      return false;
-    }
-
-    const isReadyPrev = isPrevReady({
-      list: toJS(paymentStore.panelStatus),
-      curKey: curPanelKey
-    });
-
-    if (data) {
-      // todo 在此处不能设置为compelte了
-      // paymentStore.setStsToCompleted({ key: curPanelKey });
-      // 下一个最近的未complete的panel
-      // const nextConfirmPanel = searchNextConfirmPanel({
-      //   list: toJS(paymentStore.panelStatus),
-      //   curKey: curPanelKey
-      // });
-      // if (isReadyPrev) {
-      //   paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-      //   setTimeout(() => {
-      //     isMobile &&
-      //       scrollIntoView(
-      //         document.querySelector(`#J_checkout_panel_confirmation`)
-      //       );
-      //   });
-      // }
-    } else {
-      // 删除卡的时候
-      paymentStore.setStsToEdit({ key: 'paymentMethod' });
-      paymentStore.setStsToPrepare({ key: 'confirmation' });
-    }
   };
   showErrorMsg = (msg) => {
     this.setState({

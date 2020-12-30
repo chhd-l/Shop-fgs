@@ -212,17 +212,15 @@ class AdyenCreditCardList extends React.Component {
       ) || null;
     this.props.updateSelectedCardInfo(el);
     // 被选中的卡，才加载cvv
-    el && this.loadCvv(el);
+    el && el.adyenPaymentMethod && this.loadCvv(el);
   };
   loadCvv = (el) => {
-    const _this = this;
+    const { cardList } = this.state;
+    var { updateSelectedCardInfo, paymentStore } = this.props;
     const {
       id,
-      adyenPaymentMethod: { brand },
-      isLoadCvv
+      adyenPaymentMethod: { brand }
     } = el;
-    const { cardList, selectedId } = this.state;
-    var { updateSelectedCardInfo, paymentStore } = this.props;
     //第一次绑定这张卡,不需要填写CVV start
     if (paymentStore.firstSavedCardCvv == id) {
       el.isLoadCvv = false;

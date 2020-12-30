@@ -305,9 +305,6 @@ class Payment extends React.Component {
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
-  get hasConfimedPaymentVal() {
-    return this.props.paymentStore.hasConfimedPaymentVal;
-  }
   get selectedDeliveryAddress() {
     return this.props.paymentStore.selectedDeliveryAddress;
   }
@@ -315,7 +312,7 @@ class Payment extends React.Component {
     return this.props.paymentStore.selectedBillingAddress;
   }
   get isOnepageCheckout() {
-    // return true;
+    return true;
     return this.props.configStore.isOnePageCheckout;
   }
   checkRequiredItem = (list) => {
@@ -570,10 +567,10 @@ class Payment extends React.Component {
     this.setState({
       errorMsg: msg
     });
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: 'smooth'
-    // });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
@@ -635,7 +632,6 @@ class Payment extends React.Component {
         },
         payUCreditCard: async () => {
           const { selectedCardInfo } = this.state;
-          // todo one page checkout时，此时可能不存在cvv
           if (!this.isLogin) {
             parameters = Object.assign({}, commonParameter);
           } else {
@@ -1728,7 +1724,8 @@ class Payment extends React.Component {
       billingChecked,
       email,
       validSts,
-      saveBillingLoading
+      saveBillingLoading,
+      payosdata
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -1810,13 +1807,8 @@ class Payment extends React.Component {
             <PayUCreditCard
               type={'PayUCreditCard'}
               isLogin={this.isLogin}
-              isOnePageCheckout={this.isOnepageCheckout}
               paymentTypeVal={paymentTypeVal}
-              listData={listData}
-              startLoading={this.startLoading}
-              endLoading={this.endLoading}
               showErrorMsg={this.showErrorMsg}
-              clickPay={this.initCommonPay}
               onVisitorPayosDataConfirm={(data) => {
                 this.setState({ payosdata: data });
               }}
@@ -1831,6 +1823,26 @@ class Payment extends React.Component {
               billingJSX={this.renderBillingJSX({ type: 'payu' })}
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
+            {paymentTypeVal === 'payUCreditCard' &&
+              Object.keys(payosdata || {}).length > 0 && (
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      saveBillingLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    // 校验状态
+                    // 1 卡，校验是否存在encryptedSecurityCode
+                    // 2 billing校验
+                    // todo selectedCardInfo
+                    disabled={
+                      !selectedCardInfo.encrypted_cvv || validForBilling
+                    }
+                    onClick={this.clickConfirmPaymentPanel}
+                  >
+                    <FormattedMessage id="yes" />
+                  </button>
+                </div>
+              )}
           </div>
           {/* adyenCreditCard */}
           <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
@@ -1849,6 +1861,26 @@ class Payment extends React.Component {
                 this.renderBillingJSX({ type: 'adyenCard' })
               }
             />
+            {/* 出现卡列表时，才显示此按钮 */}
+            {paymentTypeVal === 'adyenCard' &&
+              Object.keys(adyenPayParam || {}).length > 0 && (
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    className={`rc-btn rc-btn--one ${
+                      saveBillingLoading ? 'ui-btn-loading' : ''
+                    }`}
+                    // 校验状态
+                    // 1 卡，校验是否存在encryptedSecurityCode
+                    // 2 billing校验
+                    disabled={
+                      !adyenPayParam.encryptedSecurityCode || validForBilling
+                    }
+                    onClick={this.clickConfirmPaymentPanel}
+                  >
+                    <FormattedMessage id="yes" />
+                  </button>
+                </div>
+              )}
           </div>
           {/* KlarnaPayLater */}
           {paymentTypeVal === 'adyenKlarnaPayLater' && (
@@ -1901,28 +1933,6 @@ class Payment extends React.Component {
           )}
 
           {/* ***********************支付选项卡的内容end******************************* */}
-
-          {/* todo */}
-          {/* 出现卡列表时，才显示此按钮 */}
-          {paymentTypeVal === 'adyenCard' &&
-            Object.keys(adyenPayParam || {}).length > 0 && (
-              <div className="d-flex justify-content-end mt-3">
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    saveBillingLoading ? 'ui-btn-loading' : ''
-                  }`}
-                  // 校验状态
-                  // 1 卡，校验是否存在encryptedSecurityCode
-                  // 2 billing校验
-                  disabled={
-                    !adyenPayParam.encryptedSecurityCode || validForBilling
-                  }
-                  onClick={this.clickConfirmPaymentPanel}
-                >
-                  <FormattedMessage id="yes" />
-                </button>
-              </div>
-            )}
         </div>
       </div>
     );
@@ -1967,22 +1977,26 @@ class Payment extends React.Component {
       paymentTypeVal,
       email,
       billingAddress: form,
-      adyenPayParam: { adyenPaymentMethod },
+      adyenPayParam: {
+        adyenPaymentMethod: { brand, holderName, lastFour } = {}
+      },
+      payosdata: { vendor, holder_name, last_4_digits },
       tid
     } = this.state;
+    const lastFourDeco = lastFour || last_4_digits;
+    const brandDeco = brand || vendor;
+    const holderNameDeco = holderName || holder_name;
     return (
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
           paymentTypeVal === 'adyenCard' ? (
             <div className="col-12 col-md-6">
-              <span className="medium">{adyenPaymentMethod.brand}</span>
+              <span className="medium">{brandDeco}</span>
               <br />
-              {adyenPaymentMethod.holderName}
+              {holderNameDeco}
               <br />
-              {adyenPaymentMethod.lastFour
-                ? `************${adyenPaymentMethod.lastFour}`
-                : null}
+              {lastFourDeco ? `************${lastFourDeco}` : null}
             </div>
           ) : (
             <div className="col-12 col-md-6">{email}</div>
@@ -2084,20 +2098,9 @@ class Payment extends React.Component {
     this.setState({ email });
   };
   clickPay = () => {
-    const { payWayObj } = this.state;
-    this.setState({
-      paymentTypeVal: this.hasConfimedPaymentVal
-    });
+    const { paymentTypeVal } = this.state;
     this.initCommonPay({
-      type: find(
-        payWayObj,
-        (el) => el.paymentTypeVal === this.hasConfimedPaymentVal
-      )
-        ? find(
-            payWayObj,
-            (el) => el.paymentTypeVal === this.hasConfimedPaymentVal
-          ).paymentTypeVal
-        : ''
+      type: paymentTypeVal
     });
   };
   render() {
