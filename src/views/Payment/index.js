@@ -50,7 +50,6 @@ import {
 
 import PayUCreditCard from './PayUCreditCard';
 import AdyenCreditCard from './Adyen';
-// import AdyenCreditCard2 from './Adyen2';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
@@ -239,16 +238,16 @@ class Payment extends React.Component {
     );
     if (!sessionItemRoyal.get('recommend_product')) {
       if (this.isLogin && !this.loginCartData.length && !tid) {
-        // history.push('/cart');
-        // return false;
+        history.push('/cart');
+        return false;
       }
       if (
         !this.isLogin &&
         (!this.cartData.length ||
           !this.cartData.filter((ele) => ele.selected).length)
       ) {
-        // history.push('/cart');
-        // return false;
+        history.push('/cart');
+        return false;
       }
     }
 
@@ -637,6 +636,7 @@ class Payment extends React.Component {
           } else {
             try {
               // 获取token，避免传给接口明文cvv
+              this.startLoading();
               let cvvResult = await new Promise((resolve) => {
                 window.POS.tokenize(
                   {
@@ -665,7 +665,7 @@ class Payment extends React.Component {
                 });
               }
             } catch (err) {
-              console.log(err);
+              this.endLoading();
               throw new Error(err.message);
             }
           }
@@ -1725,7 +1725,7 @@ class Payment extends React.Component {
       email,
       validSts,
       saveBillingLoading,
-      payosdata
+      selectedCardInfo
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -1754,15 +1754,13 @@ class Payment extends React.Component {
             {Object.entries(payWayObj).map((item, i) => {
               return (
                 <div
-                  className="rc-input rc-input--inline"
+                  className={`rc-input rc-input--inline ${
+                    subForm.buyWay == 'frequency' &&
+                    item[1].id == 'adyenPayLater'
+                      ? 'hidden'
+                      : ''
+                  }`}
                   key={i}
-                  style={{
-                    display:
-                      this.state.subForm.buyWay == 'frequency' &&
-                      item[1].id == 'adyenPayLater'
-                        ? 'none'
-                        : 'inline-block'
-                  }}
                 >
                   <input
                     className="rc-input__radio"
@@ -1790,16 +1788,19 @@ class Payment extends React.Component {
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
           {/* ***********************支付选项卡的内容start******************************* */}
           {/* oxxo */}
-          <div className={`${paymentTypeVal === 'oxxo' ? '' : 'hidden'}`}>
-            <OxxoConfirm
-              type={'oxxo'}
-              listData={listData}
-              history={this.props.history}
-              startLoading={this.startLoading}
-              endLoading={this.endLoading}
-              clickPay={this.initCommonPay}
-            />
-          </div>
+          {paymentTypeVal === 'oxxo' && (
+            <>
+              <OxxoConfirm
+                type={'oxxo'}
+                updateEmail={this.updateEmail}
+                billingJSX={
+                  paymentTypeVal === 'oxxo' &&
+                  this.renderBillingJSX({ type: 'oxxo' })
+                }
+              />
+              {payConfirmBtn}
+            </>
+          )}
           {/* payu creditCard */}
           <div
             className={`${paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'}`}
@@ -1820,28 +1821,31 @@ class Payment extends React.Component {
               }}
               isApplyCvv={false}
               needReConfirmCVV={true}
-              billingJSX={this.renderBillingJSX({ type: 'payu' })}
+              billingJSX={
+                paymentTypeVal === 'payUCreditCard' &&
+                this.renderBillingJSX({ type: 'payUCreditCard' })
+              }
               selectedDeliveryAddress={this.selectedDeliveryAddress}
             />
             {paymentTypeVal === 'payUCreditCard' &&
-              Object.keys(payosdata || {}).length > 0 && (
-                <div className="d-flex justify-content-end mt-3">
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      saveBillingLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    // 校验状态
-                    // 1 卡，校验是否存在encryptedSecurityCode
-                    // 2 billing校验
-                    // todo selectedCardInfo
-                    disabled={
-                      !selectedCardInfo.encrypted_cvv || validForBilling
-                    }
-                    onClick={this.clickConfirmPaymentPanel}
-                  >
-                    <FormattedMessage id="yes" />
-                  </button>
-                </div>
+              Object.keys(selectedCardInfo || {}).length > 0 && (
+                <>
+                  {this.renderBillingJSX({ type: 'payUCreditCard' })}
+                  <div className="d-flex justify-content-end mt-3">
+                    <button
+                      className={`rc-btn rc-btn--one ${
+                        saveBillingLoading ? 'ui-btn-loading' : ''
+                      }`}
+                      // 校验状态
+                      // 1 卡，校验是否存在encryptedSecurityCode
+                      // 2 billing校验
+                      disabled={!selectedCardInfo.cardCvv || validForBilling}
+                      onClick={this.clickConfirmPaymentPanel}
+                    >
+                      <FormattedMessage id="yes" />
+                    </button>
+                  </div>
+                </>
               )}
           </div>
           {/* adyenCreditCard */}
@@ -1887,10 +1891,6 @@ class Payment extends React.Component {
             <>
               <AdyenCommonPay
                 type={'adyenKlarnaPayLater'}
-                isOnepageCheckout={this.isOnepageCheckout}
-                listData={listData}
-                clickPay={this.initCommonPay}
-                showErrorMsg={this.showErrorMsg}
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({
                   type: 'adyenKlarnaPayLater'
@@ -1904,10 +1904,6 @@ class Payment extends React.Component {
             <>
               <AdyenCommonPay
                 type={'adyenKlarnaPayNow'}
-                isOnepageCheckout={this.isOnepageCheckout}
-                listData={listData}
-                clickPay={this.initCommonPay}
-                showErrorMsg={this.showErrorMsg}
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({
                   type: 'adyenKlarnaPayNow'
@@ -1920,11 +1916,7 @@ class Payment extends React.Component {
           {paymentTypeVal === 'directEbanking' && (
             <>
               <AdyenCommonPay
-                isOnepageCheckout={this.isOnepageCheckout}
                 type={'directEbanking'}
-                listData={listData}
-                clickPay={this.initCommonPay}
-                showErrorMsg={this.showErrorMsg}
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({ type: 'directEbanking' })}
               />
@@ -1977,15 +1969,28 @@ class Payment extends React.Component {
       paymentTypeVal,
       email,
       billingAddress: form,
-      adyenPayParam: {
-        adyenPaymentMethod: { brand, holderName, lastFour } = {}
-      },
-      payosdata: { vendor, holder_name, last_4_digits },
+      adyenPayParam: { adyenPaymentMethod },
+      payosdata,
+      selectedCardInfo: { payuPaymentMethod },
       tid
     } = this.state;
-    const lastFourDeco = lastFour || last_4_digits;
-    const brandDeco = brand || vendor;
-    const holderNameDeco = holderName || holder_name;
+    let lastFourDeco;
+    let brandDeco;
+    let holderNameDeco;
+    if (adyenPaymentMethod) {
+      lastFourDeco = adyenPaymentMethod.lastFour;
+      brandDeco = adyenPaymentMethod.brand;
+      holderNameDeco = adyenPaymentMethod.holderName;
+    } else if (payosdata && payosdata.vendor) {
+      lastFourDeco = payosdata.last_4_digits;
+      brandDeco = payosdata.vendor;
+      holderNameDeco = payosdata.holder_name;
+    } else if (payuPaymentMethod) {
+      lastFourDeco = payuPaymentMethod.last_4_digits;
+      brandDeco = payuPaymentMethod.vendor;
+      holderNameDeco = payuPaymentMethod.holder_name;
+    }
+
     return (
       <div className="ml-custom mr-custom mb-3">
         <div className="row">

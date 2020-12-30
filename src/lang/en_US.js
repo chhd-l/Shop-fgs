@@ -908,5 +908,6 @@ const en_US = {
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
   'mixed Breed': 'mixed Breed',
+  'confirmation.account':'Go to my account',
 }
 export default en_US;

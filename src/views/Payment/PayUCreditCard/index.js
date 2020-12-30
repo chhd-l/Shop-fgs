@@ -194,7 +194,6 @@ class PayOs extends React.Component {
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
       this.setState({ isValid: false });
     }
   }
@@ -259,7 +258,7 @@ class PayOs extends React.Component {
 
     return (
       <>
-        <div className="card payment-form 1ml-custom 1mr-custom Card-border 1p-3 rounded 1rc-border-all rc-border-colour--interface">
+        <div className="card payment-form Card-border rounded rc-border-colour--interface">
           <div className="card-body rc-padding--none">
             <form
               method="POST"
@@ -268,13 +267,11 @@ class PayOs extends React.Component {
               id="dwfrm_billing"
             >
               <div className="billing-payment">
-                <div
-                  className={`rc-list__accordion-item border-0`}
-                  data-method-id="CREDIT_CARD"
-                >
+                <div className={`rc-list__accordion-item border-0`}>
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
+                        billingJSX={billingJSX}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         selectedDeliveryAddress={
@@ -284,6 +281,7 @@ class PayOs extends React.Component {
                     </div>
                   ) : (
                     <>
+                      {/* edit form */}
                       <div
                         className={`credit-card-content ${
                           !isCompleteCredit ? '' : 'hidden'
@@ -507,20 +505,23 @@ class PayOs extends React.Component {
             </form>
           </div>
         </div>
-        {billingJSX}
-        {!isCompleteCredit && (
-          <div className="d-flex justify-content-end align-items-center mt-3">
-            <button
-              className={`rc-btn rc-btn--one ${
-                saveLoading ? 'ui-btn-loading' : ''
-              }`}
-              // 校验card form表单
-              disabled={!isValid}
-              onClick={this.handleClickCardConfirm}
-            >
-              <FormattedMessage id="payment.confirmCard" />
-            </button>
-          </div>
+        {/* 非登录，且没有确认card form时，显示此确认按钮 */}
+        {!isLogin && !isCompleteCredit && (
+          <>
+            {billingJSX}
+            <div className="d-flex justify-content-end align-items-center mt-3">
+              <button
+                className={`rc-btn rc-btn--one ${
+                  saveLoading ? 'ui-btn-loading' : ''
+                }`}
+                // 校验card form表单
+                disabled={!isValid}
+                onClick={this.handleClickCardConfirm}
+              >
+                <FormattedMessage id="payment.confirmCard" />
+              </button>
+            </div>
+          </>
         )}
       </>
     );
