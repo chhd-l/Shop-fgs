@@ -604,19 +604,7 @@ class Help extends React.Component {
                     <div className="rc-layout-container rc-three-column recommendProductInner" style={{ display: isMobile ? 'none' : 'flex' }}>
 
                       <div className="rc-column d-flex rdt-left-box">
-                        {/* <div className="rc-column pic">
-                          <ImageMagnifier
-                            sizeList={[productList[activeIndex].goodsInfo]}
-                            images={[productList[activeIndex].goodsInfo]}
-                            minImg={
-                              productList[activeIndex].goodsInfo.goodsInfoImg
-                            }
-                            maxImg={
-                              productList[activeIndex].goodsInfo.goodsInfoImg
-                            }
-                            config={false}
-                          />
-                        </div> */}
+                        
                         <div className="rc-column rc-double-width carousel-column imageBox">
                         
                           <div
