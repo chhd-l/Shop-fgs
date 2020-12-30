@@ -263,6 +263,8 @@ class AccountOrders extends React.Component {
     this.setState({ orderList: orderList });
   }
   async handleClickPayNow(order) {
+    console.log(order)
+    debugger
     const { orderList } = this.state;
     order.payNowLoading = true;
     this.setState({ orderList: orderList });
@@ -275,7 +277,8 @@ class AccountOrders extends React.Component {
         salePrice: ele.price,
         goodsInfoId: ele.skuId,
         subscriptionPrice: ele.subscriptionPrice,
-        subscriptionStatus: ele.subscriptionStatus
+        subscriptionStatus: ele.subscriptionStatus,
+        goodsInfoFlag: ele.goodsInfoFlag
       };
     });
     try {

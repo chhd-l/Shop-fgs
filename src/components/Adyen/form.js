@@ -147,21 +147,23 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
+        this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
         //把绑卡的encryptedSecurityCode传入
-        this.props.queryList(currentCardEncryptedSecurityCode);
+        await this.props.queryList({
+          currentCardEncryptedSecurityCode,
+          showListLoading: false
+        });
         this.setState({ saveLoading: false });
       } else {
         tmpSelectedId = new Date().getTime() + '';
         decoAdyenFormData = Object.assign(decoAdyenFormData, {
           id: tmpSelectedId
         });
+        this.props.updateSelectedId(tmpSelectedId);
       }
 
-      this.props.updateFormVisible(false);
+      this.isLogin && this.props.updateFormVisible(false);
       this.props.updateAdyenPayParam(decoAdyenFormData);
-      this.props.updateSelectedId(tmpSelectedId);
-
-      this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });

@@ -18,7 +18,6 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false,
     updateData: () => {}
   };
   constructor(props) {

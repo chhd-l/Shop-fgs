@@ -410,7 +410,7 @@ class Home extends React.Component {
       <div
         className={`col-6 ${
           curListNum >= 6
-            ? curListNum === 15
+            ? curListNum >= 15
               ? 'col-md-3'
               : 'col-md-4'
             : 'col-md-3'

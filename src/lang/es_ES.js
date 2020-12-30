@@ -884,5 +884,6 @@ const es_ES = {
   'pet.addNewPet': 'Agregar una nueva mascota',
   'pet.deletePet': 'Eliminar perfil de mascota',
   'mixed Breed': 'raza Mixta',
+  'confirmation.account':'Ir a mi cuenta',
 }
 export default es_ES;
