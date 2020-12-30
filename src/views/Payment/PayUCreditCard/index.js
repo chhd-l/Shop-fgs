@@ -9,11 +9,10 @@ import {
 import { validData, loadJS } from '@/utils/utils';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import TermsCommon from '../Terms/common';
 import LazyLoad from 'react-lazyload';
+import { scrollPaymentPanelIntoView } from '../modules/utils';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
 @inject('paymentStore')
 @injectIntl
 @observer
@@ -36,20 +35,13 @@ class PayOs extends React.Component {
         creditDardCvv: ''
       },
       payosdata: {},
-      isReadPrivacyPolicyInit: true,
-      isEighteenInit: true,
-      isReadPrivacyPolicy: false,
-      isShipTracking: false,
-      IsNewsLetter: false,
-      isEighteen: false,
       selectedCardInfo: null,
       inited: false,
       hasEditedEmail: false,
       hasEditedPhone: false,
       hasEditedName: false,
       isValid: false,
-      listData: [],
-      requiredList: []
+      saveLoading: false
     };
   }
   componentDidMount() {
@@ -123,10 +115,6 @@ class PayOs extends React.Component {
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { creditCardInfoForm } = this.state;
-    let requiredList = nextProps.listData.filter((item) => item.isRequired);
-    this.setState({
-      requiredList
-    });
     if (nextProps.selectedDeliveryAddress) {
       const {
         email: selectedEmail,
@@ -165,7 +153,7 @@ class PayOs extends React.Component {
       );
     }
   }
-  cardInfoInputChange(e) {
+  cardInfoInputChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -187,8 +175,8 @@ class PayOs extends React.Component {
         this.setState({ hasEditedName: true });
       }
     }
-  }
-  inputBlur(e) {
+  };
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -200,7 +188,7 @@ class PayOs extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
+  };
   async validFormData() {
     try {
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
@@ -215,28 +203,22 @@ class PayOs extends React.Component {
       return false;
     }
 
-    this.props.startLoading();
+    this.setState({ saveLoading: true });
     document.getElementById('payment-form').submit.click();
     let timer = setInterval(() => {
       try {
         let payosdata = JSON.parse(sessionItemRoyal.get('payosdata'));
         if (payosdata) {
-          this.props.endLoading();
-          clearInterval(timer);
-          this.setState(
-            {
-              payosdata: payosdata
-            },
-            () => {
-              this.props.onVisitorPayosDataConfirm(this.state.payosdata);
-              this.updateConfirmationPanelStatus();
-            }
-          );
+          this.setState({
+            payosdata
+          });
           if (payosdata.category === 'client_validation_error') {
             this.props.showErrorMsg(payosdata.more_info);
             sessionItemRoyal.remove('payosdata');
           } else {
             this.setState({ isCompleteCredit: true });
+            this.props.onVisitorPayosDataConfirm(payosdata);
+            scrollPaymentPanelIntoView();
           }
         }
       } catch (err) {
@@ -245,75 +227,25 @@ class PayOs extends React.Component {
             ? sessionItemRoyal.get('payosdata')
             : err.message.toString()
         );
+      } finally {
         clearInterval(timer);
-        this.props.endLoading();
+        this.setState({ saveLoading: false });
       }
     }, 1000);
   };
-  clickPay = async () => {
-    const { isLogin } = this.props;
-    if (!this.state.inited) {
-      return false;
-    }
-    try {
-      let isAllChecked = this.state.requiredList.every(
-        (item) => item.isChecked
-      );
-      if (!isAllChecked) {
-        throw new Error('agreement failed');
-      }
-      const { needReConfirmCVV } = this.props;
-      let { payosdata, selectedCardInfo } = this.state;
-      if (isLogin) {
-        if (
-          needReConfirmCVV &&
-          (!selectedCardInfo ||
-            !selectedCardInfo.cardCvv ||
-            !selectedCardInfo.id)
-        ) {
-          throw new Error(this.props.intl.messages['payment.errTip']);
-        }
-        if (
-          !needReConfirmCVV &&
-          (!selectedCardInfo || !selectedCardInfo.payuPaymentMethod)
-        ) {
-          throw new Error(this.props.intl.messages['payment.errTip']);
-        }
-        this.props.startLoading();
-      } else {
-        if (!payosdata.token) {
-          throw new Error(this.props.intl.messages.clickConfirmCardButton);
-        }
-      }
-      this.props.clickPay({ type: 'payUCreditCard' });
-    } catch (err) {
-      if (err.message !== 'agreement failed') {
-        this.props.showErrorMsg(
-          err.message ? err.message.toString() : err.toString()
-        );
-      }
-      this.props.endLoading();
-    }
-  };
   onPaymentCompDataChange = (data) => {
-    this.updateConfirmationPanelStatus();
     this.setState({ selectedCardInfo: data }, () => {
       this.props.onPaymentCompDataChange(data);
     });
   };
-  updateConfirmationPanelStatus() {
-    this.props.paymentTypeVal === 'payUCreditCard' &&
-      this.props.paymentStore.setStsToEdit({ key: 'confirmation' });
-  }
-  checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
-    this.setState({
-      requiredList
-    });
-  };
   render() {
     const { isLogin, billingJSX } = this.props;
-    const { creditCardInfoForm } = this.state;
+    const {
+      creditCardInfoForm,
+      isValid,
+      isCompleteCredit,
+      saveLoading
+    } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -354,7 +286,7 @@ class PayOs extends React.Component {
                     <>
                       <div
                         className={`credit-card-content ${
-                          !this.state.isCompleteCredit ? '' : 'hidden'
+                          !isCompleteCredit ? '' : 'hidden'
                         }`}
                         id="credit-card-content"
                       >
@@ -376,13 +308,16 @@ class PayOs extends React.Component {
                                     <span className="red">*</span>
                                     {CreditCardImg}
                                     <form id="payment-form">
-                                      <div id="card-secure-fields"></div>
+                                      <div id="card-secure-fields" />
                                       <button
                                         id="submit"
                                         name="submit"
                                         className="creadit"
                                         type="submit"
-                                        style={{ visibility: 'hidden' }}
+                                        style={{
+                                          visibility: 'hidden',
+                                          position: 'absolute'
+                                        }}
                                       >
                                         Pay
                                       </button>
@@ -407,10 +342,8 @@ class PayOs extends React.Component {
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
                                       value={creditCardInfoForm.cardOwner}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
-                                      onBlur={(e) => this.inputBlur(e)}
+                                      onChange={this.cardInfoInputChange}
+                                      onBlur={this.inputBlur}
                                       maxLength="40"
                                     />
                                     <label
@@ -439,10 +372,8 @@ class PayOs extends React.Component {
                                       className="rc-input__control email"
                                       id="email"
                                       value={creditCardInfoForm.email}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
-                                      onBlur={(e) => this.inputBlur(e)}
+                                      onChange={this.cardInfoInputChange}
+                                      onBlur={this.inputBlur}
                                       name="email"
                                       maxLength="254"
                                     />
@@ -479,10 +410,8 @@ class PayOs extends React.Component {
                                       data-js-pattern="(^\d{10}$)"
                                       data-range-error="The phone number should contain 10 digits"
                                       value={creditCardInfoForm.phoneNumber}
-                                      onChange={(e) =>
-                                        this.cardInfoInputChange(e)
-                                      }
-                                      onBlur={(e) => this.inputBlur(e)}
+                                      onChange={this.cardInfoInputChange}
+                                      onBlur={this.inputBlur}
                                       name="phoneNumber"
                                       maxLength="2147483647"
                                     />
@@ -498,24 +427,11 @@ class PayOs extends React.Component {
                               </div>
                             </div>
                           </div>
-                          <div className="row">
-                            <div className="col-sm-12 rc-margin-y--xs rc-text--center">
-                              <button
-                                className="rc-btn rc-btn--two card-confirm"
-                                id="card-confirm"
-                                type="button"
-                                onClick={this.handleClickCardConfirm}
-                                disabled={!this.state.isValid}
-                              >
-                                <FormattedMessage id="payment.confirmCard" />
-                              </button>
-                            </div>
-                          </div>
                         </div>
                       </div>
                       <div
                         className={`creditCompleteInfoBox pb-3 ${
-                          !this.state.isCompleteCredit ? 'hidden' : ''
+                          !isCompleteCredit ? 'hidden' : ''
                         }`}
                       >
                         <p>
@@ -592,118 +508,18 @@ class PayOs extends React.Component {
           </div>
         </div>
         {billingJSX}
-        {/* 条款 */}
-        <TermsCommon
-          id={this.props.type}
-          listData={this.props.listData}
-          checkRequiredItem={this.checkRequiredItem}
-        />
-        {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
-          <input
-            className="form-check-input ui-cursor-pointer-pure"
-            id="id-checkbox-cat-2"
-            value=""
-            type="checkbox"
-            name="checkbox-2"
-            onChange={() => {
-              this.setState({
-                isReadPrivacyPolicy: !this.state.isReadPrivacyPolicy,
-                isReadPrivacyPolicyInit: false
-              });
-            }}
-            checked={this.state.isReadPrivacyPolicy}
-          />
-          <label
-            htmlFor="id-checkbox-cat-2"
-            className="rc-input__label--inline ui-cursor-pointer-pure"
-          >
-            <FormattedMessage
-              id="payment.confirmInfo3"
-              values={{
-                val1: (
-                  <Link className="red" target="_blank" rel="nofollow" to="/privacypolicy">
-                    Política de privacidad
-                  </Link>
-                ),
-                val2: (
-                  <Link className="red" target="_blank" rel="nofollow" to="/termuse">
-                    la transferencia transfronteriza
-                  </Link>
-                )
-              }}
-            />
-            <div
-              className={`warning ${
-                this.state.isReadPrivacyPolicy ||
-                this.state.isReadPrivacyPolicyInit
-                  ? 'hidden'
-                  : ''
+        {!isCompleteCredit && (
+          <div className="d-flex justify-content-end align-items-center mt-3">
+            <button
+              className={`rc-btn rc-btn--one ${
+                saveLoading ? 'ui-btn-loading' : ''
               }`}
+              // 校验card form表单
+              disabled={!isValid}
+              onClick={this.handleClickCardConfirm}
             >
-              <FormattedMessage id="payment.confirmInfo4" />
-            </div>
-          </label>
-        </div> */}
-        {/* <div className="footerCheckbox ml-custom mr-custom">
-          <input
-            className="form-check-input ui-cursor-pointer-pure"
-            id="id-checkbox-cat-1"
-            value="Cat"
-            type="checkbox"
-            name="checkbox-2"
-            onChange={() => {
-              this.setState({
-                isEighteen: !this.state.isEighteen,
-                isEighteenInit: false
-              });
-            }}
-            checked={this.state.isEighteen}
-          />
-          <label
-            htmlFor="id-checkbox-cat-1"
-            className="rc-input__label--inline ui-cursor-pointer-pure"
-          >
-            <FormattedMessage id="payment.confirmInfo1" />
-            <div
-              className={`warning ${
-                this.state.isEighteen || this.state.isEighteenInit
-                  ? 'hidden'
-                  : ''
-              }`}
-            >
-              <FormattedMessage id="login.secondCheck" />
-            </div>
-          </label>
-        </div> */}
-        {!this.props.isOnepageCheckout && (
-          <div className="place_order-btn pt-4">
-            <div className="next-step-button">
-              <div className="rc-text--right">
-                {this.state.inited ? (
-                  <button
-                    id="payuBtnConfirm1"
-                    className={`rc-btn rc-btn--one submit-payment`}
-                    type="submit"
-                    name="submit"
-                    value="submit-shipping"
-                    onClick={this.clickPay}
-                  >
-                    <FormattedMessage id="payment.further" />
-                  </button>
-                ) : (
-                  <button
-                    id="payuBtnConfirm2"
-                    className={`rc-btn rc-btn--one submit-payment`}
-                    type="submit"
-                    name="submit"
-                    value="submit-shipping"
-                    disabled
-                  >
-                    <FormattedMessage id="payment.further" />
-                  </button>
-                )}
-              </div>
-            </div>
+              <FormattedMessage id="payment.confirmCard" />
+            </button>
           </div>
         )}
       </>

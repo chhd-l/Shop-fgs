@@ -69,7 +69,7 @@ class TermsCommon extends Component {
   render() {
     return (
       <div
-        className="required-wrap"
+        className="required-wrap text-break"
         id={`${this.props.id}`}
         style={{ marginTop: '10px', marginLeft: '25px' }}
       >

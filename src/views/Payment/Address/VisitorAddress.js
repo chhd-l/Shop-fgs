@@ -96,12 +96,12 @@ class VisitorAddress extends React.Component {
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     // todo
-    setTimeout(() => {
-      isMobile &&
-        scrollIntoView(
-          document.querySelector(`#J_checkout_panel_paymentMethod`)
-        );
-    });
+    // setTimeout(() => {
+    //   isMobile &&
+    //     scrollIntoView(
+    //       document.querySelector(`#J_checkout_panel_paymentMethod`)
+    //     );
+    // });
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({

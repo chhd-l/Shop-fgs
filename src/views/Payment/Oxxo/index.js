@@ -180,13 +180,13 @@ class OxxoConfirm extends Component {
           </p>
         </div>
         {billingJSX}
-        <div className="oxxo">
+        {/* <div className="oxxo">
           <TermsCommon
             id={this.props.type}
             listData={this.props.listData}
             checkRequiredItem={this.checkRequiredItem}
           />
-        </div>
+        </div> */}
         {/* <div className="footerCheckbox rc-margin-top--sm ml-custom mr-custom mt-3">
           <input
             className="form-check-input ui-cursor-pointer-pure"

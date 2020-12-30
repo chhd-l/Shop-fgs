@@ -364,6 +364,7 @@ class PaymentEditForm extends React.Component {
                                 ] ||
                                 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
+                              className="img"
                             />
                             </LazyLoad>
                           </span>

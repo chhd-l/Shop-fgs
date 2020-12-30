@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import TermsCommon from '../Terms/common';
 import { EMAIL_REGEXP } from '@/utils/constant';
-import { searchNextConfirmPanel, isPrevReady } from '../modules/utils';
-import { toJS } from 'mobx';
 @inject('loginStore', 'paymentStore')
 @injectIntl
 @observer
@@ -17,7 +14,6 @@ class AdyenCommonPay extends Component {
     super(props);
     this.state = {
       text: '',
-      requiredList: [],
       type: '',
       btnName: '',
       btnNameObj: {
@@ -36,30 +32,6 @@ class AdyenCommonPay extends Component {
     }
   }
 
-  //是否consent必填项勾选
-  isConsentRequiredChecked() {
-    let isAllChecked = this.state.requiredList.every((item) => item.isChecked);
-    if (!isAllChecked) {
-      throw new Error(this.props.intl.messages.CompleteRequiredItems);
-    }
-  }
-
-  checkRequiredItem = (list) => {
-    let requiredList = list.filter((item) => item.isRequired);
-    this.setState({
-      requiredList
-    });
-  };
-
-  clickPay = () => {
-    try {
-      // this.isTestMail();
-      this.isConsentRequiredChecked();
-      this.props.clickPay({ email: this.state.text, type: this.state.type });
-    } catch (err) {
-      this.props.showErrorMsg(err.message);
-    }
-  };
   handleChange = (e) => {
     const val = e.target.value;
     this.setState(
@@ -87,28 +59,7 @@ class AdyenCommonPay extends Component {
         this.setState({ btnName });
       }
     );
-    this.checkRequiredItem(nextProps.listData);
   }
-  handleClickConfirm = () => {
-    this.setState({ isEdit: false });
-    const { paymentStore } = this.props;
-    const curPanelKey = 'paymentMethod';
-    debugger;
-    paymentStore.setStsToCompleted({ key: curPanelKey });
-    const isReadyPrev = isPrevReady({
-      list: toJS(paymentStore.panelStatus),
-      curKey: curPanelKey
-    });
-    // 下一个最近的未complete的panel
-    const nextConfirmPanel = searchNextConfirmPanel({
-      list: toJS(paymentStore.panelStatus),
-      curKey: curPanelKey
-    });
-    isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    // paymentStore.setStsToEdit({ key: 'confirmation' });
-    paymentStore.updateHasConfimedPaymentVal(this.props.type);
-    this.props.updateEmail(this.state.text);
-  };
   render() {
     const { billingJSX } = this.props;
     const { isEdit } = this.state;
@@ -141,20 +92,6 @@ class AdyenCommonPay extends Component {
                   </div>
                 </form>
                 {billingJSX}
-                {/* <div className="overflow-hidden mb-1">
-                  <div className="text-right">
-                    <button
-                      className={`rc-btn rc-btn--one submitBtn editAddress ${
-                        this.state.saveLoading ? 'ui-btn-loading' : ''
-                      }`}
-                      disabled={!this.state.isValid}
-                      onClick={this.handleClickConfirm}
-                    >
-                      <FormattedMessage id="save" />
-                    </button>
-                  </div>
-                </div>
-               */}
               </>
             ) : (
               <div className="d-flex justify-content-between align-items-start">
@@ -178,33 +115,6 @@ class AdyenCommonPay extends Component {
             )}
           </div>
         </div>
-
-        {!this.props.isOnepageCheckout && (
-          <>
-            {/* <div className="pb-3" /> */}
-            <TermsCommon
-              id={this.props.type}
-              listData={this.props.listData}
-              checkRequiredItem={this.checkRequiredItem}
-            />
-            <div className="place_order-btn card rc-bg-colour--brand4 pt-4">
-              <div className="next-step-button">
-                <div className="rc-text--right">
-                  <button
-                    className={`rc-btn rc-btn--one submit-payment`}
-                    type="submit"
-                    name="submit"
-                    value="submit-shipping"
-                    disabled={!this.state.isValid}
-                    onClick={this.clickPay}
-                  >
-                    {this.state.btnName}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
       </>
     );
   }

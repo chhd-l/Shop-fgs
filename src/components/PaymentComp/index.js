@@ -773,21 +773,21 @@ class PaymentComp extends React.Component {
                 className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
               >
                 <LazyLoad>
-                <img
-                  className="PayCardImgFitScreen"
-                  src={
-                    CREDIT_CARD_IMG_ENUM[
-                      el.paymentMethod ? el.paymentMethod.vendor : ''
-                    ]
-                      ? CREDIT_CARD_IMG_ENUM[
-                          el.paymentMethod
-                            ? el.paymentMethod.vendor.toUpperCase()
-                            : ''
-                        ]
-                      : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                  }
-                  alt=""
-                />
+                  <img
+                    className="PayCardImgFitScreen"
+                    src={
+                      CREDIT_CARD_IMG_ENUM[
+                        el.paymentMethod ? el.paymentMethod.vendor : ''
+                      ]
+                        ? CREDIT_CARD_IMG_ENUM[
+                            el.paymentMethod
+                              ? el.paymentMethod.vendor.toUpperCase()
+                              : ''
+                          ]
+                        : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                    }
+                    alt=""
+                  />
                 </LazyLoad>
               </div>
               <div
@@ -884,19 +884,19 @@ class PaymentComp extends React.Component {
                         <FormattedMessage id="payment.apply" />
                       </button>
                       <LazyLoad>
-                      <img
-                        src={successImg}
-                        style={{
-                          display:
-                            el.selected && isCurrentCvvConfirm
-                              ? 'block'
-                              : 'none',
-                          width: '25px',
-                          float: 'right',
-                          marginTop: '20px'
-                        }}
-                        alt=""
-                      />
+                        <img
+                          src={successImg}
+                          style={{
+                            display:
+                              el.selected && isCurrentCvvConfirm
+                                ? 'block'
+                                : 'none',
+                            width: '25px',
+                            float: 'right',
+                            marginTop: '20px'
+                          }}
+                          alt=""
+                        />
                       </LazyLoad>
                       {/* <FormattedMessage id="payment.cardType" /><br />
                         <span className="creditCompleteInfo">{el.cardType}</span> */}
@@ -966,13 +966,13 @@ class PaymentComp extends React.Component {
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
           <LazyLoad>
-          <img
-            key={idx}
-            style={{ width: '50px' }}
-            className="logo-payment-card mr-1"
-            src={el}
-            alt=""
-          />
+            <img
+              key={idx}
+              style={{ width: '50px' }}
+              className="logo-payment-card mr-1"
+              src={el}
+              alt=""
+            />
           </LazyLoad>
         ))}
       </span>
@@ -1063,16 +1063,16 @@ class PaymentComp extends React.Component {
               <div className="row">
                 <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
                   <LazyLoad>
-                  <img
-                    src={
-                      CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
-                        ? CREDIT_CARD_IMG_ENUM[
-                            currentCardInfo.vendor.toUpperCase()
-                          ]
-                        : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                    }
-                    alt=""
-                  />
+                    <img
+                      src={
+                        CREDIT_CARD_IMG_ENUM[currentCardInfo.vendor]
+                          ? CREDIT_CARD_IMG_ENUM[
+                              currentCardInfo.vendor.toUpperCase()
+                            ]
+                          : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                      }
+                      alt=""
+                    />
                   </LazyLoad>
                 </div>
                 <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
@@ -1163,16 +1163,17 @@ class PaymentComp extends React.Component {
                         <div className="cardFormBox">
                           <span className="cardImage">
                             <LazyLoad>
-                            <img
-                              alt="Card"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
-                                  ? CREDIT_CARD_IMG_ENUM[
-                                      this.state.currentVendor.toUpperCase()
-                                    ]
-                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
-                            />
+                              <img
+                                alt="Card"
+                                src={
+                                  CREDIT_CARD_IMG_ENUM[this.state.currentVendor]
+                                    ? CREDIT_CARD_IMG_ENUM[
+                                        this.state.currentVendor.toUpperCase()
+                                      ]
+                                    : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                }
+                                className="img"
+                              />
                             </LazyLoad>
                           </span>
                           <span className="cardForm">
