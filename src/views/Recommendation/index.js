@@ -595,16 +595,16 @@ class Help extends React.Component {
           </section>
 
           {/* 商品信息 begin */}
-          <section className="recommendProduct re-custom">
+          <section className="rc-layout-container rc-three-column recommendProduct re-custom">
             {this.state.loading ? (
               <Skeleton color="#f5f5f5" width="100%" height="100%" count="3" />
             ) : (
                 productList.length && (
-                  <div>
-                    <div className="recommendProductInner" style={{ display: isMobile ? 'none' : 'flex' }}>
+                  <>
+                    <div className="rc-layout-container rc-three-column recommendProductInner" style={{ display: isMobile ? 'none' : 'flex' }}>
 
-                      <div className="d-flex rdt-left-box">
-                        <div className="pic">
+                      <div className="rc-column d-flex rdt-left-box">
+                        {/* <div className="rc-column pic">
                           <ImageMagnifier
                             sizeList={[productList[activeIndex].goodsInfo]}
                             images={[productList[activeIndex].goodsInfo]}
@@ -616,11 +616,39 @@ class Help extends React.Component {
                             }
                             config={false}
                           />
+                        </div> */}
+                        <div className="rc-column rc-double-width carousel-column imageBox">
+                        
+                          <div
+                            className={`rc-full-width`}
+                          >
+                            <div className="d-flex justify-content-center ui-margin-top-1-md-down">
+                              {
+                                <div className="details-img-container">
+                                  
+                                  <ImageMagnifier
+                                    sizeList={[productList[activeIndex].goodsInfo]}
+                                    images={[productList[activeIndex].goodsInfo]}
+                                    minImg={
+                                      productList[activeIndex].goodsInfo.goodsInfoImg
+                                    }
+                                    maxImg={
+                                      productList[activeIndex].goodsInfo.goodsInfoImg
+                                    }
+                                    config={false}
+                                  />
+                                  
+                                </div>
+                              }
+                            </div>
+                          </div>
+                        
                         </div>
                       </div>
 
-                      <div className="d-flex rdt-main-box overflow-hidden position-relative">
-                        <div className="text">
+                      <div className="rc-column d-flex rdt-main-box overflow-hidden position-relative">
+
+                        <div className="rc-column text">
                           <h2
                             title={productList[activeIndex].goodsInfo.goodsInfoName}
                             className="rc-gamma ui-text-overflow-line2 text-break"
@@ -731,7 +759,7 @@ class Help extends React.Component {
                           </p>
                         </div>
 
-                        <div className="position-absolute description">
+                        <div className="rc-column description">
                           <LazyLoad>
                             <img
                               alt=""
@@ -779,12 +807,11 @@ class Help extends React.Component {
                           </div>
                         </div>
 
-
                       </div>
 
-                      <div className="d-flex rdt-right-box overflow-hidden">
+                      <div className="rc-column d-flex rdt-right-box overflow-hidden">
 
-                        <div style={{width:'100%', padding: '32px 32px 20px 32px', textAlign: 'left', fontWeight: '500' }}>
+                        <div style={{width:'100%', padding: '32px 32px 0 32px', textAlign: 'left', fontWeight: '500' }}>
                           <FormattedMessage id="recommendation.recommendationPackage" />
                         </div>
                         <ul>
@@ -824,7 +851,7 @@ class Help extends React.Component {
                             </li>
                           ))}
                         </ul>
-                          <div ref="p" style={{ marginTop: '60px',display:'block',width:'100%' }}>
+                          <div ref="p" style={{ marginTop: '50px',display:'block',width:'100%' }}>
                             {loginStore.isLogin ? (
                               <button
                                 ref="loginButton"
@@ -851,7 +878,7 @@ class Help extends React.Component {
                               )}
                           </div>
                           {!loginStore.isLogin && (
-                            <div style={{width:'100%'}}>
+                            <div style={{width:'100%',marginTop:'10px'}}>
                               <button
                                 className={`rc-styled-link color-999`}
                                 onClick={() => {
@@ -866,7 +893,7 @@ class Help extends React.Component {
                       </div>
 
                     </div>
-                  </div>
+                  </>
                 )
               )}
           </section>

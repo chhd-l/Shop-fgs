@@ -8,7 +8,8 @@
 
 .recommendProduct {
   width: 100%;
-  padding: 50px 108px;
+  // padding: 50px 108px;
+  padding: 0;
 }
 
 .recommendation .product-pricing__card__head {
@@ -253,9 +254,8 @@
   .recommendProduct {
     .recommendProductInner {
       .rdt-left-box {
-        width: 35%;
+        width: 100%;
         background: none;
-        padding: 30px;
 
         .bigImageOutBox {
           border: 1px solid #efefef;
@@ -264,46 +264,62 @@
 
           .bigImageInnerBox {
             width: 100% !important;
+            height: 100% !important;
 
             div {
               width: 100%;
               height: 100%;
               float: left;
             }
+
+            .lazyload-wrapper {
+              position: relative;
+
+              img {
+                width: 80%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+              }
+            }
           }
         }
 
-        .pic {
-          .scrollOutBox {
-            position: relative;
+        .scrollOutBox {
+          position: relative;
+
+          .imageOutBox {
+            width: 100%;
 
             .imageInnerBox {
               margin-top: 30px !important;
             }
+          }
 
-            .rightArrow,
-            .leftArrow {
-              position: absolute;
-              top: 50%;
-              cursor: pointer;
-              transform: translateY(-50%);
-            }
+          .rightArrow,
+          .leftArrow {
+            position: absolute;
+            top: 50%;
+            cursor: pointer;
+            transform: translateY(-50%);
+          }
 
-            .leftArrow {
-              left: 0;
-            }
+          .leftArrow {
+            left: 0;
+          }
 
-            .rightArrow {
-              right: 0;
-            }
+          .rightArrow {
+            right: 0;
           }
         }
       }
 
       .rdt-main-box {
-        width: 40%;
+        width: 100%;
         background: none;
-        flex-wrap: wrap;
+        flex-flow: column;
 
         .text {
           width: 100%;
@@ -319,11 +335,14 @@
         }
 
         .description {
-          left: 0;
-          top: 412px;
 
           .lazyload-wrapper {
             float: left;
+
+            img {
+              max-width: 60px;
+              width: auto !important;
+            }
           }
 
           .des-content {
@@ -340,14 +359,15 @@
 
       .rdt-right-box {
         background-color: #f8f8f8;
-        width: 25%;
+        width: 100%;
         height: auto;
         flex-wrap: wrap;
 
         ul {
-          width:100%;
+          width: 100%;
           margin: 0;
-          padding: 0 30px 30px 30px;max-height: 235px;
+          padding: 0 30px 30px 30px;
+          max-height: 235px;
           overflow: auto;
 
           li {
@@ -365,14 +385,16 @@
               float: left;
               margin-left: 10px;
               margin-top: 10px;
-              img{
-                width:100%;
-                height:100%;
+
+              img {
+                width: 100%;
+                height: 100%;
               }
             }
-            .text-box{
-              color:#828487;
-              font-size:12px;
+
+            .text-box {
+              color: #828487;
+              font-size: 12px;
             }
           }
 
@@ -383,19 +405,20 @@
               background: none !important;
             }
           }
-          
+
 
         }
-        
-        .rc-btn{
+
+        .rc-btn {
           display: block;
-          width:85%;
+          width: 85%;
           margin: 0 auto !important;
         }
-        .rc-styled-link{
+
+        .rc-styled-link {
           display: block;
           margin: 0 auto !important;
-          color:#666666 !important;
+          color: #666666 !important;
         }
 
       }
