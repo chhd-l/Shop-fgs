@@ -541,7 +541,7 @@ class List extends React.Component {
     for (let index = 0; index < breadList.length; index++) {
       const element = breadList[index];
       let tmpEle = { ...element };
-      if (!element.link) {
+      if (!element.link && breadList[++index]) {
         tmpEle = Object.assign(tmpEle, {
           name: [element.name, breadList[++index].name].join(': ')
         });
@@ -1464,7 +1464,10 @@ class List extends React.Component {
                     </div>
                     <div
                       className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
-                      style={{ padding: '0 1rem', boxShadow: '0 2px 4px #f1f1f1' }}
+                      style={{
+                        padding: '0 1rem',
+                        boxShadow: '0 2px 4px #f1f1f1'
+                      }}
                     >
                       <span
                         style={{ marginRight: '1em' }}
