@@ -925,11 +925,13 @@ class Help extends React.Component {
                                       <span className="proName">
                                         {el.goodsInfo.specText}
                                       </span>
-                                      <span> X {el.recommendationNumber}</span>
+                                      <span style={{margin:'0 5px'}}> X </span>
+                                      <span>{el.recommendationNumber}</span>
                                     </div>
                                     {false && MaxLinePrice > 0 && (
                                       <div className="d-flex product-pricing__card__head">
                                         <div className="rc-input product-pricing__card__head__title">
+                                          <span className="iconfont">&#xe675;</span>
                                           <FormattedMessage id="listPrice" />
                                         </div>
                                         <b
@@ -983,6 +985,7 @@ class Help extends React.Component {
                                     {MaxSubPrice > 0 && (
                                       <div className="d-flex product-pricing__card__head">
                                         <div className="rc-input product-pricing__card__head__title">
+                                          <span className="iconfont">&#xe675;</span>
                                           <FormattedMessage id="autoship" />
                                         </div>
                                         <b
@@ -1007,7 +1010,7 @@ class Help extends React.Component {
                                         </b>
                                       </div>
                                     )}
-                                    <div class="arrow-right-btn position-absolute"></div>
+                                    <div className="arrow-right-btn position-absolute"></div>
 
                                   </div>
                                 </li>
@@ -1054,50 +1057,52 @@ class Help extends React.Component {
                               )}
                             </div>
                             <div className="rc-column description">
-                              <LazyLoad>
-                                <img
-                                  alt=""
-                                  src={storeLogo}
-                                  style={{
-                                    float: 'left',
-                                    width: '60px',
-                                    marginRight: '20px'
-                                  }}
-                                />
-                              </LazyLoad>
-                              <div className="des-content">
-                                <p
-                                  style={{
-                                    fontSize: '18px',
-                                    color: '#333333',
-                                    fontWeight: '500',
-                                    letterSpacing: '0'
-                                  }}
-                                >
-                                  {prescriberInfo.prescriberName}
-                                </p>
-                                <p
-                                  style={{
-                                    fontSize: '12px',
-                                    letterSpacing: '0'
-                                  }}
-                                >
-                                  {`${prescriberInfo.phone
-                                    ? prescriberInfo.phone + ','
-                                    : ''
-                                    }${prescriberInfo.primaryZip
-                                      ? prescriberInfo.primaryZip + ','
+                              <div className="rec-other-info">
+                                <LazyLoad>
+                                  <img
+                                    alt=""
+                                    src={storeLogo}
+                                    style={{
+                                      float: 'left',
+                                      width: '60px',
+                                      marginRight: '20px'
+                                    }}
+                                  />
+                                </LazyLoad>
+                                <div className="des-content">
+                                  <p
+                                    style={{
+                                      fontSize: '18px',
+                                      color: '#333333',
+                                      fontWeight: '500',
+                                      letterSpacing: '0'
+                                    }}
+                                  >
+                                    {prescriberInfo.prescriberName}
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: '12px',
+                                      letterSpacing: '0'
+                                    }}
+                                  >
+                                    {`${prescriberInfo.phone
+                                      ? prescriberInfo.phone + ','
                                       : ''
-                                    }${prescriberInfo.primaryCity}`}
-                                </p>
-                                <p
-                                  style={{
-                                    fontSize: '12px',
-                                    letterSpacing: '0'
-                                  }}
-                                >
-                                  {`${prescriberInfo.location}`}
-                                </p>
+                                      }${prescriberInfo.primaryZip
+                                        ? prescriberInfo.primaryZip + ','
+                                        : ''
+                                      }${prescriberInfo.primaryCity}`}
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: '12px',
+                                      letterSpacing: '0'
+                                    }}
+                                  >
+                                    {`${prescriberInfo.location}`}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
