@@ -1600,6 +1600,9 @@ class Payment extends React.Component {
                 showOperateBtn={false}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
               />
             ) : (
               <VisitorAddress

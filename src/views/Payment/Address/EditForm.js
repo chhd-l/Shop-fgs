@@ -43,7 +43,9 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
-    this.setState({ address: Object.assign(address, initData) });
+    this.setState({ address: Object.assign(address, initData) }, () => {
+      this.props.updateData(this.state.address);
+    });
 
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({

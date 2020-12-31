@@ -263,8 +263,6 @@ class AccountOrders extends React.Component {
     this.setState({ orderList: orderList });
   }
   async handleClickPayNow(order) {
-    console.log(order)
-    debugger
     const { orderList } = this.state;
     order.payNowLoading = true;
     this.setState({ orderList: orderList });
