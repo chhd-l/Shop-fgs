@@ -168,8 +168,8 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        option = '',
+        step = 1
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
@@ -186,11 +186,16 @@ class LoginCart extends React.Component {
         sku:item.goodsInfos[0].goodsInfoNo
       })
     }     
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
+    try{
+      dataLayer[0].checkout.basketAmount = basketAmount
+      dataLayer[0].checkout.basketID = basketID
+      dataLayer[0].checkout.option = option
+      dataLayer[0].checkout.product = product
+      dataLayer[0].checkout.step = step
+    }catch(err){
+      console.log(err)
+    }
+    
   }
   setData() {
     //每次数据变化调用

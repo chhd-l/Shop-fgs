@@ -147,6 +147,7 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
+        this.props.updateSelectedId(tmpSelectedId);
         this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
         //把绑卡的encryptedSecurityCode传入
         await this.props.queryList({
@@ -259,26 +260,6 @@ class AdyenCreditCardForm extends React.Component {
             </div>
           ) : null}
         </div>
-        {isOnepageCheckout &&
-          !this.isLogin &&
-          this.paymentMethodPanelStatus.isCompleted && (
-            <div className="border pb-2">
-              <p>
-                <span
-                  className="pull-right ui-cursor-pointer-pure mr-2"
-                  onClick={() => {
-                    paymentStore.updatePanelStatus2('paymentMethod', {
-                      isPrepare: false,
-                      isEdit: true,
-                      isCompleted: false
-                    });
-                  }}
-                >
-                  <FormattedMessage id="edit" />
-                </span>
-              </p>
-            </div>
-          )}
       </>
     );
   }

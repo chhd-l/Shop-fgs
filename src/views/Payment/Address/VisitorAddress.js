@@ -79,7 +79,6 @@ class VisitorAddress extends React.Component {
     if (this.curPanelKey === 'deliveryAddr') {
       billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
-    dataLayer[0].checkout.step = 3;
 
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
