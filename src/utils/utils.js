@@ -187,7 +187,7 @@ export function generatePayUScript(deviceSessionId) {
 
 export function loadJS({
   url,
-  callback = function () { },
+  callback = function () {},
   dataSets,
   code,
   className,
@@ -732,8 +732,12 @@ export { datePickerConfig };
  * @param {Number/String} id 需要匹配的id
  */
 export function matchNamefromDict(dictList = [], id) {
-  return dictList.filter((ele) => ele && ele.id.toString() === id && id.toString())[0]
-    ? dictList.filter((ele) => ele && ele.id.toString() === id && id.toString())[0].name
+  return dictList.filter(
+    (ele) => ele && id && ele.id.toString() === id.toString()
+  )[0]
+    ? dictList.filter(
+        (ele) => ele && id && ele.id.toString() === id.toString()
+      )[0].name
     : id;
 }
 //js获取地址栏参数，并将其转换为json对象

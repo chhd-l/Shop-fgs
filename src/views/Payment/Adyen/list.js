@@ -225,11 +225,11 @@ class AdyenCreditCardList extends React.Component {
     el && el.adyenPaymentMethod && this.loadCvv(el);
     this.updateFormValidStatus(el);
   };
-  updateFormValidStatus(el) {
+  updateFormValidStatus = (el) => {
     this.props.updateFormValidStatus(
       el && el.encryptedSecurityCode ? true : false
     );
-  }
+  };
   loadCvv = (el) => {
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
