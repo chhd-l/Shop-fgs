@@ -171,7 +171,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad style={{ width: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
