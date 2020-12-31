@@ -4,15 +4,10 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
+import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import {
-  getDictionary,
-  validData,
-  getDeviceType,
-  matchNamefromDict
-} from '@/utils/utils';
-import {
-  searchNextConfirmPanel
-  // scrollIntoView
+  searchNextConfirmPanel,
+  scrollPaymentPanelIntoView
 } from '../modules/utils';
 import './VisitorAddress.css';
 
@@ -36,8 +31,7 @@ class VisitorAddress extends React.Component {
       isValid: false,
       form: this.props.initData,
       countryList: [],
-      billingChecked: true,
-      isMobile: getDeviceType() === 'H5'
+      billingChecked: true
     };
   }
   componentDidMount() {
@@ -68,23 +62,22 @@ class VisitorAddress extends React.Component {
       this.setState({ isValid: false }, () => {
         this.props.updateFormValidStatus(this.state.isValid);
       });
-      console.log(err);
     }
   };
   handleEditFormChange = (data) => {
     this.validData({ data });
   };
   handleClickConfirm = () => {
-    const { isMobile, isValid, form } = this.state;
     const { paymentStore } = this.props;
+    const { isValid, form, billingChecked } = this.state;
     if (!isValid) {
       return false;
     }
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
-      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    if (this.curPanelKey === 'deliveryAddr') {
+      billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
     dataLayer[0].checkout.step = 3;
 
@@ -94,13 +87,11 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    // todo
-    // setTimeout(() => {
-    //   isMobile &&
-    //     scrollIntoView(
-    //       document.querySelector(`#J_checkout_panel_paymentMethod`)
-    //     );
-    // });
+    if (this.curPanelKey === 'deliveryAddr') {
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
+    }
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({

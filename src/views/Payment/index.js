@@ -1404,6 +1404,14 @@ class Payment extends React.Component {
   };
 
   updateSameAsCheckBoxVal = (val) => {
+    const { paymentStore } = this.props;
+    const curPanelKey = 'billingAddr';
+    // 切换时，需更改 billing module的isPrepared = false, isEdit = true
+    if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
+      this.props.paymentStore.setStsToEdit({
+        key: curPanelKey
+      });
+    }
     this.setState({ billingChecked: val });
     if (val) {
       this.setState({
