@@ -139,7 +139,7 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore.promotionDiscount;
   }
   get isPromote() {
-    return parseInt(this.discountPrice) > 0;
+    return parseFloat(this.discountPrice) > 0;
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
@@ -360,7 +360,7 @@ class LoginCart extends React.Component {
       });
     } else {
       const { quantityMinLimit, quantityMaxLimit } = this.state;
-      let tmp = parseInt(val);
+      let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
@@ -1333,7 +1333,7 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         <div
           className={`row leading-lines shipping-item green ${
-            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
+            parseFloat(this.discountPrice) > 0 && this.state.discount.length === 0
               ? 'd-flex'
               : 'hidden'
           }`}
