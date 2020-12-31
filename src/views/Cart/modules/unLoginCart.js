@@ -174,11 +174,15 @@ class UnLoginCart extends React.Component {
         sku: goodsInfoNo
       })
     }
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
+    try{
+      dataLayer[0].checkout.basketAmount = basketAmount
+      dataLayer[0].checkout.basketID = basketID
+      dataLayer[0].checkout.option = option
+      dataLayer[0].checkout.product = product
+      dataLayer[0].checkout.step = step
+    }catch(err){
+      console.log(err)
+    }
   }
   setCartData() {
     this.GACheckUnLogin(this.props.checkoutStore.cartData)
