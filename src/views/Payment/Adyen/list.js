@@ -94,6 +94,12 @@ class AdyenCreditCardList extends React.Component {
       });
       let cardList = res.context;
 
+      // 初始化时，重置保存卡列表的isLoadCvv状态
+      Array.from(cardList, (c) => {
+        c.isLoadCvv = false;
+        return c;
+      });
+
       // 给刚保存的卡默认加上CVV start
       if (currentCardEncryptedSecurityCode) {
         const firstSaveCard = find(
@@ -146,6 +152,7 @@ class AdyenCreditCardList extends React.Component {
     if (el.paymentToken) {
       el.confirmTooltipVisible = false;
       const currentId = el.id;
+      el.isLoadCvv = false;
       this.setState(
         {
           listLoading: true,
@@ -168,11 +175,11 @@ class AdyenCreditCardList extends React.Component {
           this.props.showErrorMsg(err.message);
           this.setState(
             {
-              listLoading: false
-              // selectedId: currentId
+              listLoading: false,
+              selectedId: currentId
             },
             () => {
-              // this.handlUpdateSelectedId();
+              this.hanldeUpdateSelectedCardInfo();
             }
           );
         });
@@ -304,7 +311,7 @@ class AdyenCreditCardList extends React.Component {
   }
   handleClickAddBtn = () => {
     this.setState({ formVisible: true, selectedId: '' }, () => {
-      this.handlUpdateSelectedId();
+      this.hanldeUpdateSelectedCardInfo();
     });
     scrollPaymentPanelIntoView();
   };
@@ -315,7 +322,7 @@ class AdyenCreditCardList extends React.Component {
       hideOthers: true
     });
     this.setState({ formVisible: true, selectedId: '' }, () => {
-      this.handlUpdateSelectedId();
+      this.hanldeUpdateSelectedCardInfo();
     });
   };
   renderOneCard = ({ data, showLastFour = true }) => {
@@ -534,11 +541,6 @@ class AdyenCreditCardList extends React.Component {
         brand: data.brand
       };
     }
-    // 会员，选择不保存卡情况下，重置保存卡列表的isLoadCvv状态
-    Array.from(cardList, (c) => {
-      c.isLoadCvv = false;
-      return c;
-    });
     // 会员，选择不保存卡情况下，卡信息存储data字段中
     if (!data.storePaymentMethod) {
       this.setState({
