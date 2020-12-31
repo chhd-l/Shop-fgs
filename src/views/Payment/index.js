@@ -1404,29 +1404,6 @@ class Payment extends React.Component {
   };
 
   updateSameAsCheckBoxVal = (val) => {
-    const { paymentStore } = this.props;
-    const curPanelKey = 'billingAddr';
-    // 切换时，需更改 billing module的isPrepared = false, isEdit = true
-    if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
-      this.props.paymentStore.setStsToEdit({
-        key: curPanelKey
-      });
-    }
-
-    if (val) {
-      paymentStore.setStsToCompleted({ key: curPanelKey });
-      // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: curPanelKey
-      });
-      const isReadyPrev = isPrevReady({
-        list: toJS(paymentStore.panelStatus),
-        curKey: curPanelKey
-      });
-
-      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    }
     this.setState({ billingChecked: val });
     if (val) {
       this.setState({
@@ -1745,20 +1722,19 @@ class Payment extends React.Component {
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
 
-    const payConfirmBtn = (
-      <div className="d-flex justify-content-end mt-3">
-        <button
-          className={`rc-btn rc-btn--one`}
-          // 校验状态
-          // 1 校验邮箱
-          // 2 billing校验
-          disabled={!EMAIL_REGEXP.test(email) || validForBilling}
-          onClick={this.clickConfirmPaymentPanel}
-        >
-          <FormattedMessage id="yes" />
-        </button>
-      </div>
-    );
+    const payConfirmBtn = ({ disabled, loading = false }) => {
+      return (
+        <div className="d-flex justify-content-end mt-3">
+          <button
+            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            disabled={disabled}
+            onClick={this.clickConfirmPaymentPanel}
+          >
+            <FormattedMessage id="yes" />
+          </button>
+        </div>
+      );
+    };
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
@@ -1807,94 +1783,69 @@ class Payment extends React.Component {
               <OxxoConfirm
                 type={'oxxo'}
                 updateEmail={this.updateEmail}
-                billingJSX={
-                  paymentTypeVal === 'oxxo' &&
-                  this.renderBillingJSX({ type: 'oxxo' })
-                }
+                billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
               />
               {payConfirmBtn}
             </>
           )}
           {/* payu creditCard */}
-          <div
-            className={`${paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'}`}
-          >
-            <PayUCreditCard
-              type={'PayUCreditCard'}
-              isLogin={this.isLogin}
-              paymentTypeVal={paymentTypeVal}
-              showErrorMsg={this.showErrorMsg}
-              onVisitorPayosDataConfirm={(data) => {
-                this.setState({ payosdata: data });
-              }}
-              onVisitorCardInfoChange={(data) => {
-                this.setState({ creditCardInfo: data });
-              }}
-              onPaymentCompDataChange={(data) => {
-                this.setState({ selectedCardInfo: data });
-              }}
-              isApplyCvv={false}
-              needReConfirmCVV={true}
-              billingJSX={
-                paymentTypeVal === 'payUCreditCard' &&
-                this.renderBillingJSX({ type: 'payUCreditCard' })
-              }
-              selectedDeliveryAddress={this.selectedDeliveryAddress}
-            />
-            {paymentTypeVal === 'payUCreditCard' &&
-              Object.keys(selectedCardInfo || {}).length > 0 && (
+          {paymentTypeVal === 'payUCreditCard' && (
+            <>
+              <PayUCreditCard
+                type={'PayUCreditCard'}
+                isLogin={this.isLogin}
+                paymentTypeVal={paymentTypeVal}
+                showErrorMsg={this.showErrorMsg}
+                onVisitorPayosDataConfirm={(data) => {
+                  this.setState({ payosdata: data });
+                }}
+                onVisitorCardInfoChange={(data) => {
+                  this.setState({ creditCardInfo: data });
+                }}
+                onPaymentCompDataChange={(data) => {
+                  this.setState({ selectedCardInfo: data });
+                }}
+                isApplyCvv={false}
+                needReConfirmCVV={true}
+                billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
+                selectedDeliveryAddress={this.selectedDeliveryAddress}
+              />
+              {Object.keys(selectedCardInfo || {}).length > 0 && (
                 <>
                   {this.renderBillingJSX({ type: 'payUCreditCard' })}
-                  <div className="d-flex justify-content-end mt-3">
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        saveBillingLoading ? 'ui-btn-loading' : ''
-                      }`}
-                      // 校验状态
+                  {/* // 校验状态
                       // 1 卡，校验是否存在encryptedSecurityCode
-                      // 2 billing校验
-                      disabled={!selectedCardInfo.cardCvv || validForBilling}
-                      onClick={this.clickConfirmPaymentPanel}
-                    >
-                      <FormattedMessage id="yes" />
-                    </button>
-                  </div>
+                      // 2 billing校验 */}
+                  {payConfirmBtn({
+                    disabled: !selectedCardInfo.cardCvv || validForBilling,
+                    loading: saveBillingLoading
+                  })}
                 </>
               )}
-          </div>
+            </>
+          )}
           {/* adyenCreditCard */}
-          <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
-            <AdyenCreditCard
-              ref={this.adyenCardRef}
-              subBuyWay={subForm.buyWay}
-              showErrorMsg={this.showErrorMsg}
-              updateAdyenPayParam={this.updateAdyenPayParam}
-              updateFormValidStatus={this.updateValidStatus.bind(this, {
-                key: 'adyenCard'
+          {paymentTypeVal === 'adyenCard' && (
+            <>
+              <AdyenCreditCard
+                ref={this.adyenCardRef}
+                subBuyWay={subForm.buyWay}
+                showErrorMsg={this.showErrorMsg}
+                updateAdyenPayParam={this.updateAdyenPayParam}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'adyenCard'
+                })}
+                billingJSX={this.renderBillingJSX({ type: 'adyenCard' })}
+              />
+              {/* 校验状态
+                  1 卡校验，从adyen form传入校验状态
+                  2 billing校验 */}
+              {payConfirmBtn({
+                disabled: !validSts.adyenCard || validForBilling,
+                loading: saveBillingLoading
               })}
-              billingJSX={
-                paymentTypeVal === 'adyenCard' &&
-                this.renderBillingJSX({ type: 'adyenCard' })
-              }
-            />
-            {/* 出现卡列表时，才显示此按钮 */}
-            {paymentTypeVal === 'adyenCard' && (
-              <div className="d-flex justify-content-end mt-3">
-                <button
-                  className={`rc-btn rc-btn--one ${
-                    saveBillingLoading ? 'ui-btn-loading' : ''
-                  }`}
-                  // 校验状态
-                  // 1 卡校验，从adyen form传入校验状态
-                  // 2 billing校验
-                  disabled={!validSts.adyenCard || validForBilling}
-                  onClick={this.clickConfirmPaymentPanel}
-                >
-                  <FormattedMessage id="yes" />
-                </button>
-              </div>
-            )}
-          </div>
+            </>
+          )}
           {/* KlarnaPayLater */}
           {paymentTypeVal === 'adyenKlarnaPayLater' && (
             <>
@@ -1905,7 +1856,12 @@ class Payment extends React.Component {
                   type: 'adyenKlarnaPayLater'
                 })}
               />
-              {payConfirmBtn}
+              {/* // 校验状态
+            // 1 校验邮箱
+            // 2 billing校验 */}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* KlarnaPayNow  */}
@@ -1918,7 +1874,9 @@ class Payment extends React.Component {
                   type: 'adyenKlarnaPayNow'
                 })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* Sofort */}
@@ -1929,7 +1887,9 @@ class Payment extends React.Component {
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({ type: 'directEbanking' })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
 
