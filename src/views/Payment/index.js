@@ -1980,12 +1980,16 @@ class Payment extends React.Component {
       billingAddress: form,
       adyenPayParam,
       payosdata,
-      selectedCardInfo: { payuPaymentMethod },
+      selectedCardInfo,
       tid
     } = this.state;
     let adyenPaymentMethod;
+    let payuPaymentMethod;
     if (adyenPayParam) {
       adyenPaymentMethod = { ...adyenPayParam.adyenPaymentMethod };
+    }
+    if (selectedCardInfo) {
+      payuPaymentMethod = selectedCardInfo.payuPaymentMethod;
     }
     let lastFourDeco;
     let brandDeco;
