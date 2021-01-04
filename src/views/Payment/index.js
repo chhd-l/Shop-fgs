@@ -1641,48 +1641,56 @@ class Payment extends React.Component {
     this.setState({ saveBillingLoading: true });
 
     async function handleClickSaveForm(_this) {
-      if (
-        _this.adyenCardRef &&
-        _this.adyenCardRef.current &&
-        _this.adyenCardRef.current.cardListRef &&
-        _this.adyenCardRef.current.cardListRef.current
-      ) {
-        await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+      try {
+        if (
+          _this.adyenCardRef &&
+          _this.adyenCardRef.current &&
+          _this.adyenCardRef.current.cardListRef &&
+          _this.adyenCardRef.current.cardListRef.current
+        ) {
+          await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        }
+      } catch (e) {
+        throw new Error(e.message);
       }
     }
 
-    if (isLogin) {
-      // 1 save billing addr, when billing checked status is false
-      if (
-        !billingChecked &&
-        this.loginBillingAddrRef &&
-        this.loginBillingAddrRef.current
-      ) {
-        await this.loginBillingAddrRef.current.handleSave();
-      }
-      // 2 save card form, when add a new card
-      if (!adyenPayParam) {
+    try {
+      if (isLogin) {
+        // 1 save billing addr, when billing checked status is false
+        if (
+          !billingChecked &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          await this.loginBillingAddrRef.current.handleSave();
+        }
+        // 2 save card form, when add a new card
+        if (!adyenPayParam) {
+          await handleClickSaveForm(this);
+        }
+      } else {
+        // 1 save card form
+        // 2 save billing addr, when billing checked status is false
         await handleClickSaveForm(this);
+        if (
+          !billingChecked &&
+          this.unLoginBillingAddrRef &&
+          this.unLoginBillingAddrRef.current
+        ) {
+          this.unLoginBillingAddrRef.current.handleClickConfirm();
+        }
       }
-    } else {
-      // 1 save card form
-      // 2 save billing addr, when billing checked status is false
-      await handleClickSaveForm(this);
-      if (
-        !billingChecked &&
-        this.unLoginBillingAddrRef &&
-        this.unLoginBillingAddrRef.current
-      ) {
-        this.unLoginBillingAddrRef.current.handleClickConfirm();
-      }
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+      paymentStore.setStsToEdit({ key: 'confirmation' });
+    } catch (e) {
+    } finally {
+      this.setState({ saveBillingLoading: false });
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
     }
-    paymentStore.setStsToCompleted({ key: 'billingAddr' });
-    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-    paymentStore.setStsToEdit({ key: 'confirmation' });
-    this.setState({ saveBillingLoading: false });
-    setTimeout(() => {
-      scrollPaymentPanelIntoView();
-    });
   };
 
   handleClickPaymentPanelEdit = () => {

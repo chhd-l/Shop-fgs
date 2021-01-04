@@ -169,6 +169,7 @@ class AdyenCreditCardForm extends React.Component {
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
+      throw new Error(err.message);
     }
   };
   handleClickCancel = () => {
