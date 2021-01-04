@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import find from 'lodash/find';
-import { formatMoney, getFrequencyDict } from '@/utils/utils';
+import { formatMoney, getFrequencyDict, matchNamefromDict } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 
@@ -30,11 +29,6 @@ class PayProductInfo extends React.Component {
         frequencyList: res
       });
     });
-  }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id.toString() === id.toString())
-      ? find(dictList, (ele) => ele.id.toString() === id.toString()).name
-      : id;
   }
   handleClickProName(item) {
     if (this.props.navigateToProDetails) {
@@ -99,8 +93,8 @@ class PayProductInfo extends React.Component {
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
-                        <FormattedMessage id="subscription.frequency" /> : {' '}
-                        {this.matchNamefromDict(
+                        <FormattedMessage id="subscription.frequency" /> :{' '}
+                        {matchNamefromDict(
                           this.state.frequencyList,
                           item.periodTypeId
                         )}{' '}
@@ -121,35 +115,38 @@ class PayProductInfo extends React.Component {
                           {formatMoney(item.num * item.originalPrice)}
                         </span>
                         <br />
-                        <span style={{color:'red'}}>{formatMoney(item.price)}</span>
+                        <span style={{ color: 'red' }}>
+                          {formatMoney(item.price)}
+                        </span>
                       </>
-                    ) : <span>{formatMoney(item.price)}</span>}
+                    ) : (
+                      <span>{formatMoney(item.price)}</span>
+                    )}
                   </div>
                 </div>
                 {/* subscriptionDiscountPrice */}
                 <div className="item-title">
-                  {
-                    item.subscriptionDiscountPrice
-                    ?<div>
+                  {item.subscriptionDiscountPrice ? (
+                    <div>
                       <span
                         className="iconfont font-weight-bold green"
                         style={{ fontSize: '.8em' }}
                       >
                         &#xe675;
                       </span>
-                      &nbsp; 
-                      <FormattedMessage id="confirmation.subscriptionDiscountPriceDes" values={{
-                        val1:(
-                          <span className="green">
-                            {formatMoney(
-                              item.subscriptionDiscountPrice)}
-                          </span>
-                        )
-                      }} />
+                      &nbsp;
+                      <FormattedMessage
+                        id="confirmation.subscriptionDiscountPriceDes"
+                        values={{
+                          val1: (
+                            <span className="green">
+                              {formatMoney(item.subscriptionDiscountPrice)}
+                            </span>
+                          )
+                        }}
+                      />
                     </div>
-                    :null
-                  }
-                  
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -204,7 +201,7 @@ class PayProductInfo extends React.Component {
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* 显示 delivereyPrice */}
                     <div className="row leading-lines shipping-item">
                       <div className="col-7 start-lines">

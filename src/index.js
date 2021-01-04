@@ -15,7 +15,8 @@ ReactDOM.render(
   </React.StrictMode>,*/
   document.getElementById('root')
 );
-
+console.log('★★★★★★★★★ 当前国家： ',process.env.REACT_APP_GA_COUNTRY);
+console.log('★★★★★★★★★ 当前环境： ',process.env.REACT_APP_GA_ENV);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

@@ -8,7 +8,6 @@ class PaymentStore {
 
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
-  @observable hasConfimedPaymentVal = '';
   @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
@@ -113,6 +112,7 @@ class PaymentStore {
       for (let tmpKey in panelStatusJS) {
         const tmpSts = this.panelStatus[tmpKey].status;
         if (tmpSts.isEdit) {
+          tmpSts.isEdit = false;
           tmpSts.isPrepare = true;
         }
       }
@@ -143,11 +143,6 @@ class PaymentStore {
         tmpSts.isPrepare = false;
       }
     }
-  }
-
-  @action.bound
-  updateHasConfimedPaymentVal(val) {
-    this.hasConfimedPaymentVal = val;
   }
 
   @action.bound

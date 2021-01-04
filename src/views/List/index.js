@@ -171,7 +171,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad style={{ width: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
@@ -541,9 +541,11 @@ class List extends React.Component {
     for (let index = 0; index < breadList.length; index++) {
       const element = breadList[index];
       let tmpEle = { ...element };
-      if (!element.link) {
+      const nextItem = breadList[index + 1];
+      if (!element.link && nextItem) {
+        index++;
         tmpEle = Object.assign(tmpEle, {
-          name: [element.name, breadList[++index].name].join(': ')
+          name: [element.name, nextItem.name].join(': ')
         });
       }
       ret.push(tmpEle);
@@ -641,13 +643,21 @@ class List extends React.Component {
               r.navigationLink,
               // r.cateRouter,
               `${r.navigationLink}?${r.keywords}`
-            ].includes(decodeURIComponent(pathname + search)) ||
+            ].includes(
+              decodeURIComponent(pathname.replace(/\/$/, '') + search)
+            ) ||
             [
               r.navigationLink,
               r.cateRouter,
               `${r.navigationLink}?${r.keywords}`
-            ].includes(pathname)
+            ].includes(pathname.replace(/\/$/, ''))
         )[0];
+
+        // 暂时加一个判断，特定路由storeCateId为空
+        // if(pathname=='/list/keywords'){
+        //   targetRouter.storeCateId = ''
+        // }
+
         let sortParam = null;
         let cateIds = [];
         let filters = [];
@@ -713,7 +723,6 @@ class List extends React.Component {
             link: e.navigationLink || e.cateRouter
           }))
           .reverse();
-
         // set SEO
         this.setSEO({ cateIds });
 
@@ -1050,7 +1059,9 @@ class List extends React.Component {
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds,
+      //storeCateIds,
+      storeCateIds:
+        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
@@ -1461,8 +1472,11 @@ class List extends React.Component {
                       )
                     </div>
                     <div
-                      className="d-flex justify-content-between align-items-center rc-md-down"
-                      style={{ padding: '0 1rem' }}
+                      className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
+                      style={{
+                        padding: '0 1rem',
+                        boxShadow: '0 2px 4px #f1f1f1'
+                      }}
                     >
                       <span
                         style={{ marginRight: '1em' }}
@@ -1482,7 +1496,8 @@ class List extends React.Component {
                             placeholder={<FormattedMessage id="sortBy" />}
                             customInnerStyle={{
                               paddingTop: '.7em',
-                              paddingBottom: '.7em'
+                              paddingBottom: '.7em',
+                              bottom: 0
                             }}
                             customStyleType="select-one"
                           />

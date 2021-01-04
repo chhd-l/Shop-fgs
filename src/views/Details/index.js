@@ -42,6 +42,7 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
+import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -186,7 +187,8 @@ class Details extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
-      spuImages: []
+      spuImages: [],
+      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -197,11 +199,11 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+    
+    const requestJson = getRequest() 
+    this.setState({requestJson})
+
+
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -552,7 +554,6 @@ class Details extends React.Component {
             errMsg: <FormattedMessage id="details.errMsg" />
           });
         }
-
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
 
@@ -563,22 +564,28 @@ class Details extends React.Component {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
               if (index === 0) {
                 // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
-                let filterproduct = goodsInfos.filter((goodEl) =>
+                let filterproducts = goodsInfos.filter((goodEl) =>
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                )[0];
-                sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                sdItem.isEmpty = filterproduct.stock === 0;
+                );
+                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(item => item.stock === 0)
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-                console.log(filterproduct, 'filterproduct');
               }
               return sdItem.specId === sItem.specId;
             });
-            sItem.chidren[0].selected = true;
+            for(let i = 0; i < sItem.chidren.length; i++) {
+              if(sItem.chidren[i].isEmpty) {
+                
+              }else {
+                sItem.chidren[i].selected = true;
+                break
+              }
+            }
             return sItem;
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-
+          
           sizeList = goodsInfos.map((g) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
@@ -587,7 +594,7 @@ class Details extends React.Component {
             // }
             return g;
           });
-
+          console.log(sizeList, 'sizeList')
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
@@ -718,11 +725,21 @@ class Details extends React.Component {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
 
-          sizeList = goodsInfos.map((g) => {
+          sizeList = goodsInfos.map((g, i) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
             // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
+            if(i === 0) {
+              g = Object.assign({}, g, { selected: true });
+            }else {
+              g = Object.assign({}, g, { selected: false });
+            }
+            
+            if(g.selected && !g.subscriptionPrice) {
+              let { form } = this.state
+              form.buyWay = 0
+              this.setState({form})
+            }
             // }
             return g;
           });
@@ -954,6 +971,10 @@ class Details extends React.Component {
       if (parseInt(form.buyWay)) {
         param.periodTypeId = form.frequencyId;
       }
+
+      if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+        param = {...param,...this.state.requestJson}
+      }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
       if (this.state.isMobile) {
@@ -1170,6 +1191,7 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
+    
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1388,7 +1410,6 @@ class Details extends React.Component {
                   ? cur_selected_size[0].marketPrice
                   : cur_selected_size[0].subscriptionPrice,
               brand: item.brandName || 'Royal Canin',
-              // category: (!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant: parseInt(variant),
               quantity: num,
@@ -1399,7 +1420,6 @@ class Details extends React.Component {
         }
       }
     });
-    console.log('添加购物车埋点dataLayer', dataLayer);
   }
   //商品详情页 埋点
   GAProductDetailPageView(item) {
@@ -1530,6 +1550,7 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
+            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
@@ -1770,7 +1791,7 @@ class Details extends React.Component {
                                         key={i}
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
-                                        }`}
+                                        } ${sdItem.isEmpty ? 'outOfStock': ''}`}
                                         onClick={() => {
                                           if (sdItem.isEmpty) {
                                             return false;
@@ -1783,7 +1804,7 @@ class Details extends React.Component {
                                           }
                                         }}
                                       >
-                                        <span>
+                                        <span style={{backgroundColor: sdItem.isEmpty? '#ccc': '#fff', cursor: sdItem.isEmpty? 'not-allowed': 'pointer'}}>
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
                                           {sdItem.detailName}
                                         </span>

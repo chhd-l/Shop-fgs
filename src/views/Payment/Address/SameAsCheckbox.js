@@ -8,31 +8,14 @@ const localItemRoyal = window.__.localItemRoyal;
 @inject('loginStore')
 @observer
 class SameAsCheckbox extends React.Component {
-  static defaultProps = { type: '' };
+  static defaultProps = { type: '', initVal: false };
   constructor(props) {
     super(props);
     this.state = {
-      billingChecked: true,
+      billingChecked: this.props.initVal,
       toolTipVisible: false
     };
-  }
-  componentDidMount() {
-    let deliveryInfo = localItemRoyal.get('deliveryInfo');
-    let tmp = this.state.billingChecked;
-    if (!this.isLogin && deliveryInfo) {
-      tmp = deliveryInfo.billingChecked;
-    }
-    this.setState(
-      {
-        billingChecked: tmp
-      },
-      () => {
-        this.props.updateSameAsCheckBoxVal(this.state.billingChecked);
-      }
-    );
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
+    this.updateoolTipVisible = this.updateoolTipVisible.bind(this);
   }
   billingCheckedChange = () => {
     this.setState(
@@ -42,6 +25,11 @@ class SameAsCheckbox extends React.Component {
       }
     );
   };
+  updateoolTipVisible(status) {
+    this.setState({
+      toolTipVisible: status
+    });
+  }
   render() {
     const { type } = this.props;
     return (
@@ -74,34 +62,24 @@ class SameAsCheckbox extends React.Component {
             <span
               className="info delivery-method-tooltip fit-mobile-icon-left"
               style={{ verticalAlign: 'unset' }}
-              onMouseEnter={() => {
-                this.setState({
-                  toolTipVisible: true
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({
-                  toolTipVisible: false
-                });
-              }}
+              onMouseEnter={this.updateoolTipVisible.bind(this, true)}
+              onMouseLeave={this.updateoolTipVisible.bind(this, false)}
             >
               i
             </span>
-            <ConfirmTooltip
-              containerStyle={{
-                transform: 'translate(-65%, 112%)'
-              }}
-              arrowStyle={{ left: '92%' }}
-              display={this.state.toolTipVisible}
-              cancelBtnVisible={false}
-              confirmBtnVisible={false}
-              updateChildDisplay={(status) =>
-                this.setState({
-                  toolTipVisible: status
-                })
-              }
-              content={<FormattedMessage id="payment.forFreeTip" />}
-            />
+            {process.env.REACT_APP_LANG == 'fr' ? null : (
+              <ConfirmTooltip
+                containerStyle={{
+                  transform: 'translate(-62%, 117%)'
+                }}
+                arrowStyle={{ left: '92%' }}
+                display={this.state.toolTipVisible}
+                cancelBtnVisible={false}
+                confirmBtnVisible={false}
+                updateChildDisplay={this.updateoolTipVisible.bind(this)}
+                content={<FormattedMessage id="payment.forFreeTip" />}
+              />
+            )}
           </span>
         </div>
       </div>

@@ -9,7 +9,6 @@ import {
   deleteCard,
   addOrUpdatePaymentMethod
 } from '@/api/payment';
-import Loading from '@/components/Loading';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
 import {
   CREDIT_CARD_IMG_ENUM,
@@ -17,8 +16,10 @@ import {
   PAYMENT_METHOD_RULE
 } from '@/utils/constant';
 import { validData } from '@/utils/utils';
-import './index.css';
 import LazyLoad from 'react-lazyload';
+import { scrollPaymentPanelIntoView } from '../modules/utils';
+
+import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -28,7 +29,8 @@ const localItemRoyal = window.__.localItemRoyal;
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
-    canEdit: false // 是否可以编辑卡
+    billingJSX: null,
+    getSelectedValue: () => {}
   };
   constructor(props) {
     super(props);
@@ -48,8 +50,8 @@ class PaymentComp extends React.Component {
         paymentTransactionId: '',
         paymentCustomerId: ''
       },
-      loading: false,
       listLoading: true,
+      saveLoading: false,
       listErr: '',
       currentVendor: '1',
       currentCardInfo: {},
@@ -59,8 +61,12 @@ class PaymentComp extends React.Component {
       hasEditedEmail: false,
       hasEditedPhone: false,
       hasEditedName: false,
-      isValid: false
+      isValid: false,
+      selectedId: ''
     };
+    this.handleClickCardItem = this.handleClickCardItem.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
+    this.preSelectedId = '';
   }
   async componentDidMount() {
     if (localItemRoyal.get('loginDeliveryInfo')) {
@@ -77,19 +83,26 @@ class PaymentComp extends React.Component {
 
     await this.getPaymentMethodList();
 
-    let filterList = this.state.creditCardList.map(
-      (el) => (el.selected = el.isDefault === 1)
-    );
+    let { creditCardList } = this.state;
+
+    creditCardList.map((el) => {
+      el.selected = el.isDefault === 1;
+      return el;
+    });
+    let filterList = creditCardList.filter((el) => el.selected);
     if (filterList.length) {
-    } else if (this.state.creditCardList.length) {
-      this.state.creditCardList[0].selected = true;
+    } else if (creditCardList.length) {
+      creditCardList[0].selected = true;
     }
-    let selectedCard = this.state.creditCardList.filter((el) => el.selected)[0];
+    let selectedCard = creditCardList.filter((el) => el.selected)[0];
     if (!selectedCard) {
       selectedCard = null;
     }
-    this.props.getSelectedValue && this.props.getSelectedValue(selectedCard);
-    this.setState({ creditCardList: this.state.creditCardList });
+    this.props.getSelectedValue(selectedCard);
+    this.setState({
+      creditCardList,
+      isEdit: !creditCardList.length
+    });
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { creditCardInfoForm } = this.state;
@@ -159,11 +172,9 @@ class PaymentComp extends React.Component {
       });
       this.setState({ creditCardList: tmpList });
     } catch (err) {
-      console.log(err);
-      this.setState({ listErr: err.message.toString() });
+      this.setState({ listErr: err.message });
     } finally {
       this.setState({
-        loading: false,
         listLoading: false
       });
     }
@@ -179,55 +190,44 @@ class PaymentComp extends React.Component {
       const { firstName, lastName } = selectedDeliveryAddress;
       tmpName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
-    this.setState({
-      creditCardInfoForm: {
-        cardNumber: '',
-        cardMmyy: '',
-        cardCvv: '',
-        cardOwner: tmpName || deliveryAddress.cardOwner || '',
-        email: selectedDeliveryAddress && selectedDeliveryAddress.email,
-        phoneNumber:
-          (selectedDeliveryAddress && selectedDeliveryAddress.phoneNumber) ||
-          deliveryAddress.phoneNumber ||
-          '',
-        identifyNumber: '111',
-        isDefault: false
+    this.setState(
+      {
+        creditCardInfoForm: {
+          cardNumber: '',
+          cardMmyy: '',
+          cardCvv: '',
+          cardOwner: tmpName || deliveryAddress.cardOwner || '',
+          email: selectedDeliveryAddress && selectedDeliveryAddress.email,
+          phoneNumber:
+            (selectedDeliveryAddress && selectedDeliveryAddress.phoneNumber) ||
+            deliveryAddress.phoneNumber ||
+            '',
+          identifyNumber: '111',
+          isDefault: false
+        }
+      },
+      () => {
+        this.validFormData();
       }
-    });
-  }
-  getElementToPageTop(el) {
-    if (el.parentElement) {
-      return this.getElementToPageTop(el.parentElement) + el.offsetTop;
-    }
-    return el.offsetTop;
+    );
   }
   showErrorMsg = (message) => {
-    this.setState({
-      errorMsg: message
-    });
-    setTimeout(() => {
+    this.setState(
+      {
+        errorMsg: message
+      },
+      () => {
+        scrollPaymentPanelIntoView();
+      }
+    );
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
       this.setState({
         errorMsg: ''
       });
     }, 3000);
   };
-  scrollToErrorMsg() {
-    const widget = document.querySelector('.content-asset');
-    if (widget) {
-      window.scrollTo({
-        top: this.getElementToPageTop(widget),
-        behavior: 'smooth'
-      });
-    }
-  }
-  scrollToPaymentComp() {
-    const widget = document.querySelector('#PaymentComp');
-    widget.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-  }
-  currentCvvChange(e) {
+  currentCvvChange = (e) => {
     let { creditCardList } = this.state;
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -239,13 +239,12 @@ class PaymentComp extends React.Component {
         creditCardList
       },
       () => {
-        this.props.getSelectedValue &&
-          this.props.getSelectedValue(
-            this.state.creditCardList.filter((el) => el.selected)[0]
-          );
+        this.props.getSelectedValue(
+          this.state.creditCardList.filter((el) => el.selected)[0]
+        );
       }
     );
-  }
+  };
   cardNumberFocus() {
     let { creditCardInfoForm } = this.state;
     this.setState({
@@ -265,7 +264,7 @@ class PaymentComp extends React.Component {
       });
     }
   }
-  async cardNumberChange(e) {
+  cardNumberChange = async (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     let cardNumber =
@@ -296,12 +295,12 @@ class PaymentComp extends React.Component {
     } catch (e) {
       console.log(e);
     }
-  }
-  async cardInfoInputChange(e) {
+  };
+  cardInfoInputChange = async (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
+    const { creditCardInfoForm } = this.state;
     if (name === 'cardNumber') {
       let beforeValue = value.substr(0, value.length - 1);
       let inputValue = value.substr(value.length - 1, 1);
@@ -338,32 +337,22 @@ class PaymentComp extends React.Component {
         this.setState({ hasEditedName: true });
       }
     }
-    // 编辑状态，一旦修改了cardMmyy/cardOwner/cardCvv，则需重新输入卡号
-    if (
-      creditCardInfoForm.cardNumber.includes('*') &&
-      (creditCardInfoForm.cardMmyy !== currentEditOriginCardInfo.cardMmyy ||
-        creditCardInfoForm.cardOwner !== currentEditOriginCardInfo.cardOwner ||
-        creditCardInfoForm.cardCvv)
-    ) {
-      creditCardInfoForm.cardNumber = '';
-    }
     if (['cardNumber', 'cardMmyy', 'cardCvv'].indexOf(name) === -1) {
       this.inputBlur(e);
     }
     this.setState({ creditCardInfoForm }, () => {
       this.validFormData();
     });
-  }
+  };
   async validFormData() {
     try {
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
       this.setState({ isValid: false });
     }
   }
-  inputBlur(e) {
+  inputBlur = (e) => {
     let validDom = Array.from(
       e.target.parentElement.parentElement.children
     ).filter((el) => {
@@ -375,73 +364,45 @@ class PaymentComp extends React.Component {
     if (validDom) {
       validDom.style.display = e.target.value ? 'none' : 'block';
     }
-  }
-  async handleSave(e) {
+  };
+  handleSave = async (e) => {
     e.preventDefault();
     if (!this.state.isValid) {
       return false;
     }
-    const { creditCardInfoForm, currentEditOriginCardInfo } = this.state;
-    let queryPaymentsosToken = true;
-    let fieldList = [
-      'cardNumber',
-      'cardMmyy',
-      'cardCvv',
-      'cardOwner',
-      'email',
-      'phoneNumber',
-      'identifyNumber'
-    ];
-    // 修改卡信息时，
-    // 修改cardNumber/cardMmyy/cardOwner，cvv必填，需重新获取token
-    // 修改其他(email/phone)时，cvv不必填，无需重新获取token
-    if (creditCardInfoForm.id) {
-      if (
-        creditCardInfoForm.cardNumber !==
-          currentEditOriginCardInfo.cardNumber ||
-        creditCardInfoForm.cardMmyy !== currentEditOriginCardInfo.cardMmyy ||
-        creditCardInfoForm.cardOwner !== currentEditOriginCardInfo.cardOwner
-      ) {
-      } else {
-        queryPaymentsosToken = false;
-        fieldList.splice(2, 1);
-      }
-    }
+    const { creditCardInfoForm } = this.state;
     this.setState({
-      loading: true
+      saveLoading: true
     });
 
     try {
-      let res;
-      if (queryPaymentsosToken) {
-        res = await axios.post(
-          'https://api.paymentsos.com/tokens',
-          {
-            token_type: 'credit_card',
-            card_number: creditCardInfoForm.cardNumber,
-            expiration_date: creditCardInfoForm.cardMmyy.replace(/\//, '-'),
-            holder_name: creditCardInfoForm.cardOwner,
-            credit_card_cvv: creditCardInfoForm.cardCvv
-          },
-          {
-            headers: {
-              public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
-              'x-payments-os-env': process.env.REACT_APP_PaymentENV,
-              'Content-type': 'application/json',
-              app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
-              'api-version': '1.3.0'
-            }
+      let res = await axios.post(
+        'https://api.paymentsos.com/tokens',
+        {
+          token_type: 'credit_card',
+          card_number: creditCardInfoForm.cardNumber,
+          expiration_date: creditCardInfoForm.cardMmyy.replace(/\//, '-'),
+          holder_name: creditCardInfoForm.cardOwner,
+          credit_card_cvv: creditCardInfoForm.cardCvv
+        },
+        {
+          headers: {
+            public_key: process.env.REACT_APP_PaymentKEY_MEMBER,
+            'x-payments-os-env': process.env.REACT_APP_PaymentENV,
+            'Content-type': 'application/json',
+            app_id: process.env.REACT_APP_PaymentAPPID_MEMBER,
+            'api-version': '1.3.0'
           }
-        );
-        if (!res.data.vendor) {
-          this.showErrorMsg(
-            'Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard'
-          );
-          this.setState({
-            loading: false
-          });
-          return;
         }
+      );
+      if (!res.data.vendor) {
+        this.showErrorMsg(
+          'Lo sentimos, los tipos de tarjeta de crédito actualmente admitidos son: VISA, American Express, MasterCard'
+        );
+        this.setState({
+          saveLoading: false
+        });
+        return;
       }
 
       let params = {
@@ -461,11 +422,11 @@ class PaymentComp extends React.Component {
       };
 
       let addRes = await addOrUpdatePaymentMethod(params);
+      scrollPaymentPanelIntoView();
       let { creditCardList } = this.state;
 
       if (creditCardList.length) {
         this.setState({
-          loading: false,
           isEdit: false
         });
 
@@ -479,10 +440,9 @@ class PaymentComp extends React.Component {
           }
           return el;
         });
-        this.props.getSelectedValue &&
-          this.props.getSelectedValue(
-            this.state.creditCardList.filter((c) => c.selected)[0]
-          );
+        this.props.getSelectedValue(
+          this.state.creditCardList.filter((c) => c.selected)[0]
+        );
         this.initCardInfo();
       } else {
         await this.getPaymentMethodList();
@@ -490,7 +450,7 @@ class PaymentComp extends React.Component {
         this.state.creditCardList[0].selected = true;
         this.setState(
           {
-            loading: false,
+            saveLoading: false,
             isEdit: false,
             currentCardInfo: addRes.context,
             creditCardInfoForm: Object.assign(addRes.context, {
@@ -498,18 +458,17 @@ class PaymentComp extends React.Component {
             })
           },
           () => {
-            this.props.getSelectedValue &&
-              this.props.getSelectedValue(this.state.creditCardList[0]);
+            this.props.getSelectedValue(this.state.creditCardList[0]);
           }
         );
       }
       this.setState({
-        creditCardList: this.state.creditCardList
+        creditCardList
       });
     } catch (e) {
       let res = e.response;
       this.setState({
-        loading: false
+        saveLoading: false
       });
       if (res) {
         console.log(
@@ -540,25 +499,27 @@ class PaymentComp extends React.Component {
         return;
       }
       this.showErrorMsg(this.props.intl.messages.saveFailed);
+    } finally {
+      this.setState({
+        saveLoading: false
+      });
     }
-  }
+  };
   async deleteCard(el) {
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = false;
     this.setState({
-      loading: true,
-      creditCardList: creditCardList
+      listLoading: true,
+      creditCardList
     });
     await deleteCard({ id: el.id })
-      .then((res) => {
+      .then(() => {
         this.getPaymentMethodList();
       })
       .catch((err) => {
-        this.showErrorMsg(
-          err.message || this.props.intl.messages.deleteAddressFailed
-        );
+        this.showErrorMsg(err.message);
         this.setState({
-          loading: false
+          listLoading: false
         });
       });
   }
@@ -566,11 +527,54 @@ class PaymentComp extends React.Component {
     let { creditCardList } = this.state;
     el.confirmTooltipVisible = status;
     this.setState({
-      creditCardList: creditCardList
+      creditCardList
+    });
+  }
+  handleClickAdd = () => {
+    const { selectedId } = this.state;
+    this.preSelectedId = selectedId;
+    this.setState({ isEdit: true, selectedId: '' }, () => {
+      this.handleSelectedIdChange();
+      scrollPaymentPanelIntoView();
+    });
+    this.initCardInfo();
+  };
+  handleClickCancel = () => {
+    this.initCardInfo();
+    this.setState({ isEdit: false, selectedId: this.preSelectedId }, () => {
+      this.handleSelectedIdChange();
+      scrollPaymentPanelIntoView();
+    });
+  };
+  handleSelectedIdChange = () => {
+    const { selectedId, creditCardList } = this.state;
+    const s = creditCardList.filter((c) => c.id === selectedId)[0];
+    this.props.getSelectedValue(s || null);
+  };
+  handleClickCardItem(el) {
+    if (el.selected) return;
+    let { creditCardList } = this.state;
+    creditCardList.map((el) => {
+      el.selected = false;
+      el.cardCvv = '';
+      return el;
+    });
+    el.selected = true;
+    this.props.getSelectedValue(el);
+    this.setState({
+      creditCardList
     });
   }
   render() {
-    const { creditCardInfoForm, creditCardList } = this.state;
+    const { billingJSX } = this.props;
+    const {
+      creditCardInfoForm,
+      creditCardList,
+      isEdit,
+      errorMsg,
+      saveLoading,
+      listLoading
+    } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
@@ -586,372 +590,247 @@ class PaymentComp extends React.Component {
         ))}
       </span>
     );
+    const _errJSX = (
+      <div
+        className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+          errorMsg ? '' : 'hidden'
+        }`}
+      >
+        <aside
+          className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+          role="alert"
+        >
+          <span className="pl-0">{errorMsg}</span>
+          <button
+            className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+            onClick={(e) => {
+              e.preventDefault();
+              this.setState({ errorMsg: '' });
+            }}
+            aria-label="Close"
+          >
+            <span className="rc-screen-reader-text">
+              <FormattedMessage id="close" />
+            </span>
+          </button>
+        </aside>
+      </div>
+    );
+
+    const _successTipJSX = (
+      <aside
+        className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
+          this.state.successMsg ? '' : 'hidden'
+        }`}
+        role="alert"
+      >
+        <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
+          {this.state.successMsg}
+        </p>
+      </aside>
+    );
 
     return (
       <div id="PaymentComp" className={`loginCardBox`}>
-        {this.state.loading ? <Loading positionFixed="true" /> : null}
         <div
           className={`table-toolbar d-flex flex-wrap justify-content-between p-0 ${
-            !this.state.isEdit && this.state.creditCardList.length
-              ? ''
-              : 'hidden-xxl-down'
+            !isEdit && creditCardList.length ? '' : 'hidden-xxl-down'
           }`}
         >
           <span className="t-gray">
-            {creditCardList.length > 1 ? (
-              <FormattedMessage
-                id="creditCardTipMany"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            ) : (
-              <FormattedMessage
-                id="creditCardTip"
-                values={{ number: <b>{creditCardList.length}</b> }}
-              />
-            )}
+            <FormattedMessage
+              id="creditCardTipMany"
+              values={{ number: <b>{creditCardList.length}</b> }}
+            />
           </span>
-          {/* <span
-            className="red font-weight-normal ui-cursor-pointer d-flex align-items-center"
-            onClick={() => {
-              this.setState({ isEdit: true }, () => {
-                this.scrollToPaymentComp();
-              });
-              this.initCardInfo();
-            }}
-          >
-            <span className="rc-icon rc-plus--xs rc-brand1 address-btn-plus"></span>
-            <span style={{ marginTop: -3 }}>
-              <FormattedMessage id="addNewCreditCard" />
-            </span>
-          </span> */}
         </div>
-        {/* <div className="addbox" onClick={() => this.openCreatePage()}>
-          <div id="cross"></div>
-        </div> */}
-        <div></div>
-        {!this.state.isEdit && this.state.creditCardList.length ? (
-          this.state.listLoading ? (
-            <div className="mt-4">
-              <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
-            </div>
-          ) : this.state.listErr ? (
-            <div className="text-center p-4">{this.state.listErr}</div>
-          ) : (
-            <>
-              <div
-                className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                  this.state.errorMsg ? '' : 'hidden'
-                }`}
-              >
-                <aside
-                  className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                  role="alert"
+        {listLoading ? (
+          <div className="mt-4">
+            <Skeleton color="#f5f5f5" width="100%" height="50%" count={4} />
+          </div>
+        ) : this.state.listErr ? (
+          <div className="text-center p-4">{this.state.listErr}</div>
+        ) : creditCardList.length && !isEdit ? (
+          <>
+            {_errJSX}
+            {creditCardList.map((el, idx) => {
+              return (
+                <div
+                  className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
+                    el.selected ? 'active border-blue' : ''
+                  } ${
+                    idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''
+                  }`}
+                  key={idx}
+                  onClick={this.handleClickCardItem.bind(this, el)}
                 >
-                  <span className="pl-0">{this.state.errorMsg}</span>
-                  <button
-                    className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.setState({ errorMsg: '' });
-                    }}
-                    aria-label="Close"
-                  >
-                    <span className="rc-screen-reader-text">
-                      <FormattedMessage id="close" />
-                    </span>
-                  </button>
-                </aside>
-              </div>
-
-              {creditCardList.map((el, idx) => {
-                return (
-                  <div
-                    className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-                      el.selected ? 'active border-blue' : ''
-                    } ${
-                      idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''
-                    }`}
-                    key={idx}
-                    onClick={() => {
-                      if (creditCardList[idx].selected) return;
-                      creditCardList.map((el) => {
-                        el.selected = false;
-                        el.cardCvv = '';
-                        return el;
-                      });
-                      el.selected = true;
-                      this.props.getSelectedValue &&
-                        this.props.getSelectedValue(el);
-                      this.setState({
-                        creditCardList
-                      });
-                    }}
-                  >
-                    <div className={`pt-3 pb-3`}>
-                      <div
-                        className="position-absolute"
-                        style={{ right: '1%', top: '2%', zIndex: 50 }}
+                  <div className={`pt-3 pb-3`}>
+                    <div
+                      className="position-absolute"
+                      style={{ right: '1%', top: '2%', zIndex: 50 }}
+                    >
+                      <span
+                        className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
                       >
                         <span
-                          className={`pull-right position-relative ${
-                            this.props.canEdit ? 'border-left' : ''
-                          } pl-2 ui-cursor-pointer-pure`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.updateConfirmTooltipVisible(el, true);
+                          }}
                         >
-                          <span
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              this.updateConfirmTooltipVisible(el, true);
-                            }}
-                          >
-                            <FormattedMessage id="delete" />
-                          </span>
-                          <ConfirmTooltip
-                            containerStyle={{
-                              transform: 'translate(-89%, 105%)'
-                            }}
-                            arrowStyle={{ left: '89%' }}
-                            display={el.confirmTooltipVisible}
-                            confirm={(e) => this.deleteCard(el)}
-                            updateChildDisplay={(status) =>
-                              this.updateConfirmTooltipVisible(el, status)
+                          <FormattedMessage id="delete" />
+                        </span>
+                        <ConfirmTooltip
+                          containerStyle={{
+                            transform: 'translate(-89%, 105%)'
+                          }}
+                          arrowStyle={{ left: '89%' }}
+                          display={el.confirmTooltipVisible}
+                          confirm={this.deleteCard.bind(this, el)}
+                          updateChildDisplay={(status) =>
+                            this.updateConfirmTooltipVisible(el, status)
+                          }
+                        />
+                      </span>
+                    </div>
+                    <div className="row">
+                      <div className="col-6 col-sm-3 d-flex flex-column justify-content-center">
+                        <LazyLoad>
+                          <img
+                            alt=""
+                            className="PayCardImgFitScreen"
+                            src={
+                              CREDIT_CARD_IMG_ENUM[
+                                el.paymentMethod ? el.paymentMethod.vendor : ''
+                              ]
+                                ? CREDIT_CARD_IMG_ENUM[
+                                    el.paymentMethod
+                                      ? el.paymentMethod.vendor.toUpperCase()
+                                      : ''
+                                  ]
+                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />
-                        </span>
-                        {this.props.canEdit && (
-                          <span
-                            className="pull-right ui-cursor-pointer-pure"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              let creditCardInfoForm = { ...el };
-                              creditCardInfoForm.cardCvv = '';
-                              creditCardInfoForm.cardNumber = creditCardInfoForm.paymentMethod
-                                ? creditCardInfoForm.paymentMethod.bin_number +
-                                  '****' +
-                                  creditCardInfoForm.paymentMethod.last_4_digits
-                                : '';
-                              creditCardInfoForm.cardMmyy = creditCardInfoForm.paymentMethod
-                                ? creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                    0,
-                                    3
-                                  ) +
-                                  creditCardInfoForm.paymentMethod.expiration_date.substr(
-                                    5
-                                  )
-                                : '';
-                              creditCardInfoForm.cardOwner = creditCardInfoForm.paymentMethod
-                                ? creditCardInfoForm.paymentMethod.holder_name
-                                : '';
-                              this.setState(
-                                {
-                                  isEdit: true,
-                                  creditCardInfoForm,
-                                  currentEditOriginCardInfo: Object.assign(
-                                    {},
-                                    creditCardInfoForm
-                                  )
-                                },
-                                () => {
-                                  this.scrollToPaymentComp();
-                                }
-                              );
-                            }}
-                          >
-                            <FormattedMessage id="edit" />
-                          </span>
-                        )}
+                        </LazyLoad>
                       </div>
-                      <div className="row">
-                        <div
-                          className={`col-6 col-sm-3 d-flex flex-column justify-content-center `}
-                        >
-                          <LazyLoad>
-                            <img
-                              alt=""
-                              className="PayCardImgFitScreen"
-                              src={
-                                CREDIT_CARD_IMG_ENUM[
-                                  el.paymentMethod
-                                    ? el.paymentMethod.vendor
-                                    : ''
-                                ]
-                                  ? CREDIT_CARD_IMG_ENUM[
-                                      el.paymentMethod
-                                        ? el.paymentMethod.vendor.toUpperCase()
-                                        : ''
-                                    ]
-                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                              }
-                            />
-                          </LazyLoad>
-                        </div>
-                        <div
-                          className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
-                        >
-                          <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div className={`col-12 color-999 mb-1`}>
+                      <div
+                        className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
+                      >
+                        <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
+                          <div className={`col-12 color-999 mb-1`}>
+                            <div className="row align-items-center">
+                              <div
+                                className={`col-4`}
+                                style={{ fontSize: '14px' }}
+                              >
+                                <FormattedMessage id="name2" />
+                              </div>
+                              <div className={`col-6 creditCompleteInfo`}>
+                                {el.paymentMethod
+                                  ? el.paymentMethod.holder_name
+                                  : el.cardOwner}
+                              </div>
+                            </div>
+                          </div>
+                          {this.props.needReConfirmCVV && (
+                            <div
+                              className={`col-12 color-999 mb-1 ${
+                                el.selected ? '' : 'hidden'
+                              }`}
+                            >
                               <div className="row align-items-center">
                                 <div
                                   className={`col-4`}
                                   style={{ fontSize: '14px' }}
                                 >
-                                  <FormattedMessage id="name2" />
+                                  <FormattedMessage id="CVV" />
                                 </div>
-                                <div className={`col-6 creditCompleteInfo`}>
-                                  {el.paymentMethod
-                                    ? el.paymentMethod.holder_name
-                                    : el.cardOwner}
+                                <div
+                                  className={`col-4 color-999 text-left creditCompleteInfo`}
+                                >
+                                  <input
+                                    onChange={this.currentCvvChange}
+                                    type="password"
+                                    maxLength="4"
+                                    style={{ width: '100%' }}
+                                    value={
+                                      creditCardList.filter(
+                                        (c) => c.selected
+                                      )[0]
+                                        ? creditCardList.filter(
+                                            (c) => c.selected
+                                          )[0].cardCvv
+                                        : ''
+                                    }
+                                  />
                                 </div>
                               </div>
                             </div>
-                            {this.props.needReConfirmCVV && (
-                              <div
-                                className={`col-12 color-999 mb-1 ${
-                                  el.selected ? '' : 'hidden'
-                                }`}
-                              >
-                                <div className="row align-items-center">
-                                  <div
-                                    className={`col-4`}
-                                    style={{ fontSize: '14px' }}
-                                  >
-                                    <FormattedMessage id="CVV" />
-                                  </div>
-                                  <div
-                                    className={`col-4 color-999 text-left creditCompleteInfo`}
-                                  >
-                                    <input
-                                      onChange={(e) => {
-                                        this.currentCvvChange(e);
-                                      }}
-                                      type="password"
-                                      maxLength="4"
-                                      style={{ width: '100%' }}
-                                      value={
-                                        this.state.creditCardList.filter(
-                                          (c) => c.selected
-                                        )[0]
-                                          ? this.state.creditCardList.filter(
-                                              (c) => c.selected
-                                            )[0].cardCvv
-                                          : ''
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
+                          )}
+                        </div>
+                        <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
+                          <div className="col-6 color-999">
+                            <span style={{ fontSize: '14px' }}>
+                              <FormattedMessage id="payment.cardNumber2" />
+                            </span>
+                            <br />
+                            <span className="creditCompleteInfo fontFitSCreen">
+                              xxxx xxxx xxxx{' '}
+                              {el.paymentMethod
+                                ? el.paymentMethod.last_4_digits
+                                : el.cardNumber
+                                ? el.cardNumber.substring(
+                                    el.cardNumber.length - 4
+                                  )
+                                : ''}
+                            </span>
                           </div>
-                          <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
-                            <div className="col-6 color-999">
-                              <span style={{ fontSize: '14px' }}>
-                                <FormattedMessage id="payment.cardNumber2" />
-                              </span>
-                              <br />
-                              <span className="creditCompleteInfo fontFitSCreen">
-                                xxxx xxxx xxxx{' '}
-                                {el.paymentMethod
-                                  ? el.paymentMethod.last_4_digits
-                                  : el.cardNumber
-                                  ? el.cardNumber.substring(
-                                      el.cardNumber.length - 4
-                                    )
-                                  : ''}
-                              </span>
-                            </div>
-                            <div className="col-6 border-left color-999">
-                              <span style={{ fontSize: '14px' }}>
-                                <FormattedMessage id="payment.cardType" />
-                              </span>
-                              <br />
-                              <span className="creditCompleteInfo fontFitSCreen">
-                                {el.paymentMethod
-                                  ? el.paymentMethod.card_type
-                                  : el.cardType}
-                              </span>
-                            </div>
+                          <div className="col-6 border-left color-999">
+                            <span style={{ fontSize: '14px' }}>
+                              <FormattedMessage id="payment.cardType" />
+                            </span>
+                            <br />
+                            <span className="creditCompleteInfo fontFitSCreen">
+                              {el.paymentMethod
+                                ? el.paymentMethod.card_type
+                                : el.cardType}
+                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                );
-              })}
-              <div
-                className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
-                ref={(node) => {
-                  if (node) {
-                    node.style.setProperty(
-                      'border-width',
-                      '.1rem',
-                      'important'
-                    );
-                    node.style.setProperty(
-                      'border-style',
-                      'dashed',
-                      'important'
-                    );
-                  }
-                }}
-                onClick={() => {
-                  this.setState({ isEdit: true }, () => {
-                    this.scrollToPaymentComp();
-                  });
-                  this.initCardInfo();
-                }}
-              >
-                <span className="rc-styled-link">
-                  <FormattedMessage id="addNewCreditCard" />
-                </span>
-              </div>
-            </>
-          )
+                </div>
+              );
+            })}
+            <div
+              className="p-4 border text-center mt-2 rounded ui-cursor-pointer font-weight-normal"
+              ref={(node) => {
+                if (node) {
+                  node.style.setProperty('border-width', '.1rem', 'important');
+                  node.style.setProperty('border-style', 'dashed', 'important');
+                }
+              }}
+              onClick={this.handleClickAdd}
+            >
+              <span className="rc-styled-link">
+                <FormattedMessage id="addNewCreditCard" />
+              </span>
+            </div>
+          </>
         ) : null}
+        {/* edit form */}
         <div
-          className={`credit-card-content ${
-            this.state.isEdit || !this.state.creditCardList.length
-              ? ''
-              : 'hidden'
-          }`}
+          className={`credit-card-content ${isEdit ? '' : 'hidden'}`}
           id="credit-card-content"
         >
           <div className={`credit-card-form`}>
             <div className="rc-margin-bottom--xs">
               <div className="content-asset">
-                <div
-                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
-                    this.state.errorMsg ? '' : 'hidden'
-                  }`}
-                >
-                  <aside
-                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
-                    role="alert"
-                  >
-                    <span className="pl-0">{this.state.errorMsg}</span>
-                    <button
-                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
-                      onClick={() => {
-                        this.setState({ errorMsg: '' });
-                      }}
-                      aria-label="Close"
-                    >
-                      <span className="rc-screen-reader-text">
-                        <FormattedMessage id="close" />
-                      </span>
-                    </button>
-                  </aside>
-                </div>
-                <aside
-                  className={`rc-alert rc-alert--success js-alert js-alert-success-profile-info rc-alert--with-close rc-margin-bottom--xs ${
-                    this.state.successMsg ? '' : 'hidden'
-                  }`}
-                  role="alert"
-                >
-                  <p className="success-message-text rc-padding-left--sm--desktop rc-padding-left--lg--mobile rc-margin--none">
-                    {this.state.successMsg}
-                  </p>
-                </aside>
+                {_errJSX}
+                {_successTipJSX}
+
                 <p className="m-0">{CreditCardImg}</p>
               </div>
               <div className="row">
@@ -972,6 +851,7 @@ class PaymentComp extends React.Component {
                                     ]
                                   : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                               }
+                              className="img"
                             />
                           </LazyLoad>
                         </span>
@@ -988,12 +868,8 @@ class PaymentComp extends React.Component {
                                     className="rc-input__control form-control email"
                                     id="number"
                                     value={creditCardInfoForm.cardNumber}
-                                    onChange={(e) =>
-                                      this.cardInfoInputChange(e)
-                                    }
-                                    onKeyUp={(e) => {
-                                      this.cardNumberChange(e);
-                                    }}
+                                    onChange={this.cardInfoInputChange}
+                                    onKeyUp={this.cardNumberChange}
                                     // onFocus={(e) => {
                                     //   this.cardNumberFocus();
                                     // }}
@@ -1029,9 +905,7 @@ class PaymentComp extends React.Component {
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                     data-range-error="The phone number should contain 10 digits"
                                     value={creditCardInfoForm.cardMmyy}
-                                    onChange={(e) =>
-                                      this.cardInfoInputChange(e)
-                                    }
+                                    onChange={this.cardInfoInputChange}
                                     name="cardMmyy"
                                     maxLength="5"
                                     placeholder={
@@ -1060,9 +934,7 @@ class PaymentComp extends React.Component {
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
                                     data-range-error="The phone number should contain 10 digits"
                                     value={creditCardInfoForm.cardCvv}
-                                    onChange={(e) =>
-                                      this.cardInfoInputChange(e)
-                                    }
+                                    onChange={this.cardInfoInputChange}
                                     name="cardCvv"
                                     maxLength="4"
                                     placeholder="CVV"
@@ -1095,8 +967,8 @@ class PaymentComp extends React.Component {
                         className="rc-input__control form-control cardOwner"
                         name="cardOwner"
                         value={creditCardInfoForm.cardOwner}
-                        onChange={(e) => this.cardInfoInputChange(e)}
-                        onBlur={(e) => this.inputBlur(e)}
+                        onChange={this.cardInfoInputChange}
+                        onBlur={this.inputBlur}
                         maxLength="40"
                       />
                       <label className="rc-input__label" htmlFor="cardOwner" />
@@ -1122,8 +994,8 @@ class PaymentComp extends React.Component {
                         className="rc-input__control email"
                         id="email"
                         value={creditCardInfoForm.email}
-                        onChange={(e) => this.cardInfoInputChange(e)}
-                        onBlur={(e) => this.inputBlur(e)}
+                        onChange={this.cardInfoInputChange}
+                        onBlur={this.inputBlur}
                         name="email"
                         maxLength="254"
                       />
@@ -1155,8 +1027,8 @@ class PaymentComp extends React.Component {
                         data-js-pattern="(^\d{10}$)"
                         data-range-error="The phone number should contain 10 digits"
                         value={creditCardInfoForm.phoneNumber}
-                        onChange={(e) => this.cardInfoInputChange(e)}
-                        onBlur={(e) => this.inputBlur(e)}
+                        onChange={this.cardInfoInputChange}
+                        onBlur={this.inputBlur}
                         name="phoneNumber"
                         maxLength="2147483647"
                       />
@@ -1171,74 +1043,56 @@ class PaymentComp extends React.Component {
                   </div>
                 </div>
               </div>
+              {billingJSX}
               <div className="overflow-hidden">
                 <div className="text-right">
-                  <div
-                    className="rc-input rc-input--inline"
-                    style={{
-                      marginTop: '10px',
-                      float: 'left',
-                      textAlign: 'left',
-                      maxWidth: '400px'
-                    }}
-                    onClick={() => {
-                      creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
-                      this.setState({ creditCardInfoForm });
-                    }}
-                  >
-                    {creditCardInfoForm.isDefault ? (
+                  {/* <div
+                      className="rc-input rc-input--inline"
+                      style={{
+                        marginTop: '10px',
+                        float: 'left',
+                        textAlign: 'left',
+                        maxWidth: '400px'
+                      }}
+                      onClick={() => {
+                        creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
+                        this.setState({ creditCardInfoForm });
+                      }}
+                    >
                       <input
                         type="checkbox"
                         className="rc-input__checkbox"
-                        value={creditCardInfoForm.isDefault}
-                        key="1"
-                        checked
+                        checked={creditCardInfoForm.isDefault}
                       />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        value={creditCardInfoForm.isDefault}
-                        key="2"
-                      />
-                    )}
-                    <label className="rc-input__label--inline text-break">
-                      <FormattedMessage id="setDefaultPaymentMethod" />
-                    </label>
-                  </div>
-                  <a
-                    className="rc-styled-link editPersonalInfoBtn"
-                    name="contactInformation"
-                    style={{
-                      display: this.state.creditCardList.length
-                        ? 'inline-block'
-                        : 'none'
-                    }}
-                    onClick={() => {
-                      this.initCardInfo();
-                      this.setState({ isEdit: false });
-                    }}
-                  >
-                    <FormattedMessage id="cancel" />
-                  </a>
-                  &nbsp;
-                  <span
-                    style={{
-                      display: this.state.creditCardList.length
-                        ? 'inline-block'
-                        : 'none'
-                    }}
-                  >
-                    <FormattedMessage id="or" />
-                  </span>
-                  &nbsp;
+                      <label className="rc-input__label--inline text-break">
+                        <FormattedMessage id="setDefaultPaymentMethod" />
+                      </label>
+                    </div>
+                     */}
+                  {creditCardList.length > 0 && (
+                    <>
+                      <a
+                        className="rc-styled-link editPersonalInfoBtn"
+                        name="contactInformation"
+                        onClick={this.handleClickCancel}
+                      >
+                        <FormattedMessage id="cancel" />
+                      </a>
+                      <span className="ml-1 mr-1">
+                        <FormattedMessage id="or" />
+                      </span>
+                    </>
+                  )}
+
                   <button
-                    className="rc-btn rc-btn--one submitBtn editAddress"
+                    className={`rc-btn rc-btn--one submitBtn editAddress ${
+                      saveLoading ? 'ui-btn-loading' : ''
+                    }`}
                     data-sav="false"
                     name="contactInformation"
                     type="submit"
                     disabled={!this.state.isValid}
-                    onClick={(e) => this.handleSave(e)}
+                    onClick={this.handleSave}
                   >
                     <FormattedMessage id="save" />
                   </button>

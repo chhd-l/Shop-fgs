@@ -185,8 +185,7 @@ const es_ES = {
   country: 'País *',
   createAnAccount: 'Crea una cuenta',
   creditCard: 'Tarjeta de crédito',
-  creditCardTip: 'Ha creado {number} tarjeta de crédito, hasta 10',
-  creditCardTipMany: 'Ha creado {number} tarjetas de crédito, hasta 10',
+  creditCardTipMany: 'Ha creado {number} tarjeta(s) de crédito, hasta 10',
   customerReviews: 'Opiniones de los usuarios',
   cvvWarning: 'CVV incorrecto',
   'datePicker.months': ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
@@ -885,5 +884,6 @@ const es_ES = {
   'pet.addNewPet': 'Agregar una nueva mascota',
   'pet.deletePet': 'Eliminar perfil de mascota',
   'mixed Breed': 'raza Mixta',
+  'confirmation.account':'Ir a mi cuenta',
 }
 export default es_ES;

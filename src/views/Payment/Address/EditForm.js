@@ -18,7 +18,6 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false,
     updateData: () => {}
   };
   constructor(props) {
@@ -42,33 +41,10 @@ class EditForm extends React.Component {
     };
   }
   componentDidMount() {
-    const { initData = {}, isLogin, type } = this.props;
+    const { initData = {} } = this.props;
     const { address } = this.state;
     this.setState({ address: Object.assign(address, initData) }, () => {
-      const { address } = this.state;
-      if (!isLogin) {
-        let deliveryInfo = localItemRoyal.get('deliveryInfo');
-        const tmpKey =
-          type === 'delivery' ? 'deliveryAddress' : 'billingAddress';
-        if (deliveryInfo) {
-          // this.setState(
-          //   {
-          //     address: Object.assign(address, deliveryInfo[tmpKey], {
-          //       country: process.env.REACT_APP_DEFAULT_COUNTRYID
-          //     })
-          //   },
-          //   () => {
-          //     this.updateSelectedMobxData();
-          //     this.props.updateData(address);
-          //   }
-          // );
-        }
-        this.setState({
-          address: Object.assign(address, {
-            country: process.env.REACT_APP_DEFAULT_COUNTRYID
-          })
-        });
-      }
+      this.props.updateData(this.state.address);
     });
 
     getDictionary({ type: 'country' }).then((res) => {
@@ -230,7 +206,15 @@ class EditForm extends React.Component {
     const { address, errMsgObj } = this.state;
     return (
       <div className="col-12 col-md-6">
-        <div className={['form-group','dwfrm_shipping_shippingAddress_addressFields_phone',process.env.REACT_APP_LANG == 'de' ? '' : 'required'].join(" ")}> {/* 德国电话非必填 */}
+        <div
+          className={[
+            'form-group',
+            'dwfrm_shipping_shippingAddress_addressFields_phone',
+            process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+          ].join(' ')}
+        >
+          {' '}
+          {/* 德国电话非必填 */}
           <label className="form-control-label" htmlFor="shippingPhoneNumber">
             <FormattedMessage id="payment.phoneNumber" />
           </label>

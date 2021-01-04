@@ -312,7 +312,7 @@ class SubscriptionLanding extends React.Component {
                 <FormattedMessage id="subscription.help.title" />  
               </h2>
               <p>
-              <FormattedMessage id="subscription.help.title" />  
+              <FormattedMessage id="subscription.help.subTitle" />
               </p>
             </section>
             {process.env.REACT_APP_LANG == 'fr' ? (

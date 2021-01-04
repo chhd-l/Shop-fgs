@@ -19,6 +19,8 @@ class CheckoutStore {
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
+  @observable couponCodeFitFlag = localItemRoyal.get('rc-couponCodeFitFlag') || false;
+  
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
   @computed get tradePrice() {
@@ -66,6 +68,17 @@ class CheckoutStore {
   removePromotionCode(data) {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
+  }
+
+  @action.bound
+  setCouponCodeFitFlag(data) {
+    this.couponCodeFitFlag = data;
+    localItemRoyal.set('rc-couponCodeFitFlag', data);
+  }
+  @action.bound
+  removeCouponCodeFitFlag(data) {
+    this.couponCodeFitFlag = false;
+    localItemRoyal.remove('rc-couponCodeFitFlag');
   }
 
   @action.bound
@@ -192,6 +205,11 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice
     };
     if (!promotionCode || !purchasesRes.promotionFlag || purchasesRes.couponCodeFlag) {
+      if(purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
+        this.setCouponCodeFitFlag(false)
+      }else {
+        this.setCouponCodeFitFlag(true)
+      }
       params.discountPrice = purchasesRes.discountPrice;
     } else {
       params.discountPrice = this.discountPrice;
@@ -306,7 +324,13 @@ class CheckoutStore {
           promotionDiscount: sitePurchasesRes.promotionDiscount,
           subscriptionPrice: sitePurchasesRes.subscriptionPrice
         };
+
         if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
+          if(sitePurchasesRes.couponCodeFlag && !sitePurchasesRes.couponCodeDiscount) {
+            this.setCouponCodeFitFlag(false)
+          }else {
+            this.setCouponCodeFitFlag(true)
+          }
           params.discountPrice = sitePurchasesRes.discountPrice;
         } else {
           params.discountPrice = this.discountPrice;

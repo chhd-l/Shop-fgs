@@ -105,7 +105,7 @@ class UnLoginCart extends React.Component {
     return this.props.checkoutStore.deliveryPrice;
   }
   get isPromote() {
-    return parseInt(this.discountPrice) > 0;
+    return parseFloat(this.discountPrice) > 0;
   }
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
@@ -174,11 +174,15 @@ class UnLoginCart extends React.Component {
         sku: goodsInfoNo
       })
     }
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
+    try{
+      dataLayer[0].checkout.basketAmount = basketAmount
+      dataLayer[0].checkout.basketID = basketID
+      dataLayer[0].checkout.option = option
+      dataLayer[0].checkout.product = product
+      dataLayer[0].checkout.step = step
+    }catch(err){
+      console.log(err)
+    }
   }
   setCartData() {
     this.GACheckUnLogin(this.props.checkoutStore.cartData)
@@ -351,7 +355,7 @@ class UnLoginCart extends React.Component {
       });
     } else {
       const { quantityMinLimit, quantityMaxLimit } = this.state;
-      let tmp = parseInt(val);
+      let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
         this.setState({
@@ -1314,14 +1318,21 @@ class UnLoginCart extends React.Component {
             this.state.discount.map((el) => (
               <>
               <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
-                <div className="col-8">
-                  <p>
+                <div className={`${!checkoutStore.couponCodeFitFlag? 'col-6': 'col-10'}`}>
+                  <p style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
                     {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )}
                   </p>
                 </div>
-                <div className="col-4">
+                <div className={`${!checkoutStore.couponCodeFitFlag? 'col-4': 'col-0'} red`} style={{padding: 0}}>
+                  <p>
+                    {!checkoutStore.couponCodeFitFlag && (
+                      <FormattedMessage id="Non appliqué" />
+                    )}
+                  </p>
+                </div>
+                <div className="col-2" style={{padding: '0 15px 0 0'}}>
                   <p className="text-right shipping-cost">
                     <span
                       className="rc-icon rc-close--sm rc-iconography"
@@ -1334,6 +1345,7 @@ class UnLoginCart extends React.Component {
                       onClick={async () => {
                         let result = {};
                         await checkoutStore.removePromotionCode()
+                        await checkoutStore.removeCouponCodeFitFlag()
                         if (!this.props.loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();
@@ -1401,16 +1413,16 @@ class UnLoginCart extends React.Component {
           </div>
           {/* 显示 默认折扣 */}
           <div
-            className={`row leading-lines shipping-item green ${parseInt(this.discountPrice) > 0 &&
+            className={`row leading-lines shipping-item green ${parseFloat(this.discountPrice) > 0 &&
                 this.state.discount.length === 0
                 ? 'd-flex'
                 : 'hidden'
               }`}
           >
-            <div className="col-8">
+            <div className="col-6">
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
-            <div className="col-4">
+            <div className="col-6">
               <p className="text-right shipping-cost">
                 - {formatMoney(this.discountPrice)}
               </p>
@@ -1520,24 +1532,43 @@ class UnLoginCart extends React.Component {
       </div>
     );
   }
-  renderSideCart() {
-    return process.env.REACT_APP_LANG === 'fr' ? (
-      this.sideCart()
+  renderSideCart({ fixToHeader = true }) {
+    return fixToHeader ? (
+      <div id="J_sidecart_container">
+        {this.sideCart({
+          className: 'hidden rc-md-up',
+          style: {
+            background: '#fff',
+            zIndex: 9,
+            width: 320,
+            position: 'relative'
+          },
+          id: 'J_sidecart_fix'
+        })}
+        {this.sideCart()}
+      </div>
     ) : (
-        <div id="J_sidecart_container">
-          {this.sideCart({
-            className: 'hidden rc-md-up',
-            style: {
-              zIndex: 9,
-              width: 320,
-              position: 'relative'
-            },
-            id: 'J_sidecart_fix'
-          })}
-          {this.sideCart()}
-        </div>
-      );
+      this.sideCart()
+    );
   }
+  // renderSideCart() {
+  //   return process.env.REACT_APP_LANG === 'fr' ? (
+  //     this.sideCart()
+  //   ) : (
+  //       <div id="J_sidecart_container">
+  //         {this.sideCart({
+  //           className: 'hidden rc-md-up',
+  //           style: {
+  //             zIndex: 9,
+  //             width: 320,
+  //             position: 'relative'
+  //           },
+  //           id: 'J_sidecart_fix'
+  //         })}
+  //         {this.sideCart()}
+  //       </div>
+  //     );
+  // }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
 
@@ -1636,7 +1667,8 @@ class UnLoginCart extends React.Component {
                       </h5>
                     </div>
                     {this.renderSideCart({
-                      fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                      // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                      fixToHeader: false
                     })}
 
                     {/* {this.state.productList.some((el) => {

@@ -188,8 +188,7 @@ const en_US = {
   country: 'Country *',
   createAnAccount: 'Create an account',
   creditCard: 'Credit Card',
-  creditCardTip: 'You have created {number} credit card, up to 10',
-  creditCardTipMany: 'You have created {number} credit cards, up to 10',
+  creditCardTipMany: 'You have created {number} credit card(s), up to 10',
   customerReviews: 'Customer reviews',
   cvvWarning: 'CVV is wrong',
   dataProtection: 'privacy policy',
@@ -909,5 +908,6 @@ const en_US = {
   'pet.addNewPet': 'Add a new PET',
   'pet.deletePet': 'Delete Pet Profile',
   'mixed Breed': 'mixed Breed',
+  'confirmation.account':'Go to my account',
 }
 export default en_US;

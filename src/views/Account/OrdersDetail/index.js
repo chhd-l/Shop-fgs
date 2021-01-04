@@ -15,7 +15,8 @@ import {
   formatMoney,
   getDictionary,
   setSeoConfig,
-  getFormatDate
+  getFormatDate,
+  matchNamefromDict
 } from '@/utils/utils';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -221,11 +222,6 @@ class AccountOrders extends React.Component {
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
-  }
-  matchNamefromDict(dictList, id) {
-    return find(dictList, (ele) => ele.id === id)
-      ? find(dictList, (ele) => ele.id === id).name
-      : id;
   }
   init() {
     const { orderNumber, progressList } = this.state;
@@ -1366,7 +1362,7 @@ class AccountOrders extends React.Component {
                                       {details.consignee.postCode},{' '}
                                       {details.consignee.phone}
                                       <br />
-                                      {this.matchNamefromDict(
+                                      {matchNamefromDict(
                                         this.state.countryList,
                                         details.consignee.countryId
                                       )}{' '}
@@ -1405,7 +1401,7 @@ class AccountOrders extends React.Component {
                                       {details.invoice.postCode},{' '}
                                       {details.invoice.phone}
                                       <br />
-                                      {this.matchNamefromDict(
+                                      {matchNamefromDict(
                                         this.state.countryList,
                                         details.invoice.countryId
                                       )}{' '}

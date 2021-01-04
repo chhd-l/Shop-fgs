@@ -1,3 +1,5 @@
+import React from 'react';
+
 const fr_FR = {
   aboutUs: 'À propos de nous',
   'aboutUs.description': 'Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution efficace à leurs problèmes de santé.',
@@ -1125,8 +1127,23 @@ const fr_FR = {
   'validPromotionCode': 'Impossible d\'ajouter le bon de réduction à votre panier',
   'mixed Breed': 'race Mixte',
   // SubscriptionLanding START
-  "subscription.title":"",
-  "subscription.subTitle":"",
-  // SubscriptionLanding END
+  "subscription.title":"Avec l'Abonnement, ils auront toujours ce dont ils ont besoin",
+  "subscription.subTitle":"Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.",
+  "subscription.list1":'10% de réduction sur toutes les commandes en Abonnement',
+  "subscription.list2":'Suspendre, modifier ou annuler à tout moment',
+  "subscription.list3":' Livraison offerte',
+  "subscription.list4":'Ligne d assistance téléphonique gratuite sur la nutrition',
+  "subscription.list.btn1":'Voir les formules pour chat',
+  "subscription.list.btn2":'Voir les formules pour chien',
+  "subscription.ad.title":'Comment cela fonctionne-t-il ?',
+  "subscription.ad.list1":'Ajoutez les produits nutritionnels {val1} {val2} {val3} dans votre panier.',
+  "subscription.ad.list2":"Sélectionnez l' {val1} et entrez votre mode de paiement.",
+  "subscription.ad.list3":'{val1} en fonction de votre calendrier.',
+  "subscription.ad.list4":'Modifiez vos préférences à {val1}.',
+  "subscription.banner.title":"Commencez dès maintenant votre Abonnement",
+  "subscription.banner.subTitle":"Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.",
+  "subscription.help.title":"Besoin d'aide ?",
+  "subscription.help.subTitle":"Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.",
+  // SubscriptionLanding End
 }
 export default fr_FR;

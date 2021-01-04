@@ -275,7 +275,8 @@ class AccountOrders extends React.Component {
         salePrice: ele.price,
         goodsInfoId: ele.skuId,
         subscriptionPrice: ele.subscriptionPrice,
-        subscriptionStatus: ele.subscriptionStatus
+        subscriptionStatus: ele.subscriptionStatus,
+        goodsInfoFlag: ele.goodsInfoFlag
       };
     });
     try {

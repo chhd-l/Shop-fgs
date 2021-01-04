@@ -10,6 +10,10 @@
     padding-top: 5px;
   }
 }
+#Details .outOfStock > span:hover {
+  border: 1px solid #ccc;
+  cursor: not-allowed !important;
+}
 .rc-tabs__content__single .block table, .rc-list__content table{
   width: 100%;
   border-spacing: 0;
@@ -309,6 +313,19 @@ ul.ui-star-list li:before {
   }
   .choices__list--dropdown {
     margin-top: .5rem!important;
+  }
+  #Details {
+    .breadcrumb-navigation{
+      display: block !important;
+      .rc-progress--breadcrumbs-stepped{
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        padding-top: 1rem;
+        .bc-nav-ul{
+          font-size:14px;
+        }
+      }
+    }
   }
 }
 

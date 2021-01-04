@@ -4,22 +4,26 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData, getDeviceType } from '@/utils/utils';
-import { searchNextConfirmPanel, scrollIntoView } from '../modules/utils';
+import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
+import {
+  searchNextConfirmPanel,
+  scrollPaymentPanelIntoView
+} from '../modules/utils';
 import './VisitorAddress.css';
 
 /**
  * delivery/billing adress module - visitor
  */
 @inject('paymentStore')
-@injectIntl
+// @injectIntl
 @observer
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
-    isOnepageCheckout: false,
     initData: null,
-    titleVisible: true
+    titleVisible: true,
+    showConfirmBtn: true,
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -27,8 +31,7 @@ class VisitorAddress extends React.Component {
       isValid: false,
       form: this.props.initData,
       countryList: [],
-      billingChecked: true,
-      isMobile: getDeviceType() === 'H5'
+      billingChecked: true
     };
   }
   componentDidMount() {
@@ -37,6 +40,7 @@ class VisitorAddress extends React.Component {
         countryList: res
       });
     });
+    this.validData({ data: this.state.form });
   }
   get panelStatus() {
     const tmpKey =
@@ -48,33 +52,33 @@ class VisitorAddress extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
-  handleEditFormChange = async (data) => {
-    if (this.props.isOnepageCheckout) {
-      try {
-        await validData(ADDRESS_RULE, data);
-        this.setState({ isValid: true, form: data });
-      } catch (err) {
-        this.setState({ isValid: false });
-        console.log(err);
-      }
-    } else {
-      this.setState({ form: data });
-      this.props.updateData(data);
+  validData = async ({ data }) => {
+    try {
+      await validData(ADDRESS_RULE, data);
+      this.setState({ isValid: true, form: data }, () => {
+        this.props.updateFormValidStatus(this.state.isValid);
+      });
+    } catch (err) {
+      this.setState({ isValid: false }, () => {
+        this.props.updateFormValidStatus(this.state.isValid);
+      });
     }
   };
+  handleEditFormChange = (data) => {
+    this.validData({ data });
+  };
   handleClickConfirm = () => {
-    const { isMobile, isValid, form } = this.state;
     const { paymentStore } = this.props;
+    const { isValid, form, billingChecked } = this.state;
     if (!isValid) {
       return false;
     }
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
-      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    if (this.curPanelKey === 'deliveryAddr') {
+      billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
-    dataLayer[0].checkout.step = 3;
 
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
@@ -82,23 +86,17 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    setTimeout(() => {
-      isMobile &&
-        scrollIntoView(
-          document.querySelector(`#J_checkout_panel_paymentMethod`)
-        );
-    });
+    if (this.curPanelKey === 'deliveryAddr') {
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
+    }
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
       key: this.curPanelKey,
       hideOthers: true
     });
-  };
-  matchNamefromDict = (dictList, id) => {
-    return dictList.filter((ele) => ele.id + '' === id).length
-      ? dictList.filter((ele) => ele.id + '' === id)[0].name
-      : id;
   };
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
@@ -151,7 +149,7 @@ class VisitorAddress extends React.Component {
   render() {
     const { panelStatus } = this;
 
-    const { isOnepageCheckout } = this.props;
+    const { showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
     const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
@@ -160,7 +158,6 @@ class VisitorAddress extends React.Component {
         type="delivery"
         initData={form}
         isLogin={false}
-        isOnepageCheckout={isOnepageCheckout}
         updateData={this.handleEditFormChange}
       />
     );
@@ -186,20 +183,22 @@ class VisitorAddress extends React.Component {
           </div>
         )}
 
-        {isOnepageCheckout && !panelStatus.isPrepare ? (
+        {!panelStatus.isPrepare ? (
           <>
             {panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
                 {_editForm}
-                <div className="d-flex justify-content-end mb-2">
-                  <button
-                    className="rc-btn rc-btn--one rc-btn--sm"
-                    onClick={this.handleClickConfirm}
-                    disabled={!isValid}
-                  >
-                    <FormattedMessage id="clinic.confirm" />
-                  </button>
-                </div>
+                {showConfirmBtn && (
+                  <div className="d-flex justify-content-end mb-2">
+                    <button
+                      className="rc-btn rc-btn--one rc-btn--sm"
+                      onClick={this.handleClickConfirm}
+                      disabled={!isValid}
+                    >
+                      <FormattedMessage id="clinic.confirm" />
+                    </button>
+                  </div>
+                )}
               </fieldset>
             ) : form ? (
               <div>
@@ -214,12 +213,11 @@ class VisitorAddress extends React.Component {
                 {form.address2}
                 {form.address2 ? <br /> : null}
                 {form.postCode}, {form.cityName},{' '}
-                {this.matchNamefromDict(this.state.countryList, form.country)}
+                {matchNamefromDict(this.state.countryList, form.country)}
               </div>
             ) : null}
           </>
         ) : null}
-        {!isOnepageCheckout && <>{_editForm}</>}
       </>
     );
   }

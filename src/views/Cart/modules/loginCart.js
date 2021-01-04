@@ -138,7 +138,7 @@ class LoginCart extends React.Component {
     return this.props.checkoutStore.promotionDiscount;
   }
   get isPromote() {
-    return parseInt(this.discountPrice) > 0;
+    return parseFloat(this.discountPrice) > 0;
   }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
@@ -167,8 +167,8 @@ class LoginCart extends React.Component {
     let product = [],
         basketAmount = this.tradePrice,
         basketID = guid,
-        option = this.isLogin ? 'account already created':'guest',
-        step = 2
+        option = '',
+        step = 1
     for (let item of productList) {
       product.push({
         brand:item.goods.brandName || 'ROYAL CANIN',
@@ -185,11 +185,16 @@ class LoginCart extends React.Component {
         sku:item.goodsInfos[0].goodsInfoNo
       })
     }     
-    dataLayer[0].checkout.basketAmount = basketAmount
-    dataLayer[0].checkout.basketID = basketID
-    dataLayer[0].checkout.option = option
-    dataLayer[0].checkout.product = product
-    dataLayer[0].checkout.step = step
+    try{
+      dataLayer[0].checkout.basketAmount = basketAmount
+      dataLayer[0].checkout.basketID = basketID
+      dataLayer[0].checkout.option = option
+      dataLayer[0].checkout.product = product
+      dataLayer[0].checkout.step = step
+    }catch(err){
+      console.log(err)
+    }
+    
   }
   setData() {
     //每次数据变化调用
@@ -359,7 +364,7 @@ class LoginCart extends React.Component {
       });
     } else {
       const { quantityMinLimit, quantityMaxLimit } = this.state;
-      let tmp = parseInt(val);
+      let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
@@ -1251,14 +1256,21 @@ class LoginCart extends React.Component {
             this.state.discount.map((el) => (
               <>
               <div className={`row leading-lines shipping-item d-flex`} style={{margin: '10px', border: '1px solid #ccc', height: '60px', lineHeight: '60px', overflow: 'hidden'}}>
-                <div className="col-6">
-                  <p>
+                <div className={`${!checkoutStore.couponCodeFitFlag? 'col-6': 'col-10'}`}>
+                  <p style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
                     {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )}
                   </p>
                 </div>
-                <div className="col-6">
+                <div className={`${!checkoutStore.couponCodeFitFlag? 'col-4': 'col-0'} red`} style={{padding: 0}}>
+                  <p>
+                    {!checkoutStore.couponCodeFitFlag && (
+                      <FormattedMessage id="Non appliqué" />
+                    )}
+                  </p>
+                </div>
+                <div className="col-2" style={{padding: '0 15px 0 0'}}>
                   <p className="text-right shipping-cost">
                     <span
                       className="rc-icon rc-close--sm rc-iconography"
@@ -1271,6 +1283,7 @@ class LoginCart extends React.Component {
                       onClick={async () => {
                         let result = {};
                         await checkoutStore.removePromotionCode()
+                        await checkoutStore.removeCouponCodeFitFlag()
                         if (!loginStore.isLogin) {
                           //游客
                           result = await checkoutStore.updateUnloginCart();
@@ -1324,7 +1337,7 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         <div
           className={`row leading-lines shipping-item green ${
-            parseInt(this.discountPrice) > 0 && this.state.discount.length === 0
+            parseFloat(this.discountPrice) > 0 && this.state.discount.length === 0
               ? 'd-flex'
               : 'hidden'
           }`}
@@ -1578,7 +1591,8 @@ class LoginCart extends React.Component {
                           </h5>
                         </div>
                         {this.renderSideCart({
-                          fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          // fixToHeader: process.env.REACT_APP_LANG !== 'fr'
+                          fixToHeader: false
                         })}
                       </div>
                     </div>

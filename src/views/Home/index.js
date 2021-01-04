@@ -25,6 +25,8 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+const deviceType = getDeviceType();
+
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -357,7 +359,6 @@ class Home extends React.Component {
     this.state = {
       categoryList: [],
       categoryLoading: true,
-      deviceType: '',
       seoConfig: {
         title: '',
         metaKeywords: '',
@@ -376,8 +377,6 @@ class Home extends React.Component {
       this.setState({ seoConfig: res });
     });
 
-    this.setState({ deviceType: getDeviceType() });
-
     queryStoreCateList().then((res) => {
       let tmpRes = (res || []).sort((a, b) => a.sort - b.sort);
       this.setState({ categoryList: tmpRes, categoryLoading: false });
@@ -393,7 +392,7 @@ class Home extends React.Component {
   };
   render() {
     const { history, match, location } = this.props;
-    const { categoryList, deviceType } = this.state;
+    const { categoryList } = this.state;
     const curListNum = categoryList.length;
 
     const event = {
@@ -411,9 +410,9 @@ class Home extends React.Component {
       <div
         className={`col-6 ${
           curListNum >= 6
-            ? curListNum === 15
+            ? curListNum >= 15
               ? 'col-md-3'
-              : 'col-md-3'
+              : 'col-md-4'
             : 'col-md-3'
         }`}
         key={i}
