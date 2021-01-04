@@ -70,6 +70,7 @@ class ProductFinder extends React.Component {
     });
   }
   GAHandle=(stepName)=>{
+    event.page.theme = this.state.type
     event.page.virtualPageURL = this.getStepCurrent(stepName)
     if(dataLayer && dataLayer[0] && dataLayer[0].page){
       dataLayer[0].page = {...event.page}

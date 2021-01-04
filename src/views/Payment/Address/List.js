@@ -53,7 +53,6 @@ class AddressList extends React.Component {
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
-      billingChecked: true,
       isValid: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
@@ -149,9 +148,7 @@ class AddressList extends React.Component {
       (ele) => ele.deliveryAddressId === selectedId
     );
     const { paymentStore } = this.props;
-    const { billingChecked } = this.state;
-    // debugger;
-    if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr') {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 
@@ -347,7 +344,8 @@ class AddressList extends React.Component {
     }
   }
   handleSave = async () => {
-    if (!this.state.isValid) {
+    const { isValid, addOrEdit } = this.state;
+    if (!isValid || !addOrEdit) {
       return false;
     }
     try {
