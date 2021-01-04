@@ -663,7 +663,7 @@ class Help extends React.Component {
                                   style={{
                                     flex: 3,
                                     fontWeight: '200',
-                                    fontSize: '24px'
+                                    fontSize: '20px'
                                   }}
                                 >
                                   {MaxLinePrice > 0 ? (
@@ -690,7 +690,7 @@ class Help extends React.Component {
                                 style={{
                                   flex: 3,
                                   fontWeight: '200',
-                                  fontSize: '24px'
+                                  fontSize: '20px'
                                 }}
                               >
                                 {MaxMarketPrice > 0 ? (
@@ -710,6 +710,7 @@ class Help extends React.Component {
                             {MaxSubPrice > 0 && (
                               <div className="product-pricing__card__head d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
+                                  <span className="iconfont">&#xe675;</span>
                                   <FormattedMessage id="autoship" />
                                 </div>
                                 <b
@@ -717,7 +718,7 @@ class Help extends React.Component {
                                   style={{
                                     flex: 3,
                                     fontWeight: '200',
-                                    fontSize: '24px'
+                                    fontSize: '20px'
                                   }}
                                 >
                                   {MaxSubPrice > 0 ? (
@@ -939,7 +940,7 @@ class Help extends React.Component {
                                           style={{
                                             flex: 3,
                                             fontWeight: '200',
-                                            fontSize: '24px'
+                                            fontSize: '20px'
                                           }}
                                         >
                                           {MaxLinePrice > 0 ? (
