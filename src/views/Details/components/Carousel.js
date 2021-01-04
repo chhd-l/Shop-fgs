@@ -174,13 +174,11 @@ class Carousel extends React.Component {
         </div>
         <div className="carousel-wrap">
           <a
-            href="javascript:;"
             className="leftBtn Btn rc-icon rc-left rc-iconography"
             id="leftBtn"
             onClick={this.leftBtnClick}
           ></a>
           <a
-            href="javascript:;"
             className="rightBtn Btn  rc-icon  rc-right rc-iconography"
             id="rightBtn"
             onClick={this.rightBtnClick}
