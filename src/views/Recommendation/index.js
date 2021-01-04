@@ -39,6 +39,7 @@ import {
 } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom'
 
 import './index.less';
 
@@ -737,7 +738,7 @@ class Help extends React.Component {
                               </div>
                             )}
                             <p className="product-pricing__card__head see-detail-btn">
-                              <button
+                              {/* <button
                                 className="rc-btn rc-btn--two"
                                 onClick={() => {
                                   history.push(
@@ -745,9 +746,18 @@ class Help extends React.Component {
                                     productList[activeIndex].goodsInfo.goodsInfoId
                                   );
                                 }}
+                              > */}
+                              <Link
+                                className="rc-btn rc-btn--two"
+                                // onClick={() => {
+                                //   history.push(
+                                //     `${productList[activeIndex].goodsInfo.goodsInfoName.split(' ').join('-').replace('/', '')}-${productList[activeIndex].goodsInfo.goods.goodsNo}`
+                                //   );
+                                // }}
+                                to={`/${productList[activeIndex].goodsInfo.goodsInfoName.split(' ').join('-').replace('/', '')}-${productList[activeIndex].goodsInfo.goods.goodsNo}`}
                               >
                                 <FormattedMessage id="recommendation.viewDetail" />
-                              </button>
+                              </Link>
                             </p>
 
                           </div>
@@ -844,7 +854,7 @@ class Help extends React.Component {
                               </li>
                             ))}
                           </ul>
-                          <div ref="p" style={{ marginTop: '50px', display: 'block', width: '100%' }}>
+                          <div ref="p" style={{ marginTop: '30px', display: 'block', width: '100%' }}>
                             {loginStore.isLogin ? (
                               <button
                                 ref="loginButton"
@@ -926,7 +936,7 @@ class Help extends React.Component {
                                       <span className="proName">
                                         {el.goodsInfo.specText}
                                       </span>
-                                      <span style={{margin:'0 5px'}}> X </span>
+                                      <span style={{ margin: '0 5px' }}> X </span>
                                       <span>{el.recommendationNumber}</span>
                                     </div>
                                     {false && MaxLinePrice > 0 && (
