@@ -1093,7 +1093,7 @@ const fr_FR = {
   'registerUppercase': 'Une lettre majuscule',
   'registerAname': 'Un nombre',
   'registerSpecial': 'Un caractère spécial',
-  'registerMandatory': ' Champ obligatoire',
+  'registerMandatory': ' ceinture requise',
   'registerCreateYourAccout': 'Créer votre compte Royal Canin',
   'registerFooter1': "Vous devez avoir 16 ans ou plus pour soumettre un formulaire. Vous pouvez nous contacter en écrivant à Royal Canin France, Service consommateur - BP4 - 650 avenue de la Petite Camargue - 30470 AIMARGUES ou par courriel à",
   'registerFeckbook':'Créer mon compte avec Facebook',
