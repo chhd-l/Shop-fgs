@@ -541,9 +541,11 @@ class List extends React.Component {
     for (let index = 0; index < breadList.length; index++) {
       const element = breadList[index];
       let tmpEle = { ...element };
-      if (!element.link && breadList[++index]) {
+      const nextItem = breadList[index + 1];
+      if (!element.link && nextItem) {
+        index++;
         tmpEle = Object.assign(tmpEle, {
-          name: [element.name, breadList[++index].name].join(': ')
+          name: [element.name, nextItem.name].join(': ')
         });
       }
       ret.push(tmpEle);
@@ -650,7 +652,7 @@ class List extends React.Component {
               `${r.navigationLink}?${r.keywords}`
             ].includes(pathname.replace(/\/$/, ''))
         )[0];
-        
+
         // 暂时加一个判断，特定路由storeCateId为空
         // if(pathname=='/list/keywords'){
         //   targetRouter.storeCateId = ''
@@ -721,7 +723,6 @@ class List extends React.Component {
             link: e.navigationLink || e.cateRouter
           }))
           .reverse();
-
         // set SEO
         this.setSEO({ cateIds });
 
@@ -1059,7 +1060,8 @@ class List extends React.Component {
       pageSize: this.pageSize,
       keywords,
       //storeCateIds,
-      storeCateIds:this.props.location.pathname=='/list/keywords'?[]:storeCateIds,//暂时加一个判断，特定路由storeCateId为空
+      storeCateIds:
+        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;
