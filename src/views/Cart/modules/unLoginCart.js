@@ -105,7 +105,7 @@ class UnLoginCart extends React.Component {
     return this.props.checkoutStore.deliveryPrice;
   }
   get isPromote() {
-    return parseInt(this.discountPrice) > 0;
+    return parseFloat(this.discountPrice) > 0;
   }
   get promotionDesc() {
     return this.props.checkoutStore.promotionDesc;
@@ -355,7 +355,7 @@ class UnLoginCart extends React.Component {
       });
     } else {
       const { quantityMinLimit, quantityMaxLimit } = this.state;
-      let tmp = parseInt(val);
+      let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
         this.setState({
@@ -1413,16 +1413,16 @@ class UnLoginCart extends React.Component {
           </div>
           {/* 显示 默认折扣 */}
           <div
-            className={`row leading-lines shipping-item green ${parseInt(this.discountPrice) > 0 &&
+            className={`row leading-lines shipping-item green ${parseFloat(this.discountPrice) > 0 &&
                 this.state.discount.length === 0
                 ? 'd-flex'
                 : 'hidden'
               }`}
           >
-            <div className="col-8">
+            <div className="col-6">
               <p>{<FormattedMessage id="promotion" />}</p>
             </div>
-            <div className="col-4">
+            <div className="col-6">
               <p className="text-right shipping-cost">
                 - {formatMoney(this.discountPrice)}
               </p>
