@@ -6,14 +6,19 @@ import StaticPage from './modules/StaticPage';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
+import Swiper from 'swiper';
+// import 'swiper/css/swiper.css';
+import 'swiper/swiper-bundle.min.css';
+import { getDeviceType } from '@/utils/utils';
 import goodsDetailTab from './modules/goodsDetailTab.json';
 const productObj = {
   img: 'http://iph.href.lu/200x200',
   title: 'title',
   detail: 'detail'
 };
+const isMobile = getDeviceType() !== 'PC';
 const productList = Array(6).fill(productObj);
-const Step1 = (props) => {
+const Step1Pc = (props) => {
   return (
     <>
       <div className="rc-card-grid rc-match-heights">
@@ -54,6 +59,37 @@ const Step1 = (props) => {
     </>
   );
 };
+class Step1H5 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  componentDidMount() {
+    new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 30
+    });
+  }
+  render() {
+    return (
+      <div className="swiper-container">
+        <div className="swiper-wrapper">
+          <div className="swiper-slide">Slide 1</div>
+          <div className="swiper-slide">Slide 2</div>
+          <div className="swiper-slide">Slide 3</div>
+        </div>
+        <div className="swiper-pagination"></div>
+      </div>
+    );
+  }
+}
+const Step1 = (props) => {
+  return isMobile ? (
+    <Step1H5 productList={props.productList} toOtherStep={props.toOtherStep} />
+  ) : (
+    <Step1Pc productList={props.productList} toOtherStep={props.toOtherStep} />
+  );
+};
 const Step2 = (props) => {
   return (
     <>
@@ -88,7 +124,21 @@ const Step2 = (props) => {
   );
 };
 const Step3 = () => {
-  return <div>test</div>;
+  return (
+    <>
+      <div class="rc-layout-container rc-three-column">
+        <div class="rc-column">
+          <h1 class="rc-espilon"> 1 / 3 </h1>
+        </div>
+        <div class="rc-column">
+          <h1 class="rc-espilon"> 1 / 3 </h1>
+        </div>
+        <div class="rc-column">
+          <h1 class="rc-espilon"> 1 / 3 </h1>
+        </div>
+      </div>
+    </>
+  );
 };
 class SmartFeederSubscription extends Component {
   constructor(props) {
