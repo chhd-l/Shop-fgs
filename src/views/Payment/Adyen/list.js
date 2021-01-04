@@ -172,6 +172,7 @@ class AdyenCreditCardList extends React.Component {
           this.queryList();
         })
         .catch((err) => {
+          this.queryList();
           this.props.showErrorMsg(err.message);
           this.setState(
             {
@@ -282,7 +283,6 @@ class AdyenCreditCardList extends React.Component {
               onChange: (state) => {
                 console.log(state);
                 const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
-                if (!state.data.paymentMethod.encryptedSecurityCode) return;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
                 // ****************************************************************
@@ -552,7 +552,7 @@ class AdyenCreditCardList extends React.Component {
       cardList
     });
   };
-  handlUpdateSelectedId = (selectedId) => {
+  handleUpdateSelectedId = (selectedId) => {
     this.setState({ selectedId }, () => {
       this.hanldeUpdateSelectedCardInfo();
     });
@@ -566,9 +566,13 @@ class AdyenCreditCardList extends React.Component {
   };
   clickConfirm = async () => {
     this.setState({ saveLoading: true });
-    if (this.editFormRef) {
-      await this.editFormRef.current.handleSave();
-      // this.setState({ formVisible: false });
+    try {
+      if (this.editFormRef) {
+        await this.editFormRef.current.handleSave();
+        // this.setState({ formVisible: false });
+      }
+    } catch (err) {
+      throw new Error(err.message);
     }
     this.setState({ saveLoading: false });
     scrollPaymentPanelIntoView();
@@ -591,7 +595,7 @@ class AdyenCreditCardList extends React.Component {
           this.setState({ formVisible: val });
         }}
         queryList={this.queryList}
-        updateSelectedId={this.handlUpdateSelectedId}
+        updateSelectedId={this.handleUpdateSelectedId}
         updateAdyenPayParam={this.updateAdyenPayParam}
         updateClickPayBtnValidStatus={this.props.updateFormValidStatus}
         showErrorMsg={showErrorMsg}

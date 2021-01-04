@@ -1062,15 +1062,24 @@ class Header extends React.Component {
                   e.preventDefault();
                 }}
               >
-                <button
-                  className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
-                  type="submit"
-                  aria-label="Search"
+                <Link
+                  className="productName rc-large-body ui-cursor-pointer"
+                  to={{
+                    pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    search: `?q=${keywords}`
+                  }}
                 >
-                  <span className="screen-reader-text">
-                    <FormattedMessage id="search" />
-                  </span>
-                </button>
+                  <button
+                    className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
+                    type="submit"
+                    aria-label="Search"
+                  >
+                    <span className="screen-reader-text">
+                      <FormattedMessage id="search" />
+                    </span>
+                  </button>  
+                </Link>
+                
                 <FormattedMessage id="header.startTypingToSearch">
                   {(txt) => (
                     <input
