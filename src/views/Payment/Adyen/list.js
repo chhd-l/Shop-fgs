@@ -552,7 +552,7 @@ class AdyenCreditCardList extends React.Component {
       cardList
     });
   };
-  handlUpdateSelectedId = (selectedId) => {
+  handleUpdateSelectedId = (selectedId) => {
     this.setState({ selectedId }, () => {
       this.hanldeUpdateSelectedCardInfo();
     });
@@ -591,7 +591,7 @@ class AdyenCreditCardList extends React.Component {
           this.setState({ formVisible: val });
         }}
         queryList={this.queryList}
-        updateSelectedId={this.handlUpdateSelectedId}
+        updateSelectedId={this.handleUpdateSelectedId}
         updateAdyenPayParam={this.updateAdyenPayParam}
         updateClickPayBtnValidStatus={this.props.updateFormValidStatus}
         showErrorMsg={showErrorMsg}

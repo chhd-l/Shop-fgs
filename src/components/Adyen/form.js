@@ -155,16 +155,17 @@ class AdyenCreditCardForm extends React.Component {
           showListLoading: false
         });
         this.setState({ saveLoading: false });
+        this.props.updateAdyenPayParam(decoAdyenFormData);
       } else {
         tmpSelectedId = new Date().getTime() + '';
         decoAdyenFormData = Object.assign(decoAdyenFormData, {
           id: tmpSelectedId
         });
+        this.props.updateAdyenPayParam(decoAdyenFormData);
         this.props.updateSelectedId(tmpSelectedId);
       }
 
       this.isLogin && this.props.updateFormVisible(false);
-      this.props.updateAdyenPayParam(decoAdyenFormData);
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
