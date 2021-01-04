@@ -1585,17 +1585,13 @@ class Payment extends React.Component {
           type={type}
         />
         {billingChecked ? (
-          deliveryAddress && deliveryAddress.firstName ? (
-            <>
-              <div className="ml-custom mr-custom">
-                {this.renderAddrPreview({
-                  form: billingAddress,
-                  titleVisible: false,
-                  boldName: true
-                })}
-              </div>
-            </>
-          ) : null
+          <div className="ml-custom mr-custom">
+            {this.renderAddrPreview({
+              form: billingAddress,
+              titleVisible: false,
+              boldName: true
+            })}
+          </div>
         ) : null}
 
         {!billingChecked && (
@@ -1603,7 +1599,7 @@ class Payment extends React.Component {
             {this.isLogin ? (
               <AddressList
                 ref={this.loginBillingAddrRef}
-                id="2"
+                key={2}
                 type="billing"
                 showOperateBtn={false}
                 visible={!billingChecked}
@@ -1645,51 +1641,56 @@ class Payment extends React.Component {
     this.setState({ saveBillingLoading: true });
 
     async function handleClickSaveForm(_this) {
-      if (
-        _this.adyenCardRef &&
-        _this.adyenCardRef.current &&
-        _this.adyenCardRef.current.cardListRef &&
-        _this.adyenCardRef.current.cardListRef.current
-      ) {
-        await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+      try {
+        if (
+          _this.adyenCardRef &&
+          _this.adyenCardRef.current &&
+          _this.adyenCardRef.current.cardListRef &&
+          _this.adyenCardRef.current.cardListRef.current
+        ) {
+          await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        }
+      } catch (e) {
+        throw new Error(e.message);
       }
     }
 
-    if (isLogin) {
-      // 1 save card form, when add a new card
-      if (!adyenPayParam) {
+    try {
+      if (isLogin) {
+        // 1 save billing addr, when billing checked status is false
+        if (
+          !billingChecked &&
+          this.loginBillingAddrRef &&
+          this.loginBillingAddrRef.current
+        ) {
+          await this.loginBillingAddrRef.current.handleSave();
+        }
+        // 2 save card form, when add a new card
+        if (!adyenPayParam) {
+          await handleClickSaveForm(this);
+        }
+      } else {
+        // 1 save card form
+        // 2 save billing addr, when billing checked status is false
         await handleClickSaveForm(this);
+        if (
+          !billingChecked &&
+          this.unLoginBillingAddrRef &&
+          this.unLoginBillingAddrRef.current
+        ) {
+          this.unLoginBillingAddrRef.current.handleClickConfirm();
+        }
       }
-
-      // 2 save billing addr, when billing checked status is false
-      if (
-        !billingChecked &&
-        this.loginBillingAddrRef &&
-        this.loginBillingAddrRef.current &&
-        this.loginBillingAddrRef.current.state.addOrEdit &&
-        this.loginBillingAddrRef.current.state.isValid
-      ) {
-        await this.loginBillingAddrRef.current.handleSave();
-      }
-    } else {
-      // 1 save card form
-      // 2 save billing addr, when billing checked status is false
-      await handleClickSaveForm(this);
-      if (
-        !billingChecked &&
-        this.unLoginBillingAddrRef &&
-        this.unLoginBillingAddrRef.current
-      ) {
-        this.unLoginBillingAddrRef.current.handleClickConfirm();
-      }
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+      paymentStore.setStsToEdit({ key: 'confirmation' });
+    } catch (e) {
+    } finally {
+      this.setState({ saveBillingLoading: false });
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
     }
-    paymentStore.setStsToCompleted({ key: 'billingAddr' });
-    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-    paymentStore.setStsToEdit({ key: 'confirmation' });
-    this.setState({ saveBillingLoading: false });
-    setTimeout(() => {
-      scrollPaymentPanelIntoView();
-    });
   };
 
   handleClickPaymentPanelEdit = () => {
@@ -1714,15 +1715,10 @@ class Payment extends React.Component {
    * 渲染支付方式
    */
   renderPayTab = ({ visible = false }) => {
-    const { checkoutStore } = this.props;
     const {
       paymentTypeVal,
       subForm,
-      listData,
       payWayObj,
-      billingAddress,
-      tid,
-      adyenPayParam,
       billingChecked,
       email,
       validSts,
@@ -1911,7 +1907,7 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    return (
+    return form ? (
       <>
         {titleVisible && (
           <>
@@ -1937,7 +1933,7 @@ class Payment extends React.Component {
           form.country || form.countryId
         )}
       </>
-    );
+    ) : null;
   };
 
   /**
@@ -2382,7 +2378,7 @@ class Payment extends React.Component {
                   id="J_checkout_panel_paymentMethod"
                 >
                   {paymentMethodTitle}
-                  {/* 没有开启onepagecheckout 或者 不是prepare状态时，才会显示 */}
+                  {/* 不是prepare状态时，才会显示 */}
                   {this.renderPayTab({
                     visible: paymentMethodPanelStatus.isEdit
                   })}
