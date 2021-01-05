@@ -171,7 +171,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%' }}>
+                    <LazyLoad style={{ width: '100%', height: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
@@ -800,7 +800,7 @@ class List extends React.Component {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
         this.setState({
           seoConfig: res,
-          breadList: [{ name: <FormattedMessage id="searchShow" /> }]
+          breadList: [{ name: this.props.intl.messages.searchShow }]
         });
       });
     } else if (cateIds && cateIds.length) {
