@@ -28,15 +28,6 @@ const stepVirtualPageURL = {
   genderCode:'productfinder/vAPI/dog/gender_step',
   neutered: 'productfinder/vAPI/dog/neutered_step',
 }
-let event = {
-  event: "virtualPageView",
-  page: {
-    type: 'Product Finder',
-    hitTimestamp:new Date(),
-    virtualPageURL: 'productfinder/vAPI/choice/step',//默认是主页
-    theme:''
-  }
-};
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -54,6 +45,7 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
+    this.GAHandle('speciesCode')
     const cachedType = localItemRoyal.get(`pf-cache-type`);
     const tmpOrder = sessionItemRoyal.get('pf-edit-order');
     const cachedQuestionData = localItemRoyal.get(
@@ -70,12 +62,15 @@ class ProductFinder extends React.Component {
     });
   }
   GAHandle=(stepName)=>{
-    event.page.theme = this.state.type
-    event.page.virtualPageURL = this.getStepCurrent(stepName)
-    if(dataLayer && dataLayer[0] && dataLayer[0].page){
-      dataLayer[0].page = {...event.page}
+    if(dataLayer){
+      dataLayer.push({
+        event: "virtualPageView",
+        page:{
+          type: 'Product Finder',
+          virtualPageURL:this.getStepCurrent(stepName)
+        }
+      })
     }
-    console.info('event.page.virtualPageURL',  event.page.virtualPageURL)
   };
   getStepCurrent(stepCurrent) {
     return stepVirtualPageURL[stepCurrent]
@@ -131,6 +126,17 @@ class ProductFinder extends React.Component {
     );
     const { match, history, location } = this.props;
     const { type } = this.state;
+
+    let event = {
+      page: {
+        type: 'Product Finder',
+        hitTimestamp:new Date(),
+        path: location.pathname,
+        theme:'none',
+        error: "none",
+        filters: "none"
+      }
+    };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />

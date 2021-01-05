@@ -1,6 +1,5 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import PaymentComp from '../PaymentComp';
 import {
   CREDIT_CARD_IMG_ENUM,
   CREDIT_CARD_IMGURL_ENUM,
@@ -11,14 +10,16 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
+import PaymentComp from '../PaymentComp';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('paymentStore')
-@injectIntl
 @observer
 class PayOs extends React.Component {
   static defaultProps = {
-    isLogin: false
+    isLogin: false,
+    billingJSX: null,
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -43,6 +44,7 @@ class PayOs extends React.Component {
       isValid: false,
       saveLoading: false
     };
+    this.paymentCompRef = React.createRef();
   }
   componentDidMount() {
     const { isLogin } = this.props;
@@ -112,46 +114,29 @@ class PayOs extends React.Component {
         inited: true
       });
     }
+    this.initForm();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { creditCardInfoForm } = this.state;
-    if (nextProps.selectedDeliveryAddress) {
-      const {
-        email: selectedEmail,
-        phoneNumber: selectedPhone,
-        firstName: selectedFirstName,
-        lastName: selectedLastName
-      } = nextProps.selectedDeliveryAddress;
-      let {
-        email: curEmail,
-        phoneNumber: curPhone,
-        cardOwner: curName
-      } = creditCardInfoForm;
-      const selectedName = [selectedFirstName, selectedLastName]
-        .filter((n) => !!n)
-        .join(' ');
-      if (!this.state.hasEditedEmail && selectedEmail !== curEmail) {
-        curEmail = selectedEmail;
-      }
-      if (!this.state.hasEditedPhone && selectedPhone !== curPhone) {
-        curPhone = selectedPhone;
-      }
-      if (!this.state.hasEditedName && selectedName !== curName) {
-        curName = selectedName;
-      }
-      this.setState(
-        {
-          creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-            email: curEmail,
-            phoneNumber: curPhone,
-            cardOwner: curName
-          })
-        },
-        () => {
-          this.validFormData();
-        }
-      );
+  initForm() {
+    const {
+      paymentStore: { selectedDeliveryAddress: defaultVal }
+    } = this.props;
+    let tmpDefaultName = '';
+    if (defaultVal) {
+      const { firstName, lastName } = defaultVal;
+      tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
+    this.setState(
+      {
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          cardOwner: tmpDefaultName || '',
+          email: (defaultVal && defaultVal.email) || '',
+          phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
+        })
+      },
+      () => {
+        this.validFormData();
+      }
+    );
   }
   cardInfoInputChange = (e) => {
     const target = e.target;
@@ -160,7 +145,7 @@ class PayOs extends React.Component {
     const { creditCardInfoForm } = this.state;
     creditCardInfoForm[name] = value;
     this.inputBlur(e);
-    this.setState({ creditCardInfoForm: creditCardInfoForm }, () => {
+    this.setState({ creditCardInfoForm }, () => {
       this.props.onVisitorCardInfoChange(this.state.creditCardInfoForm);
       this.validFormData();
     });
@@ -195,13 +180,14 @@ class PayOs extends React.Component {
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
+    } finally {
+      this.props.updateFormValidStatus(this.state.isValid);
     }
   }
   handleClickCardConfirm = () => {
     if (!this.state.isValid) {
       return false;
     }
-
     this.setState({ saveLoading: true });
     document.getElementById('payment-form').submit.click();
     let timer = setInterval(() => {
@@ -215,7 +201,7 @@ class PayOs extends React.Component {
             this.props.showErrorMsg(payosdata.more_info);
             sessionItemRoyal.remove('payosdata');
           } else {
-            this.setState({ isCompleteCredit: true });
+            // this.setState({ isCompleteCredit: true });
             this.props.onVisitorPayosDataConfirm(payosdata);
             scrollPaymentPanelIntoView();
           }
@@ -226,6 +212,7 @@ class PayOs extends React.Component {
             ? sessionItemRoyal.get('payosdata')
             : err.message.toString()
         );
+        throw new Error();
       } finally {
         clearInterval(timer);
         this.setState({ saveLoading: false });
@@ -271,12 +258,14 @@ class PayOs extends React.Component {
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
+                        ref={this.paymentCompRef}
                         billingJSX={billingJSX}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
                         selectedDeliveryAddress={
                           this.props.selectedDeliveryAddress
                         }
+                        updateFormValidStatus={this.props.updateFormValidStatus}
                       />
                     </div>
                   ) : (
@@ -400,7 +389,7 @@ class PayOs extends React.Component {
                                     data-js-warning-message="*Phone Number isn’t valid"
                                   >
                                     <input
-                                      type="number"
+                                      type="text"
                                       className="rc-input__control input__phoneField shippingPhoneNumber"
                                       min-lenght="18"
                                       max-length="18"
@@ -505,27 +494,10 @@ class PayOs extends React.Component {
             </form>
           </div>
         </div>
-        {/* 非登录，且没有确认card form时，显示此确认按钮 */}
-        {!isLogin && !isCompleteCredit && (
-          <>
-            {billingJSX}
-            <div className="d-flex justify-content-end align-items-center mt-3">
-              <button
-                className={`rc-btn rc-btn--one ${
-                  saveLoading ? 'ui-btn-loading' : ''
-                }`}
-                // 校验card form表单
-                disabled={!isValid}
-                onClick={this.handleClickCardConfirm}
-              >
-                <FormattedMessage id="payment.confirmCard" />
-              </button>
-            </div>
-          </>
-        )}
+        {billingJSX}
       </>
     );
   }
 }
 
-export default PayOs;
+export default injectIntl(PayOs, { forwardRef: true });

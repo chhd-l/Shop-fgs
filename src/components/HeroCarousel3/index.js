@@ -23,54 +23,61 @@ class Carousel extends React.Component {
         interval: 2000, //间隔时间
         animatetime: 500,
         tween: 'QuadEaseOut',
-        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+        width:
+          document.documentElement.clientWidth < 1400
+            ? document.documentElement.clientWidth
+            : 1400
       }
     };
     this.clickCircle = this.clickCircle.bind(this);
     this.resize = this.resize.bind(this);
   }
-  GABannerImpression(idx){
-    const cur_banner = this.state.banner[idx]
+  GABannerImpression(idx) {
+    const cur_banner = this.state.banner[idx];
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
-      'ecommerce': {
-        'promoClick': {
-          'promotions': [
-           {
-             'id': cur_banner.bannerId,            // Name or ID is required
-             'name': cur_banner.bannerName,
-             'creative': cur_banner.bannerName,
-             'position': idx
-           }]
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionImpression`,
+      ecommerce: {
+        promoClick: {
+          promotions: [
+            {
+              id: cur_banner.bannerId, // Name or ID is required
+              name: cur_banner.bannerName,
+              creative: cur_banner.bannerName,
+              position: idx
+            }
+          ]
         }
-      }  });
+      }
+    });
   }
 
   GABannerClick = (idx) => {
-    const cur_banner = this.state.banner[idx]
+    const cur_banner = this.state.banner[idx];
     dataLayer.push({
-      'event': `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
-      'ecommerce': {
-        'promoClick': {
-          'promotions': [
-           {
-             'id': cur_banner.bannerId,            // Name or ID is required
-             'name': cur_banner.bannerName,
-             'creative': cur_banner.bannerName,
-             'position': idx
-           }]
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComPromotionClick`,
+      ecommerce: {
+        promoClick: {
+          promotions: [
+            {
+              id: cur_banner.bannerId, // Name or ID is required
+              name: cur_banner.bannerName,
+              creative: cur_banner.bannerName,
+              position: idx
+            }
+          ]
         }
-      }  });
-  }
+      }
+    });
+  };
 
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context },()=>{
-        console.log({banner:this.state.banner})
+      this.setState({ banner: res.context }, () => {
+        console.log({ banner: this.state.banner });
       });
     });
 
-    this.screenChange()
+    this.screenChange();
   }
   screenChange() {
     window.addEventListener('resize', this.resize);
@@ -81,9 +88,12 @@ class Carousel extends React.Component {
         interval: 2000, //间隔时间
         animatetime: 500,
         tween: 'QuadEaseOut',
-        width: document.documentElement.clientWidth < 1400? document.documentElement.clientWidth: 1400
+        width:
+          document.documentElement.clientWidth < 1400
+            ? document.documentElement.clientWidth
+            : 1400
       }
-    })
+    });
   }
   changeCircles = () => {
     //得到元素
@@ -103,11 +113,11 @@ class Carousel extends React.Component {
     }
     circlesLis[n].className = 'cur';
 
-     //点击banner埋点
-     this.GABannerImpression(n)
+    //点击banner埋点
+    this.GABannerImpression(n);
   };
   leftBtnClick = () => {
-    const { options } = this.state
+    const { options } = this.state;
     //得到元素
     var m_unit = document.getElementById('m_unit');
     var imageUL = m_unit.getElementsByTagName('ul')[0];
@@ -129,9 +139,6 @@ class Carousel extends React.Component {
       m_unit.style.left = -options.width * length + 'px';
     }
 
-    
-    
-
     //改变小圆点
     this.changeCircles();
 
@@ -143,10 +150,8 @@ class Carousel extends React.Component {
     );
   };
 
-
-  
   rightBtnClick = () => {
-    const { options } = this.state
+    const { options } = this.state;
     //得到元素
     var circles = document.getElementById('circles');
     var m_unit = document.getElementById('m_unit');
@@ -163,7 +168,7 @@ class Carousel extends React.Component {
 
     //信号量的变化
     idx++;
-    
+
     //改变小圆点
     this.changeCircles();
 
@@ -181,10 +186,9 @@ class Carousel extends React.Component {
         }
       }
     );
-
   };
   clickCircle(index) {
-    const { options } = this.state
+    const { options } = this.state;
     //信号量就是自己的序号
     idx = index;
     //拉动
@@ -206,13 +210,11 @@ class Carousel extends React.Component {
       <div className="homePage">
         <div className="carousel-wrap">
           <a
-            href="javascript:;"
             className="leftBtn Btn rc-icon rc-left rc-iconography"
             id="leftBtn"
             onClick={this.leftBtnClick}
           />
           <a
-            href="javascript:;"
             className="rightBtn Btn  rc-icon  rc-right rc-iconography"
             id="rightBtn"
             onClick={this.rightBtnClick}
@@ -224,7 +226,7 @@ class Carousel extends React.Component {
                   return (
                     <li key={index}>
                       {item.isVideo == 1 ? (
-                        <a href="javascript:;" className="videoURL" style={{cursor:'default'}}>
+                        <a className="videoURL" style={{ cursor: 'default' }}>
                           <video autoPlay={true} muted={true} loop={true}>
                             <source src={item.webUrl} type="video/mp4" />
                           </video>
@@ -240,40 +242,39 @@ class Carousel extends React.Component {
                               </p>
                             </div>
                             <div>
-                              {
-                                process.env.REACT_APP_LANG == 'de'
-                                ?
+                              {process.env.REACT_APP_LANG == 'de' ? (
                                 <Link
-                                  onClick={()=>this.GABannerClick(index)}
+                                  onClick={() => this.GABannerClick(index)}
                                   to="/list/keywords"
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
                                 </Link>
-                                :<Link
-                                  onClick={()=>this.GABannerClick(index)}
+                              ) : (
+                                <Link
+                                  onClick={() => this.GABannerClick(index)}
                                   to={item.webSkipUrl}
                                   className="rc-btn rc-btn--one"
                                 >
                                   <FormattedMessage id="header.toBegin" />
                                 </Link>
-                              }
-                              
+                              )}
                             </div>
                           </div>
                         </a>
                       ) : (
-                        <a href="javascript:;" className="imageURL" style={{cursor:'default'}}>
+                        <a className="imageURL" style={{ cursor: 'default' }}>
                           <div
                             style={{
                               backgroundImage: 'url(' + item.webUrl + ')'
                             }}
                           ></div>
                           {process.env.REACT_APP_LANG === 'fr' && index == 1 ? (
-                            <Link 
-                              onClick={()=>this.GABannerClick(index)}
-                              to={item.webSkipUrl} 
-                              className="category-btn">
+                            <Link
+                              onClick={() => this.GABannerClick(index)}
+                              to={item.webSkipUrl}
+                              className="category-btn"
+                            >
                               <button className="rc-btn rc-btn--one">
                                 En savoir plus
                               </button>

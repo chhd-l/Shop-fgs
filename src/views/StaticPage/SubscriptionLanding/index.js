@@ -202,7 +202,7 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         <h7>
                           <FormattedMessage id="subscription.ad.list2" values={{
-                            val1:(<strong>expédition automatique</strong>)
+                            val1:(<strong>l'expédition automatique</strong>)
                           }}/>
                         </h7>
                       </div>

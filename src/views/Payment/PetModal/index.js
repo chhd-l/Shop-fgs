@@ -32,7 +32,6 @@ class PetModal extends Component {
 
   getUserInfo() {
     let userinfo = {};
-    console.log(localItemRoyal.get('rc-userinfo'), 'hahaha');
     if (localItemRoyal.get('rc-userinfo')) {
       userinfo = localItemRoyal.get('rc-userinfo');
     }
