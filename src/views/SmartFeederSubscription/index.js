@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './index.less';
 import Swiper from 'swiper';
-// import 'swiper/css/swiper.css';
+import Selection from '@/components/Selection';
 import 'swiper/swiper-bundle.min.css';
 import { getDeviceType } from '@/utils/utils';
 import goodsDetailTab from './modules/goodsDetailTab.json';
@@ -38,24 +38,6 @@ const Step1Pc = (props) => {
           </div>
         ))}
       </div>
-      <div className="rc-text--center">
-        <button
-          class="rc-btn rc-btn--sm rc-btn--two"
-          onClick={() => {
-            props.toOtherStep('step2');
-          }}
-        >
-          view product details
-        </button>
-        <button
-          class="rc-btn rc-btn--sm rc-btn--one"
-          onClick={() => {
-            props.toOtherStep('step3');
-          }}
-        >
-          choose product
-        </button>
-      </div>
     </>
   );
 };
@@ -84,10 +66,43 @@ class Step1H5 extends Component {
   }
 }
 const Step1 = (props) => {
-  return isMobile ? (
-    <Step1H5 productList={props.productList} toOtherStep={props.toOtherStep} />
-  ) : (
-    <Step1Pc productList={props.productList} toOtherStep={props.toOtherStep} />
+  return (
+    <>
+      {isMobile ? (
+        <Step1H5
+          productList={props.productList}
+          toOtherStep={props.toOtherStep}
+        />
+      ) : (
+        <Step1Pc
+          productList={props.productList}
+          toOtherStep={props.toOtherStep}
+        />
+      )}
+      <div className="rc-layout-container rc-two-column  rc-text--center">
+        <div className="rc-column">
+          <button
+            className="rc-btn rc-btn--two"
+            onClick={() => {
+              props.toOtherStep('step2');
+            }}
+          >
+            view product details
+          </button>
+        </div>
+        <div className="rc-column">
+          <button
+            className="rc-btn rc-btn--one"
+            onClick={() => {
+              props.toOtherStep('step3');
+            }}
+          >
+            choose product
+          </button>
+        </div>
+      </div>
+      {/* <div className="rc-text--center"></div> */}
+    </>
   );
 };
 const Step2 = (props) => {
@@ -104,7 +119,7 @@ const Step2 = (props) => {
       <Details goodsDetailTab={props.goodsDetailTab} />
       <div className="rc-text--center">
         <button
-          class="rc-btn rc-btn--sm rc-btn--two"
+          className="rc-btn rc-btn--sm rc-btn--two"
           onClick={() => {
             props.toOtherStep('step1');
           }}
@@ -112,7 +127,7 @@ const Step2 = (props) => {
           select another product
         </button>
         <button
-          class="rc-btn rc-btn--sm rc-btn--one"
+          className="rc-btn rc-btn--sm rc-btn--one"
           onClick={() => {
             props.toOtherStep('step3');
           }}
@@ -124,17 +139,119 @@ const Step2 = (props) => {
   );
 };
 const Step3 = () => {
+  const computedList = [{ name: 'test', value: 1 }];
   return (
     <>
-      <div class="rc-layout-container rc-three-column">
-        <div class="rc-column">
-          <h1 class="rc-espilon"> 1 / 3 </h1>
+      <div className="rc-layout-container rc-three-column">
+        <div className="rc-column">
+          <img src="http://iph.href.lu/200x200" />
+          <h6>title</h6>
+          <p>description</p>
         </div>
-        <div class="rc-column">
-          <h1 class="rc-espilon"> 1 / 3 </h1>
+        <div className="rc-column">
+          <img src="http://iph.href.lu/200x200" />
+          <h6>jack russel terrier</h6>
+          <div style={{ overflow: 'hidden' }}>
+            <div
+              className="cart-and-ipay"
+              style={{ float: 'left', width: '36%' }}
+            >
+              <div className="rc-swatch __select-size">
+                {/* <div className="rc-swatch__item selected">
+                            <span>
+                              {find(pitem.sizeList, s => s.selected).specText}
+                              <i></i>
+                            </span>
+                          </div> */}
+                <div className="overflow-hidden">
+                  <div className="text-left ml-1">test</div>
+                  <div
+                    className={`rc-swatch__item`}
+                    // key={i2}
+                    // onClick={() =>
+                    //   this.handleChooseSize(sdItem, pitem, index)
+                    // }
+                  >
+                    <span>
+                      teste
+                      <i></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="product-card-footer product-card-price d-flex"
+              style={{ width: '62%' }}
+            >
+              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                <div className="text-left ml-1">test</div>
+                <div className="rc-quantity d-flex">
+                  <span
+                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
+                    // onClick={() => this.subQuantity(pitem)}
+                  ></span>
+                  <input
+                    className="rc-quantity__input"
+                    value="1"
+                    min="1"
+                    max="10"
+                    disabled
+                    // onChange={(e) =>
+                    //   this.handleAmountChange(e.target.value, pitem)
+                    // }
+                  />
+                  <span
+                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
+                    data-quantity-error-msg="Вы не можете заказать больше 10"
+                    // onClick={() => this.addQuantity(pitem)}
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>select your frequency</p>
+          <div>
+            <Selection
+              customContainerStyle={{
+                display: 'inline-block',
+                textAlign: 'right'
+              }}
+              // selectedItemChange={(data) =>
+              //   this.handleSelectedItemChange(pitem, data)
+              // }
+              optionList={computedList}
+              selectedItemData={{
+                value: 1
+              }}
+              customStyleType="select-one"
+            />
+          </div>
         </div>
-        <div class="rc-column">
-          <h1 class="rc-espilon"> 1 / 3 </h1>
+        <div className="rc-column">
+          <h5>summary</h5>
+          <div className="d-flex">
+            <div style={{ width: '70%' }}>
+              <h6>title</h6>
+              <div>smart feeder subscription</div>
+            </div>
+            <div>price</div>
+          </div>
+          <div className="d-flex">
+            <div style={{ width: '70%' }}>
+              <h6>title</h6>
+              <div>smart feeder subscription</div>
+            </div>
+            <div></div>
+          </div>
+          <div className="d-flex">
+            <div style={{ width: '70%' }}>shipping</div>
+            <div>free</div>
+          </div>
+          <div className="d-flex">
+            <div style={{ width: '70%' }}>shipping</div>
+            <div>free</div>
+          </div>
         </div>
       </div>
     </>
