@@ -114,8 +114,11 @@ class RegisterRequired extends Component {
     }
   };
   computedIsCheck(list){
-    return list.every(item=>{
-      return item.isChecked==false
+    //必填项全部被check
+    return list.filter(item=>{
+      return item.isRequired==true 
+    }).every(item2=>{
+      return item2.isChecked == true
     })
   }
   //从子组件传回
@@ -354,7 +357,7 @@ class RegisterRequired extends Component {
               {
                 <button
                   className="rc-btn rc-btn--lg rc-btn--one px-5"
-                  disabled={this.computedIsCheck(this.state.list)}
+                  disabled={!this.computedIsCheck(this.state.list)}
                   onClick={this.submitLogin}
                 >
                   <FormattedMessage id="required.continue" />
