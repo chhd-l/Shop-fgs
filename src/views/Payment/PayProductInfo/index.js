@@ -585,7 +585,7 @@ class PayProductInfo extends React.Component {
                   className="row leading-lines shipping-item"
                   style={{
                     display:
-                      parseInt(this.subscriptionPrice) > 0 ? 'flex' : 'none'
+                      parseFloat(this.subscriptionPrice) > 0 ? 'flex' : 'none'
                   }}
                 >
                   <div className="col-7 start-lines">
@@ -614,7 +614,7 @@ class PayProductInfo extends React.Component {
                   className="row leading-lines shipping-item"
                   style={{
                     display:
-                      parseInt(this.discountPrice) > 0 &&
+                      parseFloat(this.discountPrice) > 0 &&
                       !this.props.checkoutStore.promotionCode
                         ? 'flex'
                         : 'none'

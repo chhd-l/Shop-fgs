@@ -53,14 +53,6 @@ class EditForm extends React.Component {
       });
     });
   }
-  updateSelectedMobxData() {
-    const { type, paymentStore } = this.props;
-    paymentStore[
-      type === 'delivery'
-        ? 'updateSelectedDeliveryAddress'
-        : 'updateSelectedBillingAddress'
-    ](this.state.address);
-  }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
       return {
@@ -84,7 +76,6 @@ class EditForm extends React.Component {
     }
     address[name] = value;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   };
@@ -112,7 +103,6 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address[key] = data.value;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   }
@@ -121,7 +111,6 @@ class EditForm extends React.Component {
     address.city = data.id;
     address.cityName = data.cityName;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   };
