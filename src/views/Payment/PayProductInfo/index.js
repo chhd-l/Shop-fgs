@@ -115,6 +115,7 @@ class PayProductInfo extends React.Component {
     }
     return product
   }
+  // GA Checkout
   GACheck(productList) {
     if (!isGACheckoutLock) { //防止重复调用
       isGACheckoutLock = true
@@ -136,7 +137,7 @@ class PayProductInfo extends React.Component {
           step: '',
           option: ''
         },
-        event: 'virtualPageView',
+        event: process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
         page: {
           type: 'Checkout',
           virtualPageURL: '/checkout/emailAddress'

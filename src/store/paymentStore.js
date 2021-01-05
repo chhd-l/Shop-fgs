@@ -94,7 +94,7 @@ class PaymentStore {
             step:2,
             option: 'guest checkout'
           },
-          event:'virtualPageView',
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
           page:{
             type:'Checkout',
             virtualPageURL:'/checkout/shipping'
@@ -109,7 +109,7 @@ class PaymentStore {
             step:3,
             option: 'shippingMethod'
           },
-          event:'virtualPageView',
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
           page:{
             type:'Checkout',
             virtualPageURL:'/checkout/billing'
@@ -124,7 +124,7 @@ class PaymentStore {
             step:4,
             option: 'paymentMethod'
           },
-          event:'virtualPageView',
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
           page:{
             type:'Checkout',
             virtualPageURL:'/checkout/placeholder'
