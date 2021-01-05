@@ -1991,7 +1991,7 @@ class Payment extends React.Component {
           {paymentTypeVal === 'payUCreditCard' ||
           paymentTypeVal === 'adyenCard' ? (
             <div className="col-12 col-md-6">
-              <span className="medium">{brandDeco}</span>
+              <span className="medium text-capitalize">{brandDeco}</span>
               <br />
               {holderNameDeco}
               <br />
