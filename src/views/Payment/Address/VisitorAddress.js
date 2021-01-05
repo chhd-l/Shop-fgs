@@ -169,12 +169,6 @@ class VisitorAddress extends React.Component {
       ? this.titleJSXForCompeleted()
       : null;
 
-    //更新地址栏填写状态
-    // updateStepForAddress(panelStatus)
-    // if(paymentStep[1].isCompleted){
-    //   dataLayer[0].checkout.step = 3
-    // }
-
     return (
       <>
         {this.props.titleVisible && (

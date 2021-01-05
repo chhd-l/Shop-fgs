@@ -51,9 +51,6 @@ class PayProductInfo extends React.Component {
       )
     );
   }
-  get paymentStep() {
-    return this.props.paymentStore.paymentStep;
-  }
   UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
@@ -73,17 +70,12 @@ class PayProductInfo extends React.Component {
       );
     }
   }
-  //会员
-  GACheckout(productList) {
-    let product = [],
-      basketAmount = this.tradePrice,
-      basketID = guid,
-      option = this.isLogin ? 'account already created' : 'new account',
-      step = this.state.step;
+  //会员 GA需要的product信息
+  GAGetProductLogin(productList){
+    let product = []
     for (let item of productList) {
       product.push({
-        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN', //?
-        // category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN',
         club: 'no',
         id: (item.goods && item.goods.goodsNo) || '',
         name: (item.goods && item.goods.goodsName) || '',
@@ -91,26 +83,16 @@ class PayProductInfo extends React.Component {
           item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice,
         quantity: item.buyCount,
         recommendation: 'self-selected',
-        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time', //?
+        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
         sku: (item.goodsInfos && item.goodsInfos[0].goodsInfoNo) || ''
       });
     }
-    dataLayer[0].checkout.basketAmount = basketAmount;
-    dataLayer[0].checkout.basketID = basketID;
-    dataLayer[0].checkout.option = option;
-    dataLayer[0].checkout.product = product;
-    dataLayer[0].checkout.step = step;
-    console.log(dataLayer);
+    return product
   }
-  //游客
-  GACheckUnLogin(productList) {
-    console.log(productList);
-    let product = [],
-      basketAmount = this.tradePrice,
-      basketID = guid,
-      option = this.isLogin ? 'account already created' : 'new account',
-      step = this.state.step;
+  //游客 GA需要的product信息
+  GAGetProductUnlogin(productList){
+    let product = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
         return item2.selected == true;
@@ -131,6 +113,16 @@ class PayProductInfo extends React.Component {
         sku: goodsInfoNo
       });
     }
+    return product
+  }
+  GACheck(productList){
+    let product = this.isLogin ? this.GAGetProductLogin(productList) : this.GAGetProductUnlogin(productList)
+
+    let basketAmount = this.tradePrice,
+        basketID = guid,
+        option = this.isLogin ? 'account already created' : 'new account',
+        step = this.state.step;
+  
     dataLayer[0].checkout.basketAmount = basketAmount;
     dataLayer[0].checkout.basketID = basketID;
     dataLayer[0].checkout.option = option;
@@ -138,7 +130,6 @@ class PayProductInfo extends React.Component {
     dataLayer[0].checkout.step = step;
   }
   async componentDidMount() {
-    // console.log(this.refs.applyButtton.click() ,' hahaha')
     this.refs.applyButtton.click();
     let productList;
     if (this.props.data.length) {
@@ -161,11 +152,13 @@ class PayProductInfo extends React.Component {
       });
     });
 
-    if (this.isLogin) {
-      this.GACheckout(productList);
-    } else {
-      this.GACheckUnLogin(productList);
-    }
+    this.GACheck(productList)
+
+    // if (this.isLogin) {
+    //   this.GACheckoutLogin(productList);
+    // } else {
+    //   this.GACheckUnlogin(productList);
+    // }
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;

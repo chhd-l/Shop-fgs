@@ -8,7 +8,6 @@ class PaymentStore {
 
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
-  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
@@ -88,6 +87,7 @@ class PaymentStore {
     switch(key) {
       case 'email':
         //默认填不填邮件step都是2，step有个默认值2
+        dataLayer[0].checkout.step = 2
          break;
       case 'deliveryAddr':
          dataLayer[0].checkout.step = 3
@@ -176,17 +176,6 @@ class PaymentStore {
   @action
   updateFirstSavedCardCvv(data) {
     this.firstSavedCardCvv = data;
-  }
-
-  //更新填写邮件状态
-  @action.bound
-  updateStepForEmail(param){
-    this.paymentStep[0] = param
-  }
-  //更新填写地址状态
-  @action.bound
-  updateStepForAddress(param){
-    this.paymentStep[1] = param
   }
 }
 export default PaymentStore;
