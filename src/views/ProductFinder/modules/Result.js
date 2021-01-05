@@ -12,6 +12,7 @@ import Help from './Help';
 import { formatMoney } from '@/utils/utils';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
+import GoogleTagManager from '@/components/GoogleTagManager';
 
 import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
@@ -243,6 +244,16 @@ class ProductFinderResult extends React.Component {
   };
   render() {
     const { location, history, match } = this.props;
+    const event = {
+      page: {
+        type: 'Poduct-Finder-Recommandation',
+        theme: '',
+        path: location.pathname,
+        error: '',
+        hitTimestamp: new Date(),
+        filters: ''
+      }
+    };
     const {
       productDetail,
       qListVisible,
@@ -253,6 +264,7 @@ class ProductFinderResult extends React.Component {
     } = this.state;
     return (
       <div>
+         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>

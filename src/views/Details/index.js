@@ -554,7 +554,6 @@ class Details extends React.Component {
             errMsg: <FormattedMessage id="details.errMsg" />
           });
         }
-
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
 
@@ -565,22 +564,28 @@ class Details extends React.Component {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
               if (index === 0) {
                 // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
-                let filterproduct = goodsInfos.filter((goodEl) =>
+                let filterproducts = goodsInfos.filter((goodEl) =>
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                )[0];
-                sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                sdItem.isEmpty = filterproduct.stock === 0;
+                );
+                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(item => item.stock === 0)
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-                console.log(filterproduct, 'filterproduct');
               }
               return sdItem.specId === sItem.specId;
             });
-            sItem.chidren[0].selected = true;
+            for(let i = 0; i < sItem.chidren.length; i++) {
+              if(sItem.chidren[i].isEmpty) {
+                
+              }else {
+                sItem.chidren[i].selected = true;
+                break
+              }
+            }
             return sItem;
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-
+          
           sizeList = goodsInfos.map((g) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
@@ -589,7 +594,7 @@ class Details extends React.Component {
             // }
             return g;
           });
-
+          console.log(sizeList, 'sizeList')
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
@@ -720,11 +725,21 @@ class Details extends React.Component {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
 
-          sizeList = goodsInfos.map((g) => {
+          sizeList = goodsInfos.map((g, i) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
             // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
+            if(i === 0) {
+              g = Object.assign({}, g, { selected: true });
+            }else {
+              g = Object.assign({}, g, { selected: false });
+            }
+            
+            if(g.selected && !g.subscriptionPrice) {
+              let { form } = this.state
+              form.buyWay = 0
+              this.setState({form})
+            }
             // }
             return g;
           });
@@ -1776,20 +1791,20 @@ class Details extends React.Component {
                                         key={i}
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
-                                        }`}
+                                        } ${sdItem.isEmpty ? 'outOfStock': ''}`}
                                         onClick={() => {
-                                          // if (sdItem.isEmpty) {
-                                          //   return false;
-                                          // } else {
+                                          if (sdItem.isEmpty) {
+                                            return false;
+                                          } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
                                             );
-                                          // }
+                                          }
                                         }}
                                       >
-                                        <span>
+                                        <span style={{backgroundColor: sdItem.isEmpty? '#ccc': '#fff', cursor: sdItem.isEmpty? 'not-allowed': 'pointer'}}>
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
                                           {sdItem.detailName}
                                         </span>

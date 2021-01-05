@@ -18,7 +18,6 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false,
     updateData: () => {}
   };
   constructor(props) {
@@ -44,7 +43,9 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
-    this.setState({ address: Object.assign(address, initData) });
+    this.setState({ address: Object.assign(address, initData) }, () => {
+      this.props.updateData(this.state.address);
+    });
 
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({

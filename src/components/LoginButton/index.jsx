@@ -68,48 +68,49 @@ const LoginButton = (props) => {
             }).catch((e) => {
               console.log(e);
             });
-          }
-          if (!loginStore.isLogin) {
-            getToken({ oktaToken: `Bearer ${oktaToken}` })
-              .then(async (res) => {
-                // GA 登录成功埋点 start
-                dataLayer&&dataLayer.push(
-                  {
-                    event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
-                    interaction:{
-                    category:'registration',
-                    action:'login',
-                    label:'',
-                    value:1
-                  },
-                  })        
-                // GA 登陆成功埋点 end
-                let userinfo = res.context.customerDetail;
-                loginStore.changeLoginModal(false);
-                loginStore.changeIsLogin(true);
-
-                localItemRoyal.set('rc-token', res.context.token);
-                let customerInfoRes = await getCustomerInfo();
-                userinfo.defaultClinics =
-                  customerInfoRes.context.defaultClinics;
-                loginStore.setUserInfo(customerInfoRes.context);
-
-                const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-                if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
-                  await mergeUnloginCartData();
-                  console.log(loginStore, 'loginStore');
-                  await checkoutStore.updateLoginCart();
-                }
-
-                setIsGetUserInfoDown(true);
-              })
-              .catch((e) => {
-                console.log(e);
-                loginStore.changeLoginModal(false);
-              });
           } else {
-            loginStore.changeLoginModal(false);
-            setIsGetUserInfoDown(true);
+            if (!loginStore.isLogin) {
+              getToken({ oktaToken: `Bearer ${oktaToken}` })
+                .then(async (res) => {
+                  // GA 登录成功埋点 start
+                  dataLayer&&dataLayer.push(
+                    {
+                      event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      interaction:{
+                      category:'registration',
+                      action:'login',
+                      label:'',
+                      value:1
+                    },
+                    })        
+                  // GA 登陆成功埋点 end
+                  let userinfo = res.context.customerDetail;
+                  loginStore.changeLoginModal(false);
+                  loginStore.changeIsLogin(true);
+  
+                  localItemRoyal.set('rc-token', res.context.token);
+                  let customerInfoRes = await getCustomerInfo();
+                  userinfo.defaultClinics =
+                    customerInfoRes.context.defaultClinics;
+                  loginStore.setUserInfo(customerInfoRes.context);
+  
+                  const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+                  if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+                    await mergeUnloginCartData();
+                    console.log(loginStore, 'loginStore');
+                    await checkoutStore.updateLoginCart();
+                  }
+  
+                  setIsGetUserInfoDown(true);
+                })
+                .catch((e) => {
+                  console.log(e);
+                  loginStore.changeLoginModal(false);
+                });
+            } else {
+              loginStore.changeLoginModal(false);
+              setIsGetUserInfoDown(true);
+            }
           }
         })
         .catch(() => {

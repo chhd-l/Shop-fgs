@@ -24,13 +24,12 @@ import './index.css';
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('loginStore', 'paymentStore')
-@injectIntl
 @observer
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
-    billingJSX: null,
-    getSelectedValue: () => {}
+    getSelectedValue: () => {},
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -81,30 +80,10 @@ class PaymentComp extends React.Component {
       });
     }
 
-    await this.getPaymentMethodList();
-
-    let { creditCardList } = this.state;
-
-    creditCardList.map((el) => {
-      el.selected = el.isDefault === 1;
-      return el;
-    });
-    let filterList = creditCardList.filter((el) => el.selected);
-    if (filterList.length) {
-    } else if (creditCardList.length) {
-      creditCardList[0].selected = true;
-    }
-    let selectedCard = creditCardList.filter((el) => el.selected)[0];
-    if (!selectedCard) {
-      selectedCard = null;
-    }
-    this.props.getSelectedValue(selectedCard);
-    this.setState({
-      creditCardList,
-      isEdit: !creditCardList.length
-    });
+    this.getPaymentMethodList();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
+    return null;
     const { creditCardInfoForm } = this.state;
     if (nextProps.selectedDeliveryAddress) {
       const {
@@ -170,13 +149,25 @@ class PaymentComp extends React.Component {
           }
         });
       });
-      this.setState({ creditCardList: tmpList });
+      tmpList.map((el) => {
+        el.selected = el.isDefault === 1;
+        return el;
+      });
+      let filterList = tmpList.filter((el) => el.selected);
+      if (tmpList.length && !filterList.length) {
+        tmpList[0].selected = true;
+      }
+
+      this.setState({ creditCardList: tmpList, isEdit: !tmpList.length });
     } catch (err) {
       this.setState({ listErr: err.message });
     } finally {
       this.setState({
         listLoading: false
       });
+      this.props.getSelectedValue(
+        this.state.creditCardList.filter((el) => el.selected)[0] || null
+      );
     }
   }
   initCardInfo() {
@@ -239,8 +230,12 @@ class PaymentComp extends React.Component {
         creditCardList
       },
       () => {
-        this.props.getSelectedValue(
-          this.state.creditCardList.filter((el) => el.selected)[0]
+        const selectedItem = this.state.creditCardList.filter(
+          (el) => el.selected
+        )[0];
+        this.props.getSelectedValue(selectedItem);
+        this.props.updateFormValidStatus(
+          selectedItem && selectedItem.cardCvv ? true : false
         );
       }
     );
@@ -350,6 +345,8 @@ class PaymentComp extends React.Component {
       this.setState({ isValid: true });
     } catch (err) {
       this.setState({ isValid: false });
+    } finally {
+      this.props.updateFormValidStatus(this.state.isValid);
     }
   }
   inputBlur = (e) => {
@@ -366,16 +363,18 @@ class PaymentComp extends React.Component {
     }
   };
   handleSave = async (e) => {
-    e.preventDefault();
-    if (!this.state.isValid) {
-      return false;
-    }
-    const { creditCardInfoForm } = this.state;
-    this.setState({
-      saveLoading: true
-    });
-
     try {
+      const { isValid, isEdit } = this.state;
+      e && e.preventDefault();
+
+      if (!isValid || !isEdit) {
+        return false;
+      }
+      const { creditCardInfoForm } = this.state;
+      this.setState({
+        saveLoading: true
+      });
+
       let res = await axios.post(
         'https://api.paymentsos.com/tokens',
         {
@@ -423,13 +422,12 @@ class PaymentComp extends React.Component {
 
       let addRes = await addOrUpdatePaymentMethod(params);
       scrollPaymentPanelIntoView();
+      this.setState({
+        isEdit: false
+      });
       let { creditCardList } = this.state;
 
       if (creditCardList.length) {
-        this.setState({
-          isEdit: false
-        });
-
         await this.getPaymentMethodList();
 
         // 将新增/编辑的卡片置为选择状态
@@ -451,7 +449,6 @@ class PaymentComp extends React.Component {
         this.setState(
           {
             saveLoading: false,
-            isEdit: false,
             currentCardInfo: addRes.context,
             creditCardInfoForm: Object.assign(addRes.context, {
               cardCvv: creditCardInfoForm.cardCvv
@@ -463,10 +460,17 @@ class PaymentComp extends React.Component {
         );
       }
       this.setState({
-        creditCardList
+        creditCardList: this.state.creditCardList
       });
     } catch (e) {
+      const {
+        cardCvvIsInvalid,
+        cardNumberIsInvalid,
+        expirationDateIsInvalid,
+        saveFailed
+      } = this.props.intl.messages;
       let res = e.response;
+      let errMsg;
       this.setState({
         saveLoading: false
       });
@@ -480,25 +484,25 @@ class PaymentComp extends React.Component {
             'body/credit_card_cvv should match pattern'
           ) !== -1
         ) {
-          this.showErrorMsg(this.props.intl.messages.cardCvvIsInvalid);
+          errMsg = cardCvvIsInvalid;
         } else if (
           res.data.more_info.indexOf(
             'body/card_number should match pattern'
           ) !== -1
         ) {
-          this.showErrorMsg(this.props.intl.messages.cardNumberIsInvalid);
+          errMsg = cardNumberIsInvalid;
         } else if (
           res.data.more_info.indexOf(
             'body/expiration_date should match pattern'
           ) !== -1
         ) {
-          this.showErrorMsg(this.props.intl.messages.expirationDateIsInvalid);
+          errMsg = expirationDateIsInvalid;
         } else {
-          this.showErrorMsg(res.data.description);
+          errMsg = res.data.description;
         }
-        return;
       }
-      this.showErrorMsg(this.props.intl.messages.saveFailed);
+      this.showErrorMsg(errMsg || saveFailed);
+      throw new Error();
     } finally {
       this.setState({
         saveLoading: false
@@ -560,25 +564,24 @@ class PaymentComp extends React.Component {
       return el;
     });
     el.selected = true;
-    this.props.getSelectedValue(el);
     this.setState({
       creditCardList
     });
+    this.props.getSelectedValue(el);
+    this.props.updateFormValidStatus(el && el.cardCvv ? true : false);
   }
   render() {
-    const { billingJSX } = this.props;
     const {
       creditCardInfoForm,
       creditCardList,
       isEdit,
       errorMsg,
-      saveLoading,
       listLoading
     } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
         {CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-          <LazyLoad>
+          <LazyLoad key={idx}>
             <img
               alt=""
               key={idx}
@@ -908,10 +911,7 @@ class PaymentComp extends React.Component {
                                     onChange={this.cardInfoInputChange}
                                     name="cardMmyy"
                                     maxLength="5"
-                                    placeholder={
-                                      'MM/YY'
-                                      // this.props.intl.messages.cardNumber
-                                    }
+                                    placeholder={'MM/YY'}
                                   />
                                 </span>
                                 <div className="invalid-feedback ui-position-absolute">
@@ -1043,61 +1043,6 @@ class PaymentComp extends React.Component {
                   </div>
                 </div>
               </div>
-              {billingJSX}
-              <div className="overflow-hidden">
-                <div className="text-right">
-                  {/* <div
-                      className="rc-input rc-input--inline"
-                      style={{
-                        marginTop: '10px',
-                        float: 'left',
-                        textAlign: 'left',
-                        maxWidth: '400px'
-                      }}
-                      onClick={() => {
-                        creditCardInfoForm.isDefault = !creditCardInfoForm.isDefault;
-                        this.setState({ creditCardInfoForm });
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        className="rc-input__checkbox"
-                        checked={creditCardInfoForm.isDefault}
-                      />
-                      <label className="rc-input__label--inline text-break">
-                        <FormattedMessage id="setDefaultPaymentMethod" />
-                      </label>
-                    </div>
-                     */}
-                  {creditCardList.length > 0 && (
-                    <>
-                      <a
-                        className="rc-styled-link editPersonalInfoBtn"
-                        name="contactInformation"
-                        onClick={this.handleClickCancel}
-                      >
-                        <FormattedMessage id="cancel" />
-                      </a>
-                      <span className="ml-1 mr-1">
-                        <FormattedMessage id="or" />
-                      </span>
-                    </>
-                  )}
-
-                  <button
-                    className={`rc-btn rc-btn--one submitBtn editAddress ${
-                      saveLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    data-sav="false"
-                    name="contactInformation"
-                    type="submit"
-                    disabled={!this.state.isValid}
-                    onClick={this.handleSave}
-                  >
-                    <FormattedMessage id="save" />
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1106,4 +1051,4 @@ class PaymentComp extends React.Component {
   }
 }
 
-export default PaymentComp;
+export default injectIntl(PaymentComp, { forwardRef: true });

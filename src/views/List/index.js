@@ -171,7 +171,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad style={{ width: '100%' }}>
                       <img
                         src={
                           item.goodsImg ||
@@ -541,9 +541,11 @@ class List extends React.Component {
     for (let index = 0; index < breadList.length; index++) {
       const element = breadList[index];
       let tmpEle = { ...element };
-      if (!element.link && breadList[++index]) {
+      const nextItem = breadList[index + 1];
+      if (!element.link && nextItem) {
+        index++;
         tmpEle = Object.assign(tmpEle, {
-          name: [element.name, breadList[++index].name].join(': ')
+          name: [element.name, nextItem.name].join(': ')
         });
       }
       ret.push(tmpEle);
@@ -564,15 +566,12 @@ class List extends React.Component {
           actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
-              name: item.goodsName, //?
+              name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
               brand: item.goodsBrand.brandName,
-              // category: item.goodsCateName
-              //   ? JSON.parse(item.goodsCateName)[0]
-              //   : '',
               category: item.goodsCateName,
-              list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+              list: this.state.GAListParam,
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
@@ -586,19 +585,15 @@ class List extends React.Component {
   GAProductImpression(productList, totalElements, keywords) {
     const impressions = productList.map((item, index) => {
       return {
-        name: item.goodsName, //
+        name: item.goodsName,
         id: item.goodsNo,
         brand: item.goodsBrand.brandName,
         price: item.minMarketPrice,
         club: 'no',
-        //category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         category: item.goodsCateName,
-        list: this.state.GAListParam, //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+        list: this.state.GAListParam,
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
-        // flag: !!item.taggingForImage
-        //   ? JSON.parse(item.taggingForImage).taggingName
-        //   : ''
         flag: ''
       };
     });
@@ -650,6 +645,12 @@ class List extends React.Component {
               `${r.navigationLink}?${r.keywords}`
             ].includes(pathname.replace(/\/$/, ''))
         )[0];
+
+        // 暂时加一个判断，特定路由storeCateId为空
+        // if(pathname=='/list/keywords'){
+        //   targetRouter.storeCateId = ''
+        // }
+
         let sortParam = null;
         let cateIds = [];
         let filters = [];
@@ -715,7 +716,6 @@ class List extends React.Component {
             link: e.navigationLink || e.cateRouter
           }))
           .reverse();
-
         // set SEO
         this.setSEO({ cateIds });
 
@@ -800,7 +800,7 @@ class List extends React.Component {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
         this.setState({
           seoConfig: res,
-          breadList: [{ name: <FormattedMessage id="searchShow" /> }]
+          breadList: [{ name: this.props.intl.messages.searchShow }]
         });
       });
     } else if (cateIds && cateIds.length) {
@@ -1052,7 +1052,9 @@ class List extends React.Component {
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      storeCateIds,
+      //storeCateIds,
+      storeCateIds:
+        this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
         const { attributeValues, ...otherParam } = el;
         return otherParam;

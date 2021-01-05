@@ -22,10 +22,10 @@ import './list.less';
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
-    isOnepageCheckout: false,
     type: 'delivery',
     showOperateBtn: true,
-    updateValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -53,7 +53,6 @@ class AddressList extends React.Component {
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
-      billingChecked: true,
       isValid: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
@@ -127,7 +126,7 @@ class AddressList extends React.Component {
             this.state.addressList,
             (ele) => ele.deliveryAddressId === selectedId
           );
-          updateData && updateData(tmpObj);
+          updateData(tmpObj);
           this.confirmToNextPanel();
         }
       );
@@ -149,9 +148,7 @@ class AddressList extends React.Component {
       (ele) => ele.deliveryAddressId === selectedId
     );
     const { paymentStore } = this.props;
-    const { billingChecked } = this.state;
-    // debugger;
-    if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr') {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 
@@ -172,9 +169,7 @@ class AddressList extends React.Component {
       isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
       // 没有地址的情况
-      if (this.curPanelKey === 'deliveryAddr') {
-        paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
-      }
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
   }
   selectAddress(e, idx) {
@@ -189,13 +184,12 @@ class AddressList extends React.Component {
         selectedId: addressList[idx].deliveryAddressId
       },
       () => {
-        this.props.updateData &&
-          this.props.updateData(
-            find(
-              this.state.addressList,
-              (ele) => ele.deliveryAddressId === this.state.selectedId
-            )
-          );
+        this.props.updateData(
+          find(
+            this.state.addressList,
+            (ele) => ele.deliveryAddressId === this.state.selectedId
+          )
+        );
       }
     );
   }
@@ -203,7 +197,6 @@ class AddressList extends React.Component {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
-    // debugger;
     let tmpDeliveryAddress = {
       firstName: '',
       lastName: '',
@@ -243,17 +236,17 @@ class AddressList extends React.Component {
         this.setState({
           addOrEdit: true
         });
-        if (type === 'delivery') {
-          this.props.paymentStore.setStsToEdit({
-            key: this.curPanelKey,
-            hideOthers: true
-          });
-        }
+        this.props.paymentStore.setStsToEdit({
+          key: this.curPanelKey,
+          hideOthers: type === 'delivery' ? true : false
+        });
 
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
-    this.scrollToTitle();
+    if (type === 'delivery') {
+      this.scrollToTitle();
+    }
   }
   handleDefaultChange = () => {
     let data = this.state.deliveryAddress;
@@ -266,13 +259,12 @@ class AddressList extends React.Component {
     try {
       await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
       this.setState({ isValid: false }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
-      console.log(err);
     } finally {
       this.setState({ deliveryAddress: data });
     }
@@ -352,7 +344,8 @@ class AddressList extends React.Component {
     }
   }
   handleSave = async () => {
-    if (!this.state.isValid) {
+    const { isValid, addOrEdit } = this.state;
+    if (!isValid || !addOrEdit) {
       return false;
     }
     try {
@@ -534,7 +527,6 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             isLogin={true}
-            isOnepageCheckout={this.props.isOnepageCheckout}
             initData={deliveryAddress}
             updateData={this.updateDeliveryAddress}
           />
@@ -685,10 +677,7 @@ class AddressList extends React.Component {
                   )
                 ) : null}
                 {/* add or edit address form */}
-                {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
-                  <>{_form}</>
-                ) : null}
-                {!this.props.isOnepageCheckout && <>{_form}</>}
+                {this.panelStatus.isEdit ? <>{_form}</> : null}
               </>
             )}
           </div>

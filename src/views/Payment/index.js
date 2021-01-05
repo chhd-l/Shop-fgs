@@ -53,8 +53,6 @@ import AdyenCreditCard from './Adyen';
 import OxxoConfirm from './Oxxo';
 import AdyenCommonPay from './modules/AdyenCommonPay';
 
-import EmailForm from './modules/EmailForm';
-import ClinicForm from './modules/ClinicForm';
 import OnePageEmailForm from './OnePage/EmailForm';
 import OnePageClinicForm from './OnePage/ClinicForm';
 
@@ -128,9 +126,9 @@ class Payment extends React.Component {
       paymentTypeVal: '',
       errorMsg: '',
       loading: false,
-      payosdata: {},
-      selectedCardInfo: {},
-      adyenPayParam: {},
+      payosdata: null,
+      selectedCardInfo: null,
+      adyenPayParam: null,
       payWayNameArr: [],
       email: '',
       payWayObj: {}, //支付方式input radio汇总
@@ -157,8 +155,11 @@ class Payment extends React.Component {
     };
     this.timer = null;
     this.toggleMobileCart = this.toggleMobileCart.bind(this);
+    this.updateValidStatus = this.updateValidStatus.bind(this);
     this.unLoginBillingAddrRef = React.createRef();
     this.loginBillingAddrRef = React.createRef();
+    this.adyenCardRef = React.createRef();
+    this.payUCreditCardRef = React.createRef();
   }
 
   // getCheckoutStep(panelStatus){
@@ -184,7 +185,6 @@ class Payment extends React.Component {
     if (this.isLogin) {
       // 登录情况下，无需显示email panel
       paymentStore.setStsToCompleted({ key: 'email' });
-      // paymentStore.removeEmailFromPanelItems();
       if (tid) {
         paymentStore.setStsToCompleted({ key: 'deliveryAddr' });
         paymentStore.setStsToCompleted({ key: 'billingAddr' });
@@ -309,10 +309,6 @@ class Payment extends React.Component {
   }
   get selectedBillingAddress() {
     return this.props.paymentStore.selectedBillingAddress;
-  }
-  get isOnepageCheckout() {
-    return true;
-    return this.props.configStore.isOnePageCheckout;
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
@@ -1102,9 +1098,9 @@ class Payment extends React.Component {
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       city: deliveryAddress.cityName,
-      country: payosdata.country_code,
-      token: payosdata.token,
-      creditDardCvv: payosdata.encrypted_cvv,
+      country: payosdata ? payosdata.country_code : '',
+      token: payosdata ? payosdata.token : '',
+      creditDardCvv: payosdata ? payosdata.encrypted_cvv : payosdata,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1115,7 +1111,7 @@ class Payment extends React.Component {
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-      last4Digits: payosdata.last_4_digits,
+      last4Digits: payosdata ? payosdata.last_4_digits : '',
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
@@ -1417,21 +1413,6 @@ class Payment extends React.Component {
         key: curPanelKey
       });
     }
-
-    if (val) {
-      paymentStore.setStsToCompleted({ key: curPanelKey });
-      // 下一个最近的未complete的panel
-      const nextConfirmPanel = searchNextConfirmPanel({
-        list: toJS(paymentStore.panelStatus),
-        curKey: curPanelKey
-      });
-      const isReadyPrev = isPrevReady({
-        list: toJS(paymentStore.panelStatus),
-        curKey: curPanelKey
-      });
-
-      isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    }
     this.setState({ billingChecked: val });
     if (val) {
       this.setState({
@@ -1476,16 +1457,11 @@ class Payment extends React.Component {
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
-            <AddressList
-              id="1"
-              isOnepageCheckout={this.isOnepageCheckout}
-              updateData={this.updateDeliveryAddrData}
-            />
+            <AddressList id="1" updateData={this.updateDeliveryAddrData} />
           ) : (
             <VisitorAddress
               key={1}
               type="delivery"
-              isOnepageCheckout={this.isOnepageCheckout}
               initData={deliveryAddress}
               updateData={this.updateDeliveryAddrData}
             />
@@ -1610,17 +1586,13 @@ class Payment extends React.Component {
           type={type}
         />
         {billingChecked ? (
-          deliveryAddress && deliveryAddress.firstName ? (
-            <>
-              <div className="ml-custom mr-custom">
-                {this.renderAddrPreview({
-                  form: billingAddress,
-                  titleVisible: false,
-                  boldName: true
-                })}
-              </div>
-            </>
-          ) : null
+          <div className="ml-custom mr-custom">
+            {this.renderAddrPreview({
+              form: billingAddress,
+              titleVisible: false,
+              boldName: true
+            })}
+          </div>
         ) : null}
 
         {!billingChecked && (
@@ -1628,12 +1600,14 @@ class Payment extends React.Component {
             {this.isLogin ? (
               <AddressList
                 ref={this.loginBillingAddrRef}
-                id="2"
+                key={2}
                 type="billing"
                 showOperateBtn={false}
-                isOnepageCheckout={this.isOnepageCheckout}
                 visible={!billingChecked}
                 updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
               />
             ) : (
               <VisitorAddress
@@ -1642,14 +1616,11 @@ class Payment extends React.Component {
                 titleVisible={false}
                 showConfirmBtn={false}
                 type="billing"
-                isOnepageCheckout={this.isOnepageCheckout}
                 initData={billingAddress}
                 updateData={this.updateBillingAddrData}
-                updateValidStatus={(status) => {
-                  this.setState({
-                    validSts: Object.assign({ billingAddr: status })
-                  });
-                }}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
               />
             )}
           </>
@@ -1662,37 +1633,83 @@ class Payment extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
+    const { isLogin } = this;
     const { paymentStore } = this.props;
+    const { adyenPayParam } = this.state;
 
     // 当billing未确认时，需确认
     const { billingChecked } = this.state;
     this.setState({ saveBillingLoading: true });
-    console.log(this.loginBillingAddrRef);
 
-    if (!billingChecked) {
-      if (this.isLogin) {
-        // 只有在编辑状态下，才需要调用save操作
+    async function handleClickSaveAdyenForm(_this) {
+      try {
         if (
+          _this.adyenCardRef &&
+          _this.adyenCardRef.current &&
+          _this.adyenCardRef.current.cardListRef &&
+          _this.adyenCardRef.current.cardListRef.current
+        ) {
+          await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+
+    async function handleClickSavePayUForm(_this) {
+      try {
+        if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
+          await _this.payUCreditCardRef.current.handleClickCardConfirm();
+          if (
+            _this.payUCreditCardRef.current.paymentCompRef &&
+            _this.payUCreditCardRef.current.paymentCompRef.current
+          ) {
+            await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
+          }
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+
+    try {
+      if (isLogin) {
+        // 1 save billing addr, when billing checked status is false
+        if (
+          !billingChecked &&
           this.loginBillingAddrRef &&
-          this.loginBillingAddrRef.current &&
-          this.loginBillingAddrRef.current.state.addOrEdit &&
-          this.loginBillingAddrRef.current.state.isValid
+          this.loginBillingAddrRef.current
         ) {
           await this.loginBillingAddrRef.current.handleSave();
         }
+        // 2 save card form, when add a new card
+        if (!adyenPayParam) {
+          await handleClickSaveAdyenForm(this);
+        }
+        await handleClickSavePayUForm(this);
       } else {
-        if (this.unLoginBillingAddrRef && this.unLoginBillingAddrRef.current) {
+        // 1 save card form
+        // 2 save billing addr, when billing checked status is false
+        await handleClickSaveAdyenForm(this);
+        await handleClickSavePayUForm(this);
+        if (
+          !billingChecked &&
+          this.unLoginBillingAddrRef &&
+          this.unLoginBillingAddrRef.current
+        ) {
           this.unLoginBillingAddrRef.current.handleClickConfirm();
         }
       }
+      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.setStsToCompleted({ key: 'paymentMethod' });
+      paymentStore.setStsToEdit({ key: 'confirmation' });
+    } catch (e) {
+    } finally {
+      this.setState({ saveBillingLoading: false });
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
     }
-    paymentStore.setStsToCompleted({ key: 'billingAddr' });
-    paymentStore.setStsToCompleted({ key: 'paymentMethod' });
-    paymentStore.setStsToEdit({ key: 'confirmation' });
-    this.setState({ saveBillingLoading: false });
-    setTimeout(() => {
-      scrollPaymentPanelIntoView();
-    });
   };
 
   handleClickPaymentPanelEdit = () => {
@@ -1707,20 +1724,20 @@ class Payment extends React.Component {
       });
     }
   };
+  updateValidStatus({ key }, status) {
+    this.setState({
+      validSts: Object.assign(this.state.validSts, { [key]: status })
+    });
+  }
 
   /**
    * 渲染支付方式
    */
   renderPayTab = ({ visible = false }) => {
-    const { checkoutStore } = this.props;
     const {
       paymentTypeVal,
       subForm,
-      listData,
       payWayObj,
-      billingAddress,
-      tid,
-      adyenPayParam,
       billingChecked,
       email,
       validSts,
@@ -1731,20 +1748,19 @@ class Payment extends React.Component {
     // 未勾选same as billing时，校验billing addr
     const validForBilling = !billingChecked && !validSts.billingAddr;
 
-    const payConfirmBtn = (
-      <div className="d-flex justify-content-end mt-3">
-        <button
-          className={`rc-btn rc-btn--one`}
-          // 校验状态
-          // 1 校验邮箱
-          // 2 billing校验
-          disabled={!EMAIL_REGEXP.test(email) || validForBilling}
-          onClick={this.clickConfirmPaymentPanel}
-        >
-          <FormattedMessage id="yes" />
-        </button>
-      </div>
-    );
+    const payConfirmBtn = ({ disabled, loading = false }) => {
+      return (
+        <div className="d-flex justify-content-end mt-3">
+          <button
+            className={`rc-btn rc-btn--one ${loading ? 'ui-btn-loading' : ''}`}
+            disabled={disabled}
+            onClick={this.clickConfirmPaymentPanel}
+          >
+            <FormattedMessage id="yes" />
+          </button>
+        </div>
+      );
+    };
     return (
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
@@ -1793,99 +1809,66 @@ class Payment extends React.Component {
               <OxxoConfirm
                 type={'oxxo'}
                 updateEmail={this.updateEmail}
-                billingJSX={
-                  paymentTypeVal === 'oxxo' &&
-                  this.renderBillingJSX({ type: 'oxxo' })
-                }
+                billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* payu creditCard */}
-          <div
-            className={`${paymentTypeVal === 'payUCreditCard' ? '' : 'hidden'}`}
-          >
-            <PayUCreditCard
-              type={'PayUCreditCard'}
-              isLogin={this.isLogin}
-              paymentTypeVal={paymentTypeVal}
-              showErrorMsg={this.showErrorMsg}
-              onVisitorPayosDataConfirm={(data) => {
-                this.setState({ payosdata: data });
-              }}
-              onVisitorCardInfoChange={(data) => {
-                this.setState({ creditCardInfo: data });
-              }}
-              onPaymentCompDataChange={(data) => {
-                this.setState({ selectedCardInfo: data });
-              }}
-              isApplyCvv={false}
-              needReConfirmCVV={true}
-              billingJSX={
-                paymentTypeVal === 'payUCreditCard' &&
-                this.renderBillingJSX({ type: 'payUCreditCard' })
-              }
-              selectedDeliveryAddress={this.selectedDeliveryAddress}
-            />
-            {paymentTypeVal === 'payUCreditCard' &&
-              Object.keys(selectedCardInfo || {}).length > 0 && (
-                <>
-                  {this.renderBillingJSX({ type: 'payUCreditCard' })}
-                  <div className="d-flex justify-content-end mt-3">
-                    <button
-                      className={`rc-btn rc-btn--one ${
-                        saveBillingLoading ? 'ui-btn-loading' : ''
-                      }`}
-                      // 校验状态
-                      // 1 卡，校验是否存在encryptedSecurityCode
-                      // 2 billing校验
-                      disabled={!selectedCardInfo.cardCvv || validForBilling}
-                      onClick={this.clickConfirmPaymentPanel}
-                    >
-                      <FormattedMessage id="yes" />
-                    </button>
-                  </div>
-                </>
-              )}
-          </div>
+          {paymentTypeVal === 'payUCreditCard' && (
+            <>
+              <PayUCreditCard
+                ref={this.payUCreditCardRef}
+                type={'PayUCreditCard'}
+                isLogin={this.isLogin}
+                showErrorMsg={this.showErrorMsg}
+                onVisitorPayosDataConfirm={(data) => {
+                  this.setState({ payosdata: data });
+                }}
+                onVisitorCardInfoChange={(data) => {
+                  this.setState({ creditCardInfo: data });
+                }}
+                onPaymentCompDataChange={(data) => {
+                  this.setState({ selectedCardInfo: data });
+                }}
+                isApplyCvv={false}
+                needReConfirmCVV={true}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'payUCreditCard'
+                })}
+                billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
+                selectedDeliveryAddress={this.selectedDeliveryAddress}
+              />
+              {payConfirmBtn({
+                disabled: !validSts.payUCreditCard || validForBilling,
+                loading: saveBillingLoading
+              })}
+            </>
+          )}
           {/* adyenCreditCard */}
-          <div className={`${paymentTypeVal === 'adyenCard' ? '' : 'hidden'}`}>
-            <AdyenCreditCard
-              subBuyWay={subForm.buyWay}
-              listData={listData}
-              checkRequiredItem={this.checkRequiredItem}
-              clickPay={this.initCommonPay}
-              showErrorMsg={this.showErrorMsg}
-              updateAdyenPayParam={this.updateAdyenPayParam}
-              isOnepageCheckout={this.isOnepageCheckout}
-              checkoutStore={checkoutStore}
-              billingAddress={billingAddress}
-              billingJSX={
-                paymentTypeVal === 'adyenCard' &&
-                this.renderBillingJSX({ type: 'adyenCard' })
-              }
-            />
-            {/* 出现卡列表时，才显示此按钮 */}
-            {paymentTypeVal === 'adyenCard' &&
-              Object.keys(adyenPayParam || {}).length > 0 && (
-                <div className="d-flex justify-content-end mt-3">
-                  <button
-                    className={`rc-btn rc-btn--one ${
-                      saveBillingLoading ? 'ui-btn-loading' : ''
-                    }`}
-                    // 校验状态
-                    // 1 卡，校验是否存在encryptedSecurityCode
-                    // 2 billing校验
-                    disabled={
-                      !adyenPayParam.encryptedSecurityCode || validForBilling
-                    }
-                    onClick={this.clickConfirmPaymentPanel}
-                  >
-                    <FormattedMessage id="yes" />
-                  </button>
-                </div>
-              )}
-          </div>
+          {paymentTypeVal === 'adyenCard' && (
+            <>
+              <AdyenCreditCard
+                ref={this.adyenCardRef}
+                subBuyWay={subForm.buyWay}
+                showErrorMsg={this.showErrorMsg}
+                updateAdyenPayParam={this.updateAdyenPayParam}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'adyenCard'
+                })}
+                billingJSX={this.renderBillingJSX({ type: 'adyenCard' })}
+              />
+              {/* 校验状态
+                  1 卡校验，从adyen form传入校验状态
+                  2 billing校验 */}
+              {payConfirmBtn({
+                disabled: !validSts.adyenCard || validForBilling,
+                loading: saveBillingLoading
+              })}
+            </>
+          )}
           {/* KlarnaPayLater */}
           {paymentTypeVal === 'adyenKlarnaPayLater' && (
             <>
@@ -1896,7 +1879,12 @@ class Payment extends React.Component {
                   type: 'adyenKlarnaPayLater'
                 })}
               />
-              {payConfirmBtn}
+              {/* // 校验状态
+            // 1 校验邮箱
+            // 2 billing校验 */}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* KlarnaPayNow  */}
@@ -1909,7 +1897,9 @@ class Payment extends React.Component {
                   type: 'adyenKlarnaPayNow'
                 })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* Sofort */}
@@ -1920,7 +1910,9 @@ class Payment extends React.Component {
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({ type: 'directEbanking' })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
 
@@ -1931,7 +1923,7 @@ class Payment extends React.Component {
   };
 
   renderAddrPreview = ({ form, titleVisible = false, boldName = false }) => {
-    return (
+    return form ? (
       <>
         {titleVisible && (
           <>
@@ -1957,7 +1949,7 @@ class Payment extends React.Component {
           form.country || form.countryId
         )}
       </>
-    );
+    ) : null;
   };
 
   /**
@@ -1965,15 +1957,23 @@ class Payment extends React.Component {
    * 不同情况预览不同规则
    */
   renderPayPreview = () => {
-    const {
+    let {
       paymentTypeVal,
       email,
       billingAddress: form,
-      adyenPayParam: { adyenPaymentMethod },
+      adyenPayParam,
       payosdata,
-      selectedCardInfo: { payuPaymentMethod },
+      selectedCardInfo,
       tid
     } = this.state;
+    let adyenPaymentMethod;
+    let payuPaymentMethod;
+    if (adyenPayParam) {
+      adyenPaymentMethod = { ...adyenPayParam.adyenPaymentMethod };
+    }
+    if (selectedCardInfo) {
+      payuPaymentMethod = selectedCardInfo.payuPaymentMethod;
+    }
     let lastFourDeco;
     let brandDeco;
     let holderNameDeco;
@@ -2241,24 +2241,13 @@ class Payment extends React.Component {
                     <div className="shipping-form" id="J_checkout_panel_email">
                       <div className="bg-transparent">
                         {this.checkoutWithClinic ? (
-                          this.isOnepageCheckout ? (
-                            <OnePageClinicForm history={history} />
-                          ) : (
-                            <ClinicForm history={history} />
-                          )
+                          <OnePageClinicForm history={history} />
                         ) : null}
                         {!this.isLogin ? (
-                          this.isOnepageCheckout ? (
-                            <OnePageEmailForm
-                              history={history}
-                              onChange={this.updateGuestEmail}
-                            />
-                          ) : (
-                            <EmailForm
-                              history={history}
-                              onChange={this.updateGuestEmail}
-                            />
-                          )
+                          <OnePageEmailForm
+                            history={history}
+                            onChange={this.updateGuestEmail}
+                          />
                         ) : null}
 
                         {this.renderAddressPanel()}
@@ -2405,10 +2394,9 @@ class Payment extends React.Component {
                   id="J_checkout_panel_paymentMethod"
                 >
                   {paymentMethodTitle}
-                  {/* 没有开启onepagecheckout 或者 不是prepare状态时，才会显示 */}
+                  {/* 不是prepare状态时，才会显示 */}
                   {this.renderPayTab({
-                    visible:
-                      !this.isOnepageCheckout || paymentMethodPanelStatus.isEdit
+                    visible: paymentMethodPanelStatus.isEdit
                   })}
                   {paymentMethodPanelStatus.isCompleted &&
                     this.renderPayPreview()}
