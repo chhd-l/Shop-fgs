@@ -1297,11 +1297,6 @@ class Payment extends React.Component {
       }
 
       await validData(ADDRESS_RULE, param.deliveryAddress);
-      await validData(ADDRESS_RULE, param.deliveryAddress);
-      localItemRoyal.set(
-        this.isLogin ? 'loginDeliveryInfo' : 'deliveryInfo',
-        param
-      );
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
@@ -1391,9 +1386,7 @@ class Payment extends React.Component {
   };
 
   updateSameAsCheckBoxVal = (val) => {
-    const { paymentStore } = this.props;
     const curPanelKey = 'billingAddr';
-    // 切换时，需更改 billing module的isPrepared = false, isEdit = true
     if (!val && this.props.paymentStore['billingAddrPanelStatus'].isCompleted) {
       this.props.paymentStore.setStsToEdit({
         key: curPanelKey
@@ -1408,7 +1401,7 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = (data) => {
-    this.props.paymentStore.updateSelectedDeliveryAddress(data);
+    // this.props.paymentStore.updateSelectedDeliveryAddress(data);
     this.setState({
       deliveryAddress: data
     });
@@ -1645,12 +1638,13 @@ class Payment extends React.Component {
     async function handleClickSavePayUForm(_this) {
       try {
         if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
-          await _this.payUCreditCardRef.current.handleClickCardConfirm();
           if (
             _this.payUCreditCardRef.current.paymentCompRef &&
             _this.payUCreditCardRef.current.paymentCompRef.current
           ) {
             await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
+          } else {
+            await _this.payUCreditCardRef.current.handleClickCardConfirm();
           }
         }
       } catch (e) {
@@ -1983,7 +1977,7 @@ class Payment extends React.Component {
           {paymentTypeVal === 'payUCreditCard' ||
           paymentTypeVal === 'adyenCard' ? (
             <div className="col-12 col-md-6">
-              <span className="medium">{brandDeco}</span>
+              <span className="medium text-capitalize">{brandDeco}</span>
               <br />
               {holderNameDeco}
               <br />
@@ -2380,7 +2374,6 @@ class Payment extends React.Component {
                   id="J_checkout_panel_paymentMethod"
                 >
                   {paymentMethodTitle}
-                  {/* 不是prepare状态时，才会显示 */}
                   {this.renderPayTab({
                     visible: paymentMethodPanelStatus.isEdit
                   })}

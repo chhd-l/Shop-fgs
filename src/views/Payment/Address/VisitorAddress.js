@@ -70,14 +70,16 @@ class VisitorAddress extends React.Component {
   handleClickConfirm = () => {
     const { paymentStore } = this.props;
     const { isValid, form, billingChecked } = this.state;
+    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
     if (!isValid) {
       return false;
     }
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.curPanelKey === 'deliveryAddr') {
+    if (isDeliveryAddr) {
       billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.updateSelectedDeliveryAddress(form);
     }
 
     // 下一个最近的未complete的panel
@@ -86,7 +88,7 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    if (this.curPanelKey === 'deliveryAddr') {
+    if (isDeliveryAddr) {
       setTimeout(() => {
         scrollPaymentPanelIntoView();
       });
