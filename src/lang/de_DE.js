@@ -864,7 +864,7 @@ const de_DE = {
   'subscription.status': 'Abonnementstatus',
   'subscription.sub': 'Abo-',
   'subscription.subscriptionNumberTip': 'Bitte Abonnementnummer eingeben',
-  'subscription.toBeDelivered': 'Geliefert werden',
+  'subscription.toBeDelivered': 'wird geliefert',
   'subscription.total': 'Gesamt',
   'subscription.totalInclu': 'Gesamt (inkl. MwSt.)',
   'subscriptionLanding.catButton': 'Kaufen Sie Katzennahrung',
