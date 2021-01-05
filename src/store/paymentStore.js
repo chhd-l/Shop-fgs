@@ -88,12 +88,48 @@ class PaymentStore {
     switch (key) {
       case 'email':
         dataLayer[0].checkout.step = 2
+        dataLayer[0].checkout.option = 'guest checkout'
+        dataLayer.push({
+          checkout:{
+            step:2,
+            option: 'guest checkout'
+          },
+          event:'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/shipping'
+          }
+        })
          break;
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
+        dataLayer[0].checkout.option = ''
+        dataLayer.push({
+          checkout:{
+            step:3,
+            option: 'shippingMethod'
+          },
+          event:'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/billing'
+          }
+        })
         break;
       case 'paymentMethod':
-        dataLayer[0].checkout.step = 4; //要输入完cvv才变成4
+        dataLayer[0].checkout.step = 4;
+        dataLayer[0].checkout.option = ''
+        dataLayer.push({
+          checkout:{
+            step:4,
+            option: 'paymentMethod'
+          },
+          event:'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/placeholder'
+          }
+        })
         break;
     }
     this.updatePanelStatus(key, {
