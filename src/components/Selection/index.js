@@ -102,10 +102,10 @@ export default class Selection extends React.Component {
                 aria-selected="true"
               >
                 {optionList.filter(
-                  (ele) => ele.value + '' === selectedItem.value + ''
+                  (ele) => ele.id + '' === selectedItem.id + ''
                 ).length
                   ? optionList.filter(
-                      (ele) => ele.value + '' === selectedItem.value + ''
+                      (ele) => ele.id + '' === selectedItem.id + ''
                     )[0].name
                   : this.props.placeholder}
                 &nbsp;

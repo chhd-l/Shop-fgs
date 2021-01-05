@@ -127,7 +127,7 @@ class PaymentStore {
           event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
           page:{
             type:'Checkout',
-            virtualPageURL:'/checkout/placeholder'
+            virtualPageURL:'/checkout/placeOrder'
           }
         })
         break;
