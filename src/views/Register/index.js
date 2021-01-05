@@ -1,11 +1,11 @@
-import React, { Component, useState  } from 'react';
+import React, { Component, useState } from 'react';
 import Consent from '@/components/Consent';
 import { getStoreOpenConsentList } from '@/api/consent';
 import Loading from '@/components/Loading';
 import './index.less';
 import SocialRegister from './components/socialRegister';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { oktaRegister } from '@/api/user'
+import { oktaRegister } from '@/api/user';
 import { getCustomerInfo } from '@/api/user';
 import stores from '@/store';
 import { mergeUnloginCartData } from '@/utils/utils';
@@ -176,10 +176,10 @@ class Register extends Component {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    if(name === 'password'){
+    if (name === 'password') {
       this.setState({
         passwordChanged: false
-      })
+      });
     }
     this.validInput(name, value);
   };
@@ -232,13 +232,16 @@ class Register extends Component {
       var upperReg = /[A-Z]+/;
       var nameReg = /[\d]+/;
       var specialReg = /[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]/im;
-      this.setState({
-        ruleLength: value.length >= 8,
-        ruleLower: lowerReg.test(value),
-        ruleUpper: upperReg.test(value),
-        ruleAname: nameReg.test(value),
-        ruleSpecial: specialReg.test(value)
-      }, () => this.validInput(name, value));
+      this.setState(
+        {
+          ruleLength: value.length >= 8,
+          ruleLower: lowerReg.test(value),
+          ruleUpper: upperReg.test(value),
+          ruleAname: nameReg.test(value),
+          ruleSpecial: specialReg.test(value)
+        },
+        () => this.validInput(name, value)
+      );
     }
     this.validInput(name, value);
     registerForm[name] = value;
@@ -249,64 +252,75 @@ class Register extends Component {
     const { registerForm } = this.state;
     this.setState({
       circleLoading: true
-    })
+    });
     await oktaRegister({
       storeId: process.env.REACT_APP_STOREID,
       customerPassword: registerForm.password,
       customerAccount: registerForm.email,
-      customerName:registerForm.name
-    }).then((res) => {
-      if(res.code === 'K-000000') {
-        //GA 注册成功 start
-        dataLayer.push({
-          'event': `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
-          interaction:{
-          'category':'account creation',
-          'action':'accounct creation',
-          'label':'',
-          'value':1},
-        })
-        //GA 注册成功 end
+      customerName: registerForm.name
+    })
+      .then((res) => {
+        if (res.code === 'K-000000') {
+          //GA 注册成功 start
+          dataLayer.push({
+            event: `${process.env.REACT_APP_GTM_SITE_ID}accountCreation`,
+            interaction: {
+              category: 'account creation',
+              action: 'accounct creation',
+              label: '',
+              value: 1
+            }
+          });
+          //GA 注册成功 end
 
-        loginStore.changeLoginModal(false);
-        loginStore.changeIsLogin(true);
+          loginStore.changeLoginModal(false);
+          loginStore.changeIsLogin(true);
 
-        localItemRoyal.set('rc-token', res.context.token);
-        localItemRoyal.set('rc-register', true)
-        loginStore.setUserInfo(res.context.customerDetail);
-  
-        const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
-        if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
-          mergeUnloginCartData();
-          checkoutStore.updateLoginCart();
+          localItemRoyal.set('rc-token', res.context.token);
+          localItemRoyal.set('rc-register', true);
+          loginStore.setUserInfo(res.context.customerDetail);
+
+          const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
+          if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
+            mergeUnloginCartData();
+            checkoutStore.updateLoginCart();
+          }
+          if (res.context.oktaSessionToken) {
+            // hard code
+            const state =
+              'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
+            const nonce =
+              '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
+            const regiserUrl =
+              process.env.REACT_APP_HOMEPAGE === '/'
+                ? 'implicit/callback'
+                : '/implicit/callback';
+            const redirectUri =
+              window.location.origin +
+              process.env.REACT_APP_HOMEPAGE +
+              regiserUrl;
+            var callOktaCallBack = `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
+            localItemRoyal.set(
+              'rc-consent-list',
+              JSON.stringify(this.state.list)
+            );
+            window.location.href = callOktaCallBack;
+          }
+        } else {
+          window.scrollTo(0, 0);
+          this.setState({
+            circleLoading: false,
+            hasError: true
+          });
         }
-        if(res.context.oktaSessionToken) {        
-          // hard code
-          const state = 'Opb8u3tUtFEVO9Y9Fpj4XG3xevZOTh0r9ue8lF3seJP8DFQNxM7YOHM8I1OcJyKo';
-          const nonce = '49HBgn9gMZs4BBUAWkMLOlGwerv7Cw89sT6gooduzyPfg98fOOaCBQ2oDOyCgb3T';
-          const regiserUrl = process.env.REACT_APP_HOMEPAGE === '/' ? 'implicit/callback' : '/implicit/callback'
-          const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE + regiserUrl;
-          var callOktaCallBack = 
-          `${process.env.REACT_APP_ISSUER}/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=id_token token&scope=openid&prompt=none&response_mode=fragment&redirect_uri=${redirectUri}&state=${state}&nonce=${nonce}&sessionToken=${res.context.oktaSessionToken}`;
-          localItemRoyal.set('rc-consent-list', JSON.stringify(this.state.list));
-          window.location.href = callOktaCallBack;
-        }
-        
-      } else {
-        window.scrollTo(0, 0)
+      })
+      .catch((err) => {
+        window.scrollTo(0, 0);
         this.setState({
           circleLoading: false,
           hasError: true
         });
-      }
-    })
-    .catch((err) => {
-      window.scrollTo(0, 0)
-      this.setState({
-        circleLoading: false,
-        hasError: true
       });
-    });
   };
 
   render() {
@@ -338,15 +352,20 @@ class Register extends Component {
       list,
       hasError
     } = this.state;
-    const allValid = nameValid && emailValid && passwordValid 
-            && registerForm.name && registerForm.email && registerForm.password;
-    const requireCheckd = (list.filter(x=>x.isChecked && x.isRequired)).length === requiredConsentCount;
-    const registerDisabled = !(allValid && requireCheckd)
+    const allValid =
+      nameValid &&
+      emailValid &&
+      passwordValid &&
+      registerForm.name &&
+      registerForm.email &&
+      registerForm.password;
+    const requireCheckd =
+      list.filter((x) => x.isChecked && x.isRequired).length ===
+      requiredConsentCount;
+    const registerDisabled = !(allValid && requireCheckd);
     return (
       <div>
-        <GoogleTagManager
-          additionalEvents={event}
-        />
+        <GoogleTagManager additionalEvents={event} />
         {/*全局loading */}
         {this.state.circleLoading ? <Loading bgColor={'#fff'} /> : null}
         <div id="register" className="page" style={this.state.styleObj}>
@@ -376,7 +395,10 @@ class Register extends Component {
                   <div className="rc-margin-bottom--sm">
                     <aside
                       aria-hidden="true"
-                      className={ (!hasError ? 'hidden ' : '') + 'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'}
+                      className={
+                        (!hasError ? 'hidden ' : '') +
+                        'ciam-alert-error-popin rc-alert rc-alert--error rc-padding--sm rc-alert--with-close rc-margin-y--sm'
+                      }
                       role="alert"
                     >
                       <p>
@@ -407,7 +429,9 @@ class Register extends Component {
                     </aside>
                     <h2 className="text-center rc-margin-bottom--sm">
                       <FormattedMessage id="registerWelcome" />{' '}
-                      <span className="rc-text-colour--brand1">Royal Canin</span>
+                      <span className="rc-text-colour--brand1">
+                        Royal Canin
+                      </span>
                     </h2>
                     <p className="rc-margin-bottom--none text-center">
                       <FormattedMessage id="registerCompleteForm" />
@@ -415,7 +439,11 @@ class Register extends Component {
                     <p className="text-center align-bottom">
                       <FormattedMessage id="registerHaveAccount" />{' '}
                       <a
-                        onClick={() => this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE)}
+                        onClick={() =>
+                          this.props.oktaAuth.signInWithRedirect(
+                            process.env.REACT_APP_HOMEPAGE
+                          )
+                        }
                         className="rc-styled-link"
                       >
                         <FormattedMessage id="registerLoginIn" />
@@ -716,8 +744,13 @@ class Register extends Component {
                           </div>
                         </div>
                         <p className="rc-body rc-margin-bottom--lg rc-margin-bottom--sm--desktop rc-text--left">
+                          <span
+                            style={{ marginRight: '10px' }}
+                            className="rc-text-colour--brand1"
+                          >
+                            *
+                          </span>
                           <FormattedMessage id="registerMandatory" />
-                          <span className="rc-text-colour--brand1">*</span>
                         </p>
                         <div className="rc-content-v-middle--mobile rc-margin-bottom--lg rc-margin-bottom--sm--desktop">
                           <button
@@ -725,7 +758,7 @@ class Register extends Component {
                             type="button"
                             value="Créer votre compte Royal Canin"
                             className="rc-btn rc-btn--one rc-self-v-middle--mobile"
-                            disabled={ registerDisabled }
+                            disabled={registerDisabled}
                             onClick={() => this.register()}
                           >
                             <FormattedMessage id="registerCreateYourAccout" />
