@@ -682,6 +682,7 @@ class Help extends React.Component {
                                 </b>
                               </div>
                             )}
+
                             <div className="product-pricing__card__head d-flex align-items-center">
                               <div className="rc-input product-pricing__card__head__title">
                                 <FormattedMessage id="price" />
@@ -694,7 +695,7 @@ class Help extends React.Component {
                                   fontSize: '20px'
                                 }}
                               >
-                                {MaxMarketPrice > 0 ? (
+                                {/* {MaxMarketPrice > 0 ? (
                                   MaxMarketPrice === MinMarketPrice ? (
                                     <span>{formatMoney(MaxMarketPrice)}</span>
                                   ) : (
@@ -705,9 +706,11 @@ class Help extends React.Component {
                                         {formatMoney(MaxMarketPrice)}
                                       </span>
                                     )
-                                ) : null}
+                                ) : null} */}
+                                <span>{formatMoney(productList[activeIndex].goodsInfo.marketPrice)}</span>
                               </b>
                             </div>
+
                             {MaxSubPrice > 0 && (
                               <div className="product-pricing__card__head d-flex align-items-center">
                                 <div className="rc-input product-pricing__card__head__title">
@@ -737,23 +740,12 @@ class Help extends React.Component {
                                 </b>
                               </div>
                             )}
+
                             <p className="product-pricing__card__head see-detail-btn">
-                              {/* <button
-                                className="rc-btn rc-btn--two"
-                                onClick={() => {
-                                  history.push(
-                                    '/details/' +
-                                    productList[activeIndex].goodsInfo.goodsInfoId
-                                  );
-                                }}
+                              {/* <button className="rc-btn rc-btn--two" onClick={() => { history.push('/details/' + productList[activeIndex].goodsInfo.goodsInfoId); }}
                               > */}
                               <Link
                                 className="rc-btn rc-btn--two"
-                                // onClick={() => {
-                                //   history.push(
-                                //     `${productList[activeIndex].goodsInfo.goodsInfoName.split(' ').join('-').replace('/', '')}-${productList[activeIndex].goodsInfo.goods.goodsNo}`
-                                //   );
-                                // }}
                                 to={`/${productList[activeIndex].goodsInfo.goodsInfoName.split(' ').join('-').replace('/', '')}-${productList[activeIndex].goodsInfo.goods.goodsNo}`}
                               >
                                 <FormattedMessage id="recommendation.viewDetail" />
@@ -910,10 +902,8 @@ class Help extends React.Component {
                           <div className="rc-column recommend-wrap-box">
                             <ul>
                               {productList.map((el, i) => (
-                                <li
-                                  onClick={() => this.setState({ activeIndex: i })}
-                                  className={`${i === activeIndex ? 'active' : ''}`}
-                                >
+                                // <li onClick={() => this.setState({ activeIndex: i })} className={`${i === activeIndex ? 'active' : ''}`}>
+                                <li onClick={() => this.setState({ activeIndex: i })}>
                                   <i></i>
                                   <LazyLoad>
                                     <img
@@ -926,7 +916,7 @@ class Help extends React.Component {
                                   </LazyLoad>
                                   <div className="d-flex pro-info-item"
                                     onClick={() => {
-                                      history.push('/details/' + productList[activeIndex].goodsInfo.goodsInfoId);
+                                      history.push('/details/' + productList[i].goodsInfo.goodsInfoId);
                                     }}
                                   >
                                     <div className="d-flex proName goods-info-name text-truncate">
@@ -939,6 +929,7 @@ class Help extends React.Component {
                                       <span style={{ margin: '0 5px' }}> X </span>
                                       <span>{el.recommendationNumber}</span>
                                     </div>
+                                    
                                     {false && MaxLinePrice > 0 && (
                                       <div className="d-flex product-pricing__card__head">
                                         <div className="rc-input product-pricing__card__head__title">
@@ -979,7 +970,7 @@ class Help extends React.Component {
                                           fontWeight: '200'
                                         }}
                                       >
-                                        {MaxMarketPrice > 0 ? (
+                                        {/* {MaxMarketPrice > 0 ? (
                                           MaxMarketPrice === MinMarketPrice ? (
                                             <span>{formatMoney(MaxMarketPrice)}</span>
                                           ) : (
@@ -990,7 +981,8 @@ class Help extends React.Component {
                                                 {formatMoney(MaxMarketPrice)}
                                               </span>
                                             )
-                                        ) : null}
+                                        ) : null} */}
+                                        <span>{formatMoney(productList[i].goodsInfo.marketPrice)}</span>
                                       </b>
                                     </div>
                                     {MaxSubPrice > 0 && (
