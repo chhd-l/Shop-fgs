@@ -114,47 +114,29 @@ class PayOs extends React.Component {
         inited: true
       });
     }
+    this.initForm();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    return null;
-    const { creditCardInfoForm } = this.state;
-    if (nextProps.selectedDeliveryAddress) {
-      const {
-        email: selectedEmail,
-        phoneNumber: selectedPhone,
-        firstName: selectedFirstName,
-        lastName: selectedLastName
-      } = nextProps.selectedDeliveryAddress;
-      let {
-        email: curEmail,
-        phoneNumber: curPhone,
-        cardOwner: curName
-      } = creditCardInfoForm;
-      const selectedName = [selectedFirstName, selectedLastName]
-        .filter((n) => !!n)
-        .join(' ');
-      if (!this.state.hasEditedEmail && selectedEmail !== curEmail) {
-        curEmail = selectedEmail;
-      }
-      if (!this.state.hasEditedPhone && selectedPhone !== curPhone) {
-        curPhone = selectedPhone;
-      }
-      if (!this.state.hasEditedName && selectedName !== curName) {
-        curName = selectedName;
-      }
-      this.setState(
-        {
-          creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-            email: curEmail,
-            phoneNumber: curPhone,
-            cardOwner: curName
-          })
-        },
-        () => {
-          this.validFormData();
-        }
-      );
+  initForm() {
+    const {
+      paymentStore: { selectedDeliveryAddress: defaultVal }
+    } = this.props;
+    let tmpDefaultName = '';
+    if (defaultVal) {
+      const { firstName, lastName } = defaultVal;
+      tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
+    this.setState(
+      {
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          cardOwner: tmpDefaultName || '',
+          email: (defaultVal && defaultVal.email) || '',
+          phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
+        })
+      },
+      () => {
+        this.validFormData();
+      }
+    );
   }
   cardInfoInputChange = (e) => {
     const target = e.target;
@@ -407,7 +389,7 @@ class PayOs extends React.Component {
                                     data-js-warning-message="*Phone Number isn’t valid"
                                   >
                                     <input
-                                      type="number"
+                                      type="text"
                                       className="rc-input__control input__phoneField shippingPhoneNumber"
                                       min-lenght="18"
                                       max-length="18"

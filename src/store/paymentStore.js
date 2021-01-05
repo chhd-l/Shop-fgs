@@ -8,6 +8,7 @@ class PaymentStore {
 
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
+  @observable selectedCardId = null;
   @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
@@ -85,18 +86,17 @@ class PaymentStore {
 
   @action.bound
   setStsToCompleted({ key }) {
-    switch(key) {
+    switch (key) {
       case 'email':
         //默认填不填邮件step都是2，step有个默认值2
-         break;
-      case 'deliveryAddr':
-         dataLayer[0].checkout.step = 3
-         break;
-      case 'paymentMethod':
-        dataLayer[0].checkout.step = 4 //要输入完cvv才变成4
         break;
-
-  } 
+      case 'deliveryAddr':
+        dataLayer[0].checkout.step = 3;
+        break;
+      case 'paymentMethod':
+        dataLayer[0].checkout.step = 4; //要输入完cvv才变成4
+        break;
+    }
     this.updatePanelStatus(key, {
       isPrepare: false,
       isEdit: false,
@@ -180,13 +180,17 @@ class PaymentStore {
 
   //更新填写邮件状态
   @action.bound
-  updateStepForEmail(param){
-    this.paymentStep[0] = param
+  updateStepForEmail(param) {
+    this.paymentStep[0] = param;
   }
   //更新填写地址状态
   @action.bound
-  updateStepForAddress(param){
-    this.paymentStep[1] = param
+  updateStepForAddress(param) {
+    this.paymentStep[1] = param;
+  }
+  @action.bound
+  updateSelectedCardId(id) {
+    this.selectedCardId = id;
   }
 }
 export default PaymentStore;
