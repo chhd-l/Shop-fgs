@@ -722,6 +722,7 @@ class Details extends React.Component {
             }
           );
         } else {
+
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
 
@@ -802,6 +803,9 @@ class Details extends React.Component {
               images
             },
             () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
           );
@@ -1451,10 +1455,9 @@ class Details extends React.Component {
               price: item.minMarketPrice,
               brand: item.brandName || 'ROYAL CANIN',
               club: 'no',
-              // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant:
-                item.goodsSpecDetails[0] &&
+                item.goodsSpecDetails && item.goodsSpecDetails[0] &&
                 parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }

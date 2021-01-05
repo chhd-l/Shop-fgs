@@ -425,7 +425,7 @@ class Confirmation extends React.Component {
                             className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
                             key={i}
                           >
-                            <PayProductInfo details={ele} />
+                            <PayProductInfo details={ele} location={this.props.location}/>
                           </div>
                         </>
                       ))}

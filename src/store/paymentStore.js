@@ -9,7 +9,6 @@ class PaymentStore {
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
   @observable selectedCardId = null;
-  @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
     {
@@ -88,13 +87,49 @@ class PaymentStore {
   setStsToCompleted({ key }) {
     switch (key) {
       case 'email':
-        //默认填不填邮件step都是2，step有个默认值2
-        break;
+        dataLayer[0].checkout.step = 2
+        dataLayer[0].checkout.option = 'guest checkout'
+        dataLayer.push({
+          checkout:{
+            step:2,
+            option: 'guest checkout'
+          },
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/shipping'
+          }
+        })
+         break;
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
+        dataLayer[0].checkout.option = ''
+        dataLayer.push({
+          checkout:{
+            step:3,
+            option: 'shippingMethod'
+          },
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/billing'
+          }
+        })
         break;
       case 'paymentMethod':
-        dataLayer[0].checkout.step = 4; //要输入完cvv才变成4
+        dataLayer[0].checkout.step = 4;
+        dataLayer[0].checkout.option = ''
+        dataLayer.push({
+          checkout:{
+            step:4,
+            option: 'paymentMethod'
+          },
+          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+          page:{
+            type:'Checkout',
+            virtualPageURL:'/checkout/placeholder'
+          }
+        })
         break;
     }
     this.updatePanelStatus(key, {
@@ -178,16 +213,6 @@ class PaymentStore {
     this.firstSavedCardCvv = data;
   }
 
-  //更新填写邮件状态
-  @action.bound
-  updateStepForEmail(param) {
-    this.paymentStep[0] = param;
-  }
-  //更新填写地址状态
-  @action.bound
-  updateStepForAddress(param) {
-    this.paymentStep[1] = param;
-  }
   @action.bound
   updateSelectedCardId(id) {
     this.selectedCardId = id;
