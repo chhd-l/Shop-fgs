@@ -6,26 +6,27 @@ import { sha256 } from 'js-sha256';
 @inject('loginStore')
 @observer
 class GoogleTagManager extends React.Component {
-  constructor(props){
-    super(props)
-    this.state={
-      searchEvent:''
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchEvent: ''
+    };
   }
   static getDerivedStateFromProps(props, state) {
-    const {searchEvent} = props
+    const { searchEvent } = props;
     if (searchEvent !== state.searchEvent) {
       return {
-        searchEvent,
+        searchEvent
       };
     }
+    return null;
   }
   render() {
     // console.log(this.state.searchEvent)
     // if(Object.keys(this.state.searchEvent).length){
     //   let event = {
     //     page: {
-          
+
     //     },
     //     site: {
     //       id: process.env.REACT_APP_GTM_SITE_ID,
@@ -35,14 +36,14 @@ class GoogleTagManager extends React.Component {
     //     }
     //   };
     //   let userInfo = this.props.loginStore.userInfo;
-  
+
     //   if (userInfo) {
     //     event.user = {
     //       authentificationStatus: 'authenticated',
     //       email: sha256(userInfo.email),
     //       id: userInfo.customerId,
     //       locale : userInfo.city
-          
+
     //     };
     //   }else{
     //     event.user = {
@@ -57,7 +58,7 @@ class GoogleTagManager extends React.Component {
     //   event.user.accountType = 'test'
 
     //   event.search = this.state.searchEvent.search
-      
+
     //   console.log(event)
 
     //   loadJS({
@@ -77,32 +78,29 @@ class GoogleTagManager extends React.Component {
     //     type: 'text/plain'
     //   });
     // }
-    
+
     return <React.Fragment />;
   }
 
-
   componentDidMount() {
     let event = {
-      page: {
-        
-      },
+      page: {},
       site: {
         id: process.env.REACT_APP_GTM_SITE_ID,
         environment: process.env.REACT_APP_GA_ENV,
         country: process.env.REACT_APP_GA_COUNTRY,
         currency: process.env.REACT_APP_GA_CURRENCY_CODE
       },
-      search:{
-        query:'',
-        results:'',
-        type:''
+      search: {
+        query: '',
+        results: '',
+        type: ''
       },
-      pet:{
-        specieId:'',
-        breedId:''
+      pet: {
+        specieId: '',
+        breedId: ''
       },
-      checkout:{
+      checkout: {
         basketAmount: '',
         basketID: '',
         option: '',
@@ -116,20 +114,20 @@ class GoogleTagManager extends React.Component {
         authentificationStatus: 'authenticated',
         email: sha256(userInfo.email),
         id: userInfo.customerId,
-        locale : userInfo.city,
-        frequency:'returning client'
+        locale: userInfo.city,
+        frequency: 'returning client'
       };
-    }else{
+    } else {
       event.user = {
-        authentificationStatus:'not authenticated',
+        authentificationStatus: 'not authenticated',
         email: '',
         id: '',
-        locale :'',
-        frequency:'prospect'
-      }
+        locale: '',
+        frequency: 'prospect'
+      };
     }
-    event.user.country = process.env.REACT_APP_GA_COUNTRY,
-    event.user.accountType = 'test'
+    (event.user.country = process.env.REACT_APP_GA_COUNTRY),
+      (event.user.accountType = 'test');
 
     let additionalEvents = Object.assign(
       {},
@@ -161,7 +159,6 @@ class GoogleTagManager extends React.Component {
       type: 'text/plain'
     });
   }
-  
 }
 
 export default GoogleTagManager;

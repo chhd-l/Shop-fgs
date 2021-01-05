@@ -142,8 +142,8 @@ class SelectPetModal extends Component {
           <div>
             <div className="img-box">
               {productList.length > 0
-                ? productList.map((item) => (
-                    <div className="img-wrapper">
+                ? productList.map((item, i) => (
+                    <div className="img-wrapper" key={i}>
                       <LazyLoad>
                         <img
                           className="rc-img--square rc-img--square-custom "
@@ -193,8 +193,8 @@ class SelectPetModal extends Component {
                           onBlur={(e) => this.inputBlur(e)}
                           name="petType"
                         >
-                          {this.state.pets.map((item) => (
-                            <option value={item.value}> {item.name}</option>
+                          {this.state.pets.map((item, i) => (
+                            <option value={item.value} key={i}> {item.name}</option>
                           ))}
                         </select>
                       </span>

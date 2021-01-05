@@ -566,15 +566,12 @@ class List extends React.Component {
           actionField: { list: this.state.GAListParam }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
           products: [
             {
-              name: item.goodsName, //?
+              name: item.goodsName,
               id: item.goodsNo,
               club: 'no',
               brand: item.goodsBrand.brandName,
-              // category: item.goodsCateName
-              //   ? JSON.parse(item.goodsCateName)[0]
-              //   : '',
               category: item.goodsCateName,
-              list: this.state.GAListParam, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+              list: this.state.GAListParam,
               position: index,
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
@@ -588,19 +585,15 @@ class List extends React.Component {
   GAProductImpression(productList, totalElements, keywords) {
     const impressions = productList.map((item, index) => {
       return {
-        name: item.goodsName, //
+        name: item.goodsName,
         id: item.goodsNo,
         brand: item.goodsBrand.brandName,
         price: item.minMarketPrice,
         club: 'no',
-        //category: !!item.goodsCateName ? JSON.parse(item.goodsCateName)[0] : '',
         category: item.goodsCateName,
-        list: this.state.GAListParam, //list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+        list: this.state.GAListParam,
         position: index,
         sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
-        // flag: !!item.taggingForImage
-        //   ? JSON.parse(item.taggingForImage).taggingName
-        //   : ''
         flag: ''
       };
     });
@@ -807,7 +800,7 @@ class List extends React.Component {
       setSeoConfig({ pageName: 'Search Results Page' }).then((res) => {
         this.setState({
           seoConfig: res,
-          breadList: [{ name: <FormattedMessage id="searchShow" /> }]
+          breadList: [{ name: this.props.intl.messages.searchShow }]
         });
       });
     } else if (cateIds && cateIds.length) {

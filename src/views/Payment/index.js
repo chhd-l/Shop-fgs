@@ -126,9 +126,9 @@ class Payment extends React.Component {
       paymentTypeVal: '',
       errorMsg: '',
       loading: false,
-      payosdata: {},
-      selectedCardInfo: {},
-      adyenPayParam: {},
+      payosdata: null,
+      selectedCardInfo: null,
+      adyenPayParam: null,
       payWayNameArr: [],
       email: '',
       payWayObj: {}, //支付方式input radio汇总
@@ -159,6 +159,7 @@ class Payment extends React.Component {
     this.unLoginBillingAddrRef = React.createRef();
     this.loginBillingAddrRef = React.createRef();
     this.adyenCardRef = React.createRef();
+    this.payUCreditCardRef = React.createRef();
   }
 
   // getCheckoutStep(panelStatus){
@@ -1097,9 +1098,9 @@ class Payment extends React.Component {
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       city: deliveryAddress.cityName,
-      country: payosdata.country_code,
-      token: payosdata.token,
-      creditDardCvv: payosdata.encrypted_cvv,
+      country: payosdata ? payosdata.country_code : '',
+      token: payosdata ? payosdata.token : '',
+      creditDardCvv: payosdata ? payosdata.encrypted_cvv : payosdata,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1110,7 +1111,7 @@ class Payment extends React.Component {
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-      last4Digits: payosdata.last_4_digits,
+      last4Digits: payosdata ? payosdata.last_4_digits : '',
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
@@ -1640,7 +1641,7 @@ class Payment extends React.Component {
     const { billingChecked } = this.state;
     this.setState({ saveBillingLoading: true });
 
-    async function handleClickSaveForm(_this) {
+    async function handleClickSaveAdyenForm(_this) {
       try {
         if (
           _this.adyenCardRef &&
@@ -1649,6 +1650,22 @@ class Payment extends React.Component {
           _this.adyenCardRef.current.cardListRef.current
         ) {
           await _this.adyenCardRef.current.cardListRef.current.clickConfirm();
+        }
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+
+    async function handleClickSavePayUForm(_this) {
+      try {
+        if (_this.payUCreditCardRef && _this.payUCreditCardRef.current) {
+          await _this.payUCreditCardRef.current.handleClickCardConfirm();
+          if (
+            _this.payUCreditCardRef.current.paymentCompRef &&
+            _this.payUCreditCardRef.current.paymentCompRef.current
+          ) {
+            await _this.payUCreditCardRef.current.paymentCompRef.current.handleSave();
+          }
         }
       } catch (e) {
         throw new Error(e.message);
@@ -1667,12 +1684,14 @@ class Payment extends React.Component {
         }
         // 2 save card form, when add a new card
         if (!adyenPayParam) {
-          await handleClickSaveForm(this);
+          await handleClickSaveAdyenForm(this);
         }
+        await handleClickSavePayUForm(this);
       } else {
         // 1 save card form
         // 2 save billing addr, when billing checked status is false
-        await handleClickSaveForm(this);
+        await handleClickSaveAdyenForm(this);
+        await handleClickSavePayUForm(this);
         if (
           !billingChecked &&
           this.unLoginBillingAddrRef &&
@@ -1792,16 +1811,18 @@ class Payment extends React.Component {
                 updateEmail={this.updateEmail}
                 billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
               />
-              {payConfirmBtn}
+              {payConfirmBtn({
+                disabled: !EMAIL_REGEXP.test(email) || validForBilling
+              })}
             </>
           )}
           {/* payu creditCard */}
           {paymentTypeVal === 'payUCreditCard' && (
             <>
               <PayUCreditCard
+                ref={this.payUCreditCardRef}
                 type={'PayUCreditCard'}
                 isLogin={this.isLogin}
-                paymentTypeVal={paymentTypeVal}
                 showErrorMsg={this.showErrorMsg}
                 onVisitorPayosDataConfirm={(data) => {
                   this.setState({ payosdata: data });
@@ -1814,21 +1835,16 @@ class Payment extends React.Component {
                 }}
                 isApplyCvv={false}
                 needReConfirmCVV={true}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'payUCreditCard'
+                })}
                 billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
                 selectedDeliveryAddress={this.selectedDeliveryAddress}
               />
-              {Object.keys(selectedCardInfo || {}).length > 0 && (
-                <>
-                  {this.renderBillingJSX({ type: 'payUCreditCard' })}
-                  {/* // 校验状态
-                      // 1 卡，校验是否存在encryptedSecurityCode
-                      // 2 billing校验 */}
-                  {payConfirmBtn({
-                    disabled: !selectedCardInfo.cardCvv || validForBilling,
-                    loading: saveBillingLoading
-                  })}
-                </>
-              )}
+              {payConfirmBtn({
+                disabled: !validSts.payUCreditCard || validForBilling,
+                loading: saveBillingLoading
+              })}
             </>
           )}
           {/* adyenCreditCard */}
