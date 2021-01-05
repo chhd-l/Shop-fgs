@@ -136,15 +136,14 @@ class AdyenCreditCardForm extends React.Component {
       if (adyenFormData.storePaymentMethod) {
         this.setState({ saveLoading: true });
         const res = await addOrUpdatePaymentMethod({
-          customerId: this.userInfo ? this.userInfo.customerId : '',
           storeId: process.env.REACT_APP_STOREID,
+          customerId: this.userInfo ? this.userInfo.customerId : '',
           encryptedCardNumber: adyenFormData.encryptedCardNumber,
           encryptedExpiryMonth: adyenFormData.encryptedExpiryMonth,
           encryptedExpiryYear: adyenFormData.encryptedExpiryYear,
           encryptedSecurityCode: adyenFormData.encryptedSecurityCode,
-          paymentType: 'ADYEN',
           holderName: adyenFormData.hasHolderName,
-          accountName: this.userInfo ? this.userInfo.customerAccount : ''
+          pspName: 'ADYEN'
         });
         tmpSelectedId = res.context.id;
         this.props.updateSelectedId(tmpSelectedId);

@@ -17,7 +17,9 @@ import {
   getDeviceType,
   getFrequencyDict,
   getFormatDate,
-  datePickerConfig
+  datePickerConfig,
+  formatMoney,
+  setSeoConfig
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -44,15 +46,15 @@ import {
 } from '@/api/subscription';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
-import { formatMoney } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
 const localItemRoyal = window.__.localItemRoyal;
+
+const isMobile = getDeviceType() !== 'PC';
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -177,7 +179,6 @@ class SubscriptionDetail extends React.Component {
         this.props.intl.messages.completed
       ],
       activeTabIdx: 0,
-      isMobile: false,
       noStartYearOption: [],
       completedYearOption: [],
       noStartYear: {
@@ -195,7 +196,6 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
@@ -379,39 +379,10 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
-      let tempCardInfo;
-      if (subDetail.paymentInfo) {
-        const adyenPaymentMethod = subDetail.paymentInfo.adyenPaymentMethod;
-        const payuPaymentMethod = subDetail.paymentInfo.payuPaymentMethod;
-        if (adyenPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: adyenPaymentMethod.name,
-              last_4_digits: adyenPaymentMethod.lastFour,
-              holder_name: adyenPaymentMethod.holderName
-            },
-            phoneNumber: adyenPaymentMethod.phoneNumber
-          };
-        } else if (payuPaymentMethod) {
-          tempCardInfo = {
-            paymentMethod: {
-              vendor: payuPaymentMethod.vendor,
-              last_4_digits: payuPaymentMethod.last_4_digits,
-              holder_name: payuPaymentMethod.holder_name
-            },
-            phoneNumber: subDetail.paymentInfo.phoneNumber
-          };
-        }
-        if (subDetail.paymentInfo.paymentType === 'ADYEN') {
-          dynamicLoadCss(
-            'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.6.0/adyen.css'
-          );
-        }
-      }
       this.setState(
         {
           subDetail: subDetail,
-          currentCardInfo: tempCardInfo,
+          currentCardInfo: subDetail.paymentInfo,
           currentDeliveryAddress: subDetail.consignee,
           currentBillingAddress: subDetail.invoice,
           orderOptions: orderOptions,
@@ -589,7 +560,6 @@ class SubscriptionDetail extends React.Component {
       subDetail,
       currentModalObj,
       todaydate,
-      isMobile,
       noStartYearOption,
       completedYearOption,
       noStartYear,
@@ -1820,8 +1790,7 @@ class SubscriptionDetail extends React.Component {
                               </div>
                               <div className="ml-1">
                                 {currentCardInfo &&
-                                currentCardInfo.paymentMethod &&
-                                currentCardInfo.paymentMethod.last_4_digits ? (
+                                currentCardInfo.lastFourDigits ? (
                                   <>
                                     <span
                                       className="medium"
@@ -1834,10 +1803,7 @@ class SubscriptionDetail extends React.Component {
                                       }}
                                     >
                                       **** **** ****
-                                      {
-                                        currentCardInfo.paymentMethod
-                                          .last_4_digits
-                                      }
+                                      {currentCardInfo.lastFourDigits}
                                     </span>
                                     <br />
                                     <LazyLoad
@@ -1851,23 +1817,18 @@ class SubscriptionDetail extends React.Component {
                                         className="d-inline-block"
                                         src={
                                           CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentMethod
-                                              ? currentCardInfo.paymentMethod
-                                                  .vendor
-                                              : currentCardInfo.vendor
-                                          ]
+                                            currentCardInfo.paymentVendor.toUpperCase()
+                                          ] ||
+                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                         }
                                       />
                                     </LazyLoad>
                                   </>
                                 ) : null}
 
-                                {currentCardInfo &&
-                                currentCardInfo.paymentMethod
-                                  ? currentCardInfo.paymentMethod.holder_name
-                                  : ''}
+                                {currentCardInfo.holderName}
                                 <br />
-                                {currentCardInfo && currentCardInfo.phoneNumber}
+                                {currentCardInfo.phone}
                                 <br />
                               </div>
                             </div>

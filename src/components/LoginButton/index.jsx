@@ -53,58 +53,65 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
-          const oktaToken = authState.accessToken ? authState.accessToken.value : '';
+          const oktaToken = authState.accessToken
+            ? authState.accessToken.value
+            : '';
           const consentString = localItemRoyal.get('rc-consent-list');
           if (consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
             let submitParam = bindSubmitParam(consents);
-            debugger
             // 不知道能不能拿到customerId
-            let customerId = loginStore.userinfo && loginStore.userinfo.customerId
+            let customerId =
+              loginStore.userinfo && loginStore.userinfo.customerId;
             userBindConsent({
               ...submitParam,
               ...{ oktaToken },
               customerId
-            }).then(res => {
-              if (res.code === 'K-000000') {
-                history.push('/')
-              }
-            }).catch((e) => {
-              console.log(e);
-            });
+            })
+              .then((res) => {
+                if (res.code === 'K-000000') {
+                  history.push('/');
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+              });
           } else {
             if (!loginStore.isLogin) {
               getToken({ oktaToken: `Bearer ${oktaToken}` })
                 .then(async (res) => {
                   // GA 登录成功埋点 start
-                  dataLayer&&dataLayer.push(
-                    {
-                      event:`${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
-                      interaction:{
-                      category:'registration',
-                      action:'login',
-                      label:'',
-                      value:1
-                    },
-                    })        
+                  dataLayer &&
+                    dataLayer.push({
+                      event: `${process.env.REACT_APP_GTM_SITE_ID}loginAccess`,
+                      interaction: {
+                        category: 'registration',
+                        action: 'login',
+                        label: '',
+                        value: 1
+                      }
+                    });
                   // GA 登陆成功埋点 end
                   let userinfo = res.context.customerDetail;
                   loginStore.changeLoginModal(false);
                   loginStore.changeIsLogin(true);
-  
+
                   localItemRoyal.set('rc-token', res.context.token);
-                  let customerInfoRes = await getCustomerInfo();
+                  debugger;
+                  let customerInfoRes = await getCustomerInfo({
+                    customerId: res.context.customerId
+                  });
                   userinfo.defaultClinics =
                     customerInfoRes.context.defaultClinics;
                   loginStore.setUserInfo(customerInfoRes.context);
-  
+
                   const tmpUrl = sessionItemRoyal.get('okta-redirectUrl');
                   if (tmpUrl !== '/cart' && checkoutStore.cartData.length) {
                     await mergeUnloginCartData();
                     console.log(loginStore, 'loginStore');
                     await checkoutStore.updateLoginCart();
                   }
-  
+
                   setIsGetUserInfoDown(true);
                 })
                 .catch((e) => {
@@ -132,7 +139,7 @@ const LoginButton = (props) => {
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {
       //debugger
-      console.log(err)
+      console.log(err);
     }
   };
 

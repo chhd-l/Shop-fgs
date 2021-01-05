@@ -83,26 +83,8 @@ class PaymentComp extends React.Component {
   async getPaymentMethodList() {
     this.setState({ listLoading: true });
     try {
-      let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        storeId: process.env.REACT_APP_STOREID
-      });
-      let tmpList = (res.context || []).filter(
-        (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
-      );
-      tmpList = tmpList.map((el) => {
-        const tmpPaymentMethod = el.payuPaymentMethod || el.adyenPaymentMethod;
-        return Object.assign(el, {
-          paymentMethod: {
-            vendor: tmpPaymentMethod.vendor || tmpPaymentMethod.name,
-            holder_name:
-              tmpPaymentMethod.holder_name || tmpPaymentMethod.holderName,
-            last_4_digits:
-              tmpPaymentMethod.last_4_digits || tmpPaymentMethod.lastFour,
-            card_type: tmpPaymentMethod.card_type || tmpPaymentMethod.brand
-          }
-        });
-      });
+      let res = await getPaymentMethod();
+      let tmpList = res.context || [];
 
       const defaultItem = tmpList.filter((t) => t.isDefault === 1)[0];
       const firstItem = tmpList[0];

@@ -79,19 +79,13 @@ class AdyenCreditCardList extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  get userInfo() {
-    return this.props.loginStore.userInfo;
-  }
   queryList = async ({
     currentCardEncryptedSecurityCode,
     showListLoading = true
   } = {}) => {
     showListLoading && this.setState({ listLoading: true });
     try {
-      let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        storeId: process.env.REACT_APP_STOREID
-      });
+      let res = await getPaymentMethod();
       let cardList = res.context;
 
       // 初始化时，重置保存卡列表的isLoadCvv状态
@@ -165,8 +159,7 @@ class AdyenCreditCardList extends React.Component {
         }
       );
       deleteCard({
-        id: currentId,
-        storeId: process.env.REACT_APP_STOREID
+        id: currentId
       })
         .then(() => {
           this.queryList();

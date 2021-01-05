@@ -4,12 +4,10 @@ const api = {
   visitorRegisterAndLogin: `/${process.env.REACT_APP_STOREID}/guest/register`,
   batchAdd: `/site/${process.env.REACT_APP_STOREID}/batch-add`,
   confirmAndCommit: `/${process.env.REACT_APP_STOREID}/guest/checkout`,
-  // addOrUpdatePaymentMethod: '/payment-method/updata',
-  addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/payment-method`,
-  getPaymentMethod: `/${process.env.REACT_APP_STOREID}/payment-method/customer=`,
-  // getPaymentMethod: '/payment-method/query-by-customer-id',
-  deleteCard: '/payment-method',
-  setDefaltCard: '/payment-method/default',
+  addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
+  getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
+  deleteCard: '/pay-payment-info', // delete a card
+  setDefaltCard: '/pay-payment-info/default', 
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
@@ -64,7 +62,7 @@ export function addOrUpdatePaymentMethod(parameter) {
 
 export function getPaymentMethod(parameter) {
   return axios({
-    url: api.getPaymentMethod+parameter.customerId,
+    url: api.getPaymentMethod,
     method: 'get',
     params: parameter
   });

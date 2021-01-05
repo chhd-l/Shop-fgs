@@ -30,16 +30,12 @@ function CardItem(props) {
       <div className={`pt-4 pt-md-2 pb-2 w-100`}>
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={200}>
+            <LazyLoad>
               <img
-                className="PayCardImgFitScreen"
-                style={{ height: '5rem', maxWidth: '100%' }}
+                className="PayCardImgFitScreen mw-100"
+                style={{ height: '5rem' }}
                 src={
-                  CREDIT_CARD_IMG_ENUM[
-                    data.paymentMethod
-                      ? data.paymentMethod.vendor.toUpperCase()
-                      : ''
-                  ] ||
+                  CREDIT_CARD_IMG_ENUM[data.paymentVendor.toUpperCase()] ||
                   'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                 }
                 alt=""
@@ -47,18 +43,12 @@ function CardItem(props) {
             </LazyLoad>
           </div>
           <div className="col-6 pl-0 pr-0">
-            <p className="mb-0">
-              {data.paymentMethod
-                ? data.paymentMethod.holder_name
-                : data.cardOwner}
-            </p>
+            <p className="mb-0">{data.holderName}</p>
             <p className="mb-0">
               ************
-              {data.paymentMethod ? data.paymentMethod.last_4_digits : ''}
+              {data.lastFourDigits}
             </p>
-            <p className="mb-0">
-              {data.paymentMethod ? data.paymentMethod.card_type : ''}
-            </p>
+            <p className="mb-0">{data.cardType}</p>
           </div>
         </div>
       </div>
@@ -106,34 +96,12 @@ class AddressList extends React.Component {
     return this.props.loginStore.userInfo;
   }
   getPaymentMethodList = async ({ showLoading = true } = {}) => {
-    showLoading && this.setState({ listLoading: true });
     try {
-      let res = await getPaymentMethod({
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        storeId: process.env.REACT_APP_STOREID
-      });
-
-      let tmpList = (res.context || []).filter(
-        (ele) => ele.payuPaymentMethod || ele.adyenPaymentMethod
-      );
-
-      tmpList = tmpList.map((el) => {
-        const tmpPaymentMethod = el.payuPaymentMethod || el.adyenPaymentMethod;
-        return Object.assign(el, {
-          paymentMethod: {
-            vendor: tmpPaymentMethod.vendor || tmpPaymentMethod.name,
-            holder_name:
-              tmpPaymentMethod.holder_name || tmpPaymentMethod.holderName,
-            last_4_digits:
-              tmpPaymentMethod.last_4_digits || tmpPaymentMethod.lastFour,
-            card_type: tmpPaymentMethod.card_type || tmpPaymentMethod.brand
-          }
-        });
-      });
-      this.setState({ creditCardList: tmpList });
+      showLoading && this.setState({ listLoading: true });
+      const res = await getPaymentMethod();
+      this.setState({ creditCardList: res.context || [] });
     } catch (err) {
-      console.log(err);
-      this.setState({ listErr: err.message.toString() });
+      this.setState({ listErr: err.message });
     } finally {
       this.setState({
         loading: false,
@@ -151,7 +119,7 @@ class AddressList extends React.Component {
       listLoading: true,
       creditCardList
     });
-    await deleteCard({ id: el.id, storeId: process.env.REACT_APP_STOREID })
+    await deleteCard({ id: el.id })
       .then(() => {
         this.getPaymentMethodList();
       })

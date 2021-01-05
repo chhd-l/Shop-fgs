@@ -321,11 +321,11 @@ class Payment extends React.Component {
     //1.会员调用consense接口
     //2.游客调用consense接口
     const { isLogin } = this;
-    let action = getStoreOpenConsentList
-    let params = {}
-    if(isLogin){
-      action = findUserConsentList
-      params = {customerId:this.userInfo && this.userInfo.customerId}
+    let action = getStoreOpenConsentList;
+    let params = {};
+    if (isLogin) {
+      action = findUserConsentList;
+      params = { customerId: this.userInfo && this.userInfo.customerId };
     }
     const res = await action(params);
     if (isLogin) {
@@ -619,21 +619,22 @@ class Payment extends React.Component {
       let commonParameter = obj.commonParameter;
       let phone = obj.phone;
       let parameters;
-      const { subForm, email } = this.state;
+      const { email } = this.state;
       /* 组装支付需要的参数 */
       const actions = {
         oxxo: () => {
           parameters = Object.assign({}, commonParameter, {
-            payChannelItem: 'payuoxxo',
+            payPspItemEnum: 'PAYU_OXXO',
             country: 'MEX',
             email
           });
         },
         payUCreditCard: async () => {
           const { selectedCardInfo } = this.state;
-          if (!this.isLogin) {
-            parameters = Object.assign({}, commonParameter);
-          } else {
+          parameters = Object.assign({}, commonParameter, {
+            payPspItemEnum: 'PAYU_CREDIT_CARD'
+          });
+          if (this.isLogin) {
             try {
               // 获取token，避免传给接口明文cvv
               this.startLoading();
@@ -651,19 +652,10 @@ class Payment extends React.Component {
                 );
               });
               cvvResult = JSON.parse(cvvResult);
-              const tempPublicParams = Object.assign({}, commonParameter, {
+              parameters = Object.assign({}, commonParameter, {
                 paymentMethodId: selectedCardInfo.id,
                 creditDardCvv: cvvResult && cvvResult.token
               });
-              if (subForm.buyWay === 'frequency') {
-                parameters = Object.assign({}, tempPublicParams, {
-                  payChannelItem: 'payu_subscription'
-                });
-              } else {
-                parameters = Object.assign({}, tempPublicParams, {
-                  payChannelItem: 'payu_customer'
-                });
-              }
             } catch (err) {
               this.endLoading();
               throw new Error(err.message);
@@ -677,11 +669,7 @@ class Payment extends React.Component {
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
-            payChannelItem: adyenPayParam.paymentToken
-              ? subForm.buyWay === 'frequency'
-                ? 'adyen_card_customer_subscription'
-                : 'adyen_card_customer'
-              : 'adyen_credit_card'
+            payPspItemEnum: 'ADYEN_CREDIT_CARD'
           });
           if (adyenPayParam.paymentToken) {
             parameters = Object.assign(parameters, {
@@ -696,10 +684,7 @@ class Payment extends React.Component {
         adyenKlarnaPayLater: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna',
-            payChannelItem:
-              subForm.buyWay === 'frequency'
-                ? 'adyen_later_subscription'
-                : 'adyen_klarna_pay_lat',
+            payPspItemEnum: 'ADYEN_KLARNA_PAY_LATER',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -709,10 +694,7 @@ class Payment extends React.Component {
         adyenKlarnaPayNow: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'klarna_paynow',
-            payChannelItem:
-              subForm.buyWay === 'frequency'
-                ? 'adyen_klarna_subscription'
-                : 'adyen_klarna_pay_now',
+            payPspItemEnum: 'ADYEN_KLARNA_PAYNOW',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -722,10 +704,7 @@ class Payment extends React.Component {
         directEbanking: () => {
           parameters = Object.assign(commonParameter, {
             adyenType: 'directEbanking',
-            payChannelItem:
-              subForm.buyWay === 'frequency'
-                ? 'adyen_sofort_subscription'
-                : 'directEbanking',
+            payPspItemEnum: 'ADYEN_SOFORT',
             shopperLocale: 'en_US',
             currency: 'EUR',
             country: process.env.REACT_APP_Adyen_country,
@@ -884,6 +863,7 @@ class Payment extends React.Component {
       let subNumber; // 订阅订单号
       let oxxoPayUrl;
       let gotoConfirmationPage = false;
+      debugger;
       switch (type) {
         case 'oxxo':
           var oxxoContent = res.context[0];
@@ -974,7 +954,7 @@ class Payment extends React.Component {
         // clinicStore.setDefaultClinicId(clinicStore.clinicId);
         // clinicStore.setDefaultClinicName(clinicStore.clinicName);
       }
-      
+
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
         this.props.history.push('/confirmation');
@@ -1097,14 +1077,12 @@ class Payment extends React.Component {
       guestEmail,
       promotionCode
     } = this.state;
+    debugger;
     let param = {
       firstName: deliveryAddress.firstName,
       lastName: deliveryAddress.lastName,
       zipcode: deliveryAddress.postCode,
       city: deliveryAddress.cityName,
-      country: payosdata ? payosdata.country_code : '',
-      token: payosdata ? payosdata.token : '',
-      creditDardCvv: payosdata ? payosdata.encrypted_cvv : payosdata,
       phone: creditCardInfo.phoneNumber,
       email: creditCardInfo.email || deliveryAddress.email,
       line1: deliveryAddress.address1,
@@ -1115,7 +1093,6 @@ class Payment extends React.Component {
       tradeItems: [], // once order products
       subTradeItems: [], // subscription order products
       tradeMarketingList: [],
-      last4Digits: payosdata ? payosdata.last_4_digits : '',
       payAccountName: creditCardInfo.cardOwner,
       payPhoneNumber: creditCardInfo.phoneNumber,
       petsId: '1231',
@@ -1124,6 +1101,17 @@ class Payment extends React.Component {
       promotionCode,
       guestEmail
     };
+    if (payosdata) {
+      param = Object.assign(param, {
+        country: payosdata.country_code,
+        token: payosdata.token,
+        creditDardCvv: payosdata.encrypted_cvv,
+        lastFourDigits: payosdata.last_4_digits,
+        holderName: payosdata.holder_name,
+        paymentVendor: payosdata.vendor,
+        expirationDate: payosdata.expiration_date
+      });
+    }
     if (needPrescriber) {
       param.clinicsId = clinicStore.selectClinicId;
       param.clinicsName = clinicStore.selectClinicName;
@@ -1966,6 +1954,7 @@ class Payment extends React.Component {
     } = this.state;
     let adyenPaymentMethod;
     let payuPaymentMethod;
+    debugger;
     if (adyenPayParam) {
       adyenPaymentMethod = { ...adyenPayParam.adyenPaymentMethod };
     }

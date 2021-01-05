@@ -19,7 +19,8 @@ class PayOs extends React.Component {
   static defaultProps = {
     isLogin: false,
     billingJSX: null,
-    updateFormValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    onVisitorPayosDataConfirm: () => {}
   };
   constructor(props) {
     super(props);
@@ -92,22 +93,6 @@ class PayOs extends React.Component {
               .getElementById('zoozIframe')
               .setAttribute('scrolling', 'no');
           } catch (e) {}
-          if (document.getElementById('payment-form')) {
-            document
-              .getElementById('payment-form')
-              .addEventListener('submit', function (event) {
-                console.log(document.getElementById('cardholder-name'));
-                event.preventDefault();
-                const additionalData = {
-                  holder_name: document.getElementById('cardholder-name').value // This field is mandatory
-                };
-                window.POS.createToken(additionalData, function (result) {
-                  console.log(result, 'result');
-                  // Grab the token here
-                  sessionItemRoyal.set('payosdata', result);
-                });
-              });
-          }
         }
       });
       this.setState({
@@ -184,40 +169,48 @@ class PayOs extends React.Component {
       this.props.updateFormValidStatus(this.state.isValid);
     }
   }
-  handleClickCardConfirm = () => {
-    if (!this.state.isValid) {
-      return false;
-    }
-    this.setState({ saveLoading: true });
-    document.getElementById('payment-form').submit.click();
-    let timer = setInterval(() => {
-      try {
-        let payosdata = JSON.parse(sessionItemRoyal.get('payosdata'));
-        if (payosdata) {
-          this.setState({
-            payosdata
-          });
-          if (payosdata.category === 'client_validation_error') {
-            this.props.showErrorMsg(payosdata.more_info);
-            sessionItemRoyal.remove('payosdata');
-          } else {
-            // this.setState({ isCompleteCredit: true });
-            this.props.onVisitorPayosDataConfirm(payosdata);
-            scrollPaymentPanelIntoView();
-          }
-        }
-      } catch (err) {
-        this.props.showErrorMsg(
-          sessionItemRoyal.get('payosdata')
-            ? sessionItemRoyal.get('payosdata')
-            : err.message.toString()
-        );
-        throw new Error();
-      } finally {
-        clearInterval(timer);
-        this.setState({ saveLoading: false });
+
+  handleClickCardConfirm = async () => {
+    try {
+      const { creditCardInfoForm, isValid } = this.state;
+      if (!isValid) {
+        return false;
       }
-    }, 1000);
+      this.setState({ saveLoading: true });
+
+      const tokenResult = await new Promise((resolve) => {
+        window.POS.createToken(
+          {
+            holder_name: creditCardInfoForm.cardOwner // This field is mandatory
+          },
+          function (result) {
+            console.log(result, 'result');
+            // Grab the token here
+            resolve(result);
+          }
+        );
+      });
+      const payosdata = JSON.parse(tokenResult);
+      if (payosdata) {
+        this.setState({
+          payosdata
+        });
+        if (payosdata.category === 'client_validation_error') {
+          this.props.showErrorMsg(payosdata.more_info);
+          sessionItemRoyal.remove('payosdata');
+        } else {
+          console.log('同步卡信息到父级');
+          // this.setState({ isCompleteCredit: true });
+          this.props.onVisitorPayosDataConfirm(payosdata);
+          scrollPaymentPanelIntoView();
+        }
+      }
+    } catch (err) {
+      this.props.showErrorMsg(err.message);
+      throw new Error();
+    } finally {
+      this.setState({ saveLoading: false });
+    }
   };
   onPaymentCompDataChange = (data) => {
     this.setState({ selectedCardInfo: data }, () => {
@@ -294,7 +287,7 @@ class PayOs extends React.Component {
                                     <FormattedMessage id="payment.cardNumber" />
                                     <span className="red">*</span>
                                     {CreditCardImg}
-                                    <form id="payment-form">
+                                    <form>
                                       <div id="card-secure-fields" />
                                       <button
                                         id="submit"
@@ -325,7 +318,6 @@ class PayOs extends React.Component {
                                   >
                                     <input
                                       type="text"
-                                      id="cardholder-name"
                                       className="rc-input__control form-control cardOwner"
                                       name="cardOwner"
                                       value={creditCardInfoForm.cardOwner}
