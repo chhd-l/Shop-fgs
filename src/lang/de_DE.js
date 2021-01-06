@@ -933,5 +933,6 @@ const de_DE = {
   'account.noSubscriptionTitle': "Entdecken Sie das Abonnement",
   'account.noSubscription':"Sie kennen das Abonnement noch nicht? {val1} Mit dem Abonnement können Sie regelmäßig und einfach das Lieblingsfutter Ihres Haustieres erhalten. Sagen Sie uns einfach, wohin und wann wir es versenden sollen, und wir sorgen dafür, dass alles, was es braucht, direkt vor Ihrer Haustür eintrifft.",
   'account.startAutoShipping': 'Finde mehr heraus',
+  bankCard: 'Bankkarte'
 }
 export default de_DE;

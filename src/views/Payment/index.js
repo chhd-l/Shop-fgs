@@ -161,7 +161,7 @@ class Payment extends React.Component {
     this.adyenCardRef = React.createRef();
     this.payUCreditCardRef = React.createRef();
   }
-  
+
   async componentDidMount() {
     const { checkoutStore, paymentStore, clinicStore, history } = this.props;
     const { tid } = this.state;
@@ -170,10 +170,16 @@ class Payment extends React.Component {
     });
     if (this.isLogin) {
       // 登录情况下，无需显示email panel
-      paymentStore.setStsToCompleted({ key: 'email',isFirstLoad:true });
+      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
       if (tid) {
-        paymentStore.setStsToCompleted({ key: 'deliveryAddr',isFirstLoad:true });
-        paymentStore.setStsToCompleted({ key: 'billingAddr',isFirstLoad:true });
+        paymentStore.setStsToCompleted({
+          key: 'deliveryAddr',
+          isFirstLoad: true
+        });
+        paymentStore.setStsToCompleted({
+          key: 'billingAddr',
+          isFirstLoad: true
+        });
         this.queryOrderDetails();
       }
 
@@ -1908,7 +1914,7 @@ class Payment extends React.Component {
         {titleVisible && (
           <>
             <span className="medium">
-              <FormattedMessage id="billingAddress" />:
+              <FormattedMessage id="billingAddress" />
             </span>
             <br />
           </>
@@ -1977,9 +1983,13 @@ class Payment extends React.Component {
           {paymentTypeVal === 'payUCreditCard' ||
           paymentTypeVal === 'adyenCard' ? (
             <div className="col-12 col-md-6">
-              <span className="medium text-capitalize">{brandDeco}</span>
+              <span className="medium">
+                <FormattedMessage id="bankCard" />
+              </span>
               <br />
               {holderNameDeco}
+              <br />
+              {brandDeco}
               <br />
               {lastFourDeco ? `************${lastFourDeco}` : null}
             </div>
