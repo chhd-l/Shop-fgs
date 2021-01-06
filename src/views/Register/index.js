@@ -455,7 +455,7 @@ class Register extends Component {
                         <FormattedMessage id="registerContinuing" />
                       </p>
                     </div>
-                    <div className="rc-column rc-padding-left--lg rc-padding-right--lg">
+                    <div className="rc-column ouPadding">
                       <div className="auth-divider">
                         <span
                           className="auth-divider-text"
@@ -767,6 +767,7 @@ class Register extends Component {
                         <div className="rc-meta rc-margin-top--sm rc-text--left">
                           <p>
                             <FormattedMessage id="registerFooter1" />
+                            &nbsp;
                             <a
                               href="mailto:conso.fr@royalcanin.com"
                               className="rc-text-colour--brand1"
