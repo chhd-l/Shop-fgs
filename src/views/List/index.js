@@ -389,7 +389,7 @@ function ListItemBody({ item }) {
             </div>
           </div>
           <div
-            class="rc-card__meta text-center col-12"
+            class="rc-card__meta text-center ui-text-overflow-line2 col-12"
             style={{ padding: '0', marginBottom: '10px' }}
           >
             {item.goodsSubtitle}
