@@ -78,6 +78,7 @@ class EditForm extends React.Component {
     this.setState({ address }, () => {
       this.props.updateData(this.state.address);
     });
+    this.inputBlur(e);
   };
   inputBlur = async (e) => {
     const { errMsgObj } = this.state;
