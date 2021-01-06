@@ -170,10 +170,10 @@ class Payment extends React.Component {
     });
     if (this.isLogin) {
       // 登录情况下，无需显示email panel
-      paymentStore.setStsToCompleted({ key: 'email' });
+      paymentStore.setStsToCompleted({ key: 'email',isFirstLoad:true });
       if (tid) {
-        paymentStore.setStsToCompleted({ key: 'deliveryAddr' });
-        paymentStore.setStsToCompleted({ key: 'billingAddr' });
+        paymentStore.setStsToCompleted({ key: 'deliveryAddr',isFirstLoad:true });
+        paymentStore.setStsToCompleted({ key: 'billingAddr',isFirstLoad:true });
         this.queryOrderDetails();
       }
 

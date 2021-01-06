@@ -164,7 +164,7 @@ class AddressList extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: this.curPanelKey });
+      paymentStore.setStsToCompleted({ key: this.curPanelKey,isFirstLoad:true });
 
       let isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),
