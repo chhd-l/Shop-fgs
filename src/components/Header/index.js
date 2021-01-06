@@ -707,11 +707,10 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
-        {/* 执行埋点 */}
-        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
-        <header className={`rc-header`} data-js-header-scroll>
+        {/* data-js-header-scroll */}
+        <header className={`rc-header`} data-js-header-scroll> 
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
