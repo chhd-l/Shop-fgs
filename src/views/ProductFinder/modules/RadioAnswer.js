@@ -30,6 +30,7 @@ class RadioAnswer extends React.Component {
     });
   }
   render() {
+    const { form } = this.state;
     const { config } = this.props;
     return (
       <>
@@ -43,11 +44,11 @@ class RadioAnswer extends React.Component {
               className="rc-input__radio"
               id={`pro-finder-answer-${i}`}
               type="radio"
-              name="buyWay"
+              name={`pro-finder-adioAnswer`}
               value={i}
               onChange={this.handleRadioChange.bind(this, ele)}
               // defaultChecked={ele.defaultChecked}
-              checked={ele.selected}
+              checked={form && form.key === ele.key}
             />
             <label
               className="rc-input__label--inline"
