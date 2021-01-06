@@ -257,9 +257,6 @@ class CommunicationDataEditForm extends React.Component {
             />
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}>
-                <b>
-                  <FormattedMessage id="account.myCommunicationPreferencesContent1" />
-                </b>
               </span>
               <div>
                 <label className="form-control-label rc-input--full-width w-100">

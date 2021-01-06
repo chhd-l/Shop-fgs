@@ -87,88 +87,89 @@ class PaymentStore {
   }
 
   @action.bound
-  setStsToCompleted({ key }) {
+  setStsToCompleted({ key, isFirstLoad }) {
     switch (key) {
       case 'email':
         dataLayer[0].checkout.step = 2
         dataLayer[0].checkout.option = 'guest checkout'
-        if(!this.isLogin){
-          dataLayer.push({
-            checkout:{
-              step:2,
-              option: 'guest checkout'
-            },
-            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-            page:{
-              type:'Checkout',
-              virtualPageURL:'/checkout/shipping'
-            }
-          })
-        }else{
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+        if (isFirstLoad) {
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
-            step:2,
+            step: 2,
             option: 'guest checkout'
           }
           result.page = {
-            type:'Checkout',
-              virtualPageURL:'/checkout/shipping'
+            type: 'Checkout',
+            virtualPageURL: '/checkout/shipping'
           }
+        } else {
+          dataLayer.push({
+            checkout: {
+              step: 2,
+              option: 'guest checkout'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/shipping'
+            }
+          })
         }
         break;
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
         dataLayer[0].checkout.option = ''
-        if(!this.isLogin){
-          dataLayer.push({
-            checkout:{
-              step:3,
-              option: 'shippingMethod'
-            },
-            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-            page:{
-              type:'Checkout',
-              virtualPageURL:'/checkout/billing'
-            }
-          })
-        }else{
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+        if(isFirstLoad){
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
-            step:3,
+            step: 3,
             option: 'shippingMethod'
           }
           result.page = {
-            type:'Checkout',
-              virtualPageURL:'/checkout/billing'
+            type: 'Checkout',
+            virtualPageURL: '/checkout/billing'
           }
+        }else{
+          dataLayer.push({
+            checkout: {
+              step: 3,
+              option: 'shippingMethod'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/billing'
+            }
+          })
         }
         break;
       case 'paymentMethod':
         dataLayer[0].checkout.step = 4;
         dataLayer[0].checkout.option = ''
-        if(!this.isLogin){
-          dataLayer.push({
-            checkout:{
-              step:4,
-              option: 'paymentMethod'
-            },
-            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-            page:{
-              type:'Checkout',
-              virtualPageURL:'/checkout/placeOrder'
-            }
-          })
-        }else{
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+        if(isFirstLoad){
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
-            step:4,
+            step: 4,
             option: 'paymentMethod'
           }
           result.page = {
-            type:'Checkout',
-              virtualPageURL:'/checkout/placeOrder'
+            type: 'Checkout',
+            virtualPageURL: '/checkout/placeOrder'
           }
+        }else{
+          dataLayer.push({
+            checkout: {
+              step: 4,
+              option: 'paymentMethod'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/placeOrder'
+            }
+          })
         }
+        
         break;
     }
     this.updatePanelStatus(key, {
