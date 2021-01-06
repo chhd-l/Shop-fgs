@@ -876,5 +876,6 @@ const en_US = {
   'pet.deletePet': 'Delete Pet Profile',
   'mixed Breed': 'mixed Breed',
   'confirmation.account':'Go to my account',
+  bankCard: 'Bank card'
 }
 export default en_US;
