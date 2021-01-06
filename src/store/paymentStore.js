@@ -2,7 +2,10 @@ import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class PaymentStore {
+  @observable isLogin = !!localItemRoyal.get("rc-token")
   @observable deliveryAddress = null;
   @observable billingAddress = null;
 
@@ -89,47 +92,83 @@ class PaymentStore {
       case 'email':
         dataLayer[0].checkout.step = 2
         dataLayer[0].checkout.option = 'guest checkout'
-        dataLayer.push({
-          checkout:{
+        if(!this.isLogin){
+          dataLayer.push({
+            checkout:{
+              step:2,
+              option: 'guest checkout'
+            },
+            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+            page:{
+              type:'Checkout',
+              virtualPageURL:'/checkout/shipping'
+            }
+          })
+        }else{
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+          result.checkout = {
             step:2,
             option: 'guest checkout'
-          },
-          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-          page:{
-            type:'Checkout',
-            virtualPageURL:'/checkout/shipping'
           }
-        })
-         break;
+          result.page = {
+            type:'Checkout',
+              virtualPageURL:'/checkout/shipping'
+          }
+        }
+        break;
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
         dataLayer[0].checkout.option = ''
-        dataLayer.push({
-          checkout:{
+        if(!this.isLogin){
+          dataLayer.push({
+            checkout:{
+              step:3,
+              option: 'shippingMethod'
+            },
+            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+            page:{
+              type:'Checkout',
+              virtualPageURL:'/checkout/billing'
+            }
+          })
+        }else{
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+          result.checkout = {
             step:3,
             option: 'shippingMethod'
-          },
-          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-          page:{
-            type:'Checkout',
-            virtualPageURL:'/checkout/billing'
           }
-        })
+          result.page = {
+            type:'Checkout',
+              virtualPageURL:'/checkout/billing'
+          }
+        }
         break;
       case 'paymentMethod':
         dataLayer[0].checkout.step = 4;
         dataLayer[0].checkout.option = ''
-        dataLayer.push({
-          checkout:{
+        if(!this.isLogin){
+          dataLayer.push({
+            checkout:{
+              step:4,
+              option: 'paymentMethod'
+            },
+            event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+            page:{
+              type:'Checkout',
+              virtualPageURL:'/checkout/placeOrder'
+            }
+          })
+        }else{
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID+'virtualPageView')
+          result.checkout = {
             step:4,
             option: 'paymentMethod'
-          },
-          event:process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
-          page:{
-            type:'Checkout',
-            virtualPageURL:'/checkout/placeOrder'
           }
-        })
+          result.page = {
+            type:'Checkout',
+              virtualPageURL:'/checkout/placeOrder'
+          }
+        }
         break;
     }
     this.updatePanelStatus(key, {
