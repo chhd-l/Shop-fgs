@@ -42,7 +42,7 @@ class Confirmation extends React.Component {
       await this.isConsentRequiredChecked();
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       this.setState({ isValid: false });
     }
   };
