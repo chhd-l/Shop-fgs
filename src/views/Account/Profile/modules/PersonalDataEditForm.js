@@ -225,7 +225,8 @@ class PersonalDataEditForm extends React.Component {
       form,
       isValid,
       errorMsg,
-      successTipVisible
+      successTipVisible,
+      errMsgObj
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
@@ -642,7 +643,7 @@ class PersonalDataEditForm extends React.Component {
                       className="rc-input__control input__phoneField"
                       id="phone"
                       name="phoneNumber"
-                      type="number"
+                      type="text"
                       value={form.phoneNumber}
                       onChange={this.handleInputChange}
                       onBlur={this.inputBlur}
