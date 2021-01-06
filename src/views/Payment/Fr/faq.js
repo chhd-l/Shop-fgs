@@ -24,7 +24,7 @@ class Faq extends Component {
                             <button className="rc-list__header" id="heading-73" data-toggle="content-73" style={{background:'#f6f6f6'}}><p style={{width:'280px'}}>Comment puis-je joindre le service client ?</p></button>
                         </dt>
                         <dd className="rc-list__content" id="content-73" aria-labelledby="heading-73">
-                            <p>Vous pouvez joindre un de nos représentants du service clientèle au numéro gratuit 0 800 005 360. Nous sommes à votre disposition du lundi au vendredi, de 8h00 à 20h00.</p>
+                            <p>Vous pouvez joindre un de nos représentants du service clientèle au numéro gratuit 0 800 005 360. Nous sommes à votre disposition du lundi au vendredi, de 8h30 à 12h30 et de 14h à 17h.</p>
                         </dd>
                     </div>
                     <div className="rc-list__accordion-item">
