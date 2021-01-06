@@ -623,33 +623,25 @@ class List extends React.Component {
   async initData() {
     const { pathname, search, state } = this.props.history.location;
     Promise.all([
-      fetchHeaderNavigations(),
       queryStoreCateList(),
+      fetchHeaderNavigations(),
       fetchSortList(),
       fetchFilterList()
     ])
       .then((res) => {
         const routers = [...(res[0] || []), ...(res[1] || [])];
-        const targetRouter = routers.filter(
-          (r) =>
-            [
-              r.navigationLink,
-              // r.cateRouter,
-              `${r.navigationLink}?${r.keywords}`
-            ].includes(
+        const targetRouter = routers.filter((r) => {
+          const tempArr = [
+            r.cateRouter,
+            r.navigationLink,
+            `${r.navigationLink}?${r.keywords}`
+          ];
+          return (
+            tempArr.includes(
               decodeURIComponent(pathname.replace(/\/$/, '') + search)
-            ) ||
-            [
-              r.navigationLink,
-              r.cateRouter,
-              `${r.navigationLink}?${r.keywords}`
-            ].includes(pathname.replace(/\/$/, ''))
-        )[0];
-
-        // 暂时加一个判断，特定路由storeCateId为空
-        // if(pathname=='/list/keywords'){
-        //   targetRouter.storeCateId = ''
-        // }
+            ) || tempArr.includes(pathname.replace(/\/$/, ''))
+          );
+        })[0];
 
         let sortParam = null;
         let cateIds = [];
@@ -701,7 +693,7 @@ class List extends React.Component {
           (targetRouter && targetRouter.storeCateId) ||
           '';
         breadList = getParentNodesByChild({
-          data: generateOptions(res[0] || []).concat(res[1] || []),
+          data: generateOptions(res[1] || []).concat(res[0] || []),
           id: targetId,
           matchIdName:
             targetRouter && targetRouter.id
