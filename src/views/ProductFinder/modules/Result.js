@@ -221,12 +221,71 @@ class ProductFinderResult extends React.Component {
         },
         isLoading: false
       });
+      let allGoods = JSON.parse(res)
+      // let goodsList = [allGoods.mainProduct,...allGoods.otherProducts]
+      let goodsList = [allGoods.mainProduct]
+      this.GAProductImpression(goodsList)
     } else {
       this.props.history.push('/product-finder');
     }
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+   // 商品列表 埋点
+   GAProductImpression = (productList, totalElements={}, keywords='') => {
+    const impressions = productList.map((item, index) => {
+      return {
+        name: item.goodsName,
+        // id: item.goodsInfos[0].goodsInfoId,
+        id: item.spuCode,
+        club: 'no',
+        brand: item.goodsBrand.brandName,
+        price: item.fromPrice,
+        category: item.goodsCate.cateName,
+        list: 'Related Items',
+        position: index,
+        sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo,
+      };
+    });
+
+    // if (dataLayer[0] && dataLayer[0].search) {
+    //   dataLayer[0].search.query = keywords;
+    //   dataLayer[0].search.results = totalElements;
+    //   dataLayer[0].search.type = 'with results';
+    // }
+
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductImpression`,
+      ecommerce: {
+        impressions: impressions
+      }
+    });
+  }
+   //点击商品 埋点
+   GAProductClick = (item, index) => {
+    console.info('test',item)
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}eComProductClick`,
+      ecommerce: {
+        click: {
+          actionField: { list: 'Related Items' }, //?list's name where the product was clicked from (Catalogue, Homepage, Search Results)
+          products: [
+            {
+              name: item.goodsName,
+              // id: item.goodsInfos[0].goodsInfoId,
+              id: item.spuCode,
+              club: 'no',
+              brand: item.goodsBrand.brandName,
+              category: item.goodsCate.cateName,
+              list: 'Related Items',
+              position: index,
+              sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+            }
+          ]
+        }
+      }
+    });
   }
   toggleShowQList = () => {
     this.setState((curState) => ({ qListVisible: !curState.qListVisible }));
@@ -388,7 +447,9 @@ class ProductFinderResult extends React.Component {
                           )
                         )} */}
                       </div>
-                      <div className="d-flex justify-content-center mt-3">
+                      <div className="d-flex justify-content-center mt-3 testtest" onClick={()=>{
+                        this.GAProductClick(productDetail.mainProduct, 0)
+                      }}>
                         <Link
                           to={`/details/${productDetail.mainProduct.goodsInfos[0].goodsInfoId}`}
                           className="rc-btn rc-btn--one rc-btn--sm"
@@ -469,7 +530,11 @@ class ProductFinderResult extends React.Component {
                               )
                             )} */}
                           </div>
-                          <div className="d-flex justify-content-center mt-3">
+                          <div className="d-flex justify-content-center mt-3"  
+                          // onClick={()=>{
+                          //   this.GAProductClick(ele, i+1)
+                          // }}
+                          >
                             <Link
                               to={`/details/${ele.goodsInfos[0].goodsInfoId}`}
                               className="rc-btn rc-btn--one rc-btn--sm"

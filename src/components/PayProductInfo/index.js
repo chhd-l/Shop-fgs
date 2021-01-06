@@ -19,11 +19,16 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      frequencyList: []
+      frequencyList: [],
+      pathname:''
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
   async componentDidMount() {
+    const {pathname} = this.props.location
+    this.setState({
+      pathname
+    })
     getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -72,24 +77,35 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {[
-                      item.specDetails,
-                      item.num > 1
-                        ? this.props.intl.formatMessage(
-                            { id: 'items' },
-                            {
-                              val: item.num
-                            }
-                          )
-                        : this.props.intl.formatMessage(
-                            { id: 'item' },
-                            {
-                              val: item.num
-                            }
-                          )
-                    ]
-                      .filter((e) => e)
-                      .join(' - ')}
+                    {
+                      this.state.pathname == '/confirmation'&&process.env.REACT_APP_LANG == 'de' //德国这个页面不显示数量单位
+                      ?
+                      [
+                        item.specDetails,
+                        item.num
+                      ]
+                        .filter((e) => e)
+                        .join(' - ')
+                      :
+                      [
+                        item.specDetails,
+                        item.num > 1
+                          ? this.props.intl.formatMessage(
+                              { id: 'items' },
+                              {
+                                val: item.num
+                              }
+                            )
+                          : this.props.intl.formatMessage(
+                              { id: 'item' },
+                              {
+                                val: item.num
+                              }
+                            )
+                      ]
+                        .filter((e) => e)
+                        .join(' - ')
+                      }
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>

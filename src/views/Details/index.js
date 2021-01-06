@@ -556,6 +556,13 @@ class Details extends React.Component {
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
+        let isSkuNoQuery = res.context.isSkuNoQuery
+        let choosedSpecsArr = []
+        if(isSkuNoQuery){
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(item=>item.goodsInfoNo==this.state.goodsNo)
+          choosedSpecsArr = specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds
+        }
 
         if (res && res.context && res.context.goodsSpecDetails) {
           let specList = res.context.goodsSpecs;
@@ -573,12 +580,30 @@ class Details extends React.Component {
               }
               return sdItem.specId === sItem.specId;
             });
-            for(let i = 0; i < sItem.chidren.length; i++) {
-              if(sItem.chidren[i].isEmpty) {
-                
-              }else {
-                sItem.chidren[i].selected = true;
-                break
+            let defaultSelcetdSku = -1
+            if(choosedSpecsArr.length){
+              for(let i=0;i<choosedSpecsArr.length;i++){
+                let specDetailIndex = sItem.specDetailIds.indexOf(choosedSpecsArr[i])
+                if(specDetailIndex>-1){
+                  defaultSelcetdSku = specDetailIndex
+                }
+              }
+            }
+            console.info('defaultSelcetdSku', defaultSelcetdSku)
+            if(defaultSelcetdSku>-1){
+              // 默认选择该sku
+              if(!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                // 如果是sku进来的，需要默认当前sku被选择
+                sItem.chidren[defaultSelcetdSku].selected = true;
+              }
+            }else{
+              for(let i = 0; i < sItem.chidren.length; i++) {
+                if(sItem.chidren[i].isEmpty) {
+                  
+                }else {
+                  sItem.chidren[i].selected = true;
+                  break
+                }
               }
             }
             return sItem;
@@ -722,6 +747,7 @@ class Details extends React.Component {
             }
           );
         } else {
+
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
 
@@ -886,6 +912,9 @@ class Details extends React.Component {
               images
             },
             () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
           );
@@ -1535,10 +1564,9 @@ class Details extends React.Component {
               price: item.minMarketPrice,
               brand: item.brandName || 'ROYAL CANIN',
               club: 'no',
-              // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant:
-                item.goodsSpecDetails[0] &&
+                item.goodsSpecDetails && item.goodsSpecDetails[0] &&
                 parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }

@@ -120,13 +120,7 @@ class AddressList extends React.Component {
           selectedId: tmpId
         },
         () => {
-          const { updateData } = this.props;
-          const { selectedId } = this.state;
-          const tmpObj = find(
-            this.state.addressList,
-            (ele) => ele.deliveryAddressId === selectedId
-          );
-          updateData(tmpObj);
+          this.updateSelectedData();
           this.confirmToNextPanel();
         }
       );
@@ -137,6 +131,17 @@ class AddressList extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
+  }
+  updateSelectedData() {
+    const { selectedId, addressList } = this.state;
+    const tmpObj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    this.props.updateData(tmpObj);
+    this.props.paymentStore[
+      this.props.type === 'delivery'
+        ? 'updateSelectedDeliveryAddress'
+        : 'updateSelectedBillingAddress'
+    ](tmpObj);
   }
   confirmToNextPanel() {
     if (this.curPanelKey !== 'deliveryAddr') {
@@ -159,7 +164,7 @@ class AddressList extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: this.curPanelKey });
+      paymentStore.setStsToCompleted({ key: this.curPanelKey,isFirstLoad:true });
 
       let isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),
@@ -184,12 +189,7 @@ class AddressList extends React.Component {
         selectedId: addressList[idx].deliveryAddressId
       },
       () => {
-        this.props.updateData(
-          find(
-            this.state.addressList,
-            (ele) => ele.deliveryAddressId === this.state.selectedId
-          )
-        );
+        this.updateSelectedData();
       }
     );
   }

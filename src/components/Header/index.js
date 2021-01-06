@@ -163,12 +163,16 @@ class Header extends React.Component {
           clinicStore.setLinkClinicName(linkClinicName);
         }
       } else if (linkClinicId && location.pathname === '/') {
+        // 根据prescriberId查询Clinic详情(查询id)
         const idRes = await getPrescriberByPrescriberIdAndStoreId({
           prescriberId: linkClinicId,
           storeId: process.env.REACT_APP_STOREID
         });
+
+        // 根据id查询Clinic详情
         const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
+          linkClinicId = idRes.context.id;
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
@@ -501,7 +505,9 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${item.goodsNo}`,
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
+        item.goodsNo
+      }`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -540,7 +546,7 @@ class Header extends React.Component {
                         <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
                           <span
                             className="ui-cursor-pointer"
-                            style={{width: '100%'}}
+                            style={{ width: '100%' }}
                             onClick={this.gotoDetails.bind(this, item)}
                           >
                             <LazyLoad>
@@ -548,7 +554,7 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.goodsName}
                                 title={item.goodsName}
-                                style={{width: '100%'}}
+                                style={{ width: '100%' }}
                                 src={
                                   item.goodsImg ||
                                   item.goodsInfos.sort(
@@ -701,11 +707,10 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
-        {/* 执行埋点 */}
-        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
-        <header className={`rc-header`} data-js-header-scroll>
+        {/* data-js-header-scroll */}
+        <header className={`rc-header`} data-js-header-scroll> 
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
@@ -1077,9 +1082,9 @@ class Header extends React.Component {
                     <span className="screen-reader-text">
                       <FormattedMessage id="search" />
                     </span>
-                  </button>  
+                  </button>
                 </Link>
-                
+
                 <FormattedMessage id="header.startTypingToSearch">
                   {(txt) => (
                     <input

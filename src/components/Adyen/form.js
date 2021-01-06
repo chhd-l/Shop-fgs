@@ -192,9 +192,8 @@ class AdyenCreditCardForm extends React.Component {
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
             {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-              <LazyLoad>
+              <LazyLoad key={idx}>
                 <img
-                  key={idx}
                   style={{ width: '50px' }}
                   className="logo-payment-card mr-1"
                   src={el}

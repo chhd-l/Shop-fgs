@@ -2,13 +2,16 @@ import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 
+const localItemRoyal = window.__.localItemRoyal;
+
 class PaymentStore {
+  @observable isLogin = !!localItemRoyal.get("rc-token")
   @observable deliveryAddress = null;
   @observable billingAddress = null;
 
   @observable selectedDeliveryAddress = null;
   @observable selectedBillingAddress = null;
-  @observable paymentStep = new Array(4);
+  @observable selectedCardId = null;
 
   @observable panelStatus = [
     {
@@ -84,19 +87,91 @@ class PaymentStore {
   }
 
   @action.bound
-  setStsToCompleted({ key }) {
-    switch(key) {
+  setStsToCompleted({ key, isFirstLoad }) {
+    switch (key) {
       case 'email':
-        //默认填不填邮件step都是2，step有个默认值2
-         break;
-      case 'deliveryAddr':
-         dataLayer[0].checkout.step = 3
-         break;
-      case 'paymentMethod':
-        dataLayer[0].checkout.step = 4 //要输入完cvv才变成4
+        dataLayer[0].checkout.step = 2
+        dataLayer[0].checkout.option = 'guest checkout'
+        if (isFirstLoad) {
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+          result.checkout = {
+            step: 2,
+            option: 'guest checkout'
+          }
+          result.page = {
+            type: 'Checkout',
+            virtualPageURL: '/checkout/shipping'
+          }
+        } else {
+          dataLayer.push({
+            checkout: {
+              step: 2,
+              option: 'guest checkout'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/shipping'
+            }
+          })
+        }
         break;
-
-  } 
+      case 'deliveryAddr':
+        dataLayer[0].checkout.step = 3;
+        dataLayer[0].checkout.option = ''
+        if(isFirstLoad){
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+          result.checkout = {
+            step: 3,
+            option: 'shippingMethod'
+          }
+          result.page = {
+            type: 'Checkout',
+            virtualPageURL: '/checkout/billing'
+          }
+        }else{
+          dataLayer.push({
+            checkout: {
+              step: 3,
+              option: 'shippingMethod'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/billing'
+            }
+          })
+        }
+        break;
+      case 'paymentMethod':
+        dataLayer[0].checkout.step = 4;
+        dataLayer[0].checkout.option = ''
+        if(isFirstLoad){
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+          result.checkout = {
+            step: 4,
+            option: 'paymentMethod'
+          }
+          result.page = {
+            type: 'Checkout',
+            virtualPageURL: '/checkout/placeOrder'
+          }
+        }else{
+          dataLayer.push({
+            checkout: {
+              step: 4,
+              option: 'paymentMethod'
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
+              type: 'Checkout',
+              virtualPageURL: '/checkout/placeOrder'
+            }
+          })
+        }
+        
+        break;
+    }
     this.updatePanelStatus(key, {
       isPrepare: false,
       isEdit: false,
@@ -178,15 +253,9 @@ class PaymentStore {
     this.firstSavedCardCvv = data;
   }
 
-  //更新填写邮件状态
   @action.bound
-  updateStepForEmail(param){
-    this.paymentStep[0] = param
-  }
-  //更新填写地址状态
-  @action.bound
-  updateStepForAddress(param){
-    this.paymentStep[1] = param
+  updateSelectedCardId(id) {
+    this.selectedCardId = id;
   }
 }
 export default PaymentStore;

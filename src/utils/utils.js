@@ -334,20 +334,16 @@ export async function setSeoConfig(
     siteSeo = {};
   if (obj.goodsId) {
     goodsSeo = await getGoodsSeo(obj.goodsId);
-  }
-  if (obj.categoryId) {
+  } else if (obj.categoryId) {
     cateSeo = await getCateSeo(obj.categoryId);
-  }
-  if (obj.pageName) {
+  } else if (obj.pageName) {
     pageSeo = await getPageSeo(obj.pageName);
-  }
-  if (!sessionStorage.getItem('seoInfo')) {
+  } else if (!sessionStorage.getItem('seoInfo')) {
     siteSeo = await getSiteSeo();
   } else {
     siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'));
   }
 
-  // setTimeout(() => {
   let seoInfo = {
     title:
       goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
@@ -364,91 +360,9 @@ export async function setSeoConfig(
       siteSeo.metaDescription ||
       ''
   };
-  // changeTitleAndMeta(seoInfo);
   return seoInfo;
-
-  // }, 100);
 }
 
-export async function beforeSetSeoConfig(
-  obj = { goodsId: '', categoryId: '', pageName: '' }
-) {
-  return;
-  let goodsSeo = {},
-    cateSeo = {},
-    pageSeo = {},
-    siteSeo = {};
-  if (obj.goodsId) {
-    goodsSeo = await getGoodsSeo(obj.goodsId);
-  }
-  if (obj.categoryId) {
-    cateSeo = await getCateSeo(obj.categoryId);
-  }
-  if (obj.pageName) {
-    pageSeo = await getPageSeo(obj.pageName);
-  }
-  if (!sessionStorage.getItem('seoInfo')) {
-    siteSeo = await getSiteSeo();
-  } else {
-    siteSeo = JSON.parse(sessionStorage.getItem('seoInfo'));
-  }
-
-  setTimeout(() => {
-    let seoInfo = {
-      title:
-        goodsSeo.title || cateSeo.title || pageSeo.title || siteSeo.title || '',
-      metaKeywords:
-        goodsSeo.metaKeywords ||
-        cateSeo.metaKeywords ||
-        pageSeo.metaKeywords ||
-        siteSeo.metaKeywords ||
-        '',
-      metaDescription:
-        goodsSeo.metaDescription ||
-        cateSeo.metaDescription ||
-        pageSeo.metaDescription ||
-        siteSeo.metaDescription ||
-        ''
-    };
-    changeTitleAndMeta(seoInfo);
-    // return seoInfo
-  }, 100);
-}
-
-// export function setSeoConfig(
-//   obj = { goodsId: '', categoryId: '', pageName: '' }
-// ) {
-//   if (!sessionStorage.getItem('seoInfo')) {
-//     let params = {
-//       type: 4,
-//       storeId: process.env.REACT_APP_STOREID
-//     };
-//     getSeoConfig(params).then((res) => {
-//       if (res.code === 'K-000000') {
-//         let seoInfo = res.context.seoSettingVO;
-//         sessionStorage.setItem('seoInfo', JSON.stringify(seoInfo));
-//         changeTitleAndMeta(seoInfo);
-//         if (obj.pageName) {
-//           getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
-//         } else if (obj.categoryId) {
-//           getCateSeo(obj.goodsId, obj.categoryId);
-//         } else if (obj.goodsId) {
-//           getGoodsSeo(obj.goodsId);
-//         }
-//       }
-//     });
-//   } else {
-//     let seoInfo = JSON.parse(sessionStorage.getItem('seoInfo'));
-//     changeTitleAndMeta(seoInfo);
-//     if (obj.pageName) {
-//       getPageSeo(obj.goodsId, obj.categoryId, obj.pageName);
-//     } else if (obj.categoryId) {
-//       getCateSeo(obj.goodsId, obj.categoryId);
-//     } else if (obj.goodsId) {
-//       getGoodsSeo(obj.goodsId);
-//     }
-//   }
-// }
 async function getSiteSeo() {
   try {
     const res = await getSeoConfig({
@@ -495,29 +409,6 @@ async function getGoodsSeo(goodsId) {
     return res.context.seoSettingVO;
   } catch (err) {
     return {};
-  }
-}
-
-// 修改title和meta
-function changeTitleAndMeta(seoInfo) {
-  console.log('changeTitleAndMeta');
-  if (seoInfo.title) {
-    document.title = seoInfo.title;
-  }
-  let metaList = document.getElementsByTagName('meta');
-  if (seoInfo.metaKeywords) {
-    for (let i = 0; i < metaList.length; i++) {
-      if (metaList[i].getAttribute('name') === 'keysword') {
-        metaList[i].content = seoInfo.metaKeywords;
-      }
-    }
-  }
-  if (seoInfo.metaDescription) {
-    for (let i = 0; i < metaList.length; i++) {
-      if (metaList[i].getAttribute('name') === 'description') {
-        metaList[i].content = seoInfo.metaDescription;
-      }
-    }
   }
 }
 

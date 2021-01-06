@@ -14,20 +14,6 @@ import catImg from '@/assets/images/product-finder-cat.jpg';
 import dogImg from '@/assets/images/product-finder-dog.jpg';
 import './index.less';
 
-const stepVirtualPageURL = {
-  speciesCode:'productfinder/vAPI/choice/step',
-  reasonForDiet:'productfinder/vAPI/cat/reason_step1',
-  age:'productfinder/vAPI/cat/age_step',
-  breedCode:'productfinder/vAPI/cat/breed_step',
-  size:'productfinder/vAPI/cat/size_step',
-  lifestyle:'productfinder/vAPI/cat/lifestyle_step',
-  sterilized:'productfinder/vAPI/cat/sterilization_step',
-  name:'productfinder/vAPI/dog/name_step',
-  petActivityCode:'productfinder/vAPI/dog/activity_step',
-  weight:'productfinder/vAPI/dog/weight_step',
-  genderCode:'productfinder/vAPI/dog/gender_step',
-  neutered: 'productfinder/vAPI/dog/neutered_step',
-}
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -45,7 +31,7 @@ class ProductFinder extends React.Component {
     this.seletTheType = this.seletTheType.bind(this);
   }
   componentDidMount() {
-    this.GAHandle('speciesCode')
+    this.GAHandle('speciesCode');
     const cachedType = localItemRoyal.get(`pf-cache-type`);
     const tmpOrder = sessionItemRoyal.get('pf-edit-order');
     const cachedQuestionData = localItemRoyal.get(
@@ -57,24 +43,40 @@ class ProductFinder extends React.Component {
     }
     setSeoConfig({
       pageName: 'Product finder'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
   }
-  GAHandle=(stepName)=>{
-    if(dataLayer){
+  getStepCurrent = (stepCurrent) => {
+    let type = this.state.type || 'cat';
+    let stepVirtualPageURLObj = {
+      speciesCode: 'productfinder/vAPI/choice/step',
+      reasonForDiet: 'productfinder/vAPI/' + type + '/reason_step1',
+      sensitivity: 'productfinder/vAPI/' + type + '/specificNeed_step',
+      age: 'productfinder/vAPI/' + type + '/age_step',
+      breedCode: 'productfinder/vAPI/' + type + '/breed_step',
+      size: 'productfinder/vAPI/' + type + '/size_step',
+      lifestyle: 'productfinder/vAPI/' + type + '/lifestyle_step',
+      sterilized: 'productfinder/vAPI/' + type + '/sterilization_step',
+      name: 'productfinder/vAPI/' + type + '/name_step',
+      petActivityCode: 'productfinder/vAPI/' + type + '/activity_step',
+      weight: 'productfinder/vAPI/' + type + '/weight_step',
+      genderCode: 'productfinder/vAPI/' + type + '/gender_step',
+      neutered: 'productfinder/vAPI/' + type + '/neutered_step'
+    };
+    return stepVirtualPageURLObj[stepCurrent];
+  };
+  GAHandle = (stepName) => {
+    if (dataLayer) {
       dataLayer.push({
-        event: "virtualPageView",
-        page:{
+        event: 'virtualPageView',
+        page: {
           type: 'Product Finder',
-          virtualPageURL:this.getStepCurrent(stepName)
+          virtualPageURL: this.getStepCurrent(stepName)
         }
-      })
+      });
     }
   };
-  getStepCurrent(stepCurrent) {
-    return stepVirtualPageURL[stepCurrent]
-  }
   seletTheType(type) {
     this.setState({ type });
   }
@@ -130,11 +132,11 @@ class ProductFinder extends React.Component {
     let event = {
       page: {
         type: 'Product Finder',
-        hitTimestamp:new Date(),
+        hitTimestamp: new Date(),
         path: location.pathname,
-        theme:'none',
-        error: "none",
-        filters: "none"
+        theme: 'none',
+        error: 'none',
+        filters: 'none'
       }
     };
     return (
@@ -142,8 +144,11 @@ class ProductFinder extends React.Component {
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
