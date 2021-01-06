@@ -28,7 +28,7 @@ class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       petList: [],
       seoConfig: {
         title: '',
@@ -43,7 +43,7 @@ class Pet extends React.Component {
     setSeoConfig().then(res => {
       this.setState({seoConfig: res})
     });
-    this.getPetList();
+    // this.getPetList();
   }
   isHavePet() {
     const { history } = this.props;
@@ -183,7 +183,7 @@ class Pet extends React.Component {
                               <FormattedMessage id="account.noPet"></FormattedMessage>
                             </p>
                           </div>
-                          <div className="rc-margin-top--sm">
+                          <div className="rc-margin-top--sm" style={{textAlign: 'center'}}>
                             <Link
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
