@@ -26,7 +26,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 const deviceType = getDeviceType();
-
+const pageLink = location.href
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">
@@ -463,10 +463,11 @@ class Home extends React.Component {
       this.props.oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
       return <Loading bgColor={'#fff'} />;
     }
-
+    
     return (
       <div>
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
