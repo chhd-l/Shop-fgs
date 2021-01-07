@@ -16,6 +16,8 @@ import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+const pageLink = window.location.href
+
 export default class OrdersAfterSaleSuccess extends React.Component {
   constructor(props) {
     super(props);
@@ -75,6 +77,7 @@ export default class OrdersAfterSaleSuccess extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

@@ -18,6 +18,8 @@ import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+const pageLink = window.location.href
+
 @inject('loginStore')
 @injectIntl
 @observer
@@ -285,6 +287,7 @@ class ShippingAddressFrom extends React.Component {
     return (
       <div>
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

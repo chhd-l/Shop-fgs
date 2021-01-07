@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @injectIntl
 class ShippingAddressFrom extends React.Component {
@@ -310,6 +311,7 @@ class ShippingAddressFrom extends React.Component {
     return (
       <div className="my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop">
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

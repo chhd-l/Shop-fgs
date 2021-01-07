@@ -48,6 +48,7 @@ const noSelect = {
 };
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('loginStore')
 @observer
@@ -834,6 +835,7 @@ class PetForm extends React.Component {
     return (
       <div className="petForm">
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

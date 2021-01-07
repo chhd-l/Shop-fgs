@@ -8,6 +8,7 @@ import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +49,7 @@ class SearchShow extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

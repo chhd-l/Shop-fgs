@@ -7,6 +7,7 @@ import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('loginStore', 'configStore')
 @observer
@@ -42,6 +43,7 @@ class Cart extends React.Component {
     return (
       <>
         <Helmet>
+        <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
             <meta name="description" content={this.state.seoConfig.metaDescription}/>
             <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
