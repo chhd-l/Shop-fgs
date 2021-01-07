@@ -49,7 +49,8 @@ class Packfeed extends React.Component {
           <BreadCrumbs />
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '10px 50px' }}
+            style={{ padding: '10px 15px',maxWidth: '1400px',
+            margin: '0 auto'}}
           >
             <div
               className="rc-column"
