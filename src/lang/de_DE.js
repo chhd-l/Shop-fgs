@@ -140,6 +140,7 @@ const de_DE = {
   'cart.fullPrice': 'Suchen Sie die passende Nahrung für Ihr Tier',
   'cart.miniCartTitle': 'Schließen Sie eine Abo-Bestellung ab und sparen Sie zusätzliche 5% auf Ihre Bestellung!',
   'cart.totalProduct': 'Artikel im Warenkorb',
+  'cart.totalProduct_nounit': 'Artikel im Warenkorb',
   'cart.yourShoppingCart': 'Ihr Warenkorb',
   cats: 'KATZEN',
   cats2: 'Katzen',
