@@ -145,7 +145,7 @@ class LoginCart extends React.Component {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
       return {
-        value: ele.valueEn,
+        value: ele.id,
         ...ele
       };
     });
@@ -861,7 +861,7 @@ class LoginCart extends React.Component {
                           }
                           optionList={this.computedList}
                           selectedItemData={{
-                            value: pitem.form.frequencyVal
+                            value: pitem.form.frequencyId
                             // value: pitem.periodTypeId
                           }}
                           key={index}
@@ -1047,9 +1047,9 @@ class LoginCart extends React.Component {
                     }
                     optionList={this.computedList}
                     selectedItemData={{
-                      value: form.frequencyVal
+                      value: form.frequencyId
                     }}
-                    key={form.frequencyVal}
+                    key={form.frequencyId}
                     customStyleType="select-one"
                   />
                 </div>
