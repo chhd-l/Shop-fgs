@@ -706,6 +706,7 @@ const es_ES = {
   'subscription.paymentMethod': 'Método de pago',
   'subscription.previousOrders': 'Órdenes previas',
   'subscription.product': 'Producto',
+  "quantityText": 'product',
   'subscription.promotionTip': 'Ahorre {val} en su primera suscripción',
   'subscription.promotionTip2': 'Simplemente seleccione Suscripción al finalizar la compra para entregas regulares fáciles',
   'subscription.promotionTip3': 'Simplemente seleccione Suscripción al finalizar la compra para entregas regulares fáciles',

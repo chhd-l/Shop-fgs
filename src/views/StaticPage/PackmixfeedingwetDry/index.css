@@ -78,6 +78,15 @@
   flex: 1;
 }
 
+@media (min-width: 769px) {
+  .recommendation_PackmixfeedingwetDry .rc-card--product header {
+    min-height: 70px;
+  }
+  .recommendation_PackmixfeedingwetDry .tns-outer{
+    padding-bottom: 0 !important;
+    margin: 0;
+  }
+}
 .recommendProduct .right .main .text{
   padding: 10px 40px 10px 10px;
   flex: 1;

@@ -497,6 +497,7 @@ const ru_RU = {
     "payment.subTip1": "Вы сэкономите дополнительно {val} на этом заказе!",
     "payment.subTip2": "Сохраните свой первый заказ на подписку {icon} и сэкономьте {val} ({val2}) сегодня!",
     'payment.totalProduct': '{val} total product (s)',
+    "quantityText": 'product',
     "payment.yourOrder": "Твоя очередь",
     'paymentMethod': "Способ оплаты",
     'paymethods.btn': "Добавить платеж",

@@ -342,6 +342,7 @@ const de_DE = {
   'Size':'Größe',
   "weight_s":'weight',
   "product": 'product',
+  "quantityText": 'product',
   "products": 'products',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
