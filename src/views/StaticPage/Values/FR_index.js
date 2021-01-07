@@ -78,19 +78,7 @@ class Help extends React.Component {
             <nav
               className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
               data-progress-setup="true">
-              <ul className="rc-padding-y--xs" itemScope="" itemType="https://schema.org/BreadcrumbList">
-                <li itemProp="itemListElement" itemScope="" itemType="https://schema.org/ListItem">
-                  <a itemType="https://schema.org/Thing" itemProp="item" href="https://shop.royalcanin.fr"
-                     className="rc-progress__breadcrumb rc-styled-link">
-                    <span itemProp="name">Accueil</span>
-                  </a>
-                  <meta itemProp="position" content="1"/>
-                </li>
-                <li itemProp="itemListElement" itemScope="" itemType="https://schema.org/ListItem">
-                  <span itemProp="name">Nos valeurs</span>
-                  <meta itemProp="position" content="2"/>
-                </li>
-              </ul>
+              
             </nav>
             <div className="experience-region experience-main">
               <div className="experience-component experience-layouts-1column">
