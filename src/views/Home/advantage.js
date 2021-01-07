@@ -253,7 +253,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw3206e904/homepage/pack@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={pack}
                   alt=""
                   title=""
                 />
@@ -274,7 +274,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw3df20153/Homepage/autoship@2x.png?sw=90&sh=90&sm=cut&sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@2x.webp`}
                   alt=""
                   title=""
                 />
@@ -295,7 +295,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://www.shop.royal-canin.ru/dw/image/v2/BCMK_PRD/on/demandware.static/-/Library-Sites-RoyalCaninSharedLibrary/default/dw0093423f/homepage/delivery@2x.png?sw=90&amp;sh=90&amp;sm=cut&amp;sfrm=png"
+                  src={delivery}
                   alt=""
                   title=""
                 />
@@ -321,7 +321,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw81db9340/Homepage/question@2x.png?sw=180&sh=180&sm=cut&sfrm=png"
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x.webp`}
                   alt=""
                   title=""
                 />
