@@ -17,6 +17,8 @@ import Skeleton from 'react-skeleton-loader';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
+
 @injectIntl
 class ProductReview extends React.Component {
   constructor() {
@@ -299,6 +301,7 @@ class ProductReview extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

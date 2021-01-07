@@ -19,6 +19,7 @@ import { Helmet } from 'react-helmet';
 import Faq from '../../Payment/Fr/faq';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -67,6 +68,7 @@ class about extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
