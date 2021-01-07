@@ -173,7 +173,7 @@ class EditForm extends React.Component {
       </div>
     )
   }
-  addressRequired = () => {
+  addressRequiredJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
@@ -202,7 +202,7 @@ class EditForm extends React.Component {
       </div>
     )
   }
-  addressOption = () => {
+  addressOptionJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
       <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
@@ -231,7 +231,7 @@ class EditForm extends React.Component {
       </div>
     )
   }
-  land = () => {
+  landJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
       <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
@@ -253,7 +253,7 @@ class EditForm extends React.Component {
       </div>
     )
   }
-  city = () => {
+  cityJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
       <div
@@ -415,17 +415,17 @@ class EditForm extends React.Component {
           </div>
 
           <div className="col-12">
-            {this.addressRequired()}
+            {this.addressRequiredJSX()}
           </div>
           <div className="col-12">
-            {this.addressOption()}
+            {this.addressOptionJSX()}
           </div>
 
           <div className="col-12 col-md-6">
-            {this.land()}
+            {this.landJSX()}
           </div>
           <div className="col-12 col-md-6">
-            {this.city()}
+            {this.cityJSX()}
           </div>
 
           {this.postCodeJSX()}
@@ -446,19 +446,19 @@ class EditForm extends React.Component {
               </div>
 
               <div className="col-12 col-md-6">
-                {this.addressRequired()}
+                {this.addressRequiredJSX()}
               </div>
               <div className="col-12 col-md-6">
-                {this.addressOption()}
+                {this.addressOptionJSX()}
               </div>
               <div className="col-12 col-md-6">
                 {this.postCodeJSX()}
               </div>
               <div className="col-12 col-md-6">
-                {this.city()}
+                {this.cityJSX()}
               </div>
               <div className="col-12 col-md-6">
-                {this.land()}
+                {this.landJSX()}
               </div>
               <div className="col-12 col-md-6">
                 {this.phonePanelJSX()}
