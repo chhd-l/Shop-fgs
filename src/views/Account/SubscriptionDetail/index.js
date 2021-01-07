@@ -379,6 +379,7 @@ class SubscriptionDetail extends React.Component {
         cityRes,
         subDetail.invoice.cityId
       );
+      debugger;
       this.setState(
         {
           subDetail: subDetail,
@@ -1788,49 +1789,50 @@ class SubscriptionDetail extends React.Component {
                                   </a>
                                 )}
                               </div>
-                              <div className="ml-1">
-                                {currentCardInfo &&
-                                currentCardInfo.lastFourDigits ? (
-                                  <>
-                                    <span
-                                      className="medium"
-                                      style={{
-                                        fontSize: '18px',
-                                        fontWeight: '400',
-                                        color: '#333',
-                                        margin: '25px 0 10px',
-                                        verticalAlign: 'middle'
-                                      }}
-                                    >
-                                      **** **** ****
-                                      {currentCardInfo.lastFourDigits}
-                                    </span>
-                                    <br />
-                                    <LazyLoad
-                                      style={{
-                                        width: '20%',
-                                        marginRight: '.2rem'
-                                      }}
-                                    >
-                                      <img
-                                        alt=""
-                                        className="d-inline-block"
-                                        src={
-                                          CREDIT_CARD_IMG_ENUM[
-                                            currentCardInfo.paymentVendor.toUpperCase()
-                                          ] ||
-                                          'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                        }
-                                      />
-                                    </LazyLoad>
-                                  </>
-                                ) : null}
+                              {currentCardInfo && (
+                                <div className="ml-1">
+                                  {currentCardInfo.lastFourDigits ? (
+                                    <>
+                                      <span
+                                        className="medium"
+                                        style={{
+                                          fontSize: '18px',
+                                          fontWeight: '400',
+                                          color: '#333',
+                                          margin: '25px 0 10px',
+                                          verticalAlign: 'middle'
+                                        }}
+                                      >
+                                        **** **** ****
+                                        {currentCardInfo.lastFourDigits}
+                                      </span>
+                                      <br />
+                                      <LazyLoad
+                                        style={{
+                                          width: '20%',
+                                          marginRight: '.2rem'
+                                        }}
+                                      >
+                                        <img
+                                          alt=""
+                                          className="d-inline-block"
+                                          src={
+                                            CREDIT_CARD_IMG_ENUM[
+                                              currentCardInfo.paymentVendor.toUpperCase()
+                                            ] ||
+                                            'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                          }
+                                        />
+                                      </LazyLoad>
+                                    </>
+                                  ) : null}
 
-                                {currentCardInfo.holderName}
-                                <br />
-                                {currentCardInfo.phone}
-                                <br />
-                              </div>
+                                  {currentCardInfo.holderName}
+                                  <br />
+                                  {currentCardInfo.phone}
+                                  <br />
+                                </div>
+                              )}
                             </div>
                           </div>
                         }

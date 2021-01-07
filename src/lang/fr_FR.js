@@ -1145,5 +1145,6 @@ const fr_FR = {
   "subscription.help.title":"Besoin d'aide ?",
   "subscription.help.subTitle":"Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.",
   // SubscriptionLanding End
+  bankCard: 'Carte Bancaire'
 }
 export default fr_FR;

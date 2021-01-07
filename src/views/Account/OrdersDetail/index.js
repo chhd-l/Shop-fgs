@@ -37,7 +37,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
 function HeadTip(props) {
-  console.log(props, 'props')
+  console.log(props, 'props');
   return (
     <>
       <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
@@ -845,21 +845,20 @@ class AccountOrders extends React.Component {
             <FormattedMessage
               id="order.inTranistTip"
               values={{
-                val: (
+                val:
                   logisticsList[0] && logisticsList[0].trackingUrl ? (
-                  <span className={`red ui-cursor-pointer`}>
-                    <a
-                      href={logisticsList[0].trackingUrl}
-                      target="_blank"
-                      rel="nofollow"
-                      className={`red rc-styled-link mr-2`}
-                    >
-                      <FormattedMessage id="order.viewLogisticDetail" />
-                    </a>
-                    &gt;
-                  </span>
+                    <span className={`red ui-cursor-pointer`}>
+                      <a
+                        href={logisticsList[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        className={`red rc-styled-link mr-2`}
+                      >
+                        <FormattedMessage id="order.viewLogisticDetail" />
+                      </a>
+                      &gt;
+                    </span>
                   ) : null
-                )
               }}
             />
           }
@@ -1417,7 +1416,7 @@ class AccountOrders extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              {payRecord && payRecord.last4Digits ? (
+                              {payRecord && payRecord.lastFourDigits ? (
                                 <div className="col-12 col-md-4 mb-2">
                                   <div className="border rounded p-3 h-100">
                                     <div className="d-flex">
@@ -1442,28 +1441,26 @@ class AccountOrders extends React.Component {
                                               style={{ width: '20%' }}
                                               src={
                                                 CREDIT_CARD_IMG_ENUM[
-                                                  payRecord.vendor.toUpperCase()
-                                                ]
-                                                  ? CREDIT_CARD_IMG_ENUM[
-                                                      payRecord.vendor.toUpperCase()
-                                                    ]
-                                                  : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                                  payRecord.paymentVendor.toUpperCase()
+                                                ] ||
+                                                'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                                               }
                                             />
                                           </LazyLoad>
-                                          {payRecord.last4Digits ? (
+                                          {payRecord.lastFourDigits ? (
                                             <>
                                               <span className="medium">
-                                                ********{payRecord.last4Digits}
+                                                ********
+                                                {payRecord.lastFourDigits}
                                               </span>
                                               <br />
                                             </>
                                           ) : null}
                                         </p>
 
-                                        {payRecord.accountName ? (
+                                        {payRecord.holderName ? (
                                           <>
-                                            {payRecord.accountName}
+                                            {payRecord.holderName}
                                             <br />
                                           </>
                                         ) : null}
@@ -1484,7 +1481,7 @@ class AccountOrders extends React.Component {
                         </div>
                       ) : this.state.errMsg ? (
                         <div className="text-center mt-5">
-                          <span className="rc-icon rc-incompatible--xs rc-iconography"></span>
+                          <span className="rc-icon rc-incompatible--xs rc-iconography" />
                           {this.state.errMsg}
                         </div>
                       ) : null}

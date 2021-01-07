@@ -28,6 +28,7 @@ const localItemRoyal = window.__.localItemRoyal;
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
+    defaultCardDataFromAddr: null,
     getSelectedValue: () => {},
     updateFormValidStatus: () => {}
   };
@@ -74,6 +75,8 @@ class PaymentComp extends React.Component {
       this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
         this.initCardInfo();
       });
+    } else {
+      this.initCardInfo();
     }
     this.getPaymentMethodList();
   }
@@ -95,11 +98,6 @@ class PaymentComp extends React.Component {
         (firstItem && firstItem.id) ||
         '';
 
-      tmpList.map((el) => {
-        el.selected = el.id === tmpSelectedId;
-        return el;
-      });
-
       this.setState({
         creditCardList: tmpList,
         isEdit: !tmpList.length,
@@ -117,7 +115,7 @@ class PaymentComp extends React.Component {
   initCardInfo() {
     // 默认填充delivery相关信息
     const {
-      paymentStore: { selectedDeliveryAddress: defaultVal }
+      paymentStore: { defaultCardDataFromAddr: defaultVal }
     } = this.props;
     let tmpDefaultName = '';
     if (defaultVal) {
@@ -319,23 +317,16 @@ class PaymentComp extends React.Component {
         return;
       }
 
-      let params = {
-        customerId: this.userInfo ? this.userInfo.customerId : '',
-        id: creditCardInfoForm.id ? creditCardInfoForm.id : '',
-        email: creditCardInfoForm.email,
-        phoneNumber: creditCardInfoForm.phoneNumber,
-        isDefault: creditCardInfoForm.isDefault ? '1' : '0',
-
-        accountName: this.userInfo ? this.userInfo.customerAccount : '',
+      const addRes = await addOrUpdatePaymentMethod({
         storeId: process.env.REACT_APP_STOREID,
-        paymentToken: res ? res.data.token : creditCardInfoForm.paymentToken,
-        paymentCustomerId: creditCardInfoForm.paymentCustomerId,
-        paymentTransactionId: creditCardInfoForm.paymentTransactionId,
-        paymentCvv: res ? res.data.encrypted_cvv : '',
-        paymentType: 'PAYU'
-      };
-
-      const addRes = await addOrUpdatePaymentMethod(params);
+        customerId: this.userInfo ? this.userInfo.customerId : '',
+        email: creditCardInfoForm.email,
+        phone: creditCardInfoForm.phoneNumber,
+        isDefault: creditCardInfoForm.isDefault ? '1' : '0',
+        paymentToken: res ? res.data.token : '',
+        paymentVendor: res ? res.data.vendor : '',
+        pspName: 'PAYU'
+      });
       scrollPaymentPanelIntoView();
       this.setState({
         isEdit: false,
@@ -452,17 +443,10 @@ class PaymentComp extends React.Component {
     this.props.paymentStore.updateSelectedCardId((s && s.id) || '');
   };
   handleClickCardItem(el) {
-    if (el.selected) return;
-    let { creditCardList } = this.state;
-    creditCardList.map((el) => {
-      el.selected = false;
-      el.cardCvv = '';
-      return el;
-    });
-    el.selected = true;
+    const { selectedId } = this.state;
+    if (el.id === selectedId) return;
     this.setState(
       {
-        creditCardList,
         selectedId: el.id
       },
       () => {
@@ -476,7 +460,8 @@ class PaymentComp extends React.Component {
       creditCardList,
       isEdit,
       errorMsg,
-      listLoading
+      listLoading,
+      selectedId
     } = this.state;
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card ml-0">
@@ -560,21 +545,19 @@ class PaymentComp extends React.Component {
               return (
                 <div
                   className={`rounded pl-2 pr-2 creditCompleteInfoBox position-relative ui-cursor-pointer border ${
-                    el.selected ? 'active border-blue' : ''
+                    el.id === selectedId ? 'active border-blue' : ''
                   } ${
                     idx !== creditCardList.length - 1 ? 'border-bottom-0' : ''
                   }`}
                   key={idx}
                   onClick={this.handleClickCardItem.bind(this, el)}
                 >
-                  <div className={`pt-3 pb-3`}>
+                  <div className="pt-3 pb-3">
                     <div
                       className="position-absolute"
                       style={{ right: '1%', top: '2%', zIndex: 50 }}
                     >
-                      <span
-                        className={`pull-right position-relative pl-2 ui-cursor-pointer-pure`}
-                      >
+                      <span className="pull-right position-relative pl-2 ui-cursor-pointer-pure">
                         <span
                           onClick={(e) => {
                             e.preventDefault();
@@ -605,43 +588,30 @@ class PaymentComp extends React.Component {
                             className="PayCardImgFitScreen"
                             src={
                               CREDIT_CARD_IMG_ENUM[
-                                el.paymentMethod ? el.paymentMethod.vendor : ''
-                              ]
-                                ? CREDIT_CARD_IMG_ENUM[
-                                    el.paymentMethod
-                                      ? el.paymentMethod.vendor.toUpperCase()
-                                      : ''
-                                  ]
-                                : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
+                                el.paymentVendor.toUpperCase()
+                              ] ||
+                              'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
                             }
                           />
                         </LazyLoad>
                       </div>
-                      <div
-                        className={`col-12 col-sm-9 flex-column justify-content-around d-flex`}
-                      >
+                      <div className="col-12 col-sm-9 flex-column justify-content-around d-flex">
                         <div className="row ui-margin-top-1-md-down PayCardBoxMargin">
                           <div className={`col-12 color-999 mb-1`}>
                             <div className="row align-items-center">
                               <div
-                                className={`col-4`}
+                                className="col-4"
                                 style={{ fontSize: '14px' }}
                               >
                                 <FormattedMessage id="name2" />
                               </div>
                               <div className={`col-6 creditCompleteInfo`}>
-                                {el.paymentMethod
-                                  ? el.paymentMethod.holder_name
-                                  : el.cardOwner}
+                                {el.holderName}
                               </div>
                             </div>
                           </div>
-                          {this.props.needReConfirmCVV && (
-                            <div
-                              className={`col-12 color-999 mb-1 ${
-                                el.selected ? '' : 'hidden'
-                              }`}
-                            >
+                          {this.props.needReConfirmCVV && el.id === selectedId && (
+                            <div className={`col-12 color-999 mb-1`}>
                               <div className="row align-items-center">
                                 <div
                                   className={`col-4`}
@@ -659,16 +629,9 @@ class PaymentComp extends React.Component {
                                     )}
                                     type="password"
                                     maxLength="4"
-                                    style={{ width: '100%' }}
-                                    value={
-                                      creditCardList.filter(
-                                        (c) => c.selected
-                                      )[0]
-                                        ? creditCardList.filter(
-                                            (c) => c.selected
-                                          )[0].cardCvv
-                                        : ''
-                                    }
+                                    className="w-100"
+                                    autoComplete="new-password"
+                                    value={el.cardCvv}
                                   />
                                 </div>
                               </div>
@@ -682,14 +645,7 @@ class PaymentComp extends React.Component {
                             </span>
                             <br />
                             <span className="creditCompleteInfo fontFitSCreen">
-                              xxxx xxxx xxxx{' '}
-                              {el.paymentMethod
-                                ? el.paymentMethod.last_4_digits
-                                : el.cardNumber
-                                ? el.cardNumber.substring(
-                                    el.cardNumber.length - 4
-                                  )
-                                : ''}
+                              xxxx xxxx xxxx {el.lastFourDigits}
                             </span>
                           </div>
                           <div className="col-6 border-left color-999">
@@ -698,9 +654,7 @@ class PaymentComp extends React.Component {
                             </span>
                             <br />
                             <span className="creditCompleteInfo fontFitSCreen">
-                              {el.paymentMethod
-                                ? el.paymentMethod.card_type
-                                : el.cardType}
+                              {el.cardType}
                             </span>
                           </div>
                         </div>
@@ -832,6 +786,7 @@ class PaymentComp extends React.Component {
                                 >
                                   <input
                                     type="password"
+                                    autoComplete="new-password"
                                     className="rc-input__control form-control phone"
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"

@@ -191,8 +191,7 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  componentWillMount() {
-  }
+  componentWillMount() {}
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
@@ -260,6 +259,10 @@ class RouteFilter extends Component {
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
     }
+    if (window.location.href.indexOf('.html') !== -1) {
+      window.location.href = window.location.href.split('.html')[0];
+    }
+
     if (pathname !== '/login') {
       loadJS({
         url: process.env.REACT_APP_ONTRUST_SRC,
@@ -298,11 +301,11 @@ class RouteFilter extends Component {
   }
   //1.会员调用consense接口
   doFindUserConsentList() {
-    let customerId = this.userInfo && this.userInfo.customerId
-    if(!customerId){
-      return
+    let customerId = this.userInfo && this.userInfo.customerId;
+    if (!customerId) {
+      return;
     }
-    findUserConsentList({customerId}).then((result) => {
+    findUserConsentList({ customerId }).then((result) => {
       this.isExistRequiredListFun(result);
     });
   }

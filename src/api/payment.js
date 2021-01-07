@@ -7,19 +7,15 @@ const api = {
   addOrUpdatePaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // add a new card
   getPaymentMethod: `/${process.env.REACT_APP_STOREID}/pay-payment-info`, // query card list
   deleteCard: '/pay-payment-info', // delete a card
-  setDefaltCard: '/pay-payment-info/default', 
+  setDefaltCard: '/pay-payment-info/default',
   // confirmAndCommit: '/tradeCustom/confirmcommitAndPaySync'
 
   customerCommitAndPay: '/trade-custom/checkout',
-  // customerCommitAndPay: '/tradeCustom/customerCommitAndPay',
   rePay: '/trade-custom/repay',
-  // rePay: '/tradeCustom/rePay',
   customerCommitAndPayMix: '/trade-custom/mix/checkout',
-  customerCommitAndPayMix: '/tradeCustom/customerCommitAndPayMix',
   getMarketingDiscount: '/marketing/discount',
   // getMarketingDiscount: '/marketing/getMarketingDiscount',
-  getWays: `/${process.env.REACT_APP_STOREID}/pay/gateways`,
-  // getWays: '/PayGateway/gateways',
+  getWays: `/${process.env.REACT_APP_STOREID}/pay/getPayPspList`,
   adyenPaymentsDetails: `/${process.env.REACT_APP_STOREID}/adyen/payment`,
   // adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet'
@@ -79,7 +75,7 @@ export function deleteCard(para) {
 export function customerCommitAndPay(parameter) {
   return axios({
     url: api.customerCommitAndPay,
-    method: 'delete',
+    method: 'post',
     data: parameter
   });
 }

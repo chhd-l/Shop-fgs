@@ -79,7 +79,7 @@ class VisitorAddress extends React.Component {
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
     if (isDeliveryAddr) {
       billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
-      paymentStore.updateSelectedDeliveryAddress(form);
+      paymentStore.setDefaultCardDataFromAddr(form);
     }
 
     // 下一个最近的未complete的panel

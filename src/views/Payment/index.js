@@ -16,7 +16,6 @@ import Faq from './Fr/faq';
 import Loading from '@/components/Loading';
 import VisitorAddress from './Address/VisitorAddress';
 import AddressList from './Address/List';
-import SubscriptionSelect from './SubscriptionSelect';
 import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
@@ -131,8 +130,6 @@ class Payment extends React.Component {
       adyenPayParam: null,
       payWayNameArr: [],
       email: '',
-      payWayObj: {}, //支付方式input radio汇总
-      savedPayWayObj: {}, //保留初始化的支付方式
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       tidList: sessionItemRoyal.get('rc-tidList')
@@ -241,11 +238,7 @@ class Payment extends React.Component {
         history.push('/cart');
         return false;
       }
-      if (
-        !this.isLogin &&
-        (!this.cartData.length ||
-          !this.cartData.filter((ele) => ele.selected).length)
-      ) {
+      if (!this.isLogin && !this.cartData.length) {
         history.push('/cart');
         return false;
       }
@@ -304,11 +297,8 @@ class Payment extends React.Component {
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedBillingAddress() {
-    return this.props.paymentStore.selectedBillingAddress;
+  get defaultCardDataFromAddr() {
+    return this.props.paymentStore.defaultCardDataFromAddr;
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
@@ -398,8 +388,8 @@ class Payment extends React.Component {
       this.rebindListData(optionalList);
     }
   }
+  //获取支付方式
   initPaymentWay = async () => {
-    //获取支付方式
     const payWay = await getWays();
     // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
     const payuMethodsObj = {
@@ -419,7 +409,7 @@ class Payment extends React.Component {
         id: 'adyenPayNow',
         paymentTypeVal: 'adyenKlarnaPayNow'
       },
-      adyen_klarna_pay_lat: {
+      adyen_klarna_pay_later: {
         name: 'adyen_klarna_pay_lat',
         id: 'adyenPayLater',
         paymentTypeVal: 'adyenKlarnaPayLater'
@@ -430,66 +420,17 @@ class Payment extends React.Component {
         paymentTypeVal: 'directEbanking'
       }
     };
-    let payWayNameArr = [],
-      payuNameArr = [];
-    if (payWay.context.length > 0) {
-      //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if (payWay.context[0].name.indexOf('PAYU') !== -1) {
-        payuNameArr = payWay.context.map((item) => item.name);
-      } else {
-        //正常处理
-        payuNameArr = payWay.context
-          .map((item) => item.payChannelItemList)[0]
-          .map((item) => item.code);
-      }
-      //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
-      for (let item of payuNameArr) {
-        // 只是为了墨西哥环境测试adyen订阅支付start
-        if (item === 'adyen_card_subscription') {
-          payWayNameArr.push({
-            name: 'adyen_credit_card',
-            id: 'adyen',
-            paymentTypeVal: 'adyenCard'
-          });
-        }
-        if (item === 'adyen_klarna_subscription') {
-          payWayNameArr.push({
-            name: 'adyen_klarna_pay_now',
-            id: 'adyenPayNow',
-            paymentTypeVal: 'adyenKlarnaPayNow'
-          });
-          payWayNameArr.push({
-            name: 'adyen_klarna_pay_lat',
-            id: 'adyenPayLater',
-            paymentTypeVal: 'adyenKlarnaPayLater'
-          });
-        }
-        // 只是为了墨西哥环境测试adyen订阅支付end
-        if (payuMethodsObj.hasOwnProperty(item)) {
-          payWayNameArr.push(payuMethodsObj[item]);
-        }
-      }
+    let payWayNameArr = [];
+    if (payWay.context) {
+      payWayNameArr = (payWay.context.payPspItemVOList || [])
+        .map((p) => payuMethodsObj[p.code])
+        .filter((e) => e);
     }
-    //数组转对象
-    const payWayObj = payWayNameArr.map((item, index) => {
-      return {
-        name: item['name'],
-        id: item['id'],
-        paymentTypeVal: item['paymentTypeVal']
-      };
-    });
-
-    this.setState({
-      payWayObj,
-      savedPayWayObj: JSON.parse(JSON.stringify(payWayObj))
-    });
-
     let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
     //各种支付component初始化方法
     var initPaymentWay = {
       adyen_credit_card: () => {
         this.setState({ paymentTypeVal: 'adyenCard' });
-        // this.initAdyenPay();
       },
       adyen_klarna_slice: () => {
         console.log('initKlarnaSlice');
@@ -652,7 +593,7 @@ class Payment extends React.Component {
                 );
               });
               cvvResult = JSON.parse(cvvResult);
-              parameters = Object.assign({}, commonParameter, {
+              parameters = Object.assign(parameters, {
                 paymentMethodId: selectedCardInfo.id,
                 creditDardCvv: cvvResult && cvvResult.token
               });
@@ -866,7 +807,7 @@ class Payment extends React.Component {
       debugger;
       switch (type) {
         case 'oxxo':
-          var oxxoContent = res.context[0];
+          var oxxoContent = res.context;
           var oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
@@ -883,27 +824,21 @@ class Payment extends React.Component {
         case 'payUCreditCard':
           subOrderNumberList = tidList.length
             ? tidList
-            : res.context && res.context[0] && res.context[0].tidList;
-          subNumber =
-            (res.context && res.context[0] && res.context[0].subscribeId) ||
-            (res.context && res.context.subscribeId) ||
-            '';
+            : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
           gotoConfirmationPage = true;
           break;
         case 'adyenCard':
           subOrderNumberList = tidList.length
             ? tidList
-            : res.context && res.context[0] && res.context[0].tidList;
-          subNumber =
-            (res.context && res.context[0] && res.context[0].subscribeId) ||
-            (res.context && res.context.subscribeId) ||
-            '';
+            : res.context && res.context.tidList;
+          subNumber = (res.context && res.context.subscribeId) || '';
           gotoConfirmationPage = true;
           break;
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
-          subOrderNumberList = [res.context.pId];
+          subOrderNumberList = [res.context.tid];
           // debugger
           // 删除本地购物车
           if (this.isLogin) {
@@ -915,10 +850,12 @@ class Payment extends React.Component {
             //sessionItemRoyal.remove('rc-token');
           }
           // 给klana支付跳转用
-          if (res.context.pId) {
-            sessionItemRoyal.set('orderNumber', res.context.pId);
+          if (res.context.tid) {
+            sessionItemRoyal.set('orderNumber', res.context.tid);
           }
-          window.location.href = res.context.url;
+          if (res.context.url) {
+            window.location.href = res.context.url;
+          }
           break;
         default:
           break;
@@ -1245,43 +1182,37 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
-        let tmpDeliveryAddressData = this.selectedDeliveryAddress;
         tmpDeliveryAddress = {
-          firstName: tmpDeliveryAddressData.firstName,
-          lastName: tmpDeliveryAddressData.lastName,
-          address1: tmpDeliveryAddressData.address1,
-          address2: tmpDeliveryAddressData.address2,
-          rfc: tmpDeliveryAddressData.rfc,
-          country: tmpDeliveryAddressData.countryId
-            ? tmpDeliveryAddressData.countryId.toString()
+          firstName: deliveryAddress.firstName,
+          lastName: deliveryAddress.lastName,
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          rfc: deliveryAddress.rfc,
+          country: deliveryAddress.countryId
+            ? deliveryAddress.countryId.toString()
             : '',
-          city: tmpDeliveryAddressData.cityId
-            ? tmpDeliveryAddressData.cityId.toString()
-            : '',
-          cityName: tmpDeliveryAddressData.cityName,
-          postCode: tmpDeliveryAddressData.postCode,
-          phoneNumber: tmpDeliveryAddressData.consigneeNumber,
-          email: tmpDeliveryAddressData.email,
-          addressId: tmpDeliveryAddressData.deliveryAddressId
+          city: deliveryAddress.cityId ? deliveryAddress.cityId.toString() : '',
+          cityName: deliveryAddress.cityName,
+          postCode: deliveryAddress.postCode,
+          phoneNumber: deliveryAddress.consigneeNumber,
+          email: deliveryAddress.email,
+          addressId: deliveryAddress.deliveryAddressId
         };
         if (!billingChecked) {
-          let tmpBillingAddressData = this.selectedBillingAddress;
           tmpBillingAddress = {
-            firstName: tmpBillingAddressData.firstName,
-            lastName: tmpBillingAddressData.lastName,
-            address1: tmpBillingAddressData.address1,
-            address2: tmpBillingAddressData.address2,
-            rfc: tmpBillingAddressData.rfc,
-            country: tmpBillingAddressData.countryId
-              ? tmpBillingAddressData.countryId.toString()
+            firstName: billingAddress.firstName,
+            lastName: billingAddress.lastName,
+            address1: billingAddress.address1,
+            address2: billingAddress.address2,
+            rfc: billingAddress.rfc,
+            country: billingAddress.countryId
+              ? billingAddress.countryId.toString()
               : '',
-            city: tmpBillingAddressData.cityId
-              ? tmpBillingAddressData.cityId.toString()
-              : '',
-            cityName: tmpBillingAddressData.cityName,
-            postCode: tmpBillingAddressData.postCode,
-            phoneNumber: tmpBillingAddressData.consigneeNumber,
-            addressId: tmpBillingAddressData.deliveryAddressId
+            city: billingAddress.cityId ? billingAddress.cityId.toString() : '',
+            cityName: billingAddress.cityName,
+            postCode: billingAddress.postCode,
+            phoneNumber: billingAddress.consigneeNumber,
+            addressId: billingAddress.deliveryAddressId
           };
         }
       }
@@ -1407,7 +1338,6 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = (data) => {
-    // this.props.paymentStore.updateSelectedDeliveryAddress(data);
     this.setState({
       deliveryAddress: data
     });
@@ -1420,7 +1350,6 @@ class Payment extends React.Component {
 
   updateBillingAddrData = (data) => {
     if (!this.state.billingChecked) {
-      this.props.paymentStore.updateSelectedBillingAddress(data);
       this.setState({ billingAddress: data });
     }
   };
@@ -1454,102 +1383,6 @@ class Payment extends React.Component {
         </div>
       </>
     );
-  };
-
-  /**
-   * 渲染订阅/一次购买模式选择
-   */
-  renderSubSelect = () => {
-    return this.isLogin &&
-      find(
-        this.state.recommend_data.length
-          ? this.state.recommend_data
-          : this.loginCartData,
-        (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
-      ) ? (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">
-            <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
-            <FormattedMessage id="subscription.chooseSubscription" />
-          </h5>
-        </div>
-        <SubscriptionSelect
-          data={this.state.recommend_data}
-          updateSelectedData={(data) => {
-            this.refs.payProductInfo.setState({
-              isShowValidCode: false
-            });
-            this.props.frequencyStore.updateBuyWay(data.buyWay);
-            this.props.frequencyStore.updateFrequencyName(data.frequencyName);
-
-            // ****************订阅的时候隐藏oxxo支付方式start******************
-            let payuoxxoIndex;
-            if (
-              Object.prototype.toString
-                .call(this.state.payWayObj)
-                .slice(8, -1) === 'Array'
-            ) {
-              //判断payWayObj是数组
-              if (data.buyWay === 'frequency') {
-                console.log(this.state.payWayObj);
-
-                //adyen如果选订阅，只保留creditcard/klarnapaylater
-                const adyenMethods = this.state.payWayObj.filter(
-                  (item, index) => {
-                    return (
-                      item.name === 'adyen_credit_card' ||
-                      item.name === 'adyen_klarna_pay_lat'
-                    );
-                  }
-                );
-                if (adyenMethods.length !== 0) {
-                  this.setState({ payWayObj: adyenMethods });
-                }
-
-                //payu
-                payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                  return o.name === 'payuoxxo';
-                }); //找到oxxo在数组中的下标
-                if (payuoxxoIndex !== -1) {
-                  this.state.payWayObj.splice(payuoxxoIndex, 1);
-                }
-              } else {
-                //为后台提供的初始支付方式
-                this.setState({
-                  payWayObj: JSON.parse(
-                    JSON.stringify(this.state.savedPayWayObj)
-                  )
-                });
-              }
-            }
-            // ****************订阅的时候隐藏oxxo支付方式end******************
-
-            if (
-              data.buyWay === 'frequency' &&
-              this.state.paymentTypeVal === 'oxxo'
-            ) {
-              this.setState({
-                paymentTypeVal: 'payUCreditCard'
-              });
-            }
-            this.setState(
-              {
-                subForm: data
-              },
-              () => {
-                if (!sessionItemRoyal.get('recommend_product')) {
-                  this.props.checkoutStore.updateLoginCart(
-                    this.state.promotionCode,
-                    this.state.subForm.buyWay !== 'once'
-                  );
-                }
-              }
-            );
-          }}
-        />
-      </div>
-    ) : null;
   };
 
   renderBillingJSX = ({ type }) => {
@@ -1723,12 +1556,11 @@ class Payment extends React.Component {
     const {
       paymentTypeVal,
       subForm,
-      payWayObj,
       billingChecked,
       email,
       validSts,
       saveBillingLoading,
-      selectedCardInfo
+      payWayNameArr
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -1751,14 +1583,13 @@ class Payment extends React.Component {
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
         {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
-        {Object.keys(payWayObj).length > 1 && (
+        {payWayNameArr.length > 1 && (
           <div className={`ml-custom mr-custom`}>
-            {Object.entries(payWayObj).map((item, i) => {
+            {payWayNameArr.map((item, i) => {
               return (
                 <div
                   className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' &&
-                    item[1].id == 'adyenPayLater'
+                    subForm.buyWay == 'frequency' && item.id == 'adyenPayLater'
                       ? 'hidden'
                       : ''
                   }`}
@@ -1766,19 +1597,18 @@ class Payment extends React.Component {
                 >
                   <input
                     className="rc-input__radio"
-                    id={`payment-info-${item[1].id}`}
-                    value={item[1].paymentTypeVal}
+                    id={`payment-info-${item.id}`}
+                    value={item.paymentTypeVal}
                     type="radio"
                     name="payment-info"
                     onChange={this.handlePaymentTypeChange}
-                    checked={paymentTypeVal === item[1].paymentTypeVal}
-                    key={item[1].id}
+                    checked={paymentTypeVal === item.paymentTypeVal}
                   />
                   <label
                     className="rc-input__label--inline"
-                    htmlFor={`payment-info-${item[1].id}`}
+                    htmlFor={`payment-info-${item.id}`}
                   >
-                    <FormattedMessage id={item[1].id} />
+                    <FormattedMessage id={item.id} />
                   </label>
                 </div>
               );
@@ -1825,7 +1655,7 @@ class Payment extends React.Component {
                   key: 'payUCreditCard'
                 })}
                 billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
-                selectedDeliveryAddress={this.selectedDeliveryAddress}
+                defaultCardDataFromAddr={this.defaultCardDataFromAddr}
               />
               {payConfirmBtn({
                 disabled: !validSts.payUCreditCard || validForBilling,
@@ -1952,30 +1782,24 @@ class Payment extends React.Component {
       selectedCardInfo,
       tid
     } = this.state;
-    let adyenPaymentMethod;
-    let payuPaymentMethod;
-    debugger;
+    let paymentMethod;
     if (adyenPayParam) {
-      adyenPaymentMethod = { ...adyenPayParam.adyenPaymentMethod };
+      paymentMethod = adyenPayParam;
     }
     if (selectedCardInfo) {
-      payuPaymentMethod = selectedCardInfo.payuPaymentMethod;
+      paymentMethod = selectedCardInfo;
     }
     let lastFourDeco;
     let brandDeco;
     let holderNameDeco;
-    if (adyenPaymentMethod) {
-      lastFourDeco = adyenPaymentMethod.lastFour;
-      brandDeco = adyenPaymentMethod.brand;
-      holderNameDeco = adyenPaymentMethod.holderName;
+    if (paymentMethod) {
+      lastFourDeco = paymentMethod.lastFourDigits;
+      brandDeco = paymentMethod.paymentVendor;
+      holderNameDeco = paymentMethod.holderName;
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
       holderNameDeco = payosdata.holder_name;
-    } else if (payuPaymentMethod) {
-      lastFourDeco = payuPaymentMethod.last_4_digits;
-      brandDeco = payuPaymentMethod.vendor;
-      holderNameDeco = payuPaymentMethod.holder_name;
     }
 
     return (
@@ -2103,7 +1927,6 @@ class Payment extends React.Component {
       errorMsg,
       tid,
       orderDetails,
-      payWayObj,
       listData,
       recommend_data,
       subForm,
@@ -2240,7 +2063,6 @@ class Payment extends React.Component {
                         {this.renderAddressPanel()}
                       </div>
                     </div>
-                    {/* {this.renderSubSelect()} */}
                   </>
                 )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (

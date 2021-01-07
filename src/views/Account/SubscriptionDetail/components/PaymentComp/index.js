@@ -119,9 +119,7 @@ class PaymentComp extends React.Component {
     }
     this.setState({ creditCardList: this.state.creditCardList });
     const waysRes = await getWays();
-    if (
-      find(waysRes.context || [], (ele) => ele.isOpen && ele.name === 'ADYEN')
-    ) {
+    if (waysRes.context && waysRes.context.name === 'ADYEN') {
       this.setState({ paymentType: 'ADYEN' });
     }
     if (this.state.paymentType === 'PAYU') {

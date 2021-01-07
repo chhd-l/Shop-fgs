@@ -82,9 +82,7 @@ class AddressList extends React.Component {
   componentDidMount() {
     this.getPaymentMethodList();
     getWays().then((res) => {
-      if (
-        find(res.context || [], (ele) => ele.isOpen && ele.name === 'ADYEN')
-      ) {
+      if (res.context && res.context.name === 'ADYEN') {
         this.setState({ paymentType: 'ADYEN' });
       }
     });

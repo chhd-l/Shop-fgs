@@ -11,7 +11,7 @@ const api = {
   returnReason: '/return/reasons',
   returnWays: '/return/ways',
   returnList: 'return/page',
-  payRecord: '/pay/record',
+  payRecord: '/pay/payment/record',
   returnFindByTid: '/return/findByTid',
   addEvaluate: '/evaluate',
   // addEvaluate: '/evaluate/addEvaluate',

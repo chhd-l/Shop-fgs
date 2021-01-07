@@ -6,9 +6,8 @@ class PaymentStore {
   @observable deliveryAddress = null;
   @observable billingAddress = null;
 
-  @observable selectedDeliveryAddress = null;
-  @observable selectedBillingAddress = null;
   @observable selectedCardId = null;
+  @observable defaultCardDataFromAddr = null;
   @observable paymentStep = new Array(4);
 
   @observable panelStatus = [
@@ -155,27 +154,22 @@ class PaymentStore {
     this.deliveryAddress = data;
   }
 
-  @action.bound
-  updateSelectedDeliveryAddress(data) {
-    let tmpData = data;
-    if (data && data.consigneeNumber) {
-      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
-    }
-    this.selectedDeliveryAddress = tmpData;
-  }
-
-  @action.bound
-  updateSelectedBillingAddress(data) {
-    let tmpData = data;
-    if (data && data.consigneeNumber) {
-      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
-    }
-    this.selectedBillingAddress = tmpData;
-  }
-
   @action
   updateFirstSavedCardCvv(data) {
     this.firstSavedCardCvv = data;
+  }
+
+  @action.bound
+  setDefaultCardDataFromAddr(data) {
+    let tmpData = data;
+    if (data && data.consigneeNumber) {
+      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
+    }
+    this.defaultCardDataFromAddr = Object.assign(
+      {},
+      this.defaultCardDataFromAddr,
+      tmpData
+    );
   }
 
   //更新填写邮件状态
