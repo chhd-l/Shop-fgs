@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 import LoginButton from '@/components/LoginButton';
@@ -17,7 +17,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
+@injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
 class UnloginCart extends React.Component {
@@ -273,7 +273,7 @@ class UnloginCart extends React.Component {
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
                     <FormattedMessage id="total" />{' '}
-                    <span style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '500' }}>
                       {formatMoney(this.tradePrice)}
                     </span>
                   </span>
@@ -334,9 +334,11 @@ class UnloginCart extends React.Component {
 
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
-                    <FormattedMessage
-                      id="cart.totalProduct"
-                      values={{ val: this.totalNum }}
+                  <FormattedMessage
+                    id="cart.totalProduct_nounit"
+                    values={{ val:  <b style={{fontWeight:500}}>
+                      {this.props.intl.formatMessage({ id: 'payment.totalProduct' },{val:this.totalNum})}
+                    </b>}}
                     />
                   </span>
                 </div>

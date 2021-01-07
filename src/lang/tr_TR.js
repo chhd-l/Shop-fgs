@@ -112,6 +112,7 @@ const tr_TR = {
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
   'cart.miniCartTitle': 'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
+  'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Alışveriş sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
