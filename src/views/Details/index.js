@@ -42,11 +42,10 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
-import { getRequest } from '@/utils/utils';
+import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -189,7 +188,7 @@ class Details extends React.Component {
         metaDescription: ''
       },
       spuImages: [],
-      requestJson: {} //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
+      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -200,8 +199,10 @@ class Details extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    const requestJson = getRequest();
-    this.setState({ requestJson });
+    
+    const requestJson = getRequest() 
+    this.setState({requestJson})
+
 
     const { pathname, state } = this.props.location;
     if (state) {
@@ -209,22 +210,30 @@ class Details extends React.Component {
         this.setState({ GAListParam: state.GAListParam });
       }
     }
-    getFrequencyDict().then((res) => {
-      this.setState({
-        frequencyList: res,
-        form: Object.assign(this.state.form, {
-          frequencyVal:
-            process.env.REACT_APP_FREQUENCY_VAL || res[0] ? res[0].valueEn : '',
-          frequencyName:
-            process.env.REACT_APP_FREQUENCY_NAME || res[0] ? res[0].name : '',
-          frequencyId:
-            (process.env.REACT_APP_FREQUENCY_ID &&
-              parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
-            res[0]
-              ? res[0].id
-              : ''
-        })
-      });
+    await getFrequencyDict().then((res) => {
+      if (
+        process.env.REACT_APP_FREQUENCY_ID &&
+        process.env.REACT_APP_FREQUENCY_VAL &&
+        process.env.REACT_APP_FREQUENCY_NAME
+      ) {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
+            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
+            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
+          })
+        });
+      } else {
+        this.setState({
+          frequencyList: res,
+          form: Object.assign(this.state.form, {
+            frequencyVal: res[0] ? res[0].valueEn : '',
+            frequencyName: res[0] ? res[0].name : '',
+            frequencyId: res[0] ? res[0].id : ''
+          })
+        });
+      }
     });
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
@@ -288,7 +297,7 @@ class Details extends React.Component {
     // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
     // idArr = selectedArr.map((el) => el.specDetailId);
     console.log(details, 'detailsaaa');
-    debugger;
+
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
@@ -535,356 +544,413 @@ class Details extends React.Component {
           }).then((res) => {
             this.setState({ seoConfig: res });
           });
-
-          let sizeList = [];
-          let goodsInfos = (res.context && res.context.goodsInfos) || [];
-          let isSkuNoQuery = res.context && res.context.isSkuNoQuery;
-          let choosedSpecsArr = [];
-          if (isSkuNoQuery) {
-            // 通过sku查询
-            let specsItem = goodsInfos.filter(
-              (item) => item.goodsInfoNo == this.state.goodsNo
-            );
-            choosedSpecsArr =
-              specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
-          }
-
-          if (res && res.context && res.context.goodsSpecDetails) {
-            let specList = res.context.goodsSpecs;
-            let specDetailList = res.context.goodsSpecDetails;
-            specList.map((sItem, index) => {
-              sItem.chidren = specDetailList.filter((sdItem, i) => {
-                if (index === 0) {
-                  let filterproducts = goodsInfos.filter((goodEl) =>
-                    goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                  );
-                  sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
-                  sdItem.isEmpty = filterproducts.every(
-                    (item) => item.stock === 0
-                  );
-                  // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-                }
-                return sdItem.specId === sItem.specId;
-              });
-              let defaultSelcetdSku = -1;
-              if (choosedSpecsArr.length) {
-                for (let i = 0; i < choosedSpecsArr.length; i++) {
-                  let specDetailIndex = sItem.specDetailIds.indexOf(
-                    choosedSpecsArr[i]
-                  );
-                  if (specDetailIndex > -1) {
-                    defaultSelcetdSku = specDetailIndex;
-                  }
-                }
-              }
-              console.info('defaultSelcetdSku', defaultSelcetdSku);
-              if (defaultSelcetdSku > -1) {
-                // 默认选择该sku
-                if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
-                  // 如果是sku进来的，需要默认当前sku被选择
-                  sItem.chidren[defaultSelcetdSku].selected = true;
-                }
-              } else {
-                for (let i = 0; i < sItem.chidren.length; i++) {
-                  if (sItem.chidren[i].isEmpty) {
-                  } else {
-                    sItem.chidren[i].selected = true;
-                    break;
-                  }
-                }
-              }
-              return sItem;
-            });
-
-            sizeList = goodsInfos.map((g) => {
-              g = Object.assign({}, g, { selected: false });
-              return g;
-            });
-
-            const { goodsDetailTab, tabs } = this.state;
-            try {
-              let tmpGoodsDetail = res.context.goods.goodsDetail;
-              if (tmpGoodsDetail) {
-                tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-                console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-                for (let key in tmpGoodsDetail) {
-                  if (tmpGoodsDetail[key]) {
-                    if (process.env.REACT_APP_LANG === 'fr') {
-                      let tempContent = '';
-                      try {
-                        if (key === 'Description') {
-                          tmpGoodsDetail[key].map((el) => {
-                            if (
-                              Object.keys(JSON.parse(el))[0] !==
-                              'EretailLong Description'
-                            ) {
-                              tempContent =
-                                tempContent +
-                                `<p>${Object.values(JSON.parse(el))[0]}</p>`;
-                            }
-                          });
-                        } else if (key === 'Bénéfices') {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<li>
-                              <div class="list_title">${
-                                Object.keys(JSON.parse(el))[0]
-                              }</div>
-                              <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                                Object.values(JSON.parse(el))[0]['Description']
-                              }</div>
-                            </li>`;
-                          });
-                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                            ${tempContent}
-                          </ul>`;
-                        } else if (key === 'Composition') {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tempContent = tmpGoodsDetail[key];
-                        }
-                        goodsDetailTab.tabName.push(key);
-                        goodsDetailTab.tabContent.push(tempContent);
-                      } catch (e) {
-                        console.log(e);
-                      }
-                    } else {
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                    }
-                    console.log(tmpGoodsDetail[key], 'ghaha');
-                    tabs.push({ show: false });
-                    // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                  }
-                }
-              }
-              this.setState({
-                goodsDetailTab,
-                tabs
-              });
-            } catch (err) {
-              console.log(err, 'err');
-              getDict({
-                type: 'goodsDetailTab',
-                storeId: process.env.REACT_APP_STOREID
-              }).then((res) => {
-                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                  (ele) => ele.name
-                );
-                this.setState({
-                  goodsDetailTab
-                });
-              });
-            }
-            let images = [];
-            images = res.context.goodsInfos;
-            this.setState(
-              {
-                details: Object.assign(
-                  {},
-                  this.state.details,
-                  res.context.goods,
-                  {
-                    sizeList,
-                    goodsInfos: res.context.goodsInfos,
-                    goodsSpecDetails: res.context.goodsSpecDetails,
-                    goodsSpecs: res.context.goodsSpecs
-                  }
-                ),
-                images,
-                specList
-              },
-              () => {
-                //Product Detail Page view 埋点start
-                this.GAProductDetailPageView(this.state.details);
-                //Product Detail Page view 埋点end
-                this.matchGoods();
-              }
-            );
-          } else {
-            let sizeList = [];
-            let goodsInfos = (res.context && res.context.goodsInfos) || [];
-
-            sizeList = goodsInfos.map((g, i) => {
-              g = Object.assign({}, g, { selected: i === 0 });
-              if (g.selected && !g.subscriptionStatus) {
-                let { form } = this.state;
-                form.buyWay = 0;
-                this.setState({ form });
-              }
-              return g;
-            });
-
-            // const selectedSize = find(sizeList, s => s.selected)
-
-            const { goodsDetailTab, tabs } = this.state;
-            // try {
-            //   let tmpGoodsDetail = res.context.goods.goodsDetail;
-            //   if (tmpGoodsDetail) {
-            //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-            //     for (let key in tmpGoodsDetail) {
-            //       if (tmpGoodsDetail[key]) {
-            //         goodsDetailTab.tabName.push(key);
-            //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-            //         tabs.push({ show: false });
-            //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-            //       }
-            //     }
-            //   }
-            //   this.setState({
-            //     goodsDetailTab: goodsDetailTab,
-            //     tabs
-            //   });
-            // } catch (err) {
-            //   getDict({
-            //     type: 'goodsDetailTab',
-            //     storeId: process.env.REACT_APP_STOREID
-            //   }).then((res) => {
-            //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-            //       (ele) => ele.name
-            //     );
-            //     this.setState({
-            //       goodsDetailTab: goodsDetailTab
-            //     });
-            //   });
-            // }
-            try {
-              let tmpGoodsDetail = res.context.goods.goodsDetail;
-              console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
-              if (tmpGoodsDetail) {
-                tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
-                console.log(tmpGoodsDetail, 'tmpGoodsDetail');
-                for (let key in tmpGoodsDetail) {
-                  if (tmpGoodsDetail[key]) {
-                    console.log(tmpGoodsDetail[key], 'ghaha');
-                    if (process.env.REACT_APP_LANG === 'fr') {
-                      let tempObj = {};
-                      let tempContent = '';
-                      try {
-                        if (key === 'Description') {
-                          tmpGoodsDetail[key].map((el) => {
-                            if (
-                              Object.keys(JSON.parse(el))[0] !==
-                              'EretailLong Description'
-                            ) {
-                              tempContent =
-                                tempContent +
-                                `<p>${Object.values(JSON.parse(el))[0]}</p>`;
-                            }
-                          });
-                        } else if (key === 'Bénéfices') {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<li>
-                              <div class="list_title">${
-                                Object.keys(JSON.parse(el))[0]
-                              }</div>
-                              <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
-                                Object.values(JSON.parse(el))[0]['Description']
-                              }</div>
-                            </li>`;
-                          });
-                          tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
-                            ${tempContent}
-                          </ul>`;
-                        } else if (key === 'Composition') {
-                          tmpGoodsDetail[key].map((el) => {
-                            tempContent =
-                              tempContent +
-                              `<p>
-                              
-                              <div class="content">${
-                                Object.values(JSON.parse(el))[0]
-                              }</div> 
-                            </p>`;
-                          });
-                        } else {
-                          tempContent = tmpGoodsDetail[key];
-                        }
-                        goodsDetailTab.tabName.push(key);
-                        goodsDetailTab.tabContent.push(tempContent);
-                      } catch (e) {
-                        console.log(e);
-                      }
-                    } else {
-                      goodsDetailTab.tabName.push(key);
-                      goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
-                    }
-                    console.log(tmpGoodsDetail[key], 'ghaha');
-                    tabs.push({ show: false });
-                    // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
-                  }
-                }
-              }
-              this.setState({
-                goodsDetailTab,
-                tabs
-              });
-            } catch (err) {
-              console.log(err, 'tmpGoodsDetail');
-              getDict({
-                type: 'goodsDetailTab',
-                storeId: process.env.REACT_APP_STOREID
-              }).then((res) => {
-                goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
-                  (ele) => ele.name
-                );
-                this.setState({
-                  goodsDetailTab
-                });
-              });
-            }
-            let images = [];
-            // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
-            //   if (res.context.images.length) {
-            //     images = res.context.images;
-            //   }
-            // } else {
-            //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
-            // }
-            images = res.context.goodsInfos;
-            this.setState(
-              {
-                details: Object.assign(
-                  {},
-                  this.state.details,
-                  res.context.goods,
-                  {
-                    sizeList,
-                    goodsInfos: res.context.goodsInfos,
-                    goodsSpecDetails: res.context.goodsSpecDetails,
-                    goodsSpecs: res.context.goodsSpecs
-                  }
-                ),
-                images
-              },
-              () => {
-                //Product Detail Page view 埋点start
-                this.GAProductDetailPageView(this.state.details);
-                //Product Detail Page view 埋点end
-                this.bundleMatchGoods();
-              }
-            );
-            // 没有规格的情况
-            // this.setState({
-            //   errMsg: <FormattedMessage id="details.errMsg" />
-            // });
-          }
+          // setSeoConfig({
+          //   goodsId: res.context.goods.goodsId,
+          //   categoryId: '',
+          //   pageName: 'Product Detail Page'
+          // });
         } else {
           this.setState({
             errMsg: <FormattedMessage id="details.errMsg" />
           });
+        }
+        let sizeList = [];
+        let goodsInfos = res.context.goodsInfos || [];
+        let isSkuNoQuery = res.context.isSkuNoQuery
+        let choosedSpecsArr = []
+        if(isSkuNoQuery){
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(item=>item.goodsInfoNo==this.state.goodsNo)
+          choosedSpecsArr = specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds
+        }
+
+        if (res && res.context && res.context.goodsSpecDetails) {
+          let specList = res.context.goodsSpecs;
+          let specDetailList = res.context.goodsSpecDetails;
+          specList.map((sItem, index) => {
+            sItem.chidren = specDetailList.filter((sdItem, i) => {
+              if (index === 0) {
+                // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
+                let filterproducts = goodsInfos.filter((goodEl) =>
+                  goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
+                );
+                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(item => item.stock === 0)
+                // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
+              }
+              return sdItem.specId === sItem.specId;
+            });
+            let defaultSelcetdSku = -1
+            if(choosedSpecsArr.length){
+              for(let i=0;i<choosedSpecsArr.length;i++){
+                let specDetailIndex = sItem.specDetailIds.indexOf(choosedSpecsArr[i])
+                if(specDetailIndex>-1){
+                  defaultSelcetdSku = specDetailIndex
+                }
+              }
+            }
+            console.info('defaultSelcetdSku', defaultSelcetdSku)
+            if(defaultSelcetdSku>-1){
+              // 默认选择该sku
+              if(!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                // 如果是sku进来的，需要默认当前sku被选择
+                sItem.chidren[defaultSelcetdSku].selected = true;
+              }
+            }else{
+              if(sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[1].selected = true;
+              }else {
+                for(let i = 0; i < sItem.chidren.length; i++) {
+                  if(sItem.chidren[i].isEmpty) {
+                    
+                  }else {
+                    sItem.chidren[i].selected = true;
+                    break
+                  }
+                }
+              }
+            }
+            return sItem;
+          });
+          console.log(specList, 'specList');
+          // this.setState({ specList });
+          
+          sizeList = goodsInfos.map((g) => {
+            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
+            // console.log(targetInfo, 'target')
+            // if (targetInfo) {
+            g = Object.assign({}, g, { selected: false });
+            if(g.selected && !g.subscriptionStatus) {
+              let { form } = this.state
+              form.buyWay = 0
+              this.setState({form})
+            }
+            // }
+            return g;
+          });
+          console.log(sizeList, 'sizeList')
+          
+          // const selectedSize = find(sizeList, s => s.selected)
+
+          const { goodsDetailTab, tabs } = this.state;
+          try {
+            let tmpGoodsDetail = res.context.goods.goodsDetail;
+            if (tmpGoodsDetail) {
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
+              for (let key in tmpGoodsDetail) {
+                if (tmpGoodsDetail[key]) {
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                          }
+                        });
+                      } else if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
+                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                      } else if (key === 'Composition') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<p>
+                            
+                            <div class="content">${
+                              Object.values(JSON.parse(el))[0]
+                            }</div> 
+                          </p>`;
+                        });
+                      } else {
+                        tempContent = tmpGoodsDetail[key];
+                      }
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tempContent);
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  } else {
+                    goodsDetailTab.tabName.push(key);
+                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  }
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  tabs.push({ show: false });
+                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                }
+              }
+            }
+            this.setState({
+              goodsDetailTab,
+              tabs
+            });
+          } catch (err) {
+            console.log(err, 'err');
+            getDict({
+              type: 'goodsDetailTab',
+              storeId: process.env.REACT_APP_STOREID
+            }).then((res) => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                (ele) => ele.name
+              );
+              this.setState({
+                goodsDetailTab
+              });
+            });
+          }
+          let images = [];
+          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
+          //   if (res.context.images.length) {
+          //     images = res.context.images;
+          //   }
+          // } else {
+          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
+          // }
+          // let filterImages = res.context.goodsInfos.filter((el) => el.goodsInfoImg)
+          // if(filterImages.length) {
+          //   images = res.context.goodsInfos.map((el) => el.goodsInfoImg)
+          // }else {
+          //   ima
+          // }
+          images = res.context.goodsInfos;
+          this.setState(
+            {
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                }
+              ),
+              images,
+              // images: res.context.images.concat(res.context.goodsInfos),
+              // images: res.context.goodsInfos.every(el => !el.goodsInfoImg)?res.context.images: res.context.goodsInfos,
+              specList
+            },
+            () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
+              this.matchGoods();
+            }
+          );
+        } else {
+
+          let sizeList = [];
+          let goodsInfos = res.context.goodsInfos || [];
+          sizeList = goodsInfos.map((g, i) => {
+            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
+            // console.log(targetInfo, 'target')
+            // if (targetInfo) {
+            if(i === 0) {
+              g = Object.assign({}, g, { selected: true });
+            }else {
+              g = Object.assign({}, g, { selected: false });
+            }
+            if(g.selected && !g.subscriptionStatus) {
+              let { form } = this.state
+              form.buyWay = 0
+              this.setState({form})
+            }
+            // }
+            return g;
+          });
+
+          // const selectedSize = find(sizeList, s => s.selected)
+
+          const { goodsDetailTab, tabs } = this.state;
+          // try {
+          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
+          //   if (tmpGoodsDetail) {
+          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+          //     for (let key in tmpGoodsDetail) {
+          //       if (tmpGoodsDetail[key]) {
+          //         goodsDetailTab.tabName.push(key);
+          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+          //         tabs.push({ show: false });
+          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+          //       }
+          //     }
+          //   }
+          //   this.setState({
+          //     goodsDetailTab: goodsDetailTab,
+          //     tabs
+          //   });
+          // } catch (err) {
+          //   getDict({
+          //     type: 'goodsDetailTab',
+          //     storeId: process.env.REACT_APP_STOREID
+          //   }).then((res) => {
+          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+          //       (ele) => ele.name
+          //     );
+          //     this.setState({
+          //       goodsDetailTab: goodsDetailTab
+          //     });
+          //   });
+          // }
+          try {
+            let tmpGoodsDetail = res.context.goods.goodsDetail;
+            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
+            if (tmpGoodsDetail) {
+              tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
+              for (let key in tmpGoodsDetail) {
+                if (tmpGoodsDetail[key]) {
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                          }
+                        });
+                      } else if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
+                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                      } else if (key === 'Composition') {
+                        if(res.context.goods.goodsType !== 2) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<p>
+                              
+                              <div class="content">${
+                                Object.values(JSON.parse(el))[0]
+                              }</div> 
+                            </p>`;
+                          });
+                        }else {
+                          tmpGoodsDetail[key].map(el => {
+                            let contentObj = JSON.parse(el)
+                            let contentValue = ''
+                            Object.values(Object.values(contentObj)[0]).map(el => {
+                              contentValue += `<p>${el}</p>`
+                            })
+                            console.log(tempContent,'heiheihaha')
+                            tempContent =
+                              tempContent +
+                              `
+                              <div class="title">
+                                ${Object.keys(contentObj)[0]}
+                              </div>
+                              <div class="content">${
+                                contentValue
+                              }</div> 
+                            `;
+                          })
+                        }
+                      } else {
+                        tempContent = tmpGoodsDetail[key];
+                      }
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tempContent);
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  } else {
+                    goodsDetailTab.tabName.push(key);
+                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  }
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  tabs.push({ show: false });
+                  // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+                }
+              }
+            }
+            this.setState({
+              goodsDetailTab,
+              tabs
+            });
+          } catch (err) {
+            console.log(err, 'tmpGoodsDetail');
+            getDict({
+              type: 'goodsDetailTab',
+              storeId: process.env.REACT_APP_STOREID
+            }).then((res) => {
+              goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+                (ele) => ele.name
+              );
+              this.setState({
+                goodsDetailTab
+              });
+            });
+          }
+          let images = [];
+          // if (res.context.goodsInfos.every((el) => !el.goodsInfoImg)) {
+          //   if (res.context.images.length) {
+          //     images = res.context.images;
+          //   }
+          // } else {
+          //   images = res.context.goodsInfos.filter((el) => el.goodsInfoImg);
+          // }
+          images = res.context.goodsInfos;
+          this.setState(
+            {
+              details: Object.assign(
+                {},
+                this.state.details,
+                res.context.goods,
+                {
+                  sizeList,
+                  goodsInfos: res.context.goodsInfos,
+                  goodsSpecDetails: res.context.goodsSpecDetails,
+                  goodsSpecs: res.context.goodsSpecs
+                }
+              ),
+              images
+            },
+            () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
+              this.bundleMatchGoods();
+            }
+          );
+          // 没有规格的情况
+          // this.setState({
+          //   errMsg: <FormattedMessage id="details.errMsg" />
+          // });
         }
       })
       .catch((e) => {
@@ -1048,9 +1114,8 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      if (this.state.requestJson.hasOwnProperty('utm_campaign')) {
-        //requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
-        param = { ...param, ...this.state.requestJson };
+      if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+        param = {...param,...this.state.requestJson}
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
@@ -1268,7 +1333,7 @@ class Details extends React.Component {
       }
       cartDataCopy.push(tmpData);
     }
-
+    
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1530,8 +1595,7 @@ class Details extends React.Component {
               club: 'no',
               category: item.goodsCateName,
               variant:
-                item.goodsSpecDetails &&
-                item.goodsSpecDetails[0] &&
+                item.goodsSpecDetails && item.goodsSpecDetails[0] &&
                 parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
@@ -1586,7 +1650,6 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -1628,6 +1691,7 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
+            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
@@ -1868,9 +1932,7 @@ class Details extends React.Component {
                                         key={i}
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
-                                        } ${
-                                          sdItem.isEmpty ? 'outOfStock' : ''
-                                        }`}
+                                        } ${sdItem.isEmpty ? 'outOfStock': ''}`}
                                         onClick={() => {
                                           if (sdItem.isEmpty) {
                                             return false;
@@ -1883,16 +1945,7 @@ class Details extends React.Component {
                                           }
                                         }}
                                       >
-                                        <span
-                                          style={{
-                                            backgroundColor: sdItem.isEmpty
-                                              ? '#ccc'
-                                              : '#fff',
-                                            cursor: sdItem.isEmpty
-                                              ? 'not-allowed'
-                                              : 'pointer'
-                                          }}
-                                        >
+                                        <span style={{backgroundColor: sdItem.isEmpty? '#ccc': '#fff', cursor: sdItem.isEmpty? 'not-allowed': 'pointer'}}>
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
                                           {sdItem.detailName}
                                         </span>
@@ -2165,7 +2218,7 @@ class Details extends React.Component {
                                           color: '#333'
                                         }}
                                       >
-                                        <FormattedMessage id="autoship_nos" />
+                                        <FormattedMessage id="autoship" />
                                         <span
                                           className="info-tooltip delivery-method-tooltip"
                                           onMouseEnter={() => {
@@ -2192,7 +2245,7 @@ class Details extends React.Component {
                                             })
                                           }
                                           content={
-                                            <FormattedMessage id="subscription.promotionTip3" />
+                                            <FormattedMessage id="subscription.promotionTip2" />
                                           }
                                         />
                                       </span>
@@ -2237,9 +2290,7 @@ class Details extends React.Component {
                               <div className="discountBox">
                                 <FormattedMessage
                                   id="saveExtra"
-                                  values={{
-                                    val: selectedSpecItem.subscriptionPercentage
-                                  }}
+                                  values={{ val: selectedSpecItem.subscriptionPercentage }}
                                 />
                               </div>
                               <br />
@@ -2313,7 +2364,7 @@ class Details extends React.Component {
                                         class="refreshImg"
                                         src={refreshImg}
                                       />
-                                      <FormattedMessage id="autoship_nos" />
+                                      <FormattedMessage id="autoship" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
                                         onMouseEnter={() => {
@@ -2340,7 +2391,7 @@ class Details extends React.Component {
                                           })
                                         }
                                         content={
-                                          <FormattedMessage id="subscription.promotionTip3" />
+                                          <FormattedMessage id="subscription.promotionTip2" />
                                         }
                                       />
                                     </span>
@@ -2350,10 +2401,7 @@ class Details extends React.Component {
                                 <div className="discountBox">
                                   <FormattedMessage
                                     id="saveExtra"
-                                    values={{
-                                      val:
-                                        selectedSpecItem.subscriptionPercentage
-                                    }}
+                                    values={{ val: selectedSpecItem.subscriptionPercentage }}
                                   />
                                 </div>
                                 <br />
@@ -2641,7 +2689,7 @@ class Details extends React.Component {
                           <div className="block">
                             <p
                               className="content rc-scroll--x"
-                              style={{ marginBottom: '4rem' }}
+                              style={{ marginBottom: '4rem'}}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
                           </div>
