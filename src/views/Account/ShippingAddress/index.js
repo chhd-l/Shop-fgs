@@ -21,6 +21,7 @@ import { getDictionary, setSeoConfig, matchNamefromDict } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 class ShippingAddress extends React.Component {
   constructor(props) {
@@ -284,6 +285,7 @@ class ShippingAddress extends React.Component {
     return (
       <div>
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

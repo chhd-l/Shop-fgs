@@ -20,6 +20,7 @@ import LazyLoad from 'react-lazyload';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 function QListAndPetJSX(props) {
   const { questionlist, petBaseInfo } = props;
@@ -325,6 +326,7 @@ class ProductFinderResult extends React.Component {
       <div>
          <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -384,9 +386,9 @@ class ProductFinderResult extends React.Component {
                 </h2>
                 <p className="text-center" style={{ fontSize: '1.25rem' }}>
                   {type === 'dog' ? (
-                    <FormattedMessage id="productFinder.searchResultTip1ForCat" />
-                  ) : (
                     <FormattedMessage id="productFinder.searchResultTip1ForDog" />
+                  ) : (
+                    <FormattedMessage id="productFinder.searchResultTip1ForCat" />
                   )}
 
                   <br />

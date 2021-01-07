@@ -40,6 +40,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
@@ -570,6 +571,7 @@ class Help extends React.Component {
       <div className="Recommendation_FR">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

@@ -16,6 +16,7 @@ import LoginButton from '@/components/LoginButton';
 import { setSeoConfig } from '@/utils/utils';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 class Help extends React.Component {
   constructor(props) {
     super(props);
@@ -57,6 +58,7 @@ class Help extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

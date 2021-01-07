@@ -103,6 +103,7 @@ const en_US = {
   aQuestion: 'A question ?',
   area: 'Area',
   autoship: 'Autoship',
+  'autoship_nos': 'Autoship',
   autoShipOrderDetails: 'Autoship order details',
   autoshop: 'autoship',
   backToAuthorization: 'Back to authorization',
@@ -133,6 +134,7 @@ const en_US = {
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.miniCartTitle': '10% off first purchase, plus 5% off every order with autoship',
   'cart.totalProduct': '{val} item(s) in the basket',
+  'cart.totalProduct_nounit': '{val} in the basket',
   'cart.yourShoppingCart': 'Your shopping cart',
   cats: 'CATS',
   cats2: 'Cats',
@@ -141,6 +143,7 @@ const en_US = {
   changeAnotherCard: 'Please change to another card and try again',
   changePassword: 'Change Password',
   checkout: 'Checkout',
+  loginText: 'Checkout',
   checkoutTip: 'Please enter your detail below.',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
@@ -740,7 +743,7 @@ const en_US = {
   'subscription.previousOrders': 'Previous Orders',
   'subscription.product': 'Product',
   'subscription.promotionTip': '{val} on your first order of the subscription',
-  'subscription.promotionTip2': "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
+  'subscription.promotionTip3': "Simply select autoship at checkout for easy regular deliveries. With automatic shipping, you'll become a member and get 10% off your first order and 5% off every autoship order.",
   'subscription.receiveDate': 'Next received date',
   'subscription.saveDiscount': 'Subscription Save Discount',
   'subscription.shipping': 'Shipping',
@@ -775,7 +778,6 @@ const en_US = {
   'tailorednutrition.shopCat': 'Shop Cat Formulas',
   'tailorednutrition.shopDog': 'Shop Dog Formulas',
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
-  'tailorednutrition.title': 'Health is the Difference',
   'tailorednutrition.uniqueDetail': 'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
   'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   taxLogo: '',
@@ -876,6 +878,7 @@ const en_US = {
   'pet.deletePet': 'Delete Pet Profile',
   'mixed Breed': 'mixed Breed',
   'confirmation.account':'Go to my account',
+  'confirmation.oneShoot':'Go to my account',
   bankCard: 'Bank card'
 }
 export default en_US;

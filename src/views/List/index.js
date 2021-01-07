@@ -38,6 +38,7 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 let isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 function getMuntiImg(item) {
   let img;
@@ -1318,6 +1319,7 @@ class List extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

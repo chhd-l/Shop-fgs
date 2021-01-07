@@ -10,9 +10,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
-// import { confirmAndCommit } from "@/api/payment";
-// import {  Link } from 'react-router-dom'
-// import store from "storejs";
+const pageLink = window.location.href
 
 class Landing extends Component {
   constructor(props) {
@@ -142,6 +140,7 @@ class Landing extends Component {
       <div className="landing-wrap">
         <GoogleTagManager additionalEvents={event} GTMID="GTM-NR3FWTQ" />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

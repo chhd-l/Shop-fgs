@@ -1,5 +1,6 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import { Link } from 'react-router-dom'
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
@@ -10,16 +11,10 @@ import image4D from './images/4D.png';
 import image4E from './images/4E.png';
 import imagecat from './images/cat-autoship.png';
 import imagedog from './images/dog-autoship.png';
-import imagemain from './images/Main-Coon-Adult-1-bis.jpg';
-import imageappetite from './images/Appetite-control-1.jpg';
-import imagePersan from './images/Persan-1-bis.jpg';
-import imageBritish from './images/British-Shortair1-bis.jpg';
-import imageMini from './images/Mini-Adult-1-bis.jpg';
-import imageChihuahua from './images/Chihuahua-1-bis.jpg';
-import imageNutrition from './images/nutritional-supplement-educ-packshots-pro-educ-as-packshot.jpg';
 
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
+import { list1, list2 } from "./goods"
 
 import './index.css';
 
@@ -30,11 +25,7 @@ class Packfeed extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
+
   }
 
   render(h) {
@@ -58,24 +49,6 @@ class Packfeed extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-
-          {/* <div
-            className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-              this.state.errorMsg ? '' : 'hidden'
-            }`}
-            style={{
-              width: '50%',
-              margin: '20px auto 0'
-            }}
-          >
-            <aside
-              className="rc-alert rc-alert--error rc-alert--with-close"
-              role="alert"
-            >
-              {this.state.errorMsg}
-            </aside>
-          </div> */}
-
           <div
             className="rc-layout-container rc-two-column"
             style={{ padding: '10px 50px' }}
@@ -141,70 +114,28 @@ class Packfeed extends React.Component {
               data-rc-next="next"
             >
               <div className="rc-carousel__card-gal">
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imagemain} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">Pack Maine Coon Adulte</h1>
-                      <p className="rc-card__meta">À partir de 15 mois</p>
-                      <h5>62,98 €</h5>
-                    </header>
-                  </div>
-                </article>
-
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imagePersan} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">Pack Persan Adulte</h1>
-                      <p className="rc-card__meta">À partir de 12 mois</p>
-                      <h5>64,98 €</h5>
-                    </header>
-                  </div>
-                </article>
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imageBritish} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">
-                        Pack British Shorthair Adulte
-                      </h1>
-                      <p className="rc-card__meta">À partir de 15 mois</p>
-                      <h5>62,98 €</h5>
-                    </header>
-                  </div>
-                </article>
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imageappetite} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">
-                        Pack Appetite Control Care
-                      </h1>
-                      <p className="rc-card__meta">
-                        Chats adultes stérilisés de 1 à 7 ans – Tendance à
-                        quémander
-                      </p>
-                      <h5>58.98 €</h5>
-                    </header>
-                  </div>
-                </article>
+                {
+                  list1.map((item, index) => {
+                    return (
+                      <article className="rc-card rc-card--b">
+                        <Link key={index} to={item.linkUrl}>
+                          <picture className="rc-card__image">
+                            <LazyLoad>
+                              <img src={item.imageUrl} alt="alt text" />
+                            </LazyLoad>
+                          </picture>
+                          <div className="rc-card__body">
+                            <header>
+                              <h1 className="rc-card__title">{item.title}</h1>
+                              <h5>{item.price} €</h5>
+                              <p className="rc-card__meta">{item.subTitle}</p>
+                            </header>
+                          </div>
+                        </Link>
+                      </article>
+                    )
+                  })
+                }
               </div>
             </div>
           </div>
@@ -235,52 +166,29 @@ class Packfeed extends React.Component {
               data-rc-next="next"
             >
               <div className="rc-carousel__card-gal">
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imageMini} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">Pack Mini Adult</h1>
-                      <p className="rc-card__meta">À partir de 10 mois</p>
-                      <h5>37.48 €</h5>
-                    </header>
-                  </div>
-                </article>
+                {
+                  list2.map((item, index) => {
+                    return (
+                      <article className="rc-card rc-card--b">
+                        <Link key={index} to={item.linkUrl}>
+                          <picture className="rc-card__image">
+                            <LazyLoad>
+                              <img src={item.imageUrl} alt="alt text" />
+                            </LazyLoad>
+                          </picture>
+                          <div className="rc-card__body">
+                            <header>
+                              <h1 className="rc-card__title">{item.title}</h1>
+                              <h5>{item.price} €</h5>
+                              <p className="rc-card__meta">{item.subTitle}</p>
+                            </header>
+                          </div>
+                        </Link>
+                      </article>
 
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imageChihuahua} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">Pack Chihuahua Adult</h1>
-                      <p className="rc-card__meta">À partir de 8 mois</p>
-                      <h5>38.98 €</h5>
-                    </header>
-                  </div>
-                </article>
-                <article className="rc-card rc-card--b">
-                  <picture className="rc-card__image">
-                    <LazyLoad>
-                      <img src={imageNutrition} alt="alt text" />
-                    </LazyLoad>
-                  </picture>
-                  <div className="rc-card__body">
-                    <header>
-                      <h1 className="rc-card__title">Educ</h1>
-                      <p className="rc-card__meta">
-                        Supplément nutritionnel chiot (à partir de 2 mois) et
-                        chien adulte
-                      </p>
-                      <h5>62,98 €</h5>
-                    </header>
-                  </div>
-                </article>
+                    )
+                  })
+                }
               </div>
             </div>
           </div>

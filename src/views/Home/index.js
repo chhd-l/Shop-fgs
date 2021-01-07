@@ -24,7 +24,7 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
+const pageLink = window.location.href;
 const deviceType = getDeviceType();
 
 function Divider() {
@@ -353,6 +353,141 @@ function Share() {
   );
 }
 
+function AdvantageTips({ secondIconvisible = true }) {
+  return (
+    <div className="rc-full-width">
+      <div className="experience-component experience-assets-centeredIconList">
+        <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
+          <div class="rc-sm-down">
+            <div class="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
+              <div class="col-6 centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={PaymentSecureHome}
+                    srcSet={PaymentSecureHome}
+                    className="mx-auto"
+                    alt="Secure payments"
+                    title="Secure payments"
+                  />
+                </LazyLoad>
+                <p class="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point1" />
+                </p>
+              </div>
+              {secondIconvisible && (
+                <div class="col-6 centered-icon-list__icon">
+                  <LazyLoad height={200}>
+                    <img
+                      src={reimbursedHome}
+                      srcSet={reimbursedHome}
+                      className="mx-auto"
+                      alt="Quality assurance"
+                      title="Quality assurance"
+                    />
+                  </LazyLoad>
+                  <p className="rc-meta text-center markup-text">
+                    <FormattedMessage id="home.point2" />
+                  </p>
+                </div>
+              )}
+              <div class="col-6 centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={premiumHome}
+                    srcSet={premiumHome}
+                    className="mx-auto"
+                    alt="Premium service"
+                    title="Premium service"
+                  />
+                </LazyLoad>
+                <p className="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point3" />
+                </p>
+              </div>
+              <div class="col-6 centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={shippmentHome}
+                    srcSet={shippmentHome}
+                    className="mx-auto"
+                    alt="Fast shipping"
+                    title="Fast shipping"
+                  />
+                </LazyLoad>
+                <p className="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point4" />
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="rc-sm-up">
+            <div class="d-flex justify-content-center bottom-content__icon-list text-center">
+              <div class="centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={PaymentSecureHome}
+                    srcSet={PaymentSecureHome}
+                    className="mx-auto"
+                    alt="Secure payments"
+                    title="Secure payments"
+                  />
+                </LazyLoad>
+                <p class="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point1" />
+                </p>
+              </div>
+              {secondIconvisible && (
+                <div class="centered-icon-list__icon">
+                  <LazyLoad height={200}>
+                    <img
+                      src={reimbursedHome}
+                      srcSet={reimbursedHome}
+                      className="mx-auto"
+                      alt="Quality assurance"
+                      title="Quality assurance"
+                    />
+                  </LazyLoad>
+                  <p class="rc-meta text-center markup-text">
+                    <FormattedMessage id="home.point2" />
+                  </p>
+                </div>
+              )}
+              <div class="centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={premiumHome}
+                    srcSet={premiumHome}
+                    className="mx-auto"
+                    alt="Premium service"
+                    title="Premium service"
+                  />
+                </LazyLoad>
+                <p class="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point3" />
+                </p>
+              </div>
+              <div class="centered-icon-list__icon">
+                <LazyLoad height={200}>
+                  <img
+                    src={shippmentHome}
+                    srcSet={shippmentHome}
+                    className="mx-auto"
+                    alt="Fast shipping"
+                    title="Fast shipping"
+                  />
+                </LazyLoad>
+                <p class="rc-meta text-center markup-text">
+                  <FormattedMessage id="home.point4" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -467,6 +602,7 @@ class Home extends React.Component {
     return (
       <div>
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -510,7 +646,7 @@ class Home extends React.Component {
                       curListNum >= 6 ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-left rc-padding-top--none">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
@@ -553,75 +689,9 @@ class Home extends React.Component {
           <Divider />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
-              <div className="rc-full-width">
-                <div className="experience-component experience-assets-centeredIconList">
-                  <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
-                    <div
-                      className="row col-10 col-md-5 bottom-content__icon-list mx-auto text-center"
-                      style={{ justifyContent: 'center' }}
-                    >
-                      <div className="col-6 col-md-3 centered-icon-list__icon">
-                        <LazyLoad height={200}>
-                          <img
-                            src={PaymentSecureHome}
-                            srcSet={PaymentSecureHome}
-                            className="mx-auto"
-                            alt="Secure payments"
-                            title="Secure payments"
-                          />
-                        </LazyLoad>
-                        <p className="rc-meta text-center markup-text">
-                          <FormattedMessage id="home.point1" />
-                        </p>
-                      </div>
-                      {process.env.REACT_APP_LANG === 'de' ? null : (
-                        <div className="col-6 col-md-3 centered-icon-list__icon">
-                          <LazyLoad height={200}>
-                            <img
-                              src={reimbursedHome}
-                              srcSet={reimbursedHome}
-                              className="mx-auto"
-                              alt="Quality assurance"
-                              title="Quality assurance"
-                            />
-                          </LazyLoad>
-                          <p className="rc-meta text-center markup-text">
-                            <FormattedMessage id="home.point2" />
-                          </p>
-                        </div>
-                      )}
-                      <div className="col-6 col-md-3 centered-icon-list__icon">
-                        <LazyLoad height={200}>
-                          <img
-                            src={premiumHome}
-                            srcSet={premiumHome}
-                            className="mx-auto"
-                            alt="Premium service"
-                            title="Premium service"
-                          />
-                        </LazyLoad>
-                        <p className="rc-meta text-center markup-text">
-                          <FormattedMessage id="home.point3" />
-                        </p>
-                      </div>
-                      <div className="col-6 col-md-3 centered-icon-list__icon">
-                        <LazyLoad height={200}>
-                          <img
-                            src={shippmentHome}
-                            srcSet={shippmentHome}
-                            className="mx-auto"
-                            alt="Fast shipping"
-                            title="Fast shipping"
-                          />
-                        </LazyLoad>
-                        <p className="rc-meta text-center markup-text">
-                          <FormattedMessage id="home.point4" />
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AdvantageTips
+                secondIconvisible={process.env.REACT_APP_LANG !== 'de'}
+              />
             </div>
           </div>
           <div className="experience-component experience-layouts-1column">

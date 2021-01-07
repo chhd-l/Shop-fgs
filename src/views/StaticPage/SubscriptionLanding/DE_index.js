@@ -23,6 +23,8 @@ import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+
+const pageLink = window.location.href
 @inject('configStore')
 @observer
 @injectIntl
@@ -61,6 +63,7 @@ class SubscriptionLanding extends React.Component {
     return (
       <div className="recommendation">
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -92,18 +95,18 @@ class SubscriptionLanding extends React.Component {
                         </div>
                         {/* <div className="d-block d-md-none rc-text--center">
                           <Link to="/cats">
-                            <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">     
+                            <button className="rc-btn rc-btn--one rc-margin-right--xs rc-margin-bottom--xs">
                               <FormattedMessage id="subscription.list.btn1" />
                             </button>
                           </Link>
                           <Link to="/dogs">
-                            <button className="rc-btn rc-btn--one rc-margin-bottom--xs"> 
+                            <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
                               <FormattedMessage id="subscription.list.btn2" />
                             </button>
                           </Link>
                         </div> */}
                       </div>
-                      
+
                       <div className="rc-layout-container rc-two-column rc-content-h-middle flex-md-row flex-column-reverse">
                         <div className="rc-column">
                           <div className="rc-padding-y--lg--mobile rc-full-width">
@@ -113,15 +116,15 @@ class SubscriptionLanding extends React.Component {
                                 <FormattedMessage id="subscription.list1" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>            
+                                <i className="wof rc-margin-right--xs"></i>
                                 <FormattedMessage id="subscription.list2" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>     
+                                <i className="wof rc-margin-right--xs"></i>
                                 <FormattedMessage id="subscription.list3" />
                               </li>
                               <li className="rc-list__item">
-                                <i className="wof rc-margin-right--xs"></i>                           
+                                <i className="wof rc-margin-right--xs"></i>
                                 <FormattedMessage id="subscription.list4" />
                               </li>
                             </ul>
@@ -274,7 +277,7 @@ class SubscriptionLanding extends React.Component {
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
                             <Link
-                              to="/product-finder"
+                              to="/list/keywords"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="subscription.banner.btn" />
@@ -309,7 +312,7 @@ class SubscriptionLanding extends React.Component {
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                <FormattedMessage id="subscription.help.title" />  
+                <FormattedMessage id="subscription.help.title" />
               </h2>
               <p>
               <FormattedMessage id="subscription.help.subTitle" />

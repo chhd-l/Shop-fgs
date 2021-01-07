@@ -85,6 +85,7 @@ const tr_TR = {
   apply: 'Uygulamak',
   area: 'Alan',
   autoship: 'Otomatik Nakliye',
+  'autoship_nos': 'Otomatik Nakliye',
   autoshop: 'autoship',
   backToAuthorization: 'Yetkilendirmeye geri dön',
   basket: 'Sepet',
@@ -111,6 +112,7 @@ const tr_TR = {
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
   'cart.miniCartTitle': 'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
+  'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Alışveriş sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
@@ -118,6 +120,7 @@ const tr_TR = {
   changeAnotherCard: 'Lütfen başka bir kartla değiştirin ve tekrar deneyin',
   changePassword: 'Şifre değiştir',
   checkout: 'Ödeme',
+  loginText: 'Ödeme',
   checkoutTip: 'Lütfen detaylarınızı aşağıya giriniz.',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',
@@ -615,6 +618,7 @@ const tr_TR = {
   'subscription.product': 'Ürün',
   'subscription.promotionTip': 'İlk abonelik siparişinizde {val}',
   'subscription.promotionTip2': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
+  'subscription.promotionTip3': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
   'subscription.receiveDate': 'Sonraki alınma tarihi',
   'subscription.saveDiscount': 'Abonelik İndirim İndirimi',
   'subscription.shipping': 'Nakliye',
@@ -648,7 +652,6 @@ const tr_TR = {
   'tailorednutrition.shopCat': 'Kedi Formülleri Satın Alın',
   'tailorednutrition.shopDog': 'Köpek Formülleri Alışverişi',
   'tailorednutrition.shopTile': 'Evcil Hayvanınız İçin Özel Beslenme Ürünleri Satın Alın',
-  'tailorednutrition.title': 'Sağlık için savaşılmayı hak ediyor',
   'tailorednutrition.uniqueDetail': 'Pek çok evcil hayvanın, nasıl yemek yediklerine meydan okuyan benzersiz şekilli çeneleri ve davranışları vardır. Bu nedenle, tariflerimizi sadece beslenme düzeyinde uyarlamakla kalmıyor, aynı zamanda her bir evcil hayvanın fiziksel beslenme ihtiyaçlarını daha iyi karşılamak için her bir mama mamasının şeklini ve yapısını tasarlıyoruz. ',
   'tailorednutrition.uniqueTitle': 'Eşsiz İhtiyaçlar İçin Eşsiz Formüller',
   taxLogo: 'IVA dahil',
@@ -714,6 +717,8 @@ const tr_TR = {
   invoice: 'fatura',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
+  'confirmation.account':'Go to my account',
+  'confirmation.oneShoot':'Go to my account',
 }
 
 export default tr_TR;

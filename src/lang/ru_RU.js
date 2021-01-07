@@ -85,6 +85,7 @@ const ru_RU = {
     'apply': 'Применять',
     'area': "Площадь",
     'autoship': "Автошип",
+    'autoship_nos': 'Автошип',
     'autoshop': 'автошип',
     'backToAuthorization': "Вернуться к авторизации",
     'basket': 'Корзина',
@@ -111,6 +112,7 @@ const ru_RU = {
     "cart.fullPrice": "ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА",
     "cart.miniCartTitle": "Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой",
     "cart.totalProduct": "{val} в корзине",
+    'cart.totalProduct_nounit': '{val} корзине',
     "cart.yourShoppingCart": "Ваша Корзина",
     'cats': "КОШКИ",
     'cats2': "Кошки",
@@ -118,6 +120,7 @@ const ru_RU = {
     'changeAnotherCard': "Пожалуйста, перейдите на другую карту и попробуйте еще раз",
     'changePassword': "Изменить пароль",
     'checkout': "Оформить заказ",
+    'loginText': "Оформить заказ",
     'checkoutTip': 'Пожалуйста, введите свои данные ниже.',
     'choosePayment': "Выбрать платеж",
     'choosePrescriber': "Пожалуйста, выберите правильного врача, выписывающего рецепт",
@@ -619,6 +622,7 @@ const ru_RU = {
     "subscription.product": "Товар",
     "subscription.promotionTip": "{val} на ваш первый заказ подписки",
     "subscription.promotionTip2": "Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.",
+    "subscription.promotionTip3": "Просто выберите автоматическую доставку при оформлении заказа, чтобы упростить регулярную доставку. С автоматической доставкой вы станете участником и получите 10% скидку на свой первый заказ и 5% скидку на каждый заказ автоматической доставки.",
     "subscription.receiveDate": "Дата следующего получения",
     "subscription.saveDiscount": "Скидка на подписку",
     "subscription.shipping": "Перевозка",
@@ -651,7 +655,6 @@ const ru_RU = {
     'tailorednutrition.shopCat': 'Подберите подходящее здоровое питание для Вашей кошки!',
     'tailorednutrition.shopDog': 'Подберите подходящее здоровое питание для Вашей собаки!',
     'tailorednutrition.shopTile': 'Узнайте больше и подберите подходящее питание для вашего питомца',
-    'tailorednutrition.title': 'Здоровье животных стоит наших усилий',
     'tailorednutrition.uniqueDetail': 'Животные многих пород отличаются уникальным строением челюстей и особенностями поведения, затрудняющими для них поедание корма. Вот почему мы заботимся не только о пищевой ценности своих формул кормов, но и о форме и текстуре каждой крокеты, стремясь сделать процесс потребления пищи комфортным для каждого животного.',
     'tailorednutrition.uniqueTitle': 'Особые формулы для особых потребностей',
     'taxLogo': "IVA Incluido",
@@ -717,6 +720,8 @@ const ru_RU = {
     invoice: 'выставленный счет',
     'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
     checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
+    'confirmation.account':'Go to my account',
+    'confirmation.oneShoot':'Go to my account',
   }
 
   export default ru_RU;
