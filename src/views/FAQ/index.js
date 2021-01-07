@@ -158,7 +158,7 @@ class FAQ extends React.Component {
                 </div>
               </div>
             </div>
-            {/* {this.state.loading ? (
+            {this.state.loading ? (
               <div className="pb-4">
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
               </div>
@@ -217,9 +217,9 @@ class FAQ extends React.Component {
                     </dl>
                   </>
                 ))
-              )} */}
+              )}
           </div>
-          {
+          {/* {
             this.state.loading
               ? (
                 <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
@@ -267,7 +267,7 @@ class FAQ extends React.Component {
                   }
                 </div>
               )
-          }
+          } */}
 
         </main>
         <Footer />

@@ -231,7 +231,7 @@ class SubscriptionDetail extends React.Component {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
       return {
-        value: ele.valueEn,
+        value: ele.id,
         ...ele
       };
     });
@@ -356,7 +356,7 @@ class SubscriptionDetail extends React.Component {
           this.frequencyListOptions.filter(
             (item) => item.id === el.periodTypeId
           )[0] || this.frequencyListOptions[0];
-        el.periodTypeValue = filterData.valueEn;
+        // el.periodTypeValue = filterData.valueEn;
         return el;
       });
       let orderOptions = (subDetail.trades || []).map((el) => {
@@ -1094,15 +1094,15 @@ class SubscriptionDetail extends React.Component {
                                       selectedItemChange={(data) => {
                                         if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
-                                          el.periodTypeValue = data.valueEn;
+                                          // el.periodTypeValue = data.valueEn;
                                           this.setState({ isDataChange: true });
                                         }
                                       }}
                                       selectedItemData={{
-                                        value: el.periodTypeValue
+                                        value: el.periodTypeId
                                       }}
                                       customStyleType="select-one"
-                                      key={index + '_' + el.periodTypeValue}
+                                      key={index + '_' + el.periodTypeId}
                                     />
                                   </h1>
                                 </div>
@@ -1450,15 +1450,15 @@ class SubscriptionDetail extends React.Component {
                                       selectedItemChange={(data) => {
                                         if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
-                                          el.periodTypeValue = data.valueEn;
+                                          // el.periodTypeValue = data.valueEn;
                                           this.setState({ isDataChange: true });
                                         }
                                       }}
                                       selectedItemData={{
-                                        value: el.periodTypeValue
+                                        value: el.periodTypeId
                                       }}
                                       customStyleType="select-one"
-                                      key={index + '_' + el.periodTypeValue}
+                                      key={index + '_' + el.periodTypeId}
                                       disabled={!isActive}
                                     />
                                   </h1>

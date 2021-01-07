@@ -258,7 +258,7 @@ class Details extends React.Component {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
       return {
-        value: ele.valueEn,
+        value: ele.id,
         ...ele
       };
     });
@@ -637,9 +637,11 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                          if(Object.keys(JSON.parse(el))[0] !== 'EretailLong Description') {
+                            tempContent =
+                              tempContent +
+                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                          }
                         });
                       } else if (key === 'Bénéfices') {
                         tmpGoodsDetail[key].map((el) => {
@@ -662,9 +664,7 @@ class Details extends React.Component {
                           tempContent =
                             tempContent +
                             `<p>
-                            <div class="title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
+                            
                             <div class="content">${
                               Object.values(JSON.parse(el))[0]
                             }</div> 
@@ -761,7 +761,7 @@ class Details extends React.Component {
               g = Object.assign({}, g, { selected: false });
             }
             
-            if(g.selected && !g.subscriptionPrice) {
+            if(g.selected && !g.subscriptionStatus) {
               let { form } = this.state
               form.buyWay = 0
               this.setState({form})
@@ -773,24 +773,108 @@ class Details extends React.Component {
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
+          // try {
+          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
+          //   if (tmpGoodsDetail) {
+          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+          //     for (let key in tmpGoodsDetail) {
+          //       if (tmpGoodsDetail[key]) {
+          //         goodsDetailTab.tabName.push(key);
+          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+          //         tabs.push({ show: false });
+          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+          //       }
+          //     }
+          //   }
+          //   this.setState({
+          //     goodsDetailTab: goodsDetailTab,
+          //     tabs
+          //   });
+          // } catch (err) {
+          //   getDict({
+          //     type: 'goodsDetailTab',
+          //     storeId: process.env.REACT_APP_STOREID
+          //   }).then((res) => {
+          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+          //       (ele) => ele.name
+          //     );
+          //     this.setState({
+          //       goodsDetailTab: goodsDetailTab
+          //     });
+          //   });
+          // }
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
+            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  goodsDetailTab.tabName.push(key);
-                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          if(Object.keys(JSON.parse(el))[0] !== 'EretailLong Description') {
+                            tempContent =
+                              tempContent +
+                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                          }
+                        });
+                      } else if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
+                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                      } else if (key === 'Composition') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<p>
+                            
+                            <div class="content">${
+                              Object.values(JSON.parse(el))[0]
+                            }</div> 
+                          </p>`;
+                        });
+                      } else {
+                        tempContent = tmpGoodsDetail[key];
+                      }
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tempContent);
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  } else {
+                    goodsDetailTab.tabName.push(key);
+                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  }
+                  console.log(tmpGoodsDetail[key], 'ghaha');
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
               }
             }
             this.setState({
-              goodsDetailTab: goodsDetailTab,
+              goodsDetailTab,
               tabs
             });
           } catch (err) {
+            console.log(err, 'tmpGoodsDetail');
             getDict({
               type: 'goodsDetailTab',
               storeId: process.env.REACT_APP_STOREID
@@ -799,7 +883,7 @@ class Details extends React.Component {
                 (ele) => ele.name
               );
               this.setState({
-                goodsDetailTab: goodsDetailTab
+                goodsDetailTab
               });
             });
           }
@@ -2177,7 +2261,7 @@ class Details extends React.Component {
                               <div className="discountBox">
                                 <FormattedMessage
                                   id="saveExtra"
-                                  values={{ val: '10%' }}
+                                  values={{ val: selectedSpecItem.subscriptionPercentage }}
                                 />
                               </div>
                               <br />
@@ -2200,9 +2284,9 @@ class Details extends React.Component {
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
-                                    value: form.frequencyVal
+                                    value: form.frequencyId
                                   }}
-                                  key={form.frequencyVal}
+                                  key={form.frequencyId}
                                   customStyleType="select-one"
                                 />
                               </div>
@@ -2288,7 +2372,7 @@ class Details extends React.Component {
                                 <div className="discountBox">
                                   <FormattedMessage
                                     id="saveExtra"
-                                    values={{ val: '5%' }}
+                                    values={{ val: selectedSpecItem.subscriptionPercentage }}
                                   />
                                 </div>
                                 <br />
@@ -2312,9 +2396,9 @@ class Details extends React.Component {
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
-                                    value: form.frequencyVal
+                                    value: form.frequencyId
                                   }}
-                                  key={form.frequencyVal}
+                                  key={form.frequencyId}
                                   customStyleType="select-one"
                                 />
                               </div>
