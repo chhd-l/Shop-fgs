@@ -86,7 +86,7 @@ class Packfeed extends React.Component {
               </LazyLoad>
             </div>
           </div>
-          <div className="rc-max-width--lg">
+          <div className="rc-max-width--lg rc-padding-x--lg--mobile">
           <div class="rc-margin-bottom--sm rc-padding--none">
             <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chat</h4>
           </div>
@@ -184,7 +184,7 @@ class Packfeed extends React.Component {
           {/*轮播停止*/}
           <br />
           <br />
-          <div className="rc-max-width--lg">
+          <div className="rc-max-width--lg rc-padding-x--lg--mobile">
 
           <div class="rc-margin-bottom--sm rc-padding--none">
             <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien</h4>
@@ -291,7 +291,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              href="/cats"
                             >
                               Chat
                             </a>
@@ -310,13 +310,13 @@ class Packfeed extends React.Component {
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/"
+                              href="/cats"
                             >
                               Chat
                             </a>
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/"
+                              href="/dogs"
                             >
                               Chien
                             </a>
@@ -334,7 +334,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              href="/dogs"
                             >
                               Chien
                             </a>
