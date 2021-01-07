@@ -28,7 +28,7 @@ class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eEvents:'',
+      eEvents: '',
       productList: [],
       seoConfig: {
         title: '',
@@ -57,8 +57,8 @@ class Confirmation extends React.Component {
       details: null,
       detailList: null,
       payRecord: null,
-      email:'',
-      isAllOneShootGoods:true
+      email: '',
+      isAllOneShootGoods: true
     };
     this.timer = null;
   }
@@ -67,7 +67,7 @@ class Confirmation extends React.Component {
   }
   async componentDidMount() {
     setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+      this.setState({ seoConfig: res })
     });
     const { subOrderNumberList } = this.state;
     let productList;
@@ -106,12 +106,12 @@ class Confirmation extends React.Component {
         this.setState({
           email: resContext.consignee.email
         })
- 
+
         this.setState({
           details: resContext,
           totalTid: resContext.totalTid,
           detailList: res.map((ele) => ele.context)
-        },()=>{
+        }, () => {
           this.getGAEComTransaction()
         });
         const payRecordRes = await getPayRecord(resContext.totalTid);
@@ -132,30 +132,67 @@ class Confirmation extends React.Component {
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
+  AdyenBtnJSX = (buyWay) => {
+    const defaultJSX = (
+      <>
+        <Link
+          to="/account"
+          className="rc-btn rc-btn--one"
+          style={{ transform: 'scale(.85)' }}
+        >
+          <FormattedMessage id="confirmation.account" />
+        </Link>
+        <div style={{ padding: '0 20px 0 10px' }}>
+          <FormattedMessage id="or" />
+        </div>
+        <Link
+          to="/home"
+          className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
+        >
+          <FormattedMessage id="continueShopping" />
+        </Link>
+      </>
+    )
+    return (
+      {
+        oneShoot: (
+          <>
+            <Link
+              to="/account"
+              className="rc-btn rc-btn--one"
+              style={{ transform: 'scale(.85)' }}
+            >
+              <FormattedMessage id="confirmation.oneShoot" />
+            </Link>
+          </>
+        )
+      }
+    )[buyWay] || defaultJSX
+  }
   //商品全是oneShoot,返回翻译confirmation.account，否则显示confirmation.oneShoot
-  computedGotoAccountBtn(isAllOneShootGoods){
+  computedGotoAccountBtn(isAllOneShootGoods) {
     let res = ''
-    if(isAllOneShootGoods){
-      res = 'confirmation.oneShoot'
-    }else{
-      res = 'confirmation.account'
+    if (isAllOneShootGoods) {
+      res = 'oneShoot'
+    } else {
+      res = 'subscription'
     }
     return res
   }
   //GA 埋点 start
-  getGAEComTransaction(){
+  getGAEComTransaction() {
     const { details } = this.state;
 
-    let isAllOneShootGoods = details.tradeItems.every((item)=>{
+    let isAllOneShootGoods = details.tradeItems.every((item) => {
       return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
     })
-    this.setState({isAllOneShootGoods})
+    this.setState({ isAllOneShootGoods })
 
-    let isAllSubscriptionGoods =  details.tradeItems.every((item)=>{
+    let isAllSubscriptionGoods = details.tradeItems.every((item) => {
       return item.goodsInfoFlag == 1
     })
 
-    if(isAllOneShootGoods||isAllSubscriptionGoods){ //商品均是oneshoot或者均是subscription
+    if (isAllOneShootGoods || isAllSubscriptionGoods) { //商品均是oneshoot或者均是subscription
       let products = details.tradeItems.map((item) => {
         return {
           id: item.spuNo,
@@ -164,7 +201,7 @@ class Confirmation extends React.Component {
           brand: 'Royal Canin',
           category: item.goodsCateName,
           quantity: item.num,
-          variant: item.specDetails?parseInt(item.specDetails):'',
+          variant: item.specDetails ? parseInt(item.specDetails) : '',
           sku: item.skuNo,
           recommandation: details.recommendationId
             ? 'recommended'
@@ -178,9 +215,9 @@ class Confirmation extends React.Component {
           purchase: {
             actionField: {
               id: this.state.totalTid,
-              type: isAllOneShootGoods?'One-shot':'Subscription',
+              type: isAllOneShootGoods ? 'One-shot' : 'Subscription',
               revenue: details.tradePrice.totalPrice,
-              coupon:'',
+              coupon: '',
               shipping: details.tradePrice.deliveryPrice
             },
             products
@@ -188,7 +225,7 @@ class Confirmation extends React.Component {
         }
       };
       dataLayer.push(eEvents)
-    }else{ //既有oneshoot，又有subscription
+    } else { //既有oneshoot，又有subscription
       let oneShootProduct = []
       let oneShootProductTotalPrice = ''
       let subscriptionProduct = []
@@ -196,8 +233,8 @@ class Confirmation extends React.Component {
       let subscription_eEvents = ''
       let oneShooteEvents = ''
       for (let item of details.tradeItems) {
-        if(item.goodsInfoFlag){
-          subscriptionProductTotalPrice = (subscriptionProductTotalPrice*1000+item.price*1000)/1000
+        if (item.goodsInfoFlag) {
+          subscriptionProductTotalPrice = (subscriptionProductTotalPrice * 1000 + item.price * 1000) / 1000
           subscriptionProduct.push({
             id: item.spuNo,
             name: item.spuName,
@@ -205,7 +242,7 @@ class Confirmation extends React.Component {
             brand: 'Royal Canin',
             category: item.goodsCateName,
             quantity: item.num,
-            variant: item.specDetails?parseInt(item.specDetails):'',
+            variant: item.specDetails ? parseInt(item.specDetails) : '',
             sku: item.skuNo,
             recommandation: details.recommendationId
               ? 'recommended'
@@ -218,17 +255,17 @@ class Confirmation extends React.Component {
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
-                  type:'Subscription',
+                  type: 'Subscription',
                   revenue: subscriptionProductTotalPrice,
-                  coupon:'',
+                  coupon: '',
                   shipping: details.tradePrice.deliveryPrice
                 },
-                products:subscriptionProduct
+                products: subscriptionProduct
               }
             }
           };
-        }else{
-          oneShootProductTotalPrice = (oneShootProductTotalPrice*1000+item.price*1000)/1000
+        } else {
+          oneShootProductTotalPrice = (oneShootProductTotalPrice * 1000 + item.price * 1000) / 1000
           oneShootProduct.push({
             id: item.spuNo,
             name: item.spuName,
@@ -236,7 +273,7 @@ class Confirmation extends React.Component {
             brand: 'Royal Canin',
             category: item.goodsCateName,
             quantity: item.num,
-            variant: item.specDetails?parseInt(item.specDetails):'',
+            variant: item.specDetails ? parseInt(item.specDetails) : '',
             sku: item.skuNo,
             recommandation: details.recommendationId
               ? 'recommended'
@@ -249,21 +286,21 @@ class Confirmation extends React.Component {
               purchase: {
                 actionField: {
                   id: this.state.totalTid,
-                  type:'one-shoot',
+                  type: 'one-shoot',
                   revenue: oneShootProductTotalPrice,
-                  coupon:'',
+                  coupon: '',
                   shipping: details.tradePrice.deliveryPrice
                 },
-                products:oneShootProduct
+                products: oneShootProduct
               }
             }
           };
         }
       }
-        dataLayer.push(subscription_eEvents)
-        dataLayer.push(oneShooteEvents)
+      dataLayer.push(subscription_eEvents)
+      dataLayer.push(oneShooteEvents)
     }
-    
+
   }
   //GA 埋点 end
   render() {
@@ -278,17 +315,17 @@ class Confirmation extends React.Component {
         filters: '',
       }
     };
-    
+
     return (
       <div>
         {
           <GoogleTagManager additionalEvents={event} />
         }
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
@@ -310,8 +347,8 @@ class Confirmation extends React.Component {
               </h4>
               <p style={{ marginBottom: '5px' }}>
                 <FormattedMessage id="confirmation.info2" values={{
-                  val1:`${this.state.email}`
-                }}/>
+                  val1: `${this.state.email}`
+                }} />
               </p>
               <div className={`rc-margin-top--sm rc-margin-bottom--sm order-number-box ml-auto mr-auto`}>
                 <div className="d-flex align-items-center justify-content-center">
@@ -336,24 +373,7 @@ class Confirmation extends React.Component {
                       </Link>
                     </>
                   ) : (
-                    <>
-                      <Link
-                        to="/account"
-                        className="rc-btn rc-btn--one"
-                        style={{ transform: 'scale(.85)' }}
-                      >
-                        <FormattedMessage id={this.computedGotoAccountBtn(this.state.isAllOneShootGoods)} />
-                      </Link>
-                      <div style={{padding:'0 20px 0 10px'}}>
-                        <FormattedMessage id="or" />
-                      </div>
-                       <Link
-                        to="/home"
-                        className="rc-meta rc-styled-link backtohome mb-0 text-ellipsis"
-                      >
-                        <FormattedMessage id="continueShopping" />
-                      </Link>
-                      </>
+                    this.AdyenBtnJSX(this.computedGotoAccountBtn(this.state.isAllOneShootGoods))
                     )}
                 </div>
               </div>
@@ -386,11 +406,11 @@ class Confirmation extends React.Component {
                             className="product-summary rc-bg-colour--brand3 mb-4 mt-0"
                             key={i}
                           >
-                            <PayProductInfo details={ele} location={this.props.location}/>
+                            <PayProductInfo details={ele} location={this.props.location} />
                           </div>
                         </>
                       ))}
-                       {/* 地址信息 */}
+                      {/* 地址信息 */}
                       <div className="red mb-2">
                         <FormattedMessage id="confirmation.customerInformation" />
                       </div>

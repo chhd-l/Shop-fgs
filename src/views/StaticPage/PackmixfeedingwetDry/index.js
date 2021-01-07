@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleTagManager from '@/components/GoogleTagManager';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import Footer from '@/components/Footer';
@@ -14,7 +14,7 @@ import imagedog from './images/dog-autoship.png';
 
 import BannerTip from '@/components/BannerTip';
 import LazyLoad from 'react-lazyload';
-import { list1, list2 } from "./goods"
+import { list1, list2 } from './goods';
 
 import './index.css';
 
@@ -24,9 +24,7 @@ class Packfeed extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render(h) {
     const event = {
@@ -36,7 +34,7 @@ class Packfeed extends React.Component {
       }
     };
     return (
-      <div className="recommendation">
+      <div className="recommendation recommendation_PackmixfeedingwetDry">
         <GoogleTagManager additionalEvents={event} />
 
         <Header
@@ -51,7 +49,8 @@ class Packfeed extends React.Component {
           <BreadCrumbs />
           <div
             className="rc-layout-container rc-two-column"
-            style={{ padding: '10px 50px' }}
+            style={{ padding: '10px 15px',maxWidth: '1400px',
+            margin: '0 auto'}}
           >
             <div
               className="rc-column"
@@ -88,8 +87,11 @@ class Packfeed extends React.Component {
               </LazyLoad>
             </div>
           </div>
-
-          <section
+          <div className="rc-max-width--lg rc-padding-x--lg--mobile">
+          <div class="rc-margin-bottom--sm rc-padding--none">
+            <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chat</h4>
+          </div>
+          {/* <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
             <h2
@@ -101,10 +103,10 @@ class Packfeed extends React.Component {
               Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chat
             </h2>
             <br />
-          </section>
+          </section> */}
 
           {/*//轮播图图图图图图图突突突*/}
-          <div style={{ width: '80%', margin: '0 auto' }}>
+          <div style={{margin: '0 auto' }}>
             <div
               className="rc-carousel rc-carousel--cards rc-match-heights"
               data-js-carousel=""
@@ -114,49 +116,93 @@ class Packfeed extends React.Component {
               data-rc-next="next"
             >
               <div className="rc-carousel__card-gal">
-                {
-                  list1.map((item, index) => {
-                    return (
-                      <article className="rc-card rc-card--b">
-                        <Link key={index} to={item.linkUrl}>
-                          <picture className="rc-card__image">
-                            <LazyLoad>
-                              <img src={item.imageUrl} alt="alt text" />
-                            </LazyLoad>
-                          </picture>
-                          <div className="rc-card__body">
-                            <header>
-                              <h1 className="rc-card__title">{item.title}</h1>
-                              <h5>{item.price} €</h5>
-                              <p className="rc-card__meta">{item.subTitle}</p>
-                            </header>
+                {list1.map((item, index) => {
+                  return (
+                    <article
+                      className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                      id="tns2-item1"
+                    >
+                      <a href={item.linkUrl} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none">
+                      {/* <Link key={index} to={item.linkUrl}> */}
+                        <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
+                          <div className="row h-100">
+                            <picture
+                              className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
+                              data-rc-feature-objectfillpolyfill-setup="true"
+                            >
+                              <LazyLoad style={{ width: '100%' }}>
+                                <img
+                                  className="m-auto lazyloaded"
+                                  alt={item.title}
+                                  title={item.title}
+                                  src={item.imageUrl}
+                                  alt="alt text"
+                                />
+                              </LazyLoad>
+                              {/* <img
+                            className="m-auto lazyloaded"
+                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
+                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
+                           
+                            srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
+                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
+                          /> */}
+                            </picture>
+                            <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
+                              <header>
+                                <h3 style={{lineHeight: '2rem'}} className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                                  {item.title}
+                                </h3>
+                              </header>
+                              <div className="Product-Key-words"></div>
+                              <div className="rc-card__price rc-margin-top--xs">
+                                <span>
+                                  <span>
+                                    <span className="sales">
+                                      <span className="value" content={item.price}>
+                                        {item.price} €
+                                      </span>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="rc-card__meta text-center col-12">
+                              {item.subTitle}
+                            </div>
                           </div>
-                        </Link>
-                      </article>
-                    )
-                  })
-                }
+                        </article>
+                      {/* </Link> */}
+                      </a>
+                    </article>
+                  );
+                })}
               </div>
             </div>
+          </div>
           </div>
 
           {/*轮播停止*/}
           <br />
           <br />
-          <section
+          <div className="rc-max-width--lg rc-padding-x--lg--mobile">
+
+          <div class="rc-margin-bottom--sm rc-padding--none">
+            <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien</h4>
+          </div>
+          {/* <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
             <h2
               style={{
                 color: '#E2001A',
-                marginTop: '40px'
               }}
             >
               Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien
             </h2>
-          </section>
+          </section> */}
           {/*//轮播图图图*/}
-          <div style={{ width: '80%', margin: '0 auto' }}>
+          <div style={{ margin: '0 auto' }}>
             <div
               className="rc-carousel rc-carousel--cards rc-match-heights"
               data-js-carousel=""
@@ -166,31 +212,65 @@ class Packfeed extends React.Component {
               data-rc-next="next"
             >
               <div className="rc-carousel__card-gal">
-                {
-                  list2.map((item, index) => {
-                    return (
-                      <article className="rc-card rc-card--b">
-                        <Link key={index} to={item.linkUrl}>
-                          <picture className="rc-card__image">
-                            <LazyLoad>
-                              <img src={item.imageUrl} alt="alt text" />
-                            </LazyLoad>
-                          </picture>
-                          <div className="rc-card__body">
-                            <header>
-                              <h1 className="rc-card__title">{item.title}</h1>
-                              <h5>{item.price} €</h5>
-                              <p className="rc-card__meta">{item.subTitle}</p>
-                            </header>
+                {list2.map((item, index) => {
+                  return (
+                    <article
+                      className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                      id="tns1-item2"
+                    >
+                      <a
+                        href={item.linkUrl}
+                        data-pid={index}
+                        target=""
+                        className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
+                      >
+                        <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
+                          <div className="row h-100">
+                            <picture
+                              className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
+                              data-rc-feature-objectfillpolyfill-setup="true"
+                            >
+                              <LazyLoad style={{width:'100%'}}>
+                                <img
+                                  className="m-auto lazyloaded"
+                                  alt={item.title}
+                                  title={item.title}
+                                  src={item.imageUrl}
+                                  alt="alt text"
+                                />
+                              </LazyLoad>
+                            </picture>
+                            <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
+                              <header>
+                                <h3 style={{lineHeight: '2rem'}} className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
+                                  {item.title}
+                                </h3>
+                              </header>
+                              <div className="Product-Key-words"></div>
+                              <div className="rc-card__price rc-margin-top--xs">
+                                <span>
+                                  <span>
+                                    <span className="sales">
+                                      <span className="value" content={item.price}>
+                                        {item.price} €
+                                      </span>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="rc-card__meta text-center col-12">
+                              {item.subTitle}
+                            </div>
                           </div>
-                        </Link>
-                      </article>
-
-                    )
-                  })
-                }
+                        </article>
+                      </a>
+                    </article>
+                  );
+                })}
               </div>
             </div>
+          </div>
           </div>
 
           <div className="experience-component experience-layouts-1column">
@@ -212,7 +292,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              href="/cats"
                             >
                               Chat
                             </a>
@@ -231,13 +311,13 @@ class Packfeed extends React.Component {
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/"
+                              href="/cats"
                             >
                               Chat
                             </a>
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/"
+                              href="/dogs"
                             >
                               Chien
                             </a>
@@ -255,7 +335,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              href="/dogs"
                             >
                               Chien
                             </a>

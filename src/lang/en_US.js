@@ -122,6 +122,7 @@ const en_US = {
   cardNumberIsInvalid: 'your card number is invalid',
   'cart.catDiet': 'Choose a diet for your cat',
   'cart.deletInfo': 'Delete product?',
+  "quantityText": 'product',
   'cart.deletInfo2': 'Are you sure you want to remove this item from your cart?',
   'cart.dogDiet': 'Choose a diet for your dog',
   'cart.errorInfo': "The number can't be less than 1",

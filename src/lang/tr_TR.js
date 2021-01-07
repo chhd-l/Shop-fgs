@@ -616,6 +616,7 @@ const tr_TR = {
   'subscription.paymentMethod': 'Ödeme şekli',
   'subscription.previousOrders': 'Önceki siparişler',
   'subscription.product': 'Ürün',
+  "quantityText": 'product',
   'subscription.promotionTip': 'İlk abonelik siparişinizde {val}',
   'subscription.promotionTip2': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
   'subscription.promotionTip3': 'Kolay düzenli teslimatlar için ödeme sırasında otomatik gönderimi seçmeniz yeterlidir. Otomatik gönderim ile üye olacak ve ilk siparişinizde% 10 ve her otomatik sevkiyat siparişinde% 5 indirim kazanacaksınız.',
