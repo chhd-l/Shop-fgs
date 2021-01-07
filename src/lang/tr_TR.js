@@ -716,6 +716,8 @@ const tr_TR = {
   invoice: 'fatura',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
+  'confirmation.account':'Go to my account',
+  'confirmation.oneShoot':'Go to my account',
 }
 
 export default tr_TR;

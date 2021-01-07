@@ -719,6 +719,8 @@ const ru_RU = {
     invoice: 'выставленный счет',
     'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
     checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
+    'confirmation.account':'Go to my account',
+    'confirmation.oneShoot':'Go to my account',
   }
 
   export default ru_RU;

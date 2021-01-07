@@ -905,6 +905,7 @@ const de_DE = {
   'modalChangeDateTitle': 'Ändern Sie das Versanddatum',
   'modalChangeDateContent': 'Möchten Sie das nächste Versanddatum wirklich ändern?',
   'confirmation.account':'zu meinem Profil',
+  'confirmation.oneShoot':'zu meinem Profil',
   'confirmation.subscriptionDiscountPriceDes':'Sie sparen {val1} bei diesem Abonnement',
   deliveredTip: 'Voraussichtlich in ca. 3 Tagen eintreffen',
   checkboxIsRequiredForSubscription: 'Dieses Kontrollkästchen ist für das Abonnement erforderlich',
