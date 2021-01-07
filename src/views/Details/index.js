@@ -209,30 +209,22 @@ class Details extends React.Component {
         this.setState({ GAListParam: state.GAListParam });
       }
     }
-    await getFrequencyDict().then((res) => {
-      if (
-        process.env.REACT_APP_FREQUENCY_ID &&
-        process.env.REACT_APP_FREQUENCY_VAL &&
-        process.env.REACT_APP_FREQUENCY_NAME
-      ) {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: process.env.REACT_APP_FREQUENCY_VAL,
-            frequencyName: process.env.REACT_APP_FREQUENCY_NAME,
-            frequencyId: parseInt(process.env.REACT_APP_FREQUENCY_ID)
-          })
-        });
-      } else {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        });
-      }
+    getFrequencyDict().then((res) => {
+      this.setState({
+        frequencyList: res,
+        form: Object.assign(this.state.form, {
+          frequencyVal:
+            process.env.REACT_APP_FREQUENCY_VAL || res[0] ? res[0].valueEn : '',
+          frequencyName:
+            process.env.REACT_APP_FREQUENCY_NAME || res[0] ? res[0].name : '',
+          frequencyId:
+            (process.env.REACT_APP_FREQUENCY_ID &&
+              parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
+            res[0]
+              ? res[0].id
+              : ''
+        })
+      });
     });
     const goodsSpuNo =
       pathname.split('-').reverse().length > 1
@@ -545,7 +537,7 @@ class Details extends React.Component {
           });
 
           let sizeList = [];
-          let goodsInfos = res.context && res.context.goodsInfos || [];
+          let goodsInfos = (res.context && res.context.goodsInfos) || [];
           let isSkuNoQuery = res.context && res.context.isSkuNoQuery;
           let choosedSpecsArr = [];
           if (isSkuNoQuery) {
@@ -556,7 +548,7 @@ class Details extends React.Component {
             choosedSpecsArr =
               specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
           }
-  
+
           if (res && res.context && res.context.goodsSpecDetails) {
             let specList = res.context.goodsSpecs;
             let specDetailList = res.context.goodsSpecDetails;
@@ -603,12 +595,12 @@ class Details extends React.Component {
               }
               return sItem;
             });
-  
+
             sizeList = goodsInfos.map((g) => {
               g = Object.assign({}, g, { selected: false });
               return g;
             });
-  
+
             const { goodsDetailTab, tabs } = this.state;
             try {
               let tmpGoodsDetail = res.context.goods.goodsDetail;
@@ -721,10 +713,10 @@ class Details extends React.Component {
             );
           } else {
             let sizeList = [];
-            let goodsInfos = res.context && res.context.goodsInfos || [];
-  
+            let goodsInfos = (res.context && res.context.goodsInfos) || [];
+
             sizeList = goodsInfos.map((g, i) => {
-               g = Object.assign({}, g, { selected: i === 0 });
+              g = Object.assign({}, g, { selected: i === 0 });
               if (g.selected && !g.subscriptionStatus) {
                 let { form } = this.state;
                 form.buyWay = 0;
@@ -732,9 +724,9 @@ class Details extends React.Component {
               }
               return g;
             });
-  
+
             // const selectedSize = find(sizeList, s => s.selected)
-  
+
             const { goodsDetailTab, tabs } = this.state;
             // try {
             //   let tmpGoodsDetail = res.context.goods.goodsDetail;
