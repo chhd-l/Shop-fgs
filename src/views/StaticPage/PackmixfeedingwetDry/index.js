@@ -47,51 +47,75 @@ class Packfeed extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div
-            className="rc-layout-container rc-two-column"
-            style={{ padding: '10px 15px',maxWidth: '1400px',
-            margin: '0 auto'}}
-          >
-            <div
-              className="rc-column"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <div>
-                <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
-                  Quels sont les avantages de nos combinaisons alimentaires pour
-                  chiens et chats ?
-                </h2>
-                <br />
-                <p>
-                  Chez ROYAL CANIN®, nous savons que les animaux ont des besoins
-                  spécifiques en fonction de leur race, leur taille ou leur âge.
-                  Afin de répondre au mieux aux différents profils, nous avons
-                  lancé différents packs pour chiens et chats. Ces assortiments
-                  permettent de répondre au mieux aux besoins de votre animal,
-                  grâce à deux technologies : les croquettes et les bouchées en
-                  sauce.
-                  <br />
-                  <br />
-                  Choisissez parmi nos assortiments pour chiens et chats le pack
-                  le plus adapté à votre animal.
-                </p>
+          <div className="rc-content-block rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile content-block rc-max-width--xl">
+            <a
+              id="undefined"
+              name="undefined"
+              className="page-section-anchor"
+              aria-hidden="true"
+            ></a>
+            <div className="row align-items-md-center">
+              <div className=" col-12 col-lg-6">
+                <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
+                  <h2 className="rc-beta markup-text" style={{fontSize: '2rem'}}>
+                    Quels sont les avantages de nos combinaisons alimentaires
+                    pour chiens et chats ?
+                  </h2>
+                  <p>
+                    Chez ROYAL CANIN®, nous savons que les animaux ont des
+                    besoins spécifiques en fonction de leur race, leur taille ou
+                    leur âge. Afin de répondre au mieux aux différents profils,
+                    nous avons lancé différents packs pour chiens et chats. Ces
+                    assortiments permettent de répondre au mieux aux besoins de
+                    votre animal, grâce à deux technologies : les croquettes et
+                    les bouchées en sauce.
+                  </p>
+                  <p>
+                    Choisissez parmi nos assortiments pour chiens et chats le
+                    pack le plus adapté à votre animal.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="rc-column">
+              <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
               <LazyLoad>
                 <img src={image1} style={{ width: '100%' }} alt="" />
               </LazyLoad>
+
+                {/* <picture data-rc-feature-objectfillpolyfill-setup="true">
+                  <source
+                    media="(max-width: 640px)"
+                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=350&amp;sh=233&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg 2x"
+                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=350&amp;sh=233&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg 2x"
+                  />
+                  <source
+                    media="(min-width: 640px) and (max-width: 769px)"
+                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1400&amp;sh=933&amp;sm=cut&amp;sfrm=jpg 2x"
+                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1400&amp;sh=933&amp;sm=cut&amp;sfrm=jpg 2x"
+                  />
+                  <source
+                    media="(min-width: 769px)"
+                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1200&amp;sh=800&amp;sm=cut&amp;sfrm=jpg 2x"
+                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1200&amp;sh=800&amp;sm=cut&amp;sfrm=jpg 2x"
+                  />
+                  <img
+                    className="w-100 lazyloaded"
+                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg"
+                    alt="Les packs de croquettes ROYAL CANIN®"
+                    title="Les packs de croquettes ROYAL CANIN®"
+                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg"
+                  />
+                </picture> */}
+              </div>
             </div>
           </div>
           <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-          <div class="rc-margin-bottom--sm rc-padding--none">
-            <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chat</h4>
-          </div>
-          {/* <section
+            <div className="rc-margin-bottom--sm rc-padding--none">
+              <h4 className="rc-gamma text-center">
+                Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
+                chat
+              </h4>
+            </div>
+            {/* <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
             <h2
@@ -105,41 +129,44 @@ class Packfeed extends React.Component {
             <br />
           </section> */}
 
-          {/*//轮播图图图图图图图突突突*/}
-          <div style={{margin: '0 auto' }}>
-            <div
-              className="rc-carousel rc-carousel--cards rc-match-heights"
-              data-js-carousel=""
-              data-rc-cards="true"
-              data-rows="6"
-              data-rc-prev="prev"
-              data-rc-next="next"
-            >
-              <div className="rc-carousel__card-gal">
-                {list1.map((item, index) => {
-                  return (
-                    <article
-                      className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
-                      id="tns2-item1"
-                    >
-                      <a href={item.linkUrl} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none">
-                      {/* <Link key={index} to={item.linkUrl}> */}
-                        <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
-                          <div className="row h-100">
-                            <picture
-                              className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
-                              data-rc-feature-objectfillpolyfill-setup="true"
-                            >
-                              <LazyLoad style={{ width: '100%' }}>
-                                <img
-                                  className="m-auto lazyloaded"
-                                  alt={item.title}
-                                  title={item.title}
-                                  src={item.imageUrl}
-                                  alt="alt text"
-                                />
-                              </LazyLoad>
-                              {/* <img
+            {/*//轮播图图图图图图图突突突*/}
+            <div style={{ margin: '0 auto' }}>
+              <div
+                className="rc-carousel rc-carousel--cards rc-match-heights"
+                data-js-carousel=""
+                data-rc-cards="true"
+                data-rows="6"
+                data-rc-prev="prev"
+                data-rc-next="next"
+              >
+                <div className="rc-carousel__card-gal">
+                  {list1.map((item, index) => {
+                    return (
+                      <article
+                        className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                        id="tns2-item1"
+                      >
+                        <a
+                          href={`/fr${item.linkUrl}`}
+                          className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
+                        >
+                          {/* <Link key={index} to={item.linkUrl}> */}
+                          <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
+                            <div className="row h-100">
+                              <picture
+                                className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
+                                data-rc-feature-objectfillpolyfill-setup="true"
+                              >
+                                <LazyLoad style={{ width: '100%' }}>
+                                  <img
+                                    className="m-auto lazyloaded"
+                                    alt={item.title}
+                                    title={item.title}
+                                    src={item.imageUrl}
+                                    alt="alt text"
+                                  />
+                                </LazyLoad>
+                                {/* <img
                             className="m-auto lazyloaded"
                             data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
                             data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
@@ -147,50 +174,58 @@ class Packfeed extends React.Component {
                             srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
                             src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
                           /> */}
-                            </picture>
-                            <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
-                              <header>
-                                <h3 style={{lineHeight: '2rem'}} className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
-                                  {item.title}
-                                </h3>
-                              </header>
-                              <div className="Product-Key-words"></div>
-                              <div className="rc-card__price rc-margin-top--xs">
-                                <span>
+                              </picture>
+                              <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
+                                <header>
+                                  <h3
+                                    style={{ lineHeight: '2rem' }}
+                                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                  >
+                                    {item.title}
+                                  </h3>
+                                </header>
+                                <div className="Product-Key-words"></div>
+                                <div className="rc-card__price rc-margin-top--xs">
                                   <span>
-                                    <span className="sales">
-                                      <span className="value" content={item.price}>
-                                        {item.price} €
+                                    <span>
+                                      <span className="sales">
+                                        <span
+                                          className="value"
+                                          content={item.price}
+                                        >
+                                          {item.price} €
+                                        </span>
                                       </span>
                                     </span>
                                   </span>
-                                </span>
+                                </div>
+                              </div>
+                              <div className="rc-card__meta text-center col-12">
+                                {item.subTitle}
                               </div>
                             </div>
-                            <div className="rc-card__meta text-center col-12">
-                              {item.subTitle}
-                            </div>
-                          </div>
-                        </article>
-                      {/* </Link> */}
-                      </a>
-                    </article>
-                  );
-                })}
+                          </article>
+                          {/* </Link> */}
+                        </a>
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
           </div>
 
           {/*轮播停止*/}
           <br />
           <br />
           <div className="rc-max-width--lg rc-padding-x--lg--mobile">
-
-          <div class="rc-margin-bottom--sm rc-padding--none">
-            <h4 class="rc-gamma text-center">Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien</h4>
-          </div>
-          {/* <section
+            <div className="rc-margin-bottom--sm rc-padding--none">
+              <h4 className="rc-gamma text-center">
+                Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre
+                chien
+              </h4>
+            </div>
+            {/* <section
             style={{ textAlign: 'center', width: '60%', margin: '0 auto' }}
           >
             <h2
@@ -201,76 +236,82 @@ class Packfeed extends React.Component {
               Choisissez l'assortiment ROYAL CANIN® le plus adapté à votre chien
             </h2>
           </section> */}
-          {/*//轮播图图图*/}
-          <div style={{ margin: '0 auto' }}>
-            <div
-              className="rc-carousel rc-carousel--cards rc-match-heights"
-              data-js-carousel=""
-              data-rc-cards="true"
-              data-rows="6"
-              data-rc-prev="prev"
-              data-rc-next="next"
-            >
-              <div className="rc-carousel__card-gal">
-                {list2.map((item, index) => {
-                  return (
-                    <article
-                      className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
-                      id="tns1-item2"
-                    >
-                      <a
-                        href={item.linkUrl}
-                        data-pid={index}
-                        target=""
-                        className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
+            {/*//轮播图图图*/}
+            <div style={{ margin: '0 auto' }}>
+              <div
+                className="rc-carousel rc-carousel--cards rc-match-heights"
+                data-js-carousel=""
+                data-rc-cards="true"
+                data-rows="6"
+                data-rc-prev="prev"
+                data-rc-next="next"
+              >
+                <div className="rc-carousel__card-gal">
+                  {list2.map((item, index) => {
+                    return (
+                      <article
+                        className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
+                        id="tns1-item2"
                       >
-                        <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
-                          <div className="row h-100">
-                            <picture
-                              className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
-                              data-rc-feature-objectfillpolyfill-setup="true"
-                            >
-                              <LazyLoad style={{width:'100%'}}>
-                                <img
-                                  className="m-auto lazyloaded"
-                                  alt={item.title}
-                                  title={item.title}
-                                  src={item.imageUrl}
-                                  alt="alt text"
-                                />
-                              </LazyLoad>
-                            </picture>
-                            <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
-                              <header>
-                                <h3 style={{lineHeight: '2rem'}} className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">
-                                  {item.title}
-                                </h3>
-                              </header>
-                              <div className="Product-Key-words"></div>
-                              <div className="rc-card__price rc-margin-top--xs">
-                                <span>
+                        <a
+                          href={`/fr${item.linkUrl}`}
+                          data-pid={index}
+                          target=""
+                          className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
+                        >
+                          <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
+                            <div className="row h-100">
+                              <picture
+                                className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop"
+                                data-rc-feature-objectfillpolyfill-setup="true"
+                              >
+                                <LazyLoad style={{ width: '100%' }}>
+                                  <img
+                                    className="m-auto lazyloaded"
+                                    alt={item.title}
+                                    title={item.title}
+                                    src={item.imageUrl}
+                                    alt="alt text"
+                                  />
+                                </LazyLoad>
+                              </picture>
+                              <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
+                                <header>
+                                  <h3
+                                    style={{ lineHeight: '2rem' }}
+                                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop"
+                                  >
+                                    {item.title}
+                                  </h3>
+                                </header>
+                                <div className="Product-Key-words"></div>
+                                <div className="rc-card__price rc-margin-top--xs">
                                   <span>
-                                    <span className="sales">
-                                      <span className="value" content={item.price}>
-                                        {item.price} €
+                                    <span>
+                                      <span className="sales">
+                                        <span
+                                          className="value"
+                                          content={item.price}
+                                        >
+                                          {item.price} €
+                                        </span>
                                       </span>
                                     </span>
                                   </span>
-                                </span>
+                                </div>
+                              </div>
+                              <div className="rc-card__meta text-center col-12">
+                                {item.subTitle}
                               </div>
                             </div>
-                            <div className="rc-card__meta text-center col-12">
-                              {item.subTitle}
-                            </div>
-                          </div>
-                        </article>
-                      </a>
-                    </article>
-                  );
-                })}
+                          </article>
+                        </a>
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
           </div>
 
           <div className="experience-component experience-layouts-1column">
@@ -292,7 +333,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/cats"
+                              href="/fr/cats"
                             >
                               Chat
                             </a>
@@ -311,13 +352,13 @@ class Packfeed extends React.Component {
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/cats"
+                              href="/fr/cats"
                             >
                               Chat
                             </a>
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/dogs"
+                              href="/fr/dogs"
                             >
                               Chien
                             </a>
@@ -335,7 +376,7 @@ class Packfeed extends React.Component {
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
                             <a
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/dogs"
+                              href="/fr/dogs"
                             >
                               Chien
                             </a>
