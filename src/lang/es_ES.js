@@ -742,7 +742,6 @@ const es_ES = {
   'tailorednutrition.shopCat': 'Comprar fórmulas para gatos',
   'tailorednutrition.shopDog': 'Comprar fórmulas para perros',
   'tailorednutrition.shopTile': 'Compre nutrición personalizada para su mascota',
-  'tailorednutrition.title': 'La salud merece ser luchada',
   'tailorednutrition.uniqueDetail': 'Muchas mascotas tienen mandíbulas y comportamientos de formas únicas que crean desafíos en su forma de comer. Es por eso que no solo adaptamos nuestras recetas a nivel nutricional, sino que también diseñamos la forma y estructura de cada croqueta para satisfacer mejor las necesidades físicas de alimentación de cada mascota. ',
   'tailorednutrition.uniqueTitle': 'Fórmulas únicas para necesidades únicas',
   taxLogo: 'IVA incluido',

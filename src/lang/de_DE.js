@@ -816,7 +816,6 @@ const de_DE = {
   'tailorednutrition.shopCat': 'Shop Katzenformeln',
   'tailorednutrition.shopDog': 'Shop Hundeformeln',
   'tailorednutrition.shopTile': 'Maßgeschneiderte Ernährung für Ihr Haustier',
-  'tailorednutrition.title': 'Gesundheit verdient es, dafür gekämpft zu werden',
   'tailorednutrition.uniqueDetail': 'Viele Haustiere haben einzigartig geformte Kiefer und Verhaltensweisen, die ihre Ernährung vor Herausforderungen stellen. Deshalb passen wir nicht nur unsere Rezepte auf ernährungsphysiologischer Ebene an, sondern gestalten auch die Form und Struktur jedes Knabbers, um den physischen Fütterungsbedürfnissen jedes Haustieres besser gerecht zu werden.',
   'tailorednutrition.uniqueTitle': 'Einzigartige Formeln für einzigartige Bedürfnisse',
   taxLogo: 'Preise inkl. MwSt. und zzgl. {val}.',
