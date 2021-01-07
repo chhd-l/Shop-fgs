@@ -402,9 +402,9 @@ class EditForm extends React.Component {
       </div>
     );
   };
-  render() {
-    const { address, errMsgObj } = this.state;
-    return (
+  //总的shipping显示
+  showShipping = () => {
+    const defaultJSX = (
       <>
         <div className="row">
           <div className="col-12 col-md-6">
@@ -428,38 +428,52 @@ class EditForm extends React.Component {
             {this.city()}
           </div>
 
-          {/* {this.emailPanelJSX()} */}
           {this.postCodeJSX()}
           {this.phonePanelJSX()}
-          {/* <div className="col-12 col-md-6">
-            <div
-              className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName"
-              id="addressFieldsLastName"
-            >
-              <label className="form-control-label" htmlFor="shippingRfc">
-                <FormattedMessage id="payment.rfc" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingRfc"
-                  type="text"
-                  value={address.rfc}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="rfc"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" />
-              </span>
-            </div>
-          </div>
-         */}
         </div>
       </>
-    );
+    )
+    return (
+      {
+        de: (
+          <>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                {this.firstNameJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.lastNameJSX()}
+              </div>
+
+              <div className="col-12 col-md-6">
+                {this.addressRequired()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.addressOption()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.postCodeJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.city()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.land()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.phonePanelJSX()}
+              </div>
+            </div>
+          </>
+        )
+      }
+    )[process.env.REACT_APP_LANG] || defaultJSX
+  }
+  render() {
+    return (
+      this.showShipping()
+    )
+
   }
 }
 
