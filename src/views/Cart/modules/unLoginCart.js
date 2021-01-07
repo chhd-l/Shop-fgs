@@ -1484,7 +1484,7 @@ class UnLoginCart extends React.Component {
                         btnClass="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width"
                         history={this.props.history}
                       >
-                        <FormattedMessage id="checkout" />
+                        <FormattedMessage id="loginText" />
                       </LoginButton>
                     ) : (
                         <div className="rc-btn rc-btn--one rc-btn--sm btn-block checkout-btn cart__checkout-btn rc-full-width rc-btn-solid-disabled">

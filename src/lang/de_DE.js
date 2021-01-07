@@ -148,6 +148,7 @@ const de_DE = {
   changeAnotherCard: 'Bitte versuchen Sie es mit einer anderen Karte erneut',
   changePassword: 'Ändere das Passwort',
   checkout: 'Weiter',
+  loginText: 'Weiter',
   checkoutTip: 'Bitte geben Sie unten Ihre Daten ein.',
   choosePayment: 'Zahlung wählen',
   choosePrescriber: 'Bitte wählen Sie den richtigen Verschreiber',

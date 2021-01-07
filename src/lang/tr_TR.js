@@ -119,6 +119,7 @@ const tr_TR = {
   changeAnotherCard: 'Lütfen başka bir kartla değiştirin ve tekrar deneyin',
   changePassword: 'Şifre değiştir',
   checkout: 'Ödeme',
+  loginText: 'Ödeme',
   checkoutTip: 'Lütfen detaylarınızı aşağıya giriniz.',
   choosePayment: 'Ödemeyi seçin',
   choosePrescriber: 'Lütfen doğru reçeteyi yazanı seçin',

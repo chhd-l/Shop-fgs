@@ -140,6 +140,7 @@ const es_ES = {
   changeAnotherCard: 'Cambie a otra tarjeta y vuelva a intentarlo',
   changePassword: 'Cambia la contraseña',
   checkout: 'Comprar',
+  loginText: 'Comprar',
   checkoutTip: 'Introduzca sus datos a continuación.',
   choosePayment: 'Elija el pago',
   choosePrescriber: 'Por favor, elija el prescriptor correcto',

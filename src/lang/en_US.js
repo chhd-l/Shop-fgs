@@ -142,6 +142,7 @@ const en_US = {
   changeAnotherCard: 'Please change to another card and try again',
   changePassword: 'Change Password',
   checkout: 'Checkout',
+  loginText: 'Checkout',
   checkoutTip: 'Please enter your detail below.',
   choosePayment: 'Choose payment',
   choosePrescriber: 'Please choose the correct prescriber',
