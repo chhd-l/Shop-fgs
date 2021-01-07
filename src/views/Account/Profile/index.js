@@ -22,6 +22,7 @@ import './index.less';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 function PanleContainer(props) {
   const loading = props.loading || false;
@@ -188,6 +189,7 @@ class AccountProfile extends React.Component {
       <div className="accountProfile">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{seoConfig ? seoConfig.title : ''}</title>
           <meta
             name="description"

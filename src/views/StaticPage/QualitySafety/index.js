@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 class QualitySafety extends React.Component {
   constructor(props) {
     super(props);
@@ -51,6 +52,7 @@ class QualitySafety extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

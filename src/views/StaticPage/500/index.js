@@ -7,6 +7,7 @@ import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
 const event = {
   page: {
     type: 'other',
@@ -39,6 +40,7 @@ class Page500 extends React.Component {
         {/* <Header showMiniIcons={true} location={this.props.location} /> */}
         <GoogleTagManager additionalEvents={event}/>
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

@@ -12,6 +12,8 @@ import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
+
 const itemList = [
   {
     icon: (
@@ -124,6 +126,7 @@ class AccountHome extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

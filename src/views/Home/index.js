@@ -24,9 +24,9 @@ import shippmentHome from '@/assets/images/home/shippment@2x.png';
 
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
-
+const pageLink = window.location.href
 const deviceType = getDeviceType();
-const pageLink = location.href
+
 function Divider() {
   return (
     <div className="experience-component experience-assets-divider">

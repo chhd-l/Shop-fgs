@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 class TermUse extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class TermUse extends React.Component {
     return (
       <div className="TermsAndConditions">
       <Helmet>
+      <link rel="canonical" href={pageLink} />
         <title>{this.state.seoConfig.title}</title>
         <meta name="description" content={this.state.seoConfig.metaDescription}/>
         <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

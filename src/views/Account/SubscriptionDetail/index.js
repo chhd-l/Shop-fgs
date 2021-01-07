@@ -53,6 +53,7 @@ import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -602,6 +603,7 @@ class SubscriptionDetail extends React.Component {
         <div>
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
+          <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
             <meta
               name="description"

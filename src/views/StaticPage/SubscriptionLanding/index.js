@@ -61,6 +61,7 @@ class SubscriptionLanding extends React.Component {
     return (
       <div className="recommendation">
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

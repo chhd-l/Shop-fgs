@@ -31,7 +31,9 @@ import {
   validData,
   generatePayUScript,
   getDictionary,
-  matchNamefromDict
+  matchNamefromDict,
+  getFormatDate,
+  setSeoConfig
 } from '@/utils/utils';
 import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
@@ -58,13 +60,13 @@ import OnePageClinicForm from './OnePage/ClinicForm';
 
 import { getOrderDetails } from '@/api/order';
 import { queryCityNameById } from '@/api';
-import { setSeoConfig } from '@/utils/utils';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject(
   'loginStore',
@@ -1991,22 +1993,17 @@ class Payment extends React.Component {
                 <FormattedMessage id="bankCard" />
               </span>
               <br />
-              {/* {holderNameDeco}
+              {holderNameDeco}
               <br />
               {brandDeco}
               <br />
               {lastFourDeco ? `************${lastFourDeco}` : null}
-              {getFormatDate(`${expiryYear}-${expiryMonth}`)} */}
-
-              {[
-                holderNameDeco,
-                lastFourDeco ? `************${lastFourDeco}` : null,
-                expiryYear && expiryMonth
-                  ? getFormatDate(`${expiryYear}-${expiryMonth}`)
-                  : null
-              ]
-                .filter((e) => e)
-                .join(<br />)}
+              {expiryYear && expiryMonth ? (
+                <>
+                  <br />
+                  {getFormatDate(`${expiryYear}-${expiryMonth}`)}
+                </>
+              ) : null}
             </div>
           ) : (
             <div className="col-12 col-md-6">{email}</div>
@@ -2207,6 +2204,7 @@ class Payment extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
