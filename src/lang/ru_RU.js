@@ -112,6 +112,7 @@ const ru_RU = {
     "cart.fullPrice": "ПОЛНЫЙ РИС ДЛЯ ВАШЕГО ДОМАШНИКА",
     "cart.miniCartTitle": "Скидка 10% на первую покупку, плюс 5% на каждый заказ с автоматической доставкой",
     "cart.totalProduct": "{val} в корзине",
+    'cart.totalProduct_nounit': '{val} корзине',
     "cart.yourShoppingCart": "Ваша Корзина",
     'cats': "КОШКИ",
     'cats2': "Кошки",
@@ -719,6 +720,8 @@ const ru_RU = {
     invoice: 'выставленный счет',
     'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
     checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
+    'confirmation.account':'Go to my account',
+    'confirmation.oneShoot':'Go to my account',
   }
 
   export default ru_RU;

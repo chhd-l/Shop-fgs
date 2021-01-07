@@ -134,6 +134,7 @@ const en_US = {
   'cart.fullPrice': 'FULL RICE FOR YOUR PET',
   'cart.miniCartTitle': '10% off first purchase, plus 5% off every order with autoship',
   'cart.totalProduct': '{val} item(s) in the basket',
+  'cart.totalProduct_nounit': '{val} in the basket',
   'cart.yourShoppingCart': 'Your shopping cart',
   cats: 'CATS',
   cats2: 'Cats',
@@ -877,6 +878,7 @@ const en_US = {
   'pet.deletePet': 'Delete Pet Profile',
   'mixed Breed': 'mixed Breed',
   'confirmation.account':'Go to my account',
+  'confirmation.oneShoot':'Go to my account',
   bankCard: 'Bank card'
 }
 export default en_US;

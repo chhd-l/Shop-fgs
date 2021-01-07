@@ -57,33 +57,18 @@ class Confirmation extends React.Component {
       details: null,
       detailList: null,
       payRecord: null,
-      email:''
+      email:'',
+      isAllOneShootGoods:true
     };
     this.timer = null;
   }
   componentWillUnmount() {
-    // localItemRoyal.set('isRefresh', true);
-    // if (this.state.paywithLogin) {
-    //   this.props.checkoutStore.removeLoginCartData();
-    // } else {
-    //   this.props.checkoutStore.setCartData(
-    //     this.props.checkoutStore.cartData.filter((ele) => !ele.selected)
-    //   ); // 只移除selected
-    //   sessionItemRoyal.remove('rc-token');
-    // }
-    // sessionItemRoyal.remove('subOrderNumberList');
-    // sessionItemRoyal.remove('subNumber');
-    // sessionItemRoyal.remove('oxxoPayUrl');
+
   }
   async componentDidMount() {
     setSeoConfig().then(res => {
       this.setState({seoConfig: res})
     });
-    // if (localItemRoyal.get('isRefresh')) {
-    //   localItemRoyal.remove('isRefresh');
-    //   window.location.reload();
-    //   return false;
-    // }
     const { subOrderNumberList } = this.state;
     let productList;
     if (this.state.paywithLogin) {
@@ -147,6 +132,16 @@ class Confirmation extends React.Component {
       ? dict.filter((c) => c.id === cityId)[0].cityName
       : cityId;
   }
+  //商品全是oneShoot,返回翻译confirmation.account，否则显示confirmation.oneShoot
+  computedGotoAccountBtn(isAllOneShootGoods){
+    let res = ''
+    if(isAllOneShootGoods){
+      res = 'confirmation.oneShoot'
+    }else{
+      res = 'confirmation.account'
+    }
+    return res
+  }
   //GA 埋点 start
   getGAEComTransaction(){
     const { details } = this.state;
@@ -154,6 +149,8 @@ class Confirmation extends React.Component {
     let isAllOneShootGoods = details.tradeItems.every((item)=>{
       return item.goodsInfoFlag != 1 //goodsInfoFlag==1表示订阅
     })
+    this.setState({isAllOneShootGoods})
+
     let isAllSubscriptionGoods =  details.tradeItems.every((item)=>{
       return item.goodsInfoFlag == 1
     })
@@ -345,7 +342,7 @@ class Confirmation extends React.Component {
                         className="rc-btn rc-btn--one"
                         style={{ transform: 'scale(.85)' }}
                       >
-                        <FormattedMessage id="confirmation.account" />
+                        <FormattedMessage id={this.computedGotoAccountBtn(this.state.isAllOneShootGoods)} />
                       </Link>
                       <div style={{padding:'0 20px 0 10px'}}>
                         <FormattedMessage id="or" />
@@ -360,43 +357,6 @@ class Confirmation extends React.Component {
                     )}
                 </div>
               </div>
-
-              {/* <p
-                className={`rc-margin-top--sm order-number-box ml-auto mr-auto`}
-              >
-                {this.state.subNumber && (
-                  <>
-                    <b className="mb-3" style={{ display: 'inline-block' }}>
-                      <FormattedMessage id="subscription.number" />:{' '}
-                      <Link
-                        to={`/account/subscription/order/detail/${this.state.subNumber}`}
-                        className="rc-meta rc-styled-link backtohome mb-0"
-                      >
-                        {this.state.subNumber}
-                      </Link>
-                    </b>
-                    <br />
-                  </>
-                )}
-                {subOrderNumberList.map((ele, i) => (
-                  <>
-                    <b key={i}>
-                      <FormattedMessage id="confirmation.orderNumber" />:{' '}
-                      {this.state.paywithLogin ? (
-                        <Link
-                          to={`/account/orders/detail/${ele}`}
-                          className="rc-meta rc-styled-link backtohome mb-0"
-                        >
-                          {ele}
-                        </Link>
-                      ) : (
-                        ele
-                      )}
-                    </b>
-                    <br />
-                  </>
-                ))}
-              </p> */}
             </div>
             <div
               className={`rc-max-width--xl rc-bottom-spacing imformation ${loading ? 'rc-bg-colour--brand3' : ''

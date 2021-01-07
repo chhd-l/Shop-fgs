@@ -132,6 +132,7 @@ const es_ES = {
   'cart.fullPrice': 'Descubre nuestras dietas veterinarias',
   'cart.miniCartTitle': '10% de descuento en la primera compra, más 5% de descuento en cada pedido con envío automático',
   'cart.totalProduct': '{val} artículo(s) en la canasta',
+  'cart.totalProduct_nounit': '{val} en la canasta',
   'cart.yourShoppingCart': 'Tu carrito de la compra',
   cats: 'GATOS',
   cats2: 'Gatos',
@@ -847,5 +848,6 @@ const es_ES = {
   'pet.deletePet': 'Eliminar perfil de mascota',
   'mixed Breed': 'raza Mixta',
   'confirmation.account':'Ir a mi cuenta',
+  'confirmation.oneShoot':'Ir a mi cuenta',
 }
 export default es_ES;

@@ -112,6 +112,7 @@ const tr_TR = {
   'cart.fullPrice': 'PETİNİZ İÇİN TAM PİRİNÇ',
   'cart.miniCartTitle': 'İlk satın alma işleminde% 10 indirim artı otomatik gönderim ile her siparişte% 5 indirim',
   'cart.totalProduct': '{val} ürün sepette',
+  'cart.totalProduct_nounit': '{val} sepette',
   'cart.yourShoppingCart': 'Alışveriş sepetiniz',
   cats: 'KEDI',
   cats2: 'Kedi',
@@ -716,6 +717,8 @@ const tr_TR = {
   invoice: 'fatura',
   'confirmation.subscriptionDiscountPriceDes':'You saved {val1}  with the mark',
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
+  'confirmation.account':'Go to my account',
+  'confirmation.oneShoot':'Go to my account',
 }
 
 export default tr_TR;

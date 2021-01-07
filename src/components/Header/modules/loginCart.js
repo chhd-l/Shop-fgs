@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-skeleton-loader';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import {
@@ -15,7 +15,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-
+@injectIntl
 @inject('checkoutStore', 'headerCartStore', 'clinicStore')
 @observer
 class LoginCart extends React.Component {
@@ -226,7 +226,7 @@ class LoginCart extends React.Component {
                 <div className="minicart-padding rc-bg-colour--brand4 rc-padding-top--sm rc-padding-bottom--xs">
                   <span className="rc-body rc-margin--none">
                     <FormattedMessage id="total" />{' '}
-                    <span style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '500' }}>
                       {formatMoney(this.tradePrice)}
                     </span>
                   </span>
@@ -263,9 +263,11 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
-                    <FormattedMessage
-                      id="cart.totalProduct"
-                      values={{ val: totalNum }}
+                  <FormattedMessage
+                    id="cart.totalProduct_nounit"
+                    values={{ val:  <b style={{fontWeight:500}}>
+                      {this.props.intl.formatMessage({ id: 'payment.totalProduct' },{val:totalNum})}
+                    </b>}}
                     />
                   </span>
                 </div>
