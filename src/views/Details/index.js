@@ -761,7 +761,7 @@ class Details extends React.Component {
               g = Object.assign({}, g, { selected: false });
             }
             
-            if(g.selected && !g.subscriptionPrice) {
+            if(g.selected && !g.subscriptionStatus) {
               let { form } = this.state
               form.buyWay = 0
               this.setState({form})
