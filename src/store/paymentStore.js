@@ -1,7 +1,7 @@
 import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
-import {isNewAccount} from "@/api/user"
+import { isNewAccount } from "@/api/user"
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -89,48 +89,49 @@ class PaymentStore {
 
   @action.bound
   setStsToCompleted({ key, isFirstLoad }) {
-    let option = ''
-    isNewAccount().then((res)=>{
-      if(res.code=='K-000000'){
-        if(res.context>0){
-          option = 'guest checkout'
-        }else{
-          option = 'new account'
-        }
-      }
-    })
     switch (key) {
       case 'email':
-        dataLayer[0].checkout.step = 2
-        dataLayer[0].checkout.option = option
-        if (isFirstLoad) {
-          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = {
-            step: 2,
-            option: option
+        let option = ''
+        isNewAccount().then((res) => {
+          if (res.code == 'K-000000') {
+            if (res.context > 0) {
+              option = 'guest checkout'
+            } else {
+              option = 'new account'
+            }
           }
-          result.page = {
-            type: 'Checkout',
-            virtualPageURL: '/checkout/shipping'
-          }
-        } else {
-          dataLayer.push({
-            checkout: {
+          dataLayer[0].checkout.step = 2
+          dataLayer[0].checkout.option = option
+          if (isFirstLoad) {
+            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+            result.checkout = {
               step: 2,
               option: option
-            },
-            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-            page: {
+            }
+            result.page = {
               type: 'Checkout',
               virtualPageURL: '/checkout/shipping'
             }
-          })
-        }
+          } else {
+            dataLayer.push({
+              checkout: {
+                step: 2,
+                option: option
+              },
+              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+              page: {
+                type: 'Checkout',
+                virtualPageURL: '/checkout/shipping'
+              }
+            })
+          }
+        })
+
         break;
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
         dataLayer[0].checkout.option = ''
-        if(isFirstLoad){
+        if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
             step: 3,
@@ -140,7 +141,7 @@ class PaymentStore {
             type: 'Checkout',
             virtualPageURL: '/checkout/billing'
           }
-        }else{
+        } else {
           dataLayer.push({
             checkout: {
               step: 3,
@@ -157,7 +158,7 @@ class PaymentStore {
       case 'paymentMethod':
         dataLayer[0].checkout.step = 4;
         dataLayer[0].checkout.option = ''
-        if(isFirstLoad){
+        if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
             step: 4,
@@ -167,7 +168,7 @@ class PaymentStore {
             type: 'Checkout',
             virtualPageURL: '/checkout/placeOrder'
           }
-        }else{
+        } else {
           dataLayer.push({
             checkout: {
               step: 4,
@@ -180,7 +181,7 @@ class PaymentStore {
             }
           })
         }
-        
+
         break;
     }
     this.updatePanelStatus(key, {
