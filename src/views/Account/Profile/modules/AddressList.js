@@ -70,7 +70,8 @@ class AddressList extends React.Component {
       curAddressId: '',
       fromPage: 'cover',
 
-      countryList: []
+      countryList: [],
+      errorMsg: ''
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
@@ -107,9 +108,20 @@ class AddressList extends React.Component {
         listLoading: false
       });
     } catch (err) {
-      // this.showErrorMsg(err.message);
+      this.showErrorMsg(err.message);
       this.setState({ listLoading: false });
     }
+  };
+  showErrorMsg = (msg) => {
+    this.setState({
+      errorMsg: msg
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 2000);
   };
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status, curAddressId: '' });
@@ -220,7 +232,8 @@ class AddressList extends React.Component {
       addressList,
       listLoading,
       loading,
-      countryList
+      countryList,
+      errorMsg
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
     return (
@@ -280,6 +293,30 @@ class AddressList extends React.Component {
                   { 'pr-3': curPageAtCover }
                 )}
               >
+                <div
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                    errorMsg ? '' : 'hidden'
+                  }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                    role="alert"
+                  >
+                    <span className="pl-0">{errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => {
+                        this.setState({ errorMsg: '' });
+                      }}
+                      aria-label="Close"
+                    >
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+
                 {/* preview form */}
                 <div
                   className={classNames('row', 'ml-0', 'mr-0', {

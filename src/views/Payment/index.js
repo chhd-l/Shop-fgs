@@ -1963,10 +1963,14 @@ class Payment extends React.Component {
     let lastFourDeco;
     let brandDeco;
     let holderNameDeco;
+    let expiryYear;
+    let expiryMonth;
     if (adyenPaymentMethod) {
       lastFourDeco = adyenPaymentMethod.lastFour;
       brandDeco = adyenPaymentMethod.brand;
       holderNameDeco = adyenPaymentMethod.holderName;
+      expiryYear = adyenPaymentMethod.expiryYear;
+      expiryMonth = adyenPaymentMethod.expiryMonth;
     } else if (payosdata && payosdata.vendor) {
       lastFourDeco = payosdata.last_4_digits;
       brandDeco = payosdata.vendor;
@@ -1987,11 +1991,22 @@ class Payment extends React.Component {
                 <FormattedMessage id="bankCard" />
               </span>
               <br />
-              {holderNameDeco}
+              {/* {holderNameDeco}
               <br />
               {brandDeco}
               <br />
               {lastFourDeco ? `************${lastFourDeco}` : null}
+              {getFormatDate(`${expiryYear}-${expiryMonth}`)} */}
+
+              {[
+                holderNameDeco,
+                lastFourDeco ? `************${lastFourDeco}` : null,
+                expiryYear && expiryMonth
+                  ? getFormatDate(`${expiryYear}-${expiryMonth}`)
+                  : null
+              ]
+                .filter((e) => e)
+                .join(<br />)}
             </div>
           ) : (
             <div className="col-12 col-md-6">{email}</div>
