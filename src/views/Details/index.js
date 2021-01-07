@@ -2189,7 +2189,7 @@ class Details extends React.Component {
                                           color: '#333'
                                         }}
                                       >
-                                        <FormattedMessage id="autoship" />
+                                        <FormattedMessage id="autoship_nos" />
                                         <span
                                           className="info-tooltip delivery-method-tooltip"
                                           onMouseEnter={() => {
@@ -2216,7 +2216,7 @@ class Details extends React.Component {
                                             })
                                           }
                                           content={
-                                            <FormattedMessage id="subscription.promotionTip2" />
+                                            <FormattedMessage id="subscription.promotionTip3" />
                                           }
                                         />
                                       </span>
@@ -2335,7 +2335,7 @@ class Details extends React.Component {
                                         class="refreshImg"
                                         src={refreshImg}
                                       />
-                                      <FormattedMessage id="autoship" />
+                                      <FormattedMessage id="autoship_nos" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
                                         onMouseEnter={() => {
@@ -2362,7 +2362,7 @@ class Details extends React.Component {
                                           })
                                         }
                                         content={
-                                          <FormattedMessage id="subscription.promotionTip2" />
+                                          <FormattedMessage id="subscription.promotionTip3" />
                                         }
                                       />
                                     </span>
