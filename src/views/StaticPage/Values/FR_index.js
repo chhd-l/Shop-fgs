@@ -78,7 +78,7 @@ class Help extends React.Component {
             <nav
               className="rc-progress rc-progress--breadcrumbs-stepped rc-max-width--xl rc-padding-x--sm rc-padding-y--xs rc-margin-top--xs "
               data-progress-setup="true">
-              
+
             </nav>
             <div className="experience-region experience-main">
               <div className="experience-component experience-layouts-1column">
