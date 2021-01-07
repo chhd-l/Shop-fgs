@@ -442,7 +442,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/promotion-refuge.html"
+                path="/promotion-refuge"
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />
