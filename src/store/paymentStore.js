@@ -1,6 +1,7 @@
 import { action, observable, computed, toJS } from 'mobx';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
+import {isNewAccount} from "@/api/user"
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -88,15 +89,25 @@ class PaymentStore {
 
   @action.bound
   setStsToCompleted({ key, isFirstLoad }) {
+    let option = ''
+    isNewAccount().then((res)=>{
+      if(res.code=='K-000000'){
+        if(res.context>0){
+          option = 'guest checkout'
+        }else{
+          option = 'new account'
+        }
+      }
+    })
     switch (key) {
       case 'email':
         dataLayer[0].checkout.step = 2
-        dataLayer[0].checkout.option = 'guest checkout'
+        dataLayer[0].checkout.option = option
         if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
             step: 2,
-            option: 'guest checkout'
+            option: option
           }
           result.page = {
             type: 'Checkout',
@@ -106,7 +117,7 @@ class PaymentStore {
           dataLayer.push({
             checkout: {
               step: 2,
-              option: 'guest checkout'
+              option: option
             },
             event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
             page: {
