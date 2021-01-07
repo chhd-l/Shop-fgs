@@ -238,7 +238,7 @@ class EditForm extends React.Component {
         <label className="form-control-label" htmlFor="shippingCountry">
           <FormattedMessage id="payment.country" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('country', data)
@@ -266,7 +266,7 @@ class EditForm extends React.Component {
         >
           <FormattedMessage id="payment.city" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
           <CitySearchSelection
             defaultValue={address.cityName}
             key={address.cityName}
