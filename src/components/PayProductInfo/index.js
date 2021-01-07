@@ -78,15 +78,6 @@ class PayProductInfo extends React.Component {
                     style={{ width: '77%' }}
                   >
                     {
-                      this.state.pathname == '/confirmation'&&process.env.REACT_APP_LANG == 'de' //德国这个页面不显示数量单位
-                      ?
-                      [
-                        item.specDetails,
-                        item.num
-                      ]
-                        .filter((e) => e)
-                        .join(' - ')
-                      :
                       [
                         item.specDetails,
                         item.num > 1
