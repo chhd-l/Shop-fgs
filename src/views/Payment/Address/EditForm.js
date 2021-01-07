@@ -238,7 +238,7 @@ class EditForm extends React.Component {
         <label className="form-control-label" htmlFor="shippingCountry">
           <FormattedMessage id="payment.country" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
           <Selection
             selectedItemChange={(data) =>
               this.handleSelectedItemChange('country', data)
@@ -266,7 +266,7 @@ class EditForm extends React.Component {
         >
           <FormattedMessage id="payment.city" />
         </label>
-        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
           <CitySearchSelection
             defaultValue={address.cityName}
             key={address.cityName}
@@ -279,126 +279,120 @@ class EditForm extends React.Component {
   emailPanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
-          <label className="form-control-label" htmlFor="shippingEmail">
-            <FormattedMessage id="email" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-          >
-            <input
-              type="email"
-              className="rc-input__control input__phoneField shippingPhoneNumber"
-              id="shippingEmail"
-              value={address.email}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              name="email"
-              maxLength="254"
-            />
-            <label className="rc-input__label" htmlFor="shippingEmail" />
-          </span>
-          {errMsgObj.email && (
-            <div className="text-danger-2">{errMsgObj.email}</div>
-          )}
-        </div>
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+        <label className="form-control-label" htmlFor="shippingEmail">
+          <FormattedMessage id="email" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            type="email"
+            className="rc-input__control input__phoneField shippingPhoneNumber"
+            id="shippingEmail"
+            value={address.email}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="email"
+            maxLength="254"
+          />
+          <label className="rc-input__label" htmlFor="shippingEmail" />
+        </span>
+        {errMsgObj.email && (
+          <div className="text-danger-2">{errMsgObj.email}</div>
+        )}
       </div>
     );
   };
   postCodeJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
-          <label className="form-control-label" htmlFor="shippingZipCode">
-            <FormattedMessage id="payment.postCode" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-            // data-js-validate="" //需要验证的时候开启
-            data-js-warning-message="*Post Code isn’t valid"
-          >
-            <input
-              className="rc-input__control shippingZipCode"
-              id="shippingZipCode"
-              type="tel"
-              required
-              value={address.postCode}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              name="postCode"
-              // maxLength="5"
-              // minLength="5"
-              //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
-              data-js-pattern="(*.*)"
-            />
-            <label className="rc-input__label" htmlFor="id-text1" />
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+        <label className="form-control-label" htmlFor="shippingZipCode">
+          <FormattedMessage id="payment.postCode" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+          // data-js-validate="" //需要验证的时候开启
+          data-js-warning-message="*Post Code isn’t valid"
+        >
+          <input
+            className="rc-input__control shippingZipCode"
+            id="shippingZipCode"
+            type="tel"
+            required
+            value={address.postCode}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="postCode"
+            // maxLength="5"
+            // minLength="5"
+            //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
+            data-js-pattern="(*.*)"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {errMsgObj.postCode && (
+          <div className="text-danger-2">{errMsgObj.postCode}</div>
+        )}
+        <div className="ui-lighter">
+          <FormattedMessage id="example" />:{' '}
+          <FormattedMessage id="examplePostCode" />
+        </div>
+        {/* {process.env.REACT_APP_LANG === 'de' ? (
+          <span style={{ padding: '2px', color: '#CA5264' }}>
+            * Pflichtfelder
           </span>
-          {errMsgObj.postCode && (
-            <div className="text-danger-2">{errMsgObj.postCode}</div>
-          )}
-          <div className="ui-lighter">
-            <FormattedMessage id="example" />:{' '}
-            <FormattedMessage id="examplePostCode" />
-          </div>
-          {process.env.REACT_APP_LANG === 'de' ? (
-            <span style={{ padding: '2px', color: '#CA5264' }}>
-              * Pflichtfelder
-            </span>
-          ) : null}
-        </div>{' '}
+        ) : null} */}
       </div>
     );
   };
   phonePanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div
-          className={[
-            'form-group',
-            'dwfrm_shipping_shippingAddress_addressFields_phone',
-            process.env.REACT_APP_LANG == 'de' ? '' : 'required'
-          ].join(' ')}
+      <div
+        className={[
+          'form-group',
+          'dwfrm_shipping_shippingAddress_addressFields_phone',
+          process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+        ].join(' ')}
+      >
+        {' '}
+        {/* 德国电话非必填 */}
+        <label className="form-control-label" htmlFor="shippingPhoneNumber">
+          <FormattedMessage id="payment.phoneNumber" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+        // data-js-validate=""
+        // data-js-warning-message="*Phone Number isn’t valid"
         >
-          {' '}
-          {/* 德国电话非必填 */}
-          <label className="form-control-label" htmlFor="shippingPhoneNumber">
-            <FormattedMessage id="payment.phoneNumber" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-          // data-js-validate=""
-          // data-js-warning-message="*Phone Number isn’t valid"
-          >
-            <input
-              type="text"
-              className="rc-input__control input__phoneField shippingPhoneNumber"
-              id="shippingPhoneNumber"
-              value={address.phoneNumber}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-              // data-js-pattern="(^(\+52)\d{8}$)"
-              // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
-              name="phoneNumber"
-              maxLength="20"
-              minLength="18"
-            />
-            <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
-          </span>
-          {errMsgObj.phoneNumber && (
-            <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
-          )}
-          <span className="ui-lighter">
-            <FormattedMessage id="example" />:{' '}
-            <FormattedMessage id="examplePhone" />
-          </span>
-        </div>
+          <input
+            type="text"
+            className="rc-input__control input__phoneField shippingPhoneNumber"
+            id="shippingPhoneNumber"
+            value={address.phoneNumber}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+            // data-js-pattern="(^(\+52)\d{8}$)"
+            // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
+            name="phoneNumber"
+            maxLength="20"
+            minLength="18"
+          />
+          <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
+        </span>
+        {errMsgObj.phoneNumber && (
+          <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+        )}
+        <span className="ui-lighter">
+          <FormattedMessage id="example" />:{' '}
+          <FormattedMessage id="examplePhone" />
+        </span>
       </div>
     );
   };
@@ -427,9 +421,12 @@ class EditForm extends React.Component {
           <div className="col-12 col-md-6">
             {this.cityJSX()}
           </div>
-
-          {this.postCodeJSX()}
-          {this.phonePanelJSX()}
+          <div className="col-12 col-md-6">
+            {this.postCodeJSX()}
+          </div>
+          <div className="col-12 col-md-6">
+            {this.phonePanelJSX()}
+          </div>
         </div>
       </>
     )
@@ -459,6 +456,7 @@ class EditForm extends React.Component {
               </div>
               <div className="col-12 col-md-6">
                 {this.landJSX()}
+                <span style={{ padding: '2px', color: '#CA5264' }}>* Pflichtfelder</span>
               </div>
               <div className="col-12 col-md-6">
                 {this.phonePanelJSX()}
