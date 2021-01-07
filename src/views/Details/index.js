@@ -597,12 +597,16 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             }else{
-              for(let i = 0; i < sItem.chidren.length; i++) {
-                if(sItem.chidren[i].isEmpty) {
-                  
-                }else {
-                  sItem.chidren[i].selected = true;
-                  break
+              if(sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[1].selected = true;
+              }else {
+                for(let i = 0; i < sItem.chidren.length; i++) {
+                  if(sItem.chidren[i].isEmpty) {
+                    
+                  }else {
+                    sItem.chidren[i].selected = true;
+                    break
+                  }
                 }
               }
             }
@@ -616,10 +620,16 @@ class Details extends React.Component {
             // console.log(targetInfo, 'target')
             // if (targetInfo) {
             g = Object.assign({}, g, { selected: false });
+            if(g.selected && !g.subscriptionStatus) {
+              let { form } = this.state
+              form.buyWay = 0
+              this.setState({form})
+            }
             // }
             return g;
           });
           console.log(sizeList, 'sizeList')
+          
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
@@ -637,10 +647,10 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          if(Object.keys(JSON.parse(el))[0] !== 'EretailLong Description') {
+                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
                             tempContent =
                               tempContent +
-                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -750,7 +760,6 @@ class Details extends React.Component {
 
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
-
           sizeList = goodsInfos.map((g, i) => {
             // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
             // console.log(targetInfo, 'target')
@@ -760,7 +769,6 @@ class Details extends React.Component {
             }else {
               g = Object.assign({}, g, { selected: false });
             }
-            
             if(g.selected && !g.subscriptionStatus) {
               let { form } = this.state
               form.buyWay = 0
@@ -818,10 +826,10 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          if(Object.keys(JSON.parse(el))[0] !== 'EretailLong Description') {
+                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
                             tempContent =
                               tempContent +
-                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -841,16 +849,37 @@ class Details extends React.Component {
                           ${tempContent}
                         </ul>`;
                       } else if (key === 'Composition') {
-                        tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>
-                            
-                            <div class="content">${
-                              Object.values(JSON.parse(el))[0]
-                            }</div> 
-                          </p>`;
-                        });
+                        if(res.context.goods.goodsType !== 2) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<p>
+                              
+                              <div class="content">${
+                                Object.values(JSON.parse(el))[0]
+                              }</div> 
+                            </p>`;
+                          });
+                        }else {
+                          tmpGoodsDetail[key].map(el => {
+                            let contentObj = JSON.parse(el)
+                            let contentValue = ''
+                            Object.values(Object.values(contentObj)[0]).map(el => {
+                              contentValue += `<p>${el}</p>`
+                            })
+                            console.log(tempContent,'heiheihaha')
+                            tempContent =
+                              tempContent +
+                              `
+                              <div class="title">
+                                ${Object.keys(contentObj)[0]}
+                              </div>
+                              <div class="content">${
+                                contentValue
+                              }</div> 
+                            `;
+                          })
+                        }
                       } else {
                         tempContent = tmpGoodsDetail[key];
                       }
@@ -2660,7 +2689,7 @@ class Details extends React.Component {
                           <div className="block">
                             <p
                               className="content rc-scroll--x"
-                              style={{ marginBottom: '4rem' }}
+                              style={{ marginBottom: '4rem'}}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
                           </div>

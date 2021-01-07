@@ -1124,7 +1124,9 @@ class Payment extends React.Component {
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
           petsName: ele.petsName,
-          goodsInfoFlag: 0
+          goodsInfoFlag: 0,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName
         };
       });
     } else if (this.isLogin) {
@@ -1134,7 +1136,9 @@ class Payment extends React.Component {
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
           petsName: ele.petsName,
-          goodsInfoFlag: ele.goodsInfoFlag
+          goodsInfoFlag: ele.goodsInfoFlag,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName,
         };
       });
     } else {
@@ -1142,7 +1146,9 @@ class Payment extends React.Component {
         return {
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
-          goodsInfoFlag: ele.goodsInfoFlag
+          goodsInfoFlag: ele.goodsInfoFlag,
+          recommendationId: clinicStore.linkClinicId,
+          recommendationName: clinicStore.linkClinicName,
         };
       });
     }
@@ -1158,7 +1164,9 @@ class Payment extends React.Component {
             petsId: g.petsId,
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
-            periodTypeId: g.periodTypeId
+            periodTypeId: g.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName,
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1187,7 +1195,9 @@ class Payment extends React.Component {
             petsId: g.petsId,
             petsName: g.petsName,
             goodsInfoFlag: g.goodsInfoFlag,
-            periodTypeId: g.periodTypeId
+            periodTypeId: g.periodTypeId,
+            recommendationId: clinicStore.linkClinicId,
+            recommendationName: clinicStore.linkClinicName,
           };
         });
       // }
