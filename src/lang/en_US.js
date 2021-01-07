@@ -776,7 +776,6 @@ const en_US = {
   'tailorednutrition.shopCat': 'Shop Cat Formulas',
   'tailorednutrition.shopDog': 'Shop Dog Formulas',
   'tailorednutrition.shopTile': 'Shop Tailored Nutrition For Your Pet',
-  'tailorednutrition.title': 'Health is the Difference',
   'tailorednutrition.uniqueDetail': 'Many pets have uniquely shaped jaws and behaviour that create challenges to how they eat. That’s why we tailor not only our recipes at a nutritional level, but also design the shape and structure of each kibble to better meet the physical feeding needs of every pet.',
   'tailorednutrition.uniqueTitle': 'Unique Formulas For Unique Needs',
   taxLogo: '',

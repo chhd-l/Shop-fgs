@@ -21009,18 +21009,6 @@ body {
   }
 }
 
-.content-block div picture {
-  max-width: 322px;
-  margin: 0 auto
-}
-
-@media(min-width: 992px) {
-  .content-block div picture {
-      max-width:322px;
-      float: right
-  }
-}
-
 @media(min-width: 640px) {
   .hp-right-content-block {
       -webkit-box-flex:0;
