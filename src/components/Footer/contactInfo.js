@@ -13,7 +13,7 @@ export const contactInfo = {
   },
   fr: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
-    email: { url: 'mailto:info.fr@royalcanin.com', messageId: 'footer.email' }
+    email: { url: 'mailto:suivi.dtc.france@royalcanin.com', messageId: 'footer.email' }
   },
   ru: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
