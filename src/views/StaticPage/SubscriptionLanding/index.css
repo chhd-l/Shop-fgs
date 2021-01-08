@@ -188,5 +188,6 @@
   width: 28px;
   height: 28px;
   background: url("./images/wof.png") no-repeat;
-  background-size: 28px 28px;
+  background-size: 28px auto;
+  background-position: center center;
 }
