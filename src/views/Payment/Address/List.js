@@ -121,7 +121,7 @@ class AddressList extends React.Component {
         },
         () => {
           this.updateSelectedData();
-          this.confirmToNextPanel();
+          this.confirmToNextPanel({ isFirstLoad: true });
         }
       );
     } catch (err) {
@@ -143,7 +143,7 @@ class AddressList extends React.Component {
         : 'updateSelectedBillingAddress'
     ](tmpObj);
   }
-  confirmToNextPanel() {
+  confirmToNextPanel({ isFirstLoad = false }) {
     if (this.curPanelKey !== 'deliveryAddr') {
       return false;
     }
@@ -164,7 +164,10 @@ class AddressList extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: this.curPanelKey,isFirstLoad:true });
+      paymentStore.setStsToCompleted({
+        key: this.curPanelKey,
+        isFirstLoad
+      });
 
       let isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),
