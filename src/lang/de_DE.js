@@ -899,7 +899,7 @@ const de_DE = {
   'myAutoshipOrder': 'Meine regelmäßigen Lieferungen',
   'noStart': 'Ausstehend',
   'completed': 'Bereits versandt',
-  'skip': 'Überspringen',
+  'skip': 'Lieferung aussetzen',
   'shipmentOn': 'Versand am',
   'VAT_included': 'inkl. MwSt',
   'skiped': 'Übersprungen',
