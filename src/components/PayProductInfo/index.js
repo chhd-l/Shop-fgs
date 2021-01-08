@@ -227,7 +227,47 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
                     {/* promotion */}
-                    {details.tradePrice.discountsPrice ? (
+                    {details.tradePrice.subscriptionDiscountPrice ? (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              {/* {details.tradePrice.promotionDesc || ( */}
+                                <FormattedMessage id="promotion" />
+                              {/* )} */}
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(details.tradePrice.subscriptionDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+                    {details.tradePrice.promotionDiscountPrice ? (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span>
+                              {/* {details.tradePrice.promotionDesc || ( */}
+                                <FormattedMessage id="promotion" />
+                              {/* )} */}
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(details.tradePrice.promotionDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+                    {/* {details.tradePrice.discountsPrice ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
@@ -246,7 +286,7 @@ class PayProductInfo extends React.Component {
                           </p>
                         </div>
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </div>
               </div>

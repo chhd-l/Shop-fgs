@@ -101,6 +101,12 @@ class UnLoginCart extends React.Component {
     return this.props.checkoutStore.discountPrice;
     // return this.props.checkoutStore.discountPrice + this.state.subscriptionDiscount;
   }
+  get promotionDiscountPrice() {
+    return this.props.checkoutStore.promotionDiscountPrice;
+  }
+  get subscriptionDiscountPrice() {
+    return this.props.checkoutStore.subscriptionDiscountPrice;
+  }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
@@ -532,14 +538,14 @@ class UnLoginCart extends React.Component {
           className="rc-border-all rc-border-colour--interface product-info"
           key={index}
         >
-          {pitem.goodsPromotion ? (
+          {/* {pitem.goodsPromotion ? (
             <span
               className="position-absolute bg-primary text-white pl-2 pr-2"
               style={{ bottom: '-1px', left: '-1px', fontSize: '.9em' }}
             >
               {pitem.goodsPromotion}
             </span>
-          ) : null}
+          ) : null} */}
 
           <div
             className="rc-input rc-input--inline position-absolute hidden"
@@ -1438,7 +1444,7 @@ class UnLoginCart extends React.Component {
             </div>
           </div> */}
           {/* 显示订阅折扣 */}
-          <div
+          {/* <div
             className={`row leading-lines shipping-item green ${
               parseFloat(this.subscriptionPrice) > 0 ? 'd-flex' : 'hidden'
             }`}
@@ -1451,14 +1457,11 @@ class UnLoginCart extends React.Component {
                 - {formatMoney(this.subscriptionPrice)}
               </p>
             </div>
-          </div>
+          </div> */}
           {/* 显示 默认折扣 */}
           <div
             className={`row leading-lines shipping-item green ${
-              parseFloat(this.discountPrice) > 0 &&
-              this.state.discount.length === 0
-                ? 'd-flex'
-                : 'hidden'
+              parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'
             }`}
           >
             <div className="col-6">
@@ -1466,13 +1469,13 @@ class UnLoginCart extends React.Component {
             </div>
             <div className="col-6">
               <p className="text-right shipping-cost">
-                - {formatMoney(this.discountPrice)}
+                - {formatMoney(this.subscriptionDiscountPrice)}
               </p>
             </div>
           </div>
           {/* 显示 promotionCode */}
-          <div style={{ marginTop: '10px' }}>
-            {!this.state.isShowValidCode &&
+          <div>
+            {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 &&
               this.state.discount.map((el) => (
                 <div className={`row leading-lines shipping-item green d-flex`}>
                   <div className="col-6">
@@ -1483,7 +1486,7 @@ class UnLoginCart extends React.Component {
                   <div className="col-6">
                     <p className="text-right shipping-cost">
                       {/* - {formatMoney(this.discountPrice)} */}
-                      <b>-{formatMoney(this.discountPrice)}</b>
+                      <b>-{formatMoney(this.promotionDiscountPrice)}</b>
                     </p>
                   </div>
                 </div>

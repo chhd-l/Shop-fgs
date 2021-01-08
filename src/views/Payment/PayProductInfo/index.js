@@ -177,6 +177,12 @@ class PayProductInfo extends React.Component {
   get discountPrice() {
     return this.props.checkoutStore.discountPrice;
   }
+  get promotionDiscountPrice() {
+    return this.props.checkoutStore.promotionDiscountPrice;
+  }
+  get subscriptionDiscountPrice() {
+    return this.props.checkoutStore.subscriptionDiscountPrice;
+  }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
   }
@@ -580,7 +586,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 {/* 显示订阅折扣 */}
-                <div
+                {/* <div
                   className="row leading-lines shipping-item"
                   style={{
                     display:
@@ -607,22 +613,14 @@ class PayProductInfo extends React.Component {
                       </span>
                     </p>
                   </div>
-                </div>
+                </div> */}
                 {/* 显示 默认折扣 */}
                 <div
-                  className="row leading-lines shipping-item"
-                  style={{
-                    display:
-                      parseFloat(this.discountPrice) > 0 &&
-                        !this.props.checkoutStore.promotionCode
-                        ? 'flex'
-                        : 'none'
-                  }}
+                  className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'}`}
                 >
                   <div className="col-7 start-lines">
                     <p
                       className="order-receipt-label order-shipping-cost"
-                      style={{ color: '#ec001a' }}
                     >
                       <span>
                         <FormattedMessage id="promotion" />
@@ -633,41 +631,38 @@ class PayProductInfo extends React.Component {
                     <p className="text-right">
                       <span
                         className="shipping-total-cost"
-                        style={{ color: '#ec001a' }}
                       >
-                        - {formatMoney(this.discountPrice)}
+                        <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
                       </span>
                     </p>
                   </div>
                 </div>
 
                 {/* 显示 promotionCode */}
-                <div style={{ marginTop: '10px' }}>
-                  {!this.state.isShowValidCode &&
-                    this.props.checkoutStore.promotionCode ? (
-                      <div className="flex-layout green">
-                        <label
-                          className="saveDiscount font14"
-                          style={{ flex: 2 }}
-                        >
-                          {/* {this.promotionDesc || (
-                          <FormattedMessage id="NoPromotionDesc" />
-                        )} */}
-                          <FormattedMessage id="promotion" />
-                        </label>
-                        <div
-                          className="text-right"
-                          style={{
-                            position: 'relative',
-                            textAlign: 'right',
-                            flex: 1
-                          }}
-                        >
-                          <b>-{formatMoney(this.discountPrice)}</b>
-                        </div>
+                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 &&
+                  this.props.checkoutStore.promotionCode ? (
+                    <div className="row leading-lines shipping-item flex-layout green">
+                      <label
+                        className="saveDiscount font14"
+                        style={{ flex: 2 }}
+                      >
+                        {/* {this.promotionDesc || (
+                        <FormattedMessage id="NoPromotionDesc" />
+                      )} */}
+                        <FormattedMessage id="promotion" />
+                      </label>
+                      <div
+                        className="text-right"
+                        style={{
+                          position: 'relative',
+                          textAlign: 'right',
+                          flex: 1
+                        }}
+                      >
+                        <b>-{formatMoney(this.promotionDiscountPrice)}</b>
                       </div>
-                    ) : null}
-                </div>
+                    </div>
+                  ) : null}
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">

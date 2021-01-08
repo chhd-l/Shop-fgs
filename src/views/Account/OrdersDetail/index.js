@@ -1291,7 +1291,7 @@ class AccountOrders extends React.Component {
                                   <div className="col-6 col-xxl-3 text-right text-nowrap">
                                     {formatMoney(details.tradePrice.goodsPrice)}
                                   </div>
-                                  {details.tradePrice.discountsPrice ? (
+                                  {/* {details.tradePrice.discountsPrice ? (
                                     <>
                                       <div className="col-2 col-xxl-7 mb-2 rc-md-up">
                                         &nbsp;
@@ -1305,6 +1305,42 @@ class AccountOrders extends React.Component {
                                         -
                                         {formatMoney(
                                           details.tradePrice.discountsPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null} */}
+                                  {details.tradePrice.subscriptionDiscountPrice ? (
+                                    <>
+                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-xxl-2 mb-2 green">
+                                        {/* {details.tradePrice.promotionDesc || ( */}
+                                          <FormattedMessage id="promotion" />
+                                        {/* )} */}
+                                      </div>
+                                      <div className="col-6 col-xxl-3 text-right green text-nowrap">
+                                        -
+                                        {formatMoney(
+                                          details.tradePrice.subscriptionDiscountPrice
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : null}
+                                  {details.tradePrice.promotionDiscountPrice ? (
+                                    <>
+                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                        &nbsp;
+                                      </div>
+                                      <div className="col-6 col-xxl-2 mb-2 green">
+                                        {/* {details.tradePrice.promotionDesc || ( */}
+                                          <FormattedMessage id="promotion" />
+                                        {/* )} */}
+                                      </div>
+                                      <div className="col-6 col-xxl-3 text-right green text-nowrap">
+                                        -
+                                        {formatMoney(
+                                          details.tradePrice.promotionDiscountPrice
                                         )}
                                       </div>
                                     </>
