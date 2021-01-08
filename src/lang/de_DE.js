@@ -932,7 +932,7 @@ const de_DE = {
   "subscription.banner.title":'Schließen Sie jetzt Ihre regelmäßige Lieferung ab!',
   "subscription.banner.subTitle":'Suchen Sie die passende Nahrung für Ihr Tier heraus.',
   "subscription.banner.btn":'Auswählen',
-  "subscription.help.title":'Haben Sie Fragen ?',
+  "subscription.help.title":'Haben Sie Fragen?',
   "subscription.help.subTitle":'Unser Expertenteam hilft Ihnen gerne weiter.',
   // SubscriptionLanding END
   'account.noSubscriptionTitle': "Entdecken Sie unser Angebot der regelmäßigen Lieferung",
