@@ -136,7 +136,7 @@ class SubscriptionLanding extends React.Component {
                               </Link>
                               <Link to="/dogs">
                                 <button className="rc-btn rc-btn--one rc-margin-bottom--xs">
-                                <FormattedMessage id="subscription.list.btn1" />
+                                <FormattedMessage id="subscription.list.btn2" />
                                 </button>
                               </Link>
                             </div>
