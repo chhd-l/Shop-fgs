@@ -53,7 +53,8 @@ const LoginButton = (props) => {
         .getUser()
         .then((info) => {
           setUserInfo(info);
-          const oktaToken = authState.accessToken ? authState.accessToken.value : '';
+          const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+          let oktaToken = 'Bearer ' + oktaTokenString;
           const consentString = localItemRoyal.get('rc-consent-list');
           if(consentString && loginStore.isLogin) {
             var consents = JSON.parse(consentString);
@@ -70,7 +71,7 @@ const LoginButton = (props) => {
             });
           } else {
             if (!loginStore.isLogin) {
-              getToken({ oktaToken: `Bearer ${oktaToken}` })
+              getToken({ oktaToken: oktaToken })
                 .then(async (res) => {
                   // GA 登录成功埋点 start
                   dataLayer&&dataLayer.push(

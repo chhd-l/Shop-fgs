@@ -81,7 +81,8 @@ class RegisterRequired extends Component {
     this.setState({
       circleLoading: true
     });
-    let oktaToken = 'Bearer ' + this.props.authState.accessToken;
+    const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
     try {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
