@@ -46,6 +46,7 @@ import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -1650,6 +1651,7 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
