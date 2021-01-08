@@ -728,16 +728,16 @@ class PaymentComp extends React.Component {
                                   className="ui-cursor-pointer"
                                   // onClick={this.toggleSetDefault.bind(this, el)}
                                 >
-                                  <span className="iconfont mr-1">
+                                  {/* <span className="iconfont mr-1">
                                     &#xe68c;
-                                  </span>
+                                  </span> */}
                                   <span className="rc-styled-link">
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
                                 </div>
                               )}
                               <span
-                                className={`position-relative p-2 ui-cursor-pointer-pure`}
+                                className={`position-relative p-2 ui-cursor-pointer-pure  pdl-1`}
                               >
                                 <span
                                   className="rc-styled-link"
