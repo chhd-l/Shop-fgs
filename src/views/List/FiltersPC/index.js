@@ -121,25 +121,47 @@ class Filter extends React.Component {
         className="rc-list__item"
         key={childItem.id}
       >
-        <Link to={childItem.router} className="rc-input rc-input--stacked">
-          <input
-            className={`rc-input__checkbox`}
-            id={`filter-input-${childItem.id}-${inputLabelKey}`}
-            type="checkbox"
-            name="checkbox"
-            checked={childItem.selected}
-            onChange={this.handleClickValueItem.bind(this, {
-              parentItem,
-              item: childItem
-            })}
-          />
-          <label
-            className="rc-input__label--inline"
-            htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
-          >
-            {childItem.attributeDetailNameEn}
-          </label>
-        </Link>
+        {childItem.router ? (
+          <Link to={childItem.router} className="rc-input rc-input--stacked">
+            <input
+              className={`rc-input__checkbox`}
+              id={`filter-input-${childItem.id}-${inputLabelKey}`}
+              type="checkbox"
+              name="checkbox"
+              checked={childItem.selected}
+              onChange={this.handleClickValueItem.bind(this, {
+                parentItem,
+                item: childItem
+              })}
+            />
+            <label
+              className="rc-input__label--inline"
+              htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
+            >
+              {childItem.attributeDetailNameEn}
+            </label>
+          </Link>
+        ) : (
+          <span className="rc-input rc-input--stacked">
+            <input
+              className={`rc-input__checkbox`}
+              id={`filter-input-${childItem.id}-${inputLabelKey}`}
+              type="checkbox"
+              name="checkbox"
+              checked={childItem.selected}
+              onChange={this.handleClickValueItem.bind(this, {
+                parentItem,
+                item: childItem
+              })}
+            />
+            <label
+              className="rc-input__label--inline"
+              htmlFor={`filter-input-${childItem.id}-${inputLabelKey}`}
+            >
+              {childItem.attributeDetailNameEn}
+            </label>
+          </span>
+        )}
       </li>
     );
   };
@@ -150,36 +172,66 @@ class Filter extends React.Component {
         key={childItem.id}
         className="row rc-margin-left--none rc-padding-left--none rc-margin-left--xs rc-padding-left--xs"
       >
-        <Link
-          to={childItem.router}
-          className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
-        >
-          <input
-            className="rc-input__radio"
-            id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
-            type="radio"
-            checked={childItem.selected}
-            onChange={this.handleClickValueItem.bind(this, {
-              parentItem,
-              item: childItem
-            })}
-          />
-          <label
-            className="rc-input__label--inline"
-            htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+        {childItem.router ? (
+          <Link
+            to={childItem.router}
+            className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2"
           >
-            {/* when name=not subscription/subscription, get dictionary to multi lang  */}
-            {(childItem.attributeDetailName === 'subscription' ||
-              childItem.attributeDetailName === 'not subscription') &&
-            markPriceAndSubscriptionLangDict.filter(
-              (ele) => ele.name === childItem.attributeDetailName
-            ).length
-              ? markPriceAndSubscriptionLangDict.filter(
-                  (ele) => ele.name === childItem.attributeDetailName
-                )[0].valueEn
-              : childItem.attributeDetailNameEn}
-          </label>
-        </Link>
+            <input
+              className="rc-input__radio"
+              id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+              type="radio"
+              checked={childItem.selected}
+              onChange={this.handleClickValueItem.bind(this, {
+                parentItem,
+                item: childItem
+              })}
+            />
+            <label
+              className="rc-input__label--inline"
+              htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+            >
+              {/* when name=not subscription/subscription, get dictionary to multi lang  */}
+              {(childItem.attributeDetailName === 'subscription' ||
+                childItem.attributeDetailName === 'not subscription') &&
+              markPriceAndSubscriptionLangDict.filter(
+                (ele) => ele.name === childItem.attributeDetailName
+              ).length
+                ? markPriceAndSubscriptionLangDict.filter(
+                    (ele) => ele.name === childItem.attributeDetailName
+                  )[0].valueEn
+                : childItem.attributeDetailNameEn}
+            </label>
+          </Link>
+        ) : (
+          <span className="rc-input w-100 rc-margin-y--xs rc-input--full-width ml-2">
+            <input
+              className="rc-input__radio"
+              id={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+              type="radio"
+              checked={childItem.selected}
+              onChange={this.handleClickValueItem.bind(this, {
+                parentItem,
+                item: childItem
+              })}
+            />
+            <label
+              className="rc-input__label--inline"
+              htmlFor={`filter-sub-radio-${childItem.id}-${inputLabelKey}`}
+            >
+              {/* when name=not subscription/subscription, get dictionary to multi lang  */}
+              {(childItem.attributeDetailName === 'subscription' ||
+                childItem.attributeDetailName === 'not subscription') &&
+              markPriceAndSubscriptionLangDict.filter(
+                (ele) => ele.name === childItem.attributeDetailName
+              ).length
+                ? markPriceAndSubscriptionLangDict.filter(
+                    (ele) => ele.name === childItem.attributeDetailName
+                  )[0].valueEn
+                : childItem.attributeDetailNameEn}
+            </label>
+          </span>
+        )}
       </div>
     );
   };
@@ -221,17 +273,34 @@ class Filter extends React.Component {
                       if (cItem.selected) {
                         return (
                           <li className="filter-value" key={cItem.id}>
-                            <Link to={cItem.router}>
-                              {cItem.attributeDetailNameEn}
-                              <i
-                                className="filter-remove"
-                                // onClick={this.handleClickValueItem.bind(this, {
-                                //   parentItem: pItem,
-                                //   item: cItem,
-                                //   isRemoveOperate: true
-                                // })}
-                              />
-                            </Link>
+                            {cItem.router ? (
+                              <Link to={cItem.router}>
+                                {cItem.attributeDetailNameEn}
+                                <i
+                                  className="filter-remove"
+                                  // onClick={this.handleClickValueItem.bind(this, {
+                                  //   parentItem: pItem,
+                                  //   item: cItem,
+                                  //   isRemoveOperate: true
+                                  // })}
+                                />
+                              </Link>
+                            ) : (
+                              <span>
+                                {cItem.attributeDetailNameEn}
+                                <i
+                                  className="filter-remove"
+                                  onClick={this.handleClickValueItem.bind(
+                                    this,
+                                    {
+                                      parentItem: pItem,
+                                      item: cItem,
+                                      isRemoveOperate: true
+                                    }
+                                  )}
+                                />
+                              </span>
+                            )}
                           </li>
                         );
                       } else {
