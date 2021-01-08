@@ -46,7 +46,6 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -196,29 +195,15 @@ class Details extends React.Component {
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
   }
-  getUrlParam(){
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source')
-    const utmMedium = getParaByName(search, 'utm_medium')
-    const utmCampaign = getParaByName(search, 'utm_campaign')
-    const prefixFn = getParaByName(search, 'prefn1')
-    const prefixBreed = getParaByName(search, 'prefv1')
-    const requestJson = {
-      utmSource,
-      utmMedium,
-      utmCampaign,
-      prefixFn,
-      prefixBreed
-    }
-    this.setState({
-      requestJson
-    })
-  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    this.getUrlParam()
+    
+    // const requestJson = getRequest() 
+    // this.setState({requestJson})
+
+
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -844,7 +829,7 @@ class Details extends React.Component {
                           if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
                             tempContent =
                               tempContent +
-                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -1129,7 +1114,7 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      if(Object.keys(this.state.requestJson).length>0){
+      if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
         param = {...param,...this.state.requestJson}
       }
       await sitePurchase(param);
@@ -1346,6 +1331,7 @@ class Details extends React.Component {
         );
         return;
       }
+      // tmpData = [...tmpData,...this.state.requestJson]
       cartDataCopy.push(tmpData);
     }
     
@@ -1667,7 +1653,6 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
-          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"

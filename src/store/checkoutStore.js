@@ -37,6 +37,16 @@ class CheckoutStore {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
       : 0;
+  } 
+  @computed get subscriptionDiscountPrice() {
+    return this.cartPrice && this.cartPrice.subscriptionDiscountPrice
+      ? this.cartPrice.subscriptionDiscountPrice
+      : 0;
+  }
+  @computed get promotionDiscountPrice() {
+    return this.cartPrice && this.cartPrice.promotionDiscountPrice
+      ? this.cartPrice.promotionDiscountPrice
+      : 0;
   }
   @computed get deliveryPrice() {
     return this.cartPrice && this.cartPrice.deliveryPrice
@@ -164,6 +174,8 @@ class CheckoutStore {
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
+      promotionDiscountPrice: purchasesRes.promotionDiscountPrice,
+      subscriptionDiscountPrice: purchasesRes.subscriptionDiscountPrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
@@ -211,8 +223,12 @@ class CheckoutStore {
         this.setCouponCodeFitFlag(true)
       }
       params.discountPrice = purchasesRes.discountPrice;
+      params.promotionDiscountPrice = purchasesRes.promotionDiscountPrice
+      params.subscriptionDiscountPrice = purchasesRes.subscriptionDiscountPrice
     } else {
       params.discountPrice = this.discountPrice;
+      params.promotionDiscountPrice = this.promotionDiscountPrice
+      params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
     }
     this.setCartPrice(params);
 
@@ -332,8 +348,12 @@ class CheckoutStore {
             this.setCouponCodeFitFlag(true)
           }
           params.discountPrice = sitePurchasesRes.discountPrice;
+          params.promotionDiscountPrice = sitePurchasesRes.promotionDiscountPrice
+          params.subscriptionDiscountPrice = sitePurchasesRes.subscriptionDiscountPrice
         } else {
           params.discountPrice = this.discountPrice;
+          params.promotionDiscountPrice = this.promotionDiscountPrice
+          params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
         }
         this.setCartPrice(params);
 

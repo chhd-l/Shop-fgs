@@ -2452,7 +2452,7 @@ class SubscriptionDetail extends React.Component {
                                               {this.state.subDiscount ? (
                                                 <div className="flex-layout">
                                                   <label
-                                                    className="saveDiscount  red-text"
+                                                    className="saveDiscount green"
                                                     style={{
                                                       minWidth: isMobile
                                                         ? '0'
@@ -2466,7 +2466,7 @@ class SubscriptionDetail extends React.Component {
                                                     :
                                                   </label>
                                                   <div
-                                                    className="text-right red-text"
+                                                    className="text-right green"
                                                     style={{
                                                       flex: isMobile
                                                         ? '1'
@@ -2661,8 +2661,9 @@ class SubscriptionDetail extends React.Component {
                                               <FormattedMessage id="promotion" />
                                               :{' '}
                                               <span
+                                              className="green"
                                                 style={{
-                                                  color: '#e2001a',
+                                                  // color: '#e2001a',
                                                   fontWeight: '400'
                                                 }}
                                               >
