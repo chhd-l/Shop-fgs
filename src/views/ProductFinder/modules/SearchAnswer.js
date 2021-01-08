@@ -67,7 +67,7 @@ class SearchAnswer extends React.Component {
   updateSizeFormData = (data) => {
     const { form } = this.state;
     this.setState(
-      { sizeForm: Object.assign(data, { type: form && form.key }) },
+      { sizeForm: Object.assign(data || {}, { type: form ? form.key : '' }) },
       () => {
         const { sizeForm } = this.state;
         let sts = false;
