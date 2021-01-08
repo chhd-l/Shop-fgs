@@ -79,9 +79,10 @@ class TermsConditions extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           {process.env.REACT_APP_LANG == 'fr' ? null : <BannerTip />}
           <BreadCrumbs />
-          <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile">
+          {/* <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg rc-padding-x--md--mobile"> */}
+          <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  noParagraphMargin">
             <div className="rc-bg-colour--brand3">
-              <div className="rc-padding--sm rc-padding-left--none">
+              <div className="rc-padding-left--none">
                 <div className="rc-one-column">
                   <div className="rc-column rc-padding-left--none">
                     <div className="rc-full-width rc-text--left rc-padding-x--sm rc- padding-left--none">
