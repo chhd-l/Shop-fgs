@@ -202,6 +202,7 @@ class FAQ extends React.Component {
                                   onClick={() => this.handleSelect(index2)}
                                   style={{
                                     display: 'flex',
+                                    padding: '1rem 2.5rem 1rem 0.5rem',
                                     justifyContent: 'space-between'
                                   }}
                                 >
@@ -214,7 +215,7 @@ class FAQ extends React.Component {
                                       ? 'rc-icon rc-up rc-brand1'
                                       : 'rc-icon rc-down rc-iconography'
                                       }`}
-                                      style={{right: '20px',height: '32px'}}
+                                      style={{right: '1rem',height: '28px'}}
                                   ></span>
                                 </div>
                                 <div className={`rc-list__content `}>

@@ -101,11 +101,11 @@ class Help extends React.Component {
                     <div className="rc-full-width">
                       <div className="experience-component experience-assets-contactUsBlock">
                         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                          <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
-                            <div className="rc-column rc-padding-bottom--none--mobile">
+                          <div className="text-md-left rc-margin-top--lg--mobile text-center rc-margin-y--sm">
+                            <div className="rc-padding-bottom--none--mobile text-center rc-padding-top--lg">
                               <h1 className="rc-beta"><FormattedMessage id="help.title"/></h1>
                             </div>
-                            <div className="rc-column">
+                            <div className=" text-center">
                               <div className="rc-large-body inherit-fontsize children-nomargin">
                                 <p>
                                   {process.env.REACT_APP_LANG=='de'?null:<FormattedMessage id="help.tip1"/>}
