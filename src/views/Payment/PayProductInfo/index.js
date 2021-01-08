@@ -121,16 +121,12 @@ class PayProductInfo extends React.Component {
       isGACheckoutLock = true
       let product = this.isLogin ? this.GAGetProductLogin(productList) : this.GAGetProductUnlogin(productList)
 
-      let basketAmount = this.tradePrice,
-        basketID = guid,
-        option = this.isLogin ? 'account already created' : 'new account',
-        step = 2;
-
-      dataLayer[0].checkout.basketAmount = basketAmount;
-      dataLayer[0].checkout.basketID = basketID;
-      dataLayer[0].checkout.option = option;
+      dataLayer[0].checkout.basketAmount = this.tradePrice;
+      dataLayer[0].checkout.basketID = guid;
+      dataLayer[0].checkout.option = this.isLogin ? 'account already created' : 'new account';
+      dataLayer[0].checkout.step = 2;
       dataLayer[0].checkout.product = product;
-      dataLayer[0].checkout.step = step;
+      
 
       dataLayer.push({
         checkout: {

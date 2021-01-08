@@ -72,9 +72,7 @@ class Carousel extends React.Component {
 
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context }, () => {
-        console.log({ banner: this.state.banner });
-      });
+      this.setState({ banner: res.context });
     });
 
     this.screenChange();
