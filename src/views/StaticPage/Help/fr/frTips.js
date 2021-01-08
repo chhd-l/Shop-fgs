@@ -43,7 +43,8 @@ class FrTips extends Component {
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
                                     <LazyLoad style={{width: '100%'}}>
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2ab75a25/Help/onlineshop_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne"
+                                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/onlineshop_90x90.jpg`} />
                                     </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">
@@ -64,7 +65,8 @@ class FrTips extends Component {
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
                                     <LazyLoad style={{width: '100%'}}>
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw27a53e96/Help/PETnutri_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne"
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETnutri_90x90.jpg`} />
                                     </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">
@@ -85,7 +87,8 @@ class FrTips extends Component {
                             <article className="rc-card rc-card--a rc-padding--sm">
                                 <picture className="rc-card__image rc-card__image--balanced">
                                     <LazyLoad style={{width: '100%'}}>
-                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw2d75a203/Help/PETCARE_90x90.jpg?sw=100&sfrm=jpg"/>
+                                    <img className=" lazyloaded" alt="Expérience d'achat en ligne" 
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/PETCARE_90x90.jpg`}/>
                                     </LazyLoad>
                                 </picture>
                                 <div className="rc-text--center">

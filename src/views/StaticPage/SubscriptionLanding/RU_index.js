@@ -208,27 +208,6 @@ class Help extends React.Component {
               </p>
             </div>
           </div>
-          {/* <div
-            className="rc-layout-container rc-three-column"
-            style={{ padding: '20px', background: '#eee' }}
-          >
-            <div className="rc-column" style={{textAlign: 'center'}}>
-              <img src={cat} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
-            </div>
-            <div className="rc-column" style={{textAlign: 'center'}}>
-              <h2 style={{ color: '#E2001A'}}>Commencez dès maintenant votre Abonnement</h2>
-              <p>Découvrez les meilleures options de nutrition pour votre animal et choisissez l'option Abonnement avant d'acheter.
-              </p>
-              <div><button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}>Chat</button> <button className="rc-btn rc-btn--sm rc-btn--two" onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}>Chien</button></div>
-            </div>
-            <div className="rc-column" style={{textAlign: 'center'}}>
-              <img src={dog} style={{ width: '100%', display: 'inline-block', marginBottom: '20px' }} />
-            </div>
-          </div> */}
           <div className="help-page" style={{ marginBottom: '1rem' }}>
             <section style={{ textAlign: 'center' }}>
               <h2 style={{ color: '#E2001A', marginTop: '40px' }}>
