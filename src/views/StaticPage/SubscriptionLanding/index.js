@@ -260,12 +260,12 @@ class SubscriptionLanding extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              to="/cats"
                             >
-                              Chat
-                            </a>
+                              <FormattedMessage id="account.cat" />
+                            </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
@@ -278,16 +278,16 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link
+                            {/* <Link
                               to="/product-finder"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="header.toBegin" />
-                            </Link>
-                            {/* <a className="rc-btn rc-btn--sm rc-btn--two"
-                               href="/">Chat</a>
-                            <a className="rc-btn rc-btn--sm rc-btn--two"
-                               href="/">Chien</a> */}
+                            </Link> */}
+                            <Link className="rc-btn rc-btn--sm rc-btn--two"
+                               to="/cats"><FormattedMessage id="account.cat" /></Link>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two"
+                               to="/dogs"><FormattedMessage id="account.dog" /></Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
@@ -299,12 +299,12 @@ class SubscriptionLanding extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              to="/dogs"
                             >
-                              Chien
-                            </a>
+                              <FormattedMessage id="account.dog" />
+                            </Link>
                           </div>
                         </div>
                       </div>

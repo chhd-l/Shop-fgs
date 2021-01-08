@@ -296,7 +296,7 @@ class PromotionRefuge extends React.Component {
                                   <div>
                                     <b style={{color:'#00A4A6'}}>Des questions?</b>
                                     <p>
-                                      Vous pouvez également consulter notre rubrique
+                                    {`Vous pouvez également consulter notre rubrique `}
                                       <Link to="/FAQ/all" style={{backgroundColor:'white',color:"rgb(236,0,26)"}}>FAQ</Link>qui vous apportera de nombreuses réponses.
                                     </p>
                                   </div>
