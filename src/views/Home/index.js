@@ -689,9 +689,7 @@ class Home extends React.Component {
           <Divider />
           <div className="experience-component experience-layouts-1column">
             <div className="row rc-margin-x--none">
-              <AdvantageTips
-                secondIconvisible={process.env.REACT_APP_LANG !== 'de'}
-              />
+              <AdvantageTips/>
             </div>
           </div>
           <div className="experience-component experience-layouts-1column">

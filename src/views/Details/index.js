@@ -48,14 +48,6 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
 
-const urlParamTransfer = {
-  utm_source:"utmSource",
-  utm_medium:"utmMedium",
-  utm_campaign:"utmCampaign",
-  prefn1:"prefixFn",
-  prefv1:"prefixBreed",
-}
-
 function Advantage() {
   return (
     {

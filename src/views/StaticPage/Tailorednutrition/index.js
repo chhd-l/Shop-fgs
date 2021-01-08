@@ -130,10 +130,8 @@ class Tailorednutrition extends React.Component {
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture>
                              <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa7579f10/Tailorednutrition/SACRED_BIRMAN_KITTEN___BIRTH___GROWTH___BRAND_EMBLEMATIC_Med._Res.___Basic-1.jpg?sw=622&amp;sfrm=jpg"
-                                         alt="Alimentation sur mesure - Chats" title="Alimentation sur mesure - Chats"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwa7579f10/Tailorednutrition/SACRED_BIRMAN_KITTEN___BIRTH___GROWTH___BRAND_EMBLEMATIC_Med._Res.___Basic-1.jpg?sw=622&amp;sfrm=jpg"></img>
-
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/SACRED_BIRMAN_KITTEN___BIRTH___GROWTH___BRAND_EMBLEMATIC_Med._Res.___Basic-1.jpg`}
+                                alt="Alimentation sur mesure - Chats" title="Alimentation sur mesure - Chats"/>
                             </picture>
                           </div>
                         </div>
@@ -151,13 +149,11 @@ class Tailorednutrition extends React.Component {
                         <a id="undefined" name="undefined" className="page-section-anchor" aria-hidden="true"></a>
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-                            <picture data-rc-feature-objectfillpolyfill-setup="true">
-                                    <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw47f64e7a/Tailorednutrition/GERMAN_SHEPHERD_PUPPY___BRAND_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
-                                         alt="Alimentation sur mesure - Chiens" title="Alimentation sur mesure - Chiens"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw47f64e7a/Tailorednutrition/GERMAN_SHEPHERD_PUPPY___BRAND_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg">
-                                    </img>
-                             </picture>
+                            <LazyLoad>
+                              <img className="w-100 lazyloaded"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/GERMAN_SHEPHERD_PUPPY___BRAND_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}
+                                alt="Alimentation sur mesure - Chiens" title="Alimentation sur mesure - Chiens"/>                              
+                            </LazyLoad>
                           </div>
                           <div className=" col-12 col-lg-6">
                             <div
@@ -194,13 +190,10 @@ class Tailorednutrition extends React.Component {
                           </div>
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-
                                     <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwd47a232f/Tailorednutrition/JACK_RUSSEL_TERRIER_ADULT_-_VET_VHN_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
                                          alt="Chiens - Alimentation en fonction de la taille"
                                          title="Chiens - Alimentation en fonction de la taille"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwd47a232f/Tailorednutrition/JACK_RUSSEL_TERRIER_ADULT_-_VET_VHN_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
-                            </picture>
+                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/JACK_RUSSEL_TERRIER_ADULT_-_VET_VHN_Med._Res.___Basic.jpg`}/>                            </picture>
                           </div>
                         </div>
                       </div>
@@ -219,9 +212,8 @@ class Tailorednutrition extends React.Component {
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture>
                                     <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6d72e20a/Tailorednutrition/ROYAL_CANIN_50_YEARS_IMAGES_PERSIAN_3_12_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
                                          alt="Alimentation sur mesure - Races" title="Alimentation sur mesure - Races"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw6d72e20a/Tailorednutrition/ROYAL_CANIN_50_YEARS_IMAGES_PERSIAN_3_12_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/ROYAL_CANIN_50_YEARS_IMAGES_PERSIAN_3_12_Med._Res.___Basic.jpg`}/>
                             </picture>
                           </div>
                           <div className=" col-12 col-lg-6">

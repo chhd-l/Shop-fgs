@@ -348,7 +348,7 @@ class PaymentEditForm extends React.Component {
                   <div className="col-sm-12">
                     <div className="form-group">
                       <label
-                        className="form-control-label"
+                        className="form-control-label w-100"
                         htmlFor="cardNumber"
                       >
                         <FormattedMessage id="payment.cardNumber" />
