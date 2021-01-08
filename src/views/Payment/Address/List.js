@@ -64,7 +64,7 @@ class AddressList extends React.Component {
         countryList: res
       });
     });
-    this.queryAddressList();
+    this.queryAddressList({ init: true });
   }
   get panelStatus() {
     const tmpKey =
@@ -76,7 +76,7 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
-  async queryAddressList() {
+  async queryAddressList({ init = false } = {}) {
     const { selectedId } = this.state;
     this.setState({ loading: true });
     try {
@@ -121,7 +121,7 @@ class AddressList extends React.Component {
         },
         () => {
           this.updateSelectedData();
-          this.confirmToNextPanel();
+          this.confirmToNextPanel({ init });
         }
       );
     } catch (err) {
@@ -143,7 +143,7 @@ class AddressList extends React.Component {
         : 'updateSelectedBillingAddress'
     ](tmpObj);
   }
-  confirmToNextPanel() {
+  confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {
       return false;
     }
@@ -164,7 +164,10 @@ class AddressList extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: this.curPanelKey,isFirstLoad:true });
+      paymentStore.setStsToCompleted({
+        key: this.curPanelKey,
+        isFirstLoad: init
+      });
 
       let isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),

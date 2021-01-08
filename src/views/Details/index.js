@@ -34,7 +34,8 @@ import {
   setSeoConfig,
   getDeviceType,
   getFrequencyDict,
-  queryStoreCateList
+  queryStoreCateList,
+  getParaByName
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
@@ -42,7 +43,6 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
-import {getParaByName} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
