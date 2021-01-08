@@ -26,8 +26,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' }
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' }
         ]
       }
     ],
@@ -79,8 +79,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats' },
-          { link: '/list/dogs', messageId: 'dogs' }
+          { link: '/cats', messageId: 'cats' },
+          { link: '/dogs', messageId: 'dogs' }
         ]
       }
     ],
@@ -300,8 +300,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' },
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' },
           {
             link: '/subscription-landing-ru',
             messageId: 'account.subscription'
@@ -389,8 +389,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' }
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' }
         ]
       }
     ],
