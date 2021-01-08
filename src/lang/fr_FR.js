@@ -2,6 +2,7 @@ import React from 'react';
 
 const fr_FR = {
   aboutUs: 'À propos de nous',
+  IVAIncluido: 'TVA incluse',
   'aboutUs.description': 'Comme chez les humains, la santé est essentielle à la qualité de vie des animaux. Chez Royal Canin, nous étudions méticuleusement le moindre détail pour comprendre les besoins spécifiques des chats et des chiens, et élaborer des aliments qui apportent une solution efficace à leurs problèmes de santé.',
   'aboutUs.FoodQualityandSafety': 'Engagement en faveur de la qualité',
   'aboutUs.FoodQualityandSafetyDetail': 'La qualité nutritionnelle et la sécurité des aliments sont au cœur de tout ce que nous faisons dans le monde.',
