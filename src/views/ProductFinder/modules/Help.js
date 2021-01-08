@@ -34,20 +34,12 @@ class Help extends React.Component {
             <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
               <picture class="align-self-center m-auto" data-rc-feature-objectfillpolyfill-setup="true">
                 <LazyLoad>
-                  <img className="ls-is-cached lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg"
+                  <img 
+                    className="ls-is-cached lazyloaded"
                     alt="Par téléphone icon"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg" />
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
+                    />
                 </LazyLoad>
-                {/*
-                <source media="(max-width: 769px)"
-                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=240&amp;sfrm=jpg 2x">
-                <source media="(min-width: 769px)"
-                  srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=240&amp;sfrm=jpg 2x">
-                */}
-                {/* <img
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw50dca061/Help/customer-service@2x.png?sw=120&amp;sfrm=jpg"
-                  alt="Par téléphone" title="Par téléphone" /> */}
               </picture>
             </div>
           </div>
@@ -77,20 +69,11 @@ class Help extends React.Component {
               </div>
               <div class="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                 <picture class="align-self-center m-auto" data-rc-feature-objectfillpolyfill-setup="true">
-                  {/*
-                  <source media="(max-width: 769px)"
-                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=240&amp;sfrm=png 2x">
-                  <source media="(min-width: 769px)"
-                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=240&amp;sfrm=png 2x">
-                  */}
-                  {/* <img
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png"
-                    alt="Par email" title="Par email" /> */}
                   <LazyLoad>
-                    <img className=" ls-is-cached lazyloaded"
-                      data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png"
+                    <img 
+                      className=" ls-is-cached lazyloaded"
                       alt="Par e-mail icon"
-                      src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4fb71e73/help/email.png?sw=120&amp;sfrm=png" />
+                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/email.png`} />
                   </LazyLoad>
                 </picture>
               </div>
