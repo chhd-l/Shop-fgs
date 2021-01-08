@@ -160,7 +160,7 @@ class FAQ extends React.Component {
                 </div>
               </div>
             </div>
-            {/* {this.state.loading ? (
+            {this.state.loading ? (
               <div className="pb-4">
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
               </div>
@@ -219,9 +219,9 @@ class FAQ extends React.Component {
                     </dl>
                   </>
                 ))
-              )} */}
+              )}
           </div>
-          {
+          {/* {
             this.state.loading
               ? (
                 <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
@@ -253,9 +253,9 @@ class FAQ extends React.Component {
                                 <dl data-toggle-group data-toggle-effect="rc-expand--vertical" style={{marginBottom:'10px'}}>
                                   <div className="rc-list__accordion-item" style={{borderBottom:0}}>
                                     <dt>
-                                      <button className="rc-list__header FAQ_header" id={`heading-${item.id}`} data-toggle={`content-${item.id}`}  dangerouslySetInnerHTML={{ __html: item.question }}></button>
+                                      <button className="rc-list__header FAQ_header" id={`heading-${item.id}`} data-toggle={`content-${item.id}`} data-js-open="false" data-depth="1" aria-haspopup="true" aria-selected="false" dangerouslySetInnerHTML={{ __html: item.question }}></button>
                                     </dt>
-                                    <dd className="rc-list__content rc-expand--vertical" id={`content-${item.id}`} aria-labelledby={`heading-${item.id}`}  style={{ maxHeight: 0 }}>
+                                    <dd className="rc-list__content rc-expand--vertical" id={`content-${item.id}`} aria-labelledby={`heading-${item.id}`} aria-expanded="false" aria-hidden="true" style={{ maxHeight: 0 }}>
                                       <p dangerouslySetInnerHTML={{ __html: item.answer }}></p>
                                     </dd>
                                   </div>
@@ -269,7 +269,7 @@ class FAQ extends React.Component {
                   }
                 </div>
               )
-          }
+          } */}
 
         </main>
         <Footer />
