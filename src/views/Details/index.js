@@ -1349,6 +1349,8 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     
+    // console.log(cartDataCopy)
+    // debugger
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {

@@ -58,7 +58,7 @@ function getMuntiImg(item) {
   }
 }
 function ListItemH5ForFr(props) {
-  const { item, GAListParam, breadListByDeco } = props;
+  const { item, GAListParam, breadListByDeco,sourceParam } = props;
   // console.log('★★★★★★★★★ item: ',item);
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
@@ -76,7 +76,7 @@ function ListItemH5ForFr(props) {
                 ? `/${item.lowGoodsName
                     .split(' ')
                     .join('-')
-                    .replace('/', '')}-${item.goodsNo}`
+                    .replace('/', '')}-${item.goodsNo}`+sourceParam
                 : '',
               state: { GAListParam, historyBreads: breadListByDeco }
             }}
@@ -138,7 +138,7 @@ function ListItemH5ForFr(props) {
   );
 }
 function ListItem(props) {
-  const { item, GAListParam, breadListByDeco } = props;
+  const { item, GAListParam, breadListByDeco,sourceParam } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -155,7 +155,7 @@ function ListItem(props) {
                 ? `/${item.lowGoodsName
                     .split(' ')
                     .join('-')
-                    .replace('/', '')}-${item.goodsNo}`
+                    .replace('/', '')}-${item.goodsNo}`+sourceParam
                 : '',
               state: {
                 GAListParam,
@@ -439,6 +439,7 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      sourceParam: '',
       GAListParam: '', //GA list参数
       eEvents: '',
       storeCateIds: [],
@@ -489,6 +490,9 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
+    this.setState({
+      sourceParam: search
+    })
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     this.setState(
@@ -1676,6 +1680,7 @@ class List extends React.Component {
                                 process.env.REACT_APP_LANG === 'fr' &&
                                 isMobile ? (
                                   <ListItemH5ForFr
+                                    sourceParam={this.state.sourceParam}
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
@@ -1727,6 +1732,7 @@ class List extends React.Component {
                                   </ListItemH5ForFr>
                                 ) : (
                                   <ListItem
+                                    sourceParam={this.state.sourceParam}
                                     key={item.id}
                                     leftPromotionJSX={
                                       item.taggingForText ? (
