@@ -155,7 +155,7 @@ const breadcrumbNameMap = {
     name:'Nos promotions refuge'
   }],
   '/cadeau-coussin-chat':[{
-    name:'cadeau-coussin-chat'
+    name:'Nos promotions Chat'
   }],
   '/product-finder': [{ name: 'productFinder.resultPage' }],
   '/product-finder-recommendation': [
