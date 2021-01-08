@@ -42,11 +42,19 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
-import {getRequest} from "@/utils/utils"
+import {getParaByName} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
+
+const urlParamTransfer = {
+  utm_source:"utmSource",
+  utm_medium:"utmMedium",
+  utm_campaign:"utmCampaign",
+  prefn1:"prefixFn",
+  prefv1:"prefixBreed",
+}
 
 function Advantage() {
   return (
@@ -196,15 +204,29 @@ class Details extends React.Component {
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
   }
+  getUrlParam(){
+    const { search } = this.props.history.location;
+    const utmSource = getParaByName(search, 'utm_source')
+    const utmMedium = getParaByName(search, 'utm_medium')
+    const utmCampaign = getParaByName(search, 'utm_campaign')
+    const prefixFn = getParaByName(search, 'prefn1')
+    const prefixBreed = getParaByName(search, 'prefv1')
+    const requestJson = {
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      prefixFn,
+      prefixBreed
+    }
+    this.setState({
+      requestJson
+    })
+  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    
-    const requestJson = getRequest() 
-    this.setState({requestJson})
-
-
+    this.getUrlParam()
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -1115,7 +1137,7 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
+      if(Object.keys(this.state.requestJson).length>0){
         param = {...param,...this.state.requestJson}
       }
       await sitePurchase(param);
