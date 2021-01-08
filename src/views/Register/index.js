@@ -374,7 +374,7 @@ class Register extends Component {
               <div className="rc-margin-bottom--sm text-center">
                 <a
                   href={process.env.REACT_APP_ACCESS_PATH}
-                  className="logo-home d-inline-block"
+                  className="logo-home d-inline-block border-bottom border-transparent"
                   title="Commerce Cloud Storefront Reference Architecture Accueil"
                 >
                   <span className="rc-screen-reader-text">
@@ -382,7 +382,7 @@ class Register extends Component {
                   </span>
                   <div className="content-asset">
                     <img
-                      src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw66c24d73/Logo R-C/logo--secondary.png?sw=220&amp;sh=102&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=220&amp;ch=102&amp;sfrm=png"
+                      src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/logo--secondary.png`}
                       width="164"
                       height="60"
                       alt="Royal Canin Flagship Store"

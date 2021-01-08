@@ -72,9 +72,7 @@ class Carousel extends React.Component {
 
   componentDidMount() {
     getBanner().then((res) => {
-      this.setState({ banner: res.context }, () => {
-        console.log({ banner: this.state.banner });
-      });
+      this.setState({ banner: res.context });
     });
 
     this.screenChange();
@@ -210,12 +208,12 @@ class Carousel extends React.Component {
       <div className="homePage">
         <div className="carousel-wrap">
           <a
-            className="leftBtn Btn rc-icon rc-left rc-iconography"
+            className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer"
             id="leftBtn"
             onClick={this.leftBtnClick}
           />
           <a
-            className="rightBtn Btn  rc-icon  rc-right rc-iconography"
+            className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer"
             id="rightBtn"
             onClick={this.rightBtnClick}
           />

@@ -29,8 +29,12 @@ class Packfeed extends React.Component {
   render(h) {
     const event = {
       page: {
-        type: 'Content',
-        theme: 'Brand'
+        error: "none",
+        filters: "none",
+        hitTimestamp:  new Date(),
+        path: location.pathname,
+        theme: "none",
+        type: "Other",
       }
     };
     return (

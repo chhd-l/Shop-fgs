@@ -158,7 +158,7 @@ class Confirmation extends React.Component {
         oneShoot: (
           <>
             <Link
-              to="/account"
+              to="/home"
               className="rc-btn rc-btn--one"
               style={{ transform: 'scale(.85)' }}
             >
@@ -169,7 +169,7 @@ class Confirmation extends React.Component {
       }
     )[buyWay] || defaultJSX
   }
-  //商品全是oneShoot,返回翻译confirmation.account，否则显示confirmation.oneShoot
+  //商品全是oneShoot和有订阅的商品区分
   computedGotoAccountBtn(isAllOneShootGoods) {
     let res = ''
     if (isAllOneShootGoods) {

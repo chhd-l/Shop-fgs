@@ -88,46 +88,47 @@ class PaymentStore {
   }
 
   @action.bound
-  setStsToCompleted({ key, isFirstLoad }) {
+  setStsToCompleted({ key, isFirstLoad }) {//isFirstLoad表示进入checkout页面直接执行,此时不需要push-event
     switch (key) {
+      //填完邮件
       case 'email':
-        let option = ''
-        isNewAccount().then((res) => {
-          if (res.code == 'K-000000') {
-            if (res.context > 0) {
-              option = 'guest checkout'
-            } else {
-              option = 'new account'
-            }
+        dataLayer[0].checkout.step = 2
+        dataLayer[0].checkout.option = 'guest checkout'
+        if (isFirstLoad) {
+          const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
+          result.checkout = {
+            step: 2,
+            option: ''
           }
-          dataLayer[0].checkout.step = 2
-          dataLayer[0].checkout.option = option
-          if (isFirstLoad) {
-            const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-            result.checkout = {
+          result.page = {
+            type: 'Checkout',
+            virtualPageURL: '/checkout/shipping'
+          }
+        } else {
+          dataLayer.push({
+            checkout: {
               step: 2,
-              option: option
-            }
-            result.page = {
+              option: ''
+            },
+            event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
+            page: {
               type: 'Checkout',
               virtualPageURL: '/checkout/shipping'
             }
-          } else {
-            dataLayer.push({
-              checkout: {
-                step: 2,
-                option: option
-              },
-              event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
-              page: {
-                type: 'Checkout',
-                virtualPageURL: '/checkout/shipping'
-              }
-            })
-          }
-        })
-
+          })
+        }
+        //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
+        if(this.isLogin){
+          isNewAccount().then((res) => {
+            if (res.code == 'K-000000'&&res.context == 0) {
+              dataLayer[0].checkout.option = 'new account'
+            }else{
+              dataLayer[0].checkout.option = 'account already created'
+            }
+          })
+        }
         break;
+      //填完地址
       case 'deliveryAddr':
         dataLayer[0].checkout.step = 3;
         dataLayer[0].checkout.option = ''
@@ -155,15 +156,13 @@ class PaymentStore {
           })
         }
         break;
+      //填完支付信息
       case 'paymentMethod':
         dataLayer[0].checkout.step = 4;
         dataLayer[0].checkout.option = ''
         if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = {
-            step: 4,
-            option: 'paymentMethod'
-          }
+          result.checkout = {step: 4,option: 'paymentMethod'}
           result.page = {
             type: 'Checkout',
             virtualPageURL: '/checkout/placeOrder'
@@ -181,7 +180,6 @@ class PaymentStore {
             }
           })
         }
-
         break;
     }
     this.updatePanelStatus(key, {
