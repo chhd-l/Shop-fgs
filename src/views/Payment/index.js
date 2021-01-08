@@ -732,6 +732,8 @@ class Payment extends React.Component {
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
+      console.log(finalParam)
+      //debugger
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -1161,6 +1163,11 @@ class Payment extends React.Component {
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
           return {
+            utmSource:g.utmSource||'',
+            utmMedium:g.utmMedium||'',
+            utmCampaign:g.utmCampaign||'',
+            prefixFn:g.prefixFn||'',
+            prefixBreed:g.prefixBreed||'',
             num: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
@@ -1192,6 +1199,11 @@ class Payment extends React.Component {
         )
         .map((g) => {
           return {
+            utmSource:g.utmSource||'',
+            utmMedium:g.utmMedium||'',
+            utmCampaign:g.utmCampaign||'',
+            prefixFn:g.prefixFn||'',
+            prefixBreed:g.prefixBreed||'',
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
