@@ -200,8 +200,8 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     
-    const requestJson = getRequest() 
-    this.setState({requestJson})
+    // const requestJson = getRequest() 
+    // this.setState({requestJson})
 
 
     const { pathname, state } = this.props.location;
