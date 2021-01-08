@@ -205,45 +205,6 @@ class Help extends React.Component {
               Notre travail s’appuie sur un vaste socle évolutif de connaissances scientifiques en matière de santé et de nutrition animale.
             </p>
           </section>
-          {/*<section*/}
-          {/*  style={{*/}
-          {/*    textAlign: 'center',*/}
-          {/*    width: '450px',*/}
-          {/*    margin: '80px auto',*/}
-          {/*    border: '1px solid #d7d7d7',*/}
-          {/*    padding: '30px'*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <h2 style={{ color: '#E2001A', fontSize: '1.875rem' }}>*/}
-          {/*    Здоровье и инновации*/}
-          {/*  </h2>*/}
-          {/*  <p>*/}
-          {/*    Вся наша деятельность основана на глубоком понимании ключевых*/}
-          {/*    вопросов науки и диетологии и постоянном его совершенствовании.*/}
-          {/*  </p>*/}
-          {/*</section>*/}
-          {/* <section style={{ textAlign: 'left', width: '100%', margin: '0 auto' }}>
-            <h2 style={{ color: '#E2001A', marginTop: '40px', fontSize: '2.5rem', paddingLeft: '200px' }}>
-              Выберите нужный продукт. Какое у вас животное?
-            </h2>
-            <div
-              className="rc-layout-container rc-two-column"
-              style={{ padding: '20px 200px' }}
-            >
-              <div className="rc-column" style={{ border: '1px solid #ccc' , cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/dogs')
-                }}>
-                <img src={dog} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}>Узнайте больше и подберите подходящее питание для вашего питомца</p>
-              </div>
-              <div className="rc-column" style={{ border: '1px solid #ccc', marginLeft: '20px', cursor: 'pointer'}} onClick={() => {
-                  this.props.history.push('/list/cats')
-                }}>
-                <img src={cat} style={{ width: '100%' }} />
-                <p style={{color: '#E2001A', fontSize: '1.5rem', fontWeight: '400'}}>Подберите подходящее здоровое питание для Вашей кошки!</p>
-              </div>
-            </div>
-          </section> */}
         </main>
         <Footer />
       </div>
