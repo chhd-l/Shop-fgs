@@ -104,7 +104,8 @@ class CommunicationDataEditForm extends React.Component {
     this.setState({
       saveLoading: true
     });
-    let oktaToken = 'Bearer ' + this.props.authState.accessToken;
+    const oktaTokenString = authState.accessToken ? authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.list);
     Promise.all([
       updateCustomerBaseInfo(
