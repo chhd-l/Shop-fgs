@@ -430,6 +430,7 @@ const App = () => (
                 component={ShipmentConditions}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
+              <Route path="/404" component={Exception} />
               <Route path="/403" component={Page403} />
               <Route path="/500" component={Page500} />
 
@@ -539,6 +540,7 @@ const App = () => (
                   }
                 }}
               />
+              <Route path="*" component={Exception} />
             </Switch>
           </Security>
         </ScrollToTop>
