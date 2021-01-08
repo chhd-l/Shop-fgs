@@ -22268,3 +22268,6 @@ a.rc-styled-link,b.rc-styled-link,button.rc-styled-link,span.rc-styled-link {
     padding: 2rem
   }
 }
+.creditCompleteInfoBox.active {
+  background-color: #3856A719;
+}

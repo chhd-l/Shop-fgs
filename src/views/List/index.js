@@ -38,7 +38,7 @@ import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 let isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 function getMuntiImg(item) {
   let img;
@@ -646,7 +646,7 @@ class List extends React.Component {
 
         let sortParam = null;
         let cateIds = [];
-        let filters = [];
+        let filters = cloneDeep((state && state.filters) || []);
         let breadList = [];
         const sortList = (res[2] || [])
           .sort((a, b) => a.sort - b.sort)
@@ -687,6 +687,8 @@ class List extends React.Component {
               }
             }
           } catch (err) {}
+        } else {
+          this.prop.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -712,7 +714,7 @@ class List extends React.Component {
         // set SEO
         this.setSEO({ cateIds });
 
-        // 解析prefn/prefv, 匹配filter, 设置默认值
+        // 解析prefn/prefv, 匹配filter, 设置默认选中值
         const prefnNum = (search.match(/prefn/gi) || []).length;
         for (let index = 0; index < prefnNum; index++) {
           const fnEle = decodeURI(getParaByName(search, `prefn${index + 1}`));
@@ -844,44 +846,89 @@ class List extends React.Component {
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
     }
 
-    // 处理每个filter的router
+    // 处理每个filter的router(处理url prefn/state)
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
+        let hasRouter = true;
+        let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
-        const targetPIdx = prefnParamList.findIndex(
+
+        // 该子节点是否存在于prefn中
+        const targetPIdxForPrefn = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
         );
-        const targetPItem = prefnParamList[targetPIdx];
+        const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
+        // 该子节点是否存在于state.filters中
+        const targetPIdxForState = filters.findIndex(
+          (p) => p.attributeId === pEle.attributeId
+        );
+        const targetPItemForState = filters[targetPIdxForState];
         if (cEle.selected) {
-          // 该子节点被选中，从链接中移除
-          // 1 若移除后，子节点为空了，则移除该父节点
-          if (targetPItem) {
-            const idx = targetPItem.prefvs.findIndex(
+          // 该子节点被选中，
+          // 1.1 若存在于链接中，则从链接中移除
+          // 1.2 若存在于state中，则从state中移除
+          // 2 若移除后，子节点为空了，则移除该父节点
+          let idx;
+          if (targetPItemForPrefn) {
+            idx = targetPItemForPrefn.prefvs.findIndex(
               (p) => p === cEle.attributeDetailNameEn
             );
-            targetPItem.prefvs.splice(idx, 1);
-            if (!targetPItem.prefvs.length) {
-              prefnParamList.splice(targetPIdx, 1);
+            targetPItemForPrefn.prefvs.splice(idx, 1);
+            if (!targetPItemForPrefn.prefvs.length) {
+              prefnParamList.splice(targetPIdxForPrefn, 1);
+            }
+          } else if (targetPItemForState) {
+            idx = targetPItemForState.attributeValueIdList.findIndex(
+              (p) => p === cEle.id
+            );
+            targetPItemForState.attributeValueIdList.splice(idx, 1);
+            targetPItemForState.attributeValues.splice(idx, 1);
+            if (!targetPItemForState.attributeValueIdList.length) {
+              filters.splice(targetPIdxForState, 1);
             }
           }
         } else {
-          // 该子节点未被选中，在链接中新增prefn/prefv
+          // 该子节点未被选中，在链接中新增prefn/新增state
           // 1 该父节点存在于链接中，
           // 1-1 该子节点为多选，找出并拼接上该子节点
           // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
           // 2 该父节点不存在于链接中，直接新增
 
-          if (targetPItem) {
+          if (targetPItemForPrefn) {
             if (pEle.choiceStatus === 'Single choice') {
-              targetPItem.prefvs = [cEle.attributeDetailNameEn];
+              targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
             } else {
-              targetPItem.prefvs.push(cEle.attributeDetailNameEn);
+              targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
+            }
+          } else if (targetPItemForState) {
+            if (pEle.choiceStatus === 'Single choice') {
+              targetPItemForState.attributeValueIdList = [cEle.id];
+              targetPItemForState.attributeValues = [
+                cEle.attributeDetailNameEn
+              ];
+            } else {
+              targetPItemForState.attributeValueIdList.push(cEle.id);
+              targetPItemForState.attributeValues.push(
+                cEle.attributeDetailNameEn
+              );
             }
           } else {
-            prefnParamList.push({
-              prefn: pEle.attributeName,
-              prefvs: [cEle.attributeDetailNameEn]
-            });
+            // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
+            if (prefnParamList.length < 1) {
+              prefnParamList.push({
+                prefn: pEle.attributeName,
+                prefvs: [cEle.attributeDetailNameEn]
+              });
+            } else {
+              // hasRouter = false;
+              filters.push({
+                attributeId: pEle.attributeId,
+                attributeName: pEle.attributeName,
+                attributeValueIdList: [cEle.id],
+                attributeValues: [cEle.attributeDetailNameEn],
+                filterType: pEle.filterType
+              });
+            }
           }
         }
         const decoParam = prefnParamList.reduce(
@@ -897,10 +944,15 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
-        cEle.router = {
-          pathname,
-          search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : ''
-        };
+        cEle.router = hasRouter
+          ? {
+              pathname,
+              search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
+              state: {
+                filters
+              }
+            }
+          : null;
         return cEle;
       });
       return pEle;
@@ -1009,15 +1061,16 @@ class List extends React.Component {
         }=${item.attributeValues.join('|')}`;
         return item;
       });
+      
     // 点击filter，触发局部刷新或整页面刷新
     if (!initingList && actionFromFilter) {
       pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
-      history.push({
-        pathname,
-        state: {
-          filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
-        }
-      });
+      // history.push({
+      //   pathname,
+      //   state: {
+      //     filters: goodsAttributesValueRelVOList.concat(goodsFilterRelList)
+      //   }
+      // });
     }
 
     // 选择subscription 和 not subscription 才置状态
@@ -1038,14 +1091,11 @@ class List extends React.Component {
     let params = {
       cateType,
       storeId: process.env.REACT_APP_STOREID,
-      // cateId: process.env.REACT_APP_CATEID,
       cateId: this.state.cateId || '',
-      // cateId: this.state.cateId || process.env.REACT_APP_CATEID,
       pageNum: currentPage - 1,
       sortFlag: 11,
       pageSize: this.pageSize,
       keywords,
-      //storeCateIds,
       storeCateIds:
         this.props.location.pathname == '/list/keywords' ? [] : storeCateIds, //暂时加一个判断，特定路由storeCateId为空
       goodsAttributesValueRelVOList: goodsAttributesValueRelVOList.map((el) => {
@@ -1073,7 +1123,6 @@ class List extends React.Component {
 
     getList(params)
       .then((res) => {
-        // storeGoodsFilterVOList
         this.handleFilterResData(
           (res.context && res.context.esGoodsStoreGoodsFilterVOList) || []
         );
@@ -1319,7 +1368,7 @@ class List extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} ecommerceEvents={eEvents} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -1373,8 +1422,17 @@ class List extends React.Component {
                     <FormattedMessage id="list.youSearchedFor" />:
                   </div>
                   <div class="rc-beta rc-padding-bottom--sm rc-margin-bottom--none searchText">
-                    <b>"{keywords}"</b>(
-                    <FormattedMessage id="results" values={{ val: results }} />)
+                    <b>"{keywords}"</b>
+                    {results > 0 && (
+                      <>
+                        (
+                        <FormattedMessage
+                          id="results"
+                          values={{ val: results }}
+                        />
+                        )
+                      </>
+                    )}
                   </div>
                 </div>
               ) : null}
@@ -1451,12 +1509,16 @@ class List extends React.Component {
                       <span className="font-weight-normal">
                         {lastBreadListName}{' '}
                       </span>
-                      (
-                      <FormattedMessage
-                        id="results"
-                        values={{ val: results }}
-                      />
-                      )
+                      {results > 0 && (
+                        <>
+                          (
+                          <FormattedMessage
+                            id="results"
+                            values={{ val: results }}
+                          />
+                          )
+                        </>
+                      )}
                     </div>
                     <div
                       className="d-flex justify-content-between align-items-center rc-md-down list_select_choose"
