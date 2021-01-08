@@ -12,7 +12,7 @@ const Carouselem = withRouter((props) => {
           {
             list.map((item, index) => {
               return (
-                <article className="rc-card rc-card--b tns-item tns-slide-active" style={{margin:'25px'}}>
+                <article className="rc-card rc-card--b tns-item tns-slide-active">
                   <Link to={item.linkUrl+sourceParam} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
                     <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
                       <div className="row h-100">
