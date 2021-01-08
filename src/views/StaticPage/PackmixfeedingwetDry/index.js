@@ -29,12 +29,12 @@ class Packfeed extends React.Component {
   render(h) {
     const event = {
       page: {
-        error: "none",
-        filters: "none",
-        hitTimestamp:  new Date(),
+        error: 'none',
+        filters: 'none',
+        hitTimestamp: new Date(),
         path: location.pathname,
-        theme: "none",
-        type: "Other",
+        theme: 'none',
+        type: 'Other'
       }
     };
     return (
@@ -61,7 +61,10 @@ class Packfeed extends React.Component {
             <div className="row align-items-md-center">
               <div className=" col-12 col-lg-6">
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
-                  <h2 className="rc-beta markup-text" style={{fontSize: '2rem'}}>
+                  <h2
+                    className="rc-beta markup-text"
+                    style={{ fontSize: '2rem' }}
+                  >
                     Quels sont les avantages de nos combinaisons alimentaires
                     pour chiens et chats ?
                   </h2>
@@ -81,34 +84,9 @@ class Packfeed extends React.Component {
                 </div>
               </div>
               <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
-              <LazyLoad>
-                <img src={image1} style={{ width: '100%' }} alt="" />
-              </LazyLoad>
-
-                {/* <picture data-rc-feature-objectfillpolyfill-setup="true">
-                  <source
-                    media="(max-width: 640px)"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=350&amp;sh=233&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg 2x"
-                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=350&amp;sh=233&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg 2x"
-                  />
-                  <source
-                    media="(min-width: 640px) and (max-width: 769px)"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1400&amp;sh=933&amp;sm=cut&amp;sfrm=jpg 2x"
-                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=700&amp;sh=466&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1400&amp;sh=933&amp;sm=cut&amp;sfrm=jpg 2x"
-                  />
-                  <source
-                    media="(min-width: 769px)"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1200&amp;sh=800&amp;sm=cut&amp;sfrm=jpg 2x"
-                    srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=1200&amp;sh=800&amp;sm=cut&amp;sfrm=jpg 2x"
-                  />
-                  <img
-                    className="w-100 lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg"
-                    alt="Les packs de croquettes ROYAL CANIN®"
-                    title="Les packs de croquettes ROYAL CANIN®"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5c67f24b/Pack-mix-feeding-wet-dry/Bundle-LP-image.jpg?sw=600&amp;sh=400&amp;sm=cut&amp;sfrm=jpg"
-                  />
-                </picture> */}
+                <LazyLoad>
+                  <img src={image1} style={{ width: '100%' }} alt="" />
+                </LazyLoad>
               </div>
             </div>
           </div>
@@ -170,14 +148,6 @@ class Packfeed extends React.Component {
                                     alt="alt text"
                                   />
                                 </LazyLoad>
-                                {/* <img
-                            className="m-auto lazyloaded"
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
-                           
-                            srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=300&amp;sfrm=jpg 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw9e6ef833/mkt/00001/Main-Coon-Adult-1-bis.jpg?sw=150&amp;sfrm=jpg"
-                          /> */}
                               </picture>
                               <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
                                 <header>

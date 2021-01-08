@@ -15,7 +15,7 @@ import { Helmet } from 'react-helmet';
 import './index.less';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class FAQ extends React.Component {
   constructor(props) {
@@ -38,8 +38,8 @@ class FAQ extends React.Component {
   componentDidMount() {
     setSeoConfig({
       pageName: 'FAQ page'
-    }).then(res => {
-      this.setState({ seoConfig: res })
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -109,9 +109,12 @@ class FAQ extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription} />
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
@@ -124,20 +127,23 @@ class FAQ extends React.Component {
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
           <BannerTip />
           <BreadCrumbs />
-          <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
+          {/* <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg"> */}
+          <div
+          // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+          >
             <div className="rc-bg-colour--brand3">
-              <div className="rc-padding--sm rc-padding-left--none">
+              <div>
                 <div className="rc-padding-y--md rc-md-down" />
                 <div className="rc-one-column">
-                  <div className="rc-column rc-padding-left--none text-center">
-                    <div className="rc-full-width rc-padding-x--sm rc- padding-left--none ">
+                  <div>
+                    <div className="rc-max-width--md text-center rc-margin-y--md">
                       <h1
                         className="text-center"
                         className="rc-alpha inherit-fontsize"
                       >
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
-                      <p className="text-center">
+                      <p className="text-center" style={{marginBottom: '4rem'}}>
                         <FormattedMessage
                           id="faq.title"
                           values={{
@@ -165,61 +171,67 @@ class FAQ extends React.Component {
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
               </div>
             ) : (
-                this.state.dataFAQ.map((pitem, index) => (
-                  <>
-                    <div className="rc-bg-colour--brand3" key={'p-' + index}>
-                      <h2
-                        name={`catogery-${index}`}
-                        id={`catogery-${index}`}
-                        className="text-center"
-                      >
-                        {pitem.faqType}
-                      </h2>
-                    </div>
-                    <dl
-                      data-toggle-group=""
-                      data-toggle-effect="rc-expand--vertical"
-                      className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+              this.state.dataFAQ.map((pitem, index) => (
+                <>
+                  <div className="rc-bg-colour--brand3 rc-margin-y--sm"
+                  style={{marginTop: '3rem'}}
+                  key={'p-' + index}>
+                    <h2
+                      name={`catogery-${index}`}
+                      id={`catogery-${index}`}
+                      className="text-center"
                     >
+                      {pitem.faqType}
+                    </h2>
+                  </div>
+                  <dl
+                    data-toggle-group=""
+                    data-toggle-effect="rc-expand--vertical"
+                    className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                    // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
+                  >
+                    <div className="experience-region experience-questions">
                       {pitem.storeFaqVo.map((item, index2) => (
-                        <div
-                          key={item.id}
-                          className={`rc-list__accordion-item test-color 
-                  ${this.state.showCur === index2 ? 'showItem' : 'hiddenItem'}`}
-                        >
-                          <div
-                            className="rc-list__header"
-                            onClick={() => this.handleSelect(index2)}
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between'
-                            }}
-                          >
-                            <div
-                              dangerouslySetInnerHTML={{ __html: item.question }}
-                            ></div>
+                              <div
+                                key={item.id}
+                                className={`rc-list__accordion-item test-color
+                        ${this.state.showCur === index2 ? 'showItem' : 'hiddenItem'}`}
+                              >
+                                <div
+                                  className="rc-list__header"
+                                  onClick={() => this.handleSelect(index2)}
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                  }}
+                                >
+                                  <div
+                                    dangerouslySetInnerHTML={{ __html: item.question }}
+                                  ></div>
 
-                            <span
-                              className={`icon-change ${this.state.showCur === index2
-                                ? 'rc-icon rc-up rc-brand1'
-                                : 'rc-icon rc-down rc-iconography'
-                                }`}
-                            ></span>
-                          </div>
-                          <div className={`rc-list__content `}>
-                            <p
-                              dangerouslySetInnerHTML={{ __html: item.answer }}
-                            ></p>
-                            <LazyLoad>
-                              <img src={item.imgUl} alt="" />
-                            </LazyLoad>
-                          </div>
-                        </div>
+                                  <span
+                                    className={`rc-vertical-align icon-change ${this.state.showCur === index2
+                                      ? 'rc-icon rc-up rc-brand1'
+                                      : 'rc-icon rc-down rc-iconography'
+                                      }`}
+                                      style={{right: '20px',height: '32px'}}
+                                  ></span>
+                                </div>
+                                <div className={`rc-list__content `}>
+                                  <p
+                                    dangerouslySetInnerHTML={{ __html: item.answer }}
+                                  ></p>
+                                  <LazyLoad>
+                                    <img src={item.imgUl} alt="" />
+                                  </LazyLoad>
+                                </div>
+                              </div>
                       ))}
-                    </dl>
-                  </>
-                ))
-              )}
+                    </div>
+                  </dl>
+                </>
+              ))
+            )}
           </div>
           {/* {
             this.state.loading
@@ -270,7 +282,6 @@ class FAQ extends React.Component {
                 </div>
               )
           } */}
-
         </main>
         <Footer />
       </div>

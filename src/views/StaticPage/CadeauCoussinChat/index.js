@@ -63,7 +63,7 @@ class CadeauCoussinChat extends React.Component {
                           <h2 className="rc-beta text-center">Recevez en cadeau un coussin pour votre chat*</h2>
                           <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                             <p>Avec le code promotionnel qui vous a été communiqué vous pouvez à la fin de votre commande obtenir un cadeau spécial pour votre chat : un super coussin parfait pour les longues siestes de votre félin.</p>
-                            <p><br/></p>
+                            <p className="rc-md-down"><br/></p>
                             <h3>
                               <strong>Comment obtenir votre cadeau ?</strong>
                             </h3>
@@ -80,16 +80,45 @@ class CadeauCoussinChat extends React.Component {
                             <div className="rc-column">
                               <div className="rc-padding-y--lg--mobile rc-full-width">
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Choisissez
+                                  <li className="rc-list__item">
+                                  <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Choisissez
                                     l'aliment adapté à votre chat et ajoutez-le à votre panier
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Rendez-vous
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}
+                                    ></i>
+                                    Rendez-vous
                                     dans votre panier pour finaliser votre commande
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Ajoutez
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Ajoutez
                                     votre code promotionnel en dessous du panier et cliquez sur "Appliquer"
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Créez
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Créez
                                     votre compte et passez votre commande
                                   </li>
                                 </ul>

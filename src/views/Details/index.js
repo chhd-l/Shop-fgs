@@ -34,7 +34,8 @@ import {
   setSeoConfig,
   getDeviceType,
   getFrequencyDict,
-  queryStoreCateList
+  queryStoreCateList,
+  getParaByName
 } from '@/utils/utils';
 import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
@@ -42,7 +43,6 @@ import { Helmet } from 'react-helmet';
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
-import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -1334,6 +1334,8 @@ class Details extends React.Component {
       cartDataCopy.push(tmpData);
     }
     
+    // console.log(cartDataCopy)
+    // debugger
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
