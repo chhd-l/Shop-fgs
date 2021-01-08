@@ -1346,6 +1346,7 @@ class Details extends React.Component {
         );
         return;
       }
+      // tmpData = [...tmpData,...this.state.requestJson]
       cartDataCopy.push(tmpData);
     }
     
