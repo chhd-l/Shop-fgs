@@ -159,8 +159,8 @@ class Carousel extends React.Component {
           <FormattedMessage id="recommandedForyou" />
       </div>
         <div className='carousel-wrap'>
-          <a className="leftBtn Btn rc-icon rc-left rc-iconography" id="leftBtn" onClick={this.leftBtnClick}></a>
-          <a className="rightBtn Btn  rc-icon  rc-right rc-iconography" id="rightBtn" onClick={this.rightBtnClick}></a>
+          <a className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer" id="leftBtn" onClick={this.leftBtnClick}></a>
+          <a className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer" id="rightBtn" onClick={this.rightBtnClick}></a>
           <div className="carousel" id="carousel">
             <div className="m_unit" id="m_unit">
               <ul>
