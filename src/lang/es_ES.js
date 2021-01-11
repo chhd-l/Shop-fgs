@@ -294,7 +294,7 @@ const es_ES = {
   getPetFailed: 'Obtener mascota fallida',
   giveConsentPersonalData: 'y doy mi consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza',
   goods: 'Productos',
-  GuestCheckout: 'Pagar como invitada',
+  guestCheckout: 'Pagar como invitada',
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.carouselInfo1': 'Mantén la salud de tu mascota con una nutrición a la medida.',
   'header.carouselInfo2': 'Elije el alimento de prescripción recomendado por tu veterinario',

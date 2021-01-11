@@ -267,7 +267,7 @@ const tr_TR = {
   getPetFailed: 'Hayvan Başarısız Olsun',
   giveConsentPersonalData: 've sınır ötesi aktarım dahil olmak üzere kişisel verilerin işlenmesine izin veriyorum',
   goods: 'Mal',
-  GuestCheckout: 'Misafir olarak çıkış yap',
+  guestCheckout: 'Misafir olarak çıkış yap',
   'header.basketEmpty': 'Sepetinizde bir ürün yok.',
   'header.carouselInfo1': 'Doğru beslenme ile evcil hayvanınızın sağlığını koruyun',
   'header.carouselInfo2': 'Evcil hayvanınız için doğru mamayı seçin',

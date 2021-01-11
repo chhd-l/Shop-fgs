@@ -23,7 +23,6 @@ import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
 import {
   searchNextConfirmPanel,
-  isPrevReady,
   scrollPaymentPanelIntoView
 } from './modules/utils';
 import {
@@ -135,6 +134,7 @@ class Payment extends React.Component {
       email: '',
       payWayObj: {}, //支付方式input radio汇总
       savedPayWayObj: {}, //保留初始化的支付方式
+      payWayErr: '',
       orderDetails: null,
       tid: sessionItemRoyal.get('rc-tid'),
       tidList: sessionItemRoyal.get('rc-tidList')
@@ -209,8 +209,8 @@ class Payment extends React.Component {
       {
         needPrescriber: checkoutStore.autoAuditFlag
           ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-            (el) => el.prescriberFlag
-          ).length > 0
+              (el) => el.prescriberFlag
+            ).length > 0
           : checkoutStore.AuditData.length > 0
       },
       () => {
@@ -298,11 +298,8 @@ class Payment extends React.Component {
   get paymentMethodPanelStatus() {
     return this.props.paymentStore.paymentMethodPanelStatus;
   }
-  get selectedDeliveryAddress() {
-    return this.props.paymentStore.selectedDeliveryAddress;
-  }
-  get selectedBillingAddress() {
-    return this.props.paymentStore.selectedBillingAddress;
+  get defaultCardDataFromAddr() {
+    return this.props.paymentStore.defaultCardDataFromAddr;
   }
   checkRequiredItem = (list) => {
     let requiredList = list.filter((item) => item.isRequired);
@@ -392,131 +389,137 @@ class Payment extends React.Component {
     }
   }
   initPaymentWay = async () => {
-    //获取支付方式
-    const payWay = await getWays();
-    // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
-    const payuMethodsObj = {
-      PAYU: {
-        name: 'payu',
-        id: 'creditCard',
-        paymentTypeVal: 'payUCreditCard'
-      },
-      PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
-      adyen_credit_card: {
-        name: 'adyen_credit_card',
-        id: 'adyenCard',
-        paymentTypeVal: 'adyenCard'
-      },
-      adyen_klarna_pay_now: {
-        name: 'adyen_klarna_pay_now',
-        id: 'adyenPayNow',
-        paymentTypeVal: 'adyenKlarnaPayNow'
-      },
-      adyen_klarna_pay_lat: {
-        name: 'adyen_klarna_pay_lat',
-        id: 'adyenPayLater',
-        paymentTypeVal: 'adyenKlarnaPayLater'
-      },
-      directEbanking: {
-        name: 'directEbanking',
-        id: 'sofort',
-        paymentTypeVal: 'directEbanking'
-      }
-    };
-    let payWayNameArr = [],
-      payuNameArr = [];
-    if (payWay.context.length > 0) {
-      //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
-      if (payWay.context[0].name.indexOf('PAYU') !== -1) {
-        payuNameArr = payWay.context.map((item) => item.name);
-      } else {
-        //正常处理
-        payuNameArr = payWay.context
-          .map((item) => item.payChannelItemList)[0]
-          .map((item) => item.code);
-      }
-      //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
-      for (let item of payuNameArr) {
-        // 只是为了墨西哥环境测试adyen订阅支付start
-        if (item === 'adyen_card_subscription') {
-          payWayNameArr.push({
-            name: 'adyen_credit_card',
-            id: 'adyen',
-            paymentTypeVal: 'adyenCard'
-          });
+    try {
+      //获取支付方式
+      const payWay = await getWays();
+      // name:后台返回的支付方式，id：翻译id，paymentTypeVal：前端显示的支付方式
+      const payuMethodsObj = {
+        PAYU: {
+          name: 'payu',
+          id: 'creditCard',
+          paymentTypeVal: 'payUCreditCard'
+        },
+        PAYUOXXO: { name: 'payuoxxo', id: 'oxxo', paymentTypeVal: 'oxxo' },
+        adyen_credit_card: {
+          name: 'adyen_credit_card',
+          id: 'adyenCard',
+          paymentTypeVal: 'adyenCard'
+        },
+        adyen_klarna_pay_now: {
+          name: 'adyen_klarna_pay_now',
+          id: 'adyenPayNow',
+          paymentTypeVal: 'adyenKlarnaPayNow'
+        },
+        adyen_klarna_pay_lat: {
+          name: 'adyen_klarna_pay_lat',
+          id: 'adyenPayLater',
+          paymentTypeVal: 'adyenKlarnaPayLater'
+        },
+        directEbanking: {
+          name: 'directEbanking',
+          id: 'sofort',
+          paymentTypeVal: 'directEbanking'
         }
-        if (item === 'adyen_klarna_subscription') {
-          payWayNameArr.push({
-            name: 'adyen_klarna_pay_now',
-            id: 'adyenPayNow',
-            paymentTypeVal: 'adyenKlarnaPayNow'
-          });
-          payWayNameArr.push({
-            name: 'adyen_klarna_pay_lat',
-            id: 'adyenPayLater',
-            paymentTypeVal: 'adyenKlarnaPayLater'
-          });
-        }
-        // 只是为了墨西哥环境测试adyen订阅支付end
-        if (payuMethodsObj.hasOwnProperty(item)) {
-          payWayNameArr.push(payuMethodsObj[item]);
-        }
-      }
-    }
-    //数组转对象
-    const payWayObj = payWayNameArr.map((item, index) => {
-      return {
-        name: item['name'],
-        id: item['id'],
-        paymentTypeVal: item['paymentTypeVal']
       };
-    });
-
-    this.setState({
-      payWayObj,
-      savedPayWayObj: JSON.parse(JSON.stringify(payWayObj))
-    });
-
-    let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
-    //各种支付component初始化方法
-    var initPaymentWay = {
-      adyen_credit_card: () => {
-        this.setState({ paymentTypeVal: 'adyenCard' });
-        // this.initAdyenPay();
-      },
-      adyen_klarna_slice: () => {
-        console.log('initKlarnaSlice');
-      },
-      adyen_klarna_pay_now: () => {
-        this.setState({ paymentTypeVal: 'adyenKlarnaPayNow' });
-      },
-      adyen_klarna_pay_lat: () => {
-        this.setState({ paymentTypeVal: 'adyenKlarnaPayLater' });
-      },
-      //Sofort支付
-      directEbanking: () => {
-        this.setState({ paymentTypeVal: 'directEbanking' });
-      },
-      payu: () => {
-        this.setState({ paymentTypeVal: 'payUCreditCard' });
-      },
-      payuoxxo: () => {
-        this.setState({ paymentTypeVal: 'oxxo' });
-      },
-      none: () => {
-        console.log('no payway');
+      let payWayNameArr = [],
+        payuNameArr = [];
+      if (payWay.context.length > 0) {
+        //判断第0条的name是否存在PAYU的字段,因为后台逻辑不好处理，所以这里特殊处理
+        if (payWay.context[0].name.indexOf('PAYU') !== -1) {
+          payuNameArr = payWay.context.map((item) => item.name);
+        } else {
+          //正常处理
+          payuNameArr = payWay.context
+            .map((item) => item.payChannelItemList)[0]
+            .map((item) => item.code);
+        }
+        //payuNameArr:["adyen_credit_card", "adyen_klarna_slice", "adyen_klarna_pay_now","adyen_klarna_pay_lat""payu","payuoxxo"，"directEbanking"]
+        for (let item of payuNameArr) {
+          // 只是为了墨西哥环境测试adyen订阅支付start
+          if (item === 'adyen_card_subscription') {
+            payWayNameArr.push({
+              name: 'adyen_credit_card',
+              id: 'adyen',
+              paymentTypeVal: 'adyenCard'
+            });
+          }
+          if (item === 'adyen_klarna_subscription') {
+            payWayNameArr.push({
+              name: 'adyen_klarna_pay_now',
+              id: 'adyenPayNow',
+              paymentTypeVal: 'adyenKlarnaPayNow'
+            });
+            payWayNameArr.push({
+              name: 'adyen_klarna_pay_lat',
+              id: 'adyenPayLater',
+              paymentTypeVal: 'adyenKlarnaPayLater'
+            });
+          }
+          // 只是为了墨西哥环境测试adyen订阅支付end
+          if (payuMethodsObj.hasOwnProperty(item)) {
+            payWayNameArr.push(payuMethodsObj[item]);
+          }
+        }
       }
-    };
+      //数组转对象
+      const payWayObj = payWayNameArr.map((item, index) => {
+        return {
+          name: item['name'],
+          id: item['id'],
+          paymentTypeVal: item['paymentTypeVal']
+        };
+      });
 
-    //默认第一个,如没有支付方式,就不初始化方法
-    this.setState(
-      {
-        payWayNameArr
-      },
-      () => {
-        initPaymentWay[payMethod]();
-      }
-    );
+      this.setState({
+        payWayObj,
+        savedPayWayObj: JSON.parse(JSON.stringify(payWayObj))
+      });
+
+      let payMethod = (payWayNameArr[0] && payWayNameArr[0].name) || 'none'; //初始化默认取第1个
+      //各种支付component初始化方法
+      var initPaymentWay = {
+        adyen_credit_card: () => {
+          this.setState({ paymentTypeVal: 'adyenCard' });
+          // this.initAdyenPay();
+        },
+        adyen_klarna_slice: () => {
+          console.log('initKlarnaSlice');
+        },
+        adyen_klarna_pay_now: () => {
+          this.setState({ paymentTypeVal: 'adyenKlarnaPayNow' });
+        },
+        adyen_klarna_pay_lat: () => {
+          this.setState({ paymentTypeVal: 'adyenKlarnaPayLater' });
+        },
+        //Sofort支付
+        directEbanking: () => {
+          this.setState({ paymentTypeVal: 'directEbanking' });
+        },
+        payu: () => {
+          this.setState({ paymentTypeVal: 'payUCreditCard' });
+        },
+        payuoxxo: () => {
+          this.setState({ paymentTypeVal: 'oxxo' });
+        },
+        none: () => {
+          console.log('no payway');
+        }
+      };
+
+      //默认第一个,如没有支付方式,就不初始化方法
+      this.setState(
+        {
+          payWayNameArr
+        },
+        () => {
+          initPaymentWay[payMethod]();
+        }
+      );
+    } catch (e) {
+      this.setState({
+        payWayErr: e.message
+      });
+    }
   };
   generatePayUParam = () => {
     const jsessionid =
@@ -884,9 +887,9 @@ class Payment extends React.Component {
           var oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
-              oxxoArgs.additionalDetails &&
-              oxxoArgs.additionalDetails.object &&
-              oxxoArgs.additionalDetails.object.data[0]
+            oxxoArgs.additionalDetails &&
+            oxxoArgs.additionalDetails.object &&
+            oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
           subOrderNumberList = tidList.length
@@ -1132,7 +1135,7 @@ class Payment extends React.Component {
           utmCampaign: ele.utmCampaign || '',
           prefixFn: ele.prefixFn || '',
           prefixBreed: ele.prefixBreed || '',
-           //shelter和breeder产品参数 end
+          //shelter和breeder产品参数 end
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
@@ -1156,7 +1159,7 @@ class Payment extends React.Component {
           petsName: ele.petsName,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: clinicStore.linkClinicId,
-          recommendationName: clinicStore.linkClinicName,
+          recommendationName: clinicStore.linkClinicName
         };
       });
     } else {
@@ -1171,7 +1174,7 @@ class Payment extends React.Component {
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
           recommendationId: clinicStore.linkClinicId,
-          recommendationName: clinicStore.linkClinicName,
+          recommendationName: clinicStore.linkClinicName
         };
       });
     }
@@ -1194,7 +1197,7 @@ class Payment extends React.Component {
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
-            recommendationName: clinicStore.linkClinicName,
+            recommendationName: clinicStore.linkClinicName
           };
         });
       // if(sessionItemRoyal.get('recommend_product')) {
@@ -1230,7 +1233,7 @@ class Payment extends React.Component {
             goodsInfoFlag: g.goodsInfoFlag,
             periodTypeId: g.periodTypeId,
             recommendationId: clinicStore.linkClinicId,
-            recommendationName: clinicStore.linkClinicName,
+            recommendationName: clinicStore.linkClinicName
           };
         });
       // }
@@ -1288,43 +1291,37 @@ class Payment extends React.Component {
       let tmpDeliveryAddress = deliveryAddress;
       let tmpBillingAddress = billingAddress;
       if (this.isLogin) {
-        let tmpDeliveryAddressData = this.selectedDeliveryAddress;
         tmpDeliveryAddress = {
-          firstName: tmpDeliveryAddressData.firstName,
-          lastName: tmpDeliveryAddressData.lastName,
-          address1: tmpDeliveryAddressData.address1,
-          address2: tmpDeliveryAddressData.address2,
-          rfc: tmpDeliveryAddressData.rfc,
-          country: tmpDeliveryAddressData.countryId
-            ? tmpDeliveryAddressData.countryId.toString()
+          firstName: deliveryAddress.firstName,
+          lastName: deliveryAddress.lastName,
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          rfc: deliveryAddress.rfc,
+          country: deliveryAddress.countryId
+            ? deliveryAddress.countryId.toString()
             : '',
-          city: tmpDeliveryAddressData.cityId
-            ? tmpDeliveryAddressData.cityId.toString()
-            : '',
-          cityName: tmpDeliveryAddressData.cityName,
-          postCode: tmpDeliveryAddressData.postCode,
-          phoneNumber: tmpDeliveryAddressData.consigneeNumber,
-          email: tmpDeliveryAddressData.email,
-          addressId: tmpDeliveryAddressData.deliveryAddressId
+          city: deliveryAddress.cityId ? deliveryAddress.cityId.toString() : '',
+          cityName: deliveryAddress.cityName,
+          postCode: deliveryAddress.postCode,
+          phoneNumber: deliveryAddress.consigneeNumber,
+          email: deliveryAddress.email,
+          addressId: deliveryAddress.deliveryAddressId
         };
         if (!billingChecked) {
-          let tmpBillingAddressData = this.selectedBillingAddress;
           tmpBillingAddress = {
-            firstName: tmpBillingAddressData.firstName,
-            lastName: tmpBillingAddressData.lastName,
-            address1: tmpBillingAddressData.address1,
-            address2: tmpBillingAddressData.address2,
-            rfc: tmpBillingAddressData.rfc,
-            country: tmpBillingAddressData.countryId
-              ? tmpBillingAddressData.countryId.toString()
+            firstName: billingAddress.firstName,
+            lastName: billingAddress.lastName,
+            address1: billingAddress.address1,
+            address2: billingAddress.address2,
+            rfc: billingAddress.rfc,
+            country: billingAddress.countryId
+              ? billingAddress.countryId.toString()
               : '',
-            city: tmpBillingAddressData.cityId
-              ? tmpBillingAddressData.cityId.toString()
-              : '',
-            cityName: tmpBillingAddressData.cityName,
-            postCode: tmpBillingAddressData.postCode,
-            phoneNumber: tmpBillingAddressData.consigneeNumber,
-            addressId: tmpBillingAddressData.deliveryAddressId
+            city: billingAddress.cityId ? billingAddress.cityId.toString() : '',
+            cityName: billingAddress.cityName,
+            postCode: billingAddress.postCode,
+            phoneNumber: billingAddress.consigneeNumber,
+            addressId: billingAddress.deliveryAddressId
           };
         }
       }
@@ -1450,7 +1447,6 @@ class Payment extends React.Component {
   };
 
   updateDeliveryAddrData = (data) => {
-    // this.props.paymentStore.updateSelectedDeliveryAddress(data);
     this.setState({
       deliveryAddress: data
     });
@@ -1463,7 +1459,6 @@ class Payment extends React.Component {
 
   updateBillingAddrData = (data) => {
     if (!this.state.billingChecked) {
-      this.props.paymentStore.updateSelectedBillingAddress(data);
       this.setState({ billingAddress: data });
     }
   };
@@ -1477,22 +1472,23 @@ class Payment extends React.Component {
     return (
       <>
         <div
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
-            ? 'border-333'
-            : 'border-transparent'
-            }`}
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
+            paymentStore.deliveryAddrPanelStatus.isEdit
+              ? 'border-333'
+              : 'border-transparent'
+          }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
             <AddressList id="1" updateData={this.updateDeliveryAddrData} />
           ) : (
-              <VisitorAddress
-                key={1}
-                type="delivery"
-                initData={deliveryAddress}
-                updateData={this.updateDeliveryAddrData}
-              />
-            )}
+            <VisitorAddress
+              key={1}
+              type="delivery"
+              initData={deliveryAddress}
+              updateData={this.updateDeliveryAddrData}
+            />
+          )}
         </div>
       </>
     );
@@ -1509,89 +1505,89 @@ class Payment extends React.Component {
           : this.loginCartData,
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
-        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-          <div className="bg-transparent d-flex justify-content-between align-items-center">
-            <h5 className="mb-0">
-              <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
-              <FormattedMessage id="subscription.chooseSubscription" />
-            </h5>
-          </div>
-          <SubscriptionSelect
-            data={this.state.recommend_data}
-            updateSelectedData={(data) => {
-              this.refs.payProductInfo.setState({
-                isShowValidCode: false
-              });
-              this.props.frequencyStore.updateBuyWay(data.buyWay);
-              this.props.frequencyStore.updateFrequencyName(data.frequencyName);
+      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+        <div className="bg-transparent d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">
+            <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
+            <FormattedMessage id="subscription.chooseSubscription" />
+          </h5>
+        </div>
+        <SubscriptionSelect
+          data={this.state.recommend_data}
+          updateSelectedData={(data) => {
+            this.refs.payProductInfo.setState({
+              isShowValidCode: false
+            });
+            this.props.frequencyStore.updateBuyWay(data.buyWay);
+            this.props.frequencyStore.updateFrequencyName(data.frequencyName);
 
-              // ****************订阅的时候隐藏oxxo支付方式start******************
-              let payuoxxoIndex;
-              if (
-                Object.prototype.toString
-                  .call(this.state.payWayObj)
-                  .slice(8, -1) === 'Array'
-              ) {
-                //判断payWayObj是数组
-                if (data.buyWay === 'frequency') {
-                  console.log(this.state.payWayObj);
+            // ****************订阅的时候隐藏oxxo支付方式start******************
+            let payuoxxoIndex;
+            if (
+              Object.prototype.toString
+                .call(this.state.payWayObj)
+                .slice(8, -1) === 'Array'
+            ) {
+              //判断payWayObj是数组
+              if (data.buyWay === 'frequency') {
+                console.log(this.state.payWayObj);
 
-                  //adyen如果选订阅，只保留creditcard/klarnapaylater
-                  const adyenMethods = this.state.payWayObj.filter(
-                    (item, index) => {
-                      return (
-                        item.name === 'adyen_credit_card' ||
-                        item.name === 'adyen_klarna_pay_lat'
-                      );
-                    }
-                  );
-                  if (adyenMethods.length !== 0) {
-                    this.setState({ payWayObj: adyenMethods });
-                  }
-
-                  //payu
-                  payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                    return o.name === 'payuoxxo';
-                  }); //找到oxxo在数组中的下标
-                  if (payuoxxoIndex !== -1) {
-                    this.state.payWayObj.splice(payuoxxoIndex, 1);
-                  }
-                } else {
-                  //为后台提供的初始支付方式
-                  this.setState({
-                    payWayObj: JSON.parse(
-                      JSON.stringify(this.state.savedPayWayObj)
-                    )
-                  });
-                }
-              }
-              // ****************订阅的时候隐藏oxxo支付方式end******************
-
-              if (
-                data.buyWay === 'frequency' &&
-                this.state.paymentTypeVal === 'oxxo'
-              ) {
-                this.setState({
-                  paymentTypeVal: 'payUCreditCard'
-                });
-              }
-              this.setState(
-                {
-                  subForm: data
-                },
-                () => {
-                  if (!sessionItemRoyal.get('recommend_product')) {
-                    this.props.checkoutStore.updateLoginCart(
-                      this.state.promotionCode,
-                      this.state.subForm.buyWay !== 'once'
+                //adyen如果选订阅，只保留creditcard/klarnapaylater
+                const adyenMethods = this.state.payWayObj.filter(
+                  (item, index) => {
+                    return (
+                      item.name === 'adyen_credit_card' ||
+                      item.name === 'adyen_klarna_pay_lat'
                     );
                   }
+                );
+                if (adyenMethods.length !== 0) {
+                  this.setState({ payWayObj: adyenMethods });
                 }
-              );
-            }}
-          />
-        </div>
-      ) : null;
+
+                //payu
+                payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
+                  return o.name === 'payuoxxo';
+                }); //找到oxxo在数组中的下标
+                if (payuoxxoIndex !== -1) {
+                  this.state.payWayObj.splice(payuoxxoIndex, 1);
+                }
+              } else {
+                //为后台提供的初始支付方式
+                this.setState({
+                  payWayObj: JSON.parse(
+                    JSON.stringify(this.state.savedPayWayObj)
+                  )
+                });
+              }
+            }
+            // ****************订阅的时候隐藏oxxo支付方式end******************
+
+            if (
+              data.buyWay === 'frequency' &&
+              this.state.paymentTypeVal === 'oxxo'
+            ) {
+              this.setState({
+                paymentTypeVal: 'payUCreditCard'
+              });
+            }
+            this.setState(
+              {
+                subForm: data
+              },
+              () => {
+                if (!sessionItemRoyal.get('recommend_product')) {
+                  this.props.checkoutStore.updateLoginCart(
+                    this.state.promotionCode,
+                    this.state.subForm.buyWay !== 'once'
+                  );
+                }
+              }
+            );
+          }}
+        />
+      </div>
+    ) : null;
   };
 
   renderBillingJSX = ({ type }) => {
@@ -1637,19 +1633,19 @@ class Payment extends React.Component {
                 })}
               />
             ) : (
-                <VisitorAddress
-                  ref={this.unLoginBillingAddrRef}
-                  key={2}
-                  titleVisible={false}
-                  showConfirmBtn={false}
-                  type="billing"
-                  initData={billingAddress}
-                  updateData={this.updateBillingAddrData}
-                  updateFormValidStatus={this.updateValidStatus.bind(this, {
-                    key: 'billingAddr'
-                  })}
-                />
-              )}
+              <VisitorAddress
+                ref={this.unLoginBillingAddrRef}
+                key={2}
+                titleVisible={false}
+                showConfirmBtn={false}
+                type="billing"
+                initData={billingAddress}
+                updateData={this.updateBillingAddrData}
+                updateFormValidStatus={this.updateValidStatus.bind(this, {
+                  key: 'billingAddr'
+                })}
+              />
+            )}
           </>
         )}
       </>
@@ -1766,11 +1762,11 @@ class Payment extends React.Component {
       paymentTypeVal,
       subForm,
       payWayObj,
+      payWayErr,
       billingChecked,
       email,
       validSts,
-      saveBillingLoading,
-      selectedCardInfo
+      saveBillingLoading
     } = this.state;
 
     // 未勾选same as billing时，校验billing addr
@@ -1793,16 +1789,18 @@ class Payment extends React.Component {
       <div className={`pb-3 ${visible ? '' : 'hidden'}`}>
         {/* *******************支付tab栏start************************************ */}
         {/* payWayObj为支付方式，如果大于1种，才显示此tab栏 */}
-        {Object.keys(payWayObj).length > 1 && (
-          <div className={`ml-custom mr-custom`}>
+        {Object.keys(payWayObj).length > 2 && (
+          <div className="ml-custom mr-custom">
+            {payWayErr ? <div>{payWayErr}</div> : null}
             {Object.entries(payWayObj).map((item, i) => {
               return (
                 <div
-                  className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' &&
+                  className={`rc-input rc-input--inline ${
+                    subForm.buyWay == 'frequency' &&
                     item[1].id == 'adyenPayLater'
-                    ? 'hidden'
-                    : ''
-                    }`}
+                      ? 'hidden'
+                      : ''
+                  }`}
                   key={i}
                 >
                   <input
@@ -1827,7 +1825,6 @@ class Payment extends React.Component {
           </div>
         )}
         {/* ********************支付tab栏end********************************** */}
-
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
           {/* ***********************支付选项卡的内容start******************************* */}
           {/* oxxo */}
@@ -1866,7 +1863,7 @@ class Payment extends React.Component {
                   key: 'payUCreditCard'
                 })}
                 billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
-                selectedDeliveryAddress={this.selectedDeliveryAddress}
+                defaultCardDataFromAddr={this.defaultCardDataFromAddr}
               />
               {payConfirmBtn({
                 disabled: !validSts.payUCreditCard || validForBilling,
@@ -2026,27 +2023,27 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
-            paymentTypeVal === 'adyenCard' ? (
-              <div className="col-12 col-md-6">
-                <span className="medium">
-                  <FormattedMessage id="bankCard" />
-                </span>
-                <br />
-                {holderNameDeco}
-                <br />
-                {brandDeco}
-                <br />
-                {lastFourDeco ? `************${lastFourDeco}` : null}
-                {expiryYear && expiryMonth ? (
-                  <>
-                    <br />
-                    {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
-                  </>
-                ) : null}
-              </div>
-            ) : (
-              <div className="col-12 col-md-6">{email}</div>
-            )}
+          paymentTypeVal === 'adyenCard' ? (
+            <div className="col-12 col-md-6">
+              <span className="medium">
+                <FormattedMessage id="bankCard" />
+              </span>
+              <br />
+              {holderNameDeco}
+              <br />
+              {brandDeco}
+              <br />
+              {lastFourDeco ? `************${lastFourDeco}` : null}
+              {expiryYear && expiryMonth ? (
+                <>
+                  <br />
+                  {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
+                </>
+              ) : null}
+            </div>
+          ) : (
+            <div className="col-12 col-md-6">{email}</div>
+          )}
           {!tid && (
             <div className="col-12 col-md-6 mt-2 mt-md-0">
               {this.renderAddrPreview({
@@ -2234,10 +2231,10 @@ class Payment extends React.Component {
     const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
       ? paymentMethodTitleForPrepare
       : paymentMethodPanelStatus.isEdit
-        ? paymentMethodTitleForEdit
-        : paymentMethodPanelStatus.isCompleted
-          ? paymentMethodTitleForCompeleted
-          : null;
+      ? paymentMethodTitleForEdit
+      : paymentMethodPanelStatus.isCompleted
+      ? paymentMethodTitleForCompeleted
+      : null;
 
     return (
       <div>
@@ -2265,8 +2262,9 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示 */}
                 <div
-                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${errorMsg ? '' : 'hidden'
-                    }`}
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
+                    errorMsg ? '' : 'hidden'
+                  }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -2278,25 +2276,25 @@ class Payment extends React.Component {
                 {tid ? (
                   <AddressPreview details={orderDetails} />
                 ) : (
-                    <>
-                      <div className="shipping-form" id="J_checkout_panel_email">
-                        <div className="bg-transparent">
-                          {this.checkoutWithClinic ? (
-                            <OnePageClinicForm history={history} />
-                          ) : null}
-                          {!this.isLogin ? (
-                            <OnePageEmailForm
-                              history={history}
-                              onChange={this.updateGuestEmail}
-                            />
-                          ) : null}
+                  <>
+                    <div className="shipping-form" id="J_checkout_panel_email">
+                      <div className="bg-transparent">
+                        {this.checkoutWithClinic ? (
+                          <OnePageClinicForm history={history} />
+                        ) : null}
+                        {!this.isLogin ? (
+                          <OnePageEmailForm
+                            history={history}
+                            onChange={this.updateGuestEmail}
+                          />
+                        ) : null}
 
-                          {this.renderAddressPanel()}
-                        </div>
+                        {this.renderAddressPanel()}
                       </div>
-                      {/* {this.renderSubSelect()} */}
-                    </>
-                  )}
+                    </div>
+                    {/* {this.renderSubSelect()} */}
+                  </>
+                )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
@@ -2317,120 +2315,121 @@ class Payment extends React.Component {
                       </p>
                       {this.isLogin
                         ? checkoutStore.AuditData.map((el, i) => {
-                          return (
-                            <div className="petProduct">
-                              <LazyLoad>
-                                <img
-                                  className="pull-left"
-                                  alt=""
-                                  src={el.goodsInfoImg}
-                                />
-                              </LazyLoad>
+                            return (
+                              <div className="petProduct">
+                                <LazyLoad>
+                                  <img
+                                    className="pull-left"
+                                    alt=""
+                                    src={el.goodsInfoImg}
+                                  />
+                                </LazyLoad>
 
-                              <div
-                                className="pull-left"
-                                style={{
-                                  marginTop: '20px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <p>
-                                  <span>Pet:</span>
-                                  <span>
-                                    {el.petName ? el.petName : 'required'}
-                                  </span>
-                                </p>
-                                <p>
-                                  <span>Qty:</span>
-                                  <span>{el.buyCount}</span>
-                                </p>
-                              </div>
-                              <div
-                                className="pull-right"
-                                style={{
-                                  marginTop: '30px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <button
-                                  className="rc-btn rc-btn--sm rc-btn--one"
-                                  onClick={() => {
-                                    this.setState({
-                                      petModalVisible: true,
-                                      currentProIndex: i
-                                    });
-                                  }}
-                                >
-                                  Select a pet
-                                  </button>
-                              </div>
-                            </div>
-                          );
-                        })
-                        : checkoutStore.AuditData.map((el, i) => {
-                          return (
-                            <div className="petProduct" key={i}>
-                              <LazyLoad>
-                                <img
-                                  alt=""
-                                  src={
-                                    el.sizeList.filter((el) => el.selected)[0]
-                                      .goodsInfoImg
-                                  }
+                                <div
                                   className="pull-left"
-                                />
-                              </LazyLoad>
-                              <div
-                                className="pull-left"
-                                style={{
-                                  marginTop: '20px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <p>
-                                  <span>Pet:</span>
-                                  <span>
-                                    {el.petForm
-                                      ? el.petForm.petName
-                                      : 'required'}
-                                  </span>
-                                </p>
-                                <p>
-                                  <span>Qty:</span>
-                                  <span>{el.quantity}</span>
-                                </p>
-                              </div>
-                              <div
-                                className="pull-right"
-                                style={{
-                                  marginTop: '30px',
-                                  marginLeft: '20px'
-                                }}
-                              >
-                                <button
-                                  id="selectPet"
-                                  className="rc-btn rc-btn--sm rc-btn--one"
-                                  onClick={() => {
-                                    this.setState({
-                                      petModalVisible: true,
-                                      currentProIndex: i
-                                    });
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
                                   }}
                                 >
-                                  Select a pet
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petName ? el.petName : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.buyCount}</span>
+                                  </p>
+                                </div>
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
                                   </button>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })
+                        : checkoutStore.AuditData.map((el, i) => {
+                            return (
+                              <div className="petProduct" key={i}>
+                                <LazyLoad>
+                                  <img
+                                    alt=""
+                                    src={
+                                      el.sizeList.filter((el) => el.selected)[0]
+                                        .goodsInfoImg
+                                    }
+                                    className="pull-left"
+                                  />
+                                </LazyLoad>
+                                <div
+                                  className="pull-left"
+                                  style={{
+                                    marginTop: '20px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <p>
+                                    <span>Pet:</span>
+                                    <span>
+                                      {el.petForm
+                                        ? el.petForm.petName
+                                        : 'required'}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <span>Qty:</span>
+                                    <span>{el.quantity}</span>
+                                  </p>
+                                </div>
+                                <div
+                                  className="pull-right"
+                                  style={{
+                                    marginTop: '30px',
+                                    marginLeft: '20px'
+                                  }}
+                                >
+                                  <button
+                                    id="selectPet"
+                                    className="rc-btn rc-btn--sm rc-btn--one"
+                                    onClick={() => {
+                                      this.setState({
+                                        petModalVisible: true,
+                                        currentProIndex: i
+                                      });
+                                    }}
+                                  >
+                                    Select a pet
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
                     </h5>
                   </div>
                 )}
                 <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
-                    ? 'border-333'
-                    : 'border-transparent'
-                    }`}
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
+                    paymentMethodPanelStatus.isEdit
+                      ? 'border-333'
+                      : 'border-transparent'
+                  }`}
                   id="J_checkout_panel_paymentMethod"
                 >
                   {paymentMethodTitle}
@@ -2460,28 +2459,29 @@ class Payment extends React.Component {
                     />
                   </>
                 ) : (
-                    <PayProductInfo
-                      data={recommend_data}
-                      fixToHeader={false}
-                      style={{ background: '#fff' }}
-                      ref="payProductInfo"
-                      location={location}
-                      history={history}
-                      frequencyName={subForm.frequencyName}
-                      buyWay={subForm.buyWay}
-                      sendPromotionCode={this.savePromotionCode}
-                      promotionCode={promotionCode}
-                      operateBtnVisible={!tid}
-                    />
-                  )}
+                  <PayProductInfo
+                    data={recommend_data}
+                    fixToHeader={false}
+                    style={{ background: '#fff' }}
+                    ref="payProductInfo"
+                    location={location}
+                    history={history}
+                    frequencyName={subForm.frequencyName}
+                    buyWay={subForm.buyWay}
+                    sendPromotionCode={this.savePromotionCode}
+                    promotionCode={promotionCode}
+                    operateBtnVisible={!tid}
+                  />
+                )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title align-items-center justify-content-between text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-                }`}
+              className={`order-summary-title align-items-center justify-content-between text-center ${
+                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+              }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span

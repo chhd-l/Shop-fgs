@@ -102,7 +102,7 @@ class PayOs extends React.Component {
   }
   initForm() {
     const {
-      paymentStore: { selectedDeliveryAddress: defaultVal }
+      paymentStore: { defaultCardDataFromAddr: defaultVal }
     } = this.props;
     let tmpDefaultName = '';
     if (defaultVal) {
@@ -215,7 +215,7 @@ class PayOs extends React.Component {
     });
   };
   render() {
-    const { isLogin, billingJSX } = this.props;
+    const { isLogin, billingJSX, defaultCardDataFromAddr } = this.props;
     const {
       creditCardInfoForm,
       isValid,
@@ -248,13 +248,14 @@ class PayOs extends React.Component {
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
+                        key={Object.values(defaultCardDataFromAddr || {}).join(
+                          '|'
+                        )}
                         ref={this.paymentCompRef}
                         billingJSX={billingJSX}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
-                        selectedDeliveryAddress={
-                          this.props.selectedDeliveryAddress
-                        }
+                        defaultCardDataFromAddr={defaultCardDataFromAddr}
                         updateFormValidStatus={this.props.updateFormValidStatus}
                       />
                     </div>

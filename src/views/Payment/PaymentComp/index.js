@@ -28,6 +28,7 @@ const localItemRoyal = window.__.localItemRoyal;
 class PaymentComp extends React.Component {
   static defaultProps = {
     needReConfirmCVV: true,
+    defaultCardDataFromAddr: null,
     getSelectedValue: () => {},
     updateFormValidStatus: () => {}
   };
@@ -107,7 +108,6 @@ class PaymentComp extends React.Component {
       const defaultItem = tmpList.filter((t) => t.isDefault === 1)[0];
       const firstItem = tmpList[0];
       const tmpSelectedId =
-        this.props.paymentStore.selectedCardId ||
         this.state.selectedId ||
         (defaultItem && defaultItem.id) ||
         (firstItem && firstItem.id) ||
@@ -135,7 +135,7 @@ class PaymentComp extends React.Component {
   initCardInfo() {
     // 默认填充delivery相关信息
     const {
-      paymentStore: { selectedDeliveryAddress: defaultVal }
+      paymentStore: { defaultCardDataFromAddr: defaultVal }
     } = this.props;
     let tmpDefaultName = '';
     if (defaultVal) {
@@ -467,7 +467,6 @@ class PaymentComp extends React.Component {
     const s = creditCardList.filter((c) => c.id === selectedId)[0];
     this.props.getSelectedValue(s || null);
     this.props.updateFormValidStatus(s && s.cardCvv ? true : false);
-    this.props.paymentStore.updateSelectedCardId((s && s.id) || '');
   };
   handleClickCardItem(el) {
     if (el.selected) return;
