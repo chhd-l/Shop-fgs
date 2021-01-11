@@ -171,8 +171,8 @@ export const menubar = {
             link: `/help`,
             messageId: 'footer.contacts'
           },
-          { link: '/FAQ/catogery-1', messageId: 'footer.FAQVersand' },
-          { link: '/FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
+          { link: '/FAQSource/catogery-1', messageId: 'footer.FAQVersand' },
+          { link: '/FAQSource/catogery-0', messageId: 'footer.FAQAllgemeines' }
           // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
           // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
         ]

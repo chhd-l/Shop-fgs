@@ -336,7 +336,7 @@ class Payment extends React.Component {
       }
     );
   }
-  //游客+会员必填项和选填项全部显示
+  //游客+会员必填项和选填项全部显示，只result结果不同
   isExistListFun(result) {
     const optioalList = result.context.optionalList.map((item) => {
       return {
