@@ -1418,7 +1418,7 @@ class List extends React.Component {
           ) : null}
           <div id="J-product-list" />
           {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
-          <div className="search-results rc-max-width--xl pt-sm-1">
+          <div className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop">
             <div className="search-nav border-bottom-0">
               {keywords ? (
                 <div class="rc-padding-y--md--mobile rc-text--center">
@@ -1616,10 +1616,11 @@ class List extends React.Component {
                   </div>
                   <div
                     className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
+                    style={{paddingTop: 0,position: 'relative', top: '-4px'}}
                   >
                     {!loading && (
                       <>
-                        <div className="row mb-3">
+                        <div className="row mb-3" style={{alignItems: 'center'}}>
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="font-weight-normal">
                               {lastBreadListName}{' '}
@@ -1633,7 +1634,9 @@ class List extends React.Component {
                           </div>
 
                           <div className="col-12 col-md-4  rc-md-up">
-                            <span className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
+                            <span 
+                            style={{position: 'relative', top:'2px'}}
+                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
                               {sortList.length > 0 && (
                                 <Selection
                                   key={sortList.length}
