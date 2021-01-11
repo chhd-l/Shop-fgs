@@ -1346,12 +1346,12 @@ class Details extends React.Component {
         );
         return;
       }
-      // tmpData = [...tmpData,...this.state.requestJson]
+      if(Object.keys(this.state.requestJson).length>0){ //requestJson是shelter和breeder产品的参数，有就加上
+        tmpData = {...tmpData,...this.state.requestJson}
+      }
       cartDataCopy.push(tmpData);
     }
     
-    // console.log(cartDataCopy)
-    // debugger
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
