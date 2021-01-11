@@ -867,7 +867,7 @@ class Header extends React.Component {
                           className={`popover popover-bottom ${
                             showCenter ? 'show' : ''
                           }`}
-                          style={{ minWidth: '13rem' }}
+                          style={{ minWidth: '15rem' }}
                         >
                           <div className="container cart">
                             <div className="login-style">
@@ -951,7 +951,7 @@ class Header extends React.Component {
                           className={`popover popover-bottom ${
                             showCenter ? 'show' : ''
                           }`}
-                          style={{ minWidth: '13rem' }}
+                          style={{ minWidth: '15rem' }}
                           onMouseOver={this.handleMouseOver}
                           onMouseOut={this.handleMouseOut}
                         >
@@ -996,7 +996,7 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe6a2;</span>{' '}
-                                  <FormattedMessage id="account.subscription" />
+                                  <FormattedMessage id="account.subscriptionTitle" />
                                 </Link>
                               </div>
                               <div className="link-style">

@@ -9,7 +9,7 @@ import { inject, observer } from 'mobx-react';
 import Carouselem from '@/components/Carouselem';
 import './index.css';
 import LazyLoad from 'react-lazyload';
-
+import {list1} from './goods'
 const localItemRoyal = window.__.localItemRoyal;
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
@@ -97,7 +97,7 @@ class CatNutrition extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Nos meilleures ventes</h4>
                           </div>
-                          <Carouselem list={[]}/>
+                          <Carouselem list={list1}/>
                         </div>
                       </div>
                     </div>
