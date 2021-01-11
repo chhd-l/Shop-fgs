@@ -312,11 +312,11 @@ class Payment extends React.Component {
     //1.会员调用consense接口
     //2.游客调用consense接口
     const { isLogin } = this;
-    let res
-    if(isLogin){
-      res = await findUserConsentList({consentPage:"check out"})
-    }else{
-      res = await getStoreOpenConsentList({})
+    let res;
+    if (isLogin) {
+      res = await findUserConsentList({ consentPage: 'check out' });
+    } else {
+      res = await getStoreOpenConsentList({});
     }
     if (isLogin) {
       this.isExistOptionalListFun(res);
@@ -738,7 +738,7 @@ class Payment extends React.Component {
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
-      console.log(finalParam)
+      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -1727,12 +1727,12 @@ class Payment extends React.Component {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
       paymentStore.setStsToCompleted({ key: 'paymentMethod' });
       paymentStore.setStsToEdit({ key: 'confirmation' });
-    } catch (e) {
-    } finally {
-      this.setState({ saveBillingLoading: false });
       setTimeout(() => {
         scrollPaymentPanelIntoView();
       });
+    } catch (e) {
+    } finally {
+      this.setState({ saveBillingLoading: false });
     }
   };
 
@@ -1826,121 +1826,134 @@ class Payment extends React.Component {
         )}
         {/* ********************支付tab栏end********************************** */}
         <div className="checkout--padding ml-custom mr-custom pt-3 pb-3 border rounded">
-          {/* ***********************支付选项卡的内容start******************************* */}
-          {/* oxxo */}
-          {paymentTypeVal === 'oxxo' && (
+          {payWayErr ? (
+            payWayErr
+          ) : (
             <>
-              <OxxoConfirm
-                type={'oxxo'}
-                updateEmail={this.updateEmail}
-                billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
-              />
-              {payConfirmBtn({
-                disabled: !EMAIL_REGEXP.test(email) || validForBilling
-              })}
-            </>
-          )}
-          {/* payu creditCard */}
-          {paymentTypeVal === 'payUCreditCard' && (
-            <>
-              <PayUCreditCard
-                ref={this.payUCreditCardRef}
-                type={'PayUCreditCard'}
-                isLogin={this.isLogin}
-                showErrorMsg={this.showErrorMsg}
-                onVisitorPayosDataConfirm={(data) => {
-                  this.setState({ payosdata: data });
-                }}
-                onVisitorCardInfoChange={(data) => {
-                  this.setState({ creditCardInfo: data });
-                }}
-                onPaymentCompDataChange={(data) => {
-                  this.setState({ selectedCardInfo: data });
-                }}
-                isApplyCvv={false}
-                needReConfirmCVV={true}
-                updateFormValidStatus={this.updateValidStatus.bind(this, {
-                  key: 'payUCreditCard'
-                })}
-                billingJSX={this.renderBillingJSX({ type: 'payUCreditCard' })}
-                defaultCardDataFromAddr={this.defaultCardDataFromAddr}
-              />
-              {payConfirmBtn({
-                disabled: !validSts.payUCreditCard || validForBilling,
-                loading: saveBillingLoading
-              })}
-            </>
-          )}
-          {/* adyenCreditCard */}
-          {paymentTypeVal === 'adyenCard' && (
-            <>
-              <AdyenCreditCard
-                ref={this.adyenCardRef}
-                subBuyWay={subForm.buyWay}
-                showErrorMsg={this.showErrorMsg}
-                updateAdyenPayParam={this.updateAdyenPayParam}
-                updateFormValidStatus={this.updateValidStatus.bind(this, {
-                  key: 'adyenCard'
-                })}
-                billingJSX={this.renderBillingJSX({ type: 'adyenCard' })}
-              />
-              {/* 校验状态
+              {/* ***********************支付选项卡的内容start******************************* */}
+              {/* oxxo */}
+              {paymentTypeVal === 'oxxo' && (
+                <>
+                  <OxxoConfirm
+                    type={'oxxo'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({ type: 'oxxo' })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* payu creditCard */}
+              {paymentTypeVal === 'payUCreditCard' && (
+                <>
+                  <PayUCreditCard
+                    key={Object.values(this.defaultCardDataFromAddr || {}).join(
+                      '|'
+                    )}
+                    ref={this.payUCreditCardRef}
+                    type={'PayUCreditCard'}
+                    isLogin={this.isLogin}
+                    showErrorMsg={this.showErrorMsg}
+                    onVisitorPayosDataConfirm={(data) => {
+                      this.setState({ payosdata: data });
+                    }}
+                    onVisitorCardInfoChange={(data) => {
+                      this.setState({ creditCardInfo: data });
+                    }}
+                    onPaymentCompDataChange={(data) => {
+                      this.setState({ selectedCardInfo: data });
+                    }}
+                    isApplyCvv={false}
+                    needReConfirmCVV={true}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'payUCreditCard'
+                    })}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'payUCreditCard'
+                    })}
+                    defaultCardDataFromAddr={this.defaultCardDataFromAddr}
+                  />
+                  {payConfirmBtn({
+                    disabled: !validSts.payUCreditCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+              {/* adyenCreditCard */}
+              {paymentTypeVal === 'adyenCard' && (
+                <>
+                  <AdyenCreditCard
+                    ref={this.adyenCardRef}
+                    subBuyWay={subForm.buyWay}
+                    showErrorMsg={this.showErrorMsg}
+                    updateAdyenPayParam={this.updateAdyenPayParam}
+                    updateFormValidStatus={this.updateValidStatus.bind(this, {
+                      key: 'adyenCard'
+                    })}
+                    billingJSX={this.renderBillingJSX({ type: 'adyenCard' })}
+                  />
+                  {/* 校验状态
                   1 卡校验，从adyen form传入校验状态
                   2 billing校验 */}
-              {payConfirmBtn({
-                disabled: !validSts.adyenCard || validForBilling,
-                loading: saveBillingLoading
-              })}
-            </>
-          )}
-          {/* KlarnaPayLater */}
-          {paymentTypeVal === 'adyenKlarnaPayLater' && (
-            <>
-              <AdyenCommonPay
-                type={'adyenKlarnaPayLater'}
-                updateEmail={this.updateEmail}
-                billingJSX={this.renderBillingJSX({
-                  type: 'adyenKlarnaPayLater'
-                })}
-              />
-              {/* // 校验状态
+                  {payConfirmBtn({
+                    disabled: !validSts.adyenCard || validForBilling,
+                    loading: saveBillingLoading
+                  })}
+                </>
+              )}
+              {/* KlarnaPayLater */}
+              {paymentTypeVal === 'adyenKlarnaPayLater' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayLater'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayLater'
+                    })}
+                  />
+                  {/* // 校验状态
             // 1 校验邮箱
             // 2 billing校验 */}
-              {payConfirmBtn({
-                disabled: !EMAIL_REGEXP.test(email) || validForBilling
-              })}
-            </>
-          )}
-          {/* KlarnaPayNow  */}
-          {paymentTypeVal === 'adyenKlarnaPayNow' && (
-            <>
-              <AdyenCommonPay
-                type={'adyenKlarnaPayNow'}
-                updateEmail={this.updateEmail}
-                billingJSX={this.renderBillingJSX({
-                  type: 'adyenKlarnaPayNow'
-                })}
-              />
-              {payConfirmBtn({
-                disabled: !EMAIL_REGEXP.test(email) || validForBilling
-              })}
-            </>
-          )}
-          {/* Sofort */}
-          {paymentTypeVal === 'directEbanking' && (
-            <>
-              <AdyenCommonPay
-                type={'directEbanking'}
-                updateEmail={this.updateEmail}
-                billingJSX={this.renderBillingJSX({ type: 'directEbanking' })}
-              />
-              {payConfirmBtn({
-                disabled: !EMAIL_REGEXP.test(email) || validForBilling
-              })}
-            </>
-          )}
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* KlarnaPayNow  */}
+              {paymentTypeVal === 'adyenKlarnaPayNow' && (
+                <>
+                  <AdyenCommonPay
+                    type={'adyenKlarnaPayNow'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'adyenKlarnaPayNow'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
+              {/* Sofort */}
+              {paymentTypeVal === 'directEbanking' && (
+                <>
+                  <AdyenCommonPay
+                    type={'directEbanking'}
+                    updateEmail={this.updateEmail}
+                    billingJSX={this.renderBillingJSX({
+                      type: 'directEbanking'
+                    })}
+                  />
+                  {payConfirmBtn({
+                    disabled: !EMAIL_REGEXP.test(email) || validForBilling
+                  })}
+                </>
+              )}
 
-          {/* ***********************支付选项卡的内容end******************************* */}
+              {/* ***********************支付选项卡的内容end******************************* */}
+            </>
+          )}
         </div>
       </div>
     );

@@ -75,6 +75,8 @@ class PaymentComp extends React.Component {
       this.setState({ deliveryAddress: deliveryInfo.deliveryAddress }, () => {
         this.initCardInfo();
       });
+    } else {
+      this.initCardInfo();
     }
     this.getPaymentMethodList();
   }
@@ -675,6 +677,7 @@ class PaymentComp extends React.Component {
                                       el
                                     )}
                                     type="password"
+                                    autoComplete="new-password"
                                     maxLength="4"
                                     style={{ width: '100%' }}
                                     value={
@@ -849,6 +852,7 @@ class PaymentComp extends React.Component {
                                 >
                                   <input
                                     type="password"
+                                    autoComplete="new-password"
                                     className="rc-input__control form-control phone"
                                     data-phonelength="18"
                                     data-js-validate="(^(\+?7|8)?9\d{9}$)"
