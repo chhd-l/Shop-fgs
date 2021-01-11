@@ -209,8 +209,8 @@ class Payment extends React.Component {
       {
         needPrescriber: checkoutStore.autoAuditFlag
           ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-              (el) => el.prescriberFlag
-            ).length > 0
+            (el) => el.prescriberFlag
+          ).length > 0
           : checkoutStore.AuditData.length > 0
       },
       () => {
@@ -732,8 +732,7 @@ class Payment extends React.Component {
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
-      console.log(finalParam)
-      //debugger
+      // console.log(finalParam)
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -882,9 +881,9 @@ class Payment extends React.Component {
           var oxxoArgs = oxxoContent.args;
           oxxoPayUrl =
             oxxoArgs &&
-            oxxoArgs.additionalDetails &&
-            oxxoArgs.additionalDetails.object &&
-            oxxoArgs.additionalDetails.object.data[0]
+              oxxoArgs.additionalDetails &&
+              oxxoArgs.additionalDetails.object &&
+              oxxoArgs.additionalDetails.object.data[0]
               ? oxxoArgs.additionalDetails.object.data[0].href
               : '';
           subOrderNumberList = tidList.length
@@ -1124,6 +1123,13 @@ class Payment extends React.Component {
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
+          //shelter和breeder产品参数 start
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
+           //shelter和breeder产品参数 end
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
@@ -1136,6 +1142,11 @@ class Payment extends React.Component {
     } else if (this.isLogin) {
       param.tradeItems = loginCartData.map((ele) => {
         return {
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
@@ -1148,6 +1159,11 @@ class Payment extends React.Component {
     } else {
       param.tradeItems = cartData.map((ele) => {
         return {
+          utmSource: ele.utmSource || '',
+          utmMedium: ele.utmMedium || '',
+          utmCampaign: ele.utmCampaign || '',
+          prefixFn: ele.prefixFn || '',
+          prefixBreed: ele.prefixBreed || '',
           num: ele.quantity,
           skuId: find(ele.sizeList, (s) => s.selected).goodsInfoId,
           goodsInfoFlag: ele.goodsInfoFlag,
@@ -1163,11 +1179,11 @@ class Payment extends React.Component {
         .filter((ele) => !ele.goodsInfoFlag)
         .map((g) => {
           return {
-            utmSource:g.utmSource||'',
-            utmMedium:g.utmMedium||'',
-            utmCampaign:g.utmCampaign||'',
-            prefixFn:g.prefixFn||'',
-            prefixBreed:g.prefixBreed||'',
+            utmSource: g.utmSource || '',
+            utmMedium: g.utmMedium || '',
+            utmCampaign: g.utmCampaign || '',
+            prefixFn: g.prefixFn || '',
+            prefixBreed: g.prefixBreed || '',
             num: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
@@ -1199,11 +1215,11 @@ class Payment extends React.Component {
         )
         .map((g) => {
           return {
-            utmSource:g.utmSource||'',
-            utmMedium:g.utmMedium||'',
-            utmCampaign:g.utmCampaign||'',
-            prefixFn:g.prefixFn||'',
-            prefixBreed:g.prefixBreed||'',
+            utmSource: g.utmSource || '',
+            utmMedium: g.utmMedium || '',
+            utmCampaign: g.utmCampaign || '',
+            prefixFn: g.prefixFn || '',
+            prefixBreed: g.prefixBreed || '',
             subscribeNum: g.buyCount,
             skuId: g.goodsInfoId,
             petsId: g.petsId,
@@ -1458,23 +1474,22 @@ class Payment extends React.Component {
     return (
       <>
         <div
-          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${
-            paymentStore.deliveryAddrPanelStatus.isEdit
-              ? 'border-333'
-              : 'border-transparent'
-          }`}
+          className={`card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3 border ${paymentStore.deliveryAddrPanelStatus.isEdit
+            ? 'border-333'
+            : 'border-transparent'
+            }`}
           id="J_checkout_panel_deliveryAddr"
         >
           {this.isLogin ? (
             <AddressList id="1" updateData={this.updateDeliveryAddrData} />
           ) : (
-            <VisitorAddress
-              key={1}
-              type="delivery"
-              initData={deliveryAddress}
-              updateData={this.updateDeliveryAddrData}
-            />
-          )}
+              <VisitorAddress
+                key={1}
+                type="delivery"
+                initData={deliveryAddress}
+                updateData={this.updateDeliveryAddrData}
+              />
+            )}
         </div>
       </>
     );
@@ -1491,89 +1506,89 @@ class Payment extends React.Component {
           : this.loginCartData,
         (ele) => ele.subscriptionStatus && ele.subscriptionPrice > 0
       ) ? (
-      <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
-        <div className="bg-transparent d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">
-            <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
-            <FormattedMessage id="subscription.chooseSubscription" />
-          </h5>
-        </div>
-        <SubscriptionSelect
-          data={this.state.recommend_data}
-          updateSelectedData={(data) => {
-            this.refs.payProductInfo.setState({
-              isShowValidCode: false
-            });
-            this.props.frequencyStore.updateBuyWay(data.buyWay);
-            this.props.frequencyStore.updateFrequencyName(data.frequencyName);
+        <div className="card-panel checkout--padding rc-bg-colour--brand3 rounded mb-3">
+          <div className="bg-transparent d-flex justify-content-between align-items-center">
+            <h5 className="mb-0">
+              <span className="iconfont font-weight-bold mr-2">&#xe657;</span>
+              <FormattedMessage id="subscription.chooseSubscription" />
+            </h5>
+          </div>
+          <SubscriptionSelect
+            data={this.state.recommend_data}
+            updateSelectedData={(data) => {
+              this.refs.payProductInfo.setState({
+                isShowValidCode: false
+              });
+              this.props.frequencyStore.updateBuyWay(data.buyWay);
+              this.props.frequencyStore.updateFrequencyName(data.frequencyName);
 
-            // ****************订阅的时候隐藏oxxo支付方式start******************
-            let payuoxxoIndex;
-            if (
-              Object.prototype.toString
-                .call(this.state.payWayObj)
-                .slice(8, -1) === 'Array'
-            ) {
-              //判断payWayObj是数组
-              if (data.buyWay === 'frequency') {
-                console.log(this.state.payWayObj);
+              // ****************订阅的时候隐藏oxxo支付方式start******************
+              let payuoxxoIndex;
+              if (
+                Object.prototype.toString
+                  .call(this.state.payWayObj)
+                  .slice(8, -1) === 'Array'
+              ) {
+                //判断payWayObj是数组
+                if (data.buyWay === 'frequency') {
+                  console.log(this.state.payWayObj);
 
-                //adyen如果选订阅，只保留creditcard/klarnapaylater
-                const adyenMethods = this.state.payWayObj.filter(
-                  (item, index) => {
-                    return (
-                      item.name === 'adyen_credit_card' ||
-                      item.name === 'adyen_klarna_pay_lat'
-                    );
+                  //adyen如果选订阅，只保留creditcard/klarnapaylater
+                  const adyenMethods = this.state.payWayObj.filter(
+                    (item, index) => {
+                      return (
+                        item.name === 'adyen_credit_card' ||
+                        item.name === 'adyen_klarna_pay_lat'
+                      );
+                    }
+                  );
+                  if (adyenMethods.length !== 0) {
+                    this.setState({ payWayObj: adyenMethods });
                   }
-                );
-                if (adyenMethods.length !== 0) {
-                  this.setState({ payWayObj: adyenMethods });
-                }
 
-                //payu
-                payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
-                  return o.name === 'payuoxxo';
-                }); //找到oxxo在数组中的下标
-                if (payuoxxoIndex !== -1) {
-                  this.state.payWayObj.splice(payuoxxoIndex, 1);
+                  //payu
+                  payuoxxoIndex = findIndex(this.state.payWayObj, function (o) {
+                    return o.name === 'payuoxxo';
+                  }); //找到oxxo在数组中的下标
+                  if (payuoxxoIndex !== -1) {
+                    this.state.payWayObj.splice(payuoxxoIndex, 1);
+                  }
+                } else {
+                  //为后台提供的初始支付方式
+                  this.setState({
+                    payWayObj: JSON.parse(
+                      JSON.stringify(this.state.savedPayWayObj)
+                    )
+                  });
                 }
-              } else {
-                //为后台提供的初始支付方式
+              }
+              // ****************订阅的时候隐藏oxxo支付方式end******************
+
+              if (
+                data.buyWay === 'frequency' &&
+                this.state.paymentTypeVal === 'oxxo'
+              ) {
                 this.setState({
-                  payWayObj: JSON.parse(
-                    JSON.stringify(this.state.savedPayWayObj)
-                  )
+                  paymentTypeVal: 'payUCreditCard'
                 });
               }
-            }
-            // ****************订阅的时候隐藏oxxo支付方式end******************
-
-            if (
-              data.buyWay === 'frequency' &&
-              this.state.paymentTypeVal === 'oxxo'
-            ) {
-              this.setState({
-                paymentTypeVal: 'payUCreditCard'
-              });
-            }
-            this.setState(
-              {
-                subForm: data
-              },
-              () => {
-                if (!sessionItemRoyal.get('recommend_product')) {
-                  this.props.checkoutStore.updateLoginCart(
-                    this.state.promotionCode,
-                    this.state.subForm.buyWay !== 'once'
-                  );
+              this.setState(
+                {
+                  subForm: data
+                },
+                () => {
+                  if (!sessionItemRoyal.get('recommend_product')) {
+                    this.props.checkoutStore.updateLoginCart(
+                      this.state.promotionCode,
+                      this.state.subForm.buyWay !== 'once'
+                    );
+                  }
                 }
-              }
-            );
-          }}
-        />
-      </div>
-    ) : null;
+              );
+            }}
+          />
+        </div>
+      ) : null;
   };
 
   renderBillingJSX = ({ type }) => {
@@ -1619,19 +1634,19 @@ class Payment extends React.Component {
                 })}
               />
             ) : (
-              <VisitorAddress
-                ref={this.unLoginBillingAddrRef}
-                key={2}
-                titleVisible={false}
-                showConfirmBtn={false}
-                type="billing"
-                initData={billingAddress}
-                updateData={this.updateBillingAddrData}
-                updateFormValidStatus={this.updateValidStatus.bind(this, {
-                  key: 'billingAddr'
-                })}
-              />
-            )}
+                <VisitorAddress
+                  ref={this.unLoginBillingAddrRef}
+                  key={2}
+                  titleVisible={false}
+                  showConfirmBtn={false}
+                  type="billing"
+                  initData={billingAddress}
+                  updateData={this.updateBillingAddrData}
+                  updateFormValidStatus={this.updateValidStatus.bind(this, {
+                    key: 'billingAddr'
+                  })}
+                />
+              )}
           </>
         )}
       </>
@@ -1780,12 +1795,11 @@ class Payment extends React.Component {
             {Object.entries(payWayObj).map((item, i) => {
               return (
                 <div
-                  className={`rc-input rc-input--inline ${
-                    subForm.buyWay == 'frequency' &&
+                  className={`rc-input rc-input--inline ${subForm.buyWay == 'frequency' &&
                     item[1].id == 'adyenPayLater'
-                      ? 'hidden'
-                      : ''
-                  }`}
+                    ? 'hidden'
+                    : ''
+                    }`}
                   key={i}
                 >
                   <input
@@ -2009,27 +2023,27 @@ class Payment extends React.Component {
       <div className="ml-custom mr-custom mb-3">
         <div className="row">
           {paymentTypeVal === 'payUCreditCard' ||
-          paymentTypeVal === 'adyenCard' ? (
-            <div className="col-12 col-md-6">
-              <span className="medium">
-                <FormattedMessage id="bankCard" />
-              </span>
-              <br />
-              {holderNameDeco}
-              <br />
-              {brandDeco}
-              <br />
-              {lastFourDeco ? `************${lastFourDeco}` : null}
-              {expiryYear && expiryMonth ? (
-                <>
-                  <br />
-                  {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
-                </>
-              ) : null}
-            </div>
-          ) : (
-            <div className="col-12 col-md-6">{email}</div>
-          )}
+            paymentTypeVal === 'adyenCard' ? (
+              <div className="col-12 col-md-6">
+                <span className="medium">
+                  <FormattedMessage id="bankCard" />
+                </span>
+                <br />
+                {holderNameDeco}
+                <br />
+                {brandDeco}
+                <br />
+                {lastFourDeco ? `************${lastFourDeco}` : null}
+                {expiryYear && expiryMonth ? (
+                  <>
+                    <br />
+                    {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
+                  </>
+                ) : null}
+              </div>
+            ) : (
+              <div className="col-12 col-md-6">{email}</div>
+            )}
           {!tid && (
             <div className="col-12 col-md-6 mt-2 mt-md-0">
               {this.renderAddrPreview({
@@ -2217,10 +2231,10 @@ class Payment extends React.Component {
     const paymentMethodTitle = paymentMethodPanelStatus.isPrepare
       ? paymentMethodTitleForPrepare
       : paymentMethodPanelStatus.isEdit
-      ? paymentMethodTitleForEdit
-      : paymentMethodPanelStatus.isCompleted
-      ? paymentMethodTitleForCompeleted
-      : null;
+        ? paymentMethodTitleForEdit
+        : paymentMethodPanelStatus.isCompleted
+          ? paymentMethodTitleForCompeleted
+          : null;
 
     return (
       <div>
@@ -2248,9 +2262,8 @@ class Payment extends React.Component {
               <div className="rc-column rc-double-width shipping__address">
                 {/* 错误提示 */}
                 <div
-                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${
-                    errorMsg ? '' : 'hidden'
-                  }`}
+                  className={`rc-padding-bottom--xs cart-error-messaging cart-error ${errorMsg ? '' : 'hidden'
+                    }`}
                 >
                   <aside
                     className="rc-alert rc-alert--error rc-alert--with-close"
@@ -2262,25 +2275,25 @@ class Payment extends React.Component {
                 {tid ? (
                   <AddressPreview details={orderDetails} />
                 ) : (
-                  <>
-                    <div className="shipping-form" id="J_checkout_panel_email">
-                      <div className="bg-transparent">
-                        {this.checkoutWithClinic ? (
-                          <OnePageClinicForm history={history} />
-                        ) : null}
-                        {!this.isLogin ? (
-                          <OnePageEmailForm
-                            history={history}
-                            onChange={this.updateGuestEmail}
-                          />
-                        ) : null}
+                    <>
+                      <div className="shipping-form" id="J_checkout_panel_email">
+                        <div className="bg-transparent">
+                          {this.checkoutWithClinic ? (
+                            <OnePageClinicForm history={history} />
+                          ) : null}
+                          {!this.isLogin ? (
+                            <OnePageEmailForm
+                              history={history}
+                              onChange={this.updateGuestEmail}
+                            />
+                          ) : null}
 
-                        {this.renderAddressPanel()}
+                          {this.renderAddressPanel()}
+                        </div>
                       </div>
-                    </div>
-                    {/* {this.renderSubSelect()} */}
-                  </>
-                )}
+                      {/* {this.renderSubSelect()} */}
+                    </>
+                  )}
                 {checkoutStore.petFlag && checkoutStore.AuditData.length > 0 && (
                   <div className="card-panel checkout--padding pl-0 pr-0 rc-bg-colour--brand3 rounded pb-0">
                     <h5
@@ -2301,121 +2314,120 @@ class Payment extends React.Component {
                       </p>
                       {this.isLogin
                         ? checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct">
-                                <LazyLoad>
-                                  <img
-                                    className="pull-left"
-                                    alt=""
-                                    src={el.goodsInfoImg}
-                                  />
-                                </LazyLoad>
+                          return (
+                            <div className="petProduct">
+                              <LazyLoad>
+                                <img
+                                  className="pull-left"
+                                  alt=""
+                                  src={el.goodsInfoImg}
+                                />
+                              </LazyLoad>
 
-                                <div
-                                  className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petName ? el.petName : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.buyCount}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petName ? el.petName : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.buyCount}</span>
+                                </p>
                               </div>
-                            );
-                          })
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })
                         : checkoutStore.AuditData.map((el, i) => {
-                            return (
-                              <div className="petProduct" key={i}>
-                                <LazyLoad>
-                                  <img
-                                    alt=""
-                                    src={
-                                      el.sizeList.filter((el) => el.selected)[0]
-                                        .goodsInfoImg
-                                    }
-                                    className="pull-left"
-                                  />
-                                </LazyLoad>
-                                <div
+                          return (
+                            <div className="petProduct" key={i}>
+                              <LazyLoad>
+                                <img
+                                  alt=""
+                                  src={
+                                    el.sizeList.filter((el) => el.selected)[0]
+                                      .goodsInfoImg
+                                  }
                                   className="pull-left"
-                                  style={{
-                                    marginTop: '20px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <p>
-                                    <span>Pet:</span>
-                                    <span>
-                                      {el.petForm
-                                        ? el.petForm.petName
-                                        : 'required'}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    <span>Qty:</span>
-                                    <span>{el.quantity}</span>
-                                  </p>
-                                </div>
-                                <div
-                                  className="pull-right"
-                                  style={{
-                                    marginTop: '30px',
-                                    marginLeft: '20px'
-                                  }}
-                                >
-                                  <button
-                                    id="selectPet"
-                                    className="rc-btn rc-btn--sm rc-btn--one"
-                                    onClick={() => {
-                                      this.setState({
-                                        petModalVisible: true,
-                                        currentProIndex: i
-                                      });
-                                    }}
-                                  >
-                                    Select a pet
-                                  </button>
-                                </div>
+                                />
+                              </LazyLoad>
+                              <div
+                                className="pull-left"
+                                style={{
+                                  marginTop: '20px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <p>
+                                  <span>Pet:</span>
+                                  <span>
+                                    {el.petForm
+                                      ? el.petForm.petName
+                                      : 'required'}
+                                  </span>
+                                </p>
+                                <p>
+                                  <span>Qty:</span>
+                                  <span>{el.quantity}</span>
+                                </p>
                               </div>
-                            );
-                          })}
+                              <div
+                                className="pull-right"
+                                style={{
+                                  marginTop: '30px',
+                                  marginLeft: '20px'
+                                }}
+                              >
+                                <button
+                                  id="selectPet"
+                                  className="rc-btn rc-btn--sm rc-btn--one"
+                                  onClick={() => {
+                                    this.setState({
+                                      petModalVisible: true,
+                                      currentProIndex: i
+                                    });
+                                  }}
+                                >
+                                  Select a pet
+                                  </button>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </h5>
                   </div>
                 )}
                 <div
-                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${
-                    paymentMethodPanelStatus.isEdit
-                      ? 'border-333'
-                      : 'border-transparent'
-                  }`}
+                  className={`card-panel checkout--padding rc-bg-colour--brand3 rounded pl-0 pr-0 mb-3 pb-0 border ${paymentMethodPanelStatus.isEdit
+                    ? 'border-333'
+                    : 'border-transparent'
+                    }`}
                   id="J_checkout_panel_paymentMethod"
                 >
                   {paymentMethodTitle}
@@ -2445,29 +2457,28 @@ class Payment extends React.Component {
                     />
                   </>
                 ) : (
-                  <PayProductInfo
-                    data={recommend_data}
-                    fixToHeader={false}
-                    style={{ background: '#fff' }}
-                    ref="payProductInfo"
-                    location={location}
-                    history={history}
-                    frequencyName={subForm.frequencyName}
-                    buyWay={subForm.buyWay}
-                    sendPromotionCode={this.savePromotionCode}
-                    promotionCode={promotionCode}
-                    operateBtnVisible={!tid}
-                  />
-                )}
+                    <PayProductInfo
+                      data={recommend_data}
+                      fixToHeader={false}
+                      style={{ background: '#fff' }}
+                      ref="payProductInfo"
+                      location={location}
+                      history={history}
+                      frequencyName={subForm.frequencyName}
+                      buyWay={subForm.buyWay}
+                      sendPromotionCode={this.savePromotionCode}
+                      promotionCode={promotionCode}
+                      operateBtnVisible={!tid}
+                    />
+                  )}
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div
-              className={`order-summary-title align-items-center justify-content-between text-center ${
-                mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
-              }`}
+              className={`order-summary-title align-items-center justify-content-between text-center ${mobileCartVisibleKey === 'less' ? 'd-flex' : 'hidden'
+                }`}
               onClick={this.toggleMobileCart.bind(this, 'more')}
             >
               <span

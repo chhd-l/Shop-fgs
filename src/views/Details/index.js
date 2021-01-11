@@ -46,6 +46,7 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -844,7 +845,7 @@ class Details extends React.Component {
                           if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
                             tempContent =
                               tempContent +
-                              `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -1346,12 +1347,12 @@ class Details extends React.Component {
         );
         return;
       }
-      // tmpData = [...tmpData,...this.state.requestJson]
+      if(Object.keys(this.state.requestJson).length>0){ //requestJson是shelter和breeder产品的参数，有就加上
+        tmpData = {...tmpData,...this.state.requestJson}
+      }
       cartDataCopy.push(tmpData);
     }
     
-    // console.log(cartDataCopy)
-    // debugger
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1668,6 +1669,7 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
