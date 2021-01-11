@@ -14,10 +14,13 @@
     cursor: pointer;
   }
   .required-component .footer-checkbox-title p span{
-    color:#000!important;
+    color:#000;
     font-weight: 700;
     cursor: pointer;
     user-select: none;
+  }
+  .required-component .footer-checkbox-title p .rc-text-colour--brand1 {
+    color: #e2001a;
   }
   .required-component .footer-checkbox-title p a{
     color:#E2001A;
@@ -34,4 +37,9 @@
   }
   .m-auto{
     margin: 0 auto;
+  }
+
+  .required-component .footer-checkbox-title .rc-text-colour--brand1
+   {
+    display: contents;
   }
