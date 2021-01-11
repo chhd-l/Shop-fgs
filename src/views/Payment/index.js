@@ -21,6 +21,7 @@ import PetModal from './PetModal';
 import AddressPreview from './AddressPreview';
 import Confirmation from './modules/Confirmation';
 import SameAsCheckbox from './Address/SameAsCheckbox';
+import { withOktaAuth } from '@okta/okta-react';
 import {
   searchNextConfirmPanel,
   scrollPaymentPanelIntoView
@@ -35,7 +36,7 @@ import {
   setSeoConfig
 } from '@/utils/utils';
 import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
-import { findUserConsentList, getStoreOpenConsentList } from '@/api/consent';
+import { findUserConsentList, getStoreOpenConsentList,userBindConsent } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
 import LazyLoad from 'react-lazyload';
 import {
@@ -2155,10 +2156,37 @@ class Payment extends React.Component {
     this.setState({ email });
   };
   clickPay = () => {
+    if(this.isLogin){
+      this.userBindConsentFun()
+    }
+    
     const { paymentTypeVal } = this.state;
     this.initCommonPay({
       type: paymentTypeVal
     });
+  };
+  userBindConsentFun(){
+    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
+    let submitParam = this.bindSubmitParam(this.state.listData);
+    let param = {}
+    param = {...submitParam,...{ oktaToken },consentPage:"check out"}
+    userBindConsent(param);
+  }
+  bindSubmitParam = (list) => {
+    let obj = { optionalList: [], requiredList: [] };
+    list
+      .filter((item) => !item.isRequired)
+      .forEach((item) => {
+        obj.optionalList.push({ id: item.id, selectedFlag: item.isChecked });
+      });
+    list
+      .filter((item) => item.isRequired)
+      .forEach((item) => {
+        obj.requiredList.push({ id: item.id, selectedFlag: true });
+      });
+
+    return obj;
   };
   render() {
     const { paymentMethodPanelStatus } = this;
@@ -2546,4 +2574,4 @@ class Payment extends React.Component {
   }
 }
 
-export default Payment;
+export default withOktaAuth(Payment);
