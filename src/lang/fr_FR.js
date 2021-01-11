@@ -56,7 +56,7 @@ const fr_FR = {
   'account.paymentMethodTip': 'Afficher ou mettre à jour les informations de paiement.',
   'account.personalArea': 'Mon compte',
   'account.personalData': 'Données personnelles',
-  'account.pets': 'Animaux domestiques',
+  'account.pets': 'Mes animaux',
   'account.petsTip': "Créez et gérez vos profils d'animaux.",
   'account.petsTitle': 'Mes animaux de compagnie',
   'account.preferredContactMethod': 'Type de contact préféré',
@@ -828,120 +828,97 @@ const fr_FR = {
   "termsandconditions.paragraph2":"Royal Canin France",
   "termsandconditions.paragraph3":"Société par actions simplifiée immatriculée au RCS de Nîmes sous le numéro 380 824 888",
   "termsandconditions.paragraph4":"Dont le siège social se situe 650 avenue de la petite Camargue, 30470 Aimargues",
-  "termsandconditions.paragraph5":"Numéro de téléphone : {val1} ; Adresse email : serviceclients.france@royalcanin.com ;",
+  "termsandconditions.paragraph5":"Numéro de téléphone : {val1} ; Adresse email : {val4}",
   "termsandconditions.paragraph6":"Capital social : 917 986€ ; Numéro de TVA : FR43380824888",
 
   "termsandconditions.paragraph7":"(ci-après dénommé “{val1}”)",
   "termsandconditions.paragraph8":"et",
-  "termsandconditions.paragraph9":"les consommateurs qui utilisent les sites Internet de Royal Canin {https://www.royalcanin.com/fr} (ci-après dénommés collectivement le “Site” ou les “Sites”) ou appellent le numéro de commande de Royal Canin (0 800 005 360) pour passer commande de produits à des fins non-professionnelles.",
+  "termsandconditions.paragraph9":"les consommateurs qui utilisent les sites Internet de Royal Canin {val1} (ci-après dénommés collectivement le “{val2}” ou les “{val3}”) ou appellent le numéro de commande de Royal Canin (0 800 005 360) pour passer commande de produits à des fins non-professionnelles.",
 
   "termsandconditions.title1":"1. Commande, acceptation et confirmation de la commande",
   "termsandconditions.title1.1":"1.1 Commandes par téléphone",
   "termsandconditions.title1.1descripition":"Vous pouvez passer une commande par téléphone au 0 800 005 360 en spécifiant les produits commandés, leur nombre, votre adresse de livraison, votre email ainsi que votre numéro de téléphone. Un email de confirmation de commande vous sera envoyé à la suite de votre commande par téléphone, lequel intègrera (i) le détail de votre commande et (ii) les présentes conditions générales de vente au format PDF.  ",
 
   "termsandconditions.title1.2":"1.2 Commandes par le Site",
-  "termsandconditions.title1.2descripition":"Vous pouvez également passer une commande directement sur le Site. Une fois votre panier validé, vous devrez choisir l'adresse de livraison, et valider votre moyen de paiement, cette dernière étape formalisant le contrat de vente avec ROYAL CANIN.\n" +
-    " <br />" +
-    "ROYAL CANIN accusera réception de votre commande dès sa validation en vous envoyant un email de confirmation de commande.\n" +
-    "\n" +
-    "Dans certains cas, notamment pour défaut de paiement, adresse erronée ou tout autre problème lié à votre compte, ROYAL CANIN se réserve le droit de bloquer votre commande jusqu'à la résolution du problème.",
-
+  "termsandconditions.title1.2descripition":"Vous pouvez également passer une commande directement sur le Site. Une fois votre panier validé, vous devrez choisir l'adresse de livraison, et valider votre moyen de paiement, cette dernière étape formalisant le contrat de vente avec ROYAL CANIN.\n{val1}ROYAL CANIN accusera réception de votre commande dès sa validation en vous envoyant un email de confirmation de commande.{val1}Dans certains cas, notamment pour défaut de paiement, adresse erronée ou tout autre problème lié à votre compte, ROYAL CANIN se réserve le droit de bloquer votre commande jusqu'à la résolution du problème.",
   "termsandconditions.title1.3":"1.3 Abonnement",
-  "termsandconditions.title1.3descripition":"Vous pouvez également souscrire un abonnement Royal Canin, vous permettant de mettre en place plusieurs commandes récurrentes, pour des produits et selon la fréquence d’expédition que vous déterminez. Dans le cas où l’un des produits serait indisponible pour une échéance donnée, vous en serez informé par avance et pourrez modifier votre commande, par exemple en commandant un produit de remplacement ou même en supprimant votre commande pour ladite échéance. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "Afin de souscrire à un abonnement, il vous sera demandé de créer un compte et de choisir un mot de passe, ainsi que d’enregistrer votre carte bancaire comme moyen de paiement. Vous garantissez la véracité, l'exactitude et l'exhaustivité des informations fournies à Royal Canin et serez seul(e) responsable de toute erreur, omission et mise à jour. Vous vous engagez à mettre à jour rapidement les données et informations fournies lorsque cela est nécessaire.\n" +
-    "\n" +
-    "Vous devez prendre toutes les précautions nécessaires pour assurer la confidentialité, la sécurité et l'utilisation correcte de votre identifiant et de votre mot de passe, afin d'éviter qu'ils ne soient divulgués ou utilisés par des tiers non autorisés. Toute connexion à votre compte et/ou transmission de données effectuée par l'intermédiaire de votre compte sera réputée avoir été effectuée par vous et sous votre seule responsabilité. \n" +
-    "\n" +
-    "En cas d'utilisation frauduleuse du mot de passe et/ou de votre identifiant, vous vous engagez à en informer Royal Canin par écrit dans les meilleurs délais.\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "La souscription à l’abonnement est gratuite, et vous devrez uniquement vous acquitter du prix des produits compris dans chacune de vos commandes, au fur et à mesure de leur expédition. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "Vous pourrez accéder à tout moment à votre espace abonné afin de :\n" +
-    "\n" +
-    "(i) modifier les modalités de vos commandes récurrentes, c’est-à-dire les produits commandés, leur quantité ou leur fréquence d’expédition, ou \n" +
-    "\n" +
-    "(ii) modifier ou supprimer une commande spécifique, sous réserve que ladite modification ou suppression intervienne au plus tard 24h avant l’expédition de ladite commande. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+  "termsandconditions.title1.3descripition":"Vous pouvez également souscrire un abonnement Royal Canin, vous permettant de mettre en place plusieurs commandes récurrentes, pour des produits et selon la fréquence d’expédition que vous déterminez. Dans le cas où l’un des produits serait indisponible pour une échéance donnée, vous en serez informé par avance et pourrez modifier votre commande, par exemple en commandant un produit de remplacement ou même en supprimant votre commande pour ladite échéance. "+
+    "{val2}"+
+    "Afin de souscrire à un abonnement, il vous sera demandé de créer un compte et de choisir un mot de passe, ainsi que d’enregistrer votre carte bancaire comme moyen de paiement. Vous garantissez la véracité, l'exactitude et l'exhaustivité des informations fournies à Royal Canin et serez seul(e) responsable de toute erreur, omission et mise à jour. Vous vous engagez à mettre à jour rapidement les données et informations fournies lorsque cela est nécessaire." +
+    "{val1}"+
+    "Vous devez prendre toutes les précautions nécessaires pour assurer la confidentialité, la sécurité et l'utilisation correcte de votre identifiant et de votre mot de passe, afin d'éviter qu'ils ne soient divulgués ou utilisés par des tiers non autorisés. Toute connexion à votre compte et/ou transmission de données effectuée par l'intermédiaire de votre compte sera réputée avoir été effectuée par vous et sous votre seule responsabilité. " +
+    "{val1}"+
+    "En cas d'utilisation frauduleuse du mot de passe et/ou de votre identifiant, vous vous engagez à en informer Royal Canin par écrit dans les meilleurs délais." +
+    "{val2}"+
+    "La souscription à l’abonnement est gratuite, et vous devrez uniquement vous acquitter du prix des produits compris dans chacune de vos commandes, au fur et à mesure de leur expédition. " +
+    "{val2}"+
+    "Vous pourrez accéder à tout moment à votre espace abonné afin de :" +
+    "{val1}"+
+    "(i) modifier les modalités de vos commandes récurrentes, c’est-à-dire les produits commandés, leur quantité ou leur fréquence d’expédition, ou" +
+    "{val1}"+
+    "(ii) modifier ou supprimer une commande spécifique, sous réserve que ladite modification ou suppression intervienne au plus tard 24h avant l’expédition de ladite commande."+
+    "{val2}"+
     "Vous pouvez également suspendre ou annuler votre abonnement sans frais et à tout moment.",
 
 
   "termsandconditions.title2":"2. Conditions de livraison",
   "termsandconditions.title2descripition":"Vos commandes ne seront livrées qu’en France métropolitaine. Nous ne livrons pas dans les territoires d'Outre-mer et dans les îles françaises : Corse, Île de Ré, Île de Bréhat, Île d'Ouessant, Île Molène, Île de Batz, Belle Île en mer, Groix, Île aux Moines, Île de Noirmoutier et l'Île d'Yeu.\n" +
-    "\n" +
+    "{val1}" +
     "Les livraisons ont lieu dans le délai spécifié lors de la commande, qui sera généralement de 3 à 7 jours ouvrés à compter de la passation de la commande, ou selon les modalités définies dans le cadre de votre abonnement. Si le dernier jour du délai de livraison tombe un samedi, un dimanche ou un jour férié, il est automatiquement reporté au jour ouvrable suivant.\n" +
-    "\n" +
+    "{val1}" +
     "En cas de retard de livraison de notre fait, nous vous en informerons via les coordonnées que vous nous avez fournies. C'est pourquoi il est important que vos coordonnées soient complètes et exactes. En cas de manquement à notre obligation de livraison à la date indiquée ou dans le délai prévu, vous pouvez annuler votre commande, par lettre recommandée avec accusé de réception ou par écrit (email) si, après avoir nous avoir enjoint par lettre recommandée avec accusé de réception ou par tout autre écrit d'effectuer ladite livraison dans un délai supplémentaire raisonnable, nous n'avons pas réussi à vous livrer dans le délai imparti. \n" +
-    "\n" +
+    "{val1}" +
     "En cas d'annulation de votre commande, nous procéderons au remboursement total de votre achat, frais de livraison inclus, en utilisant le moyen de paiement utilisé lors de votre achat, sauf accord express de votre part. Le remboursement interviendra sous 14 jours à compter de la date d’annulation de votre commande.\n" +
-    "\n" +
+    "{val1}" +
     "Tous les produits achetés auprès de Royal Canin sont livrés aux utilisateurs par l'intermédiaire d'une société de transport. Tout risque de perte ou d'endommagement des produits vous est transféré au moment où vous ou un tiers désigné par vous, et autre que notre transporteur, prend physiquement possession des produits.\n" +
-    "\n" +
+    "{val1}" +
     "Si les produits que vous avez achetés ne peuvent vous être livrés malgré trois tentatives (y compris la livraison à domicile, le contact par téléphone ou par courriel, etc.), votre commande sera annulée et le montant que vous avez payé sera remboursé via le moyen de paiement utilisé lors de votre commande. \n" +
-    "\n",
+    "{val1}",
 
 
   "termsandconditions.title3":"3. Prix et paiement",
   "termsandconditions.title3.1":"3.1 Prix",
   "termsandconditions.title3.1descripition":"Tous les prix affichés sur le Site sont en Euros et incluent le montant de la TVA applicable en France. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+   "{val2}"+
     "Si vous avez souscrit un abonnement le prix de chacune de vos commandes correspondra au prix TTC des produits commandés, applicable à la date d’expédition de votre commande (les éventuelles réductions de prix ou promotion en cours étant prises en compte), sur lequel vous bénéficiez d’une réduction de 10%.\n" +
-    "\n" +
+    "{val1}" +
     "Le prix payé variera donc d’une commande à une autre.",
 
 
   "termsandconditions.title3.2":"3.2 Paiement",
   "termsandconditions.title3.2descripition":"Vous pouvez effectuer le paiement de vos commandes par carte bancaire : Carte Bleue, e-carte bleue, Visa, Mastercard, carte American Express, Discover. Votre compte sera débité lors de la confirmation de la commande des Produits. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+  "{val2}"+
     "Si vous avez souscrit un abonnement, vos données de carte bancaire seront conservées par Royal Canin pour la durée de votre abonnement. Vous serez prélevé du prix de votre commande à la date d’expédition de celle-ci. Vous pourrez modifier vos données bancaires dans votre espace abonné à tout moment. Dans l’hypothèse où votre carte arriverait à expiration, nous vous enverrons un email afin de vous inviter à mettre à jour vos données bancaires. Si vous n’effectuez pas ladite mise à jour, ou plus généralement si un paiement est refusé par votre établissement bancaire pour quelque raison que ce soit, votre abonnement sera suspendu. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+    "{val2}"+
     "Le paiement doit être effectué en euros. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+      "{val2}"+
     "Les frais de livraison sont offerts. \n" +
-    "\n" +
-    "\n" +
-    "\n" +
+      "{val2}"+
     "Afin d'offrir un système de paiement sécurisé, Royal Canin utilise les systèmes de paiement sécurisé des principales institutions financières. \n" +
-    "\n",
+    "{val1}",
 
   "termsandconditions.title4":"4 Promotions et coupons",
   "termsandconditions.title4descripition":"Si un code de promotion/coupon est utilisé, le code déterminé pour l'offre concernée doit être saisi dans le champ \"Code de promotion\" lors de la commande sur le Site ou à l’oral si vous effectuez une commande par téléphone et que le coupon est valable pour ladite commande. Les codes de promotion ou les coupons ne peuvent pas être combinés avec d'autres promotions ou coupons ; un seul code de promotion ou de coupon peut être utilisé par transaction et le montant de cette promotion ou de ce coupon est déduit du solde du panier d'achat. Royal Canin se réserve le droit de restreindre le paiement de certains produits, poids, certains frais d'expédition et les frais d'expédition accélérée au moyen de codes de promotion ou de coupons, ce qui sera indiqué sur le code ou le coupon applicable. Sauf indication contraire dans les conditions de l'offre, les coupons de réduction en ligne ne sont pas valables dans les magasins Royal Canin ou dans tout autre point de vente où les produits Royal Canin sont vendus.\n" +
-    "\n" +
+    "{val1}" +
     "Les codes promotionnels / coupons ne pourront pas être utilisés pour les commandes réalisées dans le cadre d’un abonnement. Par exception, vous pourrez utiliser un code promotionnel / coupon pour la première commande de votre abonnement. ",
 
   "termsandconditions.title5":"5 Garanties",
   "termsandconditions.title5descripition":"Nous sommes tenus des défauts de conformité du bien conformément aux articles L. 217-4 (et suivants) du Code de la consommation et des défauts cachés de la chose vendue, dans les conditions prévues aux articles 1641 (et suivants) du Code civil. \n" +
-    "\n" +
-    "Garantie légale de conformité\n" +
-    "\n" +
+    "{val1}" +
+    "{val3}\n" +
+    "{val1}" +
     "Vous bénéficiez d'un délai de deux (2) ans à compter de la délivrance du bien pour agir sur le fondement de la garantie légale. \n" +
-    "\n" +
+    "{val1}" +
     "En cas de défaut de conformité, vous pouvez choisir entre la réparation ou le remplacement du bien, conformément à l'article L. 217-9 du Code de la consommation. Nous pouvons cependant choisir de ne pas procéder selon votre choix si ce choix entraîne un coût manifestement disproportionné au regard de l'autre modalité, compte tenu de la valeur des biens ou de l'importance du défaut. \n" +
-    "\n" +
+    "{val1}" +
     "Si la réparation ou le remplacement du bien sont impossibles, ce qui sera le cas pour tous les produits alimentaires animaliers, vous pouvez choisir entre la restitution d'une partie du prix ou la résiliation du contrat, conformément à l'article L. 217-10 du Code de la Consommation. \n" +
-    "\n" +
+    "{val1}" +
     "Durant les 24 mois suivant la délivrance des biens objets de votre commande, vous êtes dispensés de rapporter la preuve de l'existence du défaut de conformité. \n" +
-    "\n" +
-    "Garantie contre les défauts de la chose vendue\n" +
-    "\n" +
+    "{val1}" +
+    "{val4}\n" +
+    "{val1}" +
     "Vous pouvez également exercer la garantie contre les défauts cachés de la chose vendue telle que prévue par l'article 1641 du Code civil.\n" +
-    "\n" +
+    "{val1}" +
     "Dans cette hypothèse, vous pouvez choisir entre la résolution de la vente ou une réduction du prix de vente conformément à l'article 1644 du Code civil.",
 
   "termsandconditions.title6":"6. Droit de rétractation",
@@ -949,73 +926,74 @@ const fr_FR = {
   "termsandconditions.title6.1descripition":"Conformément à l’article L.221-18 du Code de la consommation, vous avez le droit de vous rétracter de votre commande sans avoir à donner de motif et sans pénalités, dans un délai de quatorze (14) jours à compter de la réception des produits objets de votre commande, par vous ou par un tiers désigné par vous, que votre commande soit passée de manière isolée ou dans le cadre d’un abonnement.",
   "termsandconditions.title6.2":"6.2 Cas où le droit de rétractation ne peut être exercé :",
   "termsandconditions.title6.2descripition":"L’exercice du droit de rétractation est exclu pour les produits suivants, que ceux-ci soient commandés de manière isolée ou dans le cadre d’un abonnement : \n" +
-    "\n" +
-    "- Les produits susceptibles de se périmer rapidement ou de se détériorer rapidement ;\n" +
-    "- Les produits que vous avez descellé après la livraison et qui ne peuvent être renvoyés pour des raisons d’hygiène ou de protection de la santé ; et\n" +
-    "- Les produits qui, après avoir été livrés et de par leur nature sont mélangés de manière indissociable avec d’autres articles.",
-  "termsandconditions.title6.3":"6.3 Conditions d’exercice du droit de rétractation (lorsqu’applicable) :",
+    "{val1}{val3}{val4}{val5}",
+  "termsandconditions.title6.2.1":"- Les produits susceptibles de se périmer rapidement ou de se détériorer rapidement ;\n" ,
+  "termsandconditions.title6.2.2":"- Les produits que vous avez descellé après la livraison et qui ne peuvent être renvoyés pour des raisons d’hygiène ou de protection de la santé ; et\n",
+  "termsandconditions.title6.2.3":"- Les produits qui, après avoir été livrés et de par leur nature sont mélangés de manière indissociable avec d’autres articles.",
+    "termsandconditions.title6.3":"6.3 Conditions d’exercice du droit de rétractation (lorsqu’applicable) :",
+  "termsandconditions.title6.3descripition.1":  "- Par courrier à l’adresse Royal Canin France SAS Service Client 650 avenue de la petite Camargue, 30470 Aimargues ;\n",
+  "termsandconditions.title6.3descripition.2": "- Par email à l’adresse {val}",
+  "termsandconditions.title6.3descripition.3": "- En nous renvoyant le formulaire de rétractation ci-dessous.\n",
   "termsandconditions.title6.3descripition":"Pour exercer votre droit de rétractation, vous devez nous notifier votre décision de rétractation au moyen d’une déclaration dénuée d’ambiguïté :\n" +
-    "\n" +
-    "- Par courrier à l’adresse Royal Canin France SAS Service Client 650 avenue de la petite Camargue, 30470 Aimargues ;\n" +
-    "- Par email à l’adresse suivi.dtc.france@royalcanin.com ;\n" +
-    "- En nous renvoyant le formulaire de rétractation ci-dessous.\n" +
+    "{val1}" +
+    "{val3}{val4}{val5}" +
     "Formulaire de rétractation\n" +
-    "\n" +
+    "{val2}" +
     "A l'attention de ROYAL CANIN France Service Clients 650 Av de la Petite Camargue 30470 AIMARGUES ou à suivi.dtc.france@royalcanin.com\n" +
-    "\n" +
+    "{val1}" +
     "Je/nous [*] vous notifie/notifions [*] par la présente ma/notre [*] rétractation du contrat portant sur la vente du bien [NOM du produit] ci-dessous :\n" +
-    "\n" +
+    "{val1}" +
     "Commandé le (*)/reçu le (*) :\n" +
-    "\n" +
+    "{val1}" +
     "Nom du (des) consommateur(s) :\n" +
-    "\n" +
+    "{val1}" +
     "Adresse du (des) consommateur(s) :\n" +
-    "\n" +
+    "{val1}" +
     "Signature du (des) consommateur(s) (uniquement en cas de notification du présent formulaire sur papier) :\n" +
-    "\n" +
+    "{val1}" +
     "Date :\n" +
-    "\n" +
+    "{val1}" +
     "(*) Rayez la mention inutile.\n" +
-    "\n" +
+    "{val1}" +
     "Pour respecter ce délai de rétractation, il suffit que vous nous envoyiez votre demande de rétractation avant l'expiration de la période de rétractation.\n" +
-    "\n" +
+    "{val1}" +
     "Une fois votre volonté de rétractation communiquée, vous devez nous retourner le produit acheté sur le Site à l’adresse ROYAL CANIN RHONE ALPES, 2 rue Denis Papin, Zac de St Bonnet, 38090 VILLEFONTAINE sans retard excessif et en tout état de cause dans un délai maximum de quatorze (14) jours après que vous nous ayez communiqué votre décision de rétractation. Vous devez prendre en charge les frais de renvoi des produits. \n" +
-    "\n" +
+    "{val1}" +
     "Les produits doivent être renvoyés dans leur forme originale, sans utiliser ou endommager les produits, et sans compromettre leur qualité marchande. Nous n'accepterons pas le retour de produits ouverts, déballés, endommagés ou utilisés. \n" +
-    "\n" +
+    "{val1}" +
     "En cas de rétractation de votre part du présent contrat, nous vous rembourserons tous les paiements reçus de votre part, sans retard excessif et, en tout état de cause, au plus tard 14 jours à compter du jour où nous sommes informés de votre décision de rétractation du présent contrat. \n" +
-    "\n" +
+    "{val1}" +
     "Le délai dans lequel le remboursement de ce montant sera répercuté sur votre carte de crédit / débit peut varier en fonction des pratiques de votre banque, et Royal Canin ne peut être tenu pour responsable à cet égard. Nous procéderons au remboursement en utilisant le même moyen de paiement que celui que vous aurez utilisé pour la transaction initiale, sauf si vous convenez expressément d’un moyen différent ; en tout état de cause, ce remboursement n’occasionnera pas de frais pour vous. \n" +
-    "\n" +
+    "{val1}" +
     "Nous pouvons différer le remboursement jusqu’à ce que nous ayons reçu le produit ou jusqu’à ce que vous ayez fourni une preuve d’expédition du produit, la date retenue étant celle du premier de ces faits. ",
 
   "termsandconditions.title7":"7. Limitation de la responsabilité",
   "termsandconditions.title7descripition":"Royal Canin ne sera pas responsable des dommages indirects qui pourraient découler de toute violation des Conditions, de tout délit ou de toute autre raison en raison de l'accès au Site, de l'utilisation du Site ou de toute autre donnée ou programme sur le Site. \n" +
-    "\n" +
+    "{val1}" +
     "Royal Canin n'assume aucune responsabilité pour toute interruption des transactions effectuées via le Site, toute défaillance ou négligence qui est imputable au consommateur ou au fait imprévisible et insurmontable d’un tiers au contrat ou à un cas de force majeure. ",
-
+"serviceclients.france@royalcanin.com":"serviceclients.france@royalcanin.com",
+"serviceclients.france@royalcanin.com.href":"mailto:serviceclients.france@royalcanin.com",
   "termsandconditions.title8":"8. Service Client",
-  "termsandconditions.title8descripition":"En cas de problème avec votre commande,  votre abonnement ou de question, vous pouvez nous contacter au serviceclients.france@royalcanin.com ou au 0 800 005 360 (coût d’un appel local).",
-
+  "termsandconditions.title8descripition":"En cas de problème avec {val3},  votre abonnement ou de question, vous pouvez nous contacter au {val4} ou au 0 800 005 360 (coût d’un appel local).",
+  "termsandconditions.title8descripition.1":"votre commande",
   "termsandconditions.title9":"9. Données personnelles",
-  "termsandconditions.title9descripition":"Nous pouvons collecter et traiter plusieurs catégories de données personnelles que vous nous fournissez. Nous conserverons vos données personnelles de manière sécurisée. Pour plus d’informations, veuillez consulter notre Politique de confidentialité https://www.mars.com/privacy-policy-france.",
+  "termsandconditions.title9descripition":"Nous pouvons collecter et traiter plusieurs catégories de données personnelles que vous nous fournissez. Nous conserverons vos données personnelles de manière sécurisée. Pour plus d’informations, veuillez consulter notre Politique de confidentialité {val3}.",
 
   "termsandconditions.title10":"10. Médiation",
   "termsandconditions.title10descripition":"Conformément aux dispositions en vigueur du Code de la consommation relatif à la médiation des litiges de consommation, nous vous offrons un recours effectif à un dispositif de médiation de la consommation.\n" +
-    "\n" +
+    "{val1}" +
     "Le médiateur que nous vous proposons est Medicys. Dans les cas où nous serions incapables de résoudre un différend en utilisant notre procédure interne de résolution des litiges (service client) ou si vous n'êtes pas satisfait de la solution proposée par notre service client, et si votre plainte a été formée il y a moins d’un an, vous pouvez adresser votre réclamation à Medicys par :\n" +
-    "\n" +
+    "{val1}" +
     "• voie postale à l’adresse : Medicys, Centre de médiation et de règlement amiable des huissiers de justice, 73 boulevard de Clichy 75009 Paris ;\n" +
-    "\n" +
-    "• voie électronique en cliquant sur https://medicys-consommation.fr.\n" +
-    "\n" +
+    "{val1}" +
+    "• voie électronique en cliquant sur {val3}.\n" +
+    "{val1}" +
     "En toutes hypothèses, nous vous :\n" +
-    "\n" +
-    "- ferons part de notre incapacité à résoudre le litige nous opposant, et\n" +
-    "- fournirons à ce moment-là les informations prévues par la loi concernant notre médiateur, y compris ses coordonnées, telles qu'exposées ci-dessus. \n" +
-    "Vous pouvez utiliser la plateforme de résolution des litiges en ligne afin de résoudre le litige nous opposant via : https://webgate.ec.europa.eu/odr/main/?event=main.home.show&lng=FR.",
-
-  "termsandconditions.title11":"11. Droit applicable et juridiction",
+    "{val1}{val5}{val6}{val1}" +
+    "Vous pouvez utiliser la plateforme de résolution des litiges en ligne afin de résoudre le litige nous opposant via :{val4}.",
+"termsandconditions.title10.descripition.1":"- ferons part de notre incapacité à résoudre le litige nous opposant, et\n",
+"termsandconditions.title10.descripition.2":  "- fournirons à ce moment-là les informations prévues par la loi concernant notre médiateur, y compris ses coordonnées, telles qu'exposées ci-dessus. \n",
+"termsandconditions.title11":"11. Droit applicable et juridiction",
   "termsandconditions.title11descripition":"En cas de litige pouvant découler des présentes Conditions et de l'utilisation du Site, les dispositions des présentes Conditions seront applicables en priorité, et si les présentes Conditions ne contiennent aucune disposition pertinente, la législation française sera applicable. Tout litige découlant de ou en relation avec ces Conditions et l'utilisation du Site sera soumis aux tribunaux français compétents. ",
   weight:'Taille',
   xMonths: '{val} mois',

@@ -97,7 +97,7 @@ class CatNutrition extends React.Component {
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">Nos meilleures ventes</h4>
                           </div>
-                          <Carouselem/>
+                          <Carouselem list={[]}/>
                         </div>
                       </div>
                     </div>
