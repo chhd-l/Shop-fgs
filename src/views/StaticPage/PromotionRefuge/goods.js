@@ -138,7 +138,7 @@ const list3 = [
     subTitle: 'Chiots jusqu’à 10 mois'
   },
   {
-    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-medium-shn17 (1).jpg`,
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-medium-shn17.jpg`,
     linkUrl: '/medium-puppy-3003',
     title: 'Medium Puppy',
     price: '71.99',
