@@ -31,6 +31,7 @@ class FAQ extends React.Component {
       showCur: -1,
       loading: true
     };
+    this.handleSelect = this.handleSelect.bind(this)
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -82,14 +83,14 @@ class FAQ extends React.Component {
     }
     return el.offsetTop;
   }
-  handleSelect(index) {
-    if (index === this.state.showCur) {
+  handleSelect(id) {
+    if (id === this.state.showCur) {
       this.setState({
         showCur: -1
       });
     } else {
       this.setState({
-        showCur: index
+        showCur: id
       });
     }
   }
@@ -143,7 +144,10 @@ class FAQ extends React.Component {
                       >
                         <FormattedMessage id="faq.frequentQuestions" />
                       </h1>
-                      <p className="text-center" style={{marginBottom: '4rem'}}>
+                      <p
+                        className="text-center"
+                        style={{ marginBottom: '4rem' }}
+                      >
                         <FormattedMessage
                           id="faq.title"
                           values={{
@@ -173,9 +177,11 @@ class FAQ extends React.Component {
             ) : (
               this.state.dataFAQ.map((pitem, index) => (
                 <>
-                  <div className="rc-bg-colour--brand3 rc-margin-y--sm"
-                  style={{marginTop: '3rem'}}
-                  key={'p-' + index}>
+                  <div
+                    className="rc-bg-colour--brand3 rc-margin-y--sm"
+                    style={{ marginTop: '3rem' }}
+                    key={'p-' + index}
+                  >
                     <h2
                       name={`catogery-${index}`}
                       id={`catogery-${index}`}
@@ -191,42 +197,49 @@ class FAQ extends React.Component {
                     // className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobile rc-margin-y--sm rc-margin-y--lg--mobile"
                   >
                     <div className="experience-region experience-questions">
-                      {pitem.storeFaqVo.map((item, index2) => (
-                              <div
-                                key={item.id}
-                                className={`rc-list__accordion-item test-color
-                        ${this.state.showCur === index2 ? 'showItem' : 'hiddenItem'}`}
-                              >
-                                <div
-                                  className="rc-list__header"
-                                  onClick={() => this.handleSelect(index2)}
-                                  style={{
-                                    display: 'flex',
-                                    padding: '1rem 2.5rem 1rem 0.5rem',
-                                    justifyContent: 'space-between'
-                                  }}
-                                >
-                                  <div
-                                    dangerouslySetInnerHTML={{ __html: item.question }}
-                                  ></div>
+                      {pitem.storeFaqVo.map((item) => (
+                        <div
+                          key={item.id}
+                          className={`rc-list__accordion-item test-color
+                        ${
+                          this.state.showCur === item.id
+                            ? 'showItem'
+                            : 'hiddenItem'
+                        }`}
+                        >
+                          <div
+                            className="rc-list__header"
+                            onClick={this.handleSelect.bind(item.id)}
+                            style={{
+                              display: 'flex',
+                              padding: '1rem 2.5rem 1rem 0.5rem',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: item.question
+                              }}
+                            ></div>
 
-                                  <span
-                                    className={`rc-vertical-align icon-change ${this.state.showCur === index2
-                                      ? 'rc-icon rc-up rc-brand1'
-                                      : 'rc-icon rc-down rc-iconography'
-                                      }`}
-                                      style={{right: '1rem',height: '28px'}}
-                                  ></span>
-                                </div>
-                                <div className={`rc-list__content `}>
-                                  <p
-                                    dangerouslySetInnerHTML={{ __html: item.answer }}
-                                  ></p>
-                                  <LazyLoad>
-                                    <img src={item.imgUl} alt="" />
-                                  </LazyLoad>
-                                </div>
-                              </div>
+                            <span
+                              className={`rc-vertical-align icon-change ${
+                                this.state.showCur === item.id
+                                  ? 'rc-icon rc-up rc-brand1'
+                                  : 'rc-icon rc-down rc-iconography'
+                              }`}
+                              style={{ right: '1rem', height: '28px' }}
+                            ></span>
+                          </div>
+                          <div className={`rc-list__content `}>
+                            <p
+                              dangerouslySetInnerHTML={{ __html: item.answer }}
+                            ></p>
+                            <LazyLoad>
+                              <img src={item.imgUl} alt="" />
+                            </LazyLoad>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </dl>
