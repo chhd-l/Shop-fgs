@@ -22,7 +22,7 @@ class FAQSource extends Component {
             history.push({pathname:`/FAQ/${match.params.catogery}`,state:{dataFAQ}})
           }
         }catch(err){
-          console.log(err)
+          document.write(err)
         }finally{
           this.setState({
             circleLoading: false
