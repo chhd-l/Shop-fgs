@@ -43,7 +43,7 @@ const LoginButton = (props) => {
     if (!authState.isAuthenticated) {
       // When user isn't authenticated, forget any user info
       setUserInfo(null);
-      const parametersString = history.location.search;
+      const parametersString = history&&history.location.search;
       if(!parametersString) {
         return;
       }
@@ -124,7 +124,7 @@ const LoginButton = (props) => {
     try {
       //debugger
       sessionItemRoyal.remove('rc-token-lose');
-      sessionItemRoyal.set('okta-redirectUrl', props.history.location.pathname);
+      sessionItemRoyal.set('okta-redirectUrl', props.history&&props.history.location.pathname);
       props.beforeLoginCallback && (await props.beforeLoginCallback());
       oktaAuth.signInWithRedirect(process.env.REACT_APP_HOMEPAGE);
     } catch (err) {

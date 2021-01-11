@@ -1557,14 +1557,14 @@ class UnLoginCart extends React.Component {
                             className="rc-styled-link color-999"
                             aria-pressed="true"
                           >
-                            <FormattedMessage id="GuestCheckout" />
+                            <FormattedMessage id="guestCheckout" />
                           </div>
                         </div>
                       )
                     ) : (
                       <div className="text-center">
                         <div className="rc-styled-link color-999 rc-btn-disabled">
-                          <FormattedMessage id="GuestCheckout" />
+                          <FormattedMessage id="guestCheckout" />
                         </div>
                       </div>
                     )}

@@ -231,7 +231,7 @@ class PayProductInfo extends React.Component {
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
-                            <span>
+                            <span className="green">
                               {/* {details.tradePrice.promotionDesc || ( */}
                                 <FormattedMessage id="promotion" />
                               {/* )} */}
@@ -251,7 +251,7 @@ class PayProductInfo extends React.Component {
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
-                            <span>
+                            <span className="green">
                               {/* {details.tradePrice.promotionDesc || ( */}
                                 <FormattedMessage id="promotion" />
                               {/* )} */}
