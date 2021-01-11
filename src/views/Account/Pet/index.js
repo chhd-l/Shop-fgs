@@ -186,7 +186,7 @@ class Pet extends React.Component {
                               <FormattedMessage id="account.noPet"></FormattedMessage>
                             </p>
                           </div>
-                          <div className="rc-margin-top--xs" style={{textAlign: 'center'}}>
+                          <div className="rc-margin-top--xs" style={{textAlign: isMobile?'center': 'left'}}>
                             <Link
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
