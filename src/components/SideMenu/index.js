@@ -26,7 +26,7 @@ const menuList = [
         &#xe69a;
       </span>
     ),
-    langKey: 'pets',
+    langKey: 'account.pets',
     url: '/account/pets'
   },
   {
