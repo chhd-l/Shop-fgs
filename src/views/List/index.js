@@ -1620,7 +1620,7 @@ class List extends React.Component {
                   >
                     {!loading && (
                       <>
-                        <div className="row mb-3" style={{alignItems: 'center'}}>
+                        <div className="row" style={{alignItems: 'center'}}>
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="font-weight-normal">
                               {lastBreadListName}{' '}
@@ -1675,7 +1675,9 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container">
+                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container"
+                      style={{paddingTop: '0px'}}
+                      >
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
                           {loading
                             ? _loadingJXS
