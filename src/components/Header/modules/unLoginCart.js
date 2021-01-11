@@ -323,7 +323,7 @@ class UnloginCart extends React.Component {
                           : ''
                       }`}
                     >
-                      <FormattedMessage id="GuestCheckout" />
+                      <FormattedMessage id="guestCheckout" />
                     </span>
                   </div>
                 ) : (

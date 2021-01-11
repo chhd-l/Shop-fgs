@@ -10,7 +10,7 @@ class RefugeSource extends Component {
           circleLoading: true,
         }
     }
-    async componentWillMount(){
+    async UNSAFE_componentWillMount(){
         try{
           const shortLinkSuffix = this.props.location.pathname.split("/")[1]
           const res = await linkTransform({shortLinkSuffix})

@@ -9,10 +9,7 @@ class PaymentStore {
   @observable isLogin = !!localItemRoyal.get("rc-token")
   @observable deliveryAddress = null;
   @observable billingAddress = null;
-
-  @observable selectedDeliveryAddress = null;
-  @observable selectedBillingAddress = null;
-  @observable selectedCardId = null;
+  @observable defaultCardDataFromAddr = null;
 
   @observable panelStatus = [
     {
@@ -240,32 +237,22 @@ class PaymentStore {
     this.deliveryAddress = data;
   }
 
-  @action.bound
-  updateSelectedDeliveryAddress(data) {
-    let tmpData = data;
-    if (data && data.consigneeNumber) {
-      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
-    }
-    this.selectedDeliveryAddress = tmpData;
-  }
-
-  @action.bound
-  updateSelectedBillingAddress(data) {
-    let tmpData = data;
-    if (data && data.consigneeNumber) {
-      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
-    }
-    this.selectedBillingAddress = tmpData;
-  }
-
   @action
   updateFirstSavedCardCvv(data) {
     this.firstSavedCardCvv = data;
   }
 
   @action.bound
-  updateSelectedCardId(id) {
-    this.selectedCardId = id;
+  setDefaultCardDataFromAddr(data) {
+    let tmpData = data;
+    if (data && data.consigneeNumber) {
+      tmpData = Object.assign(data, { phoneNumber: data.consigneeNumber });
+    }
+    this.defaultCardDataFromAddr = Object.assign(
+      {},
+      this.defaultCardDataFromAddr,
+      tmpData
+    );
   }
 }
 export default PaymentStore;

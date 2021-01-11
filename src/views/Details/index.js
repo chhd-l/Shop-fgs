@@ -2506,7 +2506,7 @@ class Details extends React.Component {
                                       redirect: true
                                     })}
                                   >
-                                    <FormattedMessage id="GuestCheckout" />
+                                    <FormattedMessage id="guestCheckout" />
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
@@ -2829,7 +2829,7 @@ class Details extends React.Component {
                         redirect: true
                       })}
                     >
-                      <FormattedMessage id="GuestCheckout" />
+                      <FormattedMessage id="guestCheckout" />
                     </button>
                   ))} */}
               </div>

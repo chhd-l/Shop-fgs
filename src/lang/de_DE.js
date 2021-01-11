@@ -349,7 +349,7 @@ const de_DE = {
   getPetFailed: 'Get Pet Failed',
   giveConsentPersonalData: 'und meine Zustimmung zur Verarbeitung personenbezogener Daten einschließlich der grenzüberschreitenden Übermittlung geben',
   goods: 'Produkte',
-  GuestCheckout: 'Als Gast bestellen',
+  guestCheckout: 'Als Gast bestellen',
   'header.basketEmpty': 'Ihr Warenkorb ist leer',
   'header.carouselInfo1': 'Unterstützen Sie die Gesundheit Ihres Haustieres mit der richtigen Nahrungslösung.',
   'header.carouselInfo2': 'Wählen Sie das passende Produkt aus dem ROYAL CANIN® Vet Portfolio',

@@ -48,7 +48,14 @@ class Consent extends Component {
     const checkboxPadding = this.props.checkboxPadding || '20px';
     const url = this.props.url;
     //组件传参end
-    const createMarkup = (text) => ({ __html: text });
+    const createMarkup = (text, isRequired) => {
+      if (isRequired && text.length > 4) {
+        text =
+          text.substring(0, text.length - 4) +
+          '<span class="rc-text-colour--brand1">*</span></p>';
+      }
+      return { __html: text };
+    };
     return list.map((item, index) => {
       return (
         <div key={index} id={index} style={{ display: 'flex' }}>
@@ -87,17 +94,17 @@ class Consent extends Component {
                         ? 'footer-checkbox-title mt'
                         : 'footer-checkbox-title'
                     }
-                    dangerouslySetInnerHTML={createMarkup(item.consentTitle)}
+                    dangerouslySetInnerHTML={createMarkup(
+                      item.consentTitle,
+                      item.isRequired
+                    )}
                   />
-                  <span class="rc-text-colour--brand1">
-                    {item.isRequired ? '*' : ''}
-                  </span>
                 </div>
               </div>
               <div
                 className="Checkbox-detail"
                 style={{ marginLeft: `${checkboxPadding}` }}
-                dangerouslySetInnerHTML={createMarkup(item.innerHtml)}
+                dangerouslySetInnerHTML={createMarkup(item.innerHtml, false)}
               />
             </div>
           </label>
