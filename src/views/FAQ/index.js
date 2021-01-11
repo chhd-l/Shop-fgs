@@ -209,7 +209,7 @@ class FAQ extends React.Component {
                         >
                           <div
                             className="rc-list__header"
-                            onClick={this.handleSelect.bind(item.id)}
+                            onClick={this.handleSelect.bind(this, item.id)}
                             style={{
                               display: 'flex',
                               padding: '1rem 2.5rem 1rem 0.5rem',
