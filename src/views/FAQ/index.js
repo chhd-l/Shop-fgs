@@ -35,25 +35,7 @@ class FAQ extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
-  componentWillMount(){
-    const dataFAQ = this.props.location.state.dataFAQ
-    this.setState({
-      dataFAQ,
-      loading: false
-    })
-  }
   componentDidMount() {
-    window.scrollTo({ top: 0 });
-
-    const widget = document.querySelector(
-      `#${this.props.match.params.catogery}`
-    );
-    if (widget) {
-      setTimeout(() => {
-        window.scrollTo({ top: widget.offsetTop - 90 });
-      });
-    }
-
     setSeoConfig({
       pageName: 'FAQ page'
     }).then((res) => {
@@ -64,35 +46,35 @@ class FAQ extends React.Component {
     //   window.location.reload();
     //   return false;
     // }
-    //window.scrollTo({ top: 0 });
-    // getFaq({
-    //   language: process.env.REACT_APP_LANG,
-    //   storeId: process.env.REACT_APP_STOREID
-    // })
-    //   .then((res) => {
-    //     this.setState(
-    //       {
-    //         dataFAQ: res.context,
-    //         loading: false
-    //       },
-    //       () => {
-    //         const widget = document.querySelector(
-    //           `#${this.props.match.params.catogery}`
-    //         );
-    //         if (widget) {
-    //           setTimeout(() => {
-    //             window.scrollTo({ top: widget.offsetTop - 90 });
-    //           });
-    //         }
-    //       }
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({
-    //       loading: false
-    //     });
-    //   });
+    window.scrollTo({ top: 0 });
+    getFaq({
+      language: process.env.REACT_APP_LANG,
+      storeId: process.env.REACT_APP_STOREID
+    })
+      .then((res) => {
+        this.setState(
+          {
+            dataFAQ: res.context,
+            loading: false
+          },
+          () => {
+            const widget = document.querySelector(
+              `#${this.props.match.params.catogery}`
+            );
+            if (widget) {
+              setTimeout(() => {
+                window.scrollTo({ top: widget.offsetTop - 90 });
+              });
+            }
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loading: false
+        });
+      });
   }
   getElementToPageTop(el) {
     if (el.parentElement) {
@@ -184,7 +166,7 @@ class FAQ extends React.Component {
                 </div>
               </div>
             </div>
-            {/* {this.state.loading ? (
+            {this.state.loading ? (
               <div className="pb-4">
                 <Skeleton color="#f5f5f5" width="100%" height="50%" count={5} />
               </div>
@@ -250,10 +232,10 @@ class FAQ extends React.Component {
                   </dl>
                 </>
               ))
-            )} */}
+            )}
           </div>
           {/* 暂时别删 */}
-          {
+          {/* {
             this.state.loading
               ? (
                 <div className="rc-bg-colour--brand3 rc-bottom-spacing data-checkout-stage rc-max-width--lg">
@@ -301,7 +283,7 @@ class FAQ extends React.Component {
                   }
                 </div>
               )
-          }
+          } */}
         </main>
         <Footer />
       </div>
