@@ -315,9 +315,12 @@ class Payment extends React.Component {
     //1.会员调用consense接口
     //2.游客调用consense接口
     const { isLogin } = this;
-    const res = await (isLogin ? findUserConsentList : getStoreOpenConsentList)(
-      {}
-    );
+    let res
+    if(isLogin){
+      res = await findUserConsentList({consentPage:"check out"})
+    }else{
+      res = await getStoreOpenConsentList({})
+    }
     if (isLogin) {
       this.isExistOptionalListFun(res);
     } else {
@@ -732,7 +735,7 @@ class Payment extends React.Component {
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
-      // console.log(finalParam)
+      console.log(finalParam)
       return finalParam;
     } catch (err) {
       console.log(err);
