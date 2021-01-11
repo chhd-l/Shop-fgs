@@ -2,7 +2,7 @@ import React, {Component,Fragment} from 'react'
 import {linkTransform} from "@/api/refuge"
 import Loading from '@/components/Loading';
 
-// 这个组件的目的  是为了输入/box01 这种短链接 去通过接口获取长链接，再跳转到PLP页面
+// 这个组件的目的  是为了输入/boxer01 这种短链接 去通过接口获取长链接，再跳转到PLP页面
 class RefugeSource extends Component {
     constructor(props){
         super(props)
