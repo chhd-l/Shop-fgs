@@ -490,9 +490,13 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    this.setState({
-      sourceParam: search
-    })
+    const utm_source = getParaByName(search, 'utm_source') //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
+    if(utm_source){
+      this.setState({
+        sourceParam: search
+      })
+    }
+    
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     this.setState(
