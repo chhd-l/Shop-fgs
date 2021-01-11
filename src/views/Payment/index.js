@@ -1123,11 +1123,13 @@ class Payment extends React.Component {
     if (sessionItemRoyal.get('recommend_product')) {
       param.tradeItems = this.state.recommend_data.map((ele) => {
         return {
+          //shelter和breeder产品参数 start
           utmSource: ele.utmSource || '',
           utmMedium: ele.utmMedium || '',
           utmCampaign: ele.utmCampaign || '',
           prefixFn: ele.prefixFn || '',
           prefixBreed: ele.prefixBreed || '',
+           //shelter和breeder产品参数 end
           num: ele.buyCount,
           skuId: ele.goodsInfoId,
           petsId: ele.petsId,
