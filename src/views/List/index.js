@@ -1640,7 +1640,7 @@ class List extends React.Component {
                           <div className="col-12 col-md-4  rc-md-up">
                             <span 
                             style={{position: 'relative', top:'2px'}}
-                            className="rc-select rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
+                            className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
                               {sortList.length > 0 && (
                                 <Selection
                                   key={sortList.length}
