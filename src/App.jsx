@@ -49,6 +49,7 @@ import Confirmation from '@/views/Confirmation';
 import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
+import FAQSource from '@/views/FAQ/source';
 import FAQ from '@/views/FAQ';
 import Widerrufsbelehrung from '@/views/Widerrufsbelehrung';
 import AccountHome from '@/views/Account/Home';
@@ -223,6 +224,13 @@ const App = () => (
                 exact
                 path="/termsandconditions"
                 component={TermsConditions}
+              />
+               <Route
+                exact
+                path="/FAQSource/:catogery"
+                render={(props) => (
+                  <FAQSource key={props.match.params.catogery} {...props} />
+                )}
               />
               <Route
                 exact
