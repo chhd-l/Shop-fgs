@@ -45,7 +45,7 @@ class Pet extends React.Component {
     setSeoConfig().then(res => {
       this.setState({seoConfig: res})
     });
-    // this.getPetList();
+    this.getPetList();
   }
   isHavePet() {
     const { history } = this.props;

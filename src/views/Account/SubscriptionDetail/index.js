@@ -1195,7 +1195,7 @@ class SubscriptionDetail extends React.Component {
                         {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
                             <div
-                              className="row rc-margin-x--none row align-items-center"
+                              className="row rc-margin-x--none row align-items-center 44"
                               style={{
                                 padding: '1rem 0',
                                 borderBottom: '1px solid #d7d7d7'
@@ -2163,7 +2163,7 @@ class SubscriptionDetail extends React.Component {
                                           el.tradeItems.map(
                                             (tradeItem, index) => (
                                               <div
-                                                className="row rc-margin-x--none row align-items-center"
+                                                className="row rc-margin-x--none row align-items-center 33"
                                                 style={{
                                                   padding: '1rem 0',
                                                   borderBottom:
@@ -2270,7 +2270,7 @@ class SubscriptionDetail extends React.Component {
                                                       marginBottom: '0'
                                                     }}
                                                   >
-                                                    <span>
+                                                    <span className="red">
                                                       {formatMoney(
                                                         tradeItem.subscriptionPrice
                                                       )}
@@ -2293,7 +2293,7 @@ class SubscriptionDetail extends React.Component {
                                             )
                                           )}
                                         <div
-                                          className="row rc-margin-x--none row align-items-center"
+                                          className="row rc-margin-x--none row align-items-center 22"
                                           style={{
                                             padding: '1rem 0',
                                             borderBottom: '1px solid #d7d7d7'
@@ -2759,7 +2759,7 @@ class SubscriptionDetail extends React.Component {
                                       {/* {subDetail.goodsInfo &&
                                     subDetail.goodsInfo.map((el, index) => ( */}
                                       <div
-                                        className="row rc-margin-x--none row align-items-center"
+                                        className="row rc-margin-x--none row align-items-center 11"
                                         style={{
                                           padding: '1rem 0',
                                           borderBottom: '1px solid #d7d7d7'

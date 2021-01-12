@@ -765,7 +765,7 @@ const fr_FR = {
   'subscription.sub': 'Sous-',
   'subscription.subscriptionNumberTip': "Veuillez saisir le numéro d'abonnement",
   'subscription.toBeDelivered': 'En cours de livraison',
-  'subscription.total': 'Total',
+  'subscription.total': 'Sous-total',
   'subscription.totalInclu': 'Total (TVA comprise)',
   'subscriptionLanding.catButton': 'Voir les formules pour chat',
   'subscriptionLanding.content1': "Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.",
