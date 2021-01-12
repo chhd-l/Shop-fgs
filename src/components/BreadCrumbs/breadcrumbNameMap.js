@@ -90,7 +90,7 @@ const breadcrumbNameMap = {
       name: 'Nos valeurs'
     }
   ],
-  '/packmixfeedingwetdry': [
+  '/pack-mix-feeding-wet-dry': [
     {
       name: 'Nos combinaisons de croquettes et de bouchées'
     }

@@ -2300,9 +2300,7 @@ class SubscriptionDetail extends React.Component {
                                           }}
                                         >
                                           <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
+                                            className={`col-12 col-md-6`}
                                           >
                                             <div
                                               className="footer"
@@ -2406,36 +2404,25 @@ class SubscriptionDetail extends React.Component {
                                             </div>
                                           </div>
                                           <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
+                                            className={`col-12 col-md-6`}
                                           >
                                             <div
-                                              style={{
-                                                paddingLeft: isMobile
-                                                  ? '40px'
-                                                  : '200px',
-                                                paddingRight: isMobile
-                                                  ? '40px'
-                                                  : 0
-                                              }}
+                                              className="text-right"
                                             >
-                                              <div className="flex-layout">
+                                              <div className="row">
+                                                <div class="col-1 col-md-3" />
                                                 <label
-                                                  className=""
+                                                  className="col-5 text-left"
                                                   style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
                                                     flex: isMobile
                                                       ? '1'
                                                       : 'inherit'
                                                   }}
                                                 >
-                                                  <FormattedMessage id="subscription.total"></FormattedMessage>
+                                                  <FormattedMessage id="subscription.total" />
                                                 </label>
                                                 <div
-                                                  className="text-right"
+                                                  className="col-5 col-md-3 text-right"
                                                   style={{
                                                     flex: isMobile
                                                       ? '1'
@@ -2450,23 +2437,16 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               </div>
                                               {this.state.subDiscount ? (
-                                                <div className="flex-layout">
+                                                <div className="row">
+                                                  <div class="col-1 col-md-3" />
                                                   <label
-                                                    className="saveDiscount green"
-                                                    style={{
-                                                      minWidth: isMobile
-                                                        ? '0'
-                                                        : '230px',
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
+                                                    className="green col-5 text-left"
                                                   >
-                                                    <FormattedMessage id="promotion"></FormattedMessage>
+                                                    <FormattedMessage id="promotion" />
                                                     :
                                                   </label>
                                                   <div
-                                                    className="text-right green"
+                                                    className="col-5 col-md-3 text-right green"
                                                     style={{
                                                       flex: isMobile
                                                         ? '1'
@@ -2486,9 +2466,10 @@ class SubscriptionDetail extends React.Component {
                                               ) : null}
                                               {!this.state.isShowValidCode &&
                                                 discount.map((el) => (
-                                                  <div className="flex-layout">
+                                                  <div className="row">
+                                                    <div class="col-1 col-md-3" />
                                                     <label
-                                                      className="saveDiscount  red-text"
+                                                      className="red-text col-5"
                                                       style={{
                                                         flex: isMobile
                                                           ? '1'
@@ -2498,7 +2479,7 @@ class SubscriptionDetail extends React.Component {
                                                       {this.state.promotionDesc}
                                                     </label>
                                                     <div
-                                                      className="text-right red-text"
+                                                      className="text-right red-text col-5 col-md-3"
                                                       style={{
                                                         position: 'relative',
                                                         flex: isMobile
@@ -2533,22 +2514,20 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
-                                              <div className="flex-layout">
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
                                                 <label
-                                                  className=""
+                                                  className="col-5 text-left"
                                                   style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
                                                     flex: isMobile
                                                       ? '1'
                                                       : 'inherit'
                                                   }}
                                                 >
-                                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                                  <FormattedMessage id="subscription.shipping" />
                                                 </label>
                                                 <div
-                                                  className="text-right red-text"
+                                                  className="text-right red-text col-5 col-md-3"
                                                   style={{
                                                     flex: isMobile
                                                       ? '1'
@@ -2563,13 +2542,11 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
-                                              <div className="flex-layout">
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
                                                 <label
-                                                  className="saveDiscount"
+                                                  className="col-5 text-left"
                                                   style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
                                                     flex: isMobile
                                                       ? '1'
                                                       : 'inherit'
@@ -2593,7 +2570,7 @@ class SubscriptionDetail extends React.Component {
                                                   </span>
                                                 </label>
                                                 <div
-                                                  className="text-right"
+                                                  className="text-right col-5 col-md-3"
                                                   style={{
                                                     flex: isMobile
                                                       ? '1'
