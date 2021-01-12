@@ -1047,6 +1047,13 @@ class Payment extends React.Component {
       let postVisitorRegisterAndLoginRes = await postVisitorRegisterAndLogin(
         param
       );
+      //游客绑定consent 一定要在游客注册之后 start
+      let submitParam = this.bindSubmitParam(this.state.listData);
+      let consentParams = {...submitParam,...{ oktaToken:'' }}
+      userBindConsent(consentParams);
+       //游客绑定consent 一定要在游客注册之后 end
+
+
       sessionItemRoyal.set(
         'rc-token',
         postVisitorRegisterAndLoginRes.context.token
@@ -2159,7 +2166,6 @@ class Payment extends React.Component {
     if(this.isLogin){
       this.userBindConsentFun()
     }
-    
     const { paymentTypeVal } = this.state;
     this.initCommonPay({
       type: paymentTypeVal
@@ -2169,8 +2175,7 @@ class Payment extends React.Component {
     const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
     let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.listData);
-    let param = {}
-    param = {...submitParam,...{ oktaToken },consentPage:"check out"}
+    let param = {...submitParam,...{ oktaToken },consentPage:"check out"}
     userBindConsent(param);
   }
   bindSubmitParam = (list) => {
