@@ -1021,7 +1021,8 @@ class Payment extends React.Component {
         deliveryAddress,
         billingAddress,
         billingChecked,
-        creditCardInfo
+        creditCardInfo,
+        guestEmail
       } = this.state;
       const cartData = this.cartData.filter((ele) => ele.selected);
 
@@ -1040,7 +1041,7 @@ class Payment extends React.Component {
           billPostCode: billingAddress.postCode,
           rfc: deliveryAddress.rfc,
           billRfc: billingAddress.rfc,
-          email: creditCardInfo.email,
+          email: creditCardInfo.email || guestEmail,
           consigneeEmail: deliveryAddress.email
         }
       );
