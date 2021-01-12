@@ -938,6 +938,8 @@ const de_DE = {
   'account.noSubscriptionTitle': "Entdecken Sie unser Angebot der regelmäßigen Lieferung",
   'account.noSubscription':"Sie kennen das Abonnement noch nicht? {val1} Mit der regelmäßigen Lieferung erhalten Sie die passende Nahrung Ihres Tieres in einem individuell festgelegten Zeitraum automatisch von uns zugesendet. Legen Sie einfach Zeitraum und Lieferadresse bei Ihrer Bestellung fest und sparen Sie 5% beim Kauf unserer Produkte. Eine Mindestlaufzeit oder Kündigungsfrist der regelmäßigen Lieferung gibt es nicht.",
   'account.startAutoShipping': 'mehr erfahren',
-  bankCard: 'Bankkarte'
+  bankCard: 'Bankkarte',
+  'order.total': 'Gesamt',
+  'order.iVAIncluido': ''
 }
 export default de_DE;

@@ -1107,6 +1107,8 @@ const fr_FR = {
   'Dog':'Chien',
   'Cat':'Chat',
   isPurebred: 'Chien de race',
-  catNutrition: 'Nutrition chats'
+  catNutrition: 'Nutrition chats',
+  'order.total': 'Total',
+  'order.iVAIncluido': 'TVA Inclus'
 }
 export default fr_FR;

@@ -1361,10 +1361,10 @@ class AccountOrders extends React.Component {
                                   </div>
                                   <div className="col-6 col-md-2 mb-2">
                                     <span className="medium color-444">
-                                      <FormattedMessage id="total" />
+                                      <FormattedMessage id="order.total" />
                                     </span>{' '}
                                     <span style={{ fontSize: '.8em' }}>
-                                      <FormattedMessage id="IVAIncluido" />
+                                      <FormattedMessage id="order.iVAIncluido" />
                                     </span>
                                   </div>
                                   <div className="col-6 col-md-3 text-right medium text-nowrap color-444">

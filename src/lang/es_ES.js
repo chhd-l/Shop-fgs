@@ -850,5 +850,7 @@ const es_ES = {
   'mixed Breed': 'raza Mixta',
   'confirmation.account':'Ir a mi cuenta',
   'confirmation.oneShoot':'Ir a mi cuenta',
+  'order.total': 'Total',
+  'order.iVAIncluido': '(IVA incluido)'
 }
 export default es_ES;

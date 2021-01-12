@@ -15,7 +15,7 @@ const breadcrumbNameMap = {
   ],
   '/account/subscription': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'subscription' }
+    { name: 'account.subscriptionTitle' }
   ],
   '/account/shippingAddress': [
     { name: 'account.personalArea', href: '/account' },
