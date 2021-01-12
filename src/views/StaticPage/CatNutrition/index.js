@@ -102,13 +102,13 @@ class CatNutrition extends React.Component {
                               chat, quels que soient sa race, son âge ou son
                               mode de vie.
                             </p>
-                            <a
+                            <Link
                               className="rc-btn rc-btn--two gtm-content-block-btn js-hnc-try-the-club"
-                              href="https://shop.royalcanin.fr/cats/"
+                              to="/cats"
                               title="Afficher tous les produits"
                             >
                               Afficher tous les produits
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>

@@ -752,6 +752,7 @@ class AccountOrders extends React.Component {
                                   style={{ position: 'relative' }}
                                 >
                                   <div
+                                    className="rc-md-down"
                                     style={{
                                       position: 'absolute',
                                       right: '15px',
