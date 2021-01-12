@@ -122,7 +122,7 @@ class CatNutrition extends React.Component {
                 <div className="rc-full-width">
                   <div className="experience-component experience-assets-importContentAsset">
                     <div className="content-asset">
-                      <div className="product-reco rc-sm-up">
+                      <div className="product-reco">
                         <div className="rc-max-width--lg">
                           <div className="rc-margin-bottom--sm rc-padding--none">
                             <h4 className="rc-gamma text-center">
