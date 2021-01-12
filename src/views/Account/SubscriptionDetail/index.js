@@ -1195,7 +1195,7 @@ class SubscriptionDetail extends React.Component {
                         {subDetail.goodsInfo &&
                           subDetail.goodsInfo.map((el, index) => (
                             <div
-                              className="row rc-margin-x--none row align-items-center 44"
+                              className="row rc-margin-x--none row align-items-center"
                               style={{
                                 padding: '1rem 0',
                                 borderBottom: '1px solid #d7d7d7'
@@ -2163,12 +2163,13 @@ class SubscriptionDetail extends React.Component {
                                           el.tradeItems.map(
                                             (tradeItem, index) => (
                                               <div
-                                                className="row rc-margin-x--none row align-items-center 33"
+                                                className="row rc-margin-x--none row align-items-center"
                                                 style={{
                                                   padding: '1rem 0',
                                                   borderBottom:
                                                     '1px solid #d7d7d7'
                                                 }}
+                                                key={index}
                                               >
                                                 <div
                                                   className={`${
@@ -2293,7 +2294,7 @@ class SubscriptionDetail extends React.Component {
                                             )
                                           )}
                                         <div
-                                          className="row rc-margin-x--none row align-items-center 22"
+                                          className="row rc-margin-x--none row align-items-center"
                                           style={{
                                             padding: '1rem 0',
                                             borderBottom: '1px solid #d7d7d7'
@@ -2413,21 +2414,11 @@ class SubscriptionDetail extends React.Component {
                                                 <div class="col-1 col-md-3" />
                                                 <label
                                                   className="col-5 text-left"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <FormattedMessage id="subscription.total" />
                                                 </label>
                                                 <div
                                                   className="col-5 col-md-3 text-right"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <b>
                                                     {formatMoney(
@@ -2447,11 +2438,6 @@ class SubscriptionDetail extends React.Component {
                                                   </label>
                                                   <div
                                                     className="col-5 col-md-3 text-right green"
-                                                    style={{
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
                                                   >
                                                     <b>
                                                       -
@@ -2465,8 +2451,8 @@ class SubscriptionDetail extends React.Component {
                                                 </div>
                                               ) : null}
                                               {!this.state.isShowValidCode &&
-                                                discount.map((el) => (
-                                                  <div className="row">
+                                                discount.map((el, i) => (
+                                                  <div className="row" key={i}>
                                                     <div class="col-1 col-md-3" />
                                                     <label
                                                       className="red-text col-5"
@@ -2518,21 +2504,11 @@ class SubscriptionDetail extends React.Component {
                                                 <div className="col-1 col-md-3" />
                                                 <label
                                                   className="col-5 text-left"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <FormattedMessage id="subscription.shipping" />
                                                 </label>
                                                 <div
                                                   className="text-right red-text col-5 col-md-3"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <b>
                                                     {formatMoney(
@@ -2546,11 +2522,6 @@ class SubscriptionDetail extends React.Component {
                                                 <div className="col-1 col-md-3" />
                                                 <label
                                                   className="col-5 text-left"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <b
                                                     style={{
@@ -2558,24 +2529,16 @@ class SubscriptionDetail extends React.Component {
                                                       color: '#333'
                                                     }}
                                                   >
-                                                    <FormattedMessage id="subscription.total" />
-                                                  </b>
+                                                    <FormattedMessage id="order.total" />
+                                                  </b>{' '}
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
-                                                    {/* (VAT included) */}
-                                                    (
-                                                    <FormattedMessage id="VAT_included" />
-                                                    )
+                                                    <FormattedMessage id="order.iVAIncluido" />
                                                   </span>
                                                 </label>
                                                 <div
                                                   className="text-right col-5 col-md-3"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
                                                 >
                                                   <b>
                                                     {formatMoney(
@@ -2736,7 +2699,7 @@ class SubscriptionDetail extends React.Component {
                                       {/* {subDetail.goodsInfo &&
                                     subDetail.goodsInfo.map((el, index) => ( */}
                                       <div
-                                        className="row rc-margin-x--none row align-items-center 11"
+                                        className="row rc-margin-x--none row align-items-center"
                                         style={{
                                           padding: '1rem 0',
                                           borderBottom: '1px solid #d7d7d7'
