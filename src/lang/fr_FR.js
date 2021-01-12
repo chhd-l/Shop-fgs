@@ -1107,5 +1107,6 @@ const fr_FR = {
   'Dog':'Chien',
   'Cat':'Chat',
   isPurebred: 'Chien de race',
+  catNutrition: 'Nutrition chats'
 }
 export default fr_FR;

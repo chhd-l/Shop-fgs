@@ -880,6 +880,7 @@ const en_US = {
   'mixed Breed': 'mixed Breed',
   'confirmation.account':'Go to my account',
   'confirmation.oneShoot':'Go to my account',
-  bankCard: 'Bank card'
+  bankCard: 'Bank card',
+  catNutrition: 'Cat nutrition'
 }
 export default en_US;

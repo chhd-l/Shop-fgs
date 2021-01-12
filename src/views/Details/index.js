@@ -579,7 +579,6 @@ class Details extends React.Component {
           let specsItem = goodsInfos.filter(item=>item.goodsInfoNo==this.state.goodsNo)
           choosedSpecsArr = specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds
         }
-
         if (res && res.context && res.context.goodsSpecDetails) {
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
@@ -630,18 +629,15 @@ class Details extends React.Component {
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-          
-          sizeList = goodsInfos.map((g) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
+          sizeList = goodsInfos.map((g, i) => {
+        
+            // g = Object.assign({}, g, { selected: false });
+            g = Object.assign({}, g, { selected: i === 0 });
             if(g.selected && !g.subscriptionStatus) {
               let { form } = this.state
               form.buyWay = 0
               this.setState({form})
             }
-            // }
             return g;
           });
           console.log(sizeList, 'sizeList')
@@ -777,20 +773,12 @@ class Details extends React.Component {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
           sizeList = goodsInfos.map((g, i) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            if(i === 0) {
-              g = Object.assign({}, g, { selected: true });
-            }else {
-              g = Object.assign({}, g, { selected: false });
-            }
+            g = Object.assign({}, g, { selected: i === 0 });
             if(g.selected && !g.subscriptionStatus) {
               let { form } = this.state
               form.buyWay = 0
               this.setState({form})
             }
-            // }
             return g;
           });
 
