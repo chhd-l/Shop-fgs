@@ -2305,11 +2305,12 @@ class SubscriptionDetail extends React.Component {
                                                 marginTop: '10px',
                                                 marginBottom: '10px',
                                                 padding: '0 40px',
-                                                display:
-                                                  subDetail.subscribeStatus ===
-                                                  '0'
-                                                    ? 'block'
-                                                    : 'none'
+                                                display:'none'
+                                                // display:
+                                                //   subDetail.subscribeStatus ===
+                                                //   '0'
+                                                //     ? 'block'
+                                                //     : 'none'
                                               }}
                                             >
                                               <span
