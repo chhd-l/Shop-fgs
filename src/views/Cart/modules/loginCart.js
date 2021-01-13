@@ -1382,7 +1382,7 @@ class LoginCart extends React.Component {
         {/* 显示 默认折扣 */}
         <div
           className={`row leading-lines shipping-item green ${
-            parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'
+            parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex' : 'hidden'
           }`}
         >
           <div className="col-8">
@@ -1396,25 +1396,24 @@ class LoginCart extends React.Component {
         </div>
         {/* 显示 promotionCode */}
         <div>
-          {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 &&
-            this.state.discount.map((el) => (
-              <div className={`row leading-lines shipping-item green d-flex`}>
-                <div className="col-6">
-                  <p>
-                    {/* {this.promotionDesc || (
+          {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 && (
+            <div className={`row leading-lines shipping-item green d-flex`}>
+              <div className="col-6">
+                <p>
+                  {/* {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )} */}
-                    <FormattedMessage id="promotion" />
-                  </p>
-                </div>
-                <div className="col-6">
-                  <p className="text-right shipping-cost">
-                    {/* - {formatMoney(this.discountPrice)} */}
-                    <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-                  </p>
-                </div>
+                  <FormattedMessage id="promotion" />
+                </p>
               </div>
-            ))}
+              <div className="col-6">
+                <p className="text-right shipping-cost">
+                  {/* - {formatMoney(this.discountPrice)} */}
+                  <b>-{formatMoney(this.promotionDiscountPrice)}</b>
+                </p>
+              </div>
+            </div>
+          )}
         </div>
         {/* <div
           className={`row red ${

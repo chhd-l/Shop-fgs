@@ -3,19 +3,19 @@ const breadcrumbNameMap = {
   '/account/information': [{ name: 'account.profile' }],
   '/account/pets': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'pets' }
+    { name: 'account.pets' }
   ],
   '/account/pets/petForm': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'pets' }
+    { name: 'account.pets' }
   ],
   '/account/orders': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'orders' }
+    { name: 'account.ordersTitle' }
   ],
   '/account/subscription': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'subscription' }
+    { name: 'account.subscriptionTitle' }
   ],
   '/account/shippingAddress': [
     { name: 'account.personalArea', href: '/account' },

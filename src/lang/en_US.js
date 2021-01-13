@@ -881,6 +881,8 @@ const en_US = {
   'confirmation.account':'Go to my account',
   'confirmation.oneShoot':'Go to my account',
   bankCard: 'Bank card',
-  catNutrition: 'Cat nutrition'
+  catNutrition: 'Cat nutrition',
+  'order.total': 'Total',
+  'order.iVAIncluido': ''
 }
 export default en_US;
