@@ -32,7 +32,7 @@ class UnloginCart extends React.Component {
   }
   async componentDidMount() {
     if (window.location.pathname !== '/checkout') {
-      await this.props.checkoutStore.removePromotionCode()
+      await this.props.checkoutStore.removePromotionCode();
     }
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -61,20 +61,19 @@ class UnloginCart extends React.Component {
       };
     });
   }
-    GAAccessToGuestCheck(){
-      dataLayer.push(
-      {
-        event:`${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
-        interaction:{
-          category:'checkout',
-          action:'guest checkout',
-          label:'cart pop-in', //"cart page  "
-          value:1
-        },
-      })
+  GAAccessToGuestCheck() {
+    dataLayer.push({
+      event: `${process.env.REACT_APP_GTM_SITE_ID}guestCheckout`,
+      interaction: {
+        category: 'checkout',
+        action: 'guest checkout',
+        label: 'cart pop-in', //"cart page  "
+        value: 1
+      }
+    });
   }
   async handleCheckout({ needLogin = false } = {}) {
-    this.GAAccessToGuestCheck()
+    this.GAAccessToGuestCheck();
     try {
       const {
         configStore,
@@ -334,11 +333,18 @@ class UnloginCart extends React.Component {
 
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
-                  <FormattedMessage
-                    id="cart.totalProduct_nounit"
-                    values={{ val:  <b style={{fontWeight:500}}>
-                      {this.props.intl.formatMessage({ id: 'payment.totalProduct' },{val:this.totalNum})}
-                    </b>}}
+                    <FormattedMessage
+                      id="cart.totalProduct_nounit"
+                      values={{
+                        val: (
+                          <b style={{ fontWeight: 500 }}>
+                            {this.props.intl.formatMessage(
+                              { id: 'payment.totalProduct' },
+                              { val: this.totalNum }
+                            )}
+                          </b>
+                        )
+                      }}
                     />
                   </span>
                 </div>
@@ -352,15 +358,15 @@ class UnloginCart extends React.Component {
                             <div className="product-line-item-details d-flex flex-row">
                               <div className="item-image">
                                 {/* <LazyLoad> */}
-                                  <img
-                                    className="product-image"
-                                    src={
-                                      find(item.sizeList, (s) => s.selected)
-                                        .goodsInfoImg
-                                    }
-                                    alt={item.goodsName}
-                                    title={item.goodsName}
-                                  />
+                                <img
+                                  className="product-image"
+                                  src={
+                                    find(item.sizeList, (s) => s.selected)
+                                      .goodsInfoImg
+                                  }
+                                  alt={item.goodsName}
+                                  title={item.goodsName}
+                                />
                                 {/* </LazyLoad> */}
                               </div>
                               <div className="wrap-item-title">
@@ -384,12 +390,11 @@ class UnloginCart extends React.Component {
                                           find(item.sizeList, (s) => s.selected)
                                             .specText
                                         }{' '}
-                                        -{' '}
-
-                                          <FormattedMessage id="quantityText"/>：
+                                        - <FormattedMessage id="quantityText" />
+                                        ：
                                         {item.quantity > 1
-                                        ? `${item.quantity} `
-                                        : `${item.quantity} `}
+                                          ? `${item.quantity} `
+                                          : `${item.quantity} `}
                                       </p>
                                     </div>
                                   </div>
@@ -398,15 +403,18 @@ class UnloginCart extends React.Component {
                                       <div className="strike-through non-adjusted-price">
                                         null
                                       </div>
-                                      <b className="pricing line-item-total-price-amount light" style={{
-                                        color: item.goodsInfoFlag
-                                        ? '#888'
-                                        : '#666',
-                                        textDecoration: item.goodsInfoFlag
-                                          ? 'line-through'
-                                          : 'inhert'
-                                        // textDecoration: 'line-through'
-                                      }}>
+                                      <b
+                                        className="pricing line-item-total-price-amount light"
+                                        style={{
+                                          color: item.goodsInfoFlag
+                                            ? '#888'
+                                            : '#666',
+                                          textDecoration: item.goodsInfoFlag
+                                            ? 'line-through'
+                                            : 'inhert'
+                                          // textDecoration: 'line-through'
+                                        }}
+                                      >
                                         {formatMoney(item.currentAmount)}
                                       </b>
                                     </div>
@@ -422,11 +430,20 @@ class UnloginCart extends React.Component {
                                     <div className="line-item-total-price justify-content-start pull-left">
                                       <div className="item-attributes">
                                         <p className="line-item-attributes">
-                                          <FormattedMessage id="subscription.frequency"/>:{' '}
-                                          {frequencyList.length &&
-                                            frequencyList.filter(
+                                          <FormattedMessage id="subscription.frequency" />
+                                          :{' '}
+                                          {(frequencyList || []).filter(
+                                            (el) => {
+                                              return (
+                                                el.id === item.periodTypeId
+                                              );
+                                            }
+                                          )[0] &&
+                                            (frequencyList || []).filter(
                                               (el) => {
-                                                return el.id === item.periodTypeId
+                                                return (
+                                                  el.id === item.periodTypeId
+                                                );
                                               }
                                             )[0].name}
                                         </p>
