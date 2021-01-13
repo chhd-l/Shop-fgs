@@ -851,6 +851,7 @@ const es_ES = {
   'confirmation.account':'Ir a mi cuenta',
   'confirmation.oneShoot':'Ir a mi cuenta',
   'order.total': 'Total',
-  'order.iVAIncluido': '(IVA incluido)'
+  'order.iVAIncluido': '(IVA incluido)',
+  'validPromotionCode': 'No se puede agregar el cupón de descuento a su carrito',
 }
 export default es_ES;

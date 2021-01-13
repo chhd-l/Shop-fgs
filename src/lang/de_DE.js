@@ -940,6 +940,7 @@ const de_DE = {
   'account.startAutoShipping': 'mehr erfahren',
   bankCard: 'Bankkarte',
   'order.total': 'Gesamt',
-  'order.iVAIncluido': ''
+  'order.iVAIncluido': '',
+  'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
 }
 export default de_DE;

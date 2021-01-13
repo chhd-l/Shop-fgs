@@ -883,6 +883,7 @@ const en_US = {
   bankCard: 'Bank card',
   catNutrition: 'Cat nutrition',
   'order.total': 'Total',
-  'order.iVAIncluido': ''
+  'order.iVAIncluido': '',
+  'validPromotionCode': 'Unable to add the discount voucher to your cart',
 }
 export default en_US;
