@@ -1315,9 +1315,7 @@ class AccountOrders extends React.Component {
                                         &nbsp;
                                       </div>
                                       <div className="col-6 col-md-2 mb-2 green">
-                                        {/* {details.tradePrice.promotionDesc || ( */}
                                           <FormattedMessage id="promotion" />
-                                        {/* )} */}
                                       </div>
                                       <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
@@ -1333,9 +1331,7 @@ class AccountOrders extends React.Component {
                                         &nbsp;
                                       </div>
                                       <div className="col-6 col-md-2 mb-2 green">
-                                        {/* {details.tradePrice.promotionDesc || ( */}
                                           <FormattedMessage id="promotion" />
-                                        {/* )} */}
                                       </div>
                                       <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -

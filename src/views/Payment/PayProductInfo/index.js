@@ -639,8 +639,10 @@ class PayProductInfo extends React.Component {
                 </div>
 
                 {/* 显示 promotionCode */}
-                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 &&
-                  this.props.checkoutStore.promotionCode ? (
+                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 
+                // &&
+                //   this.props.checkoutStore.promotionCode 
+                  ? (
                     <div className="row leading-lines shipping-item flex-layout green">
                       <label
                         className="saveDiscount font14"
