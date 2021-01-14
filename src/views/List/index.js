@@ -58,7 +58,7 @@ function getMuntiImg(item) {
   }
 }
 function ListItemH5ForFr(props) {
-  const { item, GAListParam, breadListByDeco,sourceParam } = props;
+  const { item, GAListParam, breadListByDeco, sourceParam } = props;
   // console.log('★★★★★★★★★ item: ',item);
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
@@ -76,7 +76,7 @@ function ListItemH5ForFr(props) {
                 ? `/${item.lowGoodsName
                     .split(' ')
                     .join('-')
-                    .replace('/', '')}-${item.goodsNo}`+sourceParam
+                    .replace('/', '')}-${item.goodsNo}` + sourceParam
                 : '',
               state: { GAListParam, historyBreads: breadListByDeco }
             }}
@@ -138,7 +138,7 @@ function ListItemH5ForFr(props) {
   );
 }
 function ListItem(props) {
-  const { item, GAListParam, breadListByDeco,sourceParam } = props;
+  const { item, GAListParam, breadListByDeco, sourceParam } = props;
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -155,7 +155,7 @@ function ListItem(props) {
                 ? `/${item.lowGoodsName
                     .split(' ')
                     .join('-')
-                    .replace('/', '')}-${item.goodsNo}`+sourceParam
+                    .replace('/', '')}-${item.goodsNo}` + sourceParam
                 : '',
               state: {
                 GAListParam,
@@ -490,13 +490,13 @@ class List extends React.Component {
   }
   componentDidMount() {
     const { state, search, pathname } = this.props.history.location;
-    const utm_source = getParaByName(search, 'utm_source') //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
-    if(utm_source){
+    const utm_source = getParaByName(search, 'utm_source'); //有这个属性，表示是breeder商品，breeder商品才需要把search赋值给sourceParam
+    if (utm_source) {
       this.setState({
         sourceParam: search
-      })
+      });
     }
-    
+
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
     this.setState(
@@ -1069,7 +1069,7 @@ class List extends React.Component {
         }=${item.attributeValues.join('|')}`;
         return item;
       });
-      
+
     // 点击filter，触发局部刷新或整页面刷新
     if (!initingList && actionFromFilter) {
       pathname = `${location.pathname}${urlPreVal ? `?${urlPreVal}` : ''}`;
@@ -1422,7 +1422,10 @@ class List extends React.Component {
           ) : null}
           <div id="J-product-list" />
           {/* <div className="search-results rc-max-width--xl pt-4 pt-sm-1"> */}
-          <div className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop">
+          <div
+            className="search-results rc-max-width--xl pt-sm-1 rc-padding--sm--desktop position-relative"
+            style={{ zIndex: 2 }}
+          >
             <div className="search-nav border-bottom-0">
               {keywords ? (
                 <div class="rc-padding-y--md--mobile rc-text--center">
@@ -1448,7 +1451,7 @@ class List extends React.Component {
             <section className="rc-bg-colour--brand3">
               <div>
                 <div
-                  className="rc-layout-container rc-four-column position-relative"
+                  className="rc-layout-container rc-four-column position-relative row ml-0 mr-0"
                   id="J_filter_contaner"
                 >
                   <div
@@ -1508,7 +1511,7 @@ class List extends React.Component {
 
                   <div
                     id="refineBar"
-                    className="refine-bar refinements rc-column ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
+                    className="refine-bar refinements rc-column1 col-12 col-xl-3 ItemBoxFitSCreen pt-0 mb-0 mb-md-3 mb-md-0 pl-0 pl-md-3 pr-0"
                   >
                     <div
                       className="rc-meta rc-md-down"
@@ -1619,12 +1622,14 @@ class List extends React.Component {
                     </aside>
                   </div>
                   <div
-                    className={`rc-column rc-triple-width rc-padding--sm product-tiles-container`}
-                    style={{paddingTop: 0,position: 'relative', top: '-4px'}}
+                    className={`rc-column1 col-12 col-xl-9 rc-triple-width rc-padding--xs product-tiles-container pt-4 pt-md-0`}
                   >
                     {!loading && (
                       <>
-                        <div className="row" style={{alignItems: 'center'}}>
+                        <div
+                          className="row pl-1"
+                          style={{ alignItems: 'center' }}
+                        >
                           <div className="col-12 col-md-8 rc-md-up">
                             <span className="font-weight-normal">
                               {lastBreadListName}{' '}
@@ -1638,9 +1643,10 @@ class List extends React.Component {
                           </div>
 
                           <div className="col-12 col-md-4  rc-md-up">
-                            <span 
-                            style={{position: 'relative', top:'2px'}}
-                            className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n">
+                            <span
+                              style={{ position: 'relative', top: '2px' }}
+                              className="rc-select  page-list-center-arrow rc-input--full-width w-100 rc-input--full-width rc-select-processed mt-0n"
+                            >
                               {sortList.length > 0 && (
                                 <Selection
                                   key={sortList.length}
@@ -1679,9 +1685,7 @@ class List extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container"
-                      style={{paddingTop: '0px'}}
-                      >
+                      <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
                           {loading
                             ? _loadingJXS
