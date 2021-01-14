@@ -196,6 +196,7 @@ class Details extends React.Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
+    this.ChangeFormat = this.ChangeFormat.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -294,86 +295,18 @@ class Details extends React.Component {
   }
   bundleMatchGoods() {
     let {
-      specList,
       details,
       currentUnitPrice,
-      currentLinePrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       stock
     } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let baseSpecId = details.baseSpec;
-    // specList.map((el) => {
-    //   if (el.chidren.filter((item) => item.selected).length) {
-    //     selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-    //   }
-    //   return el;
-    // });
-    // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa');
 
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
-    // details.sizeList.map((item, i) => {
-    //   item.basePrice = 0;
-    //   details.goodsSpecDetails.map((el) => {
-    //     if (
-    //       el.specId === baseSpecId &&
-    //       item.mockSpecDetailIds.includes(el.specDetailId)
-    //     ) {
-    //       item.baseSpecLabel = el.detailName;
-    //     }
-    //     return el;
-    //   });
-    //   let specTextArr = [];
-    //   for (let specItem of specList) {
-    //     for (let specDetailItem of specItem.chidren) {
-    //       if (
-    //         item.mockSpecIds.includes(specDetailItem.specId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         specTextArr.push(specDetailItem.detailName);
-    //       }
-    //       // console.log(item.mo)
-    //       if (
-    //         item.mockSpecIds.includes(baseSpecId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         console.log(
-    //           specDetailItem.detailName,
-    //           'specDetailItem.detailName',
-    //           i
-    //         );
-    //         item.baseSpecLabel = specDetailItem.detailName;
-    //       }
-    //     }
-    //   }
-    //   item.specText = specTextArr.join(' ');
-    //   if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-    //     console.log(item, 'item');
-    //     item.selected = true;
-    //     currentUnitPrice = item.salePrice;
-    //     currentLinePrice = item.linePrice;
-    //     currentSubscriptionPrice = item.subscriptionPrice;
-    //     currentSubscriptionStatus = item.subscriptionStatus;
-    //     stock = item.stock;
-    //     if(item.goodsPromotion) {
-    //       this.setState({isShowPromotion: true})
-    //     }else {
-    //       this.setState({isShowPromotion: false})
-    //     }
-    //   } else {
-    //     item.selected = false;
-    //   }
-    //   return item;
-    // });
-    console.log(details, 'details');
     this.setState(
       {
         details,
@@ -494,9 +427,9 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
-          let pageLink = window.location.href.split('-')
-          pageLink.splice(pageLink.length - 1, 1)
-          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-')
+          let pageLink = window.location.href.split('-');
+          pageLink.splice(pageLink.length - 1, 1);
+          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -2035,16 +1968,16 @@ class Details extends React.Component {
                         </div>
                         {isMobile ? (
                           <div
-                            className="buyMethod rc-margin-bottom--xs"
+                            className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 1"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'
                                 : '#d7d7d7',
                               cursor: 'pointer'
                             }}
-                            onClick={() => this.ChangeFormat(0)}
+                            onClick={this.ChangeFormat.bind(this, 0)}
                           >
-                            <div className="buyMethodInnerBox">
+                            <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                   <FormattedMessage id="email">
@@ -2110,11 +2043,13 @@ class Details extends React.Component {
                                 ) : null}
                               </div>
                             </div>
-                            <div className="freeshippingBox">
-                              <FormattedMessage id="freeShipping" />
+                            <div className="col-12 pl-0 pr-0">
+                              <span className="freeshippingBox">
+                                <FormattedMessage id="freeShipping" />
+                              </span>
                             </div>
                             <div
-                              className="freqency freqency2"
+                              className="freqency freqency2 col-12 pl-0 pr-0"
                               style={{ textAlign: 'center' }}
                             >
                               <span
@@ -2127,14 +2062,14 @@ class Details extends React.Component {
                           </div>
                         ) : (
                           <div
-                            className="buyMethod rc-margin-bottom--xs"
+                            className="buyMethod rc-margin-bottom--xs 2"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'
                                 : '#d7d7d7',
                               cursor: 'pointer'
                             }}
-                            onClick={() => this.ChangeFormat(0)}
+                            onClick={this.ChangeFormat.bind(this, 0)}
                           >
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -2213,17 +2148,16 @@ class Details extends React.Component {
                         {currentSubscriptionStatus ? (
                           isMobile ? (
                             <div
-                              className="buyMethod rc-margin-bottom--xs"
+                              className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 3"
                               style={{
                                 borderColor: parseInt(form.buyWay)
                                   ? '#e2001a'
                                   : '#d7d7d7',
                                 cursor: 'pointer'
                               }}
-                              onClick={() => this.ChangeFormat(1)}
+                              onClick={this.ChangeFormat.bind(this, 1)}
                             >
-                              {/*222*/}
-                              <div className="buyMethodInnerBox">
+                              <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
                                 <div className="radioBox">
                                   <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                     <FormattedMessage id="email">
@@ -2327,29 +2261,29 @@ class Details extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="discountBox">
-                                <FormattedMessage
-                                  id="saveExtra"
-                                  values={{
-                                    val: selectedSpecItem.subscriptionPercentage
-                                  }}
-                                />
+                              <div className="col-12 pl-0 pr-0">
+                                <span className="discountBox">
+                                  <FormattedMessage
+                                    id="saveExtra"
+                                    values={{
+                                      val:
+                                        selectedSpecItem.subscriptionPercentage
+                                    }}
+                                  />
+                                </span>
                               </div>
-                              <br />
-                              <div className="freeshippingBox">
-                                <FormattedMessage id="freeShipping" />
+                              <div className="col-12 pl-0 pr-0">
+                                <span className="freeshippingBox">
+                                  <FormattedMessage id="freeShipping" />
+                                </span>
                               </div>
-                              <div className="freqency freqency3">
+                              <div className="freqency freqency3 col-12 pl-0 pr-0 d-flex align-items-center mt-2">
                                 <span>
                                   <FormattedMessage id="subscription.frequency" />
                                   :
                                 </span>
                                 <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: isMobile ? '50px' : '1.5rem',
-                                    height: isMobile ? '2rem' : 'auto'
-                                  }}
+                                  customCls="flex-grow-1"
                                   selectedItemChange={
                                     this.handleSelectedItemChange
                                   }
@@ -2364,14 +2298,14 @@ class Details extends React.Component {
                             </div>
                           ) : (
                             <div
-                              className="buyMethod rc-margin-bottom--xs"
+                              className="buyMethod rc-margin-bottom--xs 4"
                               style={{
                                 borderColor: parseInt(form.buyWay)
                                   ? '#e2001a'
                                   : '#d7d7d7',
                                 cursor: 'pointer'
                               }}
-                              onClick={() => this.ChangeFormat(1)}
+                              onClick={this.ChangeFormat.bind(this, 1)}
                             >
                               <div className="radioBox">
                                 <div

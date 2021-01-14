@@ -6,6 +6,7 @@ import { updateCustomerBaseInfo } from '@/api/user';
 import { getPrescriberByKeyWord, getPrescriberByCode } from '@/api/clinic';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
+import { withOktaAuth } from '@okta/okta-react';
 
 @inject('configStore')
 @injectIntl
@@ -68,12 +69,15 @@ class ClinicEditForm extends React.Component {
     const { form } = this.state;
     this.setState({ loading: true });
     try {
+      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
       await updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           defaultClinics: {
             clinicsId: form.clinicId,
             clinicsName: form.clinicName
-          }
+          },
+          oktaToken: oktaToken
         })
       );
 
@@ -289,4 +293,4 @@ class ClinicEditForm extends React.Component {
     );
   }
 }
-export default ClinicEditForm;
+export default withOktaAuth(ClinicEditForm);

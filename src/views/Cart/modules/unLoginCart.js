@@ -19,7 +19,6 @@ import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
 import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import cartImg from './images/cart.png';
-import refreshImg from './images/refresh.png';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
 import BannerTip from '@/components/BannerTip';
@@ -530,21 +529,11 @@ class UnLoginCart extends React.Component {
   getProducts(plist) {
     const { form, isMobile } = this.state;
     const Lists = plist.map((pitem, index) => {
-      // console.log(pitem.addedFlag, pitem.quantity, pitem.sizeList.filter(el => el.selected)[0].stock, 'aaaa')
       return (
         <div
           className="rc-border-all rc-border-colour--interface product-info"
           key={index}
         >
-          {/* {pitem.goodsPromotion ? (
-            <span
-              className="position-absolute bg-primary text-white pl-2 pr-2"
-              style={{ bottom: '-1px', left: '-1px', fontSize: '.9em' }}
-            >
-              {pitem.goodsPromotion}
-            </span>
-          ) : null} */}
-
           <div
             className="rc-input rc-input--inline position-absolute hidden"
             style={{ left: '1%' }}
@@ -827,9 +816,12 @@ class UnLoginCart extends React.Component {
                               marginTop: '5px'
                             }}
                           >
-                            <LazyLoad>
-                              <img src={refreshImg} />
-                            </LazyLoad>
+                            <span
+                              className="iconfont red mr-2"
+                              style={{ fontSize: '1.2em' }}
+                            >
+                              &#xe675;
+                            </span>
                             <FormattedMessage id="autoship" />
                             <span
                               className="info-tooltip delivery-method-tooltip"
@@ -1029,9 +1021,12 @@ class UnLoginCart extends React.Component {
                         marginTop: '5px'
                       }}
                     >
-                      <LazyLoad>
-                        <img src={refreshImg} />
-                      </LazyLoad>
+                      <span
+                        className="iconfont red mr-2"
+                        style={{ fontSize: '1.2em' }}
+                      >
+                        &#xe675;
+                      </span>
                       <FormattedMessage id="autoship" />
                       <span
                         className="info-tooltip delivery-method-tooltip"

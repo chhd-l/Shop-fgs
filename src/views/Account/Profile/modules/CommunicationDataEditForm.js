@@ -111,7 +111,8 @@ class CommunicationDataEditForm extends React.Component {
       updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
-          communicationPhone: form.communicationPhone
+          communicationPhone: form.communicationPhone,
+          oktaToken: oktaToken
         })
       ),
       userBindConsent({ ...submitParam, ...{ oktaToken } })
