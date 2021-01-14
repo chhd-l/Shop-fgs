@@ -19,7 +19,12 @@ import BannerTip from '@/components/BannerTip';
 import {
   formatMoney,
   translateHtmlCharater,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  setSeoConfig,
+  getDeviceType,
+  getFrequencyDict,
+  queryStoreCateList,
+  getParaByName
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -30,14 +35,6 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import {
-  setSeoConfig,
-  getDeviceType,
-  getFrequencyDict,
-  queryStoreCateList,
-  getParaByName
-} from '@/utils/utils';
-import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
 
 import './index.css';
@@ -46,6 +43,7 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isMobile = getDeviceType() !== 'PC';
 // const pageLink = window.location.href;
 
 function Advantage() {
@@ -180,7 +178,6 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isMobile: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
       seoConfig: {
@@ -197,6 +194,7 @@ class Details extends React.Component {
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
     this.ChangeFormat = this.ChangeFormat.bind(this);
+    this.changeTab = this.changeTab.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -242,7 +240,6 @@ class Details extends React.Component {
     this.setState(
       {
         id: this.props.match.params.id,
-        isMobile: getDeviceType() !== 'PC',
         goodsNo: goodsSpuNo || ''
       },
       () => this.queryDetails()
@@ -1075,13 +1072,13 @@ class Details extends React.Component {
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
-      if (this.state.isMobile) {
+      if (isMobile) {
         this.refs.showModalButton.click();
       } else {
         headerCartStore.show();
         setTimeout(() => {
           headerCartStore.hide();
-        }, 1000);
+        }, 4000);
       }
 
       if (redirect) {
@@ -1381,13 +1378,13 @@ class Details extends React.Component {
     } finally {
       this.setState({ addToCartLoading: false });
     }
-    if (this.state.isMobile) {
+    if (isMobile) {
       this.refs.showModalButton.click();
     } else {
       headerCartStore.show();
       setTimeout(() => {
         headerCartStore.hide();
-      }, 1000);
+      }, 4000);
     }
   }
 
@@ -1406,14 +1403,14 @@ class Details extends React.Component {
     this.setState({
       checkOutErrMsg: msg
     });
-    if (this.state.isMobile) {
+    if (isMobile) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     }
   }
-  changeTab(e, i) {
+  changeTab(i) {
     this.setState({ activeTabIdx: i });
   }
   openPetModal() {
@@ -1591,7 +1588,6 @@ class Details extends React.Component {
       reviewShow,
       activeTabIdx,
       checkOutErrMsg,
-      isMobile,
       breadCrumbs,
       event,
       eEvents,
@@ -2182,10 +2178,9 @@ class Details extends React.Component {
                                       className="rc-input__label--inline"
                                       htmlFor="type_frequency"
                                     >
-                                      <img
-                                        class="refreshImg"
-                                        src={refreshImg}
-                                      />
+                                      <span className="iconfont mr-2">
+                                        &#xe675;
+                                      </span>
                                       <span
                                         style={{
                                           fontWeight: '400',
@@ -2336,10 +2331,9 @@ class Details extends React.Component {
                                         color: '#333'
                                       }}
                                     >
-                                      <img
-                                        class="refreshImg"
-                                        src={refreshImg}
-                                      />
+                                      <span className="iconfont mr-2">
+                                        &#xe675;
+                                      </span>
                                       <FormattedMessage id="autoship" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
@@ -2357,7 +2351,7 @@ class Details extends React.Component {
                                         i
                                       </span>
                                       <ConfirmTooltip
-                                        arrowStyle={{ left: '65%' }}
+                                        arrowStyle={{ left: '83%' }}
                                         display={this.state.toolTipVisible}
                                         cancelBtnVisible={false}
                                         confirmBtnVisible={false}
@@ -2444,10 +2438,8 @@ class Details extends React.Component {
                           )
                         ) : null}
                         {!isMobile && (
-                          <div
-                          // className="sticky-addtocart"
-                          // style={{ transform: 'translateY(-80px)' }}
-                          >
+                          <div>
+                            {/* todo */}
                             <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
                               {/* {!this.isLogin &&
                                 (form.buyWay ? (
@@ -2476,13 +2468,15 @@ class Details extends React.Component {
                                 } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                                 onClick={this.hanldeAddToCart}
                               >
-                                <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                                <span className="fa rc-icon rc-cart--xs rc-brand3" />
                                 <span className="default-txt">
-                                  {form.buyWay === 1 ? (
-                                    <FormattedMessage id="subscribe" />
-                                  ) : (
-                                    <FormattedMessage id="details.addToCart" />
-                                  )}
+                                  <FormattedMessage
+                                    id={`${
+                                      form.buyWay === 1
+                                        ? 'subscribe'
+                                        : 'details.addToCart'
+                                    }`}
+                                  />
                                 </span>
                               </button>
                               {/* {this.isLogin ? (
@@ -2589,43 +2583,6 @@ class Details extends React.Component {
                   </dl>
                 </>
               ))}
-            {/* {isMobile && (
-              <dl
-                data-toggle-group=""
-                data-toggle-effect="rc-expand--vertical"
-                className=""
-              >
-                <div
-                  className={`rc-list__accordion-item test-color
-                  ${reviewShow ? 'showItem' : 'hiddenItem'}`}
-                >
-                  <div
-                    className="rc-list__header d-flex justify-content-between"
-                    onClick={() => {
-                      this.setState({ reviewShow: !this.state.reviewShow });
-                    }}
-                  >
-                    <div dangerouslySetInnerHTML={{ __html: 'Reviews' }} />
-                    <span
-                      className={`icon-change ${
-                        reviewShow
-                          ? 'rc-icon rc-up rc-brand1'
-                          : 'rc-icon rc-down rc-iconography'
-                      }`}
-                    />
-                  </div>
-                  <div className={`rc-list__content `}>
-                    <p>
-                      <Reviews
-                        id={goodsId}
-                        key={goodsId}
-                        isLogin={this.isLogin}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </dl>
-            )} */}
             {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
                 <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
@@ -2645,7 +2602,7 @@ class Details extends React.Component {
                                   activeTabIdx === index ? 'true' : 'false'
                                 }
                                 role="tab"
-                                onClick={(e) => this.changeTab(e, index)}
+                                onClick={this.changeTab.bind(this, index)}
                               >
                                 {ele}
                               </button>
@@ -2679,33 +2636,6 @@ class Details extends React.Component {
                 </div>
               </div>
             ) : null}
-            {/* <div
-              id="review-container"
-              style={{
-                display: !isMobile ? 'none' : 'block'
-              }}
-            >
-              <Reviews id={goodsId} key={goodsId} isLogin={this.isLogin} />
-            </div> */}
-            {/* <div> */}
-            {/* <div
-                style={{
-                  textAlign: 'center',
-                  color: 'rgb(236, 0, 26)',
-                  height: '50px',
-                  lineHeight: '50px',
-                  fontSize: '1.4rem',
-                  marginBottom: '1rem'
-                }}
-              >
-                Recommanded for you
-              </div> */}
-            {/* <HeroCarousel
-                history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
-              /> */}
-            {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
             <div>
               <Carousel
                 location={location}
@@ -2714,7 +2644,6 @@ class Details extends React.Component {
                 key={goodsId}
               />
             </div>
-            {/* </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
@@ -2726,7 +2655,7 @@ class Details extends React.Component {
                   } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                   onClick={this.hanldeAddToCart}
                 >
-                  <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
                   <span className="default-txt">
                     {form.buyWay === 1 ? (
                       <FormattedMessage id="subscribe" />
@@ -2845,13 +2774,13 @@ class Details extends React.Component {
                   <FormattedMessage id="or" />
                 </p>
               </div>
-              <button
+              <Link
                 class="rc-btn rc-btn--one"
                 style={{ fontWeight: 400 }}
-                onClick={() => this.props.history.push('/cart')}
+                to="/cart"
               >
                 <FormattedMessage id="goToCart" />
-              </button>
+              </Link>
             </section>
           </div>
         </aside>

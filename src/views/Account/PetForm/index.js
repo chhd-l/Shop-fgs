@@ -13,7 +13,6 @@ import './index.less';
 // import cat from '@/assets/images/animal-2.jpg';
 import success from '@/assets/images/check-success.svg';
 import edit from '@/assets/images/edit.svg';
-import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
 import {
@@ -25,7 +24,7 @@ import {
   getRecommendProducts
 } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary, getDeviceType, datePickerConfig } from '@/utils/utils';
+import { getDictionary, getDeviceType, datePickerConfig, setSeoConfig } from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';

@@ -1566,7 +1566,7 @@ class UnLoginCart extends React.Component {
     }
     this.setState({
       isClickApply: false,
-      promotionInputValue: ''
+      // promotionInputValue: ''
     });
   };
   handleRemovePromotionCode = async () => {

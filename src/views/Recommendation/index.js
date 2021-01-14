@@ -20,7 +20,8 @@ import de_recommendation3 from '@/assets/images/de_recommendation3.png';
 import de_recommendation4 from '@/assets/images/de_recommendation4.png';
 import storeLogo from '@/assets/images/storeLogo.png';
 import ImageMagnifier from '@/components/ImageMagnifier';
-import { formatMoney, getDeviceType } from '@/utils/utils';
+import { formatMoney, getDeviceType,   setSeoConfig,
+  distributeLinktoPrecriberOrPaymentPage } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
 import { getRecommendationList } from '@/api/recommendation';
@@ -33,10 +34,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import { toJS } from 'mobx';
 import LoginButton from '@/components/LoginButton';
 import Modal from './components/Modal';
-import {
-  setSeoConfig,
-  distributeLinktoPrecriberOrPaymentPage
-} from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom'

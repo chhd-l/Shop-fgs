@@ -11,13 +11,12 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import { getDictionary, getDeviceType, getFrequencyDict } from '@/utils/utils';
+import { getDictionary, getDeviceType, getFrequencyDict, setSeoConfig, getFormatDate } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
-import { setSeoConfig, getFormatDate } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
