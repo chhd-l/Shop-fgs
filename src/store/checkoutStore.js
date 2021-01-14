@@ -252,7 +252,6 @@ class CheckoutStore {
       );
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag;
-        item.goodsPromotion = tmpObj.goodsPromotion;
         selectedSize.stock = tmpObj.stock;
         const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText;
         // handle product off shelves logic

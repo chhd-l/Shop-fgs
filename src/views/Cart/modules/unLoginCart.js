@@ -530,21 +530,11 @@ class UnLoginCart extends React.Component {
   getProducts(plist) {
     const { form, isMobile } = this.state;
     const Lists = plist.map((pitem, index) => {
-      // console.log(pitem.addedFlag, pitem.quantity, pitem.sizeList.filter(el => el.selected)[0].stock, 'aaaa')
       return (
         <div
           className="rc-border-all rc-border-colour--interface product-info"
           key={index}
         >
-          {/* {pitem.goodsPromotion ? (
-            <span
-              className="position-absolute bg-primary text-white pl-2 pr-2"
-              style={{ bottom: '-1px', left: '-1px', fontSize: '.9em' }}
-            >
-              {pitem.goodsPromotion}
-            </span>
-          ) : null} */}
-
           <div
             className="rc-input rc-input--inline position-absolute hidden"
             style={{ left: '1%' }}

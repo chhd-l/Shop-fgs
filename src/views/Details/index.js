@@ -295,86 +295,18 @@ class Details extends React.Component {
   }
   bundleMatchGoods() {
     let {
-      specList,
       details,
       currentUnitPrice,
-      currentLinePrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       stock
     } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let baseSpecId = details.baseSpec;
-    // specList.map((el) => {
-    //   if (el.chidren.filter((item) => item.selected).length) {
-    //     selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-    //   }
-    //   return el;
-    // });
-    // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa');
 
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
-    // details.sizeList.map((item, i) => {
-    //   item.basePrice = 0;
-    //   details.goodsSpecDetails.map((el) => {
-    //     if (
-    //       el.specId === baseSpecId &&
-    //       item.mockSpecDetailIds.includes(el.specDetailId)
-    //     ) {
-    //       item.baseSpecLabel = el.detailName;
-    //     }
-    //     return el;
-    //   });
-    //   let specTextArr = [];
-    //   for (let specItem of specList) {
-    //     for (let specDetailItem of specItem.chidren) {
-    //       if (
-    //         item.mockSpecIds.includes(specDetailItem.specId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         specTextArr.push(specDetailItem.detailName);
-    //       }
-    //       // console.log(item.mo)
-    //       if (
-    //         item.mockSpecIds.includes(baseSpecId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         console.log(
-    //           specDetailItem.detailName,
-    //           'specDetailItem.detailName',
-    //           i
-    //         );
-    //         item.baseSpecLabel = specDetailItem.detailName;
-    //       }
-    //     }
-    //   }
-    //   item.specText = specTextArr.join(' ');
-    //   if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-    //     console.log(item, 'item');
-    //     item.selected = true;
-    //     currentUnitPrice = item.salePrice;
-    //     currentLinePrice = item.linePrice;
-    //     currentSubscriptionPrice = item.subscriptionPrice;
-    //     currentSubscriptionStatus = item.subscriptionStatus;
-    //     stock = item.stock;
-    //     if(item.goodsPromotion) {
-    //       this.setState({isShowPromotion: true})
-    //     }else {
-    //       this.setState({isShowPromotion: false})
-    //     }
-    //   } else {
-    //     item.selected = false;
-    //   }
-    //   return item;
-    // });
-    console.log(details, 'details');
     this.setState(
       {
         details,

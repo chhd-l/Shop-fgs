@@ -495,13 +495,6 @@ class LoginCart extends React.Component {
     );
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
-  toggleSelect(pitem) {
-    // todo 请求接口
-    // pitem.selected = !pitem.selected
-    // this.setState({
-    //   productList: this.state.productList
-    // })
-  }
   getProducts(plist) {
     let { form, isMobile } = this.state;
     console.log(plist, 'ssss');
@@ -511,19 +504,9 @@ class LoginCart extends React.Component {
           className="rc-border-all rc-border-colour--interface product-info"
           key={index}
         >
-          {/* {pitem.goodsPromotion ? (
-            <span
-              className="position-absolute bg-primary text-white pl-2 pr-2"
-              style={{ bottom: '-1px', left: '-1px', fontSize: '.9em' }}
-            >
-              {pitem.goodsPromotion}
-            </span>
-          ) : null} */}
-
           <div
             className="rc-input rc-input--inline position-absolute hidden"
             style={{ left: '1%' }}
-            onClick={() => this.toggleSelect(pitem)}
           >
             {pitem.selected ? (
               <input
