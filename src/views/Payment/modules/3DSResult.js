@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { adyen3DSResult } from '@/api/payment';
 
-class Adyen3DResult extends Component {
+class Adyen3DSResult extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,4 +24,4 @@ class Adyen3DResult extends Component {
   }
 }
 
-export default injectIntl(Adyen3DResult);
+export default injectIntl(Adyen3DSResult);
