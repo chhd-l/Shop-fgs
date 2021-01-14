@@ -341,9 +341,7 @@ const de_DE = {
   'Special Need':'Nahrungsempfehlung für',
   'Size':'Größe',
   "weight_s":'weight',
-  "product": 'product',
-  "quantityText": 'product',
-  "products": 'products',
+  "quantityText": 'Anzahl',
   getConsumerAccountFailed: 'Get Consumer Account Failed',
   getDataFailed: 'Get Data Failed',
   getPetFailed: 'Get Pet Failed',
@@ -622,7 +620,6 @@ const de_DE = {
   petType: 'Haustiertyp',
   phone: 'Telefon',
   product:'Anzahl',
-  products:'Anzahls',
   pleasecompleteTheRequiredItem: 'Bitte füllen Sie die Pflichtfelder aus.',
   pleaseEnterTheCorrectEmail: 'Bitte geben Sie die richtige E-Mail-Adresse ein',
   PleaseFillInstructions: 'Bitte füllen Sie die Rücksendeanweisungen aus',
@@ -940,6 +937,7 @@ const de_DE = {
   'account.startAutoShipping': 'mehr erfahren',
   bankCard: 'Bankkarte',
   'order.total': 'Gesamt',
-  'order.iVAIncluido': ''
+  'order.iVAIncluido': '',
+  'validPromotionCode': 'Der Rabattgutschein kann nicht in den Warenkorb gelegt werden',
 }
 export default de_DE;

@@ -122,7 +122,7 @@ const breadcrumbNameMap = {
   ],
   '/About-Us': [
     {
-      name: 'A propos'
+      name: 'aboutUs2'
     }
   ],
   '/product-finder': [{ name: 'productFinder.resultPage' }],

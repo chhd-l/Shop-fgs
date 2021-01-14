@@ -10,7 +10,8 @@ export default class Selection extends React.Component {
     customContainerStyle: null,
     placeholder: '',
     customInnerStyle: {},
-    selectedItemData: null
+    selectedItemData: null,
+    customCls: ''
   };
   constructor(props) {
     super(props);
@@ -80,6 +81,7 @@ export default class Selection extends React.Component {
         onBlur={this.onBlurHandler}
         onFocus={this.onFocusHandler}
         style={{ ...this.props.customContainerStyle }}
+        className={`${this.props.customCls}`}
       >
         <div
           id="Selection"
