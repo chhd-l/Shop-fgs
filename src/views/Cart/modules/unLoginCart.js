@@ -531,7 +531,7 @@ class UnLoginCart extends React.Component {
     const Lists = plist.map((pitem, index) => {
       return (
         <div
-          className="rc-border-all rc-border-colour--interface product-info"
+          className="rc-border-all rc-border-colour--interface product-info p-3"
           key={index}
         >
           <div
