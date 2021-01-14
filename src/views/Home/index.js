@@ -626,11 +626,7 @@ class Home extends React.Component {
           <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              {deviceType === 'PC' ? (
-                <HeroCarousel history={history} />
-              ) : (
-                <HeroCarouselMobile history={history} />
-              )}
+              <HeroCarouselMobile history={history} />
             </div>
           </div>
           <section>
