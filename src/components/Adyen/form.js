@@ -66,6 +66,7 @@ class AdyenCreditCardForm extends React.Component {
             locale: process.env.REACT_APP_Adyen_locale,
             translations
           });
+          
 
           // (2). Create and mount the Component
           const card = checkout
