@@ -218,7 +218,7 @@ const App = () => (
                 path="/general-terms-conditions"
                 component={TermsConditions}
               />
-              <Route exact path="/packmixfeedingwetdry" component={Packfeed} />
+              <Route exact path="/pack-mix-feeding-wet-dry" component={Packfeed} />
               <Route
                 exact
                 path="/termsandconditions"

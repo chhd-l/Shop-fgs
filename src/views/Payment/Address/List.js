@@ -137,11 +137,8 @@ class AddressList extends React.Component {
     const tmpObj =
       find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
     this.props.updateData(tmpObj);
-    this.props.paymentStore[
-      this.props.type === 'delivery'
-        ? 'updateSelectedDeliveryAddress'
-        : 'updateSelectedBillingAddress'
-    ](tmpObj);
+    this.props.type === 'delivery' &&
+      this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
   }
   confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {

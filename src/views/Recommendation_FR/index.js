@@ -1046,7 +1046,7 @@ class Help extends React.Component {
                                 this.buyNow();
                               }}
                             >
-                              <FormattedMessage id="Buy as a guest" />
+                              <FormattedMessage id="guestCheckout" />
                             </button>
                           )}
                         </p>
@@ -1062,7 +1062,7 @@ class Help extends React.Component {
                               this.buyNow()
                             }}
                           >
-                            <FormattedMessage id="Buy as a guest" />
+                            <FormattedMessage id="guestCheckout" />
                           </button>
                         </p>
                       )} */}

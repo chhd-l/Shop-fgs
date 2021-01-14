@@ -46,7 +46,7 @@ import { Link } from 'react-router-dom';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href;
+// const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -189,36 +189,19 @@ class Details extends React.Component {
         metaDescription: ''
       },
       spuImages: [],
-      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
+      requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
+      pageLink: ''
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
   }
-  getUrlParam(){
-    const { search } = this.props.history.location;
-    const utmSource = getParaByName(search, 'utm_source')
-    const utmMedium = getParaByName(search, 'utm_medium')
-    const utmCampaign = getParaByName(search, 'utm_campaign')
-    const prefixFn = getParaByName(search, 'prefn1')
-    const prefixBreed = getParaByName(search, 'prefv1')
-    const requestJson = {
-      utmSource,
-      utmMedium,
-      utmCampaign,
-      prefixFn,
-      prefixBreed
-    }
-    this.setState({
-      requestJson
-    })
-  }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    this.getUrlParam()
+    this.getUrlParam();
 
     const { pathname, state } = this.props.location;
     if (state) {
@@ -290,6 +273,24 @@ class Details extends React.Component {
       quantity &&
       (details.saleableFlag || !details.displayFlag)
     );
+  }
+  getUrlParam() {
+    const { search } = this.props.history.location;
+    const utmSource = getParaByName(search, 'utm_source');
+    const utmMedium = getParaByName(search, 'utm_medium');
+    const utmCampaign = getParaByName(search, 'utm_campaign');
+    const prefixFn = getParaByName(search, 'prefn1');
+    const prefixBreed = getParaByName(search, 'prefv1');
+    const requestJson = {
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      prefixFn,
+      prefixBreed
+    };
+    this.setState({
+      requestJson
+    });
   }
   bundleMatchGoods() {
     let {
@@ -493,6 +494,9 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
+          let pageLink = window.location.href.split('-')
+          pageLink.splice(pageLink.length - 1, 1)
+          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-')
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -515,7 +519,8 @@ class Details extends React.Component {
                 )[0]
               }),
               spuImages: res.context.images,
-              breadCrumbs: [{ name: res.context.goods.goodsName }]
+              breadCrumbs: [{ name: res.context.goods.goodsName }],
+              pageLink
             },
             () => {
               // 面包屑展示规则
@@ -572,14 +577,16 @@ class Details extends React.Component {
         }
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
-        let isSkuNoQuery = res.context.isSkuNoQuery
-        let choosedSpecsArr = []
-        if(isSkuNoQuery){
+        let isSkuNoQuery = res.context.isSkuNoQuery;
+        let choosedSpecsArr = [];
+        if (isSkuNoQuery) {
           // 通过sku查询
-          let specsItem = goodsInfos.filter(item=>item.goodsInfoNo==this.state.goodsNo)
-          choosedSpecsArr = specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds
+          let specsItem = goodsInfos.filter(
+            (item) => item.goodsInfoNo == this.state.goodsNo
+          );
+          choosedSpecsArr =
+            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
         }
-
         if (res && res.context && res.context.goodsSpecDetails) {
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
@@ -591,37 +598,40 @@ class Details extends React.Component {
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
                 );
                 sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
-                sdItem.isEmpty = filterproducts.every(item => item.stock === 0)
+                sdItem.isEmpty = filterproducts.every(
+                  (item) => item.stock === 0
+                );
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
               }
               return sdItem.specId === sItem.specId;
             });
-            let defaultSelcetdSku = -1
-            if(choosedSpecsArr.length){
-              for(let i=0;i<choosedSpecsArr.length;i++){
-                let specDetailIndex = sItem.specDetailIds.indexOf(choosedSpecsArr[i])
-                if(specDetailIndex>-1){
-                  defaultSelcetdSku = specDetailIndex
+            let defaultSelcetdSku = -1;
+            if (choosedSpecsArr.length) {
+              for (let i = 0; i < choosedSpecsArr.length; i++) {
+                let specDetailIndex = sItem.specDetailIds.indexOf(
+                  choosedSpecsArr[i]
+                );
+                if (specDetailIndex > -1) {
+                  defaultSelcetdSku = specDetailIndex;
                 }
               }
             }
-            console.info('defaultSelcetdSku', defaultSelcetdSku)
-            if(defaultSelcetdSku>-1){
+            console.info('defaultSelcetdSku', defaultSelcetdSku);
+            if (defaultSelcetdSku > -1) {
               // 默认选择该sku
-              if(!sItem.chidren[defaultSelcetdSku].isEmpty) {
+              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
                 // 如果是sku进来的，需要默认当前sku被选择
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
-            }else{
-              if(sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+            } else {
+              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
                 sItem.chidren[1].selected = true;
-              }else {
-                for(let i = 0; i < sItem.chidren.length; i++) {
-                  if(sItem.chidren[i].isEmpty) {
-                    
-                  }else {
+              } else {
+                for (let i = 0; i < sItem.chidren.length; i++) {
+                  if (sItem.chidren[i].isEmpty) {
+                  } else {
                     sItem.chidren[i].selected = true;
-                    break
+                    break;
                   }
                 }
               }
@@ -630,22 +640,18 @@ class Details extends React.Component {
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-          
-          sizeList = goodsInfos.map((g) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
-            if(g.selected && !g.subscriptionStatus) {
-              let { form } = this.state
-              form.buyWay = 0
-              this.setState({form})
+          sizeList = goodsInfos.map((g, i) => {
+            // g = Object.assign({}, g, { selected: false });
+            g = Object.assign({}, g, { selected: i === 0 });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
             }
-            // }
             return g;
           });
-          console.log(sizeList, 'sizeList')
-          
+          console.log(sizeList, 'sizeList');
+
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
@@ -663,10 +669,15 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
+                          if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'EretailShort Description'
+                          ) {
                             tempContent =
                               tempContent +
-                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p style="white-space: pre-line">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -773,24 +784,15 @@ class Details extends React.Component {
             }
           );
         } else {
-
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
           sizeList = goodsInfos.map((g, i) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            if(i === 0) {
-              g = Object.assign({}, g, { selected: true });
-            }else {
-              g = Object.assign({}, g, { selected: false });
+            g = Object.assign({}, g, { selected: i === 0 });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
             }
-            if(g.selected && !g.subscriptionStatus) {
-              let { form } = this.state
-              form.buyWay = 0
-              this.setState({form})
-            }
-            // }
             return g;
           });
 
@@ -842,10 +844,15 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          if(Object.keys(JSON.parse(el))[0] === 'EretailShort Description') {
+                          if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'EretailShort Description'
+                          ) {
                             tempContent =
                               tempContent +
-                              `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
+                              `<p style="white-space: pre-line">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -865,7 +872,7 @@ class Details extends React.Component {
                           ${tempContent}
                         </ul>`;
                       } else if (key === 'Composition') {
-                        if(res.context.goods.goodsType !== 2) {
+                        if (res.context.goods.goodsType !== 2) {
                           tmpGoodsDetail[key].map((el) => {
                             tempContent =
                               tempContent +
@@ -876,25 +883,25 @@ class Details extends React.Component {
                               }</div> 
                             </p>`;
                           });
-                        }else {
-                          tmpGoodsDetail[key].map(el => {
-                            let contentObj = JSON.parse(el)
-                            let contentValue = ''
-                            Object.values(Object.values(contentObj)[0]).map(el => {
-                              contentValue += `<p>${el}</p>`
-                            })
-                            console.log(tempContent,'heiheihaha')
+                        } else {
+                          tmpGoodsDetail[key].map((el) => {
+                            let contentObj = JSON.parse(el);
+                            let contentValue = '';
+                            Object.values(Object.values(contentObj)[0]).map(
+                              (el) => {
+                                contentValue += `<p>${el}</p>`;
+                              }
+                            );
+                            console.log(tempContent, 'heiheihaha');
                             tempContent =
                               tempContent +
                               `
                               <div class="title">
                                 ${Object.keys(contentObj)[0]}
                               </div>
-                              <div class="content">${
-                                contentValue
-                              }</div> 
+                              <div class="content">${contentValue}</div> 
                             `;
-                          })
+                          });
                         }
                       } else {
                         tempContent = tmpGoodsDetail[key];
@@ -1130,8 +1137,8 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      if(Object.keys(this.state.requestJson).length>0){
-        param = {...param,...this.state.requestJson}
+      if (Object.keys(this.state.requestJson).length > 0) {
+        param = { ...param, ...this.state.requestJson };
       }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
@@ -1347,12 +1354,13 @@ class Details extends React.Component {
         );
         return;
       }
-      if(Object.keys(this.state.requestJson).length>0){ //requestJson是shelter和breeder产品的参数，有就加上
-        tmpData = {...tmpData,...this.state.requestJson}
+      if (Object.keys(this.state.requestJson).length > 0) {
+        //requestJson是shelter和breeder产品的参数，有就加上
+        tmpData = { ...tmpData, ...this.state.requestJson };
       }
       cartDataCopy.push(tmpData);
     }
-    
+
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1614,7 +1622,8 @@ class Details extends React.Component {
               club: 'no',
               category: item.goodsCateName,
               variant:
-                item.goodsSpecDetails && item.goodsSpecDetails[0] &&
+                item.goodsSpecDetails &&
+                item.goodsSpecDetails[0] &&
                 parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
             }
@@ -1653,7 +1662,8 @@ class Details extends React.Component {
       breadCrumbs,
       event,
       eEvents,
-      spuImages
+      spuImages,
+      pageLink
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1669,7 +1679,7 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -1711,7 +1721,6 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
-            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
@@ -1952,7 +1961,9 @@ class Details extends React.Component {
                                         key={i}
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
-                                        } ${sdItem.isEmpty ? 'outOfStock': ''}`}
+                                        } ${
+                                          sdItem.isEmpty ? 'outOfStock' : ''
+                                        }`}
                                         onClick={() => {
                                           if (sdItem.isEmpty) {
                                             return false;
@@ -1965,7 +1976,16 @@ class Details extends React.Component {
                                           }
                                         }}
                                       >
-                                        <span style={{backgroundColor: sdItem.isEmpty? '#ccc': '#fff', cursor: sdItem.isEmpty? 'not-allowed': 'pointer'}}>
+                                        <span
+                                          style={{
+                                            backgroundColor: sdItem.isEmpty
+                                              ? '#ccc'
+                                              : '#fff',
+                                            cursor: sdItem.isEmpty
+                                              ? 'not-allowed'
+                                              : 'pointer'
+                                          }}
+                                        >
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
                                           {sdItem.detailName}
                                         </span>
@@ -2310,7 +2330,9 @@ class Details extends React.Component {
                               <div className="discountBox">
                                 <FormattedMessage
                                   id="saveExtra"
-                                  values={{ val: selectedSpecItem.subscriptionPercentage }}
+                                  values={{
+                                    val: selectedSpecItem.subscriptionPercentage
+                                  }}
                                 />
                               </div>
                               <br />
@@ -2421,7 +2443,10 @@ class Details extends React.Component {
                                 <div className="discountBox">
                                   <FormattedMessage
                                     id="saveExtra"
-                                    values={{ val: selectedSpecItem.subscriptionPercentage }}
+                                    values={{
+                                      val:
+                                        selectedSpecItem.subscriptionPercentage
+                                    }}
                                   />
                                 </div>
                                 <br />
@@ -2506,7 +2531,7 @@ class Details extends React.Component {
                                       redirect: true
                                     })}
                                   >
-                                    <FormattedMessage id="GuestCheckout" />
+                                    <FormattedMessage id="guestCheckout" />
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
@@ -2709,7 +2734,7 @@ class Details extends React.Component {
                           <div className="block">
                             <p
                               className="content rc-scroll--x"
-                              style={{ marginBottom: '4rem'}}
+                              style={{ marginBottom: '4rem' }}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
                           </div>
@@ -2829,7 +2854,7 @@ class Details extends React.Component {
                         redirect: true
                       })}
                     >
-                      <FormattedMessage id="GuestCheckout" />
+                      <FormattedMessage id="guestCheckout" />
                     </button>
                   ))} */}
               </div>

@@ -294,7 +294,7 @@ const es_ES = {
   getPetFailed: 'Obtener mascota fallida',
   giveConsentPersonalData: 'y doy mi consentimiento para el procesamiento de datos personales, incluida la transferencia transfronteriza',
   goods: 'Productos',
-  GuestCheckout: 'Pagar como invitada',
+  guestCheckout: 'Pagar como invitada',
   'header.basketEmpty': 'Tú carrito esta vacío',
   'header.carouselInfo1': 'Mantén la salud de tu mascota con una nutrición a la medida.',
   'header.carouselInfo2': 'Elije el alimento de prescripción recomendado por tu veterinario',
@@ -850,5 +850,8 @@ const es_ES = {
   'mixed Breed': 'raza Mixta',
   'confirmation.account':'Ir a mi cuenta',
   'confirmation.oneShoot':'Ir a mi cuenta',
+  'order.total': 'Total',
+  'order.iVAIncluido': '(IVA incluido)',
+  'validPromotionCode': 'No se puede agregar el cupón de descuento a su carrito',
 }
 export default es_ES;

@@ -34,7 +34,7 @@ class EditForm extends React.Component {
         cityName: '',
         postCode: '',
         phoneNumber: '',
-        email: ''
+        // email: ''
       },
       countryList: [],
       errMsgObj: {}

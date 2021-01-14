@@ -152,7 +152,6 @@ const fr_FR = {
   "weight_s":'Taille',
   "product": 'produit',
   "quantityText": 'Quantité',
-  "products": 'produits',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   choosePayment: 'Choisissez le paiement',
   choosePrescriber: 'Veuillez choisir le bon prescripteur',
@@ -332,8 +331,7 @@ const fr_FR = {
   getPetFailed: "Obtenir l'animal a échoué",
   giveConsentPersonalData: 'et donner mon consentement au traitement des données personnelles, y compris le transfert transfrontalier',
   goods: 'Étaient',
-  // GuestCheckout: "Continuer en tant qu'invité1234",
-  GuestCheckout: "Acheter sans inscription",
+  guestCheckout: "Acheter sans inscription",
   'header.basketEmpty': 'Votre panier est vide',
   'header.carouselInfo1': 'Trouver l\'alimentation adaptée à mon animal',
   'header.carouselInfo2': 'Le questionnaire d’aide au choix vous permettra de connaître l’aliment recommandé pour votre animal en 6 questions',
@@ -766,7 +764,7 @@ const fr_FR = {
   'subscription.sub': 'Sous-',
   'subscription.subscriptionNumberTip': "Veuillez saisir le numéro d'abonnement",
   'subscription.toBeDelivered': 'En cours de livraison',
-  'subscription.total': 'Total',
+  'subscription.total': 'Sous-total',
   'subscription.totalInclu': 'Total (TVA comprise)',
   'subscriptionLanding.catButton': 'Voir les formules pour chat',
   'subscriptionLanding.content1': "Certaines choses ne devraient jamais s'épuiser. La nourriture de votre animal de compagnie en fait partie. Dites-nous simplement où et quand l'expédier, et nous nous assurerons que tout ce dont il a besoin arrive directement à votre porte.",
@@ -1108,5 +1106,8 @@ const fr_FR = {
   'Dog':'Chien',
   'Cat':'Chat',
   isPurebred: 'Chien de race',
+  catNutrition: 'Nutrition chats',
+  'order.total': 'Total',
+  'order.iVAIncluido': 'TVA Inclus'
 }
 export default fr_FR;

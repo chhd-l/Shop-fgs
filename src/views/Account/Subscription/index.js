@@ -379,7 +379,7 @@ class Subscription extends React.Component {
                                           :{' '}
                                           {frequencyList.filter(
                                             (el) => el.id === item.periodTypeId
-                                          ).length
+                                          )[0]
                                             ? frequencyList.filter(
                                                 (el) =>
                                                   el.id === item.periodTypeId

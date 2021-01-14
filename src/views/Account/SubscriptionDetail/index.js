@@ -17,7 +17,9 @@ import {
   getDeviceType,
   getFrequencyDict,
   getFormatDate,
-  datePickerConfig
+  datePickerConfig,
+  formatMoney,
+  setSeoConfig
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -44,16 +46,14 @@ import {
 } from '@/api/subscription';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
-import { formatMoney } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -63,7 +63,6 @@ class SubscriptionDetail extends React.Component {
     this.state = {
       //订阅购物车参数
       subTotal: 0,
-      subDiscount: 0,
       subShipping: 0,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -469,7 +468,6 @@ class SubscriptionDetail extends React.Component {
         //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
-          subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
           promotionDesc: res.context.promotionDesc,
@@ -603,7 +601,7 @@ class SubscriptionDetail extends React.Component {
         <div>
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
-          <link rel="canonical" href={pageLink} />
+            <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
             <meta
               name="description"
@@ -2169,6 +2167,7 @@ class SubscriptionDetail extends React.Component {
                                                   borderBottom:
                                                     '1px solid #d7d7d7'
                                                 }}
+                                                key={index}
                                               >
                                                 <div
                                                   className={`${
@@ -2270,7 +2269,7 @@ class SubscriptionDetail extends React.Component {
                                                       marginBottom: '0'
                                                     }}
                                                   >
-                                                    <span>
+                                                    <span className="red">
                                                       {formatMoney(
                                                         tradeItem.subscriptionPrice
                                                       )}
@@ -2299,22 +2298,19 @@ class SubscriptionDetail extends React.Component {
                                             borderBottom: '1px solid #d7d7d7'
                                           }}
                                         >
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
-                                          >
+                                          <div className={`col-12 col-md-6`}>
                                             <div
                                               className="footer"
                                               style={{
                                                 marginTop: '10px',
                                                 marginBottom: '10px',
                                                 padding: '0 40px',
-                                                display:
-                                                  subDetail.subscribeStatus ===
-                                                  '0'
-                                                    ? 'block'
-                                                    : 'none'
+                                                display:'none'
+                                                // display:
+                                                //   subDetail.subscribeStatus ===
+                                                //   '0'
+                                                //     ? 'block'
+                                                //     : 'none'
                                               }}
                                             >
                                               <span
@@ -2405,43 +2401,14 @@ class SubscriptionDetail extends React.Component {
                                               </button>
                                             </div>
                                           </div>
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
-                                          >
-                                            <div
-                                              style={{
-                                                paddingLeft: isMobile
-                                                  ? '40px'
-                                                  : '200px',
-                                                paddingRight: isMobile
-                                                  ? '40px'
-                                                  : 0
-                                              }}
-                                            >
-                                              <div className="flex-layout">
-                                                <label
-                                                  className=""
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
-                                                  <FormattedMessage id="subscription.total"></FormattedMessage>
+                                          <div className={`col-12 col-md-6`}>
+                                            <div className="text-right">
+                                              <div className="row">
+                                                <div class="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
+                                                  <FormattedMessage id="subscription.total" />
                                                 </label>
-                                                <div
-                                                  className="text-right"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="col-5 col-md-3 text-right">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
@@ -2449,46 +2416,50 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
-                                              {this.state.subDiscount ? (
-                                                <div className="flex-layout">
-                                                  <label
-                                                    className="saveDiscount green"
-                                                    style={{
-                                                      minWidth: isMobile
-                                                        ? '0'
-                                                        : '230px',
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="promotion"></FormattedMessage>
+                                              {el.tradePrice
+                                                .subscriptionDiscountPrice ? (
+                                                <div className="row">
+                                                  <div class="col-1 col-md-3" />
+                                                  <label className="green col-5 text-left">
+                                                    <FormattedMessage id="promotion" />
                                                     :
                                                   </label>
-                                                  <div
-                                                    className="text-right green"
-                                                    style={{
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
-                                                  >
+                                                  <div className="col-5 col-md-3 text-right green">
                                                     <b>
                                                       -
                                                       {formatMoney(
-                                                        // this.state.subDiscount
                                                         el.tradePrice
-                                                          .discountsPrice
+                                                          .subscriptionDiscountPrice
+                                                      )}
+                                                    </b>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+                                              {el.tradePrice
+                                                .promotionDiscountPrice ? (
+                                                <div className="row">
+                                                  <div class="col-1 col-md-3" />
+                                                  <label className="green col-5 text-left">
+                                                    <FormattedMessage id="promotion" />
+                                                    :
+                                                  </label>
+                                                  <div className="col-5 col-md-3 text-right green">
+                                                    <b>
+                                                      -
+                                                      {formatMoney(
+                                                        el.tradePrice
+                                                          .promotionDiscountPrice
                                                       )}
                                                     </b>
                                                   </div>
                                                 </div>
                                               ) : null}
                                               {!this.state.isShowValidCode &&
-                                                discount.map((el) => (
-                                                  <div className="flex-layout">
+                                                discount.map((el, i) => (
+                                                  <div className="row" key={i}>
+                                                    <div class="col-1 col-md-3" />
                                                     <label
-                                                      className="saveDiscount  red-text"
+                                                      className="red-text col-5"
                                                       style={{
                                                         flex: isMobile
                                                           ? '1'
@@ -2498,7 +2469,7 @@ class SubscriptionDetail extends React.Component {
                                                       {this.state.promotionDesc}
                                                     </label>
                                                     <div
-                                                      className="text-right red-text"
+                                                      className="text-right red-text col-5 col-md-3"
                                                       style={{
                                                         position: 'relative',
                                                         flex: isMobile
@@ -2533,28 +2504,12 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
-                                              <div className="flex-layout">
-                                                <label
-                                                  className=""
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
-                                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
+                                                  <FormattedMessage id="subscription.shipping" />
                                                 </label>
-                                                <div
-                                                  className="text-right red-text"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="text-right red-text col-5 col-md-3">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice
@@ -2563,43 +2518,24 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
-                                              <div className="flex-layout">
-                                                <label
-                                                  className="saveDiscount"
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
                                                   <b
                                                     style={{
                                                       fontSize: '20px',
                                                       color: '#333'
                                                     }}
                                                   >
-                                                    <FormattedMessage id="subscription.total" />
-                                                  </b>
+                                                    <FormattedMessage id="order.total" />
+                                                  </b>{' '}
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
-                                                    {/* (VAT included) */}
-                                                    (
-                                                    <FormattedMessage id="VAT_included" />
-                                                    )
+                                                    <FormattedMessage id="order.iVAIncluido" />
                                                   </span>
                                                 </label>
-                                                <div
-                                                  className="text-right"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="text-right col-5 col-md-3">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice
@@ -2661,7 +2597,7 @@ class SubscriptionDetail extends React.Component {
                                               <FormattedMessage id="promotion" />
                                               :{' '}
                                               <span
-                                              className="green"
+                                                className="green"
                                                 style={{
                                                   // color: '#e2001a',
                                                   fontWeight: '400'

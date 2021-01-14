@@ -358,9 +358,9 @@ function AdvantageTips({ secondIconvisible = true }) {
     <div className="rc-full-width">
       <div className="experience-component experience-assets-centeredIconList">
         <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile centered-icon-list">
-          <div class="rc-sm-down">
-            <div class="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
-              <div class="col-6 centered-icon-list__icon">
+          <div className="rc-sm-down">
+            <div className="row rc-padding-x--xl--mobile col-10 bottom-content__icon-list mx-auto text-center">
+              <div className="col-6 centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={PaymentSecureHome}
@@ -370,12 +370,12 @@ function AdvantageTips({ secondIconvisible = true }) {
                     title="Secure payments"
                   />
                 </LazyLoad>
-                <p class="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text">
                   <FormattedMessage id="home.point1" />
                 </p>
               </div>
               {secondIconvisible && (
-                <div class="col-6 centered-icon-list__icon">
+                <div className="col-6 centered-icon-list__icon">
                   <LazyLoad height={200}>
                     <img
                       src={reimbursedHome}
@@ -390,7 +390,7 @@ function AdvantageTips({ secondIconvisible = true }) {
                   </p>
                 </div>
               )}
-              <div class="col-6 centered-icon-list__icon">
+              <div className="col-6 centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={premiumHome}
@@ -404,7 +404,7 @@ function AdvantageTips({ secondIconvisible = true }) {
                   <FormattedMessage id="home.point3" />
                 </p>
               </div>
-              <div class="col-6 centered-icon-list__icon">
+              <div className="col-6 centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={shippmentHome}
@@ -420,9 +420,9 @@ function AdvantageTips({ secondIconvisible = true }) {
               </div>
             </div>
           </div>
-          <div class="rc-sm-up">
-            <div class="d-flex justify-content-center bottom-content__icon-list text-center">
-              <div class="centered-icon-list__icon">
+          <div className="rc-sm-up">
+            <div className="d-flex justify-content-center bottom-content__icon-list text-center">
+              <div className="centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={PaymentSecureHome}
@@ -432,12 +432,12 @@ function AdvantageTips({ secondIconvisible = true }) {
                     title="Secure payments"
                   />
                 </LazyLoad>
-                <p class="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text">
                   <FormattedMessage id="home.point1" />
                 </p>
               </div>
               {secondIconvisible && (
-                <div class="centered-icon-list__icon">
+                <div className="centered-icon-list__icon">
                   <LazyLoad height={200}>
                     <img
                       src={reimbursedHome}
@@ -447,12 +447,12 @@ function AdvantageTips({ secondIconvisible = true }) {
                       title="Quality assurance"
                     />
                   </LazyLoad>
-                  <p class="rc-meta text-center markup-text">
+                  <p className="rc-meta text-center markup-text">
                     <FormattedMessage id="home.point2" />
                   </p>
                 </div>
               )}
-              <div class="centered-icon-list__icon">
+              <div className="centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={premiumHome}
@@ -462,11 +462,11 @@ function AdvantageTips({ secondIconvisible = true }) {
                     title="Premium service"
                   />
                 </LazyLoad>
-                <p class="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text">
                   <FormattedMessage id="home.point3" />
                 </p>
               </div>
-              <div class="centered-icon-list__icon">
+              <div className="centered-icon-list__icon">
                 <LazyLoad height={200}>
                   <img
                     src={shippmentHome}
@@ -476,7 +476,7 @@ function AdvantageTips({ secondIconvisible = true }) {
                     title="Fast shipping"
                   />
                 </LazyLoad>
-                <p class="rc-meta text-center markup-text">
+                <p className="rc-meta text-center markup-text">
                   <FormattedMessage id="home.point4" />
                 </p>
               </div>
@@ -568,7 +568,7 @@ class Home extends React.Component {
         >
           <picture className="category-cards__card__img">
             <source srcSet={ele.cateImgForHome} />
-            <LazyLoad height={200}>
+            <LazyLoad height={300}>
               <img
                 src={ele.cateImgForHome}
                 alt={ele.cateName}
@@ -626,11 +626,7 @@ class Home extends React.Component {
           <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              {deviceType === 'PC' ? (
-                <HeroCarousel history={history} />
-              ) : (
-                <HeroCarouselMobile history={history} />
-              )}
+              <HeroCarouselMobile history={history} />
             </div>
           </div>
           <section>

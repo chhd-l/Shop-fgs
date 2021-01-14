@@ -38,7 +38,7 @@ class Packfeed extends React.Component {
       }
     };
     return (
-      <div className="recommendation recommendation_PackmixfeedingwetDry">
+      <div className="recommendation_PackmixfeedingwetDry">
         <GoogleTagManager additionalEvents={event} />
 
         <Header
@@ -63,7 +63,6 @@ class Packfeed extends React.Component {
                 <div className=" text-lg-left rc-padding-y--sm rc-padding-y--md--mobile">
                   <h2
                     className="rc-beta markup-text"
-                    style={{ fontSize: '2rem' }}
                   >
                     Quels sont les avantages de nos combinaisons alimentaires
                     pour chiens et chats ?
@@ -127,9 +126,10 @@ class Packfeed extends React.Component {
                       <article
                         className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
                         id="tns2-item1"
+                        key={index}
                       >
-                        <a
-                          href={`/fr${item.linkUrl}`}
+                        <Link
+                          to={`${item.linkUrl}`}
                           className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
                         >
                           {/* <Link key={index} to={item.linkUrl}> */}
@@ -164,7 +164,7 @@ class Packfeed extends React.Component {
                                     <span>
                                       <span className="sales">
                                         <span
-                                          className="value"
+                                          className="value text-black"
                                           content={item.price}
                                         >
                                           {item.price} €
@@ -180,7 +180,7 @@ class Packfeed extends React.Component {
                             </div>
                           </article>
                           {/* </Link> */}
-                        </a>
+                        </Link>
                       </article>
                     );
                   })}
@@ -226,9 +226,10 @@ class Packfeed extends React.Component {
                       <article
                         className="rc-card rc-card--b align-self-stretch tns-item tns-slide-active"
                         id="tns1-item2"
+                        key={index}
                       >
-                        <a
-                          href={`/fr${item.linkUrl}`}
+                        <Link
+                          to={`${item.linkUrl}`}
                           data-pid={index}
                           target=""
                           className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none"
@@ -264,7 +265,7 @@ class Packfeed extends React.Component {
                                     <span>
                                       <span className="sales">
                                         <span
-                                          className="value"
+                                          className="value text-black"
                                           content={item.price}
                                         >
                                           {item.price} €
@@ -279,7 +280,7 @@ class Packfeed extends React.Component {
                               </div>
                             </div>
                           </article>
-                        </a>
+                        </Link>
                       </article>
                     );
                   })}

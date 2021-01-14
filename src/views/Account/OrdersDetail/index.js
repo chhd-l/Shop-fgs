@@ -1282,26 +1282,26 @@ class AccountOrders extends React.Component {
                               </div>
                               <div className="pt-2 pb-2 pl-md-4 pr-md-4">
                                 <div className="row mt-2 text-left">
-                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
-                                  <div className="col-6 col-xxl-2 mb-2">
+                                  <div className="col-6 col-md-2 mb-2">
                                     <FormattedMessage id="total" />
                                   </div>
-                                  <div className="col-6 col-xxl-3 text-right text-nowrap">
+                                  <div className="col-6 col-md-3 text-right text-nowrap">
                                     {formatMoney(details.tradePrice.goodsPrice)}
                                   </div>
                                   {/* {details.tradePrice.discountsPrice ? (
                                     <>
-                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
                                       </div>
-                                      <div className="col-6 col-xxl-2 mb-2 red">
+                                      <div className="col-6 col-md-2 mb-2 red">
                                         {details.tradePrice.promotionDesc || (
                                           <FormattedMessage id="promotion" />
                                         )}
                                       </div>
-                                      <div className="col-6 col-xxl-3 text-right red text-nowrap">
+                                      <div className="col-6 col-md-3 text-right red text-nowrap">
                                         -
                                         {formatMoney(
                                           details.tradePrice.discountsPrice
@@ -1311,15 +1311,13 @@ class AccountOrders extends React.Component {
                                   ) : null} */}
                                   {details.tradePrice.subscriptionDiscountPrice ? (
                                     <>
-                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
                                       </div>
-                                      <div className="col-6 col-xxl-2 mb-2 green">
-                                        {/* {details.tradePrice.promotionDesc || ( */}
+                                      <div className="col-6 col-md-2 mb-2 green">
                                           <FormattedMessage id="promotion" />
-                                        {/* )} */}
                                       </div>
-                                      <div className="col-6 col-xxl-3 text-right green text-nowrap">
+                                      <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
                                         {formatMoney(
                                           details.tradePrice.subscriptionDiscountPrice
@@ -1329,15 +1327,13 @@ class AccountOrders extends React.Component {
                                   ) : null}
                                   {details.tradePrice.promotionDiscountPrice ? (
                                     <>
-                                      <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                      <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
                                       </div>
-                                      <div className="col-6 col-xxl-2 mb-2 green">
-                                        {/* {details.tradePrice.promotionDesc || ( */}
+                                      <div className="col-6 col-md-2 mb-2 green">
                                           <FormattedMessage id="promotion" />
-                                        {/* )} */}
                                       </div>
-                                      <div className="col-6 col-xxl-3 text-right green text-nowrap">
+                                      <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
                                         {formatMoney(
                                           details.tradePrice.promotionDiscountPrice
@@ -1345,29 +1341,29 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </>
                                   ) : null}
-                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
-                                  <div className="col-6 col-xxl-2 mb-2">
+                                  <div className="col-6 col-md-2 mb-2">
                                     <FormattedMessage id="shipping" />
                                   </div>
-                                  <div className="col-6 col-xxl-3 text-right text-nowrap">
+                                  <div className="col-6 col-md-3 text-right text-nowrap">
                                     {formatMoney(
                                       details.tradePrice.deliveryPrice
                                     )}
                                   </div>
-                                  <div className="col-2 col-xxl-7 mb-2 rc-md-up">
+                                  <div className="col-2 col-md-7 mb-2 rc-md-up">
                                     &nbsp;
                                   </div>
-                                  <div className="col-6 col-xxl-2 mb-2">
+                                  <div className="col-6 col-md-2 mb-2">
                                     <span className="medium color-444">
-                                      <FormattedMessage id="total" />
+                                      <FormattedMessage id="order.total" />
                                     </span>{' '}
                                     <span style={{ fontSize: '.8em' }}>
-                                      <FormattedMessage id="IVAIncluido" />
+                                      <FormattedMessage id="order.iVAIncluido" />
                                     </span>
                                   </div>
-                                  <div className="col-6 col-xxl-3 text-right medium text-nowrap color-444">
+                                  <div className="col-6 col-md-3 text-right medium text-nowrap color-444">
                                     {formatMoney(details.tradePrice.totalPrice)}
                                   </div>
                                 </div>

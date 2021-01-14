@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19406495",
+      "name": "箭头左",
+      "font_class": "jiantouzuo1",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "19406490",
+      "name": "箭头右",
+      "font_class": "jiantouyou1",
+      "unicode": "e6f9",
+      "unicode_decimal": 59129
+    },
+    {
+      "icon_id": "19163058",
+      "name": " 展开",
+      "font_class": "zhankai1",
+      "unicode": "e6f8",
+      "unicode_decimal": 59128
+    },
+    {
+      "icon_id": "19162592",
+      "name": "halfStar",
+      "font_class": "halfStar",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "19162528",
+      "name": "grayStar",
+      "font_class": "grayStar",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
+      "icon_id": "19162530",
+      "name": "redStar",
+      "font_class": "redStar",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "19162531",
+      "name": "oraStar",
+      "font_class": "oraStar",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "19162532",
+      "name": "oraStar_active",
+      "font_class": "oraStar_active",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
       "icon_id": "18802929",
       "name": "提示",
       "font_class": "tishi",

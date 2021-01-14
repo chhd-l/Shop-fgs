@@ -12,8 +12,8 @@ const Carouselem = withRouter((props) => {
           {
             list.map((item, index) => {
               return (
-                <article className="rc-card rc-card--b tns-item tns-slide-active">
-                  <Link to={item.linkUrl+sourceParam} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
+                <article className="rc-card rc-card--b tns-item tns-slide-active" key={index}>
+                  <Link to={`${item.linkUrl}${sourceParam ? sourceParam : ''}`} className="rc-card__link rc-card--product rc-full-width h-100 rc-margin--none" style={{cursor:'pointer'}}>
                     <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
                       <div className="row h-100">
                         <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop">
@@ -24,7 +24,7 @@ const Carouselem = withRouter((props) => {
                             <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop">{item.title}</h3>
                           </header>
                           <div className="Product-Key-words"></div>
-                          <div className="rc-card__price rc-margin-top--xs">
+                          <div className="rc-card__price rc-margin-top--xs text-black">
                             <span className="range">
                               {
                                 item.price&&item.marketPrice?' De ':''

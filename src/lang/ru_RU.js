@@ -269,7 +269,7 @@ const ru_RU = {
     'getPetFailed': "Get Pet Failed",
     'giveConsentPersonalData': "и даю согласие на обработку персональных данных, включая трансграничную передачу",
     'goods': "Товар",
-    'GuestCheckout': "Продолжить без регистрации",
+    'guestCheckout': "Продолжить без регистрации",
     "header.basketEmpty": "ваша корзина пуста",
     "header.carouselInfo1": "Поддержите здоровье вашего питомца с помощью правильного питания",
     "header.carouselInfo2": "Выбирайте правильную пищу для своего питомца",

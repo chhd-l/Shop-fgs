@@ -737,9 +737,9 @@ class Register extends Component {
                               fontZoom={this.state.fontZoom}
                               auto={true}
                               key={'required'}
-                              description={
-                                this.props.intl.messages.registerDescription
-                              }
+                              // description={
+                              //   this.props.intl.messages.registerDescription
+                              // }
                             />
                           </div>
                         </div>

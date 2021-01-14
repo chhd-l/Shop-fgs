@@ -200,7 +200,7 @@ export const menubar = {
         titleId: 'footer.aboutRoyalCanin',
         list: [
           {
-            link: '/aboutUs',
+            link: '/About-Us',
             messageId: 'aboutUs2'
           },
           {

@@ -29,9 +29,11 @@ class EmailForm extends React.Component {
     this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true }); // todo
   };
   handleClickConfirm = () => {
-    this.confirmToNextPanel();
+    const { form } = this.state;
     this.setState({ isEdit: false });
-    this.props.onChange(this.state.form);
+    this.props.onChange(form);
+    this.props.paymentStore.setDefaultCardDataFromAddr(form);
+    this.confirmToNextPanel();
   };
   confirmToNextPanel() {
     const { paymentStore } = this.props;

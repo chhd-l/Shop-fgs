@@ -29,7 +29,7 @@ class LoginCart extends React.Component {
   }
   async componentDidMount() {
     if (window.location.pathname !== '/checkout') {
-      await this.checkoutStore.removePromotionCode()
+      await this.checkoutStore.removePromotionCode();
     }
     await getFrequencyDict().then((res) => {
       this.setState({
@@ -263,11 +263,18 @@ class LoginCart extends React.Component {
                 </div>
                 <div className="rc-bg-colour--brand4 minicart-padding rc-body rc-margin--none rc-padding-y--xs">
                   <span className="rc-meta">
-                  <FormattedMessage
-                    id="cart.totalProduct_nounit"
-                    values={{ val:  <b style={{fontWeight:500}}>
-                      {this.props.intl.formatMessage({ id: 'payment.totalProduct' },{val:totalNum})}
-                    </b>}}
+                    <FormattedMessage
+                      id="cart.totalProduct_nounit"
+                      values={{
+                        val: (
+                          <b style={{ fontWeight: 500 }}>
+                            {this.props.intl.formatMessage(
+                              { id: 'payment.totalProduct' },
+                              { val: totalNum }
+                            )}
+                          </b>
+                        )
+                      }}
                     />
                   </span>
                 </div>
@@ -286,12 +293,12 @@ class LoginCart extends React.Component {
                               <div className="product-line-item-details d-flex flex-row">
                                 <div className="item-image">
                                   {/* <LazyLoad> */}
-                                    <img
-                                      className="product-image"
-                                      src={item.goodsInfoImg}
-                                      alt={item.goodsName}
-                                      title={item.goodsName}
-                                    />
+                                  <img
+                                    className="product-image"
+                                    src={item.goodsInfoImg}
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
+                                  />
                                   {/* </LazyLoad> */}
                                 </div>
                                 <div className="wrap-item-title">
@@ -317,10 +324,10 @@ class LoginCart extends React.Component {
                                           <p className="line-item-attributes">
                                             {item.specText} -{' '}
                                             {item.buyCount > 1
-                                               ? `${item.buyCount} `
-                                               : `${item.buyCount} `}
-                                       
-                                            <FormattedMessage id="quantityText"/>(s)
+                                              ? `${item.buyCount} `
+                                              : `${item.buyCount} `}
+                                            <FormattedMessage id="quantityText" />
+                                            (s)
                                           </p>
                                         ) : (
                                           <p className="line-item-attributes">
@@ -363,13 +370,13 @@ class LoginCart extends React.Component {
                                       <div className="line-item-total-price justify-content-start pull-left">
                                         <div className="item-attributes">
                                           <p className="line-item-attributes">
-                                            <FormattedMessage id="subscription.frequency"/>:{' '}
-                                            {frequencyList.length &&
-                                              frequencyList.filter(
-                                                (el) =>
-                                                  el.id === item.periodTypeId
-                                              )[0] &&
-                                              frequencyList.filter(
+                                            <FormattedMessage id="subscription.frequency" />
+                                            :{' '}
+                                            {(frequencyList || []).filter(
+                                              (el) =>
+                                                el.id === item.periodTypeId
+                                            )[0] &&
+                                              (frequencyList || []).filter(
                                                 (el) =>
                                                   el.id === item.periodTypeId
                                               )[0].name}

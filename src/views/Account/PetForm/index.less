@@ -230,11 +230,7 @@
     height: 400px;
     position: relative;
     border: 1px solid #d7d7d7;
-    margin-top: 30px;
     .buttonBox {
-      // position: absolute;
-      // top: 50%;
-      // margin-top: -50px;
       position: absolute;
       left: 50%;
       width: 250px;
@@ -242,6 +238,7 @@
       margin-left: -125px;
       top: 50%;
       margin-top: -100px;
+      z-index: 5;
     }
   }
   .rc-input__control+.rc-input__label::after {
@@ -307,6 +304,11 @@
 @media (max-width: 960px) {
   /* 手机 */
   .p-petform {
+    .chooseTypeBox .content {
+      .buttonBox {
+        top: 36%;
+      }
+    }    
     .special-need-style {
       width: 80%;
     }

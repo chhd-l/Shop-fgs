@@ -191,8 +191,6 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  componentWillMount() {
-  }
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;

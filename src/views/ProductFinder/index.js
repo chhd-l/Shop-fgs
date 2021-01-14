@@ -33,15 +33,15 @@ class ProductFinder extends React.Component {
   }
   componentDidMount() {
     this.GAHandle('speciesCode');
-    const cachedType = localItemRoyal.get(`pf-cache-type`);
-    const tmpOrder = sessionItemRoyal.get('pf-edit-order');
-    const cachedQuestionData = localItemRoyal.get(
-      `pf-cache-${cachedType}-question`
-    );
+    // const cachedType = localItemRoyal.get(`pf-cache-type`);
+    // const tmpOrder = sessionItemRoyal.get('pf-edit-order');
+    // const cachedQuestionData = localItemRoyal.get(
+    //   `pf-cache-${cachedType}-question`
+    // );
 
-    if (cachedType && (cachedQuestionData || tmpOrder)) {
-      this.setState({ type: cachedType });
-    }
+    // if (cachedType && (cachedQuestionData || tmpOrder)) {
+    //   this.setState({ type: cachedType });
+    // }
     setSeoConfig({
       pageName: 'Product finder'
     }).then((res) => {
@@ -167,10 +167,10 @@ class ProductFinder extends React.Component {
               <Question
                 GAHandle={this.GAHandle}
                 type={type}
-                defaultQuestionData={localItemRoyal.get(
-                  `pf-cache-${type}-question`
-                )}
-                defaultStep={sessionItemRoyal.get('pf-edit-order')}
+                // defaultQuestionData={localItemRoyal.get(
+                //   `pf-cache-${type}-question`
+                // )}
+                // defaultStep={sessionItemRoyal.get('pf-edit-order')}
                 history={this.props.history}
               />
             ) : (

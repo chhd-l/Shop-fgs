@@ -34,8 +34,8 @@ import { format } from 'date-fns';
 import Selection from '@/components/Selection';
 import Cat from '@/assets/images/cat.png';
 import Dog from '@/assets/images/dog.png';
-import Banner_Cat from './images/banner_Cat.jpg'
-import Banner_Dog from './images/banner_Dog.jpg'
+import Banner_Cat from './images/banner_Cat.jpg';
+import Banner_Dog from './images/banner_Dog.jpg';
 import UploadImg from './components/ImgUpload';
 import Carousel from './components/Carousel';
 import LazyLoad from 'react-lazyload';
@@ -48,7 +48,7 @@ const noSelect = {
 };
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('loginStore')
 @observer
@@ -117,14 +117,14 @@ class PetForm extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    console.log(this.props, 'props')
+    console.log(this.props, 'props');
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
     //   window.location.reload();
     //   return false;
     // }
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'dogSize' })
@@ -624,7 +624,7 @@ class PetForm extends React.Component {
     } else {
       param.isPurebred = true;
     }
-    
+
     let filterSize = this.sizeOptions.filter(
       (el) => el.value === currentPet.petsSizeValueName
     );
@@ -652,7 +652,9 @@ class PetForm extends React.Component {
     // } else {
     //   param.selectedSpecialNeedsObj = { value: 'none' };
     // }
-    param.selectedSpecialNeedsObj = { value: currentPet.customerPetsPropRelations[0].propName };
+    param.selectedSpecialNeedsObj = {
+      value: currentPet.customerPetsPropRelations[0].propName
+    };
     let params = {
       breedCode: param.isPurebred ? param.breed : 'mixed Breed',
       birth: param.birthdate,
@@ -661,27 +663,24 @@ class PetForm extends React.Component {
       mainReason: param.selectedSpecialNeedsObj.value,
       sterilized: currentPet.sterilized
     };
-    if(param.weight) {
-      params.size = param.weight
+    if (param.weight) {
+      params.size = param.weight;
     }
     getRecommendProducts(params).then((res) => {
-      if (res.code === 'K-000000') {
-        let result = res.context.context
-        if(result.otherProducts) {
-          let recommendData = result.otherProducts;
-          recommendData.unshift(result.mainProduct);
-          this.setState({
-            recommendData: recommendData
-          });
-        }
+      let result = res.context.context;
+      if (result.otherProducts) {
+        let recommendData = result.otherProducts;
+        recommendData.unshift(result.mainProduct);
+        this.setState({
+          recommendData: recommendData
+        });
       }
     });
     this.setState(param);
   };
   getDict = (type, name) => {
     this.setState({ loading: true });
-    getDict({ type, name, delFlag: 0,
-      storeId: process.env.REACT_APP_STOREID })
+    getDict({ type, name, delFlag: 0, storeId: process.env.REACT_APP_STOREID })
       .then((res) => {
         this.setState({
           breedList: res.context.sysDictionaryVOS,
@@ -799,8 +798,8 @@ class PetForm extends React.Component {
     // }
   }
   specialNeedsOptionsChange(data) {
-    console.log(data)
-    if(data.value === 'none') {
+    console.log(data);
+    if (data.value === 'none') {
       this.setState({
         selectedSpecialNeeds: ['none']
       });
@@ -811,7 +810,7 @@ class PetForm extends React.Component {
     }
   }
   sizeOptionsChange(data) {
-    console.log(data)
+    console.log(data);
     this.setState({
       weight: data.value,
       selectedSizeObj: { value: data.value }
@@ -837,8 +836,11 @@ class PetForm extends React.Component {
         <Helmet>
           <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -856,23 +858,24 @@ class PetForm extends React.Component {
                   <Link to="/account/pets">
                     <span className="red">&lt;</span>
                     <span className="rc-styled-link rc-progress__breadcrumb ml-2 mt-1">
-                      <FormattedMessage id="pet" />
+                      <FormattedMessage id="account.pets" />
                     </span>
                   </Link>
                 </div>
               ) : (
                 <SideMenu type="Pets" />
               )}
-              {/* <SideMenu type="Pets" /> */}
               {this.state.loading ? <Loading positionFixed="true" /> : null}
               <div
-                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop"
+                className="chooseTypeBox my__account-content rc-column rc-quad-width rc-padding-top--xs--desktop mt-2 mt-md-0"
                 style={{ display: !isChoosePetType ? 'block' : 'none' }}
               >
-                <h5 style={{ color: '#333333', fontWeight: 400 }}><FormattedMessage id="New Pet" /></h5>
-                <div className="content">
+                <h5 style={{ color: '#333333', fontWeight: 400 }}>
+                  <FormattedMessage id="New Pet" />
+                </h5>
+                <div className="content mt-2 mt-md-4">
                   <LazyLoad>
-                  <img src={Banner_Dog} style={{ left: '40px' }} alt=""/>
+                    <img src={Banner_Dog} style={{ left: '40px' }} alt="" />
                   </LazyLoad>
                   <div className="buttonBox">
                     <p
@@ -908,7 +911,7 @@ class PetForm extends React.Component {
                     </div>
                   </div>
                   <LazyLoad>
-                  <img src={Banner_Cat} style={{ right: '40px' }} alt=""/>
+                    <img src={Banner_Cat} style={{ right: '40px' }} alt="" />
                   </LazyLoad>
                   {/* <div className="buttonBox" style={{left: '350px'}}>
                     <h4>I have a dog</h4>
@@ -942,7 +945,7 @@ class PetForm extends React.Component {
                     {this.state.errorMsg}
                   </aside>
                 </div>
-                <div style={{ display: isMobile?'block': 'flex' }}>
+                <div style={{ display: isMobile ? 'block' : 'flex' }}>
                   <div className="photoBox">
                     {/* <LazyLoad> */}
                     <img
@@ -1500,7 +1503,7 @@ class PetForm extends React.Component {
                             className="rc-btn rc-btn--one"
                             onClick={() => this.savePet()}
                           >
-                            <FormattedMessage id="saveChange"/>
+                            <FormattedMessage id="saveChange" />
                           </button>
                           <br />
                           {this.props.match.params.id && (
@@ -1512,7 +1515,7 @@ class PetForm extends React.Component {
                                 this.delPets(currentPet);
                               }}
                             >
-                              <FormattedMessage id="pet.deletePet"/>
+                              <FormattedMessage id="pet.deletePet" />
                             </a>
                           )}
                         </p>
@@ -1527,7 +1530,7 @@ class PetForm extends React.Component {
                                 this.delPets(currentPet);
                               }}
                             >
-                              <FormattedMessage id="pet.deletePet"/>
+                              <FormattedMessage id="pet.deletePet" />
                             </a>
                           )}
                           <button
@@ -1535,7 +1538,7 @@ class PetForm extends React.Component {
                             style={{ marginLeft: '35px' }}
                             onClick={() => this.savePet()}
                           >
-                            <FormattedMessage id="saveChange"/>
+                            <FormattedMessage id="saveChange" />
                           </button>
                         </p>
                       )}

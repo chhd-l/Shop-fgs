@@ -710,7 +710,7 @@ class Header extends React.Component {
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
         {/* data-js-header-scroll */}
-        <header className={`rc-header`} data-js-header-scroll> 
+        <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align"
@@ -824,10 +824,8 @@ class Header extends React.Component {
                 ) : null}
                 {showUserIcon ? (
                   <>
-                    <span style={{ marginLeft: this.userInfo ? '10px' : '0' }}>
-                      {getDeviceType() === 'PC' &&
-                        this.userInfo &&
-                        this.userInfo.firstName}
+                    <span className="rc-md-up">
+                      {this.userInfo && this.userInfo.firstName}
                     </span>
                     <span
                       id="main_mini_cart"
@@ -840,11 +838,22 @@ class Header extends React.Component {
                           {(txt) => (
                             <Link
                               to="/account"
-                              className="minicart-link"
+                              className="minicart-link position-relative"
                               data-loc="miniCartOrderBtn"
                               title={txt}
                             >
                               <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                              <span
+                                className="rc-md-down"
+                                style={{
+                                  bottom: '-1.45rem',
+                                  position: 'absolute',
+                                  right: '.3rem',
+                                  fontSize: '.95em'
+                                }}
+                              >
+                                {this.userInfo && this.userInfo.firstName}
+                              </span>
                             </Link>
                           )}
                         </FormattedMessage>
@@ -960,7 +969,7 @@ class Header extends React.Component {
                               <div className="link-style">
                                 <Link to="/account" className="click-hover">
                                   <span className="iconfont">&#xe697;</span>{' '}
-                                  <FormattedMessage id="account.myAccount" />
+                                  <FormattedMessage id="home" />
                                 </Link>
                               </div>
                               <div className="link-style">

@@ -77,6 +77,7 @@ class LoginCart extends React.Component {
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
+    this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -101,7 +102,10 @@ class LoginCart extends React.Component {
     const unloginCartData = this.checkoutStore.cartData;
     if (unloginCartData.length) {
       await mergeUnloginCartData();
-      await this.checkoutStore.updateLoginCart();
+      await this.checkoutStore.updateLoginCart(
+        this.state.promotionInputValue,
+        this.props.buyWay === 'frequency'
+      );
     }
     this.setData();
   }
@@ -161,7 +165,10 @@ class LoginCart extends React.Component {
   }
   async updateCartCache() {
     this.setState({ checkoutLoading: true });
-    await this.checkoutStore.updateLoginCart();
+    await this.checkoutStore.updateLoginCart(
+      this.state.promotionInputValue,
+      this.props.buyWay === 'frequency'
+    );
     this.setData();
     this.setState({ checkoutLoading: false });
   }
@@ -725,13 +732,11 @@ class LoginCart extends React.Component {
                         : '#d7d7d7',
                       cursor: 'pointer'
                     }}
-                    onClick={() => {
-                      if (pitem.goodsInfoFlag) {
-                        pitem.goodsInfoFlag = 0;
-                        pitem.periodTypeId = null;
-                        this.changeFrequencyType(pitem);
-                      }
-                    }}
+                    onClick={this.hanldeToggleOneOffOrSub.bind(this, {
+                      goodsInfoFlag: 0,
+                      periodTypeId: null,
+                      pitem
+                    })}
                   >
                     <div className="buyMethodInnerBox">
                       <div className="radioBox">
@@ -772,13 +777,11 @@ class LoginCart extends React.Component {
                           : '#d7d7d7',
                         cursor: 'pointer'
                       }}
-                      onClick={() => {
-                        if (!pitem.goodsInfoFlag) {
-                          pitem.goodsInfoFlag = 1;
-                          pitem.periodTypeId = pitem.form.frequencyId;
-                          this.changeFrequencyType(pitem);
-                        }
-                      }}
+                      onClick={this.hanldeToggleOneOffOrSub.bind(this, {
+                        goodsInfoFlag: 1,
+                        periodTypeId: pitem.form.frequencyId,
+                        pitem
+                      })}
                     >
                       <div className="buyMethodInnerBox">
                         <div className="radioBox">
@@ -811,7 +814,7 @@ class LoginCart extends React.Component {
                               i
                             </span>
                             <ConfirmTooltip
-                              arrowStyle={{ left: '65%' }}
+                              arrowStyle={{ left: '84%' }}
                               display={
                                 this.state.toolTipVisible &&
                                 index === this.state.activeToolTipIndex
@@ -922,13 +925,11 @@ class LoginCart extends React.Component {
                   : '#d7d7d7',
                 cursor: 'pointer'
               }}
-              onClick={() => {
-                if (pitem.goodsInfoFlag) {
-                  pitem.goodsInfoFlag = 0;
-                  pitem.periodTypeId = null;
-                  this.changeFrequencyType(pitem);
-                }
-              }}
+              onClick={this.hanldeToggleOneOffOrSub.bind(this, {
+                goodsInfoFlag: 0,
+                periodTypeId: null,
+                pitem
+              })}
             >
               <div className="buyMethodInnerBox">
                 <div className="radioBox">
@@ -965,13 +966,11 @@ class LoginCart extends React.Component {
                     : '#d7d7d7',
                   cursor: 'pointer'
                 }}
-                onClick={() => {
-                  if (!pitem.goodsInfoFlag) {
-                    pitem.goodsInfoFlag = 1;
-                    pitem.periodTypeId = pitem.form.frequencyId;
-                    this.changeFrequencyType(pitem);
-                  }
-                }}
+                onClick={this.hanldeToggleOneOffOrSub.bind(this, {
+                  goodsInfoFlag: 1,
+                  periodTypeId: pitem.form.frequencyId,
+                  pitem
+                })}
               >
                 <div className="buyMethodInnerBox">
                   <div className="radioBox">
@@ -1004,7 +1003,7 @@ class LoginCart extends React.Component {
                         i
                       </span>
                       <ConfirmTooltip
-                        arrowStyle={{ left: '65%' }}
+                        arrowStyle={{ left: '84%' }}
                         display={
                           this.state.toolTipVisible &&
                           index === this.state.activeToolTipIndex
@@ -1156,15 +1155,15 @@ class LoginCart extends React.Component {
     });
     this.openPetModal();
   }
-  handlerChange(e) {
-    let promotionInputValue = e.target.value;
+  handlerChange = (e) => {
     this.setState({
-      promotionInputValue
+      isShowValidCode: false,
+      promotionInputValue: e.target.value
     });
-  }
+  };
   sideCart({ className = '', style = {}, id = '' } = {}) {
-    const { checkoutLoading, discount } = this.state;
-    const { checkoutStore, loginStore } = this.props;
+    const { checkoutStore } = this.props;
+    const { checkoutLoading } = this.state;
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1194,7 +1193,7 @@ class LoginCart extends React.Component {
                     name="text"
                     placeholder={txt}
                     value={this.state.promotionInputValue}
-                    onChange={(e) => this.handlerChange(e)}
+                    onChange={this.handlerChange}
                   />
                 )}
               </FormattedMessage>
@@ -1206,62 +1205,17 @@ class LoginCart extends React.Component {
             <p className="text-right sub-total">
               <button
                 id="promotionApply"
-                className={[
-                  'rc-btn',
-                  'rc-btn--sm',
-                  'rc-btn--two',
-                  this.state.isClickApply &&
-                    'ui-btn-loading ui-btn-loading-border-red'
-                ].join(' ')}
+                className={`rc-btn rc-btn--sm rc-btn--two mr-0 ${
+                  this.state.isClickApply
+                    ? 'ui-btn-loading ui-btn-loading-border-red'
+                    : ''
+                }`}
                 style={{
                   marginTop: '10px',
                   float: 'right',
-                  marginBottom: '10px',
-                  marginRight: '0'
+                  marginBottom: '10px'
                 }}
-                onClick={async () => {
-                  let result = {};
-                  if (!this.state.promotionInputValue) return;
-                  this.setState({
-                    isClickApply: true,
-                    isShowValidCode: false,
-                    lastPromotionInputValue: this.state.promotionInputValue
-                  });
-                  if (!loginStore.isLogin) {
-                    //游客
-                    result = await checkoutStore.updateUnloginCart(
-                      '',
-                      this.state.promotionInputValue
-                    );
-                  } else {
-                    //会员
-                    result = await checkoutStore.updateLoginCart(
-                      this.state.promotionInputValue,
-                      this.props.buyWay === 'frequency'
-                    );
-                  }
-                  if (
-                    result.backCode === 'K-000000' &&
-                    (!result.context.promotionFlag ||
-                      result.context.couponCodeFlag)
-                  ) {
-                    //表示输入apply promotionCode成功
-                    discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
-                    this.setState({ discount });
-                    // this.props.sendPromotionCode(
-                    //   this.state.promotionInputValue
-                    // );
-                  } else {
-                    this.setState({
-                      isShowValidCode: true
-                    });
-                    // this.props.sendPromotionCode('');
-                  }
-                  this.setState({
-                    isClickApply: false,
-                    promotionInputValue: ''
-                  });
-                }}
+                onClick={this.handleClickPromotionApply}
               >
                 <FormattedMessage id="apply" />
               </button>
@@ -1275,84 +1229,62 @@ class LoginCart extends React.Component {
           </div>
         ) : null}
         {!this.state.isShowValidCode &&
-          this.state.discount.map((el) => (
-            <>
+          this.state.discount.map((el, i) => (
+            <div
+              className={`row leading-lines shipping-item d-flex`}
+              style={{
+                margin: '10px',
+                border: '1px solid #ccc',
+                height: '60px',
+                lineHeight: '60px',
+                overflow: 'hidden'
+              }}
+              key={i}
+            >
               <div
-                className={`row leading-lines shipping-item d-flex`}
-                style={{
-                  margin: '10px',
-                  border: '1px solid #ccc',
-                  height: '60px',
-                  lineHeight: '60px',
-                  overflow: 'hidden'
-                }}
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
+                }`}
               >
-                <div
-                  className={`${
-                    !checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'
-                  }`}
+                <p
+                  style={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden'
+                  }}
                 >
-                  <p
-                    style={{
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {this.promotionDesc || (
-                      <FormattedMessage id="NoPromotionDesc" />
-                    )}
-                  </p>
-                </div>
-                <div
-                  className={`${
-                    !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
-                  } red`}
-                  style={{ padding: 0 }}
-                >
-                  <p>
-                    {!checkoutStore.couponCodeFitFlag && (
-                      <FormattedMessage id="Non appliqué" />
-                    )}
-                  </p>
-                </div>
-                <div className="col-2" style={{ padding: '0 15px 0 0' }}>
-                  <p className="text-right shipping-cost">
-                    <span
-                      className="rc-icon rc-close--sm rc-iconography"
-                      style={{
-                        fontSize: '18px',
-                        marginLeft: '10px',
-                        lineHeight: '20px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={async () => {
-                        let result = {};
-                        await checkoutStore.removePromotionCode();
-                        await checkoutStore.removeCouponCodeFitFlag();
-                        if (!loginStore.isLogin) {
-                          //游客
-                          result = await checkoutStore.updateUnloginCart();
-                        } else {
-                          //会员
-                          result = await checkoutStore.updateLoginCart(
-                            '',
-                            this.props.buyWay === 'frequency'
-                          );
-                        }
-                        if (result.backCode === 'K-000000') {
-                          discount.pop();
-                          this.setState({
-                            discount: discount,
-                            isShowValidCode: false
-                          });
-                        }
-                      }}
-                    ></span>
-                  </p>
-                </div>
+                  {this.promotionDesc || (
+                    <FormattedMessage id="NoPromotionDesc" />
+                  )}
+                </p>
               </div>
-            </>
+              <div
+                className={`${
+                  !checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'
+                } red`}
+                style={{ padding: 0 }}
+              >
+                <p>
+                  {!checkoutStore.couponCodeFitFlag && (
+                    <FormattedMessage id="Non appliqué" />
+                  )}
+                </p>
+              </div>
+              <div className="col-2" style={{ padding: '0 15px 0 0' }}>
+                <p className="text-right shipping-cost">
+                  <span
+                    className="rc-icon rc-close--sm rc-iconography"
+                    style={{
+                      fontSize: '18px',
+                      marginLeft: '10px',
+                      lineHeight: '20px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={this.handleRemovePromotionCode}
+                  />
+                </p>
+              </div>
+            </div>
           ))}
         <div className="row">
           <div className="col-6">
@@ -1380,41 +1312,39 @@ class LoginCart extends React.Component {
           </div>
         </div> */}
         {/* 显示 默认折扣 */}
-        <div
-          className={`row leading-lines shipping-item green ${
-            parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'
-          }`}
-        >
-          <div className="col-8">
-            <p>{<FormattedMessage id="promotion" />}</p>
+        {parseFloat(this.subscriptionDiscountPrice) > 0 && (
+          <div className={`row leading-lines shipping-item green`}>
+            <div className="col-8">
+              <p>{<FormattedMessage id="promotion" />}</p>
+            </div>
+            <div className="col-4">
+              <p className="text-right shipping-cost">
+                <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
+              </p>
+            </div>
           </div>
-          <div className="col-4">
-            <p className="text-right shipping-cost">
-              <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
-            </p>
-          </div>
-        </div>
+        )}
+
         {/* 显示 promotionCode */}
         <div>
-          {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 &&
-            this.state.discount.map((el) => (
-              <div className={`row leading-lines shipping-item green d-flex`}>
-                <div className="col-6">
-                  <p>
-                    {/* {this.promotionDesc || (
+          {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 && (
+            <div className={`row leading-lines shipping-item green d-flex`}>
+              <div className="col-6">
+                <p>
+                  {/* {this.promotionDesc || (
                       <FormattedMessage id="NoPromotionDesc" />
                     )} */}
-                    <FormattedMessage id="promotion" />
-                  </p>
-                </div>
-                <div className="col-6">
-                  <p className="text-right shipping-cost">
-                    {/* - {formatMoney(this.discountPrice)} */}
-                    <b>-{formatMoney(this.promotionDiscountPrice)}</b>
-                  </p>
-                </div>
+                  <FormattedMessage id="promotion" />
+                </p>
               </div>
-            ))}
+              <div className="col-6">
+                <p className="text-right shipping-cost">
+                  {/* - {formatMoney(this.discountPrice)} */}
+                  <b>-{formatMoney(this.promotionDiscountPrice)}</b>
+                </p>
+              </div>
+            </div>
+          )}
         </div>
         {/* <div
           className={`row red ${
@@ -1534,7 +1464,12 @@ class LoginCart extends React.Component {
     if (this.state.changSizeLoading) {
       return false;
     }
-    this.setState({ changSizeLoading: true });
+
+    this.setState({
+      changSizeLoading: true,
+      promotionInputValue: '',
+      discount: []
+    });
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
@@ -1544,8 +1479,85 @@ class LoginCart extends React.Component {
     this.updateCartCache();
     this.setState({ changSizeLoading: false });
   }
+  handleRemovePromotionCode = async () => {
+    const { checkoutStore, loginStore, buyWay } = this.props;
+    let result = {};
+    await checkoutStore.removePromotionCode();
+    await checkoutStore.removeCouponCodeFitFlag();
+    if (!loginStore.isLogin) {
+      //游客
+      result = await checkoutStore.updateUnloginCart();
+    } else {
+      //会员
+      result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
+    }
+    if (result.backCode === 'K-000000') {
+      discount.pop();
+      this.setState({
+        discount,
+        isShowValidCode: false
+      });
+    }
+  };
+  handleClickPromotionApply = async () => {
+    const { checkoutStore, loginStore, buyWay } = this.props;
+    let { promotionInputValue, discount } = this.state;
+    if (!promotionInputValue) return;
+    let result = {};
+    this.setState({
+      isClickApply: true,
+      isShowValidCode: false,
+      lastPromotionInputValue: promotionInputValue
+    });
+    if (loginStore.isLogin) {
+      result = await checkoutStore.updateLoginCart(
+        promotionInputValue,
+        buyWay === 'frequency'
+      );
+    } else {
+      result = await checkoutStore.updateUnloginCart('', promotionInputValue);
+    }
+    if (
+      result &&
+      result.backCode === 'K-000000' &&
+      (!result.context.promotionFlag || result.context.couponCodeFlag)
+    ) {
+      //表示输入apply promotionCode成功
+      discount.splice(0, 1, 1); //(起始位置,替换个数,插入元素)
+      this.setState({ discount });
+      // this.props.sendPromotionCode(
+      //   this.state.promotionInputValue
+      // );
+    } else {
+      this.setState({
+        isShowValidCode: true
+      });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.setState({
+          isShowValidCode: false
+        });
+      }, 4000);
+      // this.props.sendPromotionCode('');
+    }
+    this.setState({
+      isClickApply: false,
+      promotionInputValue: ''
+    });
+  };
+  hanldeToggleOneOffOrSub({ goodsInfoFlag, frequencyId, pitem }) {
+    // goodsInfoFlag 1-订阅 0-单次购买
+    // 当前状态与需要切换的状态相同时，直接返回
+    if (pitem.goodsInfoFlag === goodsInfoFlag) {
+      return false;
+    }
+    this.setState({ checkoutLoading: true });
+    pitem.goodsInfoFlag = goodsInfoFlag;
+    pitem.periodTypeId = frequencyId;
+    this.changeFrequencyType(pitem);
+  }
   render() {
-    const { productList, checkoutLoading, initLoading } = this.state;
+    const { productList, initLoading } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {

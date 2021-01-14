@@ -48,9 +48,9 @@ function CardItem(props) {
           </div>
         </div>
         <p className="mb-0">{data.consigneeNumber}</p>
-        <p className="mb-0">{props.countryName}</p>
-        <p className="mb-0">{data.cityName}</p>
         <p className="mb-0">{data.address1}</p>
+        {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
+        <p className="mb-0">{data.postCode}, {data.cityName}, {props.countryName}</p>
       </div>
     </div>
   );
@@ -121,7 +121,7 @@ class AddressList extends React.Component {
       this.setState({
         errorMsg: ''
       });
-    }, 2000);
+    }, 4000);
   };
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status, curAddressId: '' });
@@ -325,7 +325,7 @@ class AddressList extends React.Component {
                 >
                   {addressList.slice(0, 2).map((item, i) => (
                     <div
-                      className="col-12 col-md-4 p-2"
+                      className="col-12 col-md-4 pt-2 pb-3 pl-3 pr-2"
                       key={item.deliveryAddressId}
                     >
                       <CardItem
@@ -358,7 +358,7 @@ class AddressList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {addressList.map((item, i) => (
                       <div
-                        className="col-12 col-md-6 p-2"
+                        className="col-12 col-md-6 pt-2 pb-3 pl-3 pr-2"
                         key={item.deliveryAddressId}
                       >
                         <CardItem
@@ -396,8 +396,7 @@ class AddressList extends React.Component {
                                   </span>
                                 </div>
                               )}
-                              <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1"
-                                >
+                              <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1">
                                 <span
                                   className="rc-styled-link"
                                   onClick={this.handleClickDeleteBtn.bind(
