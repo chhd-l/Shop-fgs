@@ -19,7 +19,6 @@ import dogsImg from '@/assets/images/banner-list/dogs.jpg';
 import catsImgFr from '@/assets/images/banner-list/cats-fr.png';
 import dogsImgFr from '@/assets/images/banner-list/dogs-fr.png';
 import cartImg from './images/cart.png';
-import refreshImg from './images/refresh.png';
 import { getProductPetConfig } from '@/api/payment';
 import Selection from '@/components/Selection';
 import BannerTip from '@/components/BannerTip';
@@ -817,9 +816,12 @@ class UnLoginCart extends React.Component {
                               marginTop: '5px'
                             }}
                           >
-                            <LazyLoad>
-                              <img src={refreshImg} />
-                            </LazyLoad>
+                            <span
+                              className="iconfont red mr-2"
+                              style={{ fontSize: '1.2em' }}
+                            >
+                              &#xe675;
+                            </span>
                             <FormattedMessage id="autoship" />
                             <span
                               className="info-tooltip delivery-method-tooltip"
@@ -1019,9 +1021,12 @@ class UnLoginCart extends React.Component {
                         marginTop: '5px'
                       }}
                     >
-                      <LazyLoad>
-                        <img src={refreshImg} />
-                      </LazyLoad>
+                      <span
+                        className="iconfont red mr-2"
+                        style={{ fontSize: '1.2em' }}
+                      >
+                        &#xe675;
+                      </span>
                       <FormattedMessage id="autoship" />
                       <span
                         className="info-tooltip delivery-method-tooltip"

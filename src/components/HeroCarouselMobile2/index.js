@@ -115,9 +115,6 @@ class HeroCarousel extends React.Component {
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
       dotsClass: 'dots-custom',
-      onSwipe: (e) => {
-        debugger;
-      },
       afterChange: (idx) => {
         this.GABannerImpression(idx);
       }

@@ -6,7 +6,6 @@ import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ConfirmTooltip from '@/components/ConfirmTooltip';
-//import PetModal from '@/components/PetModal';
 import { Link } from 'react-router-dom';
 import {
   formatMoney,
@@ -15,13 +14,9 @@ import {
   distributeLinktoPrecriberOrPaymentPage,
   getDeviceType
 } from '@/utils/utils';
-//import { SUBSCRIPTION_DISCOUNT_RATE } from '@/utils/constant';
 import find from 'lodash/find';
 import Selection from '@/components/Selection';
 import cartImg from './images/cart.png';
-import refreshImg from './images/refresh.png';
-//import { getPetList } from '@/api/pet';
-//import { getCustomerInfo } from '@/api/user';
 import {
   updateBackendCart,
   deleteItemFromBackendCart,
@@ -41,6 +36,7 @@ import { v4 as uuidv4 } from 'uuid';
 const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+const isMobile = getDeviceType() === 'H5';
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @injectIntl
@@ -49,7 +45,6 @@ class LoginCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorShow: false,
       errorMsg: '',
       productList: [],
       currentProductIdx: -1,
@@ -72,12 +67,12 @@ class LoginCart extends React.Component {
       lastPromotionInputValue: '', //上一次输入的促销码
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
-      isMobile: getDeviceType() === 'H5',
       activeToolTipIndex: 0
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.gotoDetails = this.gotoDetails.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
+    this.handleChooseSize = this.handleChooseSize.bind(this);
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -331,6 +326,7 @@ class LoginCart extends React.Component {
       url && history.push(url);
       // history.push('/prescription');
     } catch (err) {
+      this.showErrMsg(err.message);
     } finally {
       this.setState({ checkoutLoading: false });
     }
@@ -352,19 +348,18 @@ class LoginCart extends React.Component {
   }
   showErrMsg(msg) {
     this.setState({
-      errorShow: true,
       errorMsg: msg
     });
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.setState({
-        errorShow: false
+        errorMsg: ''
       });
     }, 3000);
   }
   handleAmountChange(value, item) {
     this.setState({
-      errorShow: false
+      errorMsg: ''
     });
     const val = value;
     if (val === '') {
@@ -401,7 +396,7 @@ class LoginCart extends React.Component {
     if (this.state.checkoutLoading) {
       return;
     }
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     if (item.buyCount < process.env.REACT_APP_LIMITED_NUM) {
       item.buyCount++;
       this.updateBackendCart({
@@ -422,7 +417,7 @@ class LoginCart extends React.Component {
     if (this.state.checkoutLoading) {
       return;
     }
-    this.setState({ errorShow: false });
+    this.setState({ errorMsg: '' });
     if (item.buyCount > 1) {
       item.buyCount--;
       this.updateBackendCart({
@@ -496,8 +491,7 @@ class LoginCart extends React.Component {
     // this.props.history.push('/details/' + pitem.goodsInfoId);
   }
   getProducts(plist) {
-    let { form, isMobile } = this.state;
-    console.log(plist, 'ssss');
+    let { form } = this.state;
     const Lists = plist.map((pitem, index) => {
       return (
         <div
@@ -655,13 +649,12 @@ class LoginCart extends React.Component {
                                         sdItem.selected ? 'selected' : ''
                                       }`}
                                       key={i2}
-                                      onClick={() =>
-                                        this.handleChooseSize(
-                                          sdItem,
-                                          pitem,
-                                          index
-                                        )
-                                      }
+                                      onClick={this.handleChooseSize.bind(
+                                        this,
+                                        sdItem,
+                                        pitem,
+                                        index
+                                      )}
                                     >
                                       <span key={i2}>
                                         {sdItem.detailName}
@@ -776,9 +769,12 @@ class LoginCart extends React.Component {
                               marginTop: '5px'
                             }}
                           >
-                            <LazyLoad>
-                              <img src={refreshImg} />
-                            </LazyLoad>
+                            <span
+                              className="iconfont red mr-2"
+                              style={{ fontSize: '1.2em' }}
+                            >
+                              &#xe675;
+                            </span>
                             <FormattedMessage id="autoship" />
                             <span
                               className="info-tooltip delivery-method-tooltip"
@@ -955,8 +951,8 @@ class LoginCart extends React.Component {
                   pitem
                 })}
               >
-                <div className="buyMethodInnerBox">
-                  <div className="radioBox">
+                <div className="buyMethodInnerBox row ml-0 mr-0">
+                  <div className="radioBox col-8 pl-0 pr-0">
                     <span
                       style={{
                         fontWeight: '400',
@@ -965,9 +961,12 @@ class LoginCart extends React.Component {
                         marginTop: '5px'
                       }}
                     >
-                      <LazyLoad>
-                        <img src={refreshImg} />
-                      </LazyLoad>
+                      <span
+                        className="iconfont red mr-2"
+                        style={{ fontSize: '1.2em' }}
+                      >
+                        &#xe675;
+                      </span>
                       <FormattedMessage id="autoship" />
                       <span
                         className="info-tooltip delivery-method-tooltip"
@@ -1003,22 +1002,8 @@ class LoginCart extends React.Component {
                         }
                       />
                     </span>
-                    <br />
-                    <FormattedMessage
-                      id="saveExtraMoney"
-                      values={{
-                        val: (
-                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
-                            {formatMoney(
-                              pitem.buyCount * pitem.salePrice -
-                                pitem.buyCount * pitem.subscriptionPrice
-                            )}
-                          </b>
-                        )
-                      }}
-                    />
                   </div>
-                  <div className="price">
+                  <div className="price col-4 pl-0 pr-0">
                     <div
                       style={{
                         fontSize: '15px',
@@ -1032,6 +1017,21 @@ class LoginCart extends React.Component {
                     </div>
 
                     {/* {formatMoney(currentSubscriptionPrice || 0)} */}
+                  </div>
+                  <div className="col-12 pl-0 pr-0">
+                    <FormattedMessage
+                      id="saveExtraMoney"
+                      values={{
+                        val: (
+                          <b className="product-pricing__card__head__price red  rc-padding-y--none">
+                            {formatMoney(
+                              pitem.buyCount * pitem.salePrice -
+                                pitem.buyCount * pitem.subscriptionPrice
+                            )}
+                          </b>
+                        )
+                      }}
+                    />
                   </div>
                 </div>
                 <div className="freqency">
@@ -1447,10 +1447,9 @@ class LoginCart extends React.Component {
     if (this.state.changSizeLoading) {
       return false;
     }
-
     this.setState({
       changSizeLoading: true,
-      promotionInputValue: '',
+      // promotionInputValue: '',
       discount: []
     });
     await switchSize({
@@ -1524,8 +1523,8 @@ class LoginCart extends React.Component {
       // this.props.sendPromotionCode('');
     }
     this.setState({
-      isClickApply: false,
-      promotionInputValue: ''
+      isClickApply: false
+      // promotionInputValue: ''
     });
   };
   hanldeToggleOneOffOrSub({ goodsInfoFlag, frequencyId, pitem }) {
@@ -1540,7 +1539,7 @@ class LoginCart extends React.Component {
     this.changeFrequencyType(pitem);
   }
   render() {
-    const { productList, initLoading } = this.state;
+    const { productList, initLoading, errorMsg } = this.state;
     const List = this.getProducts(productList);
     const event = {
       page: {
@@ -1600,21 +1599,16 @@ class LoginCart extends React.Component {
                     </div>
                     <div className="rc-layout-container rc-three-column cart cart-page pt-0">
                       <div className="rc-column rc-double-width pt-0">
-                        <div
-                          className="rc-padding-bottom--xs cart-error-messaging cart-error"
-                          style={{
-                            display: this.state.errorShow ? 'block' : 'none'
-                          }}
-                        >
-                          <aside
-                            className="rc-alert rc-alert--error rc-alert--with-close text-break"
-                            role="alert"
-                          >
-                            <span style={{ paddingLeft: 0 }}>
-                              {this.state.errorMsg}
-                            </span>
-                          </aside>
-                        </div>
+                        {errorMsg ? (
+                          <div className="rc-padding-bottom--xs cart-error-messaging cart-error">
+                            <aside
+                              className="rc-alert rc-alert--error rc-alert--with-close text-break"
+                              role="alert"
+                            >
+                              <span className="pl-0">{errorMsg}</span>
+                            </aside>
+                          </div>
+                        ) : null}
                         <div className="rc-padding-bottom--xs">
                           <h5 className="rc-espilon rc-border-bottom rc-border-colour--interface rc-padding-bottom--xs">
                             <FormattedMessage id="cart.yourShoppingCart" />
