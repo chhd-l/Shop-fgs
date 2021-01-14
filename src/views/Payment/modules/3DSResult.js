@@ -12,7 +12,9 @@ class Adyen3DSResult extends Component {
   }
   async UNSAFE_componentWillMount() {
     try {
-      const res = await adyen3DSResult();
+      const res = await adyen3DSResult({
+        businessId: sessionItemRoyal.get('orderNumber')
+      });
       console.log(res)
       debugger
       if (res.context.status === 'SUCCEED') {
