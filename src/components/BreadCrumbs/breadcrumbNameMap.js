@@ -28,7 +28,7 @@ const breadcrumbNameMap = {
   ],
   '/account/orders/detail/:orderNumber': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'orders', href: '/account/orders' },
+    { name: 'account.ordersTitle', href: '/account/orders' },
     { name: 'order.orderDetails' }
   ],
   '/account/productReview/:tid': [
