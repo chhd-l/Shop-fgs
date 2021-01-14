@@ -9,8 +9,7 @@ import BannerTip from '@/components/BannerTip';
 import BreadCrumbs from '@/components/BreadCrumbs';
 import LoginButton from '@/components/LoginButton';
 import Help from './Help';
-import { formatMoney } from '@/utils/utils';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, formatMoney } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 

@@ -8,7 +8,6 @@ import BreadCrumbs from '@/components/BreadCrumbs';
 import SideMenu from '@/components/SideMenu';
 import ImgUpload from '@/components/ImgUpload';
 import BannerTip from '@/components/BannerTip';
-import { formatMoney } from '@/utils/utils';
 import {
   getOrderReturnDetails,
   getReturnReasons,
@@ -16,7 +15,7 @@ import {
   returnAdd
 } from '@/api/order';
 import { IMG_DEFAULT } from '@/utils/constant';
-import { setSeoConfig } from '@/utils/utils';
+import { setSeoConfig, formatMoney } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 

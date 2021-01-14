@@ -1450,7 +1450,7 @@ class LoginCart extends React.Component {
     this.setState({
       changSizeLoading: true,
       // promotionInputValue: '',
-      discount: []
+      // discount: []
     });
     await switchSize({
       purchaseId: pitem.purchaseId,
