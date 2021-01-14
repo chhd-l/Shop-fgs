@@ -246,7 +246,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/recommendation/:id"
+                path="/recommendation"
                 render={(props) => {
                   if (process.env.REACT_APP_LANG === 'fr') {
                     return (
