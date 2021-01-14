@@ -218,7 +218,7 @@ const App = () => (
                 path="/general-terms-conditions"
                 component={TermsConditions}
               />
-              <Route exact path="/pack-mix-feeding-wet-dry" component={Packfeed} />
+              <Route exact path="/packmixfeedingwetdry" component={Packfeed} />
               <Route
                 exact
                 path="/termsandconditions"
@@ -246,20 +246,22 @@ const App = () => (
               />
               <Route
                 exact
+                path="/recommendation/:id"
+                render={(props) => {
+                  return (
+                    <Recommendation key={props.match.params.id} {...props} />
+                  );
+                }}
+              />
+              <Route
+                exact
                 path="/recommendation"
                 render={(props) => {
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    return (
-                      <Recommendation_FR
-                        key={props.match.params.id}
-                        {...props}
-                      />
-                    );
-                  } else {
-                    return (
-                      <Recommendation key={props.match.params.id} {...props} />
-                    );
-                  }
+                  return (
+                    <Recommendation_FR
+                      {...props}
+                    />
+                  );
                 }}
               />
 
