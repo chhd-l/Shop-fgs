@@ -10,7 +10,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import classNames from 'classnames';
+import { withOktaAuth } from '@okta/okta-react';
 
+@injectIntl
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
     originData: null
@@ -134,6 +136,8 @@ class PersonalDataEditForm extends React.Component {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
+      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
       let param = Object.assign({}, this.props.originData, {
         firstName: form.firstName,
         lastName: form.lastName,
@@ -149,7 +153,8 @@ class PersonalDataEditForm extends React.Component {
         postalCode: form.postCode,
         cityId: form.city,
         communicationEmail: form.communicationEmail,
-        communicationPhone: form.communicationPhone
+        communicationPhone: form.communicationPhone,
+        oktaToken: oktaToken
       });
 
       await updateCustomerBaseInfo(param);
@@ -752,4 +757,4 @@ class PersonalDataEditForm extends React.Component {
   }
 }
 
-export default injectIntl(PersonalDataEditForm);
+export default  withOktaAuth(PersonalDataEditForm);
