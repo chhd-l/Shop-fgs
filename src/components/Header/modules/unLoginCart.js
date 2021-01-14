@@ -381,7 +381,8 @@ class UnloginCart extends React.Component {
                                   </div>
                                 </div>
                                 <div
-                                  style={{ width: '100%', overflow: 'hidden' }}
+                                  className="w-100"
+                                  style={{ overflow: 'hidden' }}
                                 >
                                   <div className="line-item-total-price justify-content-start pull-left">
                                     <div className="item-attributes">
@@ -391,10 +392,7 @@ class UnloginCart extends React.Component {
                                             .specText
                                         }{' '}
                                         - <FormattedMessage id="quantityText" />
-                                        ：
-                                        {item.quantity > 1
-                                          ? `${item.quantity} `
-                                          : `${item.quantity} `}
+                                        ：{item.quantity}
                                       </p>
                                     </div>
                                   </div>

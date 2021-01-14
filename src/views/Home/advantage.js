@@ -274,7 +274,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@2x.webp`}
+                  src={autoship}
                   alt=""
                   title=""
                 />
@@ -321,7 +321,7 @@ export function Advantage() {
                 <img
                   style={{ width: '80px' }}
                   className="value-proposition__img"
-                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/question@2x.webp`}
+                  src={question}
                   alt=""
                   title=""
                 />

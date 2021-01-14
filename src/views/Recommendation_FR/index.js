@@ -18,7 +18,7 @@ import ImageMagnifier from './components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
-import { getRecommendationList } from '@/api/recommendation';
+import { getRecommendationList, getRecommendationList_fr } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
@@ -70,7 +70,6 @@ class Help extends React.Component {
       currentDetail: {},
       images: [],
       activeIndex: 0,
-      prescriberInfo: {},
       loading: false,
       buttonLoading: false,
       errorMsg: '',
@@ -104,6 +103,8 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    let paramArr = this.props.location.search.split('&')
+    let token = paramArr[paramArr.length - 1].split('=')[1]
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then(res => {
@@ -111,11 +112,9 @@ class Help extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-    // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id)
+    getRecommendationList_fr(token)
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
-        
         productList.map((el) => {
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
@@ -202,12 +201,12 @@ class Help extends React.Component {
         this.setState({ productList }, () => {
           this.checkoutStock();
         });
-        getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
+        // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
           this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
-          this.setState({ prescriberInfo: res.context, loading: false });
-        });
+          this.props.clinicStore.setLinkClinicName('');
+          this.props.clinicStore.setAuditAuthority(false);
+          this.setState({loading: false });
+        // });
       })
       .catch((err) => {
         console.log(err, 'err');
@@ -524,7 +523,6 @@ class Help extends React.Component {
     let {
       productList,
       activeIndex,
-      prescriberInfo,
       currentModalObj,
       isMobile
     } = this.state;

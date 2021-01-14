@@ -152,7 +152,6 @@ const fr_FR = {
   "weight_s":'Taille',
   "product": 'produit',
   "quantityText": 'Quantité',
-  "products": 'produits',
   checkoutTip: 'Veuillez entrer vos coordonnées ci-dessous.',
   choosePayment: 'Choisissez le paiement',
   choosePrescriber: 'Veuillez choisir le bon prescripteur',

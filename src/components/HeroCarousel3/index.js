@@ -32,6 +32,7 @@ class Carousel extends React.Component {
     this.clickCircle = this.clickCircle.bind(this);
     this.resize = this.resize.bind(this);
   }
+  // 切换slider触发
   GABannerImpression(idx) {
     const cur_banner = this.state.banner[idx];
     dataLayer.push({
@@ -50,7 +51,7 @@ class Carousel extends React.Component {
       }
     });
   }
-
+  // 点击banner跳转时触发
   GABannerClick = (idx) => {
     const cur_banner = this.state.banner[idx];
     dataLayer.push({
@@ -208,15 +209,19 @@ class Carousel extends React.Component {
       <div className="homePage">
         <div className="carousel-wrap">
           <a
-            className="leftBtn Btn rc-icon rc-left rc-iconography ui-cursor-pointer"
+            className="leftBtn Btn iconfont font-weight-bold ui-cursor-pointer"
             id="leftBtn"
             onClick={this.leftBtnClick}
-          />
+          >
+            &#xe6fa;
+          </a>
           <a
-            className="rightBtn Btn  rc-icon  rc-right rc-iconography ui-cursor-pointer"
+            className="rightBtn Btn iconfont font-weight-bold ui-cursor-pointer"
             id="rightBtn"
             onClick={this.rightBtnClick}
-          />
+          >
+            &#xe6f9;
+          </a>
           <div className="carousel" id="carousel">
             <div className="m_unit" id="m_unit">
               <ul>
