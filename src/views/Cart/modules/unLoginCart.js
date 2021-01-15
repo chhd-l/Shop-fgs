@@ -553,7 +553,7 @@ class UnLoginCart extends React.Component {
           </div>
           {/* <div className="d-flex pl-3"> */}
           <div className="d-flex">
-            <div className="product-info__img w-100">
+            <div className="product-info__img w-100 mr-2">
               <LazyLoad>
                 <img
                   className="product-image"
@@ -746,7 +746,6 @@ class UnLoginCart extends React.Component {
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
-                      height: '73px',
                       borderColor: !parseInt(pitem.goodsInfoFlag)
                         ? '#e2001a'
                         : '#d7d7d7',
@@ -758,16 +757,15 @@ class UnLoginCart extends React.Component {
                       pitem
                     })}
                   >
-                    <div className="buyMethodInnerBox">
-                      <div className="radioBox">
+                    <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+                      <div className="radioBox mr-2">
                         <span
                           style={{
-                            display: 'inline-block',
                             height: '100%',
                             fontWeight: '100',
                             color: '#666',
                             fontSize: '20px',
-                            lineHeight: '56px'
+                            lineHeight: '1'
                           }}
                         >
                           <LazyLoad>
@@ -806,8 +804,8 @@ class UnLoginCart extends React.Component {
                         pitem
                       })}
                     >
-                      <div className="buyMethodInnerBox">
-                        <div className="radioBox">
+                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
+                        <div className="radioBox mr-2">
                           <span
                             style={{
                               fontWeight: '400',
@@ -903,15 +901,12 @@ class UnLoginCart extends React.Component {
                           {/* {formatMoney(currentSubscriptionPrice || 0)} */}
                         </div>
                       </div>
-                      <div className="freqency">
+                      <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
                         <span>
                           <FormattedMessage id="subscription.frequency" />:
                         </span>
                         <Selection
-                          customContainerStyle={{
-                            display: 'inline-block',
-                            textAlign: 'right'
-                          }}
+                          customCls="flex-grow-1"
                           selectedItemChange={(data) =>
                             this.handleSelectedItemChange(pitem, data)
                           }
@@ -919,7 +914,6 @@ class UnLoginCart extends React.Component {
                           selectedItemData={{
                             value: pitem.form.frequencyId
                           }}
-                          customStyleType="select-one"
                         />
                       </div>
                     </div>
@@ -953,7 +947,6 @@ class UnLoginCart extends React.Component {
             <div
               className="buyMethod rc-margin-bottom--xs"
               style={{
-                height: '73px',
                 width: '100%',
                 borderColor: !parseInt(pitem.goodsInfoFlag)
                   ? '#e2001a'
@@ -966,7 +959,7 @@ class UnLoginCart extends React.Component {
                 pitem
               })}
             >
-              <div className="buyMethodInnerBox">
+              <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                 <div className="radioBox">
                   <span
                     style={{
@@ -1011,7 +1004,7 @@ class UnLoginCart extends React.Component {
                   pitem
                 })}
               >
-                <div className="buyMethodInnerBox">
+                <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                   <div className="radioBox">
                     <span
                       style={{
@@ -1105,15 +1098,12 @@ class UnLoginCart extends React.Component {
                     {/* {formatMoney(currentSubscriptionPrice || 0)} */}
                   </div>
                 </div>
-                <div className="freqency">
+                <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
                   <span>
                     <FormattedMessage id="subscription.frequency" />:
                   </span>
                   <Selection
-                    customContainerStyle={{
-                      display: 'inline-block',
-                      textAlign: 'right'
-                    }}
+                    customCls="flex-grow-1"
                     selectedItemChange={(data) =>
                       this.handleSelectedItemChange(pitem, data)
                     }
@@ -1122,7 +1112,6 @@ class UnLoginCart extends React.Component {
                       value: form.frequencyId
                     }}
                     key={form.frequencyId}
-                    customStyleType="select-one"
                   />
                 </div>
               </div>
@@ -1565,7 +1554,7 @@ class UnLoginCart extends React.Component {
       // this.props.sendPromotionCode('');
     }
     this.setState({
-      isClickApply: false,
+      isClickApply: false
       // promotionInputValue: ''
     });
   };

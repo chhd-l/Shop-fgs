@@ -1559,7 +1559,6 @@ class List extends React.Component {
                               paddingBottom: '.7em',
                               bottom: 0
                             }}
-                            customStyleType="select-one"
                           />
                         )}
                       </span>
@@ -1663,7 +1662,6 @@ class List extends React.Component {
                                     paddingTop: '.7em',
                                     paddingBottom: '.7em'
                                   }}
-                                  customStyleType="select-one"
                                 />
                               )}
                             </span>

@@ -70,7 +70,6 @@ class LoginCart extends React.Component {
       activeToolTipIndex: 0
     };
     this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.gotoDetails = this.gotoDetails.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.addQuantity = this.addQuantity.bind(this);
@@ -455,18 +454,6 @@ class LoginCart extends React.Component {
     e.preventDefault();
     this.props.history.goBack();
   }
-  gotoDetails(pitem) {
-    sessionItemRoyal.set('rc-goods-cate-name', pitem.goodsCateName || '');
-
-    this.props.history.push(
-      `/${pitem.goodsName
-        .toLowerCase()
-        .split(' ')
-        .join('-')
-        .replace('/', '')}-${pitem.goods.goodsNo}`
-    );
-    // this.props.history.push('/details/' + pitem.goodsInfoId);
-  }
   getProducts(plist) {
     let { form } = this.state;
     const Lists = plist.map((pitem, index) => {
@@ -487,7 +474,7 @@ class LoginCart extends React.Component {
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
           <div className="d-flex">
-            <div className="product-info__img w-100">
+            <div className="product-info__img w-100 mr-2">
               <LazyLoad>
                 <img
                   className="product-image"
@@ -503,9 +490,13 @@ class LoginCart extends React.Component {
                 className="line-item-header rc-margin-top--xs rc-padding-right--sm"
                 style={{ width: '80%' }}
               >
-                <a
+                <Link
                   className="ui-cursor-pointer"
-                  onClick={this.gotoDetails.bind(this, pitem)}
+                  to={`/${pitem.goodsName
+                    .toLowerCase()
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${pitem.goods.goodsNo}`}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
@@ -513,7 +504,7 @@ class LoginCart extends React.Component {
                   >
                     {pitem.goodsName}
                   </h4>
-                </a>
+                </Link>
               </div>
               <span className="remove-product-btn">
                 <span
@@ -670,7 +661,6 @@ class LoginCart extends React.Component {
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
-                      height: '73px',
                       borderColor: !parseInt(pitem.goodsInfoFlag)
                         ? '#e2001a'
                         : '#d7d7d7',
@@ -682,7 +672,7 @@ class LoginCart extends React.Component {
                       pitem
                     })}
                   >
-                    <div className="buyMethodInnerBox d-flex justify-content-between">
+                    <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                       <div className="radioBox mr-2">
                         <span
                           style={{
@@ -690,7 +680,7 @@ class LoginCart extends React.Component {
                             fontWeight: '100',
                             color: '#666',
                             fontSize: '20px',
-                            lineHeight: '56px'
+                            lineHeight: '1'
                           }}
                         >
                           <LazyLoad>
@@ -726,7 +716,7 @@ class LoginCart extends React.Component {
                         pitem
                       })}
                     >
-                      <div className="buyMethodInnerBox d-flex justify-content-between">
+                      <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                         <div className="radioBox mr-2">
                           <span
                             style={{
@@ -816,6 +806,7 @@ class LoginCart extends React.Component {
                           <FormattedMessage id="subscription.frequency" />:
                         </span>
                         <Selection
+                          customCls="flex-grow-1"
                           selectedItemChange={(data) =>
                             this.handleSelectedItemChange(pitem, data)
                           }
@@ -825,7 +816,6 @@ class LoginCart extends React.Component {
                             // value: pitem.periodTypeId
                           }}
                           key={index}
-                          customStyleType="select-one"
                         />
                       </div>
                     </div>
@@ -859,7 +849,6 @@ class LoginCart extends React.Component {
             <div
               className="buyMethod rc-margin-bottom--xs"
               style={{
-                height: '73px',
                 width: '100%',
                 borderColor: !parseInt(pitem.goodsInfoFlag)
                   ? '#e2001a'
@@ -872,15 +861,14 @@ class LoginCart extends React.Component {
                 pitem
               })}
             >
-              <div className="buyMethodInnerBox d-flex justify-content-between">
+              <div className="buyMethodInnerBox d-flex justify-content-between align-items-center">
                 <div className="radioBox mr-2">
                   <span
                     style={{
                       height: '100%',
                       fontWeight: '100',
                       color: '#666',
-                      fontSize: '20px',
-                      lineHeight: '56px'
+                      fontSize: '20px'
                     }}
                   >
                     <LazyLoad>
@@ -1000,10 +988,7 @@ class LoginCart extends React.Component {
                     <FormattedMessage id="subscription.frequency" />:
                   </span>
                   <Selection
-                    customContainerStyle={{
-                      display: 'inline-block',
-                      textAlign: 'right'
-                    }}
+                    customCls="flex-grow-1"
                     selectedItemChange={(data) =>
                       this.handleSelectedItemChange(pitem, data)
                     }
@@ -1012,7 +997,6 @@ class LoginCart extends React.Component {
                       value: form.frequencyId
                     }}
                     key={form.frequencyId}
-                    customStyleType="select-one"
                   />
                 </div>
               </div>

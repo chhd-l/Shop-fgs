@@ -1,6 +1,0 @@
-.choices.disabled:after {
-  display: none;
-}
-.choices[data-type*=select-one] .choices__inner {
-  padding: .9em 3rem .9em 0!important;
-}

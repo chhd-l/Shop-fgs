@@ -1192,7 +1192,6 @@ class PetForm extends React.Component {
                         }}
                         disabled={this.state.specialNeedsDisable}
                         key={selectedSpecialNeedsObj.value}
-                        customStyleType="select-one"
                       />
                       <div
                         className="invalid-feedback"
@@ -1224,7 +1223,6 @@ class PetForm extends React.Component {
                               value: selectedSizeObj.value
                             }}
                             key={selectedSizeObj.value}
-                            customStyleType="select-one"
                           />
                           <div
                             className="invalid-feedback"

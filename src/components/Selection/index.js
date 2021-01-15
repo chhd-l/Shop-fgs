@@ -1,12 +1,11 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import find from 'lodash/find';
-import './index.css';
+import './index.less';
 
 export default class Selection extends React.Component {
   static defaultProps = {
     optionList: [],
-    customStyleType: '', // eg: select-one
+    customStyleType: '', // eg: select-one【实心】 ，多种下拉箭头样式
     customContainerStyle: null,
     placeholder: '',
     customInnerStyle: {},
@@ -48,7 +47,7 @@ export default class Selection extends React.Component {
       hoveredIdx: idx
     });
   }
-  toggleShowOptions(e) {
+  toggleShowOptions = (e) => {
     const { selectedItem } = this.state;
     if (this.props.disabled) {
       return;
@@ -62,7 +61,7 @@ export default class Selection extends React.Component {
           )
         : -1
     }));
-  }
+  };
   onBlurHandler = () => {
     this.timeOutId = setTimeout(() => {
       this.setState({
@@ -74,8 +73,8 @@ export default class Selection extends React.Component {
     clearTimeout(this.timeOutId);
   };
   render() {
+    const { optionList, customStyleType } = this.props;
     const { selectedItem, hoveredIdx, optionsVisible } = this.state;
-    const { optionList } = this.props;
     return (
       <div
         onBlur={this.onBlurHandler}
@@ -90,9 +89,9 @@ export default class Selection extends React.Component {
           }`}
           role="listbox"
           tabIndex="1"
-          data-type={this.props.customStyleType}
+          data-type={customStyleType}
           style={{ cursor: this.props.disabled ? 'auto' : 'pointer' }}
-          onClick={(e) => this.toggleShowOptions(e)}
+          onClick={this.toggleShowOptions}
         >
           <div
             className="choices__inner"
@@ -137,6 +136,15 @@ export default class Selection extends React.Component {
               ))}
             </div>
           </div>
+          {customStyleType ? null : (
+            <span
+              className={`iconfont font-weight-bold icon-arrow ${
+                optionsVisible ? 'active' : ''
+              }`}
+            >
+              &#xe6fa;
+            </span>
+          )}
         </div>
       </div>
     );
