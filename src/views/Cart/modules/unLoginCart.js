@@ -742,7 +742,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
               <div className="availability  product-availability">
-                <div className="flex justify-content-between rc-md-up">
+                <div className="flex justify-content-between rc-md-up align-items-start">
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
@@ -1132,11 +1132,7 @@ class UnLoginCart extends React.Component {
     pitem.goodsSpecs
       .filter((item) => item.specId === sdItem.specId)[0]
       .chidren.map((item) => {
-        if (item.specDetailId === sdItem.specDetailId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
+        item.selected = item.specDetailId === sdItem.specDetailId;
         return item;
       });
 
@@ -1158,11 +1154,7 @@ class UnLoginCart extends React.Component {
     // 之前sku pitem.goodsInfoId
     // 增加当前sku selectedGoodsInfo.goodsInfoId
     Array.from(pitem.sizeList, (ele) => {
-      if (selectedGoodsInfo.goodsInfoId === ele.goodsInfoId) {
-        ele.selected = true;
-      } else {
-        ele.selected = false;
-      }
+      ele.selected = selectedGoodsInfo.goodsInfoId === ele.goodsInfoId;
       return ele;
     });
 
@@ -1180,7 +1172,7 @@ class UnLoginCart extends React.Component {
 
     this.setState(
       {
-        productList: productList
+        productList
       },
       () => {
         this.updateStock();

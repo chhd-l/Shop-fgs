@@ -413,7 +413,14 @@ class UnloginCart extends React.Component {
                                           // textDecoration: 'line-through'
                                         }}
                                       >
-                                        {formatMoney(item.currentAmount)}
+                                        {formatMoney(
+                                          item.sizeList.filter(
+                                            (s) => s.selected
+                                          )[0] &&
+                                            item.sizeList.filter(
+                                              (s) => s.selected
+                                            )[0].currentAmount || 0
+                                        )}
                                       </b>
                                     </div>
                                   </div>
