@@ -136,7 +136,7 @@ export function setDefaltCard(parameter) {
 export function adyen3DSResult(parameter) {
   return axios({
     url: api.adyen3DSResult,
-    method: 'get',
+    method: 'post',
     data: parameter
   });
 }
