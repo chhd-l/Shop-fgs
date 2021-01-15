@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { adyen3DSResult } from '@/api/payment';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 class Adyen3DSResult extends Component {
   constructor(props) {
