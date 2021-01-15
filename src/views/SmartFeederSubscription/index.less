@@ -1,10 +1,141 @@
 .smartfeedersubscription {
+  @media (min-width: 960px) {
+    .card__body,
+    .rc-card__body {
+      padding: 4rem 2rem 2rem;
+    }
+    .phone_section {
+      padding-left: 9rem;
+      padding-right: 9rem;
+    }
+    .margin12 {
+      padding-right: 12rem;
+      padding-left: 12rem;
+    }
+  }
+  @media (max-width: 769px) {
+    .food_dispenser-help {
+      .rc-reverse-layout-mobile {
+        display: flex;
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        z-index: 1;
+      }
+
+      .rc-three-column > .rc-column,
+      .three-column > .rc-column {
+        width: 33.333%;
+      }
+      .rc-three-column > .rc-column.rc-double-width {
+        width: 66.667%;
+        -webkit-box-flex: 2;
+        -ms-flex-positive: 2;
+        flex-grow: 2;
+        -ms-flex-negative: 2;
+        flex-shrink: 2;
+        -ms-flex-preferred-size: 22px;
+        flex-basis: 22px;
+      }
+    }
+  }
+  @media (min-width: 769px) {
+    .introduction_food_dispenser {
+      .rc-column {
+        padding: 0 3rem;
+        &.title_special {
+          padding-right: 0;
+        }
+      }
+    }
+    .button192 {
+      // width: 12rem;
+      width: 14rem;
+    }
+  }
+  @media (max-width: 769px) {
+    .button192 {
+      width: 12rem;
+    }
+  }
+  .product_detail {
+    .title {
+      color: #e1001a;
+      font-size: 1.6rem;
+    }
+    .subTitle {
+      padding-top: 0.5rem;
+      padding-bottom: 0.7rem;
+    }
+  }
+  .choose_product {
+    .rc-grid {
+      .rc-card--a.active {
+        border: 1px solid #e2001a;
+      }
+    }
+    .title {
+      line-height: 1.5rem;
+      font-size: 1.2rem;
+      color: #e2001a;
+      height: 3rem;
+      margin-top: 1rem;
+    }
+    .des {
+      font-size: 0.9rem;
+      color: #444444;
+      padding-bottom: 4rem;
+    }
+  }
+  .wid100 {
+    width: 100%;
+  }
   .smartfeedersubscription-title {
-    color: red;
-    font-size: 18px;
+    color: #E2001A;
+    font-size: 1.5rem;
+    margin: 1rem 0;
     text-align: center;
   }
+
+  .banner {
+    position: relative;
+    .title {
+      padding-top: 4rem;
+    }
+    .money {
+      font-weight: bold;
+      color: #e2001a;
+      line-height: 2rem;
+      font-size: 1.5rem;
+      padding-bottom: 1rem;
+    }
+    .banner_food {
+      position: absolute;
+      left: 2rem;
+      top: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+    }
+  }
+  .introduction_food_dispenser {
+    background-color: rgb(249, 249, 249);
+
+    .des_title {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+    .des_title {
+      font-size: 1rem;
+    }
+  }
 }
+
 html,
 body {
   position: relative;
@@ -16,7 +147,7 @@ body {
     text-align: center;
     font-size: 18px;
     background: #fff;
-    width: 70%;
+    width: 65%;
 
     /* Center slide text vertically */
     display: -webkit-box;

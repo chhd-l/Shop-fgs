@@ -1,10 +1,16 @@
 .smartfeeder-steps-container {
   margin: 0 auto;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   .smartfeeder-steps-item {
     position: relative;
-    &:last-child .smartfeeder-steps-tail {
-      display: none;
+    &:last-child {
+      .smartfeeder-steps-tail {
+        display: none;
+      }
+      .smartfeeder-steps-description{
+        padding-bottom: 0;
+      }
     }
   }
   .smartfeeder-steps-tail {
@@ -25,22 +31,24 @@
         content: '';
         top: 0;
         width: 100%;
-        background: #e9e9e9;
+        background:#707070;
         height: 100%;
       }
     }
   }
   .smartfeeder-steps-description {
     padding-bottom: 20px;
+    font-size: 0.9rem;
   }
   .smartfeeder-steps-title {
-    font-weight: bold;
+    font-weight: 300;
+    font-size: 1.15rem;
   }
   .smartfeeder-steps-head {
     float: left;
     background: #fff;
     .smartfeeder-steps-head-inner {
-      border: 1px solid rgba(0, 0, 0, 0.25);
+      border: 1px solid #404041;
       width: 30px;
       height: 30px;
       line-height: 30px;
@@ -50,7 +58,7 @@
       margin-right: 20px;
       .smartfeeder-steps-icon {
         line-height: 1;
-        color: #108ee9;
+        color: #404041;
         position: relative;
       }
     }

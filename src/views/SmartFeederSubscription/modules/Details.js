@@ -16,7 +16,7 @@ const Details = ({ goodsDetailTab }) => {
   return (
     <>
       {!isMobile && goodsDetailTab.tabName.length ? (
-        <div className="rc-max-width--xl rc-padding-x--sm">
+        <div className="rc-max-width--xl">
           <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
             <div>
               <div className="rc-border-bottom rc-border-colour--interface">

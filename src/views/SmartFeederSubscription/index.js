@@ -11,34 +11,74 @@ import Selection from '@/components/Selection';
 import 'swiper/swiper-bundle.min.css';
 import { getDeviceType } from '@/utils/utils';
 import goodsDetailTab from './modules/goodsDetailTab.json';
+import foodPic from './img/food_pic.png';
+import foodPic2 from './img/step2_food.png';
+import LazyLoad from 'react-lazyload';
+
 const productObj = {
-  img: 'http://iph.href.lu/200x200',
-  title: 'title',
-  detail: 'detail'
+  img: foodPic,
+  title: 'Sterilised Mini',
+  detail: 'Dry Dog Food'
 };
 const isMobile = getDeviceType() !== 'PC';
-const productList = Array(6).fill(productObj);
+const productList = Array(6)
+  .fill(productObj)
+  .map((item, i) => {
+    return { ...item, id: i };
+  });
 const Step1Pc = (props) => {
   return (
-    <>
-      <div className="rc-card-grid rc-match-heights">
-        {props.productList.map((item) => (
-          <div className="rc-grid">
-            <article className="rc-card rc-card--a">
+    <div className="margin12">
+      <div
+        className="rc-card-grid rc-match-heights rc-card-grid--fixed rc-three-column"
+        style={{ margin: '0 10rem 2rem' }}
+      >
+        {(props.productList || []).map((item) => (
+          <div
+            className="rc-grid"
+            onClick={() => {
+              props.clickItem(item);
+            }}
+          >
+            <article
+              className={`rc-card rc-card--a ${item.choosed ? 'active' : ''}`}
+            >
               <picture className="rc-card__image">
                 <img src={item.img} alt="A Dachshund jumping" />
               </picture>
               <div className="rc-card__body">
                 <header>
-                  <h1 className="rc-card__title">{item.title}</h1>
+                  <h1 className="rc-card__title rc-text--center">
+                    {item.title}
+                  </h1>
                 </header>
-                <p>{item.detail}</p>
+                <p className="rc-text--center">{item.detail}</p>
               </div>
             </article>
           </div>
         ))}
       </div>
-    </>
+      <div className="rc-text--center">
+        <button
+          disabled={props.isDisabled}
+          className="rc-btn rc-btn--two rc-padding-right--xl button192"
+          onClick={() => {
+            props.toOtherStep('step2');
+          }}
+        >
+          view product details
+        </button>
+        <button
+          disabled={props.isDisabled}
+          className="rc-btn rc-btn--one button192"
+          onClick={() => {
+            props.toOtherStep('step3');
+          }}
+        >
+          choose product
+        </button>
+      </div>
+    </div>
   );
 };
 class Step1H5 extends Component {
@@ -49,77 +89,105 @@ class Step1H5 extends Component {
   componentDidMount() {
     new Swiper('.swiper-container', {
       slidesPerView: 'auto',
-      spaceBetween: 30
+      spaceBetween: 0
     });
   }
   render() {
     return (
-      <div className="swiper-container">
-        <div className="swiper-wrapper">
-          <div className="swiper-slide">Slide 1</div>
-          <div className="swiper-slide">Slide 2</div>
-          <div className="swiper-slide">Slide 3</div>
+      <>
+        <div className="swiper-container">
+          <div className="swiper-wrapper">
+            {this.props.productList.map((item) => (
+              <div className="swiper-slide">
+                <div>
+                  <img src={item.img} />
+                  <div className="title">{item.title}</div>
+                  <div className="des">{item.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="swiper-pagination"></div>
         </div>
-        <div className="swiper-pagination"></div>
-      </div>
+        <div className="rc-layout-container rc-two-column  rc-text--center rc-margin-top--md">
+          <div className="rc-column">
+            <button
+              disabled={props.isDisabled}
+              className="rc-btn rc-btn--two button192"
+              onClick={() => {
+                this.props.toOtherStep('step2');
+              }}
+            >
+              view product details
+            </button>
+          </div>
+          <div className="rc-column">
+            <button
+              disabled={props.isDisabled}
+              className="rc-btn rc-btn--one button192"
+              onClick={() => {
+                this.props.toOtherStep('step3');
+              }}
+            >
+              choose product
+            </button>
+          </div>
+        </div>
+      </>
     );
   }
 }
 const Step1 = (props) => {
   return (
-    <>
+    <div className="choose_product">
       {isMobile ? (
         <Step1H5
+          isDisabled={props.isDisabled}
           productList={props.productList}
           toOtherStep={props.toOtherStep}
+          clickItem={props.clickItem}
         />
       ) : (
         <Step1Pc
+          isDisabled={props.isDisabled}
           productList={props.productList}
           toOtherStep={props.toOtherStep}
+          clickItem={props.clickItem}
         />
       )}
-      <div className="rc-layout-container rc-two-column  rc-text--center">
-        <div className="rc-column">
-          <button
-            className="rc-btn rc-btn--two"
-            onClick={() => {
-              props.toOtherStep('step2');
-            }}
-          >
-            view product details
-          </button>
-        </div>
-        <div className="rc-column">
-          <button
-            className="rc-btn rc-btn--one"
-            onClick={() => {
-              props.toOtherStep('step3');
-            }}
-          >
-            choose product
-          </button>
-        </div>
-      </div>
-      {/* <div className="rc-text--center"></div> */}
-    </>
+    </div>
   );
 };
 const Step2 = (props) => {
   return (
-    <>
-      <div className="rc-layout-container rc-five-column">
-        <div className="rc-column" style={{ background: 'red' }}>
-          <h1> 1 / 2 </h1>
-        </div>
-        <div className="rc-column rc-double-width">
-          <h1> 1 / 2 </h1>
+    <div className="margin12 product_detail">
+      <div>
+        <div className="rc-layout-container rc-five-column">
+          <div className="rc-column">
+            <LazyLoad>
+              <img src={foodPic2} />
+            </LazyLoad>
+          </div>
+          <div className="rc-column rc-double-width">
+            <div className="title">Jack Russel Terrier</div>
+            <div className="sub_title">Dry Dog Food</div>
+            <div>
+              Royal Canin Jack Russell Terrier Adult dry dog food is designed to
+              meet the nutritional needs of purebred Jack Russell Terriers 10
+              months and older Royal Canin knows what makes your Jack Russell
+              Terrier magnificent is in the details. Small but mighty, the Jack
+              Russell is an energetic dog that requires a ton of activity. They
+              can benefit from the right diet to help maintain muscle mass,
+              protect their skin and coat, and help with dental care, especially
+              as your good-looking little pal becomes older.
+            </div>
+          </div>
         </div>
       </div>
       <Details goodsDetailTab={props.goodsDetailTab} />
-      <div className="rc-text--center">
+      <div className="rc-text--center rc-md-up">
         <button
-          className="rc-btn rc-btn--sm rc-btn--two"
+          className="rc-btn rc-btn--sm rc-btn--two button192"
           onClick={() => {
             props.toOtherStep('step1');
           }}
@@ -127,21 +195,49 @@ const Step2 = (props) => {
           select another product
         </button>
         <button
-          className="rc-btn rc-btn--sm rc-btn--one"
+          className="rc-btn rc-btn--sm rc-btn--one button192"
           onClick={() => {
             props.toOtherStep('step3');
           }}
         >
-          choose product
+         Conﬁrm this product
         </button>
       </div>
-    </>
+      <div className="rc-layout-container rc-two-column  rc-text--center rc-margin-top--md rc-md-down">
+          <div className="rc-column">
+            <button
+              disabled={props.isDisabled}
+              className="rc-btn rc-btn--two button192"
+              onClick={() => {
+                this.props.toOtherStep('step1');
+              }}
+            >
+              select another product
+            </button>
+          </div>
+          <div className="rc-column">
+            <button
+              disabled={props.isDisabled}
+              className="rc-btn rc-btn--one button192"
+              onClick={() => {
+                this.props.toOtherStep('step3');
+              }}
+            >
+              Conﬁrm this product
+            </button>
+          </div>
+        </div>
+    </div>
   );
 };
 const Step3 = () => {
   const computedList = [{ name: 'test', value: 1 }];
   return (
     <>
+      <div>
+        Get your kibble refills delivered automatically, just select your
+        desired delivery frequency and add to cart
+      </div>
       <div className="rc-layout-container rc-three-column">
         <div className="rc-column">
           <img src="http://iph.href.lu/200x200" />
@@ -262,7 +358,9 @@ class SmartFeederSubscription extends Component {
     super(props);
     this.state = {
       headerHide: false,
-      stepName: 'step1'
+      stepName: 'step3',
+      isDisabled: true,
+      productList: [...productList]
     };
   }
 
@@ -282,6 +380,23 @@ class SmartFeederSubscription extends Component {
     });
     this.toScroll(stepName);
   };
+  clickItem = (item) => {
+    let productLists = [...this.state.productList];
+    let isDisabled = true;
+    productLists.forEach((product) => {
+      if (item.id == product.id) {
+        product.choosed = true;
+        isDisabled = false;
+      } else {
+        product.choosed = false;
+      }
+    });
+    this.setState({
+      productList: productLists,
+      isDisabled
+    });
+    this.chooseProduct = item;
+  };
   handleScroll = () => {
     let scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
@@ -296,6 +411,7 @@ class SmartFeederSubscription extends Component {
     const { location, history, match } = this.props;
     const { headerHide, stepName } = this.state;
     let stepCom = null;
+    console.info('this.productList', this.state.productList);
 
     return (
       <div>
@@ -321,19 +437,23 @@ class SmartFeederSubscription extends Component {
         )}
         <main className="rc-content--fixed-header smartfeedersubscription">
           <StaticPage />
-          <div id="step1">dsdsdsdsdsds</div>
+          <div id="step1"></div>
           <div id="step2"></div>
           <div id="step3"></div>
           <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil">
             <h2 className="smartfeedersubscription-title">
-              Select your product
+              {this.stepName == 'step3'
+                ? 'Finalise your order'
+                : 'Select your product'}
             </h2>
             {(() => {
               switch (stepName) {
                 case 'step1':
                   stepCom = (
                     <Step1
-                      productList={productList}
+                      isDisabled={this.state.isDisabled}
+                      productList={this.state.productList}
+                      clickItem={this.clickItem}
                       toOtherStep={this.toOtherStep}
                     />
                   );

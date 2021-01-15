@@ -30,7 +30,7 @@ class Help extends React.Component {
             <div className="rc-full-width">
               <div className="experience-component experience-assets-contactUsBlock">
                 <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile">
-                  <div className="rc-layout-container rc-two-column rc-margin-y--sm text-center text-md-left rc-margin-top--lg--mobile">
+                  <div className="rc-layout-container rc-two-column rc-margin-y--sm text-md-left rc-margin-top--lg--mobile">
                     <div className="rc-column rc-padding-bottom--none--mobile">
                       <h1 className="rc-beta">
                         <FormattedMessage id="help.title" />
@@ -46,7 +46,7 @@ class Help extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-center text-md-left">
+                  <div className="rc-layout-container rc-five-column rc-match-heights rc-reverse-layout-mobile text-md-left food_dispenser-help">
                     <div className="rc-column rc-double-width rc-padding--none">
                       <article className="rc-full-width rc-column rc-margin-top--md--mobile">
                         <div className="rc-border-all rc-border-colour--interface fullHeight">
@@ -138,7 +138,7 @@ class Help extends React.Component {
                                 </p>
                                 <div className="rc-margin-top--xs">
                                   <p
-                                    className="rc-numeric rc-md-up text-nowrap"
+                                    className="rc-numeric text-nowrap"
                                     style={{
                                       color: 'rgb(0, 135, 189)'
                                     }}
