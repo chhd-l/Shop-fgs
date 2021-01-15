@@ -936,10 +936,8 @@ class Payment extends React.Component {
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-
-            if(res.context[0].action){//3ds卡
+            if(res.context && res.context[0] && res.context[0].action){//3ds卡
               sessionItemRoyal.set('orderNumber', res.context[0].tid);
-              debugger
               const adyenAction = JSON.parse(res.context[0].action)
               this.setState({adyenAction})
             }else{
