@@ -61,7 +61,7 @@ class AdyenCreditCardForm extends React.Component {
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: 'test',
+            environment: 'live',
             originKey: process.env.REACT_APP_AdyenOriginKEY,
             locale: process.env.REACT_APP_Adyen_locale,
             translations
