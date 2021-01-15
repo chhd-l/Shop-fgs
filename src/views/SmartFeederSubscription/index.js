@@ -250,7 +250,7 @@ const Step3 = (props) => {
       </div>
       <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
         <div className="rc-column wrap_item free_sampling">
-          <div style={{ padding: '0 3rem' }}>
+          <div className="pad_3rem_pc">
             <img src={foodDispenserPic} />
             <h6>PETKIT FRESH ELEMENT Mini</h6>
             <p>x1 Delivered at the first shipment</p>
@@ -258,9 +258,11 @@ const Step3 = (props) => {
           <span className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn side_icon"></span>
         </div>
         <div className="rc-column wrap_item food_info">
-          <div style={{ padding: '0 2.2rem' }}>
+          <div className="pad_2rem_pc">
+           <div className="for_h5_img">
             <img src={foodPic2} />
-            <h6 className="rc-hero__section--text">Jack Russel Terrier</h6>
+            <h6 className="rc-hero__section--text product_name">Jack Russel Terrier</h6>
+           </div>
             <div style={{ overflow: 'hidden' }}>
               <div
                 className="cart-and-ipay"
@@ -389,7 +391,7 @@ const Step3 = (props) => {
             <button class="rc-btn rc-btn--two">Go to Checkout</button>*/}
         </div>
       </div>
-      <div className="rc_md_down" style={{background:'#f7f7f7',padding: '1rem'}}>
+      <div className="rc_md_down text-center" style={{background:'#f7f7f7',padding: '0 1rem'}}>
       <span
           className="rc-styled-link"
           onClick={() => {
