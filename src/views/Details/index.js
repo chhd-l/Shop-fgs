@@ -783,6 +783,18 @@ class Details extends React.Component {
                               `<p style="white-space: pre-line">${
                                 Object.values(JSON.parse(el))[0]
                               }</p>`;
+                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Blod Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line; font-weight: 400">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
+                          }else if(Object.keys(JSON.parse(el))[0] === 'Prescriber Description') {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line; font-weight: 400;">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
                           }
                         });
                       } else if (key === 'Bénéfices') {
