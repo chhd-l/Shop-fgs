@@ -657,7 +657,7 @@ class LoginCart extends React.Component {
                 </div>
               </div>
               <div className="availability  product-availability">
-                <div className="flex justify-content-between rc-md-up">
+                <div className="flex justify-content-between rc-md-up align-items-start">
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
