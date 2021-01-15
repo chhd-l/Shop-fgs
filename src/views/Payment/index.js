@@ -939,7 +939,7 @@ class Payment extends React.Component {
 
             if(res.context[0].action){//3ds卡
               sessionItemRoyal.set('orderNumber', res.context[0].tid);
-
+              debugger
               const adyenAction = JSON.parse(res.context[0].action)
               this.setState({adyenAction})
             }else{
