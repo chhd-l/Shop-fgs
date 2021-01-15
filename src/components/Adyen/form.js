@@ -35,7 +35,7 @@ class AdyenCreditCardForm extends React.Component {
     super(props);
     this.state = {
       adyenFormData: {},
-      isValid: false
+      isValid: false,
     };
   }
   componentDidMount() {
@@ -49,6 +49,9 @@ class AdyenCreditCardForm extends React.Component {
   }
   get isLogin() {
     return this.props.loginStore.isLogin;
+  }
+  getBrowserInfo(state){
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
   }
   initForm() {
     const _this = this;
@@ -88,6 +91,7 @@ class AdyenCreditCardForm extends React.Component {
                 });
               },
               onChange: (state) => {
+                _this.getBrowserInfo(state)
                 console.log('adyen form state:', state);
                 console.log('adyen form card:', card);
                 const {

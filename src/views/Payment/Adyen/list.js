@@ -238,7 +238,11 @@ class AdyenCreditCardList extends React.Component {
       el && el.encryptedSecurityCode ? true : false
     );
   };
+  getBrowserInfo(state){
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  }
   loadCvv = (el) => {
+    const _this = this;
     const { updateFormValidStatus } = this;
     const { cardList } = this.state;
     var { updateSelectedCardInfo, paymentStore } = this.props;
@@ -282,6 +286,7 @@ class AdyenCreditCardList extends React.Component {
               brand: brand,
               onChange: (state) => {
                 console.log(state);
+                _this.getBrowserInfo(state)
                 const tmpCode = state.data.paymentMethod.encryptedSecurityCode;
                 let result = find(cardList, (ele) => ele.id === id);
                 result.encryptedSecurityCode = tmpCode;
