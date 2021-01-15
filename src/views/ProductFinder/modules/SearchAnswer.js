@@ -25,6 +25,7 @@ class SearchAnswer extends React.Component {
       const { form } = this.state;
       this.props.updateFormData(form);
       this.props.updateSaveBtnStatus(form && form.key);
+      this.props.updateBreedSizeFormData(null);
     });
   };
   toggleCheckbox = (e) => {
