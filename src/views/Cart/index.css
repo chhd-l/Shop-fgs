@@ -114,7 +114,6 @@ h1.page-title {
 
 div.product-info {
   position: relative;
-  padding: 1rem 1.5rem
 }
 
 div.product-info .hnc-club-logo {
@@ -207,8 +206,8 @@ div.product-info .strike-through {
 .remove-product-btn {
   cursor: pointer;
   position: absolute;
-  top: -1px;
-  right: -7px
+  top: 0;
+  right: 0
 }
 
 .product-to-remove {
@@ -893,9 +892,4 @@ div.product-info .strike-through {
 }
 .promotion .availability-msg {
   color: #ec001a !important;
-}
-
-.Carts .choices__item.choices__item--choice.choices__item--selectable {
-  height: 60px;
-  line-height: 40px;
 }

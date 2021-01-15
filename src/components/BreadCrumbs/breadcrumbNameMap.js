@@ -28,7 +28,7 @@ const breadcrumbNameMap = {
   ],
   '/account/orders/detail/:orderNumber': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'orders', href: '/account/orders' },
+    { name: 'account.ordersTitle', href: '/account/orders' },
     { name: 'order.orderDetails' }
   ],
   '/account/productReview/:tid': [
@@ -39,7 +39,7 @@ const breadcrumbNameMap = {
 
   '/account/subscription/order/detail/:subscriptionNumber': [
     { name: 'account.personalArea', href: '/account' },
-    { name: 'subscription', href: '/account/subscription' },
+    { name: 'account.subscriptionTitle', href: '/account/subscription' },
     { name: 'subscription.detail' }
   ],
   '/account/orders-aftersale/:orderNumber': [

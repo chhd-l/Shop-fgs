@@ -2303,10 +2303,7 @@ class Details extends React.Component {
                               onClick={this.ChangeFormat.bind(this, 1)}
                             >
                               <div className="radioBox">
-                                <div
-                                  className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width"
-                                  style={{ margin: '0' }}
-                                >
+                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input
@@ -2437,11 +2434,9 @@ class Details extends React.Component {
                             </div>
                           )
                         ) : null}
-                        {!isMobile && (
-                          <div>
-                            {/* todo */}
-                            <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
-                              {/* {!this.isLogin &&
+                        <div class="rc-md-up">
+                          <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
+                            {/* {!this.isLogin &&
                                 (form.buyWay ? (
                                   <span style={{ marginLeft: '10px' }}>
                                     <FormattedMessage id="unLoginSubscriptionTips" />
@@ -2461,25 +2456,25 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
-                              <button
-                                style={{ padding: '2px 30px' }}
-                                className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                  addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                                onClick={this.hanldeAddToCart}
-                              >
-                                <span className="fa rc-icon rc-cart--xs rc-brand3" />
-                                <span className="default-txt">
-                                  <FormattedMessage
-                                    id={`${
-                                      form.buyWay === 1
-                                        ? 'subscribe'
-                                        : 'details.addToCart'
-                                    }`}
-                                  />
-                                </span>
-                              </button>
-                              {/* {this.isLogin ? (
+                            <button
+                              style={{ padding: '2px 30px' }}
+                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                addToCartLoading ? 'ui-btn-loading' : ''
+                              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                              onClick={this.hanldeAddToCart}
+                            >
+                              <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                              <span className="default-txt">
+                                <FormattedMessage
+                                  id={`${
+                                    form.buyWay === 1
+                                      ? 'subscribe'
+                                      : 'details.addToCart'
+                                  }`}
+                                />
+                              </span>
+                            </button>
+                            {/* {this.isLogin ? (
                                 <button
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
@@ -2525,12 +2520,11 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )} */}
-                            </div>
-                            <ErrMsgForCheckoutPanel
-                              checkOutErrMsg={checkOutErrMsg}
-                            />
                           </div>
-                        )}
+                          <ErrMsgForCheckoutPanel
+                            checkOutErrMsg={checkOutErrMsg}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2547,24 +2541,30 @@ class Details extends React.Component {
                   ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
                     >
                       <div
-                        className="rc-list__header"
+                        className="rc-list__header d-flex justify-content-between"
                         onClick={() => {
                           tabs[index].show = !this.state.tabs[index].show;
                           this.setState({ tabs: this.state.tabs });
                         }}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between'
-                        }}
                       >
-                        <div dangerouslySetInnerHTML={{ __html: ele }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: ele }} />
                         <span
+                          className="iconfont font-weight-bold"
+                          style={{
+                            transform: tabs[index].show
+                              ? 'rotate(90deg)'
+                              : 'rotate(-90deg)'
+                          }}
+                        >
+                          &#xe6fa;
+                        </span>
+                        {/* <span
                           className={`icon-change ${
                             tabs[index].show
                               ? 'rc-icon rc-up rc-brand1'
                               : 'rc-icon rc-down rc-iconography'
                           }`}
-                        ></span>
+                        ></span> */}
                       </div>
                       <div className={`rc-list__content`}>
                         <p

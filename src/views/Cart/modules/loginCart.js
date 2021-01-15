@@ -73,6 +73,8 @@ class LoginCart extends React.Component {
     this.gotoDetails = this.gotoDetails.bind(this);
     this.hanldeToggleOneOffOrSub = this.hanldeToggleOneOffOrSub.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
+    this.addQuantity = this.addQuantity.bind(this);
+    this.subQuantity = this.subQuantity.bind(this);
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -97,10 +99,7 @@ class LoginCart extends React.Component {
     const unloginCartData = this.checkoutStore.cartData;
     if (unloginCartData.length) {
       await mergeUnloginCartData();
-      await this.checkoutStore.updateLoginCart(
-        this.state.promotionInputValue,
-        this.props.buyWay === 'frequency'
-      );
+      await this.checkoutStore.updateLoginCart();
     }
     this.setData();
   }
@@ -139,9 +138,6 @@ class LoginCart extends React.Component {
   get promotionDiscount() {
     return this.props.checkoutStore.promotionDiscount;
   }
-  get isPromote() {
-    return parseFloat(this.discountPrice) > 0;
-  }
   get computedList() {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
@@ -160,10 +156,7 @@ class LoginCart extends React.Component {
   }
   async updateCartCache() {
     this.setState({ checkoutLoading: true });
-    await this.checkoutStore.updateLoginCart(
-      this.state.promotionInputValue,
-      this.props.buyWay === 'frequency'
-    );
+    await this.checkoutStore.updateLoginCart();
     this.setData();
     this.setState({ checkoutLoading: false });
   }
@@ -216,7 +209,7 @@ class LoginCart extends React.Component {
       return el;
     });
     this.setState({
-      productList: productList,
+      productList,
       checkoutLoading: false,
       initLoading: false
     });
@@ -301,7 +294,6 @@ class LoginCart extends React.Component {
       }
 
       this.checkoutStore.setLoginCartData(productList);
-      // this.openPetModal()
       let autoAuditFlag = false;
       let res = await getProductPetConfig({
         goodsInfos: checkoutStore.loginCartData
@@ -331,21 +323,6 @@ class LoginCart extends React.Component {
       this.setState({ checkoutLoading: false });
     }
   };
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
   showErrMsg(msg) {
     this.setState({
       errorMsg: msg
@@ -357,11 +334,11 @@ class LoginCart extends React.Component {
       });
     }, 3000);
   }
-  handleAmountChange(value, item) {
+  handleAmountChange(item, e) {
     this.setState({
       errorMsg: ''
     });
-    const val = value;
+    const val = e.target.value;
     if (val === '') {
       item.buyCount = val;
       this.setState({
@@ -495,26 +472,20 @@ class LoginCart extends React.Component {
     const Lists = plist.map((pitem, index) => {
       return (
         <div
-          className="rc-border-all rc-border-colour--interface product-info"
+          className="rc-border-all rc-border-colour--interface product-info p-3"
           key={index}
         >
           <div
             className="rc-input rc-input--inline position-absolute hidden"
             style={{ left: '1%' }}
           >
-            {pitem.selected ? (
-              <input
-                type="checkbox"
-                className="rc-input__checkbox"
-                key={1}
-                checked
-              />
-            ) : (
-              <input type="checkbox" className="rc-input__checkbox" key={2} />
-            )}
+            <input
+              type="checkbox"
+              className="rc-input__checkbox"
+              checked={pitem.selected}
+            />
             <label className="rc-input__label--inline">&nbsp;</label>
           </div>
-          {/* <div className="d-flex pl-3"> */}
           <div className="d-flex">
             <div className="product-info__img w-100">
               <LazyLoad>
@@ -534,7 +505,7 @@ class LoginCart extends React.Component {
               >
                 <a
                   className="ui-cursor-pointer"
-                  onClick={() => this.gotoDetails(pitem)}
+                  onClick={this.gotoDetails.bind(this, pitem)}
                 >
                   <h4
                     className="rc-gamma rc-margin--none ui-text-overflow-line2 text-break"
@@ -544,7 +515,6 @@ class LoginCart extends React.Component {
                   </h4>
                 </a>
               </div>
-              <div className="cart-product-error-msg"></div>
               <span className="remove-product-btn">
                 <span
                   className="rc-icon rc-close--sm rc-iconography"
@@ -676,21 +646,19 @@ class LoginCart extends React.Component {
                       <div className="rc-quantity d-flex">
                         <span
                           className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                          onClick={() => this.subQuantity(pitem)}
-                        ></span>
+                          onClick={this.subQuantity.bind(this, pitem)}
+                        />
                         <input
                           className="rc-quantity__input"
                           value={pitem.buyCount}
                           min="1"
                           max="10"
-                          onChange={(e) =>
-                            this.handleAmountChange(e.target.value, pitem)
-                          }
+                          onChange={this.handleAmountChange.bind(this, pitem)}
                         />
                         <span
                           className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
                           data-quantity-error-msg="Вы не можете заказать больше 10"
-                          onClick={() => this.addQuantity(pitem)}
+                          onClick={this.addQuantity.bind(this, pitem)}
                         ></span>
                       </div>
                     </div>
@@ -714,11 +682,10 @@ class LoginCart extends React.Component {
                       pitem
                     })}
                   >
-                    <div className="buyMethodInnerBox">
-                      <div className="radioBox">
+                    <div className="buyMethodInnerBox d-flex justify-content-between">
+                      <div className="radioBox mr-2">
                         <span
                           style={{
-                            display: 'inline-block',
                             height: '100%',
                             fontWeight: '100',
                             color: '#666',
@@ -759,13 +726,12 @@ class LoginCart extends React.Component {
                         pitem
                       })}
                     >
-                      <div className="buyMethodInnerBox">
-                        <div className="radioBox">
+                      <div className="buyMethodInnerBox d-flex justify-content-between">
+                        <div className="radioBox mr-2">
                           <span
                             style={{
                               fontWeight: '400',
                               color: '#333',
-                              display: 'inline-block',
                               marginTop: '5px'
                             }}
                           >
@@ -845,15 +811,11 @@ class LoginCart extends React.Component {
                           {/* {formatMoney(currentSubscriptionPrice || 0)} */}
                         </div>
                       </div>
-                      <div className="freqency">
+                      <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
                         <span>
                           <FormattedMessage id="subscription.frequency" />:
                         </span>
                         <Selection
-                          customContainerStyle={{
-                            display: 'inline-block',
-                            textAlign: 'right'
-                          }}
                           selectedItemChange={(data) =>
                             this.handleSelectedItemChange(pitem, data)
                           }
@@ -878,18 +840,18 @@ class LoginCart extends React.Component {
                 <div className="rc-quantity d-flex">
                   <span
                     className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                    onClick={() => this.subQuantity(pitem)}
-                  ></span>
+                    onClick={this.subQuantity.bind(this, pitem)}
+                  />
                   <input
                     className="rc-quantity__input"
                     value={pitem.buyCount}
-                    onChange={(e) => this.handleAmountChange(e, pitem)}
+                    onChange={this.handleAmountChange.bind(this, pitem)}
                     min="1"
                     max="10"
                   />
                   <span
                     className=" rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    onClick={() => this.addQuantity(pitem)}
+                    onClick={this.addQuantity.bind(this, pitem)}
                   ></span>
                 </div>
               </div>
@@ -910,11 +872,10 @@ class LoginCart extends React.Component {
                 pitem
               })}
             >
-              <div className="buyMethodInnerBox">
-                <div className="radioBox">
+              <div className="buyMethodInnerBox d-flex justify-content-between">
+                <div className="radioBox mr-2">
                   <span
                     style={{
-                      display: 'inline-block',
                       height: '100%',
                       fontWeight: '100',
                       color: '#666',
@@ -1034,7 +995,7 @@ class LoginCart extends React.Component {
                     />
                   </div>
                 </div>
-                <div className="freqency">
+                <div className="freqency d-flex align-items-center mt-2 pl-3 pr-3 pb-2 pt-2">
                   <span>
                     <FormattedMessage id="subscription.frequency" />:
                   </span>
@@ -1126,18 +1087,6 @@ class LoginCart extends React.Component {
       productList: productList
     });
   }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
-  }
   handlerChange = (e) => {
     this.setState({
       isShowValidCode: false,
@@ -1146,7 +1095,7 @@ class LoginCart extends React.Component {
   };
   sideCart({ className = '', style = {}, id = '' } = {}) {
     const { checkoutStore } = this.props;
-    const { checkoutLoading } = this.state;
+    const { checkoutLoading, isShowValidCode } = this.state;
     return (
       <div
         className={`group-order rc-border-all rc-border-colour--interface cart__total__content ${className}`}
@@ -1205,13 +1154,12 @@ class LoginCart extends React.Component {
             </p>
           </div>
         </div>
-        {this.state.isShowValidCode ? (
+        {isShowValidCode ? (
           <div className="red pl-3 pb-3 pt-2" style={{ fontSize: '14px' }}>
-            {/* Promotion code({this.state.lastPromotionInputValue}) is not Valid */}
             <FormattedMessage id="validPromotionCode" />
           </div>
         ) : null}
-        {!this.state.isShowValidCode &&
+        {!isShowValidCode &&
           this.state.discount.map((el, i) => (
             <div
               className={`row leading-lines shipping-item d-flex`}
@@ -1310,7 +1258,7 @@ class LoginCart extends React.Component {
 
         {/* 显示 promotionCode */}
         <div>
-          {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 && (
+          {!isShowValidCode && this.promotionDiscountPrice > 0 && (
             <div className={`row leading-lines shipping-item green d-flex`}>
               <div className="col-6">
                 <p>
@@ -1434,51 +1382,63 @@ class LoginCart extends React.Component {
         ele.mockSpecDetailIds.sort().toString() ===
           selectedSpecDetailId.sort().toString()
     )[0];
+    await this.handleRemovePromotionCode();
+    // this.clearPromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
       periodTypeId: pitem.periodTypeId,
       goodsInfoFlag: pitem.goodsInfoFlag
     });
-    this.updateCartCache();
+    await this.updateCartCache();
     this.setState({ changSizeLoading: false });
+  }
+  // 切换规格/单次订阅购买时，清空promotion code
+  clearPromotionCode() {
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: ''
+    });
   }
   async changeFrequencyType(pitem) {
     if (this.state.changSizeLoading) {
       return false;
     }
     this.setState({
-      changSizeLoading: true,
-      // promotionInputValue: '',
-      // discount: []
+      changSizeLoading: true
     });
+    await this.handleRemovePromotionCode();
+    // this.clearPromotionCode();
+
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
       goodsInfoFlag: pitem.goodsInfoFlag,
       periodTypeId: pitem.periodTypeId
     });
-    this.updateCartCache();
+
+    await this.updateCartCache();
     this.setState({ changSizeLoading: false });
   }
   handleRemovePromotionCode = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
+    let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
     await checkoutStore.removeCouponCodeFitFlag();
-    if (!loginStore.isLogin) {
-      //游客
-      result = await checkoutStore.updateUnloginCart();
-    } else {
-      //会员
+    if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
+    } else {
+      result = await checkoutStore.updateUnloginCart();
     }
-    if (result.backCode === 'K-000000') {
+    if (result && result.backCode === 'K-000000') {
       discount.pop();
       this.setState({
-        discount,
-        isShowValidCode: false
+        discount
       });
+      this.clearPromotionCode();
     }
   };
   handleClickPromotionApply = async () => {
@@ -1486,18 +1446,23 @@ class LoginCart extends React.Component {
     let { promotionInputValue, discount } = this.state;
     if (!promotionInputValue) return;
     let result = {};
+    let lastPromotionInputValue = promotionInputValue;
     this.setState({
       isClickApply: true,
       isShowValidCode: false,
-      lastPromotionInputValue: promotionInputValue
+      lastPromotionInputValue,
+      discount: []
     });
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart(
-        promotionInputValue,
+        lastPromotionInputValue,
         buyWay === 'frequency'
       );
     } else {
-      result = await checkoutStore.updateUnloginCart('', promotionInputValue);
+      result = await checkoutStore.updateUnloginCart(
+        '',
+        lastPromotionInputValue
+      );
     }
     if (
       result &&
@@ -1517,7 +1482,8 @@ class LoginCart extends React.Component {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.setState({
-          isShowValidCode: false
+          isShowValidCode: false,
+          promotionInputValue: ''
         });
       }, 4000);
       // this.props.sendPromotionCode('');
@@ -1700,13 +1666,6 @@ class LoginCart extends React.Component {
           </div>
         </main>
         <Footer />
-        {/* <PetModal visible={this.state.petModalVisible}
-          isAdd={this.state.isAdd}
-          productList={this.state.productList}
-          openNew={() => this.openNew()}
-          closeNew={() => this.closeNew()}
-          confirm={() => this.petComfirm()}
-          close={() => this.closePetModal()} /> */}
       </div>
     );
   }
