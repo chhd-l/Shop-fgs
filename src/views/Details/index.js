@@ -2008,18 +2008,7 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                               </div>
-                              <div
-                                className="price"
-                                style={{
-                                  fontSize: '22px',
-                                  textAlign: 'right',
-                                  paddingTop: isMobile
-                                    ? '.2rem'
-                                    : process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
-                                }}
-                              >
+                              <div className="price font-weight-normal text-right">
                                 <div>{formatMoney(currentUnitPrice)}</div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -2040,7 +2029,7 @@ class Details extends React.Component {
                               </div>
                             </div>
                             <div className="col-12 pl-0 pr-0">
-                              <span className="freeshippingBox">
+                              <span className="freeshippingBox mt-0">
                                 <FormattedMessage id="freeShipping" />
                               </span>
                             </div>
@@ -2110,17 +2099,7 @@ class Details extends React.Component {
                                 {/* Delivery 1 time only */}
                               </span>
                             </div>
-                            <div
-                              className="price"
-                              style={{
-                                fontSize: '22px',
-                                paddingTop: isMobile
-                                  ? '.2rem'
-                                  : process.env.REACT_APP_LANG === 'de'
-                                  ? '.5rem'
-                                  : '1.5rem'
-                              }}
-                            >
+                            <div className="price font-weight-normal text-right">
                               <div>{formatMoney(currentUnitPrice)}</div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
@@ -2221,17 +2200,7 @@ class Details extends React.Component {
                                     </label>
                                   </div>
                                 </div>
-                                <div
-                                  className="price"
-                                  style={{
-                                    textAlign: 'right',
-                                    paddingTop: isMobile
-                                      ? '.2rem'
-                                      : process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
-                                  }}
-                                >
+                                <div className="price font-weight-normal text-right">
                                   <div>
                                     {formatMoney(currentSubscriptionPrice || 0)}
                                   </div>
@@ -2287,13 +2256,12 @@ class Details extends React.Component {
                                     value: form.frequencyId
                                   }}
                                   key={form.frequencyId}
-                                  customStyleType="select-one"
                                 />
                               </div>
                             </div>
                           ) : (
                             <div
-                              className="buyMethod rc-margin-bottom--xs 4"
+                              className="buyMethod rc-margin-bottom--xs d-flex align-items-center 4"
                               style={{
                                 borderColor: parseInt(form.buyWay)
                                   ? '#e2001a'
@@ -2398,19 +2366,9 @@ class Details extends React.Component {
                                     value: form.frequencyId
                                   }}
                                   key={form.frequencyId}
-                                  customStyleType="select-one"
                                 />
                               </div>
-                              <div
-                                className="price"
-                                style={{
-                                  paddingTop: isMobile
-                                    ? '.2rem'
-                                    : process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
-                                }}
-                              >
+                              <div className="price font-weight-normal text-right">
                                 <div>
                                   {formatMoney(currentSubscriptionPrice || 0)}
                                 </div>

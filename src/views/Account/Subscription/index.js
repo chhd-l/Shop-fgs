@@ -266,7 +266,6 @@ class Subscription extends React.Component {
                           value: this.state.form.subscribeStatus
                         }}
                         key={this.state.form.subscribeStatus}
-                        customStyleType="select-one"
                       />
                     </div>
                   </div>
