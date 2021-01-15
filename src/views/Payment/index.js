@@ -938,7 +938,7 @@ class Payment extends React.Component {
             '';
 
             if(res.context[0].action){//3ds卡
-              sessionItemRoyal.set('orderNumber', res.context[0].pId);
+              sessionItemRoyal.set('orderNumber', res.context[0].tid);
 
               const adyenAction = JSON.parse(res.context[0].action)
               this.setState({adyenAction})
