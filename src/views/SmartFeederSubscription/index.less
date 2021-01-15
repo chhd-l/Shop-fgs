@@ -1,5 +1,8 @@
 .smartfeedersubscription {
   @media (min-width: 960px) {
+    .margin_for_1rem{
+      margin: 0 1rem;
+    }
     .card__body,
     .rc-card__body {
       padding: 4rem 2rem 2rem;
@@ -12,8 +15,17 @@
       padding-right: 12rem;
       padding-left: 12rem;
     }
+    .confirm_product {
+      .wrap_container {
+        padding-right: 5rem;
+        padding-left: 7rem;
+      }
+    }
   }
   @media (max-width: 769px) {
+    .rc_md_up{
+      display: none!important;
+    }
     .food_dispenser-help {
       .rc-reverse-layout-mobile {
         display: flex;
@@ -45,6 +57,9 @@
     }
   }
   @media (min-width: 769px) {
+    .rc_md_down{
+      display: none!important;
+    }
     .introduction_food_dispenser {
       .rc-column {
         padding: 0 3rem;
@@ -61,6 +76,108 @@
   @media (max-width: 769px) {
     .button192 {
       width: 12rem;
+    }
+    .h5_no_pad{
+      padding: 0px;
+    }
+    .confirm_product {
+      .wrap_item.rc-column {
+        margin: 0.5rem 1rem;
+        &.check_order{
+          padding-bottom: 0;
+          .h5_left_text{
+            text-align: left!important;
+          }
+        }
+        .side_icon {
+          right: 50%;
+          transform: translateX(50%);
+          bottom: -2.2rem;
+          top: auto;
+        }
+      }
+    }
+  }
+  .confirm_product {
+    background-color: #f7f7f7;
+    .icon_back{
+      &:after{
+        background-position: 0 70.71%;
+      }
+    }
+    .shipping {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .total {
+      padding: 1rem 0;
+    }
+    .font_size12 {
+      font-size: 12px;
+    }
+    .font_size20 {
+      font-size: 1.3rem;
+    }
+    .pad_b_5 {
+      padding-bottom: 0.5rem;
+    }
+    .wrap_item {
+      margin: 0.5rem;
+      background-color: #fff;
+      position: relative;
+      .side_icon {
+        position: absolute;
+        border: 0.5rem solid #f7f7f7;
+        box-sizing: content-box;
+        right: -2.2rem;
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #fff;
+      }
+    }
+    .check_order {
+      h5 {
+        line-height: 1.5em;
+        color: #e2001a;
+        padding-bottom: 1.1rem;
+      }
+      
+      h6 {
+        margin-bottom: 0;
+      }
+    }
+    .free_sampling {
+      padding-top: 3rem;
+      padding-bottom: 2rem;
+      img {
+        width: 12rem;
+        height: 14rem;
+        margin: 0 auto;
+      }
+    }
+    .food_info {
+      .frequency {
+        padding-top: 1rem;
+        color: #e2001a;
+      }
+      .choices__inner {
+        background-color: #f7f7f7 !important;
+        text-indent: 0.5rem;
+      }
+      img {
+        width: auto;
+        height: 8rem;
+        margin: 0 auto;
+      }
+    }
+    .back_button {
+      position: absolute;
+      left: 3rem;
+    }
+    .title {
+      padding: 1.5rem;
+      position: relative;
     }
   }
   .product_detail {
@@ -96,7 +213,7 @@
     width: 100%;
   }
   .smartfeedersubscription-title {
-    color: #E2001A;
+    color: #e2001a;
     font-size: 1.5rem;
     margin: 1rem 0;
     text-align: center;

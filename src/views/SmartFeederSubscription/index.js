@@ -12,6 +12,7 @@ import 'swiper/swiper-bundle.min.css';
 import { getDeviceType } from '@/utils/utils';
 import goodsDetailTab from './modules/goodsDetailTab.json';
 import foodPic from './img/food_pic.png';
+import foodDispenserPic from './img/food_dispenser_pic.png';
 import foodPic2 from './img/step2_food.png';
 import LazyLoad from 'react-lazyload';
 
@@ -200,157 +201,211 @@ const Step2 = (props) => {
             props.toOtherStep('step3');
           }}
         >
-         Conﬁrm this product
+          Conﬁrm this product
         </button>
       </div>
       <div className="rc-layout-container rc-two-column  rc-text--center rc-margin-top--md rc-md-down">
-          <div className="rc-column">
-            <button
-              disabled={props.isDisabled}
-              className="rc-btn rc-btn--two button192"
-              onClick={() => {
-                this.props.toOtherStep('step1');
-              }}
-            >
-              select another product
-            </button>
-          </div>
-          <div className="rc-column">
-            <button
-              disabled={props.isDisabled}
-              className="rc-btn rc-btn--one button192"
-              onClick={() => {
-                this.props.toOtherStep('step3');
-              }}
-            >
-              Conﬁrm this product
-            </button>
-          </div>
+        <div className="rc-column">
+          <button
+            disabled={props.isDisabled}
+            className="rc-btn rc-btn--two button192"
+            onClick={() => {
+              this.props.toOtherStep('step1');
+            }}
+          >
+            select another product
+          </button>
         </div>
+        <div className="rc-column">
+          <button
+            disabled={props.isDisabled}
+            className="rc-btn rc-btn--one button192"
+            onClick={() => {
+              this.props.toOtherStep('step3');
+            }}
+          >
+            Conﬁrm this product
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
-const Step3 = () => {
-  const computedList = [{ name: 'test', value: 1 }];
+const Step3 = (props) => {
+  const computedList = [{ name: 'test', value: 1 },{ name: 'test1', value: 11 },{ name: 'test11', value: 111 }];
   return (
-    <>
-      <div>
+    <div className="confirm_product">
+      <div className="title text-center">
+        <span
+          className="back_button rc_md_up rc-styled-link"
+          onClick={() => {
+            props.toOtherStep('step1');
+          }}
+        >
+          <span className="rc-icon rc-plus--xs rc-iconography icon_back"></span>
+          go back to product
+        </span>
         Get your kibble refills delivered automatically, just select your
         desired delivery frequency and add to cart
       </div>
-      <div className="rc-layout-container rc-three-column">
-        <div className="rc-column">
-          <img src="http://iph.href.lu/200x200" />
-          <h6>title</h6>
-          <p>description</p>
+      <div className="rc-layout-container rc-three-column wrap_container margin_for_1rem">
+        <div className="rc-column wrap_item free_sampling">
+          <div style={{ padding: '0 3rem' }}>
+            <img src={foodDispenserPic} />
+            <h6>PETKIT FRESH ELEMENT Mini</h6>
+            <p>x1 Delivered at the first shipment</p>
+          </div>
+          <span className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn side_icon"></span>
         </div>
-        <div className="rc-column">
-          <img src="http://iph.href.lu/200x200" />
-          <h6>jack russel terrier</h6>
-          <div style={{ overflow: 'hidden' }}>
-            <div
-              className="cart-and-ipay"
-              style={{ float: 'left', width: '36%' }}
-            >
-              <div className="rc-swatch __select-size">
-                {/* <div className="rc-swatch__item selected">
+        <div className="rc-column wrap_item food_info">
+          <div style={{ padding: '0 2.2rem' }}>
+            <img src={foodPic2} />
+            <h6 className="rc-hero__section--text">Jack Russel Terrier</h6>
+            <div style={{ overflow: 'hidden' }}>
+              <div
+                className="cart-and-ipay"
+                style={{ float: 'left', width: '36%' }}
+              >
+                <div className="rc-swatch __select-size">
+                  {/* <div className="rc-swatch__item selected">
                             <span>
                               {find(pitem.sizeList, s => s.selected).specText}
                               <i></i>
                             </span>
                           </div> */}
-                <div className="overflow-hidden">
-                  <div className="text-left ml-1">test</div>
-                  <div
-                    className={`rc-swatch__item`}
-                    // key={i2}
-                    // onClick={() =>
-                    //   this.handleChooseSize(sdItem, pitem, index)
-                    // }
-                  >
-                    <span>
-                      teste
-                      <i></i>
-                    </span>
+                  <div className="overflow-hidden">
+                    <div className="text-left ml-1 font_size12 pad_b_5">
+                      size:
+                    </div>
+                    <div
+                      className={`rc-swatch__item`}
+                      // key={i2}
+                      // onClick={() =>
+                      //   this.handleChooseSize(sdItem, pitem, index)
+                      // }
+                    >
+                      <span>
+                        3kg
+                        <i></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="product-card-footer product-card-price d-flex"
+                style={{ width: '62%' }}
+              >
+                <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
+                  <div className="text-left ml-1 font_size12 pad_b_5">
+                    Quantity:
+                  </div>
+                  <div className="rc-quantity d-flex">
+                    <span
+                      className=" rc-icon rc-minus--xs rc-iconography rc-quantity__btn js-qty-minus"
+                      style={{transform: 'scale(0.8)' }}
+                      // onClick={() => this.subQuantity(pitem)}
+                    ></span>
+                    <input
+                      className="rc-quantity__input"
+                      value="1"
+                      min="1"
+                      max="10"
+                      disabled
+                      // onChange={(e) =>
+                      //   this.handleAmountChange(e.target.value, pitem)
+                      // }
+                    />
+                    <span
+                      className="rc-icon rc-plus--xs rc-iconography rc-quantity__btn js-qty-plus"
+                      style={{transform: 'scale(0.8)' }}
+                      // onClick={() => this.addQuantity(pitem)}
+                    ></span>
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              className="product-card-footer product-card-price d-flex"
-              style={{ width: '62%' }}
-            >
-              <div className="line-item-quantity text-lg-center rc-margin-right--xs rc-padding-right--xs mr-auto">
-                <div className="text-left ml-1">test</div>
-                <div className="rc-quantity d-flex">
-                  <span
-                    className=" rc-icon rc-minus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-minus"
-                    // onClick={() => this.subQuantity(pitem)}
-                  ></span>
-                  <input
-                    className="rc-quantity__input"
-                    value="1"
-                    min="1"
-                    max="10"
-                    disabled
-                    // onChange={(e) =>
-                    //   this.handleAmountChange(e.target.value, pitem)
-                    // }
-                  />
-                  <span
-                    className="rc-icon rc-plus--xs rc-iconography rc-brand1 rc-quantity__btn js-qty-plus"
-                    data-quantity-error-msg="Вы не можете заказать больше 10"
-                    // onClick={() => this.addQuantity(pitem)}
-                  ></span>
-                </div>
+            <p className="frequency">select your frequency</p>
+            <div>
+              <Selection
+                customContainerStyle={{
+                }}
+                // selectedItemChange={(data) =>
+                //   this.handleSelectedItemChange(pitem, data)
+                // }
+                optionList={computedList}
+                selectedItemData={{
+                  value: 1
+                }}
+                customStyleType="select-one"
+              />
+            </div>
+          </div>
+          <span className="rc-icon rc-arrow--xs rc-iconography rc-quantity__btn side_icon"></span>
+        </div>
+        <div className="rc-column wrap_item check_order">
+          <h5 className="text-center h5_left_text">summary</h5>
+          <div className="d-flex">
+            <div style={{ width: '70%' }}>
+              <h6>Jack Russel Terrier</h6>
+              <div className="font_size12 rc-margin-bottom--xs">
+                Smart feeder subscription
               </div>
             </div>
-          </div>
-          <p>select your frequency</p>
-          <div>
-            <Selection
-              customContainerStyle={{
-                display: 'inline-block',
-                textAlign: 'right'
-              }}
-              // selectedItemChange={(data) =>
-              //   this.handleSelectedItemChange(pitem, data)
-              // }
-              optionList={computedList}
-              selectedItemData={{
-                value: 1
-              }}
-              customStyleType="select-one"
-            />
-          </div>
-        </div>
-        <div className="rc-column">
-          <h5>summary</h5>
-          <div className="d-flex">
-            <div style={{ width: '70%' }}>
-              <h6>title</h6>
-              <div>smart feeder subscription</div>
-            </div>
-            <div>price</div>
+            <div className="font_size20">26,50€</div>
           </div>
           <div className="d-flex">
             <div style={{ width: '70%' }}>
-              <h6>title</h6>
-              <div>smart feeder subscription</div>
+              <h6>PETKIT Dispenser</h6>
+              <div className="font_size12 rc-margin-bottom--xs">
+                x1 Delivered at the first shipment
+              </div>
             </div>
             <div></div>
           </div>
-          <div className="d-flex">
-            <div style={{ width: '70%' }}>shipping</div>
+          <div className="d-flex font_size20 shipping">
+            <div style={{ width: '70%' }}>Shipping</div>
             <div>free</div>
           </div>
-          <div className="d-flex">
-            <div style={{ width: '70%' }}>shipping</div>
-            <div>free</div>
+          <div className="d-flex total">
+            <div style={{ width: '70%' }}>TOTAL</div>
+            <div>26,50€</div>
           </div>
+          <div>
+            <div className="rc-layout-container rc-two-column  rc-text--center">
+              <div className="rc-column">
+                <button className="rc-btn rc-btn--two wid100">
+                  Add to cart
+                </button>
+              </div>
+              <div className="rc-column">
+                <button className="rc-btn rc-btn--one wid100">
+                  Go to Checkout
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* <button class="rc-btn rc-btn--one">Add to cart</button>
+            <button class="rc-btn rc-btn--two">Go to Checkout</button>*/}
         </div>
       </div>
-    </>
+      <div className="rc_md_down" style={{background:'#f7f7f7',padding: '1rem'}}>
+      <span
+          className="rc-styled-link"
+          onClick={() => {
+            props.toOtherStep('step1');
+          }}
+        >
+          <span className="rc-icon rc-plus--xs icon_back rc-iconography"></span>
+          go back to product
+        </span>
+      </div>
+      
+      <div className="rc_md_up">
+        <br />
+        <br />
+      </div>
+    </div>
   );
 };
 class SmartFeederSubscription extends Component {
@@ -440,9 +495,9 @@ class SmartFeederSubscription extends Component {
           <div id="step1"></div>
           <div id="step2"></div>
           <div id="step3"></div>
-          <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil">
+          <section className="rc-max-width--xl rc-padding-x--sm rc-padding-x--xl--mobil h5_no_pad">
             <h2 className="smartfeedersubscription-title">
-              {this.stepName == 'step3'
+              {stepName == 'step3'
                 ? 'Finalise your order'
                 : 'Select your product'}
             </h2>
@@ -467,7 +522,7 @@ class SmartFeederSubscription extends Component {
                   );
                   break;
                 case 'step3':
-                  stepCom = <Step3 />;
+                  stepCom = <Step3 toOtherStep={this.toOtherStep} />;
                   break;
               }
               return stepCom;
