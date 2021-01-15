@@ -10,7 +10,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import classNames from 'classnames';
+import { withOktaAuth } from '@okta/okta-react';
 
+@injectIntl
 class PersonalDataEditForm extends React.Component {
   static defaultProps = {
     originData: null
@@ -37,7 +39,8 @@ class PersonalDataEditForm extends React.Component {
       },
       oldForm: {},
       countryList: [],
-      isValid: false
+      isValid: false,
+      errMsgObj: {}
     };
     this.handleCommunicationCheckBoxChange = this.handleCommunicationCheckBoxChange.bind(
       this
@@ -62,27 +65,42 @@ class PersonalDataEditForm extends React.Component {
       });
     });
   }
-  inputBlur = (e) => {
-    let validDom = Array.from(
-      e.target.parentElement.parentElement.children
-    ).filter((el) => {
-      let i = findIndex(Array.from(el.classList), (classItem) => {
-        return classItem === 'invalid-feedback';
-      });
-      return i > -1;
-    })[0];
-    if (validDom) {
-      validDom.style.display = e.target.value ? 'none' : 'block';
-    }
-  };
   handleInputChange = (e) => {
     const target = e.target;
+    const name = target.name;
+    let value = target.value;
     const { form } = this.state;
-    form[target.name] = target.value;
+    if (name === 'postCode' || name === 'phoneNumber') {
+      value = value.replace(/\s+/g, '');
+    }
+    if (name === 'phoneNumber' && process.env.REACT_APP_LANG === 'fr') {
+      value = value.replace(/^[0]/, '+(33)');
+    }
+    form[name] = value;
     this.setState({ form: form }, () => {
       this.validFormData();
     });
     this.inputBlur(e);
+  };
+  inputBlur = async (e) => {
+    const { errMsgObj } = this.state;
+    const target = e.target;
+    const targetRule = PRESONAL_INFO_RULE.filter((e) => e.key === target.name);
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    try {
+      await validData(targetRule, { [target.name]: value });
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: ''
+        })
+      });
+    } catch (err) {
+      this.setState({
+        errMsgObj: Object.assign({}, errMsgObj, {
+          [target.name]: err.message
+        })
+      });
+    }
   };
   showErrMsg(msg) {
     this.setState({
@@ -118,6 +136,8 @@ class PersonalDataEditForm extends React.Component {
     try {
       const { form } = this.state;
       this.setState({ loading: true });
+      const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+      let oktaToken = 'Bearer ' + oktaTokenString;
       let param = Object.assign({}, this.props.originData, {
         firstName: form.firstName,
         lastName: form.lastName,
@@ -133,7 +153,8 @@ class PersonalDataEditForm extends React.Component {
         postalCode: form.postCode,
         cityId: form.city,
         communicationEmail: form.communicationEmail,
-        communicationPhone: form.communicationPhone
+        communicationPhone: form.communicationPhone,
+        oktaToken: oktaToken
       });
 
       await updateCustomerBaseInfo(param);
@@ -209,7 +230,8 @@ class PersonalDataEditForm extends React.Component {
       form,
       isValid,
       errorMsg,
-      successTipVisible
+      successTipVisible,
+      errMsgObj
     } = this.state;
     const { data } = this.props;
     const curPageAtCover = !editFormVisible;
@@ -363,9 +385,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="firstName" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.firstName && (
+                    <div className="text-danger-2">{errMsgObj.firstName}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 required">
                   <label
@@ -396,9 +418,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="lastname" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.lastName && (
+                    <div className="text-danger-2">{errMsgObj.lastName}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 required">
                   <label
@@ -432,9 +454,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="email" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.email && (
+                    <div className="text-danger-2">{errMsgObj.email}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6">
                   <label
@@ -493,9 +515,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="address1" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.address1 && (
+                    <div className="text-danger-2">{errMsgObj.address1}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 pull-left">
                   <label
@@ -524,9 +546,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="address2" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.address2 && (
+                    <div className="text-danger-2">{errMsgObj.address2}</div>
+                  )}
                 </div>
                 <div className="form-group col-lg-6 required">
                   <label
@@ -555,9 +577,9 @@ class PersonalDataEditForm extends React.Component {
                     />
                     <label className="rc-input__label" htmlFor="postCode" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.postCode && (
+                    <div className="text-danger-2">{errMsgObj.postCode}</div>
+                  )}
                   <div className="ui-lighter">
                     <FormattedMessage id="example" />:{' '}
                     <FormattedMessage id="examplePostCode" />
@@ -605,7 +627,13 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="payment.errorInfo2" />
                   </div>
                 </div>
-                <div className={["form-group", "col-lg-6",process.env.REACT_APP_LANG == 'de'?'':'required'].join(" ")}>
+                <div
+                  className={[
+                    'form-group',
+                    'col-lg-6',
+                    process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+                  ].join(' ')}
+                >
                   <label
                     className="form-control-label rc-input--full-width w-100"
                     htmlFor="phone"
@@ -620,7 +648,7 @@ class PersonalDataEditForm extends React.Component {
                       className="rc-input__control input__phoneField"
                       id="phone"
                       name="phoneNumber"
-                      type="number"
+                      type="text"
                       value={form.phoneNumber}
                       onChange={this.handleInputChange}
                       onBlur={this.inputBlur}
@@ -634,9 +662,9 @@ class PersonalDataEditForm extends React.Component {
                     <FormattedMessage id="example" />:{' '}
                     <FormattedMessage id="examplePhone" />
                   </span>
-                  <div className="invalid-feedback" style={{ display: 'none' }}>
-                    <FormattedMessage id="payment.errorInfo2" />
-                  </div>
+                  {errMsgObj.phoneNumber && (
+                    <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+                  )}
                 </div>
 
                 {/* <div className="form-group col-lg-6">
@@ -693,7 +721,9 @@ class PersonalDataEditForm extends React.Component {
                   </span>
                 </div> */}
               </div>
-              <span className={`rc-meta mandatoryField ${isValid?'hidden':''}`}>
+              <span
+                className={`rc-meta mandatoryField ${isValid ? 'hidden' : ''}`}
+              >
                 * <FormattedMessage id="account.requiredFields" />
               </span>
               <div className="text-right">
@@ -727,4 +757,4 @@ class PersonalDataEditForm extends React.Component {
   }
 }
 
-export default injectIntl(PersonalDataEditForm);
+export default  withOktaAuth(PersonalDataEditForm);

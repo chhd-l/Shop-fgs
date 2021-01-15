@@ -19,6 +19,8 @@ class CheckoutStore {
   @observable offShelvesProNames = []; // 下架的商品
   @observable deletedProNames = []; // 被删除的商品
   @observable promotionCode = localItemRoyal.get('rc-promotionCode') || '';
+  @observable couponCodeFitFlag = localItemRoyal.get('rc-couponCodeFitFlag') || false;
+  
   // @observable promotionDesc = localItemRoyal.get('rc-promotionDesc') || '';
 
   @computed get tradePrice() {
@@ -34,6 +36,16 @@ class CheckoutStore {
   @computed get discountPrice() {
     return this.cartPrice && this.cartPrice.discountPrice
       ? this.cartPrice.discountPrice
+      : 0;
+  } 
+  @computed get subscriptionDiscountPrice() {
+    return this.cartPrice && this.cartPrice.subscriptionDiscountPrice
+      ? this.cartPrice.subscriptionDiscountPrice
+      : 0;
+  }
+  @computed get promotionDiscountPrice() {
+    return this.cartPrice && this.cartPrice.promotionDiscountPrice
+      ? this.cartPrice.promotionDiscountPrice
       : 0;
   }
   @computed get deliveryPrice() {
@@ -66,6 +78,17 @@ class CheckoutStore {
   removePromotionCode(data) {
     this.promotionCode = '';
     localItemRoyal.remove('rc-promotionCode');
+  }
+
+  @action.bound
+  setCouponCodeFitFlag(data) {
+    this.couponCodeFitFlag = data;
+    localItemRoyal.set('rc-couponCodeFitFlag', data);
+  }
+  @action.bound
+  removeCouponCodeFitFlag(data) {
+    this.couponCodeFitFlag = false;
+    localItemRoyal.remove('rc-couponCodeFitFlag');
   }
 
   @action.bound
@@ -151,6 +174,8 @@ class CheckoutStore {
       totalPrice: purchasesRes.totalPrice,
       tradePrice: purchasesRes.tradePrice,
       discountPrice: purchasesRes.discountPrice,
+      promotionDiscountPrice: purchasesRes.promotionDiscountPrice,
+      subscriptionDiscountPrice: purchasesRes.subscriptionDiscountPrice,
       deliveryPrice: purchasesRes.deliveryPrice,
       promotionDesc: purchasesRes.promotionDesc,
       promotionDiscount: purchasesRes.promotionDiscount,
@@ -192,9 +217,18 @@ class CheckoutStore {
       subscriptionPrice: purchasesRes.subscriptionPrice
     };
     if (!promotionCode || !purchasesRes.promotionFlag || purchasesRes.couponCodeFlag) {
+      if(purchasesRes.couponCodeFlag && !purchasesRes.couponCodeDiscount) {
+        this.setCouponCodeFitFlag(false)
+      }else {
+        this.setCouponCodeFitFlag(true)
+      }
       params.discountPrice = purchasesRes.discountPrice;
+      params.promotionDiscountPrice = purchasesRes.promotionDiscountPrice
+      params.subscriptionDiscountPrice = purchasesRes.subscriptionDiscountPrice
     } else {
       params.discountPrice = this.discountPrice;
+      params.promotionDiscountPrice = this.promotionDiscountPrice
+      params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
     }
     this.setCartPrice(params);
 
@@ -218,7 +252,6 @@ class CheckoutStore {
       );
       if (tmpObj) {
         item.addedFlag = tmpObj.addedFlag;
-        item.goodsPromotion = tmpObj.goodsPromotion;
         selectedSize.stock = tmpObj.stock;
         const tmpName = tmpObj.goodsInfoName + ' ' + tmpObj.specText;
         // handle product off shelves logic
@@ -308,9 +341,18 @@ class CheckoutStore {
         };
 
         if (!promotionCode || !sitePurchasesRes.promotionFlag || sitePurchasesRes.couponCodeFlag) {
+          if(sitePurchasesRes.couponCodeFlag && !sitePurchasesRes.couponCodeDiscount) {
+            this.setCouponCodeFitFlag(false)
+          }else {
+            this.setCouponCodeFitFlag(true)
+          }
           params.discountPrice = sitePurchasesRes.discountPrice;
+          params.promotionDiscountPrice = sitePurchasesRes.promotionDiscountPrice
+          params.subscriptionDiscountPrice = sitePurchasesRes.subscriptionDiscountPrice
         } else {
           params.discountPrice = this.discountPrice;
+          params.promotionDiscountPrice = this.promotionDiscountPrice
+          params.subscriptionDiscountPrice = this.subscriptionDiscountPrice
         }
         this.setCartPrice(params);
 

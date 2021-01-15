@@ -1,241 +1,279 @@
 const list1 = [
-    {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwdd636407/ugk5a2qbg95xk-rbunld/v120/babycat-ru-fhn17-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/mother-&-babycat-2544',
-      title: 'Mother & Babycat',
-      price: '44.99',
-      marketPrice: '25.99',
-      subTitle: 'Chattes en gestation/lactation et chaton de 1 à 4 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwe1ee519f/lwkea2qbg95xk-rb1suz/v6/2013-reproduction-pro-packshots-babycat-milk.jpg?sw=150&sfrm=png',
-      title: 'Babycat milk',
-      linkUrl:'/babycat-milk-2553',
-      price: '21.00',
-      marketPrice: '',
-      subTitle: 'De la naissance au sevrage - Lait 1er âge pour Chatons',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwd9b5f93c/tlzgjnubbkjuub5q1jgt/v3/kitten-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/kitten-en-sauce-4058',
-      title: 'Kitten en Sauce',
-      price: '14.99',
-      marketPrice: '',
-      subTitle: 'Chatons de 4 à 12 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw032ae0d6/xwkva2qbg95xk-rbe9mw/v178/16-kitten-ns-b1.jpg?sw=150&sfrm=png',
-      linkUrl:'/kitten-2522',
-      title: 'Kitten',
-      price: '84.99',
-      marketPrice: '24.99',
-      subTitle: 'Chaton jusqu’à 12 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwd3ab7082/-gkua2qbg95xk-rbidkw/v108/16-kitten-sterilised-b1-ne.jpg?sw=150&sfrm=png',
-      linkUrl:'/kitten-sterilised-2562',
-      title: 'Kitten Sterilised',
-      price: '39.99',
-      marketPrice: '24.99',
-      subTitle: 'Kitten Sterilised',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw5069a553/t1znjnubbkjuub5quzj6/v3/kitten-sterilised-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/kitten-sterilised-en-sauce-1071',
-      title: 'Kitten Sterilised en Sauce',
-      price: '15.99',
-      marketPrice: '',
-      subTitle: 'Chatons stérilisés 6 de 12 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw8bf6eb64/kudqjnubapozra8qy5oq/v3/kitten-sterilised-gele.jpg?sw=150&sfrm=png',
-      linkUrl:'/kitten-sterilised-en-gelée-1072',
-      title: 'Kitten Sterilised en Gelée',
-      price: '15.99',
-      marketPrice: '',
-      subTitle: 'Chatons stérilisés 6 de 12 mois',
-    },
-  ]
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/babycat-ru-fhn17-packshot.jpg`,
+    linkUrl: '/mother-&-babycat-2544',
+    title: 'Mother & Babycat',
+    price: '44.99',
+    marketPrice: '25.99',
+    subTitle: 'Chattes en gestation/lactation et chaton de 1 à 4 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/2013-reproduction-pro-packshots-babycat-milk.jpg`,
+    title: 'Babycat milk',
+    linkUrl: '/babycat-milk-2553',
+    price: '21.00',
+    marketPrice: '',
+    subTitle: 'De la naissance au sevrage - Lait 1er âge pour Chatons'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/kitten-sauce.jpg`,
+    linkUrl: '/kitten-en-sauce-4058',
+    title: 'Kitten en Sauce',
+    price: '14.99',
+    marketPrice: '',
+    subTitle: 'Chatons de 4 à 12 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/16-kitten-ns-b1.jpg`,
+    linkUrl: '/kitten-2522',
+    title: 'Kitten',
+    price: '84.99',
+    marketPrice: '24.99',
+    subTitle: 'Chaton jusqu’à 12 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/16-kitten-sterilised-b1-ne.jpg`,
+    linkUrl: '/kitten-sterilised-2562',
+    title: 'Kitten Sterilised',
+    price: '39.99',
+    marketPrice: '24.99',
+    subTitle: 'Kitten Sterilised'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/kitten-sterilised-sauce.jpg`,
+    linkUrl: '/kitten-sterilised-en-sauce-1071',
+    title: 'Kitten Sterilised en Sauce',
+    price: '15.99',
+    marketPrice: '',
+    subTitle: 'Chatons stérilisés 6 de 12 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/kitten-sterilised-gele.jpg`,
+    linkUrl: '/kitten-sterilised-en-gelée-1072',
+    title: 'Kitten Sterilised en Gelée',
+    price: '15.99',
+    marketPrice: '',
+    subTitle: 'Chatons stérilisés 6 de 12 mois'
+  }
+];
 
-  const list2 = [
-    {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw8a8d1d13/2foya2qbiyfdnsocbads/v72/digestive-int-fcn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/digestive-care-2555',
-      title: 'Digestive Care',
-      price: '67.99',
-      marketPrice: '27.99',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à soutenir la santé digestive',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw62b9f949/rgkya2qbg95xk-rbbtwd/v142/urinary-int-fcn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/urinary-care-1800',
-      title: 'Urinary Care',
-      price: '82.99',
-      marketPrice: '27.99',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à maintenir la santé du système urinaire',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw6ea78a7f/m2kurmsbg95xk-rb3pu-/v128/hairskin-ne-fcn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/hair-skin-care-2526',
-      title: 'Hair & Skin Care',
-      price: '93.99',
-      marketPrice: '27.99',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à maintenir une peau saine et un poil brillant',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw29548794/bcl2egsbaxeaps7lwb-k/v130/fcn-ow-light-packshot-ns.jpg?sw=150&sfrm=png',
-      linkUrl:'/light-weight-care-2524',
-      title: 'Light Weight Care',
-      price: '75.99',
-      marketPrice: '25.99',
-      subTitle: 'Chaton jusqu’à 12 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw4baa4f7c/jecojnubapozra8qypmj/v3/digest-sensitive-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/digest-sensitive-en-sauce-4076',
-      title: 'Digest Sensitive en Sauce',
-      price: '15.99',
-      marketPrice: '',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à soutenir la santé digestive',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw4fa439a8/ledyjnubapozra8q2jmk/v5/urinary-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/urinary-care-en-sauce--4157',
-      title: 'Urinary Care en Sauce',
-      price: '15.99',
-      marketPrice: '',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à maintenir la santé du système urinaire',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw008cd1f9/j-c4jnubapozra8q-ppp/v5/intense-beauty-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/intense-beauty-en-sauce-4071',
-      title: 'Intense Beauty en Sauce',
-      price: '15.99',
-      marketPrice: '',
-      subTitle: 'Chats adultes de 1 à 7 ans - Aide à maintenir une peau saine et un poil brillant',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwb4b905fb/uvzxjnubbkjuub5qyzjn/v3/light-weight-sauce.jpg?sw=150&sfrm=png',
-        linkUrl:'/light-weight-care-en-sauce-4070',
-        title: 'Light Weight Care en Sauce',
-        price: '15.99',
-        marketPrice: '',
-        subTitle: 'Chats adultes de 1 à 7 ans - Aide à limiter la prise de poids',
-      },
-  ]
+const list2 = [
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/digestive-int-fcn-packshot.jpg`,
+    linkUrl: '/digestive-care-2555',
+    title: 'Digestive Care',
+    price: '67.99',
+    marketPrice: '27.99',
+    subTitle: 'Chats adultes de 1 à 7 ans - Aide à soutenir la santé digestive'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/urinary-int-fcn-packshot.jpg`,
+    linkUrl: '/urinary-care-1800',
+    title: 'Urinary Care',
+    price: '82.99',
+    marketPrice: '27.99',
+    subTitle:
+      'Chats adultes de 1 à 7 ans - Aide à maintenir la santé du système urinaire'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/hairskin-ne-fcn-packshot.jpg`,
+    linkUrl: '/hair-skin-care-2526',
+    title: 'Hair & Skin Care',
+    price: '93.99',
+    marketPrice: '27.99',
+    subTitle:
+      'Chats adultes de 1 à 7 ans - Aide à maintenir une peau saine et un poil brillant'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/fcn-ow-light-packshot-ns.jpg`,
+    linkUrl: '/light-weight-care-2524',
+    title: 'Light Weight Care',
+    price: '75.99',
+    marketPrice: '25.99',
+    subTitle: 'Chaton jusqu’à 12 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/digest-sensitive-sauce.jpg`,
+    linkUrl: '/digest-sensitive-en-sauce-4076',
+    title: 'Digest Sensitive en Sauce',
+    price: '15.99',
+    marketPrice: '',
+    subTitle: 'Chats adultes de 1 à 7 ans - Aide à soutenir la santé digestive'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/urinary-sauce.jpg`,
+    linkUrl: '/urinary-care-en-sauce--4157',
+    title: 'Urinary Care en Sauce',
+    price: '15.99',
+    marketPrice: '',
+    subTitle:
+      'Chats adultes de 1 à 7 ans - Aide à maintenir la santé du système urinaire'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/intense-beauty-sauce.jpg`,
+    linkUrl: '/intense-beauty-en-sauce-4071',
+    title: 'Intense Beauty en Sauce',
+    price: '15.99',
+    marketPrice: '',
+    subTitle:
+      'Chats adultes de 1 à 7 ans - Aide à maintenir une peau saine et un poil brillant'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/light-weight-sauce.jpg`,
+    linkUrl: '/light-weight-care-en-sauce-4070',
+    title: 'Light Weight Care en Sauce',
+    price: '15.99',
+    marketPrice: '',
+    subTitle: 'Chats adultes de 1 à 7 ans - Aide à limiter la prise de poids'
+  }
+];
 
-  const list3 = [
-    {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwe8f17201/mkt/40001/Mini-Puppy-1-bis.jpg?sw=150&sfrm=jpg',
-      linkUrl:'/pack-mini-puppy-MKT40001',
-      title: 'Pack Mini Puppy',
-      price: '41.98',
-      marketPrice: '',
-      subTitle: 'Chiots jusqu’à 10 mois',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw27f5766f/u2k4a2qbg95xk-rb49nb/v280/packshot-puppy-medium-shn17.jpg?sw=150&sfrm=png',
-      linkUrl:'/medium-puppy-3003',
-      title: 'Medium Puppy',
-      price: '71.99',
-      marketPrice: '24.99',
-      subTitle: "Chiot de taille moyenne. Poids adulte de 11 à 25 Kg. Jusqu'à 12 mois.",
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwe6fb943f/wwk4a2qbg95xk-rb59ld/v242/packshot-puppy-maxi-shn17.jpg?sw=150&sfrm=png',
-      linkUrl:'/maxi-puppy-3006',
-      title: 'Maxi Puppy',
-      price: '71.99',
-      marketPrice: '24.99',
-      subTitle: "Chiot de grande taille. Poids adulte de 26 à 44 Kg. Jusqu'à 15 mois.",
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwa0b98e65/ngkvrmsbg95xk-rbl_v3/v100/packshot-med-ad-shn17.jpg?sw=150&sfrm=png',
-      linkUrl:'/medium-adult-3004',
-      title: 'Medium Adult',
-      price: '65.99',
-      marketPrice: '51.99',
-      subTitle: 'Chiens Medium. Poids adulte de 11 à 25 Kg. De 12 mois à 7 ans.',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwe794bd23/mmktrmsbg95xk-rbo_sp/v112/packshot-maxi-ad-shn17.jpg?sw=150&sfrm=png',
-      linkUrl:'/maxi-adult-3007',
-      title: 'Maxi Adult',
-      price: '67.99',
-      marketPrice: '23.99',
-      subTitle: "Chien Maxi. Poids adulte de 26 à 44 Kg. De 15 mois à 5 ans.",
-    }
-  ]
+const list3 = [
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/Mini-Puppy-1-bis.jpg`,
+    linkUrl: '/pack-mini-puppy-MKT40001',
+    title: 'Pack Mini Puppy',
+    price: '41.98',
+    marketPrice: '',
+    subTitle: 'Chiots jusqu’à 10 mois'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-medium-shn17.jpg`,
+    linkUrl: '/medium-puppy-3003',
+    title: 'Medium Puppy',
+    price: '71.99',
+    marketPrice: '24.99',
+    subTitle:
+      "Chiot de taille moyenne. Poids adulte de 11 à 25 Kg. Jusqu'à 12 mois."
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-puppy-maxi-shn17.jpg`,
+    linkUrl: '/maxi-puppy-3006',
+    title: 'Maxi Puppy',
+    price: '71.99',
+    marketPrice: '24.99',
+    subTitle:
+      "Chiot de grande taille. Poids adulte de 26 à 44 Kg. Jusqu'à 15 mois."
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-med-ad-shn17.jpg`,
+    linkUrl: '/medium-adult-3004',
+    title: 'Medium Adult',
+    price: '65.99',
+    marketPrice: '51.99',
+    subTitle: 'Chiens Medium. Poids adulte de 11 à 25 Kg. De 12 mois à 7 ans.'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/packshot-maxi-ad-shn17.jpg`,
+    linkUrl: '/maxi-adult-3007',
+    title: 'Maxi Adult',
+    price: '67.99',
+    marketPrice: '23.99',
+    subTitle: 'Chien Maxi. Poids adulte de 26 à 44 Kg. De 15 mois à 5 ans.'
+  }
+];
 
-  const list4 = [
-    {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw05baa44c/hclmt2sbaxeaps7lqcdg/v74/mini-sterilised-ccn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/mini-sterilised-3185',
-      title: 'Mini Sterilised',
-      price: '61.99',
-      marketPrice: '10.99',
-      subTitle: 'Pour Chiens stérilisés - Jusqu’à 10 kg',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwf77938ff/n2nmt2sbg95xk-rbl_zx/v24/medium-sterilised-ccn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/medium-sterilised-3034',
-      title: 'Medium Sterilised',
-      price: '64.99',
-      marketPrice: '24.99',
-      subTitle: 'Pour Chiens stérilisés - De 11 à 25 kg',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwb60e9f29/nmnlt2sbg95xk-rb_vw3/v40/maxi-sterilised-ccn-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/maxi-sterilised-3035',
-      title: 'Maxi Sterilised',
-      price: '58.99',
-      marketPrice: '24.99',
-      subTitle: 'Pour Chiens stérilisés - De 26 à 44 kg',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw87fec6b9/wfznj3ubbkjuub5qjphm/v3/sterilised.jpg?sw=150&sfrm=png',
-      linkUrl:'/sterilised-en-mousse-1179',
-      title: 'Sterilised en Mousse',
-      price: '13.99',
-      marketPrice: '',
-      subTitle: 'Pour Chiens stérilisés - Toutes tailles',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw5ebc9ae3/e2lqvwsbg95xk-rbappj/v106/mini-light-ccn19-b1-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/mini-light-weight-care-3018',
-      title: 'Mini Light Weight Care',
-      price: '61.99',
-      marketPrice: '11.99',
-      subTitle: "Pour Chiens sujets à la prise de poids - Jusqu'à 10 kg",
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw5069a553/t1znjnubbkjuub5quzj6/v3/kitten-sterilised-sauce.jpg?sw=150&sfrm=png',
-      linkUrl:'/medium-light-weight-care-3021',
-      title: 'Kitten Sterilised en Sauce',
-      price: '64.99',
-      marketPrice: '24.99',
-      subTitle: 'Pour Chiens sujets à la prise de poids - De 26 à 44 kg',
-    }, {
-      imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw4a616389/gglxvwsbg95xk-rb4fpt/v80/maxi-light-ccn19-b1-packshot.jpg?sw=150&sfrm=png',
-      linkUrl:'/maxi-light-weight-care-2446',
-      title: 'Maxi Light Weight Care',
-      price: '64.99',
-      marketPrice: '24.99',
-      subTitle: 'Pour Chiens sujets à la prise de poids - De 26 à 44 kg',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw8d4e0a57/5z-fk3ubryzmswpcqjny/v3/light-weight-care.jpg?sw=150&sfrm=png',
-        linkUrl:'/light-weight-care-en-mousse-1178',
-        title: 'Light Weight Care en Mousse',
-        price: '',
-        marketPrice: '13.99',
-        subTitle: 'Pour Chiens avec tendance à la prise de poids - Toutes tailles',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwcd587ac3/xyke-mqbaxeaps7lygqo/v184/mini-dermacomfort-ccn-packshot.jpg?sw=150&sfrm=png',
-        linkUrl:'/mini-dermacomfort-2441',
-        title: 'Mini Dermacomfort',
-        price: '61.99',
-        marketPrice: '11.99',
-        subTitle: 'Pour Chiens sujets aux irritations et démangeaisons de peau - Jusqu’à 10 kg',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw17ec0be7/pmkgrmsbg95xk-rbp_sy/v118/medium-dermacomfort-ccn-packshot.jpg?sw=150&sfrm=png',
-        linkUrl:'/medium-dermacomfort-2442',
-        title: 'Medium Dermacomfort',
-        price: '64.99',
-        marketPrice: '24.99',
-        subTitle: 'Pour Chiens sujets aux irritations et démangeaisons de peau - De 11 à 25 kg',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dwd332e49b/p2kgrmsbg95xk-rbs_vu/v134/maxi-derma-ccn-packshot.jpg?sw=150&sfrm=png',
-        linkUrl:'/maxi-dermacomfort-2444',
-        title: 'Maxi Dermacomfort',
-        price: '64.99',
-        marketPrice: '24.99',
-        subTitle: 'Pour Chiens sujets aux irritations et démangeaisons de peau - De 26 à 44 kg',
-    },{
-        imageUrl: 'https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-royal_canin_catalog_fr/default/dw60a51919/m-clj3ubapozra8qy5nu/v3/dermacomfort-care.jpg?sw=150&sfrm=png',
-        linkUrl:'/dermacomfort-en-mousse-1181',
-        title: 'Dermacomfort en Mousse',
-        price: '',
-        marketPrice: '13.99',
-        subTitle: 'Pour Chiens sujets aux irritations et démangeaisons de peau - Toutes tailles',
-    },
-  ]
+const list4 = [
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/mini-sterilised-ccn-packshot.jpg`,
+    linkUrl: '/mini-sterilised-3185',
+    title: 'Mini Sterilised',
+    price: '61.99',
+    marketPrice: '10.99',
+    subTitle: 'Pour Chiens stérilisés - Jusqu’à 10 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/medium-sterilised-ccn-packshot.jpg`,
+    linkUrl: '/medium-sterilised-3034',
+    title: 'Medium Sterilised',
+    price: '64.99',
+    marketPrice: '24.99',
+    subTitle: 'Pour Chiens stérilisés - De 11 à 25 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/maxi-sterilised-ccn-packshot.jpg`,
+    linkUrl: '/maxi-sterilised-3035',
+    title: 'Maxi Sterilised',
+    price: '58.99',
+    marketPrice: '24.99',
+    subTitle: 'Pour Chiens stérilisés - De 26 à 44 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/sterilised.jpg`,
+    linkUrl: '/sterilised-en-mousse-1179',
+    title: 'Sterilised en Mousse',
+    price: '13.99',
+    marketPrice: '',
+    subTitle: 'Pour Chiens stérilisés - Toutes tailles'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/mini-light-ccn19-b1-packshot.jpg`,
+    linkUrl: '/mini-light-weight-care-3018',
+    title: 'Mini Light Weight Care',
+    price: '61.99',
+    marketPrice: '11.99',
+    subTitle: "Pour Chiens sujets à la prise de poids - Jusqu'à 10 kg"
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/kitten-sterilised-sauce.jpg`,
+    linkUrl: '/medium-light-weight-care-3021',
+    title: 'Kitten Sterilised en Sauce',
+    price: '64.99',
+    marketPrice: '24.99',
+    subTitle: 'Pour Chiens sujets à la prise de poids - De 26 à 44 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/maxi-light-ccn19-b1-packshot.jpg`,
+    linkUrl: '/maxi-light-weight-care-2446',
+    title: 'Maxi Light Weight Care',
+    price: '64.99',
+    marketPrice: '24.99',
+    subTitle: 'Pour Chiens sujets à la prise de poids - De 26 à 44 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/light-weight-care.jpg`,
+    linkUrl: '/light-weight-care-en-mousse-1178',
+    title: 'Light Weight Care en Mousse',
+    price: '',
+    marketPrice: '13.99',
+    subTitle: 'Pour Chiens avec tendance à la prise de poids - Toutes tailles'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/mini-dermacomfort-ccn-packshot.jpg`,
+    linkUrl: '/mini-dermacomfort-2441',
+    title: 'Mini Dermacomfort',
+    price: '61.99',
+    marketPrice: '11.99',
+    subTitle:
+      'Pour Chiens sujets aux irritations et démangeaisons de peau - Jusqu’à 10 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/medium-dermacomfort-ccn-packshot.jpg`,
+    linkUrl: '/medium-dermacomfort-2442',
+    title: 'Medium Dermacomfort',
+    price: '64.99',
+    marketPrice: '24.99',
+    subTitle:
+      'Pour Chiens sujets aux irritations et démangeaisons de peau - De 11 à 25 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/maxi-derma-ccn-packshot.jpg`,
+    linkUrl: '/maxi-dermacomfort-2444',
+    title: 'Maxi Dermacomfort',
+    price: '64.99',
+    marketPrice: '24.99',
+    subTitle:
+      'Pour Chiens sujets aux irritations et démangeaisons de peau - De 26 à 44 kg'
+  },
+  {
+    imageUrl: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/promotion-refuge/dermacomfort-care.jpg`,
+    linkUrl: '/dermacomfort-en-mousse-1181',
+    title: 'Dermacomfort en Mousse',
+    price: '',
+    marketPrice: '13.99',
+    subTitle:
+      'Pour Chiens sujets aux irritations et démangeaisons de peau - Toutes tailles'
+  }
+];
 
-  export {list1,list2,list3,list4}
+export { list1, list2, list3, list4 };

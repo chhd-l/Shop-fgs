@@ -18,8 +18,7 @@ class EditForm extends React.Component {
     type: 'billing',
     initData: null,
     isLogin: false,
-    isOnepageCheckout: false,
-    updateData: () => {}
+    updateData: () => { }
   };
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ class EditForm extends React.Component {
         cityName: '',
         postCode: '',
         phoneNumber: '',
-        email: ''
+        // email: ''
       },
       countryList: [],
       errMsgObj: {}
@@ -44,21 +43,15 @@ class EditForm extends React.Component {
   componentDidMount() {
     const { initData = {} } = this.props;
     const { address } = this.state;
-    this.setState({ address: Object.assign(address, initData) });
+    this.setState({ address: Object.assign(address, initData) }, () => {
+      this.props.updateData(this.state.address);
+    });
 
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
         countryList: res
       });
     });
-  }
-  updateSelectedMobxData() {
-    const { type, paymentStore } = this.props;
-    paymentStore[
-      type === 'delivery'
-        ? 'updateSelectedDeliveryAddress'
-        : 'updateSelectedBillingAddress'
-    ](this.state.address);
   }
   computedList(key) {
     let tmp = this.state[`${key}List`].map((c) => {
@@ -83,9 +76,9 @@ class EditForm extends React.Component {
     }
     address[name] = value;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
+    this.inputBlur(e);
   };
   inputBlur = async (e) => {
     const { errMsgObj } = this.state;
@@ -111,7 +104,6 @@ class EditForm extends React.Component {
     const { address } = this.state;
     address[key] = data.value;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   }
@@ -120,319 +112,366 @@ class EditForm extends React.Component {
     address.city = data.id;
     address.cityName = data.cityName;
     this.setState({ address }, () => {
-      this.updateSelectedMobxData();
       this.props.updateData(this.state.address);
     });
   };
+  firstNameJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
+        <label className="form-control-label" htmlFor="shippingFirstName">
+          <FormattedMessage id="payment.firstName" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            className="rc-input__control shippingFirstName"
+            id="shippingFirstName"
+            type="text"
+            value={address.firstName}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="firstName"
+            maxLength="50"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {errMsgObj.firstName && (
+          <div className="text-danger-2">{errMsgObj.firstName}</div>
+        )}
+      </div>
+    )
+  }
+  lastNameJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+        <label className="form-control-label" htmlFor="shippingLastName">
+          <FormattedMessage id="payment.lastName" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            className="rc-input__control shippingLastName"
+            id="shippingLastName"
+            type="text"
+            value={address.lastName}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="lastName"
+            maxLength="50"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {errMsgObj.lastName && (
+          <div className="text-danger-2">{errMsgObj.lastName}</div>
+        )}
+      </div>
+    )
+  }
+  addressRequiredJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
+        <label className="form-control-label" htmlFor="shippingAddress1">
+          <FormattedMessage id="payment.address1" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            className="rc-input__control shippingAddress1"
+            id="shippingAddress1"
+            type="text"
+            value={address.address1}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="address1"
+            maxLength="50"
+          />
+          <label className="rc-input__label" htmlFor="shippingAddress1" />
+        </span>
+        {errMsgObj.address1 && (
+          <div className="text-danger-2">{errMsgObj.address1}</div>
+        )}
+      </div>
+    )
+  }
+  addressOptionJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
+        <label className="form-control-label" htmlFor="shippingAddress2">
+          <FormattedMessage id="payment.address2" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            className="rc-input__control shippingAddress2"
+            id="shippingAddress2"
+            type="text"
+            value={address.address2}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="address2"
+            maxLength="50"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {errMsgObj.address2 && (
+          <div className="text-danger-2">{errMsgObj.address2}</div>
+        )}
+      </div>
+    )
+  }
+  landJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
+        <label className="form-control-label" htmlFor="shippingCountry">
+          <FormattedMessage id="payment.country" />
+        </label>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+          <Selection
+            selectedItemChange={(data) =>
+              this.handleSelectedItemChange('country', data)
+            }
+            optionList={this.computedList('country')}
+            selectedItemData={{
+              value: address.country
+            }}
+            key={address.country}
+          />
+        </span>
+      </div>
+    )
+  }
+  cityJSX = () => {
+    const { address, errMsgObj } = this.state;
+    return (
+      <div
+        className="form-group required dwfrm_shipping_shippingAddress_addressFields_city"
+        id="addressFieldsCity"
+      >
+        <label
+          className="form-control-label"
+          htmlFor="shippingAddressCity"
+        >
+          <FormattedMessage id="payment.city" />
+        </label>
+        <span className="rc-select rc-full-width rc-input--full-width rc-select-processed" style={{marginTop:0}}>
+          <CitySearchSelection
+            defaultValue={address.cityName}
+            key={address.cityName}
+            onChange={this.handleCityInputChange}
+          />
+        </span>
+      </div>
+    )
+  }
   emailPanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
-          <label className="form-control-label" htmlFor="shippingEmail">
-            <FormattedMessage id="email" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-          >
-            <input
-              type="email"
-              className="rc-input__control input__phoneField shippingPhoneNumber"
-              id="shippingEmail"
-              value={address.email}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              name="email"
-              maxLength="254"
-            />
-            <label className="rc-input__label" htmlFor="shippingEmail" />
-          </span>
-          {errMsgObj.email && (
-            <div className="text-danger-2">{errMsgObj.email}</div>
-          )}
-        </div>
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_phone">
+        <label className="form-control-label" htmlFor="shippingEmail">
+          <FormattedMessage id="email" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+        >
+          <input
+            type="email"
+            className="rc-input__control input__phoneField shippingPhoneNumber"
+            id="shippingEmail"
+            value={address.email}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="email"
+            maxLength="254"
+          />
+          <label className="rc-input__label" htmlFor="shippingEmail" />
+        </span>
+        {errMsgObj.email && (
+          <div className="text-danger-2">{errMsgObj.email}</div>
+        )}
       </div>
     );
   };
   postCodeJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
-          <label className="form-control-label" htmlFor="shippingZipCode">
-            <FormattedMessage id="payment.postCode" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-            // data-js-validate="" //需要验证的时候开启
-            data-js-warning-message="*Post Code isn’t valid"
-          >
-            <input
-              className="rc-input__control shippingZipCode"
-              id="shippingZipCode"
-              type="tel"
-              required
-              value={address.postCode}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              name="postCode"
-              // maxLength="5"
-              // minLength="5"
-              //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
-              data-js-pattern="(*.*)"
-            />
-            <label className="rc-input__label" htmlFor="id-text1" />
+      <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_postalCode">
+        <label className="form-control-label" htmlFor="shippingZipCode">
+          <FormattedMessage id="payment.postCode" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+          // data-js-validate="" //需要验证的时候开启
+          data-js-warning-message="*Post Code isn’t valid"
+        >
+          <input
+            className="rc-input__control shippingZipCode"
+            id="shippingZipCode"
+            type="tel"
+            required
+            value={address.postCode}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            name="postCode"
+            // maxLength="5"
+            // minLength="5"
+            //data-js-pattern="(^\d{5}(-\d{4})?$)|(^[abceghjklmnprstvxyABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Za-z]{1} *\d{1}[A-Za-z]{1}\d{1}$)" //需要验证的时候开启
+            data-js-pattern="(*.*)"
+          />
+          <label className="rc-input__label" htmlFor="id-text1" />
+        </span>
+        {errMsgObj.postCode && (
+          <div className="text-danger-2">{errMsgObj.postCode}</div>
+        )}
+        <div className="ui-lighter">
+          <FormattedMessage id="example" />:{' '}
+          <FormattedMessage id="examplePostCode" />
+        </div>
+        {/* {process.env.REACT_APP_LANG === 'de' ? (
+          <span style={{ padding: '2px', color: '#CA5264' }}>
+            * Pflichtfelder
           </span>
-          {errMsgObj.postCode && (
-            <div className="text-danger-2">{errMsgObj.postCode}</div>
-          )}
-          <div className="ui-lighter">
-            <FormattedMessage id="example" />:{' '}
-            <FormattedMessage id="examplePostCode" />
-          </div>
-          {process.env.REACT_APP_LANG === 'de' ? (
-            <span style={{ padding: '2px', color: '#CA5264' }}>
-              * Pflichtfelder
-            </span>
-          ) : null}
-        </div>{' '}
+        ) : null} */}
       </div>
     );
   };
   phonePanelJSX = () => {
     const { address, errMsgObj } = this.state;
     return (
-      <div className="col-12 col-md-6">
-        <div
-          className={[
-            'form-group',
-            'dwfrm_shipping_shippingAddress_addressFields_phone',
-            process.env.REACT_APP_LANG == 'de' ? '' : 'required'
-          ].join(' ')}
+      <div
+        className={[
+          'form-group',
+          'dwfrm_shipping_shippingAddress_addressFields_phone',
+          process.env.REACT_APP_LANG == 'de' ? '' : 'required'
+        ].join(' ')}
+      >
+        {' '}
+        {/* 德国电话非必填 */}
+        <label className="form-control-label" htmlFor="shippingPhoneNumber">
+          <FormattedMessage id="payment.phoneNumber" />
+        </label>
+        <span
+          className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
+          input-setup="true"
+        // data-js-validate=""
+        // data-js-warning-message="*Phone Number isn’t valid"
         >
-          {' '}
-          {/* 德国电话非必填 */}
-          <label className="form-control-label" htmlFor="shippingPhoneNumber">
-            <FormattedMessage id="payment.phoneNumber" />
-          </label>
-          <span
-            className="rc-input rc-input--inline rc-input--label rc-full-width rc-input--full-width"
-            input-setup="true"
-            // data-js-validate=""
-            // data-js-warning-message="*Phone Number isn’t valid"
-          >
-            <input
-              type="text"
-              className="rc-input__control input__phoneField shippingPhoneNumber"
-              id="shippingPhoneNumber"
-              value={address.phoneNumber}
-              onChange={this.deliveryInputChange}
-              onBlur={this.inputBlur}
-              // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
-              // data-js-pattern="(^(\+52)\d{8}$)"
-              // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
-              name="phoneNumber"
-              maxLength="20"
-              minLength="18"
-            />
-            <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
-          </span>
-          {errMsgObj.phoneNumber && (
-            <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
-          )}
-          <span className="ui-lighter">
-            <FormattedMessage id="example" />:{' '}
-            <FormattedMessage id="examplePhone" />
-          </span>
-        </div>
+          <input
+            type="text"
+            className="rc-input__control input__phoneField shippingPhoneNumber"
+            id="shippingPhoneNumber"
+            value={address.phoneNumber}
+            onChange={this.deliveryInputChange}
+            onBlur={this.inputBlur}
+            // data-js-pattern="(^(\+?7|8)?9\d{9}$)"
+            // data-js-pattern="(^(\+52)\d{8}$)"
+            // data-js-pattern="(^(((\\+\\d{2}-)?0\\d{2,3}-\\d{7,8})|((\\+\\d{2}-)?(\\d{2,3}-)?([1][3,4,5,7,8][0-9]\\d{8})))$)"
+            name="phoneNumber"
+            maxLength="20"
+            minLength="18"
+          />
+          <label className="rc-input__label" htmlFor="shippingPhoneNumber" />
+        </span>
+        {errMsgObj.phoneNumber && (
+          <div className="text-danger-2">{errMsgObj.phoneNumber}</div>
+        )}
+        <span className="ui-lighter">
+          <FormattedMessage id="example" />:{' '}
+          <FormattedMessage id="examplePhone" />
+        </span>
       </div>
     );
   };
-  render() {
-    const { address, errMsgObj } = this.state;
-    return (
+  //总的shipping显示
+  showShipping = () => {
+    const defaultJSX = (
       <>
         <div className="row">
           <div className="col-12 col-md-6">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_firstName">
-              <label className="form-control-label" htmlFor="shippingFirstName">
-                <FormattedMessage id="payment.firstName" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingFirstName"
-                  id="shippingFirstName"
-                  type="text"
-                  value={address.firstName}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="firstName"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1" />
-              </span>
-              {errMsgObj.firstName && (
-                <div className="text-danger-2">{errMsgObj.firstName}</div>
-              )}
-            </div>
+            {this.firstNameJSX()}
           </div>
           <div className="col-12 col-md-6">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingLastName">
-                <FormattedMessage id="payment.lastName" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingLastName"
-                  id="shippingLastName"
-                  type="text"
-                  value={address.lastName}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="lastName"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1" />
-              </span>
-              {errMsgObj.lastName && (
-                <div className="text-danger-2">{errMsgObj.lastName}</div>
-              )}
-            </div>
+            {this.lastNameJSX()}
           </div>
 
           <div className="col-12">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingAddress1">
-                <FormattedMessage id="payment.address1" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingAddress1"
-                  id="shippingAddress1"
-                  type="text"
-                  value={address.address1}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="address1"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="shippingAddress1" />
-              </span>
-              {errMsgObj.address1 && (
-                <div className="text-danger-2">{errMsgObj.address1}</div>
-              )}
-            </div>
+            {this.addressRequiredJSX()}
           </div>
           <div className="col-12">
-            <div className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName">
-              <label className="form-control-label" htmlFor="shippingAddress2">
-                <FormattedMessage id="payment.address2" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingAddress2"
-                  id="shippingAddress2"
-                  type="text"
-                  value={address.address2}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="address2"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" htmlFor="id-text1" />
-              </span>
-              {errMsgObj.address2 && (
-                <div className="text-danger-2">{errMsgObj.address2}</div>
-              )}
-            </div>
+            {this.addressOptionJSX()}
           </div>
 
           <div className="col-12 col-md-6">
-            <div className="form-group required dwfrm_shipping_shippingAddress_addressFields_country">
-              <label className="form-control-label" htmlFor="shippingCountry">
-                <FormattedMessage id="payment.country" />
-              </label>
-              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <Selection
-                  selectedItemChange={(data) =>
-                    this.handleSelectedItemChange('country', data)
-                  }
-                  optionList={this.computedList('country')}
-                  selectedItemData={{
-                    value: address.country
-                  }}
-                  key={address.country}
-                />
-              </span>
-            </div>
+            {this.landJSX()}
           </div>
           <div className="col-12 col-md-6">
-            <div
-              className="form-group required dwfrm_shipping_shippingAddress_addressFields_city"
-              id="addressFieldsCity"
-            >
-              <label
-                className="form-control-label"
-                htmlFor="shippingAddressCity"
-              >
-                <FormattedMessage id="payment.city" />
-              </label>
-              <span className="rc-select rc-full-width rc-input--full-width rc-select-processed">
-                <CitySearchSelection
-                  defaultValue={address.cityName}
-                  key={address.cityName}
-                  onChange={this.handleCityInputChange}
-                />
-              </span>
-            </div>
+            {this.cityJSX()}
           </div>
-
-          {/* {this.emailPanelJSX()} */}
-          {this.postCodeJSX()}
-          {this.phonePanelJSX()}
-          {/* <div className="col-12 col-md-6">
-            <div
-              className="form-group dwfrm_shipping_shippingAddress_addressFields_lastName"
-              id="addressFieldsLastName"
-            >
-              <label className="form-control-label" htmlFor="shippingRfc">
-                <FormattedMessage id="payment.rfc" />
-              </label>
-              <span
-                className="rc-input rc-input--inline rc-full-width rc-input--full-width"
-                input-setup="true"
-              >
-                <input
-                  className="rc-input__control shippingRfc"
-                  type="text"
-                  value={address.rfc}
-                  onChange={this.deliveryInputChange}
-                  onBlur={this.inputBlur}
-                  name="rfc"
-                  maxLength="50"
-                />
-                <label className="rc-input__label" />
-              </span>
-            </div>
+          <div className="col-12 col-md-6">
+            {this.postCodeJSX()}
           </div>
-         */}
+          <div className="col-12 col-md-6">
+            {this.phonePanelJSX()}
+          </div>
         </div>
       </>
-    );
+    )
+    return (
+      {
+        de: (
+          <>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                {this.firstNameJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.lastNameJSX()}
+              </div>
+
+              <div className="col-12 col-md-6">
+                {this.addressRequiredJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.addressOptionJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.postCodeJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.cityJSX()}
+              </div>
+              <div className="col-12 col-md-6">
+                {this.landJSX()}
+                <span style={{ padding: '2px', color: '#CA5264' }}>* Pflichtfelder</span>
+              </div>
+              <div className="col-12 col-md-6">
+                {this.phonePanelJSX()}
+              </div>
+            </div>
+          </>
+        )
+      }
+    )[process.env.REACT_APP_LANG] || defaultJSX
+  }
+  render() {
+    return (
+      this.showShipping()
+    )
+
   }
 }
 

@@ -15,6 +15,7 @@ class SameAsCheckbox extends React.Component {
       billingChecked: this.props.initVal,
       toolTipVisible: false
     };
+    this.updateoolTipVisible = this.updateoolTipVisible.bind(this);
   }
   billingCheckedChange = () => {
     this.setState(
@@ -24,6 +25,11 @@ class SameAsCheckbox extends React.Component {
       }
     );
   };
+  updateoolTipVisible(status) {
+    this.setState({
+      toolTipVisible: status
+    });
+  }
   render() {
     const { type } = this.props;
     return (
@@ -56,34 +62,24 @@ class SameAsCheckbox extends React.Component {
             <span
               className="info delivery-method-tooltip fit-mobile-icon-left"
               style={{ verticalAlign: 'unset' }}
-              onMouseEnter={() => {
-                this.setState({
-                  toolTipVisible: true
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({
-                  toolTipVisible: false
-                });
-              }}
+              onMouseEnter={this.updateoolTipVisible.bind(this, true)}
+              onMouseLeave={this.updateoolTipVisible.bind(this, false)}
             >
               i
             </span>
-            <ConfirmTooltip
-              containerStyle={{
-                transform: 'translate(-62%, 117%)'
-              }}
-              arrowStyle={{ left: '92%' }}
-              display={this.state.toolTipVisible}
-              cancelBtnVisible={false}
-              confirmBtnVisible={false}
-              updateChildDisplay={(status) =>
-                this.setState({
-                  toolTipVisible: status
-                })
-              }
-              content={<FormattedMessage id="payment.forFreeTip" />}
-            />
+            {process.env.REACT_APP_LANG == 'fr' ? null : (
+              <ConfirmTooltip
+                containerStyle={{
+                  transform: 'translate(-62%, 117%)'
+                }}
+                arrowStyle={{ left: '92%' }}
+                display={this.state.toolTipVisible}
+                cancelBtnVisible={false}
+                confirmBtnVisible={false}
+                updateChildDisplay={this.updateoolTipVisible.bind(this)}
+                content={<FormattedMessage id="payment.forFreeTip" />}
+              />
+            )}
           </span>
         </div>
       </div>

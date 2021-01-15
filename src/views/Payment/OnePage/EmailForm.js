@@ -29,9 +29,11 @@ class EmailForm extends React.Component {
     this.props.paymentStore.setStsToEdit({ key: 'email', hideOthers: true }); // todo
   };
   handleClickConfirm = () => {
-    this.confirmToNextPanel();
+    const { form } = this.state;
     this.setState({ isEdit: false });
-    this.props.onChange(this.state.form);
+    this.props.onChange(form);
+    this.props.paymentStore.setDefaultCardDataFromAddr(form);
+    this.confirmToNextPanel();
   };
   confirmToNextPanel() {
     const { paymentStore } = this.props;
@@ -61,16 +63,9 @@ class EmailForm extends React.Component {
     this.setState({ isValid: tmpStatus });
   };
   render() {
-    const {updateStepForEmail,paymentStep} = this.props.paymentStore
     const { isEdit, form, isValid } = this.state;
     const { intl, paymentStore } = this.props;
     const { emailPanelStatus } = paymentStore;
-    
-    //更新邮件填写状态
-    updateStepForEmail(toJS(paymentStore.emailPanelStatus))
-    // if(paymentStep[0].isCompleted){
-    //   console.log(paymentStep[0])
-    // }
 
     const titleForPrepare = (
       <>

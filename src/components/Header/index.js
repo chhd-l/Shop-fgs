@@ -163,12 +163,16 @@ class Header extends React.Component {
           clinicStore.setLinkClinicName(linkClinicName);
         }
       } else if (linkClinicId && location.pathname === '/') {
+        // 根据prescriberId查询Clinic详情(查询id)
         const idRes = await getPrescriberByPrescriberIdAndStoreId({
           prescriberId: linkClinicId,
           storeId: process.env.REACT_APP_STOREID
         });
+
+        // 根据id查询Clinic详情
         const res = await getPrescriptionById({ id: idRes.context.id });
         if (res.context && res.context.enabled) {
+          linkClinicId = idRes.context.id;
           linkClinicName = res.context.prescriberName;
         }
         if (linkClinicName) {
@@ -501,7 +505,9 @@ class Header extends React.Component {
   gotoDetails(item) {
     console.log(item);
     this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${item.goodsNo}`,
+      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
+        item.goodsNo
+      }`,
       state: {
         GAListParam: 'Search Results'
       }
@@ -540,7 +546,7 @@ class Header extends React.Component {
                         <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
                           <span
                             className="ui-cursor-pointer"
-                            style={{width: '100%'}}
+                            style={{ width: '100%' }}
                             onClick={this.gotoDetails.bind(this, item)}
                           >
                             <LazyLoad>
@@ -548,7 +554,7 @@ class Header extends React.Component {
                                 className="swatch__img"
                                 alt={item.goodsName}
                                 title={item.goodsName}
-                                style={{width: '100%'}}
+                                style={{ width: '100%' }}
                                 src={
                                   item.goodsImg ||
                                   item.goodsInfos.sort(
@@ -701,10 +707,9 @@ class Header extends React.Component {
     return (
       <>
         <div id="page-top" name="page-top" />
-        {/* 执行埋点 */}
-        {/* {Object.keys(this.state.event.search).length ? <GoogleTagManager searchEvents={this.state.event} /> : null} */}
         {loginStore.loginModal ? <Loading /> : null}
         {/* <header className={`rc-header ${this.state.isScrollToTop ? '' : 'rc-header--scrolled'}`} style={{ zIndex: 9999 }}> */}
+        {/* data-js-header-scroll */}
         <header className={`rc-header`} data-js-header-scroll>
           <nav className="rc-header__nav rc-header__nav--primary">
             <ul
@@ -819,10 +824,8 @@ class Header extends React.Component {
                 ) : null}
                 {showUserIcon ? (
                   <>
-                    <span style={{ marginLeft: this.userInfo ? '10px' : '0' }}>
-                      {getDeviceType() === 'PC' &&
-                        this.userInfo &&
-                        this.userInfo.firstName}
+                    <span className="rc-md-up">
+                      {this.userInfo && this.userInfo.firstName}
                     </span>
                     <span
                       id="main_mini_cart"
@@ -835,11 +838,22 @@ class Header extends React.Component {
                           {(txt) => (
                             <Link
                               to="/account"
-                              className="minicart-link"
+                              className="minicart-link position-relative"
                               data-loc="miniCartOrderBtn"
                               title={txt}
                             >
                               <i className="minicart-icon rc-btn rc-btn rc-btn--icon rc-icon less-width-xs rc-user--xs rc-iconography" />
+                              <span
+                                className="rc-md-down"
+                                style={{
+                                  bottom: '-1.45rem',
+                                  position: 'absolute',
+                                  right: '.3rem',
+                                  fontSize: '.95em'
+                                }}
+                              >
+                                {this.userInfo && this.userInfo.firstName}
+                              </span>
                             </Link>
                           )}
                         </FormattedMessage>
@@ -862,7 +876,7 @@ class Header extends React.Component {
                           className={`popover popover-bottom ${
                             showCenter ? 'show' : ''
                           }`}
-                          style={{ minWidth: '13rem' }}
+                          style={{ minWidth: '15rem' }}
                         >
                           <div className="container cart">
                             <div className="login-style">
@@ -946,7 +960,7 @@ class Header extends React.Component {
                           className={`popover popover-bottom ${
                             showCenter ? 'show' : ''
                           }`}
-                          style={{ minWidth: '13rem' }}
+                          style={{ minWidth: '15rem' }}
                           onMouseOver={this.handleMouseOver}
                           onMouseOut={this.handleMouseOut}
                         >
@@ -955,7 +969,7 @@ class Header extends React.Component {
                               <div className="link-style">
                                 <Link to="/account" className="click-hover">
                                   <span className="iconfont">&#xe697;</span>{' '}
-                                  <FormattedMessage id="account.myAccount" />
+                                  <FormattedMessage id="home" />
                                 </Link>
                               </div>
                               <div className="link-style">
@@ -991,7 +1005,7 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe6a2;</span>{' '}
-                                  <FormattedMessage id="account.subscription" />
+                                  <FormattedMessage id="account.subscriptionTitle" />
                                 </Link>
                               </div>
                               <div className="link-style">
@@ -1062,15 +1076,24 @@ class Header extends React.Component {
                   e.preventDefault();
                 }}
               >
-                <button
-                  className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
-                  type="submit"
-                  aria-label="Search"
+                <Link
+                  className="productName rc-large-body ui-cursor-pointer"
+                  to={{
+                    pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    search: `?q=${keywords}`
+                  }}
                 >
-                  <span className="screen-reader-text">
-                    <FormattedMessage id="search" />
-                  </span>
-                </button>
+                  <button
+                    className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
+                    type="submit"
+                    aria-label="Search"
+                  >
+                    <span className="screen-reader-text">
+                      <FormattedMessage id="search" />
+                    </span>
+                  </button>
+                </Link>
+
                 <FormattedMessage id="header.startTypingToSearch">
                   {(txt) => (
                     <input

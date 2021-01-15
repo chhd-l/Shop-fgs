@@ -8,6 +8,7 @@ import { setSeoConfig, getParaByName } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
 class SearchShow extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +49,7 @@ class SearchShow extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -110,8 +112,7 @@ class SearchShow extends React.Component {
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                src="
-https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw480a3621/customer-service@2x.png?sw=90&sh=90&sm=fit&cx=1&cy=0&cw=180&ch=180&sfrm=png"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
                             </div>
@@ -136,8 +137,7 @@ https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-
                             </div>
                             <div className="col-4 rc-column rc-content-v-middle">
                               <img
-                                src="
-https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=90&sh=90&sm=fit&cx=3&cy=0&cw=180&ch=180&sfrm=png"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
                                 className="align-self-center w-auto"
                               ></img>
                             </div>

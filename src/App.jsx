@@ -59,17 +59,13 @@ import AccountOrdersDetail from '@/views/Account/OrdersDetail';
 import AccountOrdersAfterSale from '@/views/Account/OrdersAfterSale';
 import AccountOrdersAfterSaleSuccess from '@/views/Account/OrdersAfterSaleSuccess';
 import AccountOrdersAfterSaleDetail from '@/views/Account/OrdersAfterSaleDetail';
-import AccountPaymentMethod from '@/views/Account/PaymentMethod';
 import AccountSubscription from '@/views/Account/Subscription';
 import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
-import AccountPaymentMethodForm from '@/views/Account/CreditCardForm';
 import AccountPetForm from '@/views/Account/PetForm/index.js';
 // import AccountPetForm from '@/views/Account/PetForm/index.js';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
-import AccountShippingAddress from '@/views/Account/ShippingAddress';
 // import AccountRefunds from "@/views/Account/Refunds";
-import AccountShippingAddressForm from '@/views/Account/ShippingAddressForm';
 
 import AccountReturnOrder from '@/views/Account/ReturnOrder';
 import ForgetPassword from '@/views/ForgetPassword';
@@ -116,25 +112,22 @@ import smartFeederSubscription from '@/views/SmartFeederSubscription';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const token = localItemRoyal.get('rc-token');
-import {linkTransform} from "@/api/refuge"
 
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
-import fr from "date-fns/locale/fr";
-import es from "date-fns/locale/es";
-import de from "date-fns/locale/de";
-if(process.env.REACT_APP_LANG === 'fr') {
-  registerLocale(process.env.REACT_APP_LANG, fr)
-  setDefaultLocale('fr')
-}else if(process.env.REACT_APP_LANG === 'de') {
-  registerLocale(process.env.REACT_APP_LANG, de)
-  setDefaultLocale('de')
-}else if(process.env.REACT_APP_LANG === 'es') {
-  registerLocale(process.env.REACT_APP_LANG, es)
-  setDefaultLocale('es')
-}else if(process.env.REACT_APP_LANG === 'us') {
-  
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import fr from 'date-fns/locale/fr';
+import es from 'date-fns/locale/es';
+import de from 'date-fns/locale/de';
+if (process.env.REACT_APP_LANG === 'fr') {
+  registerLocale(process.env.REACT_APP_LANG, fr);
+  setDefaultLocale('fr');
+} else if (process.env.REACT_APP_LANG === 'de') {
+  registerLocale(process.env.REACT_APP_LANG, de);
+  setDefaultLocale('de');
+} else if (process.env.REACT_APP_LANG === 'es') {
+  registerLocale(process.env.REACT_APP_LANG, es);
+  setDefaultLocale('es');
+} else if (process.env.REACT_APP_LANG === 'us') {
 }
-
 
 const LoginCallback = (props) => {
   const { oktaAuth, authState } = useOktaAuth();
@@ -157,7 +150,7 @@ const LoginCallback = (props) => {
       process.env.REACT_APP_HOMEPAGE === '/'
         ? (homePage = '')
         : (homePage = process.env.REACT_APP_HOMEPAGE);
-      
+
       sessionItemRoyal.set('fromLoginPage', true);
       window.location.href = homePage + '/required';
     }
@@ -166,9 +159,13 @@ const LoginCallback = (props) => {
   return <div />;
 };
 
-window.addEventListener("popstate",function(e){
-  location.reload()
-},false)
+window.addEventListener(
+  'popstate',
+  function (e) {
+    location.reload();
+  },
+  false
+);
 
 const App = () => (
   <Provider {...stores}>
@@ -236,6 +233,7 @@ const App = () => (
               />
               <Route
                 exact
+                sensitive
                 path="/faq"
                 render={(props) => (
                   <FAQ key={props.match.params.catogery} {...props} />
@@ -250,18 +248,20 @@ const App = () => (
                 exact
                 path="/recommendation/:id"
                 render={(props) => {
-                  if (process.env.REACT_APP_LANG === 'fr') {
-                    return (
-                      <Recommendation_FR
-                        key={props.match.params.id}
-                        {...props}
-                      />
-                    );
-                  } else {
-                    return (
-                      <Recommendation key={props.match.params.id} {...props} />
-                    );
-                  }
+                  return (
+                    <Recommendation key={props.match.params.id} {...props} />
+                  );
+                }}
+              />
+              <Route
+                exact
+                path="/recommendation"
+                render={(props) => {
+                  return (
+                    <Recommendation_FR
+                      {...props}
+                    />
+                  );
                 }}
               />
 
@@ -305,16 +305,6 @@ const App = () => (
                 component={AccountPetList}
               />
               <Route
-                path="/account/shippingAddress"
-                exact
-                component={AccountShippingAddress}
-              />
-              <Route
-                path="/account/paymentMethod"
-                exact
-                component={AccountPaymentMethod}
-              />
-              <Route
                 path="/account/return-order"
                 exact
                 component={AccountReturnOrder}
@@ -348,23 +338,6 @@ const App = () => (
                 path="/account/productReview/:tid"
                 exact
                 component={ProductReview}
-              />
-
-              <Route
-                path="/account/shippingAddress/create"
-                exact
-                component={AccountShippingAddressForm}
-              />
-              <Route
-                path="/account/paymentMethod/create"
-                exact
-                component={AccountPaymentMethodForm}
-              />
-
-              <Route
-                path="/account/shippingAddress/:addressId"
-                exact
-                component={AccountShippingAddressForm}
               />
               {/* <Route path="/required" exact component={RegisterRequired} /> */}
               <Route path="/required" exact component={RegisterRequired} />
@@ -442,7 +415,7 @@ const App = () => (
               />
               <Route
                 exact
-                path="/promotion-refuge.html"
+                path="/promotion-refuge"
                 component={PromotionRefuge}
               />
               <Route path="/values-ru" exact component={RU_Values} />
@@ -459,13 +432,17 @@ const App = () => (
                 component={ShipmentConditions}
               />
               <Route exact path="/forgetPassword" component={ForgetPassword} />
+              <Route path="/404" component={Exception} />
               <Route path="/403" component={Page403} />
               <Route path="/500" component={Page500} />
 
               <Route path="/consent1-tr" component={Consent1TR} />
               <Route path="/consent2-tr" component={Consent2TR} />
               <Route path="/register" component={register} />
-              <Route path="/smartFeederSubscription" component={smartFeederSubscription} />
+              <Route
+                path="/smartFeederSubscription"
+                component={smartFeederSubscription}
+              />
               {/* 特殊处理匹配PLP/PDP页面 */}
               <Route
                 exact
@@ -506,36 +483,49 @@ const App = () => (
                   />
                 )}
               />
-              
+              <Route exact sensitive path="/FAQ" component={Exception} />
+
               <Route
                 path="/"
                 render={(props) => {
                   const { location } = props;
                   //为了匹配/refuge108785 这种数字动态的短链接
-                  if(/^\/refuge/.test(location.pathname)) return <RefugeSource key={Math.random()} {...props}/>
+                  if (/^\/refuge/.test(location.pathname))
+                    return <RefugeSource key={Math.random()} {...props} />;
 
                   //为了匹配/boxer01，boxer02等
-                  if(/^\/boxer[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/boxer[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
                   //为了匹配/bulldog01，bulldog02等
-                  if(/^\/bulldog[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
-                  
-                  if(/^\/chihuahua[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
-           
-                  if(/^\/bergerallemand[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
-               
-                  if(/^\/golden[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
-                 
-                  if(/^\/labrador[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/bulldog[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
-                  if(/^\/shihtzu[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/chihuahua[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
-                  if(/^\/yorkshire[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/bergerallemand[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
-                  if(/^\/british[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/golden[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
-                  if(/^\/mainecoon[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/labrador[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
-                  if(/^\/persan[0-9]/.test(location.pathname)) return <ListSource key={Math.random()} {...props}/>
+                  if (/^\/shihtzu[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
+
+                  if (/^\/yorkshire[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
+
+                  if (/^\/british[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
+
+                  if (/^\/mainecoon[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
+
+                  if (/^\/persan[0-9]/.test(location.pathname))
+                    return <ListSource key={Math.random()} {...props} />;
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
@@ -552,6 +542,7 @@ const App = () => (
                   }
                 }}
               />
+              <Route path="*" component={Exception} />
             </Switch>
           </Security>
         </ScrollToTop>

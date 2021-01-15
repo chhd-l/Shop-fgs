@@ -4,10 +4,10 @@ import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import EditForm from './EditForm';
 import { ADDRESS_RULE } from '@/utils/constant';
-import { getDictionary, validData, getDeviceType, matchNamefromDict } from '@/utils/utils';
+import { getDictionary, validData, matchNamefromDict } from '@/utils/utils';
 import {
-  searchNextConfirmPanel
-  // scrollIntoView
+  searchNextConfirmPanel,
+  scrollPaymentPanelIntoView
 } from '../modules/utils';
 import './VisitorAddress.css';
 
@@ -20,11 +20,10 @@ import './VisitorAddress.css';
 class VisitorAddress extends React.Component {
   static defaultProps = {
     type: 'delivery',
-    isOnepageCheckout: false,
     initData: null,
     titleVisible: true,
     showConfirmBtn: true,
-    updateValidStatus: () => {}
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
@@ -32,8 +31,7 @@ class VisitorAddress extends React.Component {
       isValid: false,
       form: this.props.initData,
       countryList: [],
-      billingChecked: true,
-      isMobile: getDeviceType() === 'H5'
+      billingChecked: true
     };
   }
   componentDidMount() {
@@ -58,36 +56,31 @@ class VisitorAddress extends React.Component {
     try {
       await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, form: data }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
       this.setState({ isValid: false }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
-      console.log(err);
     }
   };
   handleEditFormChange = (data) => {
-    if (this.props.isOnepageCheckout) {
-      this.validData({ data });
-    } else {
-      this.setState({ form: data });
-      this.props.updateData(data);
-    }
+    this.validData({ data });
   };
   handleClickConfirm = () => {
-    const { isMobile, isValid, form } = this.state;
     const { paymentStore } = this.props;
+    const { isValid, form, billingChecked } = this.state;
+    const isDeliveryAddr = this.curPanelKey === 'deliveryAddr';
     if (!isValid) {
       return false;
     }
     this.props.updateData(form);
 
     paymentStore.setStsToCompleted({ key: this.curPanelKey });
-    if (this.curPanelKey === 'deliveryAddr' && this.state.billingChecked) {
-      paymentStore.setStsToCompleted({ key: 'billingAddr' });
+    if (isDeliveryAddr) {
+      billingChecked && paymentStore.setStsToCompleted({ key: 'billingAddr' });
+      paymentStore.setDefaultCardDataFromAddr(form);
     }
-    dataLayer[0].checkout.step = 3;
 
     // 下一个最近的未complete的panel
     const nextConfirmPanel = searchNextConfirmPanel({
@@ -95,13 +88,11 @@ class VisitorAddress extends React.Component {
       curKey: this.curPanelKey
     });
     paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-    // todo
-    // setTimeout(() => {
-    //   isMobile &&
-    //     scrollIntoView(
-    //       document.querySelector(`#J_checkout_panel_paymentMethod`)
-    //     );
-    // });
+    if (isDeliveryAddr) {
+      setTimeout(() => {
+        scrollPaymentPanelIntoView();
+      });
+    }
   };
   handleClickEdit = () => {
     this.props.paymentStore.setStsToEdit({
@@ -160,7 +151,7 @@ class VisitorAddress extends React.Component {
   render() {
     const { panelStatus } = this;
 
-    const { isOnepageCheckout, showConfirmBtn } = this.props;
+    const { showConfirmBtn } = this.props;
     const { form, isValid } = this.state;
     const { updateStepForAddress, paymentStep } = this.props.paymentStore;
 
@@ -169,7 +160,6 @@ class VisitorAddress extends React.Component {
         type="delivery"
         initData={form}
         isLogin={false}
-        isOnepageCheckout={isOnepageCheckout}
         updateData={this.handleEditFormChange}
       />
     );
@@ -181,12 +171,6 @@ class VisitorAddress extends React.Component {
       ? this.titleJSXForCompeleted()
       : null;
 
-    //更新地址栏填写状态
-    // updateStepForAddress(panelStatus)
-    // if(paymentStep[1].isCompleted){
-    //   dataLayer[0].checkout.step = 3
-    // }
-
     return (
       <>
         {this.props.titleVisible && (
@@ -195,7 +179,7 @@ class VisitorAddress extends React.Component {
           </div>
         )}
 
-        {isOnepageCheckout && !panelStatus.isPrepare ? (
+        {!panelStatus.isPrepare ? (
           <>
             {panelStatus.isEdit ? (
               <fieldset className="shipping-address-block rc-fieldset">
@@ -230,7 +214,6 @@ class VisitorAddress extends React.Component {
             ) : null}
           </>
         ) : null}
-        {!isOnepageCheckout && <>{_editForm}</>}
       </>
     );
   }

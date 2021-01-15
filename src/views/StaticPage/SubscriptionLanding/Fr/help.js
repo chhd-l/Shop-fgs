@@ -53,7 +53,8 @@ class Help extends Component {
                                 </div>
                                 <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                                     <LazyLoad>
-                                    <img className="align-self-center widthAuto lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwbcba612c/promotion-refuge/customer-service@2x.png?sw=100&sh=100&sm=cut&sfrm=jpg"/>
+                                    <img className="align-self-center widthAuto lazyloaded"
+                                        src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/customer-service@2x.png`}/>
                                     </LazyLoad>
                                 </div>
                             </div>
@@ -75,7 +76,8 @@ class Help extends Component {
                                 </div>
                                 <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                                     <LazyLoad>
-                                    <img className="align-self-center widthAuto lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=100&sh=100&sm=cut&sfrm=png"/>
+                                    <img className="align-self-center widthAuto lazyloaded" 
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon_100@2x .webp`}/>
                                     </LazyLoad>
                                 </div>
                             </div>
@@ -89,7 +91,7 @@ class Help extends Component {
                                 <div className="rc-column rc-double-width rc-padding-top--md--mobile text-center text-md-left rc-padding-right--none--desktop">
                                     <div>
                                         <b>Des questions?</b>
-                                        <p>Vous pouvez également consulter notre rubrique
+                                        <p>{`Vous pouvez également consulter notre rubrique `}
                                             <a style={{color:'rgb(236,0,26)',backgroundColor:'rgb(255,255,255)',padding:'0 3px'}} href={`${process.env.REACT_APP_ACCESS_PATH}FAQ/all`}>FAQ</a> 
                                             qui vous apportera de nombreuses réponses
                                         </p>
@@ -97,7 +99,8 @@ class Help extends Component {
                                 </div>
                                 <div className="rc-column rc-content-v-middle rc-padding-top--sm--mobile">
                                     <LazyLoad>
-                                    <img className="align-self-center widthAuto lazyloaded" src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=100&sh=100&sm=cut&sfrm=png"/>
+                                    <img className="align-self-center widthAuto lazyloaded" 
+                                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon_100@2x.png`}/>
                                     </LazyLoad>
                                 </div>
                             </div>

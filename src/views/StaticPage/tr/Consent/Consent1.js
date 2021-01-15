@@ -2,6 +2,8 @@ import React from 'react';
 import { setSeoConfig } from '@/utils/utils';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href
+
 class Consent1 extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,7 @@ class Consent1 extends React.Component {
   return (
     <div className="rc-content--fixed-header rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile rc-max-width--lg mb-0">
       <Helmet>
+        <link rel="canonical" href={pageLink} />
         <title>{this.state.seoConfig.title}</title>
         <meta name="description" content={this.state.seoConfig.metaDescription}/>
         <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

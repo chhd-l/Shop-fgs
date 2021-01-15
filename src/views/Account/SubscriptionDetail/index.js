@@ -17,7 +17,9 @@ import {
   getDeviceType,
   getFrequencyDict,
   getFormatDate,
-  datePickerConfig
+  datePickerConfig,
+  formatMoney,
+  setSeoConfig
 } from '@/utils/utils';
 import DatePicker from 'react-datepicker';
 import cancelIcon from './images/cancel.png';
@@ -44,16 +46,14 @@ import {
 } from '@/api/subscription';
 import { queryCityNameById } from '@/api';
 import Modal from '@/components/Modal';
-import { formatMoney } from '@/utils/utils';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import { setSeoConfig } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 import GoogleTagManager from '@/components/GoogleTagManager';
 
-
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href;
 
 @inject('checkoutStore', 'loginStore')
 @injectIntl
@@ -63,7 +63,6 @@ class SubscriptionDetail extends React.Component {
     this.state = {
       //订阅购物车参数
       subTotal: 0,
-      subDiscount: 0,
       subShipping: 0,
       promotionDiscount: 0,
       promotionDesc: '',
@@ -173,7 +172,10 @@ class SubscriptionDetail extends React.Component {
       minDate: new Date(),
       maxDate: new Date(),
       todaydate: new Date(),
-      tabName: [this.props.intl.messages.noStart, this.props.intl.messages.completed],
+      tabName: [
+        this.props.intl.messages.noStart,
+        this.props.intl.messages.completed
+      ],
       activeTabIdx: 0,
       isMobile: false,
       noStartYearOption: [],
@@ -193,7 +195,6 @@ class SubscriptionDetail extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(datePickerConfig, 'datePickerConfig')
     this.setState({ isMobile: getDeviceType() !== 'PC' });
     getDictionary({ type: 'country' }).then((res) => {
       this.setState({
@@ -209,8 +210,8 @@ class SubscriptionDetail extends React.Component {
       goodsId: '',
       categoryId: '',
       pageName: 'Subscription Page'
-    }).then(res => {
-      this.setState({seoConfig: res})
+    }).then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -230,7 +231,7 @@ class SubscriptionDetail extends React.Component {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
       return {
-        value: ele.valueEn,
+        value: ele.id,
         ...ele
       };
     });
@@ -302,15 +303,20 @@ class SubscriptionDetail extends React.Component {
     }
   }
   getMinDate(nextDeliveryTime) {
-    let time = new Date(nextDeliveryTime)
-    if((time.getTime() - 14*24*60*60*1000) > (this.state.minDate.getTime() + 24*60*60*1000)) {
-      return new Date(time.getTime() - 14*24*60*60*1000)
-    }else {
-      return new Date(this.state.minDate.getTime() + 24*60*60*1000)
+    let time = new Date(nextDeliveryTime);
+    if (
+      time.getTime() - 14 * 24 * 60 * 60 * 1000 >
+      this.state.minDate.getTime() + 24 * 60 * 60 * 1000
+    ) {
+      return new Date(time.getTime() - 14 * 24 * 60 * 60 * 1000);
+    } else {
+      return new Date(this.state.minDate.getTime() + 24 * 60 * 60 * 1000);
     }
   }
   getMaxDate(nextDeliveryTime) {
-    return new Date(new Date(nextDeliveryTime).getTime() + 14*24*60*60*1000)
+    return new Date(
+      new Date(nextDeliveryTime).getTime() + 14 * 24 * 60 * 60 * 1000
+    );
   }
   async getDetail(fn) {
     try {
@@ -350,7 +356,7 @@ class SubscriptionDetail extends React.Component {
           this.frequencyListOptions.filter(
             (item) => item.id === el.periodTypeId
           )[0] || this.frequencyListOptions[0];
-        el.periodTypeValue = filterData.valueEn;
+        // el.periodTypeValue = filterData.valueEn;
         return el;
       });
       let orderOptions = (subDetail.trades || []).map((el) => {
@@ -462,7 +468,6 @@ class SubscriptionDetail extends React.Component {
         //Number(res.context.promotionDiscount);
         this.setState({
           // loading: false,
-          subDiscount: res.context.discountsPrice,
           subShipping: res.context.deliveryPrice,
           promotionDiscount: res.context.promotionDiscount,
           promotionDesc: res.context.promotionDesc,
@@ -520,8 +525,11 @@ class SubscriptionDetail extends React.Component {
           });
           this.showErrMsg(err.message);
         });
-    }else if(modalType === 'changeDate') {
-      this.onDateChange(this.state.currentChangeDate, this.state.currentChangeItem)
+    } else if (modalType === 'changeDate') {
+      this.onDateChange(
+        this.state.currentChangeDate,
+        this.state.currentChangeItem
+      );
     }
   }
   showErrMsg(msg, type, fn) {
@@ -564,7 +572,7 @@ class SubscriptionDetail extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     const data = this.state;
@@ -593,9 +601,13 @@ class SubscriptionDetail extends React.Component {
         <div>
           <GoogleTagManager additionalEvents={event} />
           <Helmet>
+            <link rel="canonical" href={pageLink} />
             <title>{this.state.seoConfig.title}</title>
-            <meta name="description" content={this.state.seoConfig.metaDescription}/>
-            <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+            <meta
+              name="description"
+              content={this.state.seoConfig.metaDescription}
+            />
+            <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
           </Helmet>
           <Header
             showMiniIcons={true}
@@ -816,7 +828,7 @@ class SubscriptionDetail extends React.Component {
                               marginLeft: '10px'
                             }}
                           >
-                            <FormattedMessage id="active"/>
+                            <FormattedMessage id="active" />
                           </span>
                         ) : (
                           <span
@@ -828,7 +840,7 @@ class SubscriptionDetail extends React.Component {
                               marginLeft: '10px'
                             }}
                           >
-                            <FormattedMessage id="inactive"/>
+                            <FormattedMessage id="inactive" />
                           </span>
                         )
                       ) : null}
@@ -862,10 +874,10 @@ class SubscriptionDetail extends React.Component {
                             >
                               <div style={{ display: 'flex' }}>
                                 <LazyLoad>
-                                <img
-                                  src={el.goodsPic}
-                                  style={{ width: '100px' }}
-                                />
+                                  <img
+                                    src={el.goodsPic}
+                                    style={{ width: '100px' }}
+                                  />
                                 </LazyLoad>
                                 <div
                                   className="v-center"
@@ -1031,7 +1043,9 @@ class SubscriptionDetail extends React.Component {
                                       height: '25px'
                                     }}
                                   >
-                                    {formatMoney(el.subscribePrice * el.subscribeNum)}
+                                    {formatMoney(
+                                      el.subscribePrice * el.subscribeNum
+                                    )}
                                   </span>
                                   <span
                                     className="price"
@@ -1047,7 +1061,9 @@ class SubscriptionDetail extends React.Component {
                                       fontSize: '14px'
                                     }}
                                   >
-                                    {formatMoney(el.originalPrice * el.subscribeNum)}
+                                    {formatMoney(
+                                      el.originalPrice * el.subscribeNum
+                                    )}
                                   </span>
                                 </div>
                               </div>
@@ -1076,17 +1092,16 @@ class SubscriptionDetail extends React.Component {
                                     <Selection
                                       optionList={this.frequencyListOptions}
                                       selectedItemChange={(data) => {
-                                        if(el.periodTypeId !== data.id) {
+                                        if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
-                                          el.periodTypeValue = data.valueEn;
-                                          this.setState({isDataChange: true})
+                                          // el.periodTypeValue = data.valueEn;
+                                          this.setState({ isDataChange: true });
                                         }
                                       }}
                                       selectedItemData={{
-                                        value: el.periodTypeValue
+                                        value: el.periodTypeId
                                       }}
-                                      customStyleType="select-one"
-                                      key={index + '_' + el.periodTypeValue}
+                                      key={index + '_' + el.periodTypeId}
                                     />
                                   </h1>
                                 </div>
@@ -1098,7 +1113,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted"/>
+                                    <FormattedMessage id="autoShipStarted" />
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1119,15 +1134,15 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <LazyLoad>
-                                    <img
-                                      src={dateIcon}
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '20px',
-                                        verticalAlign: 'middle',
-                                        marginRight: '8px'
-                                      }}
-                                    />
+                                      <img
+                                        src={dateIcon}
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '20px',
+                                          verticalAlign: 'middle',
+                                          marginRight: '8px'
+                                        }}
+                                      />
                                     </LazyLoad>
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
@@ -1146,7 +1161,10 @@ class SubscriptionDetail extends React.Component {
                                       dateFormat={datePickerConfig.format}
                                       locale={datePickerConfig.locale}
                                       // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
+                                      minDate={
+                                        this.getMinDate(el.nextDeliveryTime) ||
+                                        this.state.minDate
+                                      }
                                       selected={
                                         el.nextDeliveryTime
                                           ? new Date(el.nextDeliveryTime)
@@ -1195,7 +1213,7 @@ class SubscriptionDetail extends React.Component {
                                   >
                                     <div className="img-container">
                                       <LazyLoad>
-                                      <img src={el.goodsPic} alt="" />
+                                        <img src={el.goodsPic} alt="" />
                                       </LazyLoad>
                                     </div>
                                     <div
@@ -1374,7 +1392,10 @@ class SubscriptionDetail extends React.Component {
                                               height: '25px'
                                             }}
                                           >
-                                            {formatMoney(el.subscribePrice * el.subscribeNum)}
+                                            {formatMoney(
+                                              el.subscribePrice *
+                                                el.subscribeNum
+                                            )}
                                           </span>
                                           <span
                                             className="price"
@@ -1390,7 +1411,9 @@ class SubscriptionDetail extends React.Component {
                                               fontSize: '14px'
                                             }}
                                           >
-                                            {formatMoney(el.originalPrice * el.subscribeNum)}
+                                            {formatMoney(
+                                              el.originalPrice * el.subscribeNum
+                                            )}
                                           </span>
                                         </div>
                                       </div>
@@ -1424,17 +1447,16 @@ class SubscriptionDetail extends React.Component {
                                     <Selection
                                       optionList={this.frequencyListOptions}
                                       selectedItemChange={(data) => {
-                                        if(el.periodTypeId !== data.id) {
+                                        if (el.periodTypeId !== data.id) {
                                           el.periodTypeId = data.id;
-                                          el.periodTypeValue = data.valueEn;
-                                          this.setState({isDataChange: true})
+                                          // el.periodTypeValue = data.valueEn;
+                                          this.setState({ isDataChange: true });
                                         }
                                       }}
                                       selectedItemData={{
-                                        value: el.periodTypeValue
+                                        value: el.periodTypeId
                                       }}
-                                      customStyleType="select-one"
-                                      key={index + '_' + el.periodTypeValue}
+                                      key={index + '_' + el.periodTypeId}
                                       disabled={!isActive}
                                     />
                                   </h1>
@@ -1447,7 +1469,7 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     {/* Shipping Method: */}
-                                    <FormattedMessage id="autoShipStarted"/>
+                                    <FormattedMessage id="autoShipStarted" />
                                   </b>
                                   <h1
                                     className="rc-card__meta order-Id text-left"
@@ -1457,7 +1479,7 @@ class SubscriptionDetail extends React.Component {
                                       marginLeft: '10px'
                                     }}
                                   >
-                                    { getFormatDate(el.createTime.split(' ')[0]) }
+                                    {getFormatDate(el.createTime.split(' ')[0])}
                                     {/* <FormattedDate value={el.createTime.split(' ')[0]}/> */}
                                   </h1>
                                 </div>
@@ -1469,15 +1491,15 @@ class SubscriptionDetail extends React.Component {
                                     }}
                                   >
                                     <LazyLoad>
-                                    <img
-                                      src={dateIcon}
-                                      style={{
-                                        display: 'inline-block',
-                                        width: '20px',
-                                        verticalAlign: 'middle',
-                                        marginRight: '8px'
-                                      }}
-                                    />
+                                      <img
+                                        src={dateIcon}
+                                        style={{
+                                          display: 'inline-block',
+                                          width: '20px',
+                                          verticalAlign: 'middle',
+                                          marginRight: '8px'
+                                        }}
+                                      />
                                     </LazyLoad>
                                     <FormattedMessage id="nextShipment"></FormattedMessage>
                                     :
@@ -1496,7 +1518,10 @@ class SubscriptionDetail extends React.Component {
                                       dateFormat={datePickerConfig.format}
                                       locale={datePickerConfig.locale}
                                       // maxDate={this.getMaxDate(el.nextDeliveryTime)}
-                                      minDate={this.getMinDate(el.nextDeliveryTime) || this.state.minDate}
+                                      minDate={
+                                        this.getMinDate(el.nextDeliveryTime) ||
+                                        this.state.minDate
+                                      }
                                       selected={
                                         el.nextDeliveryTime
                                           ? new Date(el.nextDeliveryTime)
@@ -1517,17 +1542,17 @@ class SubscriptionDetail extends React.Component {
                         className="footerGroupButton"
                         style={{ display: isActive ? 'block' : 'none' }}
                       >
-                        <p style={{textAlign: isMobile?'center': 'right'}}>
+                        <p style={{ textAlign: isMobile ? 'center' : 'right' }}>
                           {/* <div className="col-12 col-md-2"> */}
                           <LazyLoad>
-                          <img
-                            style={{
-                              display: 'inline-block',
-                              width: '20px',
-                              marginRight: '5px'
-                            }}
-                            src={cancelIcon}
-                          />
+                            <img
+                              style={{
+                                display: 'inline-block',
+                                width: '20px',
+                                marginRight: '5px'
+                              }}
+                              src={cancelIcon}
+                            />
                           </LazyLoad>
                           <a
                             className="rc-styled-link"
@@ -1553,7 +1578,7 @@ class SubscriptionDetail extends React.Component {
                                 ? ''
                                 : 'rc-btn-solid-disabled'
                             }`}
-                            style={{marginTop: isMobile?'10px': '0'}}
+                            style={{ marginTop: isMobile ? '10px' : '0' }}
                             onClick={async () => {
                               if (!this.state.isDataChange) {
                                 return false;
@@ -1593,12 +1618,14 @@ class SubscriptionDetail extends React.Component {
                               }
                             }}
                           >
-                            <FormattedMessage id="saveChange"/>
+                            <FormattedMessage id="saveChange" />
                           </button>
                         </p>
                       </div>
 
-                      <h4 className="h4"><FormattedMessage id="transactionInfo"/></h4>
+                      <h4 className="h4">
+                        <FormattedMessage id="transactionInfo" />
+                      </h4>
                       <div className="row text-left text-break editCard ml-0 mr-0">
                         <div
                           className="col-12 col-md-4 mb-2"
@@ -1614,14 +1641,14 @@ class SubscriptionDetail extends React.Component {
                             <div className="align-items-center">
                               {/* <i className="rc-icon rc-delivery--sm rc-brand1 ml-1 mr-1 mt-1" /> */}
                               <LazyLoad>
-                              <img
-                                src={deliveryIcon}
-                                style={{
-                                  width: '30px',
-                                  marginRight: '18px',
-                                  display: 'inline-block'
-                                }}
-                              />
+                                <img
+                                  src={deliveryIcon}
+                                  style={{
+                                    width: '30px',
+                                    marginRight: '18px',
+                                    display: 'inline-block'
+                                  }}
+                                />
                               </LazyLoad>
                               <span>
                                 <FormattedMessage id="delivery2" />
@@ -1688,14 +1715,14 @@ class SubscriptionDetail extends React.Component {
                           >
                             <div className="align-items-center">
                               <LazyLoad>
-                              <img
-                                src={billingIcon}
-                                style={{
-                                  width: '30px',
-                                  marginRight: '18px',
-                                  display: 'inline-block'
-                                }}
-                              />
+                                <img
+                                  src={billingIcon}
+                                  style={{
+                                    width: '30px',
+                                    marginRight: '18px',
+                                    display: 'inline-block'
+                                  }}
+                                />
                               </LazyLoad>
                               <span>
                                 <FormattedMessage id="billing2" />
@@ -1762,15 +1789,15 @@ class SubscriptionDetail extends React.Component {
                               }}
                             >
                               <div className="align-items-center">
-                                <LazyLoad style={{display:'inline'}}>
-                                <img
-                                  src={paymentIcon}
-                                  style={{
-                                    width: '30px',
-                                    marginRight: '18px',
-                                    display: 'inline-block'
-                                  }}
-                                />
+                                <LazyLoad style={{ display: 'inline' }}>
+                                  <img
+                                    src={paymentIcon}
+                                    style={{
+                                      width: '30px',
+                                      marginRight: '18px',
+                                      display: 'inline-block'
+                                    }}
+                                  />
                                 </LazyLoad>
                                 <span>
                                   <FormattedMessage id="payment.payment" />
@@ -1790,7 +1817,8 @@ class SubscriptionDetail extends React.Component {
                                 )}
                               </div>
                               <div className="ml-1">
-                                {currentCardInfo && currentCardInfo.paymentMethod &&
+                                {currentCardInfo &&
+                                currentCardInfo.paymentMethod &&
                                 currentCardInfo.paymentMethod.last_4_digits ? (
                                   <>
                                     <span
@@ -1809,28 +1837,31 @@ class SubscriptionDetail extends React.Component {
                                           .last_4_digits
                                       }
                                     </span>
-                                    <LazyLoad>
-                                    <img
-                                      alt=""
-                                      className="d-inline-block mr-1"
+                                    <br />
+                                    <LazyLoad
                                       style={{
                                         width: '20%',
-                                        marginLeft: '10px'
+                                        marginRight: '.2rem'
                                       }}
-                                      src={
-                                        CREDIT_CARD_IMG_ENUM[
-                                          currentCardInfo.paymentMethod
-                                            ? currentCardInfo.paymentMethod
-                                                .vendor
-                                            : currentCardInfo.vendor
-                                        ]
-                                      }
-                                    />
+                                    >
+                                      <img
+                                        alt=""
+                                        className="d-inline-block"
+                                        src={
+                                          CREDIT_CARD_IMG_ENUM[
+                                            currentCardInfo.paymentMethod
+                                              ? currentCardInfo.paymentMethod
+                                                  .vendor
+                                              : currentCardInfo.vendor
+                                          ]
+                                        }
+                                      />
                                     </LazyLoad>
                                   </>
                                 ) : null}
 
-                                {currentCardInfo && currentCardInfo.paymentMethod
+                                {currentCardInfo &&
+                                currentCardInfo.paymentMethod
                                   ? currentCardInfo.paymentMethod.holder_name
                                   : ''}
                                 <br />
@@ -1841,7 +1872,9 @@ class SubscriptionDetail extends React.Component {
                           </div>
                         }
                       </div>
-                      <h4 className="h4"><FormattedMessage id="myAutoshipOrder"/></h4>
+                      <h4 className="h4">
+                        <FormattedMessage id="myAutoshipOrder" />
+                      </h4>
                       <div className="rc-max-width--xl">
                         <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
                           <div>
@@ -1906,7 +1939,6 @@ class SubscriptionDetail extends React.Component {
                                         this.setState({ completedYear: el });
                                       }
                                     }}
-                                    customStyleType="select-one"
                                     type="freqency"
                                     key={noStartYear.value}
                                   />
@@ -1921,7 +1953,6 @@ class SubscriptionDetail extends React.Component {
                                         this.setState({ completedYear: el });
                                       }
                                     }}
-                                    customStyleType="select-one"
                                     type="freqency"
                                     key={completedYear.value}
                                   />
@@ -1963,7 +1994,8 @@ class SubscriptionDetail extends React.Component {
                                                   : '0 15px 0 20px'
                                               }}
                                             >
-                                              <FormattedMessage id="shipmentOn"/>:
+                                              <FormattedMessage id="shipmentOn" />
+                                              :
                                               <br />
                                               <span
                                                 style={{
@@ -1971,7 +2003,11 @@ class SubscriptionDetail extends React.Component {
                                                   fontWeight: '400'
                                                 }}
                                               >
-                                                {getFormatDate(el.tradeItems[0].nextDeliveryTime.split(' ')[0])}
+                                                {getFormatDate(
+                                                  el.tradeItems[0].nextDeliveryTime.split(
+                                                    ' '
+                                                  )[0]
+                                                )}
                                                 {/* <FormattedDate value={el.tradeItems[0].nextDeliveryTime.split(' ')[0]}/> */}
                                                 {/* {
                                                   el.tradeItems[0].nextDeliveryTime.split(' ')[0]
@@ -1999,13 +2035,13 @@ class SubscriptionDetail extends React.Component {
                                               {isActive ? (
                                                 <>
                                                   <LazyLoad>
-                                                  <img
-                                                    src={dateIcon}
-                                                    style={{
-                                                      width: '20px',
-                                                      display: 'inline'
-                                                    }}
-                                                  />
+                                                    <img
+                                                      src={dateIcon}
+                                                      style={{
+                                                        width: '20px',
+                                                        display: 'inline'
+                                                      }}
+                                                    />
                                                   </LazyLoad>
                                                   <span
                                                     style={{
@@ -2020,11 +2056,18 @@ class SubscriptionDetail extends React.Component {
                                                     <DatePicker
                                                       className="receiveDate subs-receiveDate"
                                                       placeholder="Select Date"
-                                                      dateFormat={datePickerConfig.format}
-                                                      locale={datePickerConfig.locale}
+                                                      dateFormat={
+                                                        datePickerConfig.format
+                                                      }
+                                                      locale={
+                                                        datePickerConfig.locale
+                                                      }
                                                       // maxDate={this.getMaxDate(el.tradeItems[0].nextDeliveryTime)}
                                                       minDate={
-                                                        this.getMinDate(el.tradeItems[0].nextDeliveryTime) || this.state.minDate
+                                                        this.getMinDate(
+                                                          el.tradeItems[0]
+                                                            .nextDeliveryTime
+                                                        ) || this.state.minDate
                                                       }
                                                       selected={
                                                         el.tradeItems
@@ -2035,7 +2078,8 @@ class SubscriptionDetail extends React.Component {
                                                       }
                                                       onChange={(date) => {
                                                         this.setState({
-                                                          modalType: 'changeDate',
+                                                          modalType:
+                                                            'changeDate',
                                                           modalShow: true,
                                                           currentModalObj: this.state.modalList.filter(
                                                             (el) =>
@@ -2050,7 +2094,7 @@ class SubscriptionDetail extends React.Component {
                                                               };
                                                             }
                                                           )
-                                                        })
+                                                        });
                                                       }}
                                                     />
                                                   </span>
@@ -2070,14 +2114,14 @@ class SubscriptionDetail extends React.Component {
                                               {isActive ? (
                                                 <>
                                                   <LazyLoad>
-                                                  <img
-                                                    style={{
-                                                      display: 'inline-block',
-                                                      width: '20px',
-                                                      marginRight: '5px'
-                                                    }}
-                                                    src={skipIcon}
-                                                  />
+                                                    <img
+                                                      style={{
+                                                        display: 'inline-block',
+                                                        width: '20px',
+                                                        marginRight: '5px'
+                                                      }}
+                                                      src={skipIcon}
+                                                    />
                                                   </LazyLoad>
                                                   <a
                                                     className="rc-styled-link"
@@ -2102,7 +2146,7 @@ class SubscriptionDetail extends React.Component {
                                                       });
                                                     }}
                                                   >
-                                                    <FormattedMessage id="skip"/>
+                                                    <FormattedMessage id="skip" />
                                                   </a>
                                                 </>
                                               ) : null}
@@ -2119,6 +2163,7 @@ class SubscriptionDetail extends React.Component {
                                                   borderBottom:
                                                     '1px solid #d7d7d7'
                                                 }}
+                                                key={index}
                                               >
                                                 <div
                                                   className={`${
@@ -2142,14 +2187,14 @@ class SubscriptionDetail extends React.Component {
                                                       }}
                                                     >
                                                       <LazyLoad>
-                                                      <img
-                                                        style={{
-                                                          width: '70px',
-                                                          margin: '0 10px'
-                                                        }}
-                                                        src={tradeItem.pic}
-                                                        alt=""
-                                                      />
+                                                        <img
+                                                          style={{
+                                                            width: '70px',
+                                                            margin: '0 10px'
+                                                          }}
+                                                          src={tradeItem.pic}
+                                                          alt=""
+                                                        />
                                                       </LazyLoad>
                                                       <div
                                                         style={{
@@ -2166,7 +2211,9 @@ class SubscriptionDetail extends React.Component {
                                                             overflowWrap:
                                                               'normal',
                                                             fontSize: '14px',
-                                                            width: isMobile?'95px': 'auto',
+                                                            width: isMobile
+                                                              ? '95px'
+                                                              : 'auto'
                                                           }}
                                                         >
                                                           {tradeItem.skuName}
@@ -2218,7 +2265,7 @@ class SubscriptionDetail extends React.Component {
                                                       marginBottom: '0'
                                                     }}
                                                   >
-                                                    <span>
+                                                    <span className="red">
                                                       {formatMoney(
                                                         tradeItem.subscriptionPrice
                                                       )}
@@ -2247,22 +2294,19 @@ class SubscriptionDetail extends React.Component {
                                             borderBottom: '1px solid #d7d7d7'
                                           }}
                                         >
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
-                                          >
+                                          <div className={`col-12 col-md-6`}>
                                             <div
                                               className="footer"
                                               style={{
                                                 marginTop: '10px',
                                                 marginBottom: '10px',
                                                 padding: '0 40px',
-                                                display:
-                                                  subDetail.subscribeStatus ===
-                                                  '0'
-                                                    ? 'block'
-                                                    : 'none'
+                                                display:'none'
+                                                // display:
+                                                //   subDetail.subscribeStatus ===
+                                                //   '0'
+                                                //     ? 'block'
+                                                //     : 'none'
                                               }}
                                             >
                                               <span
@@ -2349,47 +2393,18 @@ class SubscriptionDetail extends React.Component {
                                                   });
                                                 }}
                                               >
-                                                <FormattedMessage id="apply"/>
+                                                <FormattedMessage id="apply" />
                                               </button>
                                             </div>
                                           </div>
-                                          <div
-                                            className={`${
-                                              isMobile ? 'col-12' : 'col-md-6'
-                                            }`}
-                                          >
-                                            <div
-                                              style={{
-                                                paddingLeft: isMobile
-                                                  ? '40px'
-                                                  : '200px',
-                                                paddingRight: isMobile
-                                                  ? '40px'
-                                                  : 0
-                                              }}
-                                            >
-                                              <div className="flex-layout">
-                                                <label
-                                                  className=""
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
-                                                  <FormattedMessage id="subscription.total"></FormattedMessage>
+                                          <div className={`col-12 col-md-6`}>
+                                            <div className="text-right">
+                                              <div className="row">
+                                                <div class="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
+                                                  <FormattedMessage id="subscription.total" />
                                                 </label>
-                                                <div
-                                                  className="text-right"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="col-5 col-md-3 text-right">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.goodsPrice
@@ -2397,45 +2412,50 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
-                                              {this.state.subDiscount ? (
-                                                <div className="flex-layout">
-                                                  <label
-                                                    className="saveDiscount  red-text"
-                                                    style={{
-                                                      minWidth: isMobile
-                                                        ? '0'
-                                                        : '230px',
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
-                                                  >
-                                                    <FormattedMessage id="promotion"></FormattedMessage>:
+                                              {el.tradePrice
+                                                .subscriptionDiscountPrice ? (
+                                                <div className="row">
+                                                  <div class="col-1 col-md-3" />
+                                                  <label className="green col-5 text-left">
+                                                    <FormattedMessage id="promotion" />
+                                                    :
                                                   </label>
-                                                  <div
-                                                    className="text-right red-text"
-                                                    style={{
-                                                      flex: isMobile
-                                                        ? '1'
-                                                        : 'inherit'
-                                                    }}
-                                                  >
+                                                  <div className="col-5 col-md-3 text-right green">
                                                     <b>
                                                       -
                                                       {formatMoney(
-                                                        // this.state.subDiscount
                                                         el.tradePrice
-                                                          .discountsPrice
+                                                          .subscriptionDiscountPrice
+                                                      )}
+                                                    </b>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+                                              {el.tradePrice
+                                                .promotionDiscountPrice ? (
+                                                <div className="row">
+                                                  <div class="col-1 col-md-3" />
+                                                  <label className="green col-5 text-left">
+                                                    <FormattedMessage id="promotion" />
+                                                    :
+                                                  </label>
+                                                  <div className="col-5 col-md-3 text-right green">
+                                                    <b>
+                                                      -
+                                                      {formatMoney(
+                                                        el.tradePrice
+                                                          .promotionDiscountPrice
                                                       )}
                                                     </b>
                                                   </div>
                                                 </div>
                                               ) : null}
                                               {!this.state.isShowValidCode &&
-                                                discount.map((el) => (
-                                                  <div className="flex-layout">
+                                                discount.map((el, i) => (
+                                                  <div className="row" key={i}>
+                                                    <div class="col-1 col-md-3" />
                                                     <label
-                                                      className="saveDiscount  red-text"
+                                                      className="red-text col-5"
                                                       style={{
                                                         flex: isMobile
                                                           ? '1'
@@ -2445,7 +2465,7 @@ class SubscriptionDetail extends React.Component {
                                                       {this.state.promotionDesc}
                                                     </label>
                                                     <div
-                                                      className="text-right red-text"
+                                                      className="text-right red-text col-5 col-md-3"
                                                       style={{
                                                         position: 'relative',
                                                         flex: isMobile
@@ -2480,28 +2500,12 @@ class SubscriptionDetail extends React.Component {
                                                     </div>
                                                   </div>
                                                 ))}
-                                              <div className="flex-layout">
-                                                <label
-                                                  className=""
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
-                                                  <FormattedMessage id="subscription.shipping"></FormattedMessage>
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
+                                                  <FormattedMessage id="subscription.shipping" />
                                                 </label>
-                                                <div
-                                                  className="text-right red-text"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="text-right red-text col-5 col-md-3">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice
@@ -2510,41 +2514,24 @@ class SubscriptionDetail extends React.Component {
                                                   </b>
                                                 </div>
                                               </div>
-                                              <div className="flex-layout">
-                                                <label
-                                                  className="saveDiscount"
-                                                  style={{
-                                                    minWidth: isMobile
-                                                      ? '0'
-                                                      : '230px',
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                              <div className="row">
+                                                <div className="col-1 col-md-3" />
+                                                <label className="col-5 text-left">
                                                   <b
                                                     style={{
                                                       fontSize: '20px',
                                                       color: '#333'
                                                     }}
                                                   >
-                                                    <FormattedMessage id="subscription.total"/>
-                                                  </b>
+                                                    <FormattedMessage id="order.total" />
+                                                  </b>{' '}
                                                   <span
                                                     style={{ fontSize: '12px' }}
                                                   >
-                                                    {/* (VAT included) */}
-                                                    (<FormattedMessage id="VAT_included"/>)
+                                                    <FormattedMessage id="order.iVAIncluido" />
                                                   </span>
                                                 </label>
-                                                <div
-                                                  className="text-right"
-                                                  style={{
-                                                    flex: isMobile
-                                                      ? '1'
-                                                      : 'inherit'
-                                                  }}
-                                                >
+                                                <div className="text-right col-5 col-md-3">
                                                   <b>
                                                     {formatMoney(
                                                       el.tradePrice.totalPrice
@@ -2582,16 +2569,19 @@ class SubscriptionDetail extends React.Component {
                                             }`}
                                             style={{ paddingLeft: '20px' }}
                                           >
-                                            <FormattedMessage id="shipmentOn"/>:{' '}
+                                            <FormattedMessage id="shipmentOn" />
+                                            :{' '}
                                             <span
                                               style={{
                                                 color: '#e2001a',
                                                 fontWeight: '400'
                                               }}
                                             >
-                                              {
-                                                getFormatDate(el.tradeState.createTime.split(' ')[0])
-                                              }
+                                              {getFormatDate(
+                                                el.tradeState.createTime.split(
+                                                  ' '
+                                                )[0]
+                                              )}
                                               {/* <FormattedDate value={el.tradeState.createTime.split(' ')[0]}/> */}
                                             </span>
                                           </div>
@@ -2600,10 +2590,12 @@ class SubscriptionDetail extends React.Component {
                                           )}
                                           {isMobile ? null : (
                                             <div className="col-12 col-md-3 pl-4">
-                                              <FormattedMessage id="promotion"/>:{' '}
+                                              <FormattedMessage id="promotion" />
+                                              :{' '}
                                               <span
+                                                className="green"
                                                 style={{
-                                                  color: '#e2001a',
+                                                  // color: '#e2001a',
                                                   fontWeight: '400'
                                                 }}
                                               >
@@ -2657,7 +2649,7 @@ class SubscriptionDetail extends React.Component {
                                                           paddingRight: '30px'
                                                         }}
                                                       >
-                                                        <FormattedMessage id="skiped"/>
+                                                        <FormattedMessage id="skiped" />
                                                       </span>
                                                     </>
                                                   )}
@@ -2666,14 +2658,14 @@ class SubscriptionDetail extends React.Component {
                                             ) : el.id ? (
                                               <>
                                                 <LazyLoad>
-                                                <img
-                                                  style={{
-                                                    display: 'inline-block',
-                                                    width: '20px',
-                                                    marginRight: '5px'
-                                                  }}
-                                                  src={dateIcon}
-                                                />
+                                                  <img
+                                                    style={{
+                                                      display: 'inline-block',
+                                                      width: '20px',
+                                                      marginRight: '5px'
+                                                    }}
+                                                    src={dateIcon}
+                                                  />
                                                 </LazyLoad>
                                                 <a
                                                   className="rc-styled-link"
@@ -2714,15 +2706,15 @@ class SubscriptionDetail extends React.Component {
                                                     return (
                                                       <>
                                                         <LazyLoad>
-                                                        <img
-                                                          style={{
-                                                            width: '70px',
-                                                            margin: '0 10px',
-                                                            display: 'inline'
-                                                          }}
-                                                          src={tradeItem.pic}
-                                                          alt=""
-                                                        />
+                                                          <img
+                                                            style={{
+                                                              width: '70px',
+                                                              margin: '0 10px',
+                                                              display: 'inline'
+                                                            }}
+                                                            src={tradeItem.pic}
+                                                            alt=""
+                                                          />
                                                         </LazyLoad>
                                                         <div
                                                           className="v-center"
@@ -2796,20 +2788,23 @@ class SubscriptionDetail extends React.Component {
                                                         return (
                                                           <>
                                                             <LazyLoad>
-                                                            <img
-                                                              style={{
-                                                                width: '70px',
-                                                                margin: '0 10px'
-                                                              }}
-                                                              src={
-                                                                tradeItem.pic
-                                                              }
-                                                              alt=""
-                                                            />
+                                                              <img
+                                                                style={{
+                                                                  width: '70px',
+                                                                  margin:
+                                                                    '0 10px'
+                                                                }}
+                                                                src={
+                                                                  tradeItem.pic
+                                                                }
+                                                                alt=""
+                                                              />
                                                             </LazyLoad>
                                                             <div
                                                               style={{
-                                                                width: isMobile?'120px': 'auto',
+                                                                width: isMobile
+                                                                  ? '120px'
+                                                                  : 'auto',
                                                                 paddingTop:
                                                                   '30px'
                                                               }}
@@ -2892,7 +2887,9 @@ class SubscriptionDetail extends React.Component {
                                               ) : (
                                                 <>
                                                   <i className="yellowCircle"></i>
-                                                  <span><FormattedMessage id="skiped"/></span>
+                                                  <span>
+                                                    <FormattedMessage id="skiped" />
+                                                  </span>
                                                 </>
                                               )}
                                             </div>

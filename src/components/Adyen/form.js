@@ -147,24 +147,29 @@ class AdyenCreditCardForm extends React.Component {
           accountName: this.userInfo ? this.userInfo.customerAccount : ''
         });
         tmpSelectedId = res.context.id;
+        this.props.updateSelectedId(tmpSelectedId);
+        this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
         //把绑卡的encryptedSecurityCode传入
-        this.props.queryList(currentCardEncryptedSecurityCode);
+        await this.props.queryList({
+          currentCardEncryptedSecurityCode,
+          showListLoading: false
+        });
         this.setState({ saveLoading: false });
+        this.props.updateAdyenPayParam(decoAdyenFormData);
       } else {
         tmpSelectedId = new Date().getTime() + '';
         decoAdyenFormData = Object.assign(decoAdyenFormData, {
           id: tmpSelectedId
         });
+        this.props.updateAdyenPayParam(decoAdyenFormData);
+        this.props.updateSelectedId(tmpSelectedId);
       }
 
-      this.props.updateFormVisible(false);
-      this.props.updateAdyenPayParam(decoAdyenFormData);
-      this.props.updateSelectedId(tmpSelectedId);
-
-      this.props.paymentStore.updateFirstSavedCardCvv(tmpSelectedId);
+      this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
+      throw new Error(err.message);
     }
   };
   handleClickCancel = () => {
@@ -187,9 +192,8 @@ class AdyenCreditCardForm extends React.Component {
         <p className="mb-2">
           <span className="logo-payment-card-list logo-credit-card ml-0">
             {ADYEN_CREDIT_CARD_IMGURL_ENUM.map((el, idx) => (
-              <LazyLoad>
+              <LazyLoad key={idx}>
                 <img
-                  key={idx}
                   style={{ width: '50px' }}
                   className="logo-payment-card mr-1"
                   src={el}
@@ -257,26 +261,6 @@ class AdyenCreditCardForm extends React.Component {
             </div>
           ) : null}
         </div>
-        {isOnepageCheckout &&
-          !this.isLogin &&
-          this.paymentMethodPanelStatus.isCompleted && (
-            <div className="border pb-2">
-              <p>
-                <span
-                  className="pull-right ui-cursor-pointer-pure mr-2"
-                  onClick={() => {
-                    paymentStore.updatePanelStatus2('paymentMethod', {
-                      isPrepare: false,
-                      isEdit: true,
-                      isCompleted: false
-                    });
-                  }}
-                >
-                  <FormattedMessage id="edit" />
-                </span>
-              </p>
-            </div>
-          )}
       </>
     );
   }

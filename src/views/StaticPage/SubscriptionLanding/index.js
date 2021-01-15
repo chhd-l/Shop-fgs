@@ -22,7 +22,7 @@ import imagecat from '../PackmixfeedingwetDry/images/cat-autoship.png';
 import imagedog from '../PackmixfeedingwetDry/images/dog-autoship.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
-
+const pageLink = window.location.href
 @inject('configStore')
 @observer
 @injectIntl
@@ -61,6 +61,7 @@ class SubscriptionLanding extends React.Component {
     return (
       <div className="recommendation">
         <Helmet>
+        <link rel="canonical" href={pageLink}/>
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -140,14 +141,13 @@ class SubscriptionLanding extends React.Component {
                           </div>
                         </div>
                         <div className="rc-column">
+                        <LazyLoad>
                           <img
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
                             alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                             className="w-100 lazyloaded"
-                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship_dog.png`}
                           ></img>
+                          </LazyLoad>
                         </div>
                       </div>
                     </div>
@@ -170,15 +170,14 @@ class SubscriptionLanding extends React.Component {
                     <div className="row rc-content-v-middle text-center rc-padding-top--md rc-margin-x--none">
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
+                        <LazyLoad>
                           <img
                             className="m-auto w-auto lazyloaded"
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                             alt="image-one"
                             title="image-one"
-                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon1@1x.png`}
                           ></img>
+                        </LazyLoad>
                         </div>
 
                         <h7>
@@ -190,33 +189,31 @@ class SubscriptionLanding extends React.Component {
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
+                        <LazyLoad>
                           <img
                             className="m-auto w-auto lazyloaded"
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon2.png`}
                             alt="image two"
                             title="image two"
-                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
+                          </LazyLoad>
                         </div>
                         <h7>
                           <FormattedMessage id="subscription.ad.list2" values={{
-                            val1:(<strong>expédition automatique</strong>)
+                            val1:(<strong>l'expédition automatique</strong>)
                           }}/>
                         </h7>
                       </div>
                       <div className="col-6 col-md-3 rc-column">
                         <div className="rc-margin-bottom--sm">
+                          <LazyLoad>
                           <img
                             className="m-auto w-auto lazyloaded"
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon3.png`}
                             alt="image three"
                             title="image three"
-                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
+                          </LazyLoad>
                         </div>
 
                         <h7>
@@ -229,12 +226,9 @@ class SubscriptionLanding extends React.Component {
                         <div className="rc-margin-bottom--sm">
                           <img
                             className="m-auto w-auto lazyloaded"
-                            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                            data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                             alt="image four"
+                            src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/subscription_icon4.png`}
                             title="image four"
-                            srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
                           ></img>
                         </div>
                         <h7>
@@ -266,12 +260,12 @@ class SubscriptionLanding extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              to="/cats"
                             >
-                              Chat
-                            </a>
+                              <FormattedMessage id="account.cat" />
+                            </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
@@ -284,16 +278,16 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <Link
+                            {/* <Link
                               to="/product-finder"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="header.toBegin" />
-                            </Link>
-                            {/* <a className="rc-btn rc-btn--sm rc-btn--two"
-                               href="/">Chat</a>
-                            <a className="rc-btn rc-btn--sm rc-btn--two"
-                               href="/">Chien</a> */}
+                            </Link> */}
+                            <Link className="rc-btn rc-btn--sm rc-btn--two"
+                               to="/cats"><FormattedMessage id="account.cat" /></Link>
+                            <Link className="rc-btn rc-btn--sm rc-btn--two"
+                               to="/dogs"><FormattedMessage id="account.dog" /></Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
@@ -305,12 +299,12 @@ class SubscriptionLanding extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/"
+                              to="/dogs"
                             >
-                              Chien
-                            </a>
+                              <FormattedMessage id="account.dog" />
+                            </Link>
                           </div>
                         </div>
                       </div>

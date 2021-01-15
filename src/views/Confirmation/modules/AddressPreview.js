@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getDictionary, matchNamefromDict } from '@/utils/utils';
+import { getDictionary, matchNamefromDict, getDeviceType } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import { getDeviceType } from '@/utils/utils';
 
 class InfosPreview extends React.Component {
   static defaultProps = {

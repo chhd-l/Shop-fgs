@@ -191,8 +191,6 @@ class RouteFilter extends Component {
     }
     return true;
   }
-  componentWillMount() {
-  }
   async componentDidMount() {
     const { history, location, checkoutStore } = this.props;
     const { pathname, key } = location;
@@ -259,7 +257,16 @@ class RouteFilter extends Component {
 
     if (window.location.href.indexOf('/#/') !== -1) {
       window.location.href = window.location.href.split('/#/').join('/');
+      return null
     }
+    if (window.location.href.indexOf('_FR.html') !== -1) {
+      window.location.href = window.location.href.split('_FR.html')[0];
+      return null
+    }
+    if (window.location.href.indexOf('.html') !== -1) {
+      window.location.href = window.location.href.split('.html')[0];
+      return null
+    }    
     if (pathname !== '/login') {
       loadJS({
         url: process.env.REACT_APP_ONTRUST_SRC,

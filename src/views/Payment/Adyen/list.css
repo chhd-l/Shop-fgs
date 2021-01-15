@@ -1,3 +1,9 @@
+.creditCompleteInfoBox .cvv {
+  display: none;
+}
+.creditCompleteInfoBox.active .cvv {
+  display: block;
+}
 .cvv img{
     display: none;
 }

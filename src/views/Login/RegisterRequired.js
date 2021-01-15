@@ -81,7 +81,8 @@ class RegisterRequired extends Component {
     this.setState({
       circleLoading: true
     });
-    let oktaToken = 'Bearer ' + this.props.authState.accessToken;
+    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
     try {
       let lastPath =
         (this.props.location.state && this.props.location.state.path) || '/';
@@ -114,8 +115,11 @@ class RegisterRequired extends Component {
     }
   };
   computedIsCheck(list){
-    return list.every(item=>{
-      return item.isChecked==false
+    //必填项全部被check
+    return list.filter(item=>{
+      return item.isRequired==true 
+    }).every(item2=>{
+      return item2.isChecked == true
     })
   }
   //从子组件传回
@@ -354,7 +358,7 @@ class RegisterRequired extends Component {
               {
                 <button
                   className="rc-btn rc-btn--lg rc-btn--one px-5"
-                  disabled={this.computedIsCheck(this.state.list)}
+                  disabled={!this.computedIsCheck(this.state.list)}
                   onClick={this.submitLogin}
                 >
                   <FormattedMessage id="required.continue" />

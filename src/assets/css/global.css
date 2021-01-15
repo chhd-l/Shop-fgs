@@ -4100,6 +4100,10 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
   font-size: 1.25rem
 }
 
+body .pdl-1{
+  padding-left: 1rem !important;
+}
+
 .custom-file {
   display: inline-block;
   margin-bottom: 0
@@ -11341,6 +11345,9 @@ a.text-dark:focus,a.text-dark:hover {
 
 .text-muted {
   color: #6c757d!important
+}
+.text-black {
+  color: rgba(0,0,0)!important
 }
 
 .text-black-50 {
@@ -21009,18 +21016,6 @@ body {
   }
 }
 
-.content-block div picture {
-  max-width: 322px;
-  margin: 0 auto
-}
-
-@media(min-width: 992px) {
-  .content-block div picture {
-      max-width:322px;
-      float: right
-  }
-}
-
 @media(min-width: 640px) {
   .hp-right-content-block {
       -webkit-box-flex:0;
@@ -22275,4 +22270,7 @@ a.rc-styled-link,b.rc-styled-link,button.rc-styled-link,span.rc-styled-link {
   .p-md-2rem {
     padding: 2rem
   }
+}
+.creditCompleteInfoBox.active {
+  background-color: #3856A719;
 }

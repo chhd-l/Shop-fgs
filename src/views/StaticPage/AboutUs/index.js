@@ -19,6 +19,7 @@ import Faq from '../../Payment/Fr/faq';
 import { Helmet } from 'react-helmet';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
@@ -67,6 +68,7 @@ class AboutUs extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -132,9 +134,8 @@ class AboutUs extends React.Component {
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
 
                                     <img className="w-100 ls-is-cached lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw087fcb82/About-us/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
                                          alt="Notre histoire" title="Notre histoire"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw087fcb82/About-us/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/RAGDOLL_ADULT_-_VET_URINARY_Med._Res.___Basic.jpg`}/>
                             </picture>
                           </div>
                         </div>
@@ -154,9 +155,8 @@ class AboutUs extends React.Component {
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                                          <img className="w-100 ls-is-cached lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc3acd034/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
                                          alt="Les valeurs de Royal Canin" title="Les valeurs de Royal Canin"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwc3acd034/About-us/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/YORKSHIRE_TERRIER_PUPPY___MOTHER_-_BREED_EMBLEMATIC_Med._Res.___Basic.jpg`}/>
                             </picture>
                           </div>
                           <div className=" col-12 col-lg-6">
@@ -196,10 +196,9 @@ class AboutUs extends React.Component {
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                                     <img className="w-100 ls-is-cached lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6e30f99/About-us/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
                                          alt="Engagement en faveur de la qualité"
                                          title="Engagement en faveur de la qualité"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dwb6e30f99/About-us/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                                         src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/BENGAL_ADULT___FHN_OUTDOOR_EMBLEMATIC_Med._Res.___Basic.jpg`}/>
                             </picture>
                           </div>
                         </div>

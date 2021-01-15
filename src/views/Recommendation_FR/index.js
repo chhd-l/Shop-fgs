@@ -18,7 +18,7 @@ import ImageMagnifier from './components/ImageMagnifier';
 import { formatMoney, getDeviceType } from '@/utils/utils';
 // import paymentImg from "./img/payment.jpg";
 import { inject, observer } from 'mobx-react';
-import { getRecommendationList } from '@/api/recommendation';
+import { getRecommendationList, getRecommendationList_fr } from '@/api/recommendation';
 import { getPrescriptionById } from '@/api/clinic';
 import { getProductPetConfig } from '@/api/payment';
 import { sitePurchase } from '@/api/cart';
@@ -40,6 +40,7 @@ import './index.css';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 @inject('checkoutStore', 'loginStore', 'clinicStore', 'clinicStore')
 @inject('configStore')
@@ -69,7 +70,6 @@ class Help extends React.Component {
       currentDetail: {},
       images: [],
       activeIndex: 0,
-      prescriberInfo: {},
       loading: false,
       buttonLoading: false,
       errorMsg: '',
@@ -103,6 +103,8 @@ class Help extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
+    let paramArr = this.props.location.search.split('&')
+    let token = paramArr[paramArr.length - 1].split('=')[1]
     setSeoConfig({
       pageName: 'SPT reco landing page'
     }).then(res => {
@@ -110,11 +112,9 @@ class Help extends React.Component {
     });
     this.setState({ isMobile: getDeviceType() === 'H5' });
     this.setState({ loading: true });
-    // console.log(window.location, 'location', this.props)
-    getRecommendationList(this.props.match.params.id)
+    getRecommendationList_fr(token)
       .then((res) => {
         let productList = res.context.recommendationGoodsInfoRels;
-        
         productList.map((el) => {
           let tmpGoodsDetail = el.goodsInfo.goods.goodsDetail;
           if (tmpGoodsDetail) {
@@ -201,12 +201,12 @@ class Help extends React.Component {
         this.setState({ productList }, () => {
           this.checkoutStock();
         });
-        getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
-          this.props.clinicStore.setLinkClinicId(res.context.id);
-          this.props.clinicStore.setLinkClinicName(res.context.prescriberName);
-          this.props.clinicStore.setAuditAuthority(res.context.auditAuthority);
-          this.setState({ prescriberInfo: res.context, loading: false });
-        });
+        // getPrescriptionById({ id: res.context.prescriberId }).then((res) => {
+          this.props.clinicStore.setLinkClinicId(res.context.prescriberId);
+          this.props.clinicStore.setLinkClinicName('');
+          this.props.clinicStore.setAuditAuthority(false);
+          this.setState({loading: false });
+        // });
       })
       .catch((err) => {
         console.log(err, 'err');
@@ -523,7 +523,6 @@ class Help extends React.Component {
     let {
       productList,
       activeIndex,
-      prescriberInfo,
       currentModalObj,
       isMobile
     } = this.state;
@@ -568,6 +567,7 @@ class Help extends React.Component {
       <div className="Recommendation_FR">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -1046,7 +1046,7 @@ class Help extends React.Component {
                                 this.buyNow();
                               }}
                             >
-                              <FormattedMessage id="Buy as a guest" />
+                              <FormattedMessage id="guestCheckout" />
                             </button>
                           )}
                         </p>
@@ -1062,7 +1062,7 @@ class Help extends React.Component {
                               this.buyNow()
                             }}
                           >
-                            <FormattedMessage id="Buy as a guest" />
+                            <FormattedMessage id="guestCheckout" />
                           </button>
                         </p>
                       )} */}
@@ -1410,13 +1410,10 @@ class Help extends React.Component {
               </div>
               <div className="rc-column">
                 <img
-                  data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534"
-                  data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
                   alt="Avec l'Abonnement, ils auront toujours ce dont ils ont besoin"
                   className="w-100 lazyloaded"
-                  srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=1068 2x"
-                  src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwb45832a1/autoship.png?sw=534"
-                ></img>
+                  src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship.webp`}
+                />
               </div>
             </div>
           </div>
@@ -1431,13 +1428,10 @@ class Help extends React.Component {
                 <div className="rc-margin-bottom--sm">
                   <img
                     className="m-auto w-auto lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                     alt="image-one"
                     title="image-one"
-                    srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw87812924/subscription/icon1.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                  ></img>
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/pack@180.png`}
+                  />
                 </div>
                 <h7>
                   Trouvez les produits <strong>nutritionnels que vous avez sélectionnés</strong> dans votre panier.
@@ -1447,13 +1441,10 @@ class Help extends React.Component {
                 <div className="rc-margin-bottom--sm">
                   <img
                     className="m-auto w-auto lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                     alt="image two"
                     title="image two"
-                    srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw3c4b7b6c/subscription/icon2.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                  ></img>
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship@180.png`}
+                  />
                 </div>
                 <h7>
                   Sélectionnez votre mode <strong>d'expédition, de livraison </strong>et <strong>de paiement</strong>.
@@ -1463,13 +1454,10 @@ class Help extends React.Component {
                 <div className="rc-margin-bottom--sm">
                   <img
                     className="m-auto w-auto lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                     alt="image three"
                     title="image three"
-                    srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwa6fed565/subscription/icon3.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                  ></img>
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship2@180.png`}
+                  />
                 </div>
                 <h7>
                   <strong>Recevez votre produit automatiquement</strong>, selon votre propre agenda.
@@ -1479,13 +1467,10 @@ class Help extends React.Component {
                 <div className="rc-margin-bottom--sm">
                   <img
                     className="m-auto w-auto lazyloaded"
-                    data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                    data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
                     alt="image four"
                     title="image four"
-                    srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=200&amp;sh=200&amp;sm=cut&amp;sfrm=png 2x"
-                    src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dwc93c533a/subscription/icon4.png?sw=180&amp;sh=180&amp;sm=cut&amp;sfrm=png"
-                  ></img>
+                    src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/autoship3@180.png`}
+                  />
                 </div>
                 <h7>
                   <p>Modifiez votre planning <strong>de livraison à n'importe quel moment.</strong></p>

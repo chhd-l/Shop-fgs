@@ -333,7 +333,8 @@ class Question extends React.Component {
       // 特殊处理breed size
       if (breedSizeform && currentStepName === 'breedCode') {
         tmpQuestionParams = Object.assign(tmpQuestionParams, {
-          [configSizeAttach.name]: encodeURI(breedSizeform.key)
+          [configSizeAttach.name]: encodeURI(breedSizeform.key),
+          breedType: breedSizeform.type
         });
       }
       this.setState({ questionParams: tmpQuestionParams });
@@ -799,7 +800,7 @@ class Question extends React.Component {
                   <FormattedMessage id="productFinder.healthTitle" />
                 </h2>
                 <p>
-                  <FormattedMessage id="productFinder.healthTip1" />
+                  <FormattedMessage id={`productFinder.healthTip1_${type}`} />
                 </p>
                 <p>
                   <FormattedMessage id="productFinder.healthTip2" />
@@ -807,7 +808,11 @@ class Question extends React.Component {
                 <div className="rc-btn-group mb-3">
                   <Link
                     className="rc-btn rc-btn--one"
-                    to="/dog-range/canine-care-nutrition"
+                    to={
+                      type === 'dog'
+                        ? '/dog-range/canine-care-nutrition'
+                        : '/cat-range/feline-care-nutrition'
+                    }
                     target="_blank"
                     rel="nofollow"
                   >
@@ -823,8 +828,8 @@ class Question extends React.Component {
                   </Link>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
-                <LazyLoad>
+              <div className="col-12 col-md-6 text-center d-flex flex-column align-items-center justify-content-center">
+                <LazyLoad style={{ width: '100%' }}>
                   <img
                     src={veterinaryImg}
                     className="rc-md-up"

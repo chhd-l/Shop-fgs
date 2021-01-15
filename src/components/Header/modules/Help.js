@@ -5,6 +5,7 @@ import LazyLoad from 'react-lazyload';
 
 export default function Help(props) {
   const { configStore } = props;
+
   return (
     <div className="dropdown-nav__help d-md-flex">
       <div className="dropdown-nav__help__text align-self-center">
@@ -39,21 +40,20 @@ export default function Help(props) {
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
           <LazyLoad>
-          <img
-            className=" ls-is-cached lazyloaded"
-            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="Par téléphone icon"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-          />
+            <img
+              className="ls-is-cached lazyloaded"
+              alt="Par téléphone icon"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+            />
           </LazyLoad>
         </div>
         <div className="rc-padding-left--xs rc-md-down">
           <LazyLoad>
-          <img
-            className="lazyload"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw77342d81/subscription/icon callus@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=4&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="Par téléphone icon"
-          />
+            <img
+              className="lazyload"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/icon callus@2x.png`}
+              alt="Par téléphone icon"
+            />
           </LazyLoad>
         </div>
       </div>
@@ -69,21 +69,20 @@ export default function Help(props) {
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
           <LazyLoad>
-          <img
-            className=" ls-is-cached lazyloaded"
-            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="Par e-mail icon"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-          />
+            <img
+              className=" ls-is-cached lazyloaded"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              alt="Par e-mail icon"
+            />
           </LazyLoad>
         </div>
         <div className="rc-padding-left--xs rc-md-down">
           <LazyLoad>
-          <img
-            className="lazyload"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw72994029/subscription/Emailus_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="Par e-mail icon"
-          />
+            <img
+              className="lazyload"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/Emailus_icon@2x.png`}
+              alt="Par e-mail icon"
+            />
           </LazyLoad>
         </div>
       </Link>
@@ -99,21 +98,20 @@ export default function Help(props) {
         </div>
         <div className="rc-padding-left--xs rc-lg-up">
           <LazyLoad>
-          <img
-            className=" ls-is-cached lazyloaded"
-            data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="FAQ icon"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-          />
+            <img
+              className="ls-is-cached lazyloaded"
+              alt="FAQ icon"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+            />
           </LazyLoad>
         </div>
         <div className="rc-padding-left--xs rc-md-down">
           <LazyLoad>
-          <img
-            className="lazyload"
-            src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/default/dw4893a52e/subscription/FAQ_icon@2x.png?sw=65&amp;sh=65&amp;sm=fit&amp;cx=0&amp;cy=0&amp;cw=180&amp;ch=180&amp;sfrm=png"
-            alt="FAQ icon"
-          />
+            <img
+              className="lazyload"
+              src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/FAQ_icon@2x.png`}
+              alt="FAQ icon"
+            />
           </LazyLoad>
         </div>
       </Link>

@@ -13,6 +13,7 @@ import { toJS } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
 
 const guid = uuidv4();
+let isGACheckoutLock = false
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 @inject('checkoutStore', 'loginStore', 'paymentStore')
@@ -23,7 +24,7 @@ class PayProductInfo extends React.Component {
     fixToHeader: false,
     style: {},
     className: '',
-    onClickHeader: () => {},
+    onClickHeader: () => { },
     headerIcon: null
   };
   constructor(props) {
@@ -36,7 +37,6 @@ class PayProductInfo extends React.Component {
       isClickApply: false, //是否点击apply按钮
       isShowValidCode: false, //是否显示无效promotionCode
       frequencyList: [],
-      step: 2
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
@@ -51,9 +51,6 @@ class PayProductInfo extends React.Component {
       )
     );
   }
-  get paymentStep() {
-    return this.props.paymentStore.paymentStep;
-  }
   UNSAFE_componentWillReceiveProps(nextProps) {
     //     if (nextProps.buyWay === 'once') {
     //       this.setState({isShowValidCode:false})
@@ -62,7 +59,7 @@ class PayProductInfo extends React.Component {
     let productList;
     if (
       JSON.stringify(nextProps.data) !==
-        JSON.stringify(this.state.productList) &&
+      JSON.stringify(this.state.productList) &&
       this.props.data.length
     ) {
       productList = nextProps.data;
@@ -73,17 +70,12 @@ class PayProductInfo extends React.Component {
       );
     }
   }
-  //会员
-  GACheckout(productList) {
-    let product = [],
-      basketAmount = this.tradePrice,
-      basketID = guid,
-      option = this.isLogin ? 'account already created' : 'new account',
-      step = this.state.step;
+  //会员 GA需要的product信息
+  GAGetProductLogin(productList) {
+    let product = []
     for (let item of productList) {
       product.push({
-        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN', //?
-        // category:item.goods.goodsCateName?JSON.parse(item.goods.goodsCateName)[0]:'',
+        brand: (item.goods && item.goods.brandName) || 'ROYAL CANIN',
         club: 'no',
         id: (item.goods && item.goods.goodsNo) || '',
         name: (item.goods && item.goods.goodsName) || '',
@@ -91,26 +83,16 @@ class PayProductInfo extends React.Component {
           item.goodsInfoFlag == 1 ? item.subscriptionPrice : item.salePrice,
         quantity: item.buyCount,
         recommendation: 'self-selected',
-        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time', //?
+        type: item.goodsInfoFlag == 1 ? 'subscription' : 'one-time',
         variant: item.specText ? parseInt(item.specText) : '',
         sku: (item.goodsInfos && item.goodsInfos[0].goodsInfoNo) || ''
       });
     }
-    dataLayer[0].checkout.basketAmount = basketAmount;
-    dataLayer[0].checkout.basketID = basketID;
-    dataLayer[0].checkout.option = option;
-    dataLayer[0].checkout.product = product;
-    dataLayer[0].checkout.step = step;
-    console.log(dataLayer);
+    return product
   }
-  //游客
-  GACheckUnLogin(productList) {
-    console.log(productList);
-    let product = [],
-      basketAmount = this.tradePrice,
-      basketID = guid,
-      option = this.isLogin ? 'account already created' : 'new account',
-      step = this.state.step;
+  //游客 GA需要的product信息
+  GAGetProductUnlogin(productList) {
+    let product = []
     for (let item of productList) {
       let cur_selected_size = item.sizeList.filter((item2) => {
         return item2.selected == true;
@@ -131,14 +113,37 @@ class PayProductInfo extends React.Component {
         sku: goodsInfoNo
       });
     }
-    dataLayer[0].checkout.basketAmount = basketAmount;
-    dataLayer[0].checkout.basketID = basketID;
-    dataLayer[0].checkout.option = option;
-    dataLayer[0].checkout.product = product;
-    dataLayer[0].checkout.step = step;
+    return product
+  }
+  // GA Checkout
+  GACheck(productList) {
+    if (!isGACheckoutLock) { //防止重复调用
+      isGACheckoutLock = true
+      let product = this.isLogin ? this.GAGetProductLogin(productList) : this.GAGetProductUnlogin(productList)
+
+      dataLayer[0].checkout.basketAmount = this.tradePrice;
+      dataLayer[0].checkout.basketID = guid;
+      dataLayer[0].checkout.option = this.isLogin ? 'account already created' : 'new account';
+      dataLayer[0].checkout.step = 2;
+      dataLayer[0].checkout.product = product;
+      
+
+      dataLayer.push({
+        checkout: {
+          step: '',
+          option: ''
+        },
+        event: process.env.REACT_APP_GTM_SITE_ID+'virtualPageView',
+        page: {
+          type: 'Checkout',
+          virtualPageURL: '/checkout/emailAddress'
+        }
+      })
+    }
+
+
   }
   async componentDidMount() {
-    // console.log(this.refs.applyButtton.click() ,' hahaha')
     this.refs.applyButtton.click();
     let productList;
     if (this.props.data.length) {
@@ -161,11 +166,7 @@ class PayProductInfo extends React.Component {
       });
     });
 
-    if (this.isLogin) {
-      this.GACheckout(productList);
-    } else {
-      this.GACheckUnLogin(productList);
-    }
+    this.GACheck(productList)
   }
   get totalPrice() {
     return this.props.checkoutStore.totalPrice;
@@ -175,6 +176,12 @@ class PayProductInfo extends React.Component {
   }
   get discountPrice() {
     return this.props.checkoutStore.discountPrice;
+  }
+  get promotionDiscountPrice() {
+    return this.props.checkoutStore.promotionDiscountPrice;
+  }
+  get subscriptionDiscountPrice() {
+    return this.props.checkoutStore.subscriptionDiscountPrice;
   }
   get deliveryPrice() {
     return this.props.checkoutStore.deliveryPrice;
@@ -221,11 +228,11 @@ class PayProductInfo extends React.Component {
                           values={{ val: el.quantity }}
                         />
                       ) : (
-                        <FormattedMessage
-                          id="item"
-                          values={{ val: el.quantity }}
-                        />
-                      )}
+                          <FormattedMessage
+                            id="item"
+                            values={{ val: el.quantity }}
+                          />
+                        )}
                     </p>
                   </div>
                 </div>
@@ -252,8 +259,7 @@ class PayProductInfo extends React.Component {
     //   }`
     // );
     this.props.history.push(
-      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
+      `/${item.goodsName.toLowerCase().split(' ').join('-').replace('/', '')}-${item.goodsNo
       }`
     );
   }
@@ -291,11 +297,11 @@ class PayProductInfo extends React.Component {
                         values={{ val: el.buyCount }}
                       />
                     ) : (
-                      <FormattedMessage
-                        id="item"
-                        values={{ val: el.buyCount }}
-                      />
-                    )}
+                        <FormattedMessage
+                          id="item"
+                          values={{ val: el.buyCount }}
+                        />
+                      )}
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
@@ -337,7 +343,7 @@ class PayProductInfo extends React.Component {
                     <span className="green">
                       {formatMoney(
                         el.buyCount * el.salePrice -
-                          el.buyCount * el.subscriptionPrice
+                        el.buyCount * el.subscriptionPrice
                       )}
                     </span>{' '}
                     <FormattedMessage id="avecLabonnement" />
@@ -439,11 +445,10 @@ class PayProductInfo extends React.Component {
                 <button
                   ref="applyButtton"
                   id="promotionApply"
-                  className={`rc-btn rc-btn--sm rc-btn--two ${
-                    this.state.isClickApply
+                  className={`rc-btn rc-btn--sm rc-btn--two ${this.state.isClickApply
                       ? 'ui-btn-loading ui-btn-loading-border-red'
                       : ''
-                  }`}
+                    }`}
                   style={{ marginTop: '10px', float: 'right' }}
                   onClick={async () => {
                     let result = {};
@@ -511,14 +516,21 @@ class PayProductInfo extends React.Component {
                         marginBottom: '10px'
                       }}
                     >
-                      <div className="col-8">
-                        <p>
+                      <div className={`${!checkoutStore.couponCodeFitFlag ? 'col-6' : 'col-10'}`}>
+                        <p style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
                           {this.promotionDesc || (
                             <FormattedMessage id="NoPromotionDesc" />
                           )}
                         </p>
                       </div>
-                      <div className="col-4">
+                      <div className={`${!checkoutStore.couponCodeFitFlag ? 'col-4' : 'col-0'} red`} style={{ padding: 0 }}>
+                        <p>
+                          {!checkoutStore.couponCodeFitFlag && (
+                            <FormattedMessage id="Non appliqué" />
+                          )}
+                        </p>
+                      </div>
+                      <div className="col-2" style={{ padding: '0 15px 0 0' }}>
                         <p className="text-right shipping-cost">
                           <span
                             className="rc-icon rc-close--sm rc-iconography"
@@ -530,6 +542,8 @@ class PayProductInfo extends React.Component {
                             }}
                             onClick={async () => {
                               let result = {};
+                              await checkoutStore.removePromotionCode()
+                              await checkoutStore.removeCouponCodeFitFlag()
                               if (!this.props.loginStore.isLogin) {
                                 //游客
                                 result = await checkoutStore.updateUnloginCart();
@@ -572,11 +586,11 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 {/* 显示订阅折扣 */}
-                <div
+                {/* <div
                   className="row leading-lines shipping-item"
                   style={{
                     display:
-                      parseInt(this.subscriptionPrice) > 0 ? 'flex' : 'none'
+                      parseFloat(this.subscriptionPrice) > 0 ? 'flex' : 'none'
                   }}
                 >
                   <div className="col-7 start-lines">
@@ -599,22 +613,14 @@ class PayProductInfo extends React.Component {
                       </span>
                     </p>
                   </div>
-                </div>
+                </div> */}
                 {/* 显示 默认折扣 */}
                 <div
-                  className="row leading-lines shipping-item"
-                  style={{
-                    display:
-                      parseInt(this.discountPrice) > 0 &&
-                      !this.props.checkoutStore.promotionCode
-                        ? 'flex'
-                        : 'none'
-                  }}
+                  className={`row leading-lines shipping-item green ${parseFloat(this.subscriptionDiscountPrice) > 0 ? 'd-flex': 'hidden'}`}
                 >
                   <div className="col-7 start-lines">
                     <p
                       className="order-receipt-label order-shipping-cost"
-                      style={{ color: '#ec001a' }}
                     >
                       <span>
                         <FormattedMessage id="promotion" />
@@ -625,26 +631,26 @@ class PayProductInfo extends React.Component {
                     <p className="text-right">
                       <span
                         className="shipping-total-cost"
-                        style={{ color: '#ec001a' }}
                       >
-                        - {formatMoney(this.discountPrice)}
+                        <b>-{formatMoney(this.subscriptionDiscountPrice)}</b>
                       </span>
                     </p>
                   </div>
                 </div>
 
                 {/* 显示 promotionCode */}
-                <div style={{ marginTop: '10px' }}>
-                  {!this.state.isShowValidCode &&
-                  this.props.checkoutStore.promotionCode ? (
-                    <div className="flex-layout green">
+                {!this.state.isShowValidCode && this.promotionDiscountPrice > 0 
+                // &&
+                //   this.props.checkoutStore.promotionCode 
+                  ? (
+                    <div className="row leading-lines shipping-item flex-layout green">
                       <label
                         className="saveDiscount font14"
                         style={{ flex: 2 }}
                       >
                         {/* {this.promotionDesc || (
-                          <FormattedMessage id="NoPromotionDesc" />
-                        )} */}
+                        <FormattedMessage id="NoPromotionDesc" />
+                      )} */}
                         <FormattedMessage id="promotion" />
                       </label>
                       <div
@@ -655,11 +661,10 @@ class PayProductInfo extends React.Component {
                           flex: 1
                         }}
                       >
-                        <b>-{formatMoney(this.discountPrice)}</b>
+                        <b>-{formatMoney(this.promotionDiscountPrice)}</b>
                       </div>
                     </div>
                   ) : null}
-                </div>
                 {/* 显示 delivereyPrice */}
                 <div className="row leading-lines shipping-item">
                   <div className="col-7 start-lines">
@@ -745,10 +750,10 @@ class PayProductInfo extends React.Component {
         {this.sideCart()}
       </div>
     ) : (
-      <div className={className} style={{ ...style }}>
-        {this.sideCart()}
-      </div>
-    );
+        <div className={className} style={{ ...style }}>
+          {this.sideCart()}
+        </div>
+      );
   }
 }
 

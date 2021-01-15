@@ -11,19 +11,19 @@ import Pagination from '@/components/Pagination';
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubList } from '@/api/subscription';
-import { getDictionary, getDeviceType, getFrequencyDict } from '@/utils/utils';
+import { getDictionary, getDeviceType, getFrequencyDict, setSeoConfig, getFormatDate } from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import subscriptionIcon from './images/subscription.png';
 import cancelIcon from './images/cancel.png';
 import autoshipIcon from './images/autoship.png';
 import noSubscription from '@/assets/images/noSubscription.jpg';
-import { setSeoConfig, getFormatDate } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
 import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
+const pageLink = window.location.href
 
 const subscriptionLandingRouter = (lang)=>{
   return {
@@ -190,6 +190,7 @@ class Subscription extends React.Component {
       <div className="subscription">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
@@ -265,7 +266,6 @@ class Subscription extends React.Component {
                           value: this.state.form.subscribeStatus
                         }}
                         key={this.state.form.subscribeStatus}
-                        customStyleType="select-one"
                       />
                     </div>
                   </div>
@@ -377,7 +377,7 @@ class Subscription extends React.Component {
                                           :{' '}
                                           {frequencyList.filter(
                                             (el) => el.id === item.periodTypeId
-                                          ).length
+                                          )[0]
                                             ? frequencyList.filter(
                                                 (el) =>
                                                   el.id === item.periodTypeId

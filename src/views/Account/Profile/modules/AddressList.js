@@ -48,9 +48,9 @@ function CardItem(props) {
           </div>
         </div>
         <p className="mb-0">{data.consigneeNumber}</p>
-        <p className="mb-0">{props.countryName}</p>
-        <p className="mb-0">{data.cityName}</p>
         <p className="mb-0">{data.address1}</p>
+        {data.address2 ? <p className="mb-0">{data.address2}</p> : null}
+        <p className="mb-0">{data.postCode}, {data.cityName}, {props.countryName}</p>
       </div>
     </div>
   );
@@ -70,7 +70,8 @@ class AddressList extends React.Component {
       curAddressId: '',
       fromPage: 'cover',
 
-      countryList: []
+      countryList: [],
+      errorMsg: ''
     };
 
     this.handleClickCoverItem = this.handleClickCoverItem.bind(this);
@@ -107,9 +108,20 @@ class AddressList extends React.Component {
         listLoading: false
       });
     } catch (err) {
-      // this.showErrorMsg(err.message);
+      this.showErrorMsg(err.message);
       this.setState({ listLoading: false });
     }
+  };
+  showErrorMsg = (msg) => {
+    this.setState({
+      errorMsg: msg
+    });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({
+        errorMsg: ''
+      });
+    }, 4000);
   };
   changeEditFormVisible = (status) => {
     this.setState({ editFormVisible: status, curAddressId: '' });
@@ -220,7 +232,8 @@ class AddressList extends React.Component {
       addressList,
       listLoading,
       loading,
-      countryList
+      countryList,
+      errorMsg
     } = this.state;
     const curPageAtCover = !listVisible && !editFormVisible;
     return (
@@ -280,6 +293,30 @@ class AddressList extends React.Component {
                   { 'pr-3': curPageAtCover }
                 )}
               >
+                <div
+                  className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
+                    errorMsg ? '' : 'hidden'
+                  }`}
+                >
+                  <aside
+                    className="rc-alert rc-alert--error rc-alert--with-close errorAccount"
+                    role="alert"
+                  >
+                    <span className="pl-0">{errorMsg}</span>
+                    <button
+                      className="rc-btn rc-alert__close rc-icon rc-close-error--xs"
+                      onClick={() => {
+                        this.setState({ errorMsg: '' });
+                      }}
+                      aria-label="Close"
+                    >
+                      <span className="rc-screen-reader-text">
+                        <FormattedMessage id="close" />
+                      </span>
+                    </button>
+                  </aside>
+                </div>
+
                 {/* preview form */}
                 <div
                   className={classNames('row', 'ml-0', 'mr-0', {
@@ -288,7 +325,7 @@ class AddressList extends React.Component {
                 >
                   {addressList.slice(0, 2).map((item, i) => (
                     <div
-                      className="col-12 col-md-4 p-2"
+                      className="col-12 col-md-4 pt-2 pb-3 pl-3 pr-2"
                       key={item.deliveryAddressId}
                     >
                       <CardItem
@@ -321,7 +358,7 @@ class AddressList extends React.Component {
                   <div className={classNames('row', 'ml-0', 'mr-0')}>
                     {addressList.map((item, i) => (
                       <div
-                        className="col-12 col-md-6 p-2"
+                        className="col-12 col-md-6 pt-2 pb-3 pl-3 pr-2"
                         key={item.deliveryAddressId}
                       >
                         <CardItem
@@ -351,15 +388,15 @@ class AddressList extends React.Component {
                                     item
                                   )}
                                 >
-                                  <span className="iconfont mr-1">
+                                  {/* <span className="iconfont mr-1">
                                     &#xe68c;
-                                  </span>
+                                  </span> */}
                                   <span className="rc-styled-link">
                                     <FormattedMessage id="setAsDefault" />
                                   </span>
                                 </div>
                               )}
-                              <span className="position-relative p-2 ui-cursor-pointer-pure">
+                              <span className="position-relative p-2 ui-cursor-pointer-pure pdl-1">
                                 <span
                                   className="rc-styled-link"
                                   onClick={this.handleClickDeleteBtn.bind(

@@ -9,7 +9,10 @@ class CitySearchSelection extends React.Component {
     return (
       <SearchSelection
         queryList={async ({ inputVal, pageNum }) => {
-          let res = await queryCityByName({ cityName: inputVal, pageNum });
+          let res = await queryCityByName({
+            cityName: inputVal,
+            pages: pageNum
+          });
           return ((res.context && res.context.systemCityVO) || []).map((ele) =>
             Object.assign(ele, { name: ele.cityName })
           );

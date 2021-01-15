@@ -26,19 +26,19 @@ const menuList = [
         &#xe69a;
       </span>
     ),
-    langKey: 'pets',
+    langKey: 'account.pets',
     url: '/account/pets'
   },
   {
     catogery: 'Orders',
     icon: <span className="iconfont">&#xe699;</span>,
-    langKey: 'orders',
+    langKey: 'account.ordersTitle',
     url: '/account/orders'
   },
   {
     catogery: 'Subscription',
     icon: <span className="iconfont">&#xe6a2;</span>,
-    langKey: 'subscription',
+    langKey: 'account.subscriptionTitle',
     url: '/account/subscription'
   },
   {

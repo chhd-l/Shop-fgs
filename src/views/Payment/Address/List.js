@@ -22,10 +22,10 @@ import './list.less';
 class AddressList extends React.Component {
   static defaultProps = {
     visible: true,
-    isOnepageCheckout: false,
     type: 'delivery',
     showOperateBtn: true,
-    updateValidStatus: () => {}
+    updateFormValidStatus: () => {},
+    updateData: () => {}
   };
   constructor(props) {
     super(props);
@@ -53,7 +53,6 @@ class AddressList extends React.Component {
       successTipVisible: false,
       saveErrorMsg: '',
       selectedId: '',
-      billingChecked: true,
       isValid: false
     };
     this.addOrEditAddress = this.addOrEditAddress.bind(this);
@@ -65,7 +64,7 @@ class AddressList extends React.Component {
         countryList: res
       });
     });
-    this.queryAddressList();
+    this.queryAddressList({ init: true });
   }
   get panelStatus() {
     const tmpKey =
@@ -77,7 +76,7 @@ class AddressList extends React.Component {
   get curPanelKey() {
     return this.props.type === 'delivery' ? 'deliveryAddr' : 'billingAddr';
   }
-  async queryAddressList() {
+  async queryAddressList({ init = false } = {}) {
     const { selectedId } = this.state;
     this.setState({ loading: true });
     try {
@@ -121,14 +120,8 @@ class AddressList extends React.Component {
           selectedId: tmpId
         },
         () => {
-          const { updateData } = this.props;
-          const { selectedId } = this.state;
-          const tmpObj = find(
-            this.state.addressList,
-            (ele) => ele.deliveryAddressId === selectedId
-          );
-          updateData && updateData(tmpObj);
-          this.confirmToNextPanel();
+          this.updateSelectedData();
+          this.confirmToNextPanel({ init });
         }
       );
     } catch (err) {
@@ -139,7 +132,15 @@ class AddressList extends React.Component {
       this.setState({ loading: false });
     }
   }
-  confirmToNextPanel() {
+  updateSelectedData() {
+    const { selectedId, addressList } = this.state;
+    const tmpObj =
+      find(addressList, (ele) => ele.deliveryAddressId === selectedId) || null;
+    this.props.updateData(tmpObj);
+    this.props.type === 'delivery' &&
+      this.props.paymentStore.setDefaultCardDataFromAddr(tmpObj);
+  }
+  confirmToNextPanel({ init = false } = {}) {
     if (this.curPanelKey !== 'deliveryAddr') {
       return false;
     }
@@ -149,9 +150,7 @@ class AddressList extends React.Component {
       (ele) => ele.deliveryAddressId === selectedId
     );
     const { paymentStore } = this.props;
-    const { billingChecked } = this.state;
-    // debugger;
-    if (this.curPanelKey === 'deliveryAddr' && billingChecked) {
+    if (this.curPanelKey === 'deliveryAddr') {
       paymentStore.setStsToCompleted({ key: 'billingAddr' });
     }
 
@@ -162,7 +161,10 @@ class AddressList extends React.Component {
     });
 
     if (data) {
-      paymentStore.setStsToCompleted({ key: this.curPanelKey });
+      paymentStore.setStsToCompleted({
+        key: this.curPanelKey,
+        isFirstLoad: init
+      });
 
       let isReadyPrev = isPrevReady({
         list: toJS(paymentStore.panelStatus),
@@ -172,9 +174,7 @@ class AddressList extends React.Component {
       isReadyPrev && paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
     } else {
       // 没有地址的情况
-      if (this.curPanelKey === 'deliveryAddr') {
-        paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
-      }
+      paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
     }
   }
   selectAddress(e, idx) {
@@ -189,13 +189,7 @@ class AddressList extends React.Component {
         selectedId: addressList[idx].deliveryAddressId
       },
       () => {
-        this.props.updateData &&
-          this.props.updateData(
-            find(
-              this.state.addressList,
-              (ele) => ele.deliveryAddressId === this.state.selectedId
-            )
-          );
+        this.updateSelectedData();
       }
     );
   }
@@ -203,7 +197,6 @@ class AddressList extends React.Component {
     const { type } = this.props;
     const { deliveryAddress, addressList } = this.state;
     this.currentOperateIdx = idx;
-    // debugger;
     let tmpDeliveryAddress = {
       firstName: '',
       lastName: '',
@@ -243,17 +236,17 @@ class AddressList extends React.Component {
         this.setState({
           addOrEdit: true
         });
-        if (type === 'delivery') {
-          this.props.paymentStore.setStsToEdit({
-            key: this.curPanelKey,
-            hideOthers: true
-          });
-        }
+        this.props.paymentStore.setStsToEdit({
+          key: this.curPanelKey,
+          hideOthers: type === 'delivery' ? true : false
+        });
 
         this.updateDeliveryAddress(this.state.deliveryAddress);
       }
     );
-    this.scrollToTitle();
+    if (type === 'delivery') {
+      this.scrollToTitle();
+    }
   }
   handleDefaultChange = () => {
     let data = this.state.deliveryAddress;
@@ -266,13 +259,12 @@ class AddressList extends React.Component {
     try {
       await validData(ADDRESS_RULE, data);
       this.setState({ isValid: true, saveErrorMsg: '' }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
     } catch (err) {
       this.setState({ isValid: false }, () => {
-        this.props.updateValidStatus(this.state.isValid);
+        this.props.updateFormValidStatus(this.state.isValid);
       });
-      console.log(err);
     } finally {
       this.setState({ deliveryAddress: data });
     }
@@ -352,7 +344,8 @@ class AddressList extends React.Component {
     }
   }
   handleSave = async () => {
-    if (!this.state.isValid) {
+    const { isValid, addOrEdit } = this.state;
+    if (!isValid || !addOrEdit) {
       return false;
     }
     try {
@@ -434,7 +427,7 @@ class AddressList extends React.Component {
             )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
-          <div className="col-10 col-md-9 text-break">
+          <div className="col-10 col-md-9 pl-1 pr-1" style={{ wordBreak: 'keep-all' }}>
             {[item.consigneeName, item.consigneeNumber].join(', ')}
             {item.isDefaltAddress === 1 ? (
               <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">
@@ -534,7 +527,6 @@ class AddressList extends React.Component {
         {addOrEdit && (
           <EditForm
             isLogin={true}
-            isOnepageCheckout={this.props.isOnepageCheckout}
             initData={deliveryAddress}
             updateData={this.updateDeliveryAddress}
           />
@@ -685,10 +677,7 @@ class AddressList extends React.Component {
                   )
                 ) : null}
                 {/* add or edit address form */}
-                {this.props.isOnepageCheckout && this.panelStatus.isEdit ? (
-                  <>{_form}</>
-                ) : null}
-                {!this.props.isOnepageCheckout && <>{_form}</>}
+                {this.panelStatus.isEdit ? <>{_form}</> : null}
               </>
             )}
           </div>

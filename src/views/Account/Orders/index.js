@@ -32,6 +32,8 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
+const pageLink = window.location.href
+
 @inject('checkoutStore')
 @injectIntl
 @observer
@@ -275,7 +277,8 @@ class AccountOrders extends React.Component {
         salePrice: ele.price,
         goodsInfoId: ele.skuId,
         subscriptionPrice: ele.subscriptionPrice,
-        subscriptionStatus: ele.subscriptionStatus
+        subscriptionStatus: ele.subscriptionStatus,
+        goodsInfoFlag: ele.goodsInfoFlag
       };
     });
     try {
@@ -519,6 +522,7 @@ class AccountOrders extends React.Component {
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -748,6 +752,7 @@ class AccountOrders extends React.Component {
                                   style={{ position: 'relative' }}
                                 >
                                   <div
+                                    className="rc-md-down"
                                     style={{
                                       position: 'absolute',
                                       right: '15px',

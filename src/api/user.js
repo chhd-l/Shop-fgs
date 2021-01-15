@@ -3,7 +3,8 @@ import axios from '@/utils/request'
 
 const api = {
   customerBase: '/customer/customerBase',
-  register: 'okta/register'
+  register: 'okta/register',
+  isNewAccount: '/trade/countTradeByCustomerIdAndStoreId'
 }
 
 export default api
@@ -28,6 +29,13 @@ export function oktaRegister (parameter) {
     url: `${api.register}`,
     method: 'POST',
     data: parameter
+  })
+}
+
+export function isNewAccount () {
+  return axios({
+    url: `${api.isNewAccount}`,
+    method: 'get'
   })
 }
 

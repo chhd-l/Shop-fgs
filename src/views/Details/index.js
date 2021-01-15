@@ -19,7 +19,12 @@ import BannerTip from '@/components/BannerTip';
 import {
   formatMoney,
   translateHtmlCharater,
-  distributeLinktoPrecriberOrPaymentPage
+  distributeLinktoPrecriberOrPaymentPage,
+  setSeoConfig,
+  getDeviceType,
+  getFrequencyDict,
+  queryStoreCateList,
+  getParaByName
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -30,22 +35,16 @@ import { sitePurchase } from '@/api/cart';
 import { getDict } from '@/api/dict';
 import { getProductPetConfig } from '@/api/payment';
 import Carousel from './components/Carousel';
-import {
-  setSeoConfig,
-  getDeviceType,
-  getFrequencyDict,
-  queryStoreCateList
-} from '@/utils/utils';
-import refreshImg from './images/refresh.png';
 import { Helmet } from 'react-helmet';
 
 import './index.css';
 import './index.less';
 import { Link } from 'react-router-dom';
-import {getRequest} from "@/utils/utils"
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
+const isMobile = getDeviceType() !== 'PC';
+// const pageLink = window.location.href;
 
 function Advantage() {
   return (
@@ -179,7 +178,6 @@ class Details extends React.Component {
       frequencyList: [],
       tabs: [],
       reviewShow: false,
-      isMobile: false,
       goodsNo: '', // SPU
       breadCrumbs: [],
       seoConfig: {
@@ -188,21 +186,21 @@ class Details extends React.Component {
         metaDescription: ''
       },
       spuImages: [],
-      requestJson:{},//地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
+      requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
+      pageLink: ''
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.hanldeAddToCart = this.hanldeAddToCart.bind(this);
+    this.ChangeFormat = this.ChangeFormat.bind(this);
+    this.changeTab = this.changeTab.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
   }
   async componentDidMount() {
-    
-    const requestJson = getRequest() 
-    this.setState({requestJson})
-
+    this.getUrlParam();
 
     const { pathname, state } = this.props.location;
     if (state) {
@@ -242,7 +240,6 @@ class Details extends React.Component {
     this.setState(
       {
         id: this.props.match.params.id,
-        isMobile: getDeviceType() !== 'PC',
         goodsNo: goodsSpuNo || ''
       },
       () => this.queryDetails()
@@ -258,7 +255,7 @@ class Details extends React.Component {
     return this.state.frequencyList.map((ele) => {
       delete ele.value;
       return {
-        value: ele.valueEn,
+        value: ele.id,
         ...ele
       };
     });
@@ -275,88 +272,38 @@ class Details extends React.Component {
       (details.saleableFlag || !details.displayFlag)
     );
   }
+  getUrlParam() {
+    const { search } = this.props.history.location;
+    const utmSource = getParaByName(search, 'utm_source');
+    const utmMedium = getParaByName(search, 'utm_medium');
+    const utmCampaign = getParaByName(search, 'utm_campaign');
+    const prefixFn = getParaByName(search, 'prefn1');
+    const prefixBreed = getParaByName(search, 'prefv1');
+    const requestJson = {
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      prefixFn,
+      prefixBreed
+    };
+    this.setState({
+      requestJson
+    });
+  }
   bundleMatchGoods() {
     let {
-      specList,
       details,
       currentUnitPrice,
-      currentLinePrice,
       currentSubscriptionPrice,
       currentSubscriptionStatus,
       stock
     } = this.state;
-    let selectedArr = [];
-    let idArr = [];
-    let baseSpecId = details.baseSpec;
-    // specList.map((el) => {
-    //   if (el.chidren.filter((item) => item.selected).length) {
-    //     selectedArr.push(el.chidren.filter((item) => item.selected)[0]);
-    //   }
-    //   return el;
-    // });
-    // selectedArr = selectedArr.sort((a, b) => a.specDetailId - b.specDetailId);
-    // idArr = selectedArr.map((el) => el.specDetailId);
-    console.log(details, 'detailsaaa');
 
     currentUnitPrice = details.goodsInfos[0].salePrice;
     currentSubscriptionPrice = details.goodsInfos[0].subscriptionPrice;
     currentSubscriptionStatus = details.goodsInfos[0].subscriptionStatus;
     stock = details.goodsInfos[0].stock;
     details.sizeList[0].selected = true;
-    // details.sizeList.map((item, i) => {
-    //   item.basePrice = 0;
-    //   details.goodsSpecDetails.map((el) => {
-    //     if (
-    //       el.specId === baseSpecId &&
-    //       item.mockSpecDetailIds.includes(el.specDetailId)
-    //     ) {
-    //       item.baseSpecLabel = el.detailName;
-    //     }
-    //     return el;
-    //   });
-    //   let specTextArr = [];
-    //   for (let specItem of specList) {
-    //     for (let specDetailItem of specItem.chidren) {
-    //       if (
-    //         item.mockSpecIds.includes(specDetailItem.specId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         specTextArr.push(specDetailItem.detailName);
-    //       }
-    //       // console.log(item.mo)
-    //       if (
-    //         item.mockSpecIds.includes(baseSpecId) &&
-    //         item.mockSpecDetailIds.includes(specDetailItem.specDetailId)
-    //       ) {
-    //         console.log(
-    //           specDetailItem.detailName,
-    //           'specDetailItem.detailName',
-    //           i
-    //         );
-    //         item.baseSpecLabel = specDetailItem.detailName;
-    //       }
-    //     }
-    //   }
-    //   item.specText = specTextArr.join(' ');
-    //   if (item.mockSpecDetailIds.sort().join(',') === idArr.join(',')) {
-    //     console.log(item, 'item');
-    //     item.selected = true;
-    //     currentUnitPrice = item.salePrice;
-    //     currentLinePrice = item.linePrice;
-    //     currentSubscriptionPrice = item.subscriptionPrice;
-    //     currentSubscriptionStatus = item.subscriptionStatus;
-    //     stock = item.stock;
-    //     if(item.goodsPromotion) {
-    //       this.setState({isShowPromotion: true})
-    //     }else {
-    //       this.setState({isShowPromotion: false})
-    //     }
-    //   } else {
-    //     item.selected = false;
-    //   }
-    //   return item;
-    // });
-    console.log(details, 'details');
     this.setState(
       {
         details,
@@ -477,6 +424,9 @@ class Details extends React.Component {
           });
         }
         if (res && res.context && res.context.goods) {
+          let pageLink = window.location.href.split('-');
+          pageLink.splice(pageLink.length - 1, 1);
+          pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -499,7 +449,8 @@ class Details extends React.Component {
                 )[0]
               }),
               spuImages: res.context.images,
-              breadCrumbs: [{ name: res.context.goods.goodsName }]
+              breadCrumbs: [{ name: res.context.goods.goodsName }],
+              pageLink
             },
             () => {
               // 面包屑展示规则
@@ -554,10 +505,18 @@ class Details extends React.Component {
             errMsg: <FormattedMessage id="details.errMsg" />
           });
         }
-
         let sizeList = [];
         let goodsInfos = res.context.goodsInfos || [];
-
+        let isSkuNoQuery = res.context.isSkuNoQuery;
+        let choosedSpecsArr = [];
+        if (isSkuNoQuery) {
+          // 通过sku查询
+          let specsItem = goodsInfos.filter(
+            (item) => item.goodsInfoNo == this.state.goodsNo
+          );
+          choosedSpecsArr =
+            specsItem && specsItem[0] && specsItem[0].mockSpecDetailIds;
+        }
         if (res && res.context && res.context.goodsSpecDetails) {
           let specList = res.context.goodsSpecs;
           let specDetailList = res.context.goodsSpecDetails;
@@ -565,30 +524,63 @@ class Details extends React.Component {
             sItem.chidren = specDetailList.filter((sdItem, i) => {
               if (index === 0) {
                 // console.log(goodsInfos.filter(goodEl => goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)), 'aaaa')
-                let filterproduct = goodsInfos.filter((goodEl) =>
+                let filterproducts = goodsInfos.filter((goodEl) =>
                   goodEl.mockSpecDetailIds.includes(sdItem.specDetailId)
-                )[0];
-                sdItem.goodsInfoUnit = filterproduct.goodsInfoUnit;
-                sdItem.isEmpty = filterproduct.stock === 0;
+                );
+                sdItem.goodsInfoUnit = filterproducts[0].goodsInfoUnit;
+                sdItem.isEmpty = filterproducts.every(
+                  (item) => item.stock === 0
+                );
                 // filterproduct.goodsInfoWeight = parseFloat(sdItem.detailName)
-                console.log(filterproduct, 'filterproduct');
               }
               return sdItem.specId === sItem.specId;
             });
-            sItem.chidren[0].selected = true;
+            let defaultSelcetdSku = -1;
+            if (choosedSpecsArr.length) {
+              for (let i = 0; i < choosedSpecsArr.length; i++) {
+                let specDetailIndex = sItem.specDetailIds.indexOf(
+                  choosedSpecsArr[i]
+                );
+                if (specDetailIndex > -1) {
+                  defaultSelcetdSku = specDetailIndex;
+                }
+              }
+            }
+            console.info('defaultSelcetdSku', defaultSelcetdSku);
+            if (defaultSelcetdSku > -1) {
+              // 默认选择该sku
+              if (!sItem.chidren[defaultSelcetdSku].isEmpty) {
+                // 如果是sku进来的，需要默认当前sku被选择
+                sItem.chidren[defaultSelcetdSku].selected = true;
+              }
+            } else {
+              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[1].selected = true;
+              } else {
+                for (let i = 0; i < sItem.chidren.length; i++) {
+                  if (sItem.chidren[i].isEmpty) {
+                  } else {
+                    sItem.chidren[i].selected = true;
+                    break;
+                  }
+                }
+              }
+            }
             return sItem;
           });
           console.log(specList, 'specList');
           // this.setState({ specList });
-
-          sizeList = goodsInfos.map((g) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
-            // }
+          sizeList = goodsInfos.map((g, i) => {
+            // g = Object.assign({}, g, { selected: false });
+            g = Object.assign({}, g, { selected: i === 0 });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
+            }
             return g;
           });
+          console.log(sizeList, 'sizeList');
 
           // const selectedSize = find(sizeList, s => s.selected)
 
@@ -607,9 +599,16 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
-                          tempContent =
-                            tempContent +
-                            `<p>${Object.values(JSON.parse(el))[0]}</p>`;
+                          if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'EretailShort Description'
+                          ) {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
+                          }
                         });
                       } else if (key === 'Bénéfices') {
                         tmpGoodsDetail[key].map((el) => {
@@ -632,9 +631,7 @@ class Details extends React.Component {
                           tempContent =
                             tempContent +
                             `<p>
-                            <div class="title">${
-                              Object.keys(JSON.parse(el))[0]
-                            }</div>
+                            
                             <div class="content">${
                               Object.values(JSON.parse(el))[0]
                             }</div> 
@@ -719,37 +716,147 @@ class Details extends React.Component {
         } else {
           let sizeList = [];
           let goodsInfos = res.context.goodsInfos || [];
-
-          sizeList = goodsInfos.map((g) => {
-            // const targetInfo = find(goodsInfos, info => info.mockSpecDetailIds.includes(g.specDetailId))
-            // console.log(targetInfo, 'target')
-            // if (targetInfo) {
-            g = Object.assign({}, g, { selected: false });
-            // }
+          sizeList = goodsInfos.map((g, i) => {
+            g = Object.assign({}, g, { selected: i === 0 });
+            if (g.selected && !g.subscriptionStatus) {
+              let { form } = this.state;
+              form.buyWay = 0;
+              this.setState({ form });
+            }
             return g;
           });
 
           // const selectedSize = find(sizeList, s => s.selected)
 
           const { goodsDetailTab, tabs } = this.state;
+          // try {
+          //   let tmpGoodsDetail = res.context.goods.goodsDetail;
+          //   if (tmpGoodsDetail) {
+          //     tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+          //     for (let key in tmpGoodsDetail) {
+          //       if (tmpGoodsDetail[key]) {
+          //         goodsDetailTab.tabName.push(key);
+          //         goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+          //         tabs.push({ show: false });
+          //         // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
+          //       }
+          //     }
+          //   }
+          //   this.setState({
+          //     goodsDetailTab: goodsDetailTab,
+          //     tabs
+          //   });
+          // } catch (err) {
+          //   getDict({
+          //     type: 'goodsDetailTab',
+          //     storeId: process.env.REACT_APP_STOREID
+          //   }).then((res) => {
+          //     goodsDetailTab.tabName = res.context.sysDictionaryVOS.map(
+          //       (ele) => ele.name
+          //     );
+          //     this.setState({
+          //       goodsDetailTab: goodsDetailTab
+          //     });
+          //   });
+          // }
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
+            console.log(JSON.parse(tmpGoodsDetail), 'tmpGoodsDetail');
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail, 'tmpGoodsDetail');
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  goodsDetailTab.tabName.push(key);
-                  goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr') {
+                    let tempObj = {};
+                    let tempContent = '';
+                    try {
+                      if (key === 'Description') {
+                        tmpGoodsDetail[key].map((el) => {
+                          if (
+                            Object.keys(JSON.parse(el))[0] ===
+                            'EretailShort Description'
+                          ) {
+                            tempContent =
+                              tempContent +
+                              `<p style="white-space: pre-line">${
+                                Object.values(JSON.parse(el))[0]
+                              }</p>`;
+                          }
+                        });
+                      } else if (key === 'Bénéfices') {
+                        tmpGoodsDetail[key].map((el) => {
+                          tempContent =
+                            tempContent +
+                            `<li>
+                            <div class="list_title">${
+                              Object.keys(JSON.parse(el))[0]
+                            }</div>
+                            <div class="list_item" style="padding-top: 15px; margin-bottom: 20px;">${
+                              Object.values(JSON.parse(el))[0]['Description']
+                            }</div>
+                          </li>`;
+                        });
+                        tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
+                          ${tempContent}
+                        </ul>`;
+                      } else if (key === 'Composition') {
+                        if (res.context.goods.goodsType !== 2) {
+                          tmpGoodsDetail[key].map((el) => {
+                            tempContent =
+                              tempContent +
+                              `<p>
+                              
+                              <div class="content">${
+                                Object.values(JSON.parse(el))[0]
+                              }</div> 
+                            </p>`;
+                          });
+                        } else {
+                          tmpGoodsDetail[key].map((el) => {
+                            let contentObj = JSON.parse(el);
+                            let contentValue = '';
+                            Object.values(Object.values(contentObj)[0]).map(
+                              (el) => {
+                                contentValue += `<p>${el}</p>`;
+                              }
+                            );
+                            console.log(tempContent, 'heiheihaha');
+                            tempContent =
+                              tempContent +
+                              `
+                              <div class="title">
+                                ${Object.keys(contentObj)[0]}
+                              </div>
+                              <div class="content">${contentValue}</div> 
+                            `;
+                          });
+                        }
+                      } else {
+                        tempContent = tmpGoodsDetail[key];
+                      }
+                      goodsDetailTab.tabName.push(key);
+                      goodsDetailTab.tabContent.push(tempContent);
+                    } catch (e) {
+                      console.log(e);
+                    }
+                  } else {
+                    goodsDetailTab.tabName.push(key);
+                    goodsDetailTab.tabContent.push(tmpGoodsDetail[key]);
+                  }
+                  console.log(tmpGoodsDetail[key], 'ghaha');
                   tabs.push({ show: false });
                   // goodsDetailTab.tabContent.push(translateHtmlCharater(tmpGoodsDetail[key]))
                 }
               }
             }
             this.setState({
-              goodsDetailTab: goodsDetailTab,
+              goodsDetailTab,
               tabs
             });
           } catch (err) {
+            console.log(err, 'tmpGoodsDetail');
             getDict({
               type: 'goodsDetailTab',
               storeId: process.env.REACT_APP_STOREID
@@ -758,7 +865,7 @@ class Details extends React.Component {
                 (ele) => ele.name
               );
               this.setState({
-                goodsDetailTab: goodsDetailTab
+                goodsDetailTab
               });
             });
           }
@@ -787,6 +894,9 @@ class Details extends React.Component {
               images
             },
             () => {
+              //Product Detail Page view 埋点start
+              this.GAProductDetailPageView(this.state.details);
+              //Product Detail Page view 埋点end
               this.bundleMatchGoods();
             }
           );
@@ -957,18 +1067,18 @@ class Details extends React.Component {
         param.periodTypeId = form.frequencyId;
       }
 
-      // if(this.state.requestJson.hasOwnProperty('utm_campaign')){//requestJson有这个utm_campaign，表示这个商品有来源属性，加入购物车时把商品来源属性全部传给加入购物车接口
-      //   param = {...param,...this.state.requestJson}
-      // }
+      if (Object.keys(this.state.requestJson).length > 0) {
+        param = { ...param, ...this.state.requestJson };
+      }
       await sitePurchase(param);
       await checkoutStore.updateLoginCart();
-      if (this.state.isMobile) {
+      if (isMobile) {
         this.refs.showModalButton.click();
       } else {
         headerCartStore.show();
         setTimeout(() => {
           headerCartStore.hide();
-        }, 1000);
+        }, 4000);
       }
 
       if (redirect) {
@@ -1174,9 +1284,13 @@ class Details extends React.Component {
         );
         return;
       }
+      if (Object.keys(this.state.requestJson).length > 0) {
+        //requestJson是shelter和breeder产品的参数，有就加上
+        tmpData = { ...tmpData, ...this.state.requestJson };
+      }
       cartDataCopy.push(tmpData);
     }
-    
+
     await checkoutStore.updateUnloginCart(cartDataCopy);
     try {
       if (redirect) {
@@ -1264,13 +1378,13 @@ class Details extends React.Component {
     } finally {
       this.setState({ addToCartLoading: false });
     }
-    if (this.state.isMobile) {
+    if (isMobile) {
       this.refs.showModalButton.click();
     } else {
       headerCartStore.show();
       setTimeout(() => {
         headerCartStore.hide();
-      }, 1000);
+      }, 4000);
     }
   }
 
@@ -1289,14 +1403,14 @@ class Details extends React.Component {
     this.setState({
       checkOutErrMsg: msg
     });
-    if (this.state.isMobile) {
+    if (isMobile) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     }
   }
-  changeTab(e, i) {
+  changeTab(i) {
     this.setState({ activeTabIdx: i });
   }
   openPetModal() {
@@ -1436,9 +1550,9 @@ class Details extends React.Component {
               price: item.minMarketPrice,
               brand: item.brandName || 'ROYAL CANIN',
               club: 'no',
-              // category:(!!item.goodsCateName)?JSON.parse(item.goodsCateName)[0]:'',
               category: item.goodsCateName,
               variant:
+                item.goodsSpecDetails &&
                 item.goodsSpecDetails[0] &&
                 parseInt(item.goodsSpecDetails[0].detailName),
               sku: item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
@@ -1474,11 +1588,11 @@ class Details extends React.Component {
       reviewShow,
       activeTabIdx,
       checkOutErrMsg,
-      isMobile,
       breadCrumbs,
       event,
       eEvents,
-      spuImages
+      spuImages,
+      pageLink
     } = this.state;
 
     const btnStatus = this.btnStatus;
@@ -1494,6 +1608,7 @@ class Details extends React.Component {
           />
         ) : null}
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta
             name="description"
@@ -1535,7 +1650,6 @@ class Details extends React.Component {
               Open standard modal
             </button>
             <div className="product-detail product-wrapper rc-bg-colour--brand3">
-            
               <div className="rc-max-width--xl mb-4">
                 {/* <BreadCrumbs /> */}
                 <BreadCrumbsNavigation list={breadCrumbs} />
@@ -1776,20 +1890,31 @@ class Details extends React.Component {
                                         key={i}
                                         className={`rc-swatch__item ${
                                           sdItem.selected ? 'selected' : ''
+                                        } ${
+                                          sdItem.isEmpty ? 'outOfStock' : ''
                                         }`}
                                         onClick={() => {
-                                          // if (sdItem.isEmpty) {
-                                          //   return false;
-                                          // } else {
+                                          if (sdItem.isEmpty) {
+                                            return false;
+                                          } else {
                                             this.handleChooseSize(
                                               sItem.specId,
                                               sdItem.specDetailId,
                                               sdItem.selected
                                             );
-                                          // }
+                                          }
                                         }}
                                       >
-                                        <span>
+                                        <span
+                                          style={{
+                                            backgroundColor: sdItem.isEmpty
+                                              ? '#ccc'
+                                              : '#fff',
+                                            cursor: sdItem.isEmpty
+                                              ? 'not-allowed'
+                                              : 'pointer'
+                                          }}
+                                        >
                                           {/* {parseFloat(sdItem.detailName)}{' '} */}
                                           {sdItem.detailName}
                                         </span>
@@ -1839,16 +1964,16 @@ class Details extends React.Component {
                         </div>
                         {isMobile ? (
                           <div
-                            className="buyMethod rc-margin-bottom--xs"
+                            className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 1"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'
                                 : '#d7d7d7',
                               cursor: 'pointer'
                             }}
-                            onClick={() => this.ChangeFormat(0)}
+                            onClick={this.ChangeFormat.bind(this, 0)}
                           >
-                            <div className="buyMethodInnerBox">
+                            <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
                               <div className="radioBox">
                                 <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                   <FormattedMessage id="email">
@@ -1883,18 +2008,7 @@ class Details extends React.Component {
                                   </label>
                                 </div>
                               </div>
-                              <div
-                                className="price"
-                                style={{
-                                  fontSize: '22px',
-                                  textAlign: 'right',
-                                  paddingTop: isMobile
-                                    ? '.2rem'
-                                    : process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
-                                }}
-                              >
+                              <div className="price font-weight-normal text-right">
                                 <div>{formatMoney(currentUnitPrice)}</div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
@@ -1914,11 +2028,13 @@ class Details extends React.Component {
                                 ) : null}
                               </div>
                             </div>
-                            <div className="freeshippingBox">
-                              <FormattedMessage id="freeShipping" />
+                            <div className="col-12 pl-0 pr-0">
+                              <span className="freeshippingBox mt-0">
+                                <FormattedMessage id="freeShipping" />
+                              </span>
                             </div>
                             <div
-                              className="freqency freqency2"
+                              className="freqency freqency2 col-12 pl-0 pr-0"
                               style={{ textAlign: 'center' }}
                             >
                               <span
@@ -1931,14 +2047,14 @@ class Details extends React.Component {
                           </div>
                         ) : (
                           <div
-                            className="buyMethod rc-margin-bottom--xs"
+                            className="buyMethod rc-margin-bottom--xs 2"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'
                                 : '#d7d7d7',
                               cursor: 'pointer'
                             }}
-                            onClick={() => this.ChangeFormat(0)}
+                            onClick={this.ChangeFormat.bind(this, 0)}
                           >
                             <div className="radioBox">
                               <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
@@ -1983,17 +2099,7 @@ class Details extends React.Component {
                                 {/* Delivery 1 time only */}
                               </span>
                             </div>
-                            <div
-                              className="price"
-                              style={{
-                                fontSize: '22px',
-                                paddingTop: isMobile
-                                  ? '.2rem'
-                                  : process.env.REACT_APP_LANG === 'de'
-                                  ? '.5rem'
-                                  : '1.5rem'
-                              }}
-                            >
+                            <div className="price font-weight-normal text-right">
                               <div>{formatMoney(currentUnitPrice)}</div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
@@ -2017,17 +2123,16 @@ class Details extends React.Component {
                         {currentSubscriptionStatus ? (
                           isMobile ? (
                             <div
-                              className="buyMethod rc-margin-bottom--xs"
+                              className="buyMethod rc-margin-bottom--xs row ml-0 mr-0 3"
                               style={{
                                 borderColor: parseInt(form.buyWay)
                                   ? '#e2001a'
                                   : '#d7d7d7',
                                 cursor: 'pointer'
                               }}
-                              onClick={() => this.ChangeFormat(1)}
+                              onClick={this.ChangeFormat.bind(this, 1)}
                             >
-                              {/*222*/}
-                              <div className="buyMethodInnerBox">
+                              <div className="buyMethodInnerBox d-flex col-12 pl-0 pr-0">
                                 <div className="radioBox">
                                   <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width">
                                     <FormattedMessage id="email">
@@ -2052,10 +2157,9 @@ class Details extends React.Component {
                                       className="rc-input__label--inline"
                                       htmlFor="type_frequency"
                                     >
-                                      <img
-                                        class="refreshImg"
-                                        src={refreshImg}
-                                      />
+                                      <span className="iconfont mr-2">
+                                        &#xe675;
+                                      </span>
                                       <span
                                         style={{
                                           fontWeight: '400',
@@ -2096,17 +2200,7 @@ class Details extends React.Component {
                                     </label>
                                   </div>
                                 </div>
-                                <div
-                                  className="price"
-                                  style={{
-                                    textAlign: 'right',
-                                    paddingTop: isMobile
-                                      ? '.2rem'
-                                      : process.env.REACT_APP_LANG === 'de'
-                                      ? '.5rem'
-                                      : '1.5rem'
-                                  }}
-                                >
+                                <div className="price font-weight-normal text-right">
                                   <div>
                                     {formatMoney(currentSubscriptionPrice || 0)}
                                   </div>
@@ -2131,55 +2225,53 @@ class Details extends React.Component {
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="discountBox">
-                                <FormattedMessage
-                                  id="saveExtra"
-                                  values={{ val: '10%' }}
-                                />
+                              <div className="col-12 pl-0 pr-0">
+                                <span className="discountBox">
+                                  <FormattedMessage
+                                    id="saveExtra"
+                                    values={{
+                                      val:
+                                        selectedSpecItem.subscriptionPercentage
+                                    }}
+                                  />
+                                </span>
                               </div>
-                              <br />
-                              <div className="freeshippingBox">
-                                <FormattedMessage id="freeShipping" />
+                              <div className="col-12 pl-0 pr-0">
+                                <span className="freeshippingBox">
+                                  <FormattedMessage id="freeShipping" />
+                                </span>
                               </div>
-                              <div className="freqency freqency3">
+                              <div className="freqency freqency3 col-12 pl-0 pr-0 d-flex align-items-center mt-2">
                                 <span>
                                   <FormattedMessage id="subscription.frequency" />
                                   :
                                 </span>
                                 <Selection
-                                  customContainerStyle={{
-                                    display: 'inline-block',
-                                    marginLeft: isMobile ? '50px' : '1.5rem',
-                                    height: isMobile ? '2rem' : 'auto'
-                                  }}
+                                  customCls="flex-grow-1"
                                   selectedItemChange={
                                     this.handleSelectedItemChange
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
-                                    value: form.frequencyVal
+                                    value: form.frequencyId
                                   }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
+                                  key={form.frequencyId}
                                 />
                               </div>
                             </div>
                           ) : (
                             <div
-                              className="buyMethod rc-margin-bottom--xs"
+                              className="buyMethod rc-margin-bottom--xs d-flex align-items-center 4"
                               style={{
                                 borderColor: parseInt(form.buyWay)
                                   ? '#e2001a'
                                   : '#d7d7d7',
                                 cursor: 'pointer'
                               }}
-                              onClick={() => this.ChangeFormat(1)}
+                              onClick={this.ChangeFormat.bind(this, 1)}
                             >
                               <div className="radioBox">
-                                <div
-                                  className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width"
-                                  style={{ margin: '0' }}
-                                >
+                                <div className="rc-input rc-input--inline rc-margin-y--xs rc-input--full-width m-0">
                                   <FormattedMessage id="email">
                                     {(txt) => (
                                       <input
@@ -2204,10 +2296,9 @@ class Details extends React.Component {
                                         color: '#333'
                                       }}
                                     >
-                                      <img
-                                        class="refreshImg"
-                                        src={refreshImg}
-                                      />
+                                      <span className="iconfont mr-2">
+                                        &#xe675;
+                                      </span>
                                       <FormattedMessage id="autoship" />
                                       <span
                                         className="info-tooltip delivery-method-tooltip"
@@ -2225,7 +2316,7 @@ class Details extends React.Component {
                                         i
                                       </span>
                                       <ConfirmTooltip
-                                        arrowStyle={{ left: '65%' }}
+                                        arrowStyle={{ left: '83%' }}
                                         display={this.state.toolTipVisible}
                                         cancelBtnVisible={false}
                                         confirmBtnVisible={false}
@@ -2245,7 +2336,10 @@ class Details extends React.Component {
                                 <div className="discountBox">
                                   <FormattedMessage
                                     id="saveExtra"
-                                    values={{ val: '5%' }}
+                                    values={{
+                                      val:
+                                        selectedSpecItem.subscriptionPercentage
+                                    }}
                                   />
                                 </div>
                                 <br />
@@ -2269,22 +2363,12 @@ class Details extends React.Component {
                                   }
                                   optionList={this.computedList}
                                   selectedItemData={{
-                                    value: form.frequencyVal
+                                    value: form.frequencyId
                                   }}
-                                  key={form.frequencyVal}
-                                  customStyleType="select-one"
+                                  key={form.frequencyId}
                                 />
                               </div>
-                              <div
-                                className="price"
-                                style={{
-                                  paddingTop: isMobile
-                                    ? '.2rem'
-                                    : process.env.REACT_APP_LANG === 'de'
-                                    ? '.5rem'
-                                    : '1.5rem'
-                                }}
-                              >
+                              <div className="price font-weight-normal text-right">
                                 <div>
                                   {formatMoney(currentSubscriptionPrice || 0)}
                                 </div>
@@ -2308,13 +2392,9 @@ class Details extends React.Component {
                             </div>
                           )
                         ) : null}
-                        {!isMobile && (
-                          <div
-                          // className="sticky-addtocart"
-                          // style={{ transform: 'translateY(-80px)' }}
-                          >
-                            <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
-                              {/* {!this.isLogin &&
+                        <div class="rc-md-up">
+                          <div className="rc-max-width--xl fullHeight justify-content-center text-right mt-4">
+                            {/* {!this.isLogin &&
                                 (form.buyWay ? (
                                   <span style={{ marginLeft: '10px' }}>
                                     <FormattedMessage id="unLoginSubscriptionTips" />
@@ -2330,27 +2410,29 @@ class Details extends React.Component {
                                       redirect: true
                                     })}
                                   >
-                                    <FormattedMessage id="GuestCheckout" />
+                                    <FormattedMessage id="guestCheckout" />
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
-                              <button
-                                style={{ padding: '2px 30px' }}
-                                className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
-                                  addToCartLoading ? 'ui-btn-loading' : ''
-                                } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
-                                onClick={this.hanldeAddToCart}
-                              >
-                                <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
-                                <span className="default-txt">
-                                  {form.buyWay === 1 ? (
-                                    <FormattedMessage id="subscribe" />
-                                  ) : (
-                                    <FormattedMessage id="details.addToCart" />
-                                  )}
-                                </span>
-                              </button>
-                              {/* {this.isLogin ? (
+                            <button
+                              style={{ padding: '2px 30px' }}
+                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                addToCartLoading ? 'ui-btn-loading' : ''
+                              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                              onClick={this.hanldeAddToCart}
+                            >
+                              <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                              <span className="default-txt">
+                                <FormattedMessage
+                                  id={`${
+                                    form.buyWay === 1
+                                      ? 'subscribe'
+                                      : 'details.addToCart'
+                                  }`}
+                                />
+                              </span>
+                            </button>
+                            {/* {this.isLogin ? (
                                 <button
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
@@ -2396,12 +2478,11 @@ class Details extends React.Component {
                                   </span>
                                 </LoginButton>
                               )} */}
-                            </div>
-                            <ErrMsgForCheckoutPanel
-                              checkOutErrMsg={checkOutErrMsg}
-                            />
                           </div>
-                        )}
+                          <ErrMsgForCheckoutPanel
+                            checkOutErrMsg={checkOutErrMsg}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2418,24 +2499,30 @@ class Details extends React.Component {
                   ${tabs[index].show ? 'showItem' : 'hiddenItem'}`}
                     >
                       <div
-                        className="rc-list__header"
+                        className="rc-list__header d-flex justify-content-between"
                         onClick={() => {
                           tabs[index].show = !this.state.tabs[index].show;
                           this.setState({ tabs: this.state.tabs });
                         }}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between'
-                        }}
                       >
-                        <div dangerouslySetInnerHTML={{ __html: ele }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: ele }} />
                         <span
+                          className="iconfont font-weight-bold"
+                          style={{
+                            transform: tabs[index].show
+                              ? 'rotate(90deg)'
+                              : 'rotate(-90deg)'
+                          }}
+                        >
+                          &#xe6fa;
+                        </span>
+                        {/* <span
                           className={`icon-change ${
                             tabs[index].show
                               ? 'rc-icon rc-up rc-brand1'
                               : 'rc-icon rc-down rc-iconography'
                           }`}
-                        ></span>
+                        ></span> */}
                       </div>
                       <div className={`rc-list__content`}>
                         <p
@@ -2454,43 +2541,6 @@ class Details extends React.Component {
                   </dl>
                 </>
               ))}
-            {/* {isMobile && (
-              <dl
-                data-toggle-group=""
-                data-toggle-effect="rc-expand--vertical"
-                className=""
-              >
-                <div
-                  className={`rc-list__accordion-item test-color
-                  ${reviewShow ? 'showItem' : 'hiddenItem'}`}
-                >
-                  <div
-                    className="rc-list__header d-flex justify-content-between"
-                    onClick={() => {
-                      this.setState({ reviewShow: !this.state.reviewShow });
-                    }}
-                  >
-                    <div dangerouslySetInnerHTML={{ __html: 'Reviews' }} />
-                    <span
-                      className={`icon-change ${
-                        reviewShow
-                          ? 'rc-icon rc-up rc-brand1'
-                          : 'rc-icon rc-down rc-iconography'
-                      }`}
-                    />
-                  </div>
-                  <div className={`rc-list__content `}>
-                    <p>
-                      <Reviews
-                        id={goodsId}
-                        key={goodsId}
-                        isLogin={this.isLogin}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </dl>
-            )} */}
             {!isMobile && goodsDetailTab.tabName.length ? (
               <div className="rc-max-width--xl rc-padding-x--sm">
                 <div className="rc-match-heights rc-content-h-middle rc-reverse-layout">
@@ -2510,7 +2560,7 @@ class Details extends React.Component {
                                   activeTabIdx === index ? 'true' : 'false'
                                 }
                                 role="tab"
-                                onClick={(e) => this.changeTab(e, index)}
+                                onClick={this.changeTab.bind(this, index)}
                               >
                                 {ele}
                               </button>
@@ -2544,33 +2594,6 @@ class Details extends React.Component {
                 </div>
               </div>
             ) : null}
-            {/* <div
-              id="review-container"
-              style={{
-                display: !isMobile ? 'none' : 'block'
-              }}
-            >
-              <Reviews id={goodsId} key={goodsId} isLogin={this.isLogin} />
-            </div> */}
-            {/* <div> */}
-            {/* <div
-                style={{
-                  textAlign: 'center',
-                  color: 'rgb(236, 0, 26)',
-                  height: '50px',
-                  lineHeight: '50px',
-                  fontSize: '1.4rem',
-                  marginBottom: '1rem'
-                }}
-              >
-                Recommanded for you
-              </div> */}
-            {/* <HeroCarousel
-                history={this.props.history}
-                goodsId={this.state.goodsId}
-                key={this.state.goodsId}
-              /> */}
-            {/* <RelatedProduct goodsId={this.state.goodsId} key={this.state.goodsId}/> */}
             <div>
               <Carousel
                 location={location}
@@ -2579,7 +2602,6 @@ class Details extends React.Component {
                 key={goodsId}
               />
             </div>
-            {/* </div> */}
             <div
               className="sticky-addtocart"
               style={{ transform: 'translateY(-80px)' }}
@@ -2591,7 +2613,7 @@ class Details extends React.Component {
                   } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                   onClick={this.hanldeAddToCart}
                 >
-                  <span className="fa rc-icon rc-cart--xs rc-brand3"></span>
+                  <span className="fa rc-icon rc-cart--xs rc-brand3" />
                   <span className="default-txt">
                     {form.buyWay === 1 ? (
                       <FormattedMessage id="subscribe" />
@@ -2653,7 +2675,7 @@ class Details extends React.Component {
                         redirect: true
                       })}
                     >
-                      <FormattedMessage id="GuestCheckout" />
+                      <FormattedMessage id="guestCheckout" />
                     </button>
                   ))} */}
               </div>
@@ -2710,13 +2732,13 @@ class Details extends React.Component {
                   <FormattedMessage id="or" />
                 </p>
               </div>
-              <button
+              <Link
                 class="rc-btn rc-btn--one"
                 style={{ fontWeight: 400 }}
-                onClick={() => this.props.history.push('/cart')}
+                to="/cart"
               >
                 <FormattedMessage id="goToCart" />
-              </button>
+              </Link>
             </section>
           </div>
         </aside>

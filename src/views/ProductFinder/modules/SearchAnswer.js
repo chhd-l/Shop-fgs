@@ -25,6 +25,7 @@ class SearchAnswer extends React.Component {
       const { form } = this.state;
       this.props.updateFormData(form);
       this.props.updateSaveBtnStatus(form && form.key);
+      this.props.updateBreedSizeFormData(null);
     });
   };
   toggleCheckbox = (e) => {
@@ -33,8 +34,8 @@ class SearchAnswer extends React.Component {
       id: 'account.mixBreed'
     });
     // 选择按钮的时候datalayer可能改变
-    if(this.props.configSizeAttach){
-      this.props.updateStepCurrent('size')
+    if (this.props.configSizeAttach) {
+      this.props.updateStepCurrent('size');
     }
     let tmp = null;
     const target = e.target;
@@ -65,15 +66,19 @@ class SearchAnswer extends React.Component {
   };
 
   updateSizeFormData = (data) => {
-    this.setState({ sizeForm: data }, () => {
-      const { sizeForm } = this.state;
-      let sts = false;
-      if (sizeForm && sizeForm.key) {
-        sts = true;
+    const { form } = this.state;
+    this.setState(
+      { sizeForm: Object.assign(data || {}, { type: form ? form.key : '' }) },
+      () => {
+        const { sizeForm } = this.state;
+        let sts = false;
+        if (sizeForm && sizeForm.key) {
+          sts = true;
+        }
+        this.props.updateSaveBtnStatus(sts);
+        this.props.updateBreedSizeFormData(sizeForm);
       }
-      this.props.updateSaveBtnStatus(sts);
-      this.props.updateBreedSizeFormData(sizeForm);
-    });
+    );
   };
 
   render() {

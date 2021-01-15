@@ -104,13 +104,15 @@ class CommunicationDataEditForm extends React.Component {
     this.setState({
       saveLoading: true
     });
-    let oktaToken = 'Bearer ' + this.props.authState.accessToken;
+    const oktaTokenString = this.props.authState && this.props.authState.accessToken ? this.props.authState.accessToken.value : '';
+    let oktaToken = 'Bearer ' + oktaTokenString;
     let submitParam = this.bindSubmitParam(this.state.list);
     Promise.all([
       updateCustomerBaseInfo(
         Object.assign({}, this.props.originData, {
           communicationEmail: form.communicationEmail,
-          communicationPhone: form.communicationPhone
+          communicationPhone: form.communicationPhone,
+          oktaToken: oktaToken
         })
       ),
       userBindConsent({ ...submitParam, ...{ oktaToken } })
@@ -257,9 +259,6 @@ class CommunicationDataEditForm extends React.Component {
             />
             <div className={`${editFormVisible ? '' : 'hidden'}`}>
               <span className={`rc-meta`}>
-                <b>
-                  <FormattedMessage id="account.myCommunicationPreferencesContent1" />
-                </b>
               </span>
               <div>
                 <label className="form-control-label rc-input--full-width w-100">

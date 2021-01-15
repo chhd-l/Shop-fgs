@@ -50,6 +50,7 @@ class TermsCommon extends Component {
       },
       () => {
         // this.valid();
+        console.log(222,this.state.list)
       }
     );
   }
@@ -83,7 +84,6 @@ class TermsCommon extends Component {
         {process.env.REACT_APP_LANG === 'de' ? (
           <div style={{ paddingLeft: '20px', marginTop: '20px' }}>
             <a
-              href="javascript:;"
               style={{ color: '#7F6666', cursor: 'default' }}
             >
               Informationen zu Ihrem Widerrufsrecht finden Sie{' '}

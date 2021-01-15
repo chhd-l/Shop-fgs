@@ -33,32 +33,29 @@ class SubscriptionSelect extends Component {
   }
   async componentDidMount() {
     this.updateFirstOrderDiscount();
-    await getFrequencyDict((res) => {
-      if(process.env.REACT_APP_ACCESS_PATH === 'https://shopstg.royalcanin.com/fr/') {
-        this.setState({
+    getFrequencyDict((res) => {
+      this.setState(
+        {
           frequencyList: res,
           form: Object.assign(this.state.form, {
-            frequencyVal: '4',
-            frequencyName: '4 semaine(s)',
-            frequencyId: 3560
+            frequencyVal:
+              process.env.REACT_APP_FREQUENCY_ID || res[0]
+                ? res[0].valueEn
+                : '',
+            frequencyName:
+              process.env.REACT_APP_FREQUENCY_VAL || res[0] ? res[0].name : '',
+            frequencyId:
+              (process.env.REACT_APP_FREQUENCY_ID &&
+                parseInt(process.env.REACT_APP_FREQUENCY_ID)) ||
+              res[0]
+                ? res[0].id
+                : ''
           })
         },
         () => {
           this.props.updateSelectedData(this.state.form);
-        });
-      }else {
-        this.setState({
-          frequencyList: res,
-          form: Object.assign(this.state.form, {
-            frequencyVal: res[0] ? res[0].valueEn : '',
-            frequencyName: res[0] ? res[0].name : '',
-            frequencyId: res[0] ? res[0].id : ''
-          })
-        },
-        () => {
-          this.props.updateSelectedData(this.state.form);
-        });
-      }
+        }
+      );
     });
   }
   get computedList() {
@@ -214,7 +211,6 @@ class SubscriptionSelect extends Component {
                     value: form.frequencyVal
                   }}
                   key={form.frequencyVal}
-                  customStyleType="select-one"
                 />
               </div>
               <span className="ml-2 d-flex align-items-center flex-wrap fit-screen-ml-2">
@@ -227,13 +223,13 @@ class SubscriptionSelect extends Component {
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
                           <LazyLoad>
-                          <img
-                            alt=""
-                            className="width-sub-img  imgForSelect "
-                            style={{ display: 'inline-block' }}
-                            key={i}
-                            src={ele.goodsInfoImg}
-                          />
+                            <img
+                              alt=""
+                              className="width-sub-img  imgForSelect "
+                              style={{ display: 'inline-block' }}
+                              key={i}
+                              src={ele.goodsInfoImg}
+                            />
                           </LazyLoad>
                         </div>
                       ))
@@ -245,13 +241,13 @@ class SubscriptionSelect extends Component {
                       .map((ele, i) => (
                         <div className="imgBoxForSelect ">
                           <LazyLoad>
-                          <img
-                            alt=""
-                            className="width-sub-img  imgForSelect "
-                            style={{ display: 'inline-block' }}
-                            key={i}
-                            src={ele.goodsInfoImg}
-                          />
+                            <img
+                              alt=""
+                              className="width-sub-img  imgForSelect "
+                              style={{ display: 'inline-block' }}
+                              key={i}
+                              src={ele.goodsInfoImg}
+                            />
                           </LazyLoad>
                         </div>
                       ))}

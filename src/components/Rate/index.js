@@ -20,9 +20,6 @@ export default class Rate extends Component {
     activeStar: redStar,
     halfStar: halfStar
   };
-  /** 页面渲染前 */
-  /*componentWillMount = () => {};*/
-  /** 页面渲染后 */
   componentDidMount = () => {
     if (this.props.color === 'yellow') {
       this.setState({ inActiveStar: oraStar, activeStar: oraStar_active });

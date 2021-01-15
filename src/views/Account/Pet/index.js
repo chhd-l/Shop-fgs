@@ -21,6 +21,8 @@ import Dog from '@/assets/images/dog.png';
 import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
+const pageLink = window.location.href;
+
 @injectIntl
 @inject('loginStore')
 @observer
@@ -28,20 +30,21 @@ class Pet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       petList: [],
       seoConfig: {
         title: '',
         metaKeywords: '',
         metaDescription: ''
       },
-      isMobile: false
+      isMobile: false,
+      loading: true
     };
   }
   componentDidMount() {
     this.setState({ isMobile: getDeviceType() !== 'PC' });
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     this.getPetList();
   }
@@ -70,6 +73,7 @@ class Pet extends React.Component {
   };
 
   getPetList = async () => {
+    this.setState({ loading: true });
     if (!this.getAccount()) {
       this.showErrorMsg(this.props.intl.messages.getConsumerAccountFailed);
       this.setState({
@@ -119,7 +123,7 @@ class Pet extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     let { isMobile, petList, loading } = this.state;
@@ -127,9 +131,13 @@ class Pet extends React.Component {
       <div id="Pets">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
           showMiniIcons={true}
@@ -173,7 +181,11 @@ class Pet extends React.Component {
                     <div className="rc-layout-container rc-two-column rc-content-h-middle rc-margin-bottom--sm">
                       <div className="rc-column rc-md-down">
                         <LazyLoad>
-                        <img style={{width: '100%'}} src={noPet} alt="No pets" />
+                          <img
+                            style={{ width: '100%' }}
+                            src={noPet}
+                            alt="No pets"
+                          />
                         </LazyLoad>
                       </div>
                       <div className="rc-column">
@@ -183,7 +195,10 @@ class Pet extends React.Component {
                               <FormattedMessage id="account.noPet"></FormattedMessage>
                             </p>
                           </div>
-                          <div className="rc-margin-top--sm">
+                          <div
+                            className="rc-margin-top--xs"
+                            style={{ textAlign: isMobile ? 'center' : 'left' }}
+                          >
                             <Link
                               className="rc-btn rc-btn--one"
                               to="/account/pets/petForm"
@@ -195,7 +210,7 @@ class Pet extends React.Component {
                       </div>
                       <div className="rc-column rc-md-up">
                         <LazyLoad>
-                        <img src={noPet} alt="No pets" />
+                          <img src={noPet} alt="No pets" />
                         </LazyLoad>
                       </div>
                     </div>
@@ -209,32 +224,43 @@ class Pet extends React.Component {
                             <div className="petItem">
                               <div className="photo">
                                 <LazyLoad>
-                                <img
-                                  style={{ width: '90px', borderRadius: '50%' }}
-                                  src={
-                                    (el.petsImg && el.petsImg.includes('https')
-                                      ? el.petsImg
-                                      : null) ||
-                                    (el.petsType === 'cat' ? Cat : Dog)
-                                  }
-                                />
+                                  <img
+                                    style={{
+                                      width: '90px',
+                                      borderRadius: '50%'
+                                    }}
+                                    src={
+                                      (el.petsImg &&
+                                      el.petsImg.includes('https')
+                                        ? el.petsImg
+                                        : null) ||
+                                      (el.petsType === 'cat' ? Cat : Dog)
+                                    }
+                                  />
                                 </LazyLoad>
                               </div>
                               <div className="content">
                                 <h1 className="name red">
                                   {el.petsName}{' '}
                                   <LazyLoad>
-                                  <img
-                                    style={{ width: '20px' }}
-                                    src={!el.petsSex ? Male : Female}
-                                  />
+                                    <img
+                                      style={{ width: '20px' }}
+                                      src={!el.petsSex ? Male : Female}
+                                    />
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span><FormattedMessage id="birthday" /></span>
-                                  <span><FormattedMessage id="breed" /></span>
+                                  <span>
+                                    <FormattedMessage id="birthday" />
+                                  </span>
+                                  <span>
+                                    <FormattedMessage id="breed" />
+                                  </span>
                                 </div>
-                                <div className="value">
+                                <div
+                                  className="value"
+                                  style={{ width: 'auto' }}
+                                >
                                   <span>{el.birthOfPets}</span>
                                   <span>{el.petsBreed}</span>
                                 </div>
@@ -259,32 +285,43 @@ class Pet extends React.Component {
                             <div className="petItem">
                               <div className="photo">
                                 <LazyLoad>
-                                <img
-                                  style={{ width: '90px', borderRadius: '50%' }}
-                                  src={
-                                    (el.petsImg && el.petsImg.includes('https')
-                                      ? el.petsImg
-                                      : null) ||
-                                    (el.petsType === 'cat' ? Cat : Dog)
-                                  }
-                                />
+                                  <img
+                                    style={{
+                                      width: '90px',
+                                      borderRadius: '50%'
+                                    }}
+                                    src={
+                                      (el.petsImg &&
+                                      el.petsImg.includes('https')
+                                        ? el.petsImg
+                                        : null) ||
+                                      (el.petsType === 'cat' ? Cat : Dog)
+                                    }
+                                  />
                                 </LazyLoad>
                               </div>
                               <div className="content">
                                 <h1 className="name red">
                                   {el.petsName}{' '}
                                   <LazyLoad>
-                                  <img
-                                    style={{ width: '15px' }}
-                                    src={!el.petsSex ? Male : Female}
-                                  />
+                                    <img
+                                      style={{ width: '15px' }}
+                                      src={!el.petsSex ? Male : Female}
+                                    />
                                   </LazyLoad>
                                 </h1>
                                 <div className="key">
-                                  <span><FormattedMessage id="birthday" /></span>
-                                  <span><FormattedMessage id="breed" /></span>
+                                  <span>
+                                    <FormattedMessage id="birthday" />
+                                  </span>
+                                  <span>
+                                    <FormattedMessage id="breed" />
+                                  </span>
                                 </div>
-                                <div className="value">
+                                <div
+                                  className="value"
+                                  style={{ width: 'auto' }}
+                                >
                                   <span>{el.birthOfPets}</span>
                                   <span>
                                     <FormattedMessage id={el.petsBreed} />
@@ -318,7 +355,8 @@ class Pet extends React.Component {
                           cursor: 'pointer'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }}></span> <FormattedMessage id="pet.addNewPet"/>
+                        <span style={{ fontSize: '25px' }}></span>{' '}
+                        <FormattedMessage id="pet.addNewPet" />
                         {/* Add a new PET */}
                       </div>
                     </div>

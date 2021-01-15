@@ -18,6 +18,9 @@ import LazyLoad from 'react-lazyload';
 import { Helmet } from 'react-helmet';
 
 import './index.css';
+
+const pageLink = window.location.href
+
 @inject('checkoutStore', 'loginStore', 'clinicStore')
 @inject('configStore')
 @observer
@@ -54,6 +57,7 @@ class Help extends React.Component {
       <div className="recommendation">
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
+        <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
           <meta name="description" content={this.state.seoConfig.metaDescription}/>
           <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>

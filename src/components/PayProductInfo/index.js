@@ -19,11 +19,16 @@ class PayProductInfo extends React.Component {
     super(props);
     this.state = {
       productList: [],
-      frequencyList: []
+      frequencyList: [],
+      pathname:''
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
   async componentDidMount() {
+    const {pathname} = this.props.location
+    this.setState({
+      pathname
+    })
     getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -72,24 +77,26 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {[
-                      item.specDetails,
-                      item.num > 1
-                        ? this.props.intl.formatMessage(
-                            { id: 'items' },
-                            {
-                              val: item.num
-                            }
-                          )
-                        : this.props.intl.formatMessage(
-                            { id: 'item' },
-                            {
-                              val: item.num
-                            }
-                          )
-                    ]
-                      .filter((e) => e)
-                      .join(' - ')}
+                    {
+                      [
+                        item.specDetails,
+                        item.num > 1
+                          ? this.props.intl.formatMessage(
+                              { id: 'items' },
+                              {
+                                val: item.num
+                              }
+                            )
+                          : this.props.intl.formatMessage(
+                              { id: 'item' },
+                              {
+                                val: item.num
+                              }
+                            )
+                      ]
+                        .filter((e) => e)
+                        .join(' - ')
+                      }
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
@@ -220,7 +227,47 @@ class PayProductInfo extends React.Component {
                       </div>
                     </div>
                     {/* promotion */}
-                    {details.tradePrice.discountsPrice ? (
+                    {details.tradePrice.subscriptionDiscountPrice ? (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span className="green">
+                              {/* {details.tradePrice.promotionDesc || ( */}
+                                <FormattedMessage id="promotion" />
+                              {/* )} */}
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(details.tradePrice.subscriptionDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+                    {details.tradePrice.promotionDiscountPrice ? (
+                      <div className="row leading-lines shipping-item">
+                        <div className="col-7 start-lines">
+                          <p className="order-receipt-label order-shipping-cost">
+                            <span className="green">
+                              {/* {details.tradePrice.promotionDesc || ( */}
+                                <FormattedMessage id="promotion" />
+                              {/* )} */}
+                            </span>
+                          </p>
+                        </div>
+                        <div className="col-5 end-lines">
+                          <p className="text-right">
+                            <span className="shipping-total-cost green">
+                              -{formatMoney(details.tradePrice.promotionDiscountPrice)}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ) : null}
+                    {/* {details.tradePrice.discountsPrice ? (
                       <div className="row leading-lines shipping-item">
                         <div className="col-7 start-lines">
                           <p className="order-receipt-label order-shipping-cost">
@@ -239,7 +286,7 @@ class PayProductInfo extends React.Component {
                           </p>
                         </div>
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </div>
               </div>

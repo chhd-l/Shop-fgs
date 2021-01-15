@@ -26,8 +26,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' }
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' }
         ]
       }
     ],
@@ -79,8 +79,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats' },
-          { link: '/list/dogs', messageId: 'dogs' }
+          { link: '/cats', messageId: 'cats' },
+          { link: '/dogs', messageId: 'dogs' }
         ]
       }
     ],
@@ -171,8 +171,10 @@ export const menubar = {
             link: `/help`,
             messageId: 'footer.contacts'
           },
-          { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
-          { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
+          { link: '/FAQ/catogery-1', messageId: 'footer.FAQVersand' },
+          { link: '/FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
+          // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
+          // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
         ]
       }
     ],
@@ -184,10 +186,10 @@ export const menubar = {
             url: 'https://www.royalcanin.com/de/about-us/data-protection',
             messageId: 'footer.privacyPolicy2'
           },
-          // { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
-          // { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
-          { url: process.env.REACT_APP_ACCESS_PATH+'Terms-And-Conditions', messageId: 'footer.termsOfService' },
-          { url: process.env.REACT_APP_ACCESS_PATH+'Widerrufsbelehrung', messageId: 'footer.withdrawal' }
+          { link: '/Terms-And-Conditions', messageId: 'footer.termsOfService' },
+          { link: '/Widerrufsbelehrung', messageId: 'footer.withdrawal' }
+          // { url: process.env.REACT_APP_ACCESS_PATH+'Terms-And-Conditions', messageId: 'footer.termsOfService' },
+          // { url: process.env.REACT_APP_ACCESS_PATH+'Widerrufsbelehrung', messageId: 'footer.withdrawal' }
         ]
       }
     ]
@@ -198,7 +200,7 @@ export const menubar = {
         titleId: 'footer.aboutRoyalCanin',
         list: [
           {
-            link: '/aboutUs',
+            link: '/About-Us',
             messageId: 'aboutUs2'
           },
           {
@@ -298,8 +300,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' },
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' },
           {
             link: '/subscription-landing-ru',
             messageId: 'account.subscription'
@@ -387,8 +389,8 @@ export const menubar = {
       {
         titleId: 'footer.products',
         list: [
-          { link: '/list/cats', messageId: 'cats2' },
-          { link: '/list/dogs', messageId: 'dogs2' }
+          { link: '/cats', messageId: 'cats2' },
+          { link: '/dogs', messageId: 'dogs2' }
         ]
       }
     ],

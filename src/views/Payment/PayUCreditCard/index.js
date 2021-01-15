@@ -1,6 +1,5 @@
 import React from 'react';
 import findIndex from 'lodash/findIndex';
-import PaymentComp from '../PaymentComp';
 import {
   CREDIT_CARD_IMG_ENUM,
   CREDIT_CARD_IMGURL_ENUM,
@@ -11,19 +10,113 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
 import { scrollPaymentPanelIntoView } from '../modules/utils';
+import PaymentComp from '../PaymentComp';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
+
+function VisitorEditForm({
+  creditCardInfoForm,
+  onChange,
+  onInputBlur
+}) {
+
+  return (
+    <>
+      <div className="row overflow_visible">
+        <div className="col-sm-12">
+          <div className="form-group required">
+            <label className="form-control-label">
+              <FormattedMessage id="payment.cardOwner" />
+            </label>
+            <span className="rc-input rc-input--full-width" input-setup="true">
+              <input
+                type="text"
+                className="rc-input__control form-control cardOwner"
+                name="cardOwner"
+                value={creditCardInfoForm.cardOwner}
+                onChange={onChange}
+                onBlur={onInputBlur}
+                maxLength="40"
+              />
+              <label className="rc-input__label" htmlFor="cardOwner" />
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage id="payment.errorInfo2" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-6">
+          <div className="form-group required">
+            <label className="form-control-label">
+              <FormattedMessage id="payment.email" />
+            </label>
+            <span className="rc-input rc-input--full-width" input-setup="true">
+              <input
+                type="email"
+                className="rc-input__control email"
+                id="email"
+                value={creditCardInfoForm.email}
+                onChange={onChange}
+                onBlur={onInputBlur}
+                name="email"
+                maxLength="254"
+              />
+              <label className="rc-input__label" htmlFor="email" />
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage id="payment.errorInfo2" />
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-6">
+          <div className="form-group required">
+            <label className="form-control-label" htmlFor="phoneNumber">
+              <FormattedMessage id="payment.phoneNumber" />
+            </label>
+            <span
+              className="rc-input rc-input--full-width"
+              input-setup="true"
+              data-js-validate=""
+              data-js-warning-message="*Phone Number isn’t valid"
+            >
+              <input
+                type="text"
+                className="rc-input__control input__phoneField shippingPhoneNumber"
+                min-lenght="18"
+                max-length="18"
+                data-phonelength="18"
+                data-js-pattern="(^\d{10}$)"
+                data-range-error="The phone number should contain 10 digits"
+                value={creditCardInfoForm.phoneNumber}
+                onChange={onChange}
+                onBlur={onInputBlur}
+                name="phoneNumber"
+                maxLength="2147483647"
+              />
+              <label className="rc-input__label" htmlFor="phoneNumber" />
+            </span>
+            <div className="invalid-feedback">
+              <FormattedMessage id="payment.errorInfo2" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 @inject('paymentStore')
-@injectIntl
 @observer
 class PayOs extends React.Component {
   static defaultProps = {
-    isLogin: false
+    isLogin: false,
+    billingJSX: null,
+    updateFormValidStatus: () => {}
   };
   constructor(props) {
     super(props);
     this.state = {
-      isCompleteCredit: false,
       creditCardInfoForm: {
         // cardNumber: "",
         // cardDate: "",
@@ -37,12 +130,10 @@ class PayOs extends React.Component {
       payosdata: {},
       selectedCardInfo: null,
       inited: false,
-      hasEditedEmail: false,
-      hasEditedPhone: false,
-      hasEditedName: false,
       isValid: false,
       saveLoading: false
     };
+    this.paymentCompRef = React.createRef();
   }
   componentDidMount() {
     const { isLogin } = this.props;
@@ -90,68 +181,35 @@ class PayOs extends React.Component {
               .getElementById('zoozIframe')
               .setAttribute('scrolling', 'no');
           } catch (e) {}
-          if (document.getElementById('payment-form')) {
-            document
-              .getElementById('payment-form')
-              .addEventListener('submit', function (event) {
-                console.log(document.getElementById('cardholder-name'));
-                event.preventDefault();
-                const additionalData = {
-                  holder_name: document.getElementById('cardholder-name').value // This field is mandatory
-                };
-                window.POS.createToken(additionalData, function (result) {
-                  console.log(result, 'result');
-                  // Grab the token here
-                  sessionItemRoyal.set('payosdata', result);
-                });
-              });
-          }
         }
       });
       this.setState({
         inited: true
       });
     }
+    this.initForm();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { creditCardInfoForm } = this.state;
-    if (nextProps.selectedDeliveryAddress) {
-      const {
-        email: selectedEmail,
-        phoneNumber: selectedPhone,
-        firstName: selectedFirstName,
-        lastName: selectedLastName
-      } = nextProps.selectedDeliveryAddress;
-      let {
-        email: curEmail,
-        phoneNumber: curPhone,
-        cardOwner: curName
-      } = creditCardInfoForm;
-      const selectedName = [selectedFirstName, selectedLastName]
-        .filter((n) => !!n)
-        .join(' ');
-      if (!this.state.hasEditedEmail && selectedEmail !== curEmail) {
-        curEmail = selectedEmail;
-      }
-      if (!this.state.hasEditedPhone && selectedPhone !== curPhone) {
-        curPhone = selectedPhone;
-      }
-      if (!this.state.hasEditedName && selectedName !== curName) {
-        curName = selectedName;
-      }
-      this.setState(
-        {
-          creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
-            email: curEmail,
-            phoneNumber: curPhone,
-            cardOwner: curName
-          })
-        },
-        () => {
-          this.validFormData();
-        }
-      );
+  initForm() {
+    const {
+      paymentStore: { defaultCardDataFromAddr: defaultVal }
+    } = this.props;
+    let tmpDefaultName = '';
+    if (defaultVal) {
+      const { firstName, lastName } = defaultVal;
+      tmpDefaultName = [firstName, lastName].filter((n) => !!n).join(' ');
     }
+    this.setState(
+      {
+        creditCardInfoForm: Object.assign(this.state.creditCardInfoForm, {
+          cardOwner: tmpDefaultName || '',
+          email: (defaultVal && defaultVal.email) || '',
+          phoneNumber: (defaultVal && defaultVal.phoneNumber) || ''
+        })
+      },
+      () => {
+        this.validFormData();
+      }
+    );
   }
   cardInfoInputChange = (e) => {
     const target = e.target;
@@ -160,21 +218,10 @@ class PayOs extends React.Component {
     const { creditCardInfoForm } = this.state;
     creditCardInfoForm[name] = value;
     this.inputBlur(e);
-    this.setState({ creditCardInfoForm: creditCardInfoForm }, () => {
+    this.setState({ creditCardInfoForm }, () => {
       this.props.onVisitorCardInfoChange(this.state.creditCardInfoForm);
       this.validFormData();
     });
-    if (value) {
-      if (name === 'email') {
-        this.setState({ hasEditedEmail: true });
-      }
-      if (name === 'phoneNumber') {
-        this.setState({ hasEditedPhone: true });
-      }
-      if (name === 'cardOwner') {
-        this.setState({ hasEditedName: true });
-      }
-    }
   };
   inputBlur = (e) => {
     let validDom = Array.from(
@@ -194,44 +241,50 @@ class PayOs extends React.Component {
       await validData(PAYMENT_METHOD_RULE, this.state.creditCardInfoForm);
       this.setState({ isValid: true });
     } catch (err) {
-      console.log(err);
       this.setState({ isValid: false });
+    } finally {
+      this.props.updateFormValidStatus(this.state.isValid);
     }
   }
-  handleClickCardConfirm = () => {
-    if (!this.state.isValid) {
-      return false;
-    }
-
-    this.setState({ saveLoading: true });
-    document.getElementById('payment-form').submit.click();
-    let timer = setInterval(() => {
-      try {
-        let payosdata = JSON.parse(sessionItemRoyal.get('payosdata'));
-        if (payosdata) {
-          this.setState({
-            payosdata
-          });
-          if (payosdata.category === 'client_validation_error') {
-            this.props.showErrorMsg(payosdata.more_info);
-            sessionItemRoyal.remove('payosdata');
-          } else {
-            this.setState({ isCompleteCredit: true });
-            this.props.onVisitorPayosDataConfirm(payosdata);
-            scrollPaymentPanelIntoView();
-          }
-        }
-      } catch (err) {
-        this.props.showErrorMsg(
-          sessionItemRoyal.get('payosdata')
-            ? sessionItemRoyal.get('payosdata')
-            : err.message.toString()
-        );
-      } finally {
-        clearInterval(timer);
-        this.setState({ saveLoading: false });
+  handleClickCardConfirm = async () => {
+    try {
+      const { creditCardInfoForm, isValid } = this.state;
+      if (!isValid) {
+        return false;
       }
-    }, 1000);
+      this.setState({ saveLoading: true });
+
+      const tokenResult = await new Promise((resolve) => {
+        window.POS.createToken(
+          {
+            holder_name: creditCardInfoForm.cardOwner // This field is mandatory
+          },
+          function (result) {
+            console.log(result, 'result');
+            // Grab the token here
+            resolve(result);
+          }
+        );
+      });
+      const payosdata = JSON.parse(tokenResult);
+      if (payosdata) {
+        this.setState({
+          payosdata
+        });
+        if (payosdata.category === 'client_validation_error') {
+          sessionItemRoyal.remove('payosdata');
+          throw new Error(payosdata.more_info)
+        } else {
+          this.props.onVisitorPayosDataConfirm(payosdata);
+          scrollPaymentPanelIntoView();
+        }
+      }
+    } catch (err) {
+      this.props.showErrorMsg(err.message);
+      throw new Error();
+    } finally {
+      this.setState({ saveLoading: false });
+    }
   };
   onPaymentCompDataChange = (data) => {
     this.setState({ selectedCardInfo: data }, () => {
@@ -239,13 +292,8 @@ class PayOs extends React.Component {
     });
   };
   render() {
-    const { isLogin, billingJSX } = this.props;
-    const {
-      creditCardInfoForm,
-      isValid,
-      isCompleteCredit,
-      saveLoading
-    } = this.state;
+    const { isLogin, billingJSX, defaultCardDataFromAddr } = this.props;
+    const { creditCardInfoForm } = this.state;
 
     const CreditCardImg = (
       <span className="logo-payment-card-list logo-credit-card">
@@ -259,7 +307,7 @@ class PayOs extends React.Component {
 
     return (
       <>
-        <div className="card payment-form 1ml-custom 1mr-custom Card-border 1p-3 rounded 1rc-border-all rc-border-colour--interface">
+        <div className="card payment-form Card-border rounded rc-border-colour--interface">
           <div className="card-body rc-padding--none">
             <form
               method="POST"
@@ -268,28 +316,25 @@ class PayOs extends React.Component {
               id="dwfrm_billing"
             >
               <div className="billing-payment">
-                <div
-                  className={`rc-list__accordion-item border-0`}
-                  data-method-id="CREDIT_CARD"
-                >
+                <div className={`rc-list__accordion-item border-0`}>
                   {isLogin ? (
                     <div className="rc-border-colour--interface">
                       <PaymentComp
+                        key={Object.values(defaultCardDataFromAddr || {}).join(
+                          '|'
+                        )}
+                        ref={this.paymentCompRef}
+                        billingJSX={billingJSX}
                         getSelectedValue={this.onPaymentCompDataChange}
                         needReConfirmCVV={this.props.needReConfirmCVV}
-                        selectedDeliveryAddress={
-                          this.props.selectedDeliveryAddress
-                        }
+                        defaultCardDataFromAddr={defaultCardDataFromAddr}
+                        updateFormValidStatus={this.props.updateFormValidStatus}
                       />
                     </div>
                   ) : (
                     <>
-                      <div
-                        className={`credit-card-content ${
-                          !isCompleteCredit ? '' : 'hidden'
-                        }`}
-                        id="credit-card-content"
-                      >
+                      {/* edit form */}
+                      <div className="credit-card-content">
                         <div className="credit-card-form ">
                           <div className="rc-margin-bottom--xs">
                             <div className="content-asset">
@@ -307,7 +352,7 @@ class PayOs extends React.Component {
                                     <FormattedMessage id="payment.cardNumber" />
                                     <span className="red">*</span>
                                     {CreditCardImg}
-                                    <form id="payment-form">
+                                    <form>
                                       <div id="card-secure-fields" />
                                       <button
                                         id="submit"
@@ -326,177 +371,11 @@ class PayOs extends React.Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="row overflow_visible">
-                              <div className="col-sm-12">
-                                <div className="form-group required">
-                                  <label className="form-control-label">
-                                    <FormattedMessage id="payment.cardOwner" />
-                                  </label>
-                                  <span
-                                    className="rc-input rc-input--full-width"
-                                    input-setup="true"
-                                  >
-                                    <input
-                                      type="text"
-                                      id="cardholder-name"
-                                      className="rc-input__control form-control cardOwner"
-                                      name="cardOwner"
-                                      value={creditCardInfoForm.cardOwner}
-                                      onChange={this.cardInfoInputChange}
-                                      onBlur={this.inputBlur}
-                                      maxLength="40"
-                                    />
-                                    <label
-                                      className="rc-input__label"
-                                      htmlFor="cardOwner"
-                                    />
-                                  </span>
-                                  <div className="invalid-feedback">
-                                    <FormattedMessage id="payment.errorInfo2" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="col-sm-6">
-                                <div className="form-group required">
-                                  <label className="form-control-label">
-                                    <FormattedMessage id="payment.email" />
-                                  </label>
-                                  <span
-                                    className="rc-input rc-input--full-width"
-                                    input-setup="true"
-                                  >
-                                    <input
-                                      type="email"
-                                      className="rc-input__control email"
-                                      id="email"
-                                      value={creditCardInfoForm.email}
-                                      onChange={this.cardInfoInputChange}
-                                      onBlur={this.inputBlur}
-                                      name="email"
-                                      maxLength="254"
-                                    />
-                                    <label
-                                      className="rc-input__label"
-                                      htmlFor="email"
-                                    />
-                                  </span>
-                                  <div className="invalid-feedback">
-                                    <FormattedMessage id="payment.errorInfo2" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-sm-6">
-                                <div className="form-group required">
-                                  <label
-                                    className="form-control-label"
-                                    htmlFor="phoneNumber"
-                                  >
-                                    <FormattedMessage id="payment.phoneNumber" />
-                                  </label>
-                                  <span
-                                    className="rc-input rc-input--full-width"
-                                    input-setup="true"
-                                    data-js-validate=""
-                                    data-js-warning-message="*Phone Number isn’t valid"
-                                  >
-                                    <input
-                                      type="number"
-                                      className="rc-input__control input__phoneField shippingPhoneNumber"
-                                      min-lenght="18"
-                                      max-length="18"
-                                      data-phonelength="18"
-                                      data-js-pattern="(^\d{10}$)"
-                                      data-range-error="The phone number should contain 10 digits"
-                                      value={creditCardInfoForm.phoneNumber}
-                                      onChange={this.cardInfoInputChange}
-                                      onBlur={this.inputBlur}
-                                      name="phoneNumber"
-                                      maxLength="2147483647"
-                                    />
-                                    <label
-                                      className="rc-input__label"
-                                      htmlFor="phoneNumber"
-                                    />
-                                  </span>
-                                  <div className="invalid-feedback">
-                                    <FormattedMessage id="payment.errorInfo2" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className={`creditCompleteInfoBox pb-3 ${
-                          !isCompleteCredit ? 'hidden' : ''
-                        }`}
-                      >
-                        <p>
-                          <span
-                            className="pull-right ui-cursor-pointer-pure mr-2"
-                            onClick={() => {
-                              this.setState({
-                                isCompleteCredit: false
-                              });
-                            }}
-                            style={{
-                              position: 'relative',
-                              top: -9
-                            }}
-                          >
-                            <FormattedMessage id="edit" />
-                          </span>
-                        </p>
-                        <div className="row">
-                          <div className="col-6 col-sm-3 d-flex flex-column justify-content-center ">
-                            <LazyLoad>
-                              <img
-                                alt=""
-                                className="PayCardImgFitScreen"
-                                src={
-                                  CREDIT_CARD_IMG_ENUM[
-                                    this.state.payosdata.vendor
-                                  ]
-                                    ? CREDIT_CARD_IMG_ENUM[
-                                        this.state.payosdata.vendor.toUpperCase()
-                                      ]
-                                    : 'https://js.paymentsos.com/v2/iframe/latest/static/media/unknown.c04f6db7.svg'
-                                }
-                              />
-                            </LazyLoad>
-                          </div>
-                          <div className="col-12 col-sm-9 d-flex flex-column justify-content-around">
-                            <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                              <div className="col-12 color-999">
-                                <FormattedMessage id="name2" />
-                                <br />
-                                <span className="creditCompleteInfo">
-                                  {creditCardInfoForm.cardOwner}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="row creditCompleteInfo ui-margin-top-1-md-down">
-                              <div className="col-6 color-999">
-                                <FormattedMessage id="payment.cardNumber2" />
-                                <br />
-                                <span className="creditCompleteInfo">
-                                  xxxx xxxx xxxx{' '}
-                                  {this.state.payosdata
-                                    ? this.state.payosdata.last_4_digits
-                                    : ''}
-                                </span>
-                              </div>
-                              <div className="col-6 color-999">
-                                <FormattedMessage id="payment.cardType" />
-                                <br />
-                                <span className="creditCompleteInfo">
-                                  {this.state.payosdata.card_type}
-                                </span>
-                              </div>
-                            </div>
+                            <VisitorEditForm
+                              creditCardInfoForm={creditCardInfoForm}
+                              onChange={this.cardInfoInputChange}
+                              onInputBlur={this.inputBlur}
+                            />
                           </div>
                         </div>
                       </div>
@@ -508,23 +387,9 @@ class PayOs extends React.Component {
           </div>
         </div>
         {billingJSX}
-        {!isCompleteCredit && (
-          <div className="d-flex justify-content-end align-items-center mt-3">
-            <button
-              className={`rc-btn rc-btn--one ${
-                saveLoading ? 'ui-btn-loading' : ''
-              }`}
-              // 校验card form表单
-              disabled={!isValid}
-              onClick={this.handleClickCardConfirm}
-            >
-              <FormattedMessage id="payment.confirmCard" />
-            </button>
-          </div>
-        )}
       </>
     );
   }
 }
 
-export default PayOs;
+export default injectIntl(PayOs, { forwardRef: true });

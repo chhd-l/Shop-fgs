@@ -768,7 +768,7 @@
   transition: all .3s ease-in-out;
   background-position: 30.77% 33.33%;
   /* background-image: url(https://www.shop.royal-canin.ru/on/demandware.static/Sites-RU-Site/-/ru_RU/images/icons/royal-canin.sprite--iconography.svg); */
-  background-image: url(../images/royal-canin.sprite--iconography.svg);
+  background-image: url(../images/royal-canin.sprite--iconography1.svg);
 }
 
 .filter-bar li.swatch-filter {

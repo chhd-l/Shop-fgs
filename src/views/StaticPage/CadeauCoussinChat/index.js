@@ -7,6 +7,7 @@ import BannerTip from '@/components/BannerTip';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import LazyLoad from 'react-lazyload';
+import { Link } from 'react-router-dom'
 
 const localItemRoyal = window.__.localItemRoyal;
 
@@ -62,7 +63,7 @@ class CadeauCoussinChat extends React.Component {
                           <h2 className="rc-beta text-center">Recevez en cadeau un coussin pour votre chat*</h2>
                           <div className="rc-intro inherit-fontsize children-nomargin rc-margin-bottom--md--mobile">
                             <p>Avec le code promotionnel qui vous a été communiqué vous pouvez à la fin de votre commande obtenir un cadeau spécial pour votre chat : un super coussin parfait pour les longues siestes de votre félin.</p>
-                            <p><br/></p>
+                            <p className="rc-md-down"><br/></p>
                             <h3>
                               <strong>Comment obtenir votre cadeau ?</strong>
                             </h3>
@@ -79,33 +80,61 @@ class CadeauCoussinChat extends React.Component {
                             <div className="rc-column">
                               <div className="rc-padding-y--lg--mobile rc-full-width">
                                 <ul className="rc-list rc-list--blank rc-list--align rc-list--large-icon">
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Choisissez
+                                  <li className="rc-list__item">
+                                  <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Choisissez
                                     l'aliment adapté à votre chat et ajoutez-le à votre panier
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Rendez-vous
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}
+                                    ></i>
+                                    Rendez-vous
                                     dans votre panier pour finaliser votre commande
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Ajoutez
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Ajoutez
                                     votre code promotionnel en dessous du panier et cliquez sur "Appliquer"
                                   </li>
-                                  <li className="rc-list__item"><i className="icon-paw rc-margin-right--xs"></i>Créez
+                                  <li className="rc-list__item">
+                                    <i className="wof rc-margin-right--xs"
+                                    style={{
+                                      position: 'relative',
+                                      left: '-6px',
+                                      marginRight: 0
+                                    }}></i>
+                                    Créez
                                     votre compte et passez votre commande
                                   </li>
                                 </ul>
                                 <div className="textcenter--mobile">
-                                  <a href="https://shop.royalcanin.fr/cats/"
-                                     className="rc-btn rc-btn--one rc-margin-top--xs ">J'en profite</a>
+                                  <Link to="/cats"
+                                     className="rc-btn rc-btn--one rc-margin-top--xs ">J'en profite</Link>
                                 </div>
                               </div>
                             </div>
 
                             <div className="rc-column">
                               <img
-                                data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=534"
-                                data-srcset="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=1068 2x"
-                                alt=" " className="w-100 lazyloaded"
-                                srcSet="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=534, https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=1068 2x"
-                                src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw69ae4919/Social-promotion-landing-page/CAT-ANTIBACTERIAL-MAT.png?sw=534"/>
+                                alt=" " 
+                                className="w-100 lazyloaded"
+                                src={`${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/CAT-ANTIBACTERIAL-MAT.png`}
+                                />
                             </div>
                           </div>
                         </div>
@@ -122,11 +151,11 @@ class CadeauCoussinChat extends React.Component {
                     <div className="rc-max-width--xl rc-padding-x--sm rc-padding-x--md--mobile rc-margin-y--sm rc-margin-y--lg--mobile richtext  ">
                       <p>
                         <em>*Offre valable uniquement en France métropolitaine hors îles françaises et uniquement sur le site </em>
-                        <a href="/" target="_self" data-link-type="external" data-link-label="/">
+                        <Link to="/" target="_self" data-link-type="external" data-link-label="/">
                           <strong>
                             <em>https://shop.royalcanin.fr</em>
                           </strong>
-                        </a>
+                        </Link>
                         <em>, Code valable du 23/11/2020 au 23/12/2020 pour l'achat au minimum d'un aliment chat. Dans la limite des stocks disponibles. Code promotionnel non-cumulable avec d’autres offres promotionnelles en cours.</em>
                       </p>
                     </div>
