@@ -8,13 +8,15 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     &.active {
       transform: translateY(-50%) rotate(90deg);
     }
   }
 }
-.choices[data-type*=select-one] .choices__inner {
-  padding: .9em 3rem .9em 0!important;
-  
+.choices[data-type*='select-one'] .choices__inner {
+  padding: 0.9em 3rem 0.9em 0 !important;
+}
+.rc-select .choices::after {
+  display: none!important;
 }
