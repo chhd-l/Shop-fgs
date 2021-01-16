@@ -742,7 +742,7 @@ class UnLoginCart extends React.Component {
                 </div>
               </div>
               <div className="availability  product-availability">
-                <div className="flex justify-content-between rc-md-up">
+                <div className="flex justify-content-between rc-md-up align-items-start">
                   <div
                     className="buyMethod rc-margin-bottom--xs"
                     style={{
@@ -1128,15 +1128,11 @@ class UnLoginCart extends React.Component {
    * @param {*} sizeItem 当前product选中的规格信息
    * @param {*} index 当前product的索引
    */
-  handleChooseSize(sdItem, pitem, index) {
+  async handleChooseSize(sdItem, pitem, index) {
     pitem.goodsSpecs
       .filter((item) => item.specId === sdItem.specId)[0]
       .chidren.map((item) => {
-        if (item.specDetailId === sdItem.specDetailId) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
+        item.selected = item.specDetailId === sdItem.specDetailId;
         return item;
       });
 
@@ -1158,11 +1154,7 @@ class UnLoginCart extends React.Component {
     // 之前sku pitem.goodsInfoId
     // 增加当前sku selectedGoodsInfo.goodsInfoId
     Array.from(pitem.sizeList, (ele) => {
-      if (selectedGoodsInfo.goodsInfoId === ele.goodsInfoId) {
-        ele.selected = true;
-      } else {
-        ele.selected = false;
-      }
+      ele.selected = selectedGoodsInfo.goodsInfoId === ele.goodsInfoId;
       return ele;
     });
 
@@ -1177,10 +1169,10 @@ class UnLoginCart extends React.Component {
     if (tmpIdx > -1) {
       productList.splice(tmpIdx, 1);
     }
-
+    await this.handleRemovePromotionCode();
     this.setState(
       {
-        productList: productList
+        productList
       },
       () => {
         this.updateStock();
@@ -1502,6 +1494,7 @@ class UnLoginCart extends React.Component {
   }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
+    await this.handleRemovePromotionCode();
     this.setState(
       {
         productList: this.state.productList
@@ -1560,6 +1553,7 @@ class UnLoginCart extends React.Component {
   };
   handleRemovePromotionCode = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
+    let { discount } = this.state
     let result = {};
     await checkoutStore.removePromotionCode();
     await checkoutStore.removeCouponCodeFitFlag();
@@ -1578,7 +1572,7 @@ class UnLoginCart extends React.Component {
       });
     }
   };
-  hanldeToggleOneOffOrSub({ goodsInfoFlag, frequencyId, pitem }) {
+  hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
     if (pitem.goodsInfoFlag === goodsInfoFlag) {

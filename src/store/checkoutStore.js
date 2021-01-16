@@ -240,10 +240,10 @@ class CheckoutStore {
     Array.from(data, (item) => {
       item.sizeList.map((el) => {
         el.goodsInfoImg = el.goodsInfoImg || item.goodsImg;
+        el.currentAmount = el.salePrice * item.quantity
         return el;
       });
       let selectedSize = find(item.sizeList, (s) => s.selected);
-      console.log(toJS(item), toJS(selectedSize), 'selectedSize');
       const tmpObj = find(
         purchasesRes.goodsInfos,
         (l) =>
