@@ -17,7 +17,7 @@ const Carouselem = withRouter((props) => {
                     <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat">
                       <div className="row h-100">
                         <picture className="mx-auto col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktop">
-                          <img className="m-auto lazyloaded" src={item.imageUrl} alt="alt text" />
+                          <img className="m-auto lazyloaded" data-src={item.imgUrl1} data-srcset={`${item.imgUrl1}, ${item.imgUrl2}`} srcset={`${item.imgUrl1}, ${item.imgUrl2}`} src={item.imgUrl1} alt="alt text" />
                         </picture>
                         <div className="text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start">
                           <header>
