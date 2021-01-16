@@ -1477,7 +1477,7 @@ class LoginCart extends React.Component {
       // promotionInputValue: ''
     });
   };
-  hanldeToggleOneOffOrSub({ goodsInfoFlag, frequencyId, pitem }) {
+  hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
     // goodsInfoFlag 1-订阅 0-单次购买
     // 当前状态与需要切换的状态相同时，直接返回
     if (pitem.goodsInfoFlag === goodsInfoFlag) {
