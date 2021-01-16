@@ -1553,6 +1553,7 @@ class UnLoginCart extends React.Component {
   };
   handleRemovePromotionCode = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
+    let { discount } = this.state
     let result = {};
     await checkoutStore.removePromotionCode();
     await checkoutStore.removeCouponCodeFitFlag();
