@@ -17,7 +17,6 @@ class Adyen3DSResult extends Component {
         businessId: sessionItemRoyal.get('orderNumber')
       });
       console.log(res)
-      debugger
       if (res.context.status === 'SUCCEED') {
         this.props.history.push('/confirmation');
       }
