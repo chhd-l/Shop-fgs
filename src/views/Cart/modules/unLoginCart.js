@@ -1128,7 +1128,7 @@ class UnLoginCart extends React.Component {
    * @param {*} sizeItem 当前product选中的规格信息
    * @param {*} index 当前product的索引
    */
-  handleChooseSize(sdItem, pitem, index) {
+  async handleChooseSize(sdItem, pitem, index) {
     pitem.goodsSpecs
       .filter((item) => item.specId === sdItem.specId)[0]
       .chidren.map((item) => {
@@ -1169,7 +1169,7 @@ class UnLoginCart extends React.Component {
     if (tmpIdx > -1) {
       productList.splice(tmpIdx, 1);
     }
-
+    await this.handleRemovePromotionCode();
     this.setState(
       {
         productList
@@ -1494,6 +1494,7 @@ class UnLoginCart extends React.Component {
   }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
+    await this.handleRemovePromotionCode();
     this.setState(
       {
         productList: this.state.productList
