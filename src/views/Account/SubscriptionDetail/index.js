@@ -229,7 +229,7 @@ class SubscriptionDetail extends React.Component {
   }
   get frequencyListOptions() {
     return this.state.frequencyList.map((ele) => {
-      delete ele.value;
+      ele && delete ele.value;
       return {
         value: ele.id,
         ...ele
@@ -1939,7 +1939,9 @@ class SubscriptionDetail extends React.Component {
                                       }
                                     }}
                                     type="freqency"
-                                    key={noStartYear.value}
+                                    key={
+                                      (noStartYear && noStartYear.value) || ''
+                                    }
                                   />
                                 ) : (
                                   <Selection
@@ -1953,7 +1955,10 @@ class SubscriptionDetail extends React.Component {
                                       }
                                     }}
                                     type="freqency"
-                                    key={completedYear.value}
+                                    key={
+                                      (completedYear && completedYear.value) ||
+                                      ''
+                                    }
                                   />
                                 )}
                               </span>
@@ -1967,6 +1972,7 @@ class SubscriptionDetail extends React.Component {
                                 subDetail.noStartTradeList
                                   .filter(
                                     (el) =>
+                                      noStartYear &&
                                       el.tradeItems[0].nextDeliveryTime.split(
                                         '-'
                                       )[0] === noStartYear.value
@@ -2549,8 +2555,9 @@ class SubscriptionDetail extends React.Component {
                                 subDetail.completedTradeList
                                   .filter(
                                     (el) =>
+                                      completedYear &&
                                       el.tradeState.createTime.split('-')[0] ===
-                                      completedYear.value
+                                        completedYear.value
                                   )
                                   .map((el) => (
                                     <div className="card-container">
