@@ -9,7 +9,7 @@ class Adyen3DSResult extends Component {
     this.state = {};
   }
   render() {
-    return <div></div>;
+    return <div className="checkout--padding"></div>;
   }
   async UNSAFE_componentWillMount() {
     try {
