@@ -438,7 +438,7 @@ class PromotionRefuge extends React.Component {
                                     <p>
                                       {`Vous pouvez également consulter notre rubrique `}
                                       <Link
-                                        to="/FAQ/all"
+                                        to="/faq"
                                         style={{
                                           backgroundColor: 'white',
                                           color: 'rgb(236,0,26)'

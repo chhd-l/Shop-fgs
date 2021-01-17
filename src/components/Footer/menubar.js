@@ -34,11 +34,15 @@ export const menubar = {
     [
       {
         titleId: 'ACCOUNT',
-        
+
         list: [
           { link: '/account', messageId: 'My Account', needLogin: true },
           { link: '/account/orders', messageId: 'My Orders', needLogin: true },
-          { link: '/account/subscription', messageId: 'My Club Shipments', needLogin: true }
+          {
+            link: '/account/subscription',
+            messageId: 'My Club Shipments',
+            needLogin: true
+          }
         ]
       }
     ],
@@ -47,7 +51,7 @@ export const menubar = {
         titleId: 'footer.help',
         list: [
           { link: '/help', messageId: 'Contact Us' },
-          { link: '/FAQ/all', messageId: 'FAQs' }
+          { link: '/faq', messageId: 'FAQs' }
         ]
       }
     ]
@@ -89,7 +93,7 @@ export const menubar = {
         titleId: 'footer.help',
         list: [
           { link: '/help', messageId: 'footer.contacts' },
-          { link: '/FAQ/all', messageId: 'footer.FAQ' },
+          { link: '/faq', messageId: 'footer.FAQ' },
           { link: '/requestinvoice', messageId: 'footer.RequestInvoice' }
         ]
       }
@@ -241,8 +245,16 @@ export const menubar = {
             messageId: 'Mon compte',
             needLogin: true
           },
-          { link: '/account/orders', messageId: 'Mes commandes', needLogin: true },
-          { link: '/account/subscription', messageId: 'Mes abonnements', needLogin: true }
+          {
+            link: '/account/orders',
+            messageId: 'Mes commandes',
+            needLogin: true
+          },
+          {
+            link: '/account/subscription',
+            messageId: 'Mes abonnements',
+            needLogin: true
+          }
         ]
       }
     ],
@@ -254,7 +266,15 @@ export const menubar = {
             link: '/help',
             messageId: 'Aide'
           },
-          { link: '/FAQ/all', messageId: 'FAQ' }
+          {
+            link: {
+              pathname: '/faq',
+              state: {
+                catogery: 'catogery-1'
+              }
+            },
+            messageId: 'FAQ'
+          }
         ]
       }
     ],
@@ -263,7 +283,7 @@ export const menubar = {
         titleId: 'AUTRES',
         list: [
           {
-            link:'/general-terms-conditions',
+            link: '/general-terms-conditions',
             messageId: 'Conditions Générales de Vente'
           }
         ]
@@ -328,7 +348,7 @@ export const menubar = {
             messageId: 'Возврат товара'
           },
           {
-            link: '/FAQ/all',
+            link: '/faq',
             messageId: 'Часто задаваемые вопросы'
           }
         ]
@@ -409,7 +429,7 @@ export const menubar = {
         titleId: 'footer.help',
         list: [
           { link: '/help', messageId: 'Yardım' },
-          { link: '/FAQ/all', messageId: 'S.S.S.' }
+          { link: '/faq', messageId: 'S.S.S.' }
         ]
       }
     ],

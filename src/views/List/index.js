@@ -432,7 +432,7 @@ function ProductFinderAd() {
   );
 }
 
-@inject('loginStore', 'configStore')
+@inject('configStore')
 @injectIntl
 @observer
 class List extends React.Component {
@@ -534,6 +534,9 @@ class List extends React.Component {
       });
     });
   }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+  }
   get lastBreadListName() {
     const { breadList } = this.state;
     return (
@@ -620,12 +623,6 @@ class List extends React.Component {
       }
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
   }
@@ -651,7 +648,7 @@ class List extends React.Component {
             ) || tempArr.includes(pathname.replace(/\/$/, ''))
           );
         })[0];
-
+debugger
         let sortParam = null;
         let cateIds = [];
         let filters = cloneDeep((state && state.filters) || []);
@@ -852,7 +849,7 @@ class List extends React.Component {
         getParaByName(search, `prefv${index + 1}`)
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
-    }
+    }debugger
 
     // 处理每个filter的router(处理url prefn/state)
     Array.from(tmpList, (pEle) => {
