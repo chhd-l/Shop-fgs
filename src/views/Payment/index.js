@@ -63,6 +63,7 @@ import { queryCityNameById } from '@/api';
 import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
+import Adyen3DForm from '@/components/Adyen/3d'
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -82,6 +83,7 @@ class Payment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      adyenAction:{},
       promotionCode: this.props.checkoutStore.promotionCode || '',
       billingChecked: true,
       seoConfig: {
@@ -671,6 +673,13 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
+            //3DS 参数 start
+            // browserInfo: {
+            //   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66",
+            //   acceptHeader: "application/json, text/plain, */*"
+            // },
+            browserInfo:this.props.paymentStore.browserInfo,
+            //3DS 参数 end
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -732,15 +741,25 @@ class Payment extends React.Component {
         }
       };
       await actions[type]();
+
+      const successUrlFun = (type) => {
+        const defaultUrl = '',
+              Adyen3DSUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/Adyen3DSResult',
+              payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
+        return {
+          "adyenCard": Adyen3DSUrl,
+          "adyenKlarnaPayLater": payResultUrl,
+          "adyenKlarnaPayNow": payResultUrl,
+          "directEbanking": payResultUrl,
+        }[type] || defaultUrl
+      }
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
-        successUrl: process.env.REACT_APP_SUCCESSFUL_URL + '/payResult',
-        //successUrl: 'http://m72na6.natappfree.cc/payResult',
+        successUrl: successUrlFun(type),
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
       });
-      console.log(finalParam);
       return finalParam;
     } catch (err) {
       console.log(err);
@@ -917,13 +936,19 @@ class Payment extends React.Component {
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-          gotoConfirmationPage = true;
+            if(res.context && res.context[0] && res.context[0].action){//3ds卡
+              sessionItemRoyal.set('orderNumber', res.context[0].tid);
+              const adyenAction = JSON.parse(res.context[0].action)
+              this.setState({adyenAction})
+            }else{
+              //正常卡
+              gotoConfirmationPage = true;
+            }
           break;
         case 'adyenKlarnaPayLater':
         case 'adyenKlarnaPayNow':
         case 'directEbanking':
           subOrderNumberList = [res.context.pId];
-          // debugger
           // 删除本地购物车
           if (this.isLogin) {
             this.props.checkoutStore.removeLoginCartData();
@@ -2524,6 +2549,7 @@ class Payment extends React.Component {
                 {process.env.REACT_APP_LANG == 'fr' ? <Faq /> : null}
               </div>
             </div>
+            <Adyen3DForm action={this.state.adyenAction}/>
           </div>
           <div className="checkout-product-summary rc-bg-colour--brand3 rc-border-all rc-border-colour--brand4 rc-md-down">
             <div

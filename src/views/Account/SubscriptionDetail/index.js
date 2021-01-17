@@ -1101,7 +1101,6 @@ class SubscriptionDetail extends React.Component {
                                       selectedItemData={{
                                         value: el.periodTypeId
                                       }}
-                                      customStyleType="select-one"
                                       key={index + '_' + el.periodTypeId}
                                     />
                                   </h1>
@@ -1457,7 +1456,6 @@ class SubscriptionDetail extends React.Component {
                                       selectedItemData={{
                                         value: el.periodTypeId
                                       }}
-                                      customStyleType="select-one"
                                       key={index + '_' + el.periodTypeId}
                                       disabled={!isActive}
                                     />
@@ -1941,7 +1939,6 @@ class SubscriptionDetail extends React.Component {
                                         this.setState({ completedYear: el });
                                       }
                                     }}
-                                    customStyleType="select-one"
                                     type="freqency"
                                     key={noStartYear.value}
                                   />
@@ -1956,7 +1953,6 @@ class SubscriptionDetail extends React.Component {
                                         this.setState({ completedYear: el });
                                       }
                                     }}
-                                    customStyleType="select-one"
                                     type="freqency"
                                     key={completedYear.value}
                                   />

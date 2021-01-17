@@ -24,7 +24,12 @@ import {
   getRecommendProducts
 } from '@/api/pet';
 import Loading from '@/components/Loading';
-import { getDictionary, getDeviceType, datePickerConfig, setSeoConfig } from '@/utils/utils';
+import {
+  getDictionary,
+  getDeviceType,
+  datePickerConfig,
+  setSeoConfig
+} from '@/utils/utils';
 import { getCustomerInfo } from '@/api/user';
 import { getDict } from '@/api/dict';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -133,9 +138,7 @@ class PetForm extends React.Component {
         });
       })
       .catch((err) => {
-        this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.getDataFailed
-        );
+        this.showErrorMsg(err.message);
       });
     await getDictionary({ type: 'specialNeeds' })
       .then((res) => {
@@ -144,9 +147,7 @@ class PetForm extends React.Component {
         });
       })
       .catch((err) => {
-        this.showErrorMsg(
-          err.message.toString() || this.props.intl.messages.getDataFailed
-        );
+        this.showErrorMsg(err.message);
       });
     this.getPetList();
   }
@@ -1192,7 +1193,6 @@ class PetForm extends React.Component {
                         }}
                         disabled={this.state.specialNeedsDisable}
                         key={selectedSpecialNeedsObj.value}
-                        customStyleType="select-one"
                       />
                       <div
                         className="invalid-feedback"
@@ -1224,7 +1224,6 @@ class PetForm extends React.Component {
                               value: selectedSizeObj.value
                             }}
                             key={selectedSizeObj.value}
-                            customStyleType="select-one"
                           />
                           <div
                             className="invalid-feedback"

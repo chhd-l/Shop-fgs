@@ -35,7 +35,7 @@ class AdyenCreditCardForm extends React.Component {
     super(props);
     this.state = {
       adyenFormData: {},
-      isValid: false
+      isValid: false,
     };
   }
   componentDidMount() {
@@ -50,6 +50,9 @@ class AdyenCreditCardForm extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
+  getBrowserInfo(state){
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  }
   initForm() {
     const _this = this;
     loadJS({
@@ -61,11 +64,12 @@ class AdyenCreditCardForm extends React.Component {
           const AdyenCheckout = window.AdyenCheckout;
           // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
-            environment: 'test',
+            environment: process.env.REACT_APP_Adyen_ENV,
             originKey: process.env.REACT_APP_AdyenOriginKEY,
             locale: process.env.REACT_APP_Adyen_locale,
             translations
           });
+          
 
           // (2). Create and mount the Component
           const card = checkout
@@ -87,6 +91,7 @@ class AdyenCreditCardForm extends React.Component {
                 });
               },
               onChange: (state) => {
+                _this.getBrowserInfo(state)
                 console.log('adyen form state:', state);
                 console.log('adyen form card:', card);
                 const {

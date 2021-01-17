@@ -10,6 +10,7 @@ class PaymentStore {
   @observable deliveryAddress = null;
   @observable billingAddress = null;
   @observable defaultCardDataFromAddr = null;
+  @observable browserInfo = {}
 
   @observable panelStatus = [
     {
@@ -115,11 +116,11 @@ class PaymentStore {
           })
         }
         //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
-        if(this.isLogin){
+        if (this.isLogin) {
           isNewAccount().then((res) => {
-            if (res.code == 'K-000000'&&res.context == 0) {
+            if (res.code == 'K-000000' && res.context == 0) {
               dataLayer[0].checkout.option = 'new account'
-            }else{
+            } else {
               dataLayer[0].checkout.option = 'account already created'
             }
           })
@@ -159,7 +160,7 @@ class PaymentStore {
         dataLayer[0].checkout.option = ''
         if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
-          result.checkout = {step: 4,option: 'paymentMethod'}
+          result.checkout = { step: 4, option: 'paymentMethod' }
           result.page = {
             type: 'Checkout',
             virtualPageURL: '/checkout/placeOrder'
@@ -253,6 +254,10 @@ class PaymentStore {
       this.defaultCardDataFromAddr,
       tmpData
     );
+  }
+  @action.bound
+  setBrowserInfo(data) {
+    this.browserInfo = data
   }
 }
 export default PaymentStore;

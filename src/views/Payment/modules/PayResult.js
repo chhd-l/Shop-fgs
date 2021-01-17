@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { adyenPaymentsDetails } from '@/api/payment';
 import url from 'url'
-// import {  Link } from 'react-router-dom'
-// import store from "storejs";
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 

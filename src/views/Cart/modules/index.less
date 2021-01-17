@@ -1,29 +1,10 @@
 .Carts .buyMethod {
   display: flex;
-  // border: 1px solid #e2001a;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 15px 20px;
 
-  .radioBox {
-    flex: 2;
-  }
-
-  .freqency {
-    flex: 4;
-    height: 73px;
-    line-height: 40px;
-    > span {
-      flex: 2;
-      line-height: 73px;
-    }
-    > div {
-      flex: 2;
-    }
-  }
-
   .price {
-    flex: 1;
     padding-top: .5rem;
     font-weight: 400;
   }
@@ -35,21 +16,8 @@
   padding: 7px 20px;
   .freqency {
     background-color: #f9f9f9;
-    padding-left: 15px;
-    margin-top: 10px;
-    display: flex;
     > span {
       flex: 2;
-      line-height: 73px;
-    }
-    > div {
-      flex: 2;
-      padding-right: 20px;
-      padding-top: 3px;
-
-      .choices[data-type*=select-one]:after {
-        margin-top: 0.5px;
-      }
     }
   }
   .choices {
@@ -60,7 +28,6 @@
   }
 }
 .Carts .buyMethodInnerBox {
-  display: flex;
   .radioBox img{
     width: 20px;
     display: inline-block;
@@ -77,9 +44,6 @@
   }
 }
 .Carts {
-  .product-info__desc {
-    padding-left: 20px;
-  }
   .productGoodsSubtitle {
     overflow: hidden;
     text-align: justify;
@@ -103,21 +67,5 @@
       transform: scale(0.7);
       margin-right: .3em;
     }
-  }
-}
-
-@media(max-width: 960px) {
-  .Carts .buyMethod .freqency {
-    > span {
-      flex: 1;
-    }
-    > div {
-      flex: 1;
-      padding-right: 0;
-      max-width: 120px;
-    }
-  }
-  .Carts #Selection {
-    padding-left: 5px;
   }
 }

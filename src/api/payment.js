@@ -16,7 +16,8 @@ const api = {
   getMarketingDiscount: '/marketing/getMarketingDiscount',
   getWays: '/PayGateway/gateways',
   adyenPaymentsDetails: '/adyenPay/payments/details',
-  getProductPetConfig: '/order/config/findPet'
+  getProductPetConfig: '/order/config/findPet',
+  adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`
 };
 
 export default api;
@@ -127,6 +128,14 @@ export function getProductPetConfig(parameter) {
 export function setDefaltCard(parameter) {
   return axios({
     url: `${api.setDefaltCard}/${parameter}`,
+    method: 'post',
+    data: parameter
+  });
+}
+
+export function adyen3DSResult(parameter) {
+  return axios({
+    url: api.adyen3DSResult,
     method: 'post',
     data: parameter
   });

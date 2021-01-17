@@ -427,7 +427,7 @@ class AddressList extends React.Component {
             )}
             {/* <span style={{ flex: 1, marginLeft: '8%', lineHeight: 1.2 }}>{item.consigneeName}</span> */}
           </div>
-          <div className="col-10 col-md-9 text-break">
+          <div className="col-10 col-md-9 pl-1 pr-1" style={{ wordBreak: 'keep-all' }}>
             {[item.consigneeName, item.consigneeNumber].join(', ')}
             {item.isDefaltAddress === 1 ? (
               <span className="icon-default rc-border-colour--brand1 rc-text-colour--brand1">

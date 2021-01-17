@@ -211,7 +211,6 @@ class SubscriptionSelect extends Component {
                     value: form.frequencyVal
                   }}
                   key={form.frequencyVal}
-                  customStyleType="select-one"
                 />
               </div>
               <span className="ml-2 d-flex align-items-center flex-wrap fit-screen-ml-2">
