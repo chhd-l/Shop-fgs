@@ -16179,7 +16179,7 @@ header .rc-list--inline .rc-list__item.dropdown {
 
 body.open-dropdown:after {
   content: "";
-  z-index: 9;
+  z-index: 99;
   position: fixed;
   height: 100%;
   width: 100%;
