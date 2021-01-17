@@ -340,7 +340,9 @@ class SubscriptionDetail extends React.Component {
       completeOption.forEach((el) => {
         completedYearOption.push({ name: el, value: el });
       });
-      completedYear = { value: completedYearOption[0]['value'] };
+      completedYear = {
+        value: (completedYearOption[0] && completedYearOption[0]['value']) || ''
+      };
       noStartOption.forEach((el) => {
         noStartYearOption.push({ name: el, value: el });
       });
