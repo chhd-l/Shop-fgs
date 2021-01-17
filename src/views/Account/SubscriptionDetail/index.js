@@ -321,16 +321,14 @@ class SubscriptionDetail extends React.Component {
   async getDetail(fn) {
     try {
       this.setState({ loading: true });
-      const res = await getSubDetail(
-        this.props.match.params.subscriptionNumber
-      );
+      let res = await getSubDetail(this.props.match.params.subscriptionNumber);
       let subDetail = res.context;
       let noStartYear = {};
       let completedYear = {};
       let noStartYearOption = [];
       let completedYearOption = [];
       let completeOption = new Set(
-        subDetail.completedTradeList.map((el) => {
+        (subDetail.completedTradeList || []).map((el) => {
           return el.tradeState.createTime.split('-')[0];
         })
       );
@@ -427,6 +425,7 @@ class SubscriptionDetail extends React.Component {
         }
       );
     } catch (err) {
+      console.log(22222, err);
       this.showErrMsg(err.message);
       // throw new Error(err);
     } finally {
@@ -2301,7 +2300,7 @@ class SubscriptionDetail extends React.Component {
                                                 marginTop: '10px',
                                                 marginBottom: '10px',
                                                 padding: '0 40px',
-                                                display:'none'
+                                                display: 'none'
                                                 // display:
                                                 //   subDetail.subscribeStatus ===
                                                 //   '0'
