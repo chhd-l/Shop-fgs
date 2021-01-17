@@ -44,7 +44,7 @@ class AccountOrders extends React.Component {
       orderList: [],
       form: {
         orderNumber: '',
-        period: 7,
+        period: 180,
         orderCategory: '' // 订单类型
       },
       loading: true,
