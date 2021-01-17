@@ -228,13 +228,6 @@ const App = () => (
               />
               <Route
                 exact
-                path="/FAQ/:catogery"
-                render={(props) => (
-                  <FAQ key={props.match.params.catogery} {...props} />
-                )}
-              />
-              <Route
-                exact
                 sensitive
                 path="/faq"
                 render={(props) => (

@@ -175,8 +175,24 @@ export const menubar = {
             link: `/help`,
             messageId: 'footer.contacts'
           },
-          { link: '/FAQ/catogery-1', messageId: 'footer.FAQVersand' },
-          { link: '/FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
+          {
+            link: {
+              pathname: '/faq',
+              state: {
+                catogery: 'catogery-1'
+              }
+            },
+            messageId: 'footer.FAQVersand'
+          },
+          {
+            link: {
+              pathname: '/faq',
+              state: {
+                catogery: 'catogery-0'
+              }
+            },
+            messageId: 'footer.FAQAllgemeines'
+          }
           // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-1', messageId: 'footer.FAQVersand' },
           // { url: process.env.REACT_APP_ACCESS_PATH+'FAQ/catogery-0', messageId: 'footer.FAQAllgemeines' }
         ]
@@ -266,15 +282,7 @@ export const menubar = {
             link: '/help',
             messageId: 'Aide'
           },
-          {
-            link: {
-              pathname: '/faq',
-              state: {
-                catogery: 'catogery-1'
-              }
-            },
-            messageId: 'FAQ'
-          }
+          { link: '/faq', messageId: 'FAQ' }
         ]
       }
     ],
