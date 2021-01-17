@@ -32,7 +32,7 @@ import './index.less';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 @inject('checkoutStore')
 @injectIntl
@@ -795,6 +795,7 @@ class AccountOrders extends React.Component {
                                   {/* 订单完成tip */}
                                   {order.tradeState.flowState === 'COMPLETED' &&
                                   !order.storeEvaluateVO &&
+                                  order.tradeEventLogs[0] &&
                                   order.tradeEventLogs[0].eventType ===
                                     'COMPLETED' ? (
                                     <div className="col-12 mt-1 mt-md-0 mb-md-1 order-1 order-md-0">
