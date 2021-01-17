@@ -648,7 +648,7 @@ class List extends React.Component {
             ) || tempArr.includes(pathname.replace(/\/$/, ''))
           );
         })[0];
-debugger
+        
         let sortParam = null;
         let cateIds = [];
         let filters = cloneDeep((state && state.filters) || []);
@@ -733,9 +733,22 @@ debugger
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const tFvItem = tItem.attributesValueList.filter(
+              const { pathname } = this.props.history.location;
+              const isDog = pathname.includes('dog');
+              const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEn === fvItem
-              )[0];
+              );
+              const tFvItemForFirst = tFvItemList[0];
+              let tFvItem = tFvItemForFirst;
+              if (tFvItemList.length > 1) {
+                tFvItem =
+                  tItem.attributesValueList.filter(
+                    (t) =>
+                      t.attributeDetailNameEn === fvItem &&
+                      t.attributeDetailName.toLocaleLowerCase().includes(`${isDog ? 'dog' : 'cat'}`)
+                  )[0] || tFvItemForFirst;
+              }
+
               if (tFvItem) {
                 attributeValues.push(tFvItem.attributeDetailName);
                 attributeValueIdList.push(tFvItem.id);
@@ -849,7 +862,7 @@ debugger
         getParaByName(search, `prefv${index + 1}`)
       ).split('|');
       prefnParamListFromSearch.push({ prefn: fnEle, prefvs: fvEles });
-    }debugger
+    }
 
     // 处理每个filter的router(处理url prefn/state)
     Array.from(tmpList, (pEle) => {
@@ -1816,7 +1829,15 @@ debugger
               id="notate"
               values={{
                 val: (
-                  <Link className="rc-styled-link" to="/FAQ/catogery-1">
+                  <Link
+                    className="rc-styled-link"
+                    to={{
+                      pathname: '/faq',
+                      state: {
+                        catogery: 'catogery-1'
+                      }
+                    }}
+                  >
                     Versandkosten
                   </Link>
                 )
