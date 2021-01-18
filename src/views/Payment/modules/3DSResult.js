@@ -17,8 +17,8 @@ class Adyen3DSResult extends Component {
   async UNSAFE_componentWillMount() {
     try {
       const res = await adyen3DSResult({
-        md:this.props.paymentStore.md,
-        paRes: sessionItemRoyal.get('orderNumber')
+        md:sessionItemRoyal.get('md'),
+        paRes: sessionItemRoyal.get('paRes')
       });
 
       if (res.context.status === 'SUCCEED') {
