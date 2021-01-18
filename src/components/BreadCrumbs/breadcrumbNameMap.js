@@ -95,11 +95,6 @@ const breadcrumbNameMap = {
       name: 'Nos combinaisons de croquettes et de bouchées'
     }
   ],
-  '/FAQ/all': [
-    {
-      name: 'FAQ'
-    }
-  ],
   '/faq': [
     {
       name: 'FAQ'

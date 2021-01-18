@@ -88,7 +88,7 @@ export default function Help(props) {
       </Link>
       <Link
         className="dropdown-nav__help__card faq rc-border-all rc-border-colour--interface d-flex align-items-center"
-        to="/FAQ/all"
+        to="/faq"
       >
         <div className="rc-margin-right--xs flex-grow-1">
           <b>

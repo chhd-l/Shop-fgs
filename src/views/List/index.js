@@ -432,7 +432,7 @@ function ProductFinderAd() {
   );
 }
 
-@inject('loginStore', 'configStore')
+@inject('configStore')
 @injectIntl
 @observer
 class List extends React.Component {
@@ -534,6 +534,9 @@ class List extends React.Component {
       });
     });
   }
+  componentWillUnmount() {
+    localItemRoyal.set('isRefresh', true);
+  }
   get lastBreadListName() {
     const { breadList } = this.state;
     return (
@@ -620,12 +623,6 @@ class List extends React.Component {
       }
     });
   }
-  componentWillUnmount() {
-    localItemRoyal.set('isRefresh', true);
-  }
-  get isLogin() {
-    return this.props.loginStore.isLogin;
-  }
   toggleFilterModal(status) {
     this.setState({ filterModalVisible: status });
   }
@@ -651,7 +648,7 @@ class List extends React.Component {
             ) || tempArr.includes(pathname.replace(/\/$/, ''))
           );
         })[0];
-
+        
         let sortParam = null;
         let cateIds = [];
         let filters = cloneDeep((state && state.filters) || []);
@@ -736,9 +733,22 @@ class List extends React.Component {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const tFvItem = tItem.attributesValueList.filter(
+              const { pathname } = this.props.history.location;
+              const isDog = pathname.includes('dog');
+              const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEn === fvItem
-              )[0];
+              );
+              const tFvItemForFirst = tFvItemList[0];
+              let tFvItem = tFvItemForFirst;
+              if (tFvItemList.length > 1) {
+                tFvItem =
+                  tItem.attributesValueList.filter(
+                    (t) =>
+                      t.attributeDetailNameEn === fvItem &&
+                      t.attributeDetailName.toLocaleLowerCase().includes(`${isDog ? 'dog' : 'cat'}`)
+                  )[0] || tFvItemForFirst;
+              }
+
               if (tFvItem) {
                 attributeValues.push(tFvItem.attributeDetailName);
                 attributeValueIdList.push(tFvItem.id);
@@ -1819,7 +1829,15 @@ class List extends React.Component {
               id="notate"
               values={{
                 val: (
-                  <Link className="rc-styled-link" to="/FAQ/catogery-1">
+                  <Link
+                    className="rc-styled-link"
+                    to={{
+                      pathname: '/faq',
+                      state: {
+                        catogery: 'catogery-1'
+                      }
+                    }}
+                  >
                     Versandkosten
                   </Link>
                 )

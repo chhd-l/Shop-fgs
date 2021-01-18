@@ -31,7 +31,7 @@ class FAQ extends React.Component {
       showCur: -1,
       loading: true
     };
-    this.handleSelect = this.handleSelect.bind(this)
+    this.handleSelect = this.handleSelect.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -59,9 +59,11 @@ class FAQ extends React.Component {
             loading: false
           },
           () => {
-            const widget = document.querySelector(
-              `#${this.props.match.params.catogery}`
-            );
+            const { state } = this.props.history.location;
+            const widget =
+              state &&
+              state.catogery &&
+              document.querySelector(`#${state.catogery}`);
             if (widget) {
               setTimeout(() => {
                 window.scrollTo({ top: widget.offsetTop - 90 });

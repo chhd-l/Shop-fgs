@@ -1009,7 +1009,7 @@ class Header extends React.Component {
                                 </Link>
                               </div>
                               <div className="link-style">
-                                <Link to="/FAQ/all" className="click-hover">
+                                <Link to="/faq" className="click-hover">
                                   <span className="iconfont">&#xe696;</span>{' '}
                                   <FormattedMessage id="footer.FAQ" />
                                 </Link>

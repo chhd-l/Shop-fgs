@@ -83,7 +83,7 @@ const itemList = [
     ),
     titleLangKey: 'account.faqTitle',
     textLangKey: 'account.faqTip',
-    link: '/faq/all'
+    link: '/faq'
   }
 ];
 

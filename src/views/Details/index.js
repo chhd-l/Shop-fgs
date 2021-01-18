@@ -2059,7 +2059,7 @@ class Details extends React.Component {
                           </div>
                         ) : (
                           <div
-                            className="buyMethod rc-margin-bottom--xs 2"
+                            className="buyMethod rc-margin-bottom--xs d-flex align-items-center 2"
                             style={{
                               borderColor: !parseInt(form.buyWay)
                                 ? '#e2001a'

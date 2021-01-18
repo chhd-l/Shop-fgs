@@ -228,13 +228,6 @@ const App = () => (
               />
               <Route
                 exact
-                path="/FAQ/:catogery"
-                render={(props) => (
-                  <FAQ key={props.match.params.catogery} {...props} />
-                )}
-              />
-              <Route
-                exact
                 sensitive
                 path="/faq"
                 render={(props) => (
@@ -259,11 +252,7 @@ const App = () => (
                 exact
                 path="/recommendation"
                 render={(props) => {
-                  return (
-                    <Recommendation_FR
-                      {...props}
-                    />
-                  );
+                  return <Recommendation_FR {...props} />;
                 }}
               />
 
@@ -423,6 +412,7 @@ const App = () => (
               <Route path="/values-ru" exact component={RU_Values} />
               <Route path="/values" exact component={FR_Values} />
               <Route
+                sensitive
                 path="/Tailorednutrition"
                 exact
                 component={Tailorednutrition}

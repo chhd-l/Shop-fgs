@@ -278,16 +278,16 @@ class SubscriptionLanding extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            {/* <Link
+                            <Link
                               to="/product-finder"
                               className="rc-btn rc-btn--one"
                             >
                               <FormattedMessage id="header.toBegin" />
-                            </Link> */}
-                            <Link className="rc-btn rc-btn--sm rc-btn--two"
+                            </Link>
+                            {/* <Link className="rc-btn rc-btn--sm rc-btn--two"
                                to="/cats"><FormattedMessage id="account.cat" /></Link>
                             <Link className="rc-btn rc-btn--sm rc-btn--two"
-                               to="/dogs"><FormattedMessage id="account.dog" /></Link>
+                               to="/dogs"><FormattedMessage id="account.dog" /></Link> */}
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">

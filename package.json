@@ -103,6 +103,7 @@
     "start:stg_mx": "dotenv -e .env.development.local -e .env.stage -e .env.stage.mx node scripts/start.js",
     "start:stg_de": "dotenv -e .env.development.local -e .env.stage -e .env.stage.de node scripts/start.js",
     "start:stg_fr": "dotenv -e .env.development.local -e .env.stage -e .env.stage.fr node scripts/start.js",
+    "start:prod_fr": "dotenv -e .env.development.local -e .env.production.fr node scripts/start.js",
     "build:uat": "dotenv -e .env.development node scripts/build.js",
     "build:uat_mx": "dotenv -e .env.development.mx node scripts/build.js",
     "build:uat_de": "dotenv -e .env.development.de node scripts/build.js",

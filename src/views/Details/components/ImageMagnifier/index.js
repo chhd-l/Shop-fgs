@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import './index.css';
 import { FormattedMessage } from 'react-intl';
-import noPic from '@/assets/images/noPic.png'
+import noPic from '@/assets/images/noPic.png';
 // import noPic from './images/noPic1.png';
 //import LeftImg from '@/assets/images/left.png'
 //import RightImg from '@/assets/images/right.png'
-import { getDeviceType } from '@/utils/utils.js'
+import { getDeviceType } from '@/utils/utils.js';
 import LazyLoad from 'react-lazyload';
-let isMobile = getDeviceType() === 'H5'
+let isMobile = getDeviceType() === 'H5';
 
 function getMuntiImg(img) {
-  if(img) {
-    return `${img.replace(".jpg", "_250.jpg")}, ${img} 2x`
-  }else {
-    return noPic
+  if (img) {
+    return `${img.replace('.jpg', '_250.jpg')}, ${img} 2x`;
+  } else {
+    return noPic;
   }
   // let img
   // if(
@@ -47,9 +47,11 @@ class ImageMagnifier extends Component {
         // 放大倍数
         scale: (props.config && props.config.scale) || 2,
         // 组件宽
-        width: isMobile? '230': ((props.config && props.config.width) || '250'),
+        width: isMobile ? '230' : (props.config && props.config.width) || '250',
         // 组件高
-        height: isMobile? '324': ((props.config && props.config.height) || '354')
+        height: isMobile
+          ? '324'
+          : (props.config && props.config.height) || '354'
       },
       // 缩略图
       minImg: '',
@@ -109,7 +111,7 @@ class ImageMagnifier extends Component {
         },
         // 图片样式
         imgStyle: {
-          width: isMobile? '230px': '250px',
+          width: isMobile ? '230px' : '250px',
           // height: '100%',
           margin: '0 auto',
           display: 'block'
@@ -117,8 +119,8 @@ class ImageMagnifier extends Component {
         // 图片放大样式
         // 此处图片宽高不能设置为百分比，在scale的作用下，放大的只是图片初始的宽高 ！！！
         imgStyle2: {
-          width: isMobile? '230px': '250px',
-          height: isMobile? '324px': '400px',
+          width: isMobile ? '230px' : '250px',
+          height: isMobile ? '324px' : '400px',
           position: 'absolute',
           top: 0,
           left: 0,
@@ -173,7 +175,7 @@ class ImageMagnifier extends Component {
         currentImg: selectedSizeInfo[0].goodsInfoImg,
         videoShow: false,
         hoverIndex,
-        offsetX: isMobile? hoverIndex * 230: hoverIndex * 250
+        offsetX: isMobile ? hoverIndex * 230 : hoverIndex * 250
       });
     }
   }
@@ -239,7 +241,6 @@ class ImageMagnifier extends Component {
   };
   // 鼠标移动
   mouseMove = (event) => {
-    
     let e = event.nativeEvent;
     console.log(event, 'event', e);
     this.calculationBlock(e.offsetX, e.offsetY);
@@ -271,7 +272,12 @@ class ImageMagnifier extends Component {
     /* 计算图片放大位置 */
     cssStyle.imgStyle2.left = parseFloat(-(offsetX - 50) * scale) + 'px';
     cssStyle.imgStyle2.top = parseFloat(-(offsetY - 50) * scale) + 'px';
-    console.log(offsetX , cssStyle.imgStyle2.left,cssStyle.magnifierContainer.left, 'cssStyle')
+    console.log(
+      offsetX,
+      cssStyle.imgStyle2.left,
+      cssStyle.magnifierContainer.left,
+      'cssStyle'
+    );
     this.setState({
       cssStyle: cssStyle
     });
@@ -283,7 +289,7 @@ class ImageMagnifier extends Component {
     let params = JSON.parse(JSON.stringify(this.state.params));
     console.log('params', params);
     // cssStyle.imgContainer.width = params.width + "px";
-    cssStyle.imgContainer.width = isMobile? (230 + 'px'): (250 + 'px');
+    cssStyle.imgContainer.width = isMobile ? 230 + 'px' : 250 + 'px';
     cssStyle.imgContainer.height = params.height + 'px';
     cssStyle.magnifierContainer.width = params.width + 'px';
     cssStyle.magnifierContainer.height = params.height + 'px';
@@ -313,7 +319,7 @@ class ImageMagnifier extends Component {
       videoShow: false,
       cssStyle,
       hoverIndex: i,
-      offsetX: isMobile? i * 230: i *250
+      offsetX: isMobile ? i * 230 : i * 250
     });
   }
   // 图片加载情况
@@ -365,14 +371,20 @@ class ImageMagnifier extends Component {
       videoModalShow,
       hoverIndex
     } = this.state;
-    let { images, video, taggingForText, taggingForImage, spuImages } = this.props;
+    let {
+      images,
+      video,
+      taggingForText,
+      taggingForImage,
+      spuImages
+    } = this.props;
     console.log(images, 'images');
     // images = this.filterImage(images)
     let imgCount = spuImages.length;
     if (video) {
       imgCount = imgCount + 1;
     }
-    let offsetX = isMobile? 60: 69
+    let offsetX = isMobile ? 60 : 69;
     return (
       <div>
         <div className="position-relative">
@@ -392,7 +404,7 @@ class ImageMagnifier extends Component {
             {taggingForImage ? (
               <div className="product-item-flag-image position-absolute">
                 <LazyLoad>
-                <img src={taggingForImage.taggingImgUrl} />
+                  <img src={taggingForImage.taggingImgUrl} />
                 </LazyLoad>
               </div>
             ) : null}
@@ -402,20 +414,19 @@ class ImageMagnifier extends Component {
                 transform: `translateX(-${this.state.offsetX}px) translateY(0) scale(1) rotate(0deg)`
               }}
             >
-              {
-                spuImages.map((el, i) => (
-                  <div key={i}>
-                    {/* <LazyLoad> */}
-                    <img
-                      id="J_detail_img"
-                      style={cssStyle.imgStyle}
-                      src={el.artworkUrl || this.state.maxImg || noPic}
-                      // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
-                      alt=""
-                    />
-                    {/* </LazyLoad> */}
-                  </div>
-                ))}
+              {spuImages.map((el, i) => (
+                <div key={i}>
+                  {/* <LazyLoad> */}
+                  <img
+                    id="J_detail_img"
+                    style={cssStyle.imgStyle}
+                    src={el.artworkUrl || this.state.maxImg || noPic}
+                    // srcSet={getMuntiImg(el.artworkUrl || this.state.maxImg)}
+                    alt=""
+                  />
+                  {/* </LazyLoad> */}
+                </div>
+              ))}
             </div>
             {videoShow && videoModalShow && (
               <div
@@ -441,30 +452,44 @@ class ImageMagnifier extends Component {
           {magnifierOff && !videoShow && (
             <div style={cssStyle.magnifierContainer}>
               <LazyLoad>
-              <img
-                style={cssStyle.imgStyle2}
-                src={currentImg || this.state.maxImg || noPic}
-                // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
-                onLoad={this.handleImageLoaded.bind(this)}
-                onError={this.handleImageErrored.bind(this)}
-                alt=""
-              />
+                <img
+                  style={cssStyle.imgStyle2}
+                  src={currentImg || this.state.maxImg || noPic}
+                  // srcSet={getMuntiImg(currentImg || this.state.maxImg)}
+                  onLoad={this.handleImageLoaded.bind(this)}
+                  onError={this.handleImageErrored.bind(this)}
+                  alt=""
+                />
               </LazyLoad>
               {!imgLoad && 'failed to load'}
             </div>
           )}
         </div>
         <div className="scrollOutBox">
-          <i
+          {/* <i
             className={`rc-icon rc-left leftArrow rc-iconography ${
               this.state.positionLeft === 0 ? '' : 'rc-brand1'
             }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
               if (this.state.positionLeft === 0) return;
-              this.setState({ positionLeft: this.state.positionLeft + offsetX });
+              this.setState({
+                positionLeft: this.state.positionLeft + offsetX
+              });
             }}
-          />
+          /> */}
+          <i
+            className="leftArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            onClick={() => {
+              if (this.state.positionLeft === 0) return;
+              this.setState({
+                positionLeft: this.state.positionLeft + offsetX
+              });
+            }}
+          >
+            &#xe6fa;
+          </i>
           <div className="imageOutBox">
             <div
               className="justify-content-center imageInnerBox"
@@ -472,7 +497,7 @@ class ImageMagnifier extends Component {
                 marginTop: '2rem',
                 textAlign: imgCount <= 5 ? 'center' : 'left',
                 width: imgCount <= 5 ? '100%' : '1000px',
-                left: imgCount <= 5? '0': (this.state.positionLeft + 'px')
+                left: imgCount <= 5 ? '0' : this.state.positionLeft + 'px'
               }}
             >
               {spuImages.filter((el) => el.artworkUrl).length ? (
@@ -524,7 +549,9 @@ class ImageMagnifier extends Component {
                       videoShow: true,
                       cssStyle,
                       hoverIndex: images.length,
-                      offsetX: isMobile?images.length * 230: images.length * 250
+                      offsetX: isMobile
+                        ? images.length * 230
+                        : images.length * 250
                     });
                   }}
                   src={video ? video : ''}
@@ -534,17 +561,31 @@ class ImageMagnifier extends Component {
           </div>
           {/* <img className="moveImg" src={RightImg} /> */}
           <i
+            className="rightArrow iconfont font-weight-bold icon-direction ui-cursor-pointer"
+            style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
+            onClick={() => {
+              if (this.state.positionLeft === (imgCount - 5) * -offsetX) return;
+              this.setState({
+                positionLeft: this.state.positionLeft - offsetX
+              });
+            }}
+          >
+            &#xe6f9;
+          </i>
+          {/* <i
             className={`rc-icon rc-right rightArrow rc-iconography ${
-              this.state.positionLeft === (imgCount - 5) * (-offsetX)
+              this.state.positionLeft === (imgCount - 5) * -offsetX
                 ? ''
                 : 'rc-brand1'
             }`}
             style={{ visibility: imgCount > 5 ? 'visible' : 'hidden' }}
             onClick={() => {
-              if (this.state.positionLeft === (imgCount - 5) * (-offsetX)) return;
-              this.setState({ positionLeft: this.state.positionLeft - offsetX });
+              if (this.state.positionLeft === (imgCount - 5) * -offsetX) return;
+              this.setState({
+                positionLeft: this.state.positionLeft - offsetX
+              });
             }}
-          />
+          /> */}
         </div>
       </div>
     );
