@@ -748,7 +748,6 @@ class Payment extends React.Component {
       await actions[type]();
 
       const successUrlFun = (type) => {
-        debugger
         const defaultUrl = '',
               Adyen3DSUrl = `https://shopstg.royalcanin.com/api/Adyen3DSResult/${guid}`,
               payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
@@ -762,6 +761,7 @@ class Payment extends React.Component {
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl: successUrlFun(type),
+        guid:guid,
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone

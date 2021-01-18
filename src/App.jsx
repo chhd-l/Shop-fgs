@@ -207,7 +207,7 @@ const App = () => (
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
               {/* <Route exact path="/Adyen3DSResult" component={Adyen3DSResult} /> */}
-              <Route exact path="https://shopstg.royalcanin.com/api/Adyen3DSResult" render={(props) => (
+              <Route exact path="https://shopstg.royalcanin.com/api/Adyen3DSResult/:guid" render={(props) => (
                   <Adyen3DSResult key={props.match.params.type} {...props} />
               )} />
               <Route exact path="/prescription" component={Prescription} />
