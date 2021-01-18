@@ -78,6 +78,7 @@ class AccountOrders extends React.Component {
     this.handleClickCardItem = this.handleClickCardItem.bind(this);
     this.handleDownInvoice = this.handleDownInvoice.bind(this);
     this.handleClickPayNow = this.handleClickPayNow.bind(this);
+    this.handlePayNowTimeEnd = this.handlePayNowTimeEnd.bind(this);
   }
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -425,7 +426,7 @@ class AccountOrders extends React.Component {
             <TimeCount
               startTime={this.state.defaultLocalDateTime}
               endTime={order.orderTimeOut}
-              onTimeEnd={() => this.handlePayNowTimeEnd(order)}
+              onTimeEnd={this.handlePayNowTimeEnd.bind(this, order)}
             />
             <br />
             <button

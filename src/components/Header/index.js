@@ -907,10 +907,7 @@ class Header extends React.Component {
                                   if (!process.env.REACT_APP_STOREID) {
                                     return;
                                   }
-                                  if (
-                                    process.env.REACT_APP_STOREID ===
-                                    '123457909' //fr
-                                  ) {
+                                  if (process.env.REACT_APP_LANG === 'fr') {
                                     history.push('/register');
                                   } else {
                                     window.location.href =
@@ -978,7 +975,7 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe69c;</span>{' '}
-                                  <FormattedMessage id="account.basicInfomation" />
+                                  <FormattedMessage id="account.profile" />
                                 </Link>
                               </div>
                               <div className="link-style">
@@ -996,7 +993,7 @@ class Header extends React.Component {
                                   className="click-hover"
                                 >
                                   <span className="iconfont">&#xe699;</span>{' '}
-                                  <FormattedMessage id="account.orders" />
+                                  <FormattedMessage id="account.ordersTitle" />
                                 </Link>
                               </div>
                               <div className="link-style">

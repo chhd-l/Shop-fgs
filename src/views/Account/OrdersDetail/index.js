@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import Skeleton from 'react-skeleton-loader';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import GoogleTagManager from '@/components/GoogleTagManager';
+import TimeCount from '@/components/TimeCount';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -36,10 +37,10 @@ import { Helmet } from 'react-helmet';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 function HeadTip(props) {
-  console.log(props, 'props')
+  console.log(props, 'props');
   return (
     <>
       <div className="row align-items-center text-left ml-1 mr-1 ml-md-0 mr-md-0">
@@ -774,19 +775,30 @@ class AccountOrders extends React.Component {
                 id="order.toBePaidTip"
                 values={{
                   val: (
-                    <span
-                      className={`red ui-cursor-pointer ${
-                        payNowLoading
-                          ? 'ui-btn-loading ui-btn-loading-border-red'
-                          : ''
-                      }`}
-                      onClick={this.handleClickPayNow}
-                    >
-                      <span className={`red rc-styled-link mr-2`}>
-                        <FormattedMessage id="order.payNow" />
-                      </span>
-                      &gt;
-                    </span>
+                    <>
+                      {canPayNow ? (
+                        <>
+                          <span
+                            className={`red ui-cursor-pointer ${
+                              payNowLoading
+                                ? 'ui-btn-loading ui-btn-loading-border-red'
+                                : ''
+                            }`}
+                            onClick={this.handleClickPayNow}
+                          >
+                            <span className={`red rc-styled-link mr-2`}>
+                              <FormattedMessage id="order.payNow" />
+                            </span>
+                            &gt;
+                          </span>{' '}
+                          <TimeCount
+                            startTime={this.state.defaultLocalDateTime}
+                            endTime={details.orderTimeOut}
+                            onTimeEnd={this.handlePayNowTimeEnd}
+                          />
+                        </>
+                      ) : null}
+                    </>
                   )
                 }}
               />
@@ -847,21 +859,20 @@ class AccountOrders extends React.Component {
             <FormattedMessage
               id="order.inTranistTip"
               values={{
-                val: (
+                val:
                   logisticsList[0] && logisticsList[0].trackingUrl ? (
-                  <span className={`red ui-cursor-pointer`}>
-                    <a
-                      href={logisticsList[0].trackingUrl}
-                      target="_blank"
-                      rel="nofollow"
-                      className={`red rc-styled-link mr-2`}
-                    >
-                      <FormattedMessage id="order.viewLogisticDetail" />
-                    </a>
-                    &gt;
-                  </span>
+                    <span className={`red ui-cursor-pointer`}>
+                      <a
+                        href={logisticsList[0].trackingUrl}
+                        target="_blank"
+                        rel="nofollow"
+                        className={`red rc-styled-link mr-2`}
+                      >
+                        <FormattedMessage id="order.viewLogisticDetail" />
+                      </a>
+                      &gt;
+                    </span>
                   ) : null
-                )
               }}
             />
           }
@@ -1309,18 +1320,20 @@ class AccountOrders extends React.Component {
                                       </div>
                                     </>
                                   ) : null} */}
-                                  {details.tradePrice.subscriptionDiscountPrice ? (
+                                  {details.tradePrice
+                                    .subscriptionDiscountPrice ? (
                                     <>
                                       <div className="col-2 col-md-7 mb-2 rc-md-up">
                                         &nbsp;
                                       </div>
                                       <div className="col-6 col-md-2 mb-2 green">
-                                          <FormattedMessage id="promotion" />
+                                        <FormattedMessage id="promotion" />
                                       </div>
                                       <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
                                         {formatMoney(
-                                          details.tradePrice.subscriptionDiscountPrice
+                                          details.tradePrice
+                                            .subscriptionDiscountPrice
                                         )}
                                       </div>
                                     </>
@@ -1331,12 +1344,13 @@ class AccountOrders extends React.Component {
                                         &nbsp;
                                       </div>
                                       <div className="col-6 col-md-2 mb-2 green">
-                                          <FormattedMessage id="promotion" />
+                                        <FormattedMessage id="promotion" />
                                       </div>
                                       <div className="col-6 col-md-3 text-right green text-nowrap">
                                         -
                                         {formatMoney(
-                                          details.tradePrice.promotionDiscountPrice
+                                          details.tradePrice
+                                            .promotionDiscountPrice
                                         )}
                                       </div>
                                     </>
