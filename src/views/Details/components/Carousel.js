@@ -36,7 +36,6 @@ class Carousel extends React.Component {
     const { goodsId } = this.props;
     if (goodsId) {
       getGoodsRelation(goodsId).then((res) => {
-        console.log(333, res);
         this.setState(
           {
             goodsList: chunk(res.context.goods, 4)
@@ -193,6 +192,7 @@ class Carousel extends React.Component {
                         {item.map((item2, index2) => {
                           return (
                             <p
+                            className="hdshoisdhdsaiof"
                               key={index2}
                               onClick={() => this.hanldeClick(item2)}
                               style={{ cursor: 'pointer' }}
