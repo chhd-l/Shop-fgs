@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
-import { adyen3DSResult,Adyen3DSResultParam } from '@/api/payment';
+import { adyen3DSResult, Adyen3DSResultParam } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
+import axios from "axios"
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('paymentStore')
@@ -16,10 +17,14 @@ class Adyen3DSResult extends Component {
   }
   async UNSAFE_componentWillMount() {
     try {
-      const result = await Adyen3DSResultParam()
-      console.log({result})
+      axios.post(`https://shopstg.royalcanin.com/api/Adyen3DSResult`)
+        .then(res => {
+          console.log('res=>', res);
+        })
+      // const result = await Adyen3DSResultParam()
+      // console.log({result})
       const res = await adyen3DSResult({
-        md:sessionItemRoyal.get('md'),
+        md: sessionItemRoyal.get('md'),
         paRes: sessionItemRoyal.get('paRes')
       });
 
