@@ -64,6 +64,11 @@ import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d'
+import { de } from 'date-fns/locale';
+
+import { v4 as uuidv4 } from 'uuid';
+
+const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -744,7 +749,7 @@ class Payment extends React.Component {
 
       const successUrlFun = (type) => {
         const defaultUrl = '',
-              Adyen3DSUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/api/Adyen3DSResult',
+              Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
               payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
         return {
           "adyenCard": Adyen3DSUrl,
@@ -756,6 +761,7 @@ class Payment extends React.Component {
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl: successUrlFun(type),
+        guid:guid,
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
@@ -937,8 +943,9 @@ class Payment extends React.Component {
             (res.context && res.context.subscribeId) ||
             '';
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
-              sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
-              sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
+              // debugger
+              // sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
+              // sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
               const adyenAction = JSON.parse(res.context[0].action)
               this.setState({adyenAction})
             }else{
