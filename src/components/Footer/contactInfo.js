@@ -9,7 +9,7 @@ export const contactInfo = {
   },
   de: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
-    email: { url: 'mailto:bestellung.de@royalcanin.com', messageId: 'footer.email' }
+    email: { url: 'mailto:service.de@royalcanin.com', messageId: 'footer.email' }
   },
   fr: {
     phoneNumber: { prop: 'storeContactPhoneNumber' },
