@@ -1420,10 +1420,6 @@ class LoginCart extends React.Component {
       result = await checkoutStore.updateUnloginCart();
     }
     if (result && result.backCode === 'K-000000') {
-      discount.pop();
-      this.setState({
-        discount
-      });
       this.clearPromotionCode();
     }
   };

@@ -1577,11 +1577,7 @@ class UnLoginCart extends React.Component {
       result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
     }
     if (result.backCode === 'K-000000') {
-      discount.pop();
-      this.setState({
-        discount,
-        isShowValidCode: false
-      });
+      this.clearPromotionCode()
     }
   };
   hanldeToggleOneOffOrSub({ goodsInfoFlag, periodTypeId: frequencyId, pitem }) {
