@@ -31,7 +31,7 @@ class Adyen3DSResult extends Component {
           JSON.stringify(tidList)
         );
         console.log({tid,subscribeId,tidList})
-      //this.props.history.push('/checkout');
+      this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
     }
