@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import url from 'url'
+import {
+  getParaByName
+} from '@/utils/utils';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('paymentStore')
@@ -16,15 +19,17 @@ class Adyen3DSResult extends Component {
   }
   async UNSAFE_componentWillMount() {
     try {
-      const param = url.parse(this.props.location.search)
-      console.log(param)
-      // sessionItemRoyal.set('rc-tid', 111);
-      // sessionItemRoyal.set('rc-rePaySubscribeId', 222);
-      // sessionItemRoyal.set(
-      //     'rc-tidList',
-      //     JSON.stringify(err.errorData.tidList)
-      //   );
-      //this.props.history.push('/checkout');
+    const { search } = this.props.history.location;
+    const tid = getParaByName(search, 'tid');
+    const subscribeId = getParaByName(search, 'subscribeId');
+    const tidList = getParaByName(search, 'tidList');
+      sessionItemRoyal.set('rc-tid', tid);
+      sessionItemRoyal.set('rc-rePaySubscribeId', subscribeId);
+      sessionItemRoyal.set(
+          'rc-tidList',
+          JSON.stringify(tidList)
+        );
+      this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
     }
