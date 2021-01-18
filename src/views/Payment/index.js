@@ -749,7 +749,7 @@ class Payment extends React.Component {
 
       const successUrlFun = (type) => {
         const defaultUrl = '',
-              Adyen3DSUrl = `https://shopstg.royalcanin.com/api/Adyen3DSResult/${guid}`,
+              Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
               payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
         return {
           "adyenCard": Adyen3DSUrl,
@@ -943,7 +943,7 @@ class Payment extends React.Component {
             (res.context && res.context.subscribeId) ||
             '';
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
-              debugger
+              // debugger
               // sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
               // sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
               const adyenAction = JSON.parse(res.context[0].action)
