@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { adyen3DSResult } from '@/api/payment';
+import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+@inject('paymentStore')
+@observer
 class Adyen3DSResult extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +17,7 @@ class Adyen3DSResult extends Component {
   async UNSAFE_componentWillMount() {
     try {
       const res = await adyen3DSResult({
-        md:sessionItemRoyal.get('md'),
+        md:this.props.paymentStore.md,
         paRes: sessionItemRoyal.get('orderNumber')
       });
 

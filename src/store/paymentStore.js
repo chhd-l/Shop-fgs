@@ -11,6 +11,7 @@ class PaymentStore {
   @observable billingAddress = null;
   @observable defaultCardDataFromAddr = null;
   @observable browserInfo = {}
+  @observable md = '';//3ds参数
 
   @observable panelStatus = [
     {
@@ -258,6 +259,10 @@ class PaymentStore {
   @action.bound
   setBrowserInfo(data) {
     this.browserInfo = data
+  }
+  @action.bound
+  set3DSMd(data) {
+    this.md = data
   }
 }
 export default PaymentStore;

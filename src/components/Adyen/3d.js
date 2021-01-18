@@ -1,8 +1,11 @@
 import React from 'react';
 import { loadJS } from '@/utils/utils';
 import translations from './translations';
+import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
+@inject('paymentStore')
+@observer
 class Adyen3DForm extends React.Component {
   static defaultProps = {
  
@@ -28,7 +31,6 @@ class Adyen3DForm extends React.Component {
       callback: function () {
         if (!!window.AdyenCheckout) {
           const AdyenCheckout = window.AdyenCheckout;
-          // (1) Create an instance of AdyenCheckout
           const checkout = new AdyenCheckout({
             environment: process.env.REACT_APP_Adyen_ENV,
             originKey: process.env.REACT_APP_AdyenOriginKEY,
@@ -36,7 +38,7 @@ class Adyen3DForm extends React.Component {
             translations
           });
         
-          // (2). Create and mount the Component
+          // 跳转到3DS页面
           checkout.createFromAction(action).mount('#adyen-3d-form');
         }
       }
@@ -44,7 +46,7 @@ class Adyen3DForm extends React.Component {
   }
   render() {
     if(Object.keys(this.state.action).length>0){
-        sessionItemRoyal.set('md',this.state.action.data.MD);
+        this.props.paymentStore.set3DSMd(this.state.action.data.MD)
         this.initForm(this.state.action);
     }
     return (
