@@ -15,6 +15,7 @@ class Adyen3DSResult extends Component {
     return <div className="checkout--padding"></div>;
   }
   async UNSAFE_componentWillMount() {
+    console.log(this.props)
     try {
       const res = await adyen3DSResult({
         md:sessionItemRoyal.get('md'),
