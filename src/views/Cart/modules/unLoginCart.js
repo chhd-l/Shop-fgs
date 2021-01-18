@@ -496,10 +496,11 @@ class UnLoginCart extends React.Component {
     e.preventDefault();
     this.props.history.goBack();
   };
-  async updateStock() {
+  async updateStock(fn) {
     const { productList } = this.state;
     this.setState({ checkoutLoading: true });
     await this.props.checkoutStore.updateUnloginCart(productList);
+    fn && fn()
     this.setState({ checkoutLoading: false });
     //增加数量 重新埋点 start
     this.GACheckUnLogin(this.props.checkoutStore.cartData);
@@ -1169,13 +1170,14 @@ class UnLoginCart extends React.Component {
     if (tmpIdx > -1) {
       productList.splice(tmpIdx, 1);
     }
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
+    this.props.checkoutStore.removePromotionCode()
     this.setState(
       {
         productList
       },
       () => {
-        this.updateStock();
+        this.updateStock(this.clearPromotionCode.bind(this));
       }
     );
   }
@@ -1494,15 +1496,25 @@ class UnLoginCart extends React.Component {
   }
   async changeFrequencyType(pitem) {
     this.setState({ errorShow: false });
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
+    this.props.checkoutStore.removePromotionCode()
     this.setState(
       {
         productList: this.state.productList
       },
       () => {
-        this.updateStock();
+        this.updateStock(this.clearPromotionCode.bind(this));
       }
     );
+  }
+  // 切换规格/单次订阅购买时，清空promotion code
+  clearPromotionCode() {
+    this.setState({
+      discount: [],
+      isShowValidCode: false,
+      lastPromotionInputValue: '',
+      promotionInputValue: ''
+    });
   }
   handleClickPromotionApply = async () => {
     const { checkoutStore, loginStore, buyWay } = this.props;
@@ -1555,8 +1567,8 @@ class UnLoginCart extends React.Component {
     const { checkoutStore, loginStore, buyWay } = this.props;
     let { discount } = this.state
     let result = {};
+    // await checkoutStore.removeCouponCodeFitFlag();
     await checkoutStore.removePromotionCode();
-    await checkoutStore.removeCouponCodeFitFlag();
     if (!loginStore.isLogin) {
       //游客
       result = await checkoutStore.updateUnloginCart();

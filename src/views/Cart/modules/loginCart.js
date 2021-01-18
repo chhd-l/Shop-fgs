@@ -153,9 +153,10 @@ class LoginCart extends React.Component {
     pitem.periodTypeId = data.id;
     this.changeFrequencyType(pitem);
   }
-  async updateCartCache() {
+  async updateCartCache(fn) {
     this.setState({ checkoutLoading: true });
     await this.checkoutStore.updateLoginCart();
+    fn && fn()
     this.setData();
     this.setState({ checkoutLoading: false });
   }
@@ -1366,15 +1367,16 @@ class LoginCart extends React.Component {
         ele.mockSpecDetailIds.sort().toString() ===
           selectedSpecDetailId.sort().toString()
     )[0];
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
+    this.props.checkoutStore.removePromotionCode()
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
       periodTypeId: pitem.periodTypeId,
       goodsInfoFlag: pitem.goodsInfoFlag
     });
-    await this.updateCartCache();
+    await this.updateCartCache(this.clearPromotionCode.bind(this));
     this.setState({ changSizeLoading: false });
   }
   // 切换规格/单次订阅购买时，清空promotion code
@@ -1393,9 +1395,9 @@ class LoginCart extends React.Component {
     this.setState({
       changSizeLoading: true
     });
-    await this.handleRemovePromotionCode();
+    // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
-
+    this.props.checkoutStore.removePromotionCode()
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
@@ -1403,7 +1405,7 @@ class LoginCart extends React.Component {
       periodTypeId: pitem.periodTypeId
     });
 
-    await this.updateCartCache();
+    await this.updateCartCache(this.clearPromotionCode.bind(this));
     this.setState({ changSizeLoading: false });
   }
   handleRemovePromotionCode = async () => {
@@ -1411,7 +1413,7 @@ class LoginCart extends React.Component {
     let { discount } = this.state;
     let result = {};
     await checkoutStore.removePromotionCode();
-    await checkoutStore.removeCouponCodeFitFlag();
+    // await checkoutStore.removeCouponCodeFitFlag();
     if (loginStore.isLogin) {
       result = await checkoutStore.updateLoginCart('', buyWay === 'frequency');
     } else {
