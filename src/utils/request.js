@@ -19,6 +19,7 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use((config) => {
+  console.log({config})
   const token =
     sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
   if (token) {
