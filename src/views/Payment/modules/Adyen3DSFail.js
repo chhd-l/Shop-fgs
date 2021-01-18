@@ -29,6 +29,7 @@ class Adyen3DSResult extends Component {
           'rc-tidList',
           JSON.stringify(tidList)
         );
+        console.log({tid,subscribeId,tidList})
       this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
