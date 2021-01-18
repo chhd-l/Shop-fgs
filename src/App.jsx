@@ -451,7 +451,8 @@ const App = () => (
               />
               <Route
                 exact
-                path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                // path="/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show"
+                path={`/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`}
                 render={(props) => {
                   if (props.location.state && props.location.state.noresult) {
                     return <SearchShow {...props} />;
