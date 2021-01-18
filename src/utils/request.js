@@ -19,6 +19,7 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use((config) => {
+  console.log({config})
   const token =
     sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
   if (token) {
@@ -40,6 +41,7 @@ service.interceptors.request.use((config) => {
 // response interceptor
 service.interceptors.response.use(
   (response) => {
+    console.log({response})
     if (response.data instanceof Blob) {
       return response;
     }
