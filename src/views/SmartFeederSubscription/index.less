@@ -116,6 +116,15 @@
   .rc-swatch{
     margin: 0;
   }
+  .rc-icon.rc-down:after, .rc-icon.rc-up:after, .rc-icon.rc-iconography:after{
+    transform: scale(0.8);
+  }
+  .list__header:active, .list__header:hover, .rc-list__header:active, .rc-list__header:hover{
+    .rc-icon.rc-down:after, .rc-icon.down:after{
+      background-image: url(https://d1a19ys8w1wkc1.cloudfront.net/royal-canin.sprite--brand1.svg?v=8-9-1);
+      background-position: 50% 20%;
+    }
+  }
   .confirm_product {
     background-color: #f7f7f7;
     .icon_back{
