@@ -1,6 +1,7 @@
 import React from 'react';
 import { loadJS } from '@/utils/utils';
 import translations from './translations';
+const sessionItemRoyal = window.__.sessionItemRoyal;
 
 class Adyen3DForm extends React.Component {
   static defaultProps = {
@@ -43,6 +44,7 @@ class Adyen3DForm extends React.Component {
   }
   render() {
     if(Object.keys(this.state.action).length>0){
+        sessionItemRoyal.set('md',this.state.action.data.MD);
         this.initForm(this.state.action);
     }
     return (
