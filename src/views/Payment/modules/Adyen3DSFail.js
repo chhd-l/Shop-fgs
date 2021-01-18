@@ -17,12 +17,13 @@ class Adyen3DSResult extends Component {
   render() {
     return <div className="checkout--padding"></div>;
   }
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     try {
     const { search } = this.props.history.location;
     const tid = getParaByName(search, 'tid');
     const subscribeId = getParaByName(search, 'subscribeId');
-    const tidList = getParaByName(search, 'tidList');
+    const tidList = getParaByName(search, 'tidList').split("|");
+
       sessionItemRoyal.set('rc-tid', tid);
       sessionItemRoyal.set('rc-rePaySubscribeId', subscribeId);
       sessionItemRoyal.set(
@@ -30,7 +31,7 @@ class Adyen3DSResult extends Component {
           JSON.stringify(tidList)
         );
         console.log({tid,subscribeId,tidList})
-      this.props.history.push('/checkout');
+      //this.props.history.push('/checkout');
     } catch (err) {
       console.log(err);
     }

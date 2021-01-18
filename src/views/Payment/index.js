@@ -173,84 +173,88 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    const { checkoutStore, paymentStore, clinicStore, history } = this.props;
-    const { tid } = this.state;
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    if (this.isLogin) {
-      // 登录情况下，无需显示email panel
-      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-      if (tid) {
-        paymentStore.setStsToCompleted({
-          key: 'deliveryAddr',
-          isFirstLoad: true
-        });
-        paymentStore.setStsToCompleted({
-          key: 'billingAddr',
-          isFirstLoad: true
-        });
-        this.queryOrderDetails();
-      }
-
-      if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    } else {
-      if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    }
-    this.setState(
-      {
-        needPrescriber: checkoutStore.autoAuditFlag
-          ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-              (el) => el.prescriberFlag
-            ).length > 0
-          : checkoutStore.AuditData.length > 0
-      },
-      () => {
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'clinic'
-        });
-
-        // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
-        if (!this.checkoutWithClinic || clinicStore.clinicName) {
-          paymentStore.setStsToCompleted({ key: 'clinic' });
-          paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-        } else {
-          // 把clinic置为edit状态
-          paymentStore.setStsToEdit({ key: 'clinic' });
-          paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+    try {
+      const { checkoutStore, paymentStore, clinicStore, history } = this.props;
+      const { tid } = this.state;
+      setSeoConfig().then((res) => {
+        this.setState({ seoConfig: res });
+      });debugger
+      if (this.isLogin) {
+        // 登录情况下，无需显示email panel
+        paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+        if (tid) {
+          paymentStore.setStsToCompleted({
+            key: 'deliveryAddr',
+            isFirstLoad: true
+          });
+          paymentStore.setStsToCompleted({
+            key: 'billingAddr',
+            isFirstLoad: true
+          });
+          this.queryOrderDetails();
+        }
+  
+        if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
+        }
+      } else {
+        if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
         }
       }
-    );
-    if (!sessionItemRoyal.get('recommend_product')) {
-      if (this.isLogin && !this.loginCartData.length && !tid) {
-        history.push('/cart');
-        return false;
+      this.setState(
+        {
+          needPrescriber: checkoutStore.autoAuditFlag
+            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+                (el) => el.prescriberFlag
+              ).length > 0
+            : checkoutStore.AuditData.length > 0
+        },
+        () => {
+          const nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: 'clinic'
+          });
+  
+          // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
+          if (!this.checkoutWithClinic || clinicStore.clinicName) {
+            paymentStore.setStsToCompleted({ key: 'clinic' });
+            paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+          } else {
+            // 把clinic置为edit状态
+            paymentStore.setStsToEdit({ key: 'clinic' });
+            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+          }
+        }
+      );
+      if (!sessionItemRoyal.get('recommend_product')) {
+        if (this.isLogin && !this.loginCartData.length && !tid) {
+          history.push('/cart');
+          return false;
+        }
+        if (
+          !this.isLogin &&
+          (!this.cartData.length ||
+            !this.cartData.filter((ele) => ele.selected).length)
+        ) {
+          history.push('/cart');
+          return false;
+        }
       }
-      if (
-        !this.isLogin &&
-        (!this.cartData.length ||
-          !this.cartData.filter((ele) => ele.selected).length)
-      ) {
-        history.push('/cart');
-        return false;
-      }
+    } catch (err) {
+      console.log(111,err)
     }
 
     this.getConsentList();
