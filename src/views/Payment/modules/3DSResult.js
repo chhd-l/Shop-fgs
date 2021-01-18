@@ -16,8 +16,13 @@ class Adyen3DSResult extends Component {
     return <div className="checkout--padding"></div>;
   }
   async UNSAFE_componentWillMount() {
+    const token = sessionItemRoyal.get('rc-token') || localItemRoyal.get('rc-token');
     try {
-      axios.post(`https://shopstg.royalcanin.com/api/Adyen3DSResult`)
+      axios.post(`https://shopstg.royalcanin.com/api/Adyen3DSResult`,{
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      })
         .then(res => {
           console.log('res=>', res);
         })
