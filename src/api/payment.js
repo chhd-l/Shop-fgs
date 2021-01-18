@@ -17,7 +17,8 @@ const api = {
   getWays: '/PayGateway/gateways',
   adyenPaymentsDetails: '/adyenPay/payments/details',
   getProductPetConfig: '/order/config/findPet',
-  adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`
+  adyen3DSResult: `/${process.env.REACT_APP_STOREID}/adyen/identity/verification/payment`,
+  Adyen3DSResult: '/Adyen3DSResult'
 };
 
 export default api;
@@ -138,5 +139,12 @@ export function adyen3DSResult(parameter) {
     url: api.adyen3DSResult,
     method: 'post',
     data: parameter
+  });
+}
+
+export function Adyen3DSResultParam() {
+  return axios({
+    url: api.Adyen3DSResult,
+    method: 'post'
   });
 }

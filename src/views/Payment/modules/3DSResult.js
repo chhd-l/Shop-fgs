@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
-import { adyen3DSResult } from '@/api/payment';
+import { adyen3DSResult,Adyen3DSResultParam } from '@/api/payment';
 import { inject, observer } from 'mobx-react';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 
@@ -15,8 +15,9 @@ class Adyen3DSResult extends Component {
     return <div className="checkout--padding"></div>;
   }
   async UNSAFE_componentWillMount() {
-    console.log(this.props)
     try {
+      const result = await Adyen3DSResultParam()
+      console.log({result})
       const res = await adyen3DSResult({
         md:sessionItemRoyal.get('md'),
         paRes: sessionItemRoyal.get('paRes')
