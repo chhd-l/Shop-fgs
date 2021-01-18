@@ -306,12 +306,12 @@ class Packfeed extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/fr/cats"
+                              to="/cats"
                             >
                               Chat
-                            </a>
+                            </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 m-auto rc-padding-x--sm rc-padding-x--lg--mobile rc-padding-top--lg--mobile order-0 order-md-1">
@@ -325,18 +325,18 @@ class Packfeed extends React.Component {
                             </p>
                           </div>
                           <div className="rc-btn-group rc-margin--none rc-padding-x--xs d-none d-md-flex">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/fr/cats"
+                              to="/cats"
                             >
                               Chat
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two"
-                              href="/fr/dogs"
+                              to="/dogs"
                             >
                               Chien
-                            </a>
+                            </Link>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 order-2 order-md-2">
@@ -349,12 +349,12 @@ class Packfeed extends React.Component {
                             </LazyLoad>
                           </div>
                           <div className="d-flex d-md-none justify-content-center rc-bg-colour--brand4 rc-padding-y--lg">
-                            <a
+                            <Link
                               className="rc-btn rc-btn--sm rc-btn--two w-50"
-                              href="/fr/dogs"
+                              to="/dogs"
                             >
                               Chien
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </div>

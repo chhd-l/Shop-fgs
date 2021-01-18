@@ -170,7 +170,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: 1, //0 - once/ 1 - frequency
+        buyWay: process.env.REACT_APP_PDP_BUYWAY || 1, //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -2594,7 +2594,7 @@ class Details extends React.Component {
                         >
                           <div className="block">
                             <p
-                              className="content rc-scroll--x"
+                              className="content rc-scroll--x detail-content-tabinfo"
                               style={{ marginBottom: '4rem' }}
                               dangerouslySetInnerHTML={createMarkup(ele)}
                             />
