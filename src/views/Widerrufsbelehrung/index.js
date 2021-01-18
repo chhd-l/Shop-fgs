@@ -9,9 +9,10 @@ import Skeleton from 'react-skeleton-loader';
 import { setSeoConfig } from '@/utils/utils';
 import './index.less';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 const localItemRoyal = window.__.localItemRoyal;
-const pageLink = window.location.href
+const pageLink = window.location.href;
 
 class Widerrufsbelehrung extends React.Component {
   constructor(props) {
@@ -32,8 +33,8 @@ class Widerrufsbelehrung extends React.Component {
     localItemRoyal.set('isRefresh', true);
   }
   componentDidMount() {
-    setSeoConfig().then(res => {
-      this.setState({seoConfig: res})
+    setSeoConfig().then((res) => {
+      this.setState({ seoConfig: res });
     });
     // if (localItemRoyal.get('isRefresh')) {
     //   localItemRoyal.remove('isRefresh');
@@ -96,17 +97,20 @@ class Widerrufsbelehrung extends React.Component {
         path: location.pathname,
         error: '',
         hitTimestamp: new Date(),
-        filters: '',
+        filters: ''
       }
     };
     return (
       <div>
         <GoogleTagManager additionalEvents={event} />
         <Helmet>
-        <link rel="canonical" href={pageLink} />
+          <link rel="canonical" href={pageLink} />
           <title>{this.state.seoConfig.title}</title>
-          <meta name="description" content={this.state.seoConfig.metaDescription}/>
-          <meta name="keywords" content={this.state.seoConfig.metaKeywords}/>
+          <meta
+            name="description"
+            content={this.state.seoConfig.metaDescription}
+          />
+          <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header history={this.props.history} match={this.props.match} />
         <main className="rc-content--fixed-header rc-bg-colour--brand3">
@@ -159,15 +163,12 @@ class Widerrufsbelehrung extends React.Component {
                     letzte Ware in Besitz genommen haben bzw. hat.{' '}
                   </p>
                   <p>
-                    Um Ihr Widerrufsrecht auszuüben, müssen Sie uns (ROYAL CANIN
-                    Tiernahrung GmbH & Co. KG, Habsburgerring 2, 50674 Köln,
-                    Tel.: +49 (0) 221 937060-610 Fax: +49 (0) 221 937060-800)
-                    mittels einer eindeutigen Erklärung (z.B. ein mit der Post
-                    versandter Brief, Telefax oder E-Mail) über Ihren
-                    Entschluss, diesen Vertrag zu widerrufen, informieren. Sie
-                    können dafür das beigefügte Muster-Widerrufsformular
-                    verwenden, das jedoch nicht vorgeschrieben ist oder wie
-                    unten in Ziffer 8.3 beschrieben vorgehen.{' '}
+                    Sie könenn dafür das Muster-Wiederrufsformular unten
+                    verwenden, das jedoch nicht vorgeschrieben ist. Alternativ
+                    gehen Sie bitte vor wie in Ziffer 8.3 der{` `}
+                    <Link className="rc-styled-link" to="/Terms-And-Conditions">{` allgemeinen Geschäftsbedingungen `}</Link>
+                    {` `}
+                    beschrieben.{' '}
                   </p>
                 </dd>
               </div>
