@@ -1,7 +1,11 @@
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
-import { formatMoney, getFrequencyDict, matchNamefromDict } from '@/utils/utils';
+import {
+  formatMoney,
+  getFrequencyDict,
+  matchNamefromDict
+} from '@/utils/utils';
 import { IMG_DEFAULT } from '@/utils/constant';
 import LazyLoad from 'react-lazyload';
 
@@ -20,15 +24,15 @@ class PayProductInfo extends React.Component {
     this.state = {
       productList: [],
       frequencyList: [],
-      pathname:''
+      pathname: ''
     };
     this.handleClickProName = this.handleClickProName.bind(this);
   }
   async componentDidMount() {
-    const {pathname} = this.props.location
+    const { pathname } = this.props.location;
     this.setState({
       pathname
-    })
+    });
     getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
@@ -77,26 +81,24 @@ class PayProductInfo extends React.Component {
                     className="line-item-total-price"
                     style={{ width: '77%' }}
                   >
-                    {
-                      [
-                        item.specDetails,
-                        item.num > 1
-                          ? this.props.intl.formatMessage(
-                              { id: 'items' },
-                              {
-                                val: item.num
-                              }
-                            )
-                          : this.props.intl.formatMessage(
-                              { id: 'item' },
-                              {
-                                val: item.num
-                              }
-                            )
-                      ]
-                        .filter((e) => e)
-                        .join(' - ')
-                      }
+                    {[
+                      item.specDetails,
+                      item.num > 1
+                        ? this.props.intl.formatMessage(
+                            { id: 'items' },
+                            {
+                              val: item.num
+                            }
+                          )
+                        : this.props.intl.formatMessage(
+                            { id: 'item' },
+                            {
+                              val: item.num
+                            }
+                          )
+                    ]
+                      .filter((e) => e)
+                      .join(' - ')}
                     <br />
                     {details.subscriptionResponseVO && item.goodsInfoFlag ? (
                       <>
@@ -122,9 +124,15 @@ class PayProductInfo extends React.Component {
                           {formatMoney(item.num * item.originalPrice)}
                         </span>
                         <br />
-                        <span style={{ color: 'red' }}>
-                          {formatMoney(item.price)}
+                        <span className="red">{formatMoney(item.price)}</span>
+                      </>
+                    ) : item.price < item.originalPrice ? (
+                      <>
+                        <span className="text-line-through">
+                          {formatMoney(item.originalPrice)}
                         </span>
+                        <br />
+                        <span className="red">{formatMoney(item.price)}</span>
                       </>
                     ) : (
                       <span>{formatMoney(item.price)}</span>
@@ -233,7 +241,7 @@ class PayProductInfo extends React.Component {
                           <p className="order-receipt-label order-shipping-cost">
                             <span className="green">
                               {/* {details.tradePrice.promotionDesc || ( */}
-                                <FormattedMessage id="promotion" />
+                              <FormattedMessage id="promotion" />
                               {/* )} */}
                             </span>
                           </p>
@@ -241,7 +249,10 @@ class PayProductInfo extends React.Component {
                         <div className="col-5 end-lines">
                           <p className="text-right">
                             <span className="shipping-total-cost green">
-                              -{formatMoney(details.tradePrice.subscriptionDiscountPrice)}
+                              -
+                              {formatMoney(
+                                details.tradePrice.subscriptionDiscountPrice
+                              )}
                             </span>
                           </p>
                         </div>
@@ -253,7 +264,7 @@ class PayProductInfo extends React.Component {
                           <p className="order-receipt-label order-shipping-cost">
                             <span className="green">
                               {/* {details.tradePrice.promotionDesc || ( */}
-                                <FormattedMessage id="promotion" />
+                              <FormattedMessage id="promotion" />
                               {/* )} */}
                             </span>
                           </p>
@@ -261,7 +272,10 @@ class PayProductInfo extends React.Component {
                         <div className="col-5 end-lines">
                           <p className="text-right">
                             <span className="shipping-total-cost green">
-                              -{formatMoney(details.tradePrice.promotionDiscountPrice)}
+                              -
+                              {formatMoney(
+                                details.tradePrice.promotionDiscountPrice
+                              )}
                             </span>
                           </p>
                         </div>
