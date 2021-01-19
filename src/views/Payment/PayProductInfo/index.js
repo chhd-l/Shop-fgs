@@ -237,7 +237,7 @@ class PayProductInfo extends React.Component {
                   </div>
                 </div>
                 <div className="line-item-total-price justify-content-end pull-right">
-                  <div>{formatMoney(el.sizeList.filter(el => el.selected))[0]['marketPrice']}</div>
+                  <div>{formatMoney(el.sizeList.filter(el => el.selected)[0]['marketPrice']) * el.quantity}</div>
                 </div>
               </div>
             </div>
