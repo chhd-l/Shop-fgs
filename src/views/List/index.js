@@ -97,7 +97,7 @@ function ListItemH5ForFr(props) {
                   }}
                 >
                   {/*循环遍历的图片*/}
-                  <LazyLoad style={{ width: '100%', heigth: '100%' }}>
+                  <LazyLoad classNamePrefix="w-100 h-100">
                     <img
                       src={
                         item.goodsImg ||
@@ -172,7 +172,7 @@ function ListItem(props) {
                     style={{ height: '15.7rem' }}
                   >
                     {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <LazyLoad classNamePrefix="w-100 h-100">
                       <img
                         src={
                           item.goodsImg ||
@@ -1423,7 +1423,7 @@ class List extends React.Component {
                   </div>
                 </div>
                 <div className="rc-column">
-                  <LazyLoad>
+                  <LazyLoad classNamePrefix="w-100">
                     <img src={titleData.img} className="mx-auto" alt="" />
                   </LazyLoad>
                 </div>

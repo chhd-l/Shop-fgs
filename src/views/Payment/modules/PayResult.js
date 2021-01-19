@@ -26,7 +26,6 @@ class AdyenPayResult extends Component {
       const res = await adyenPaymentsDetails({
         redirectResult,
         businessId: sessionItemRoyal.get('orderNumber')
-        //businessId: 'O202008110927290237',
       });
       if (res.context.status === 'SUCCEED') {
         this.props.history.push('/confirmation');

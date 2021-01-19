@@ -593,7 +593,8 @@ class Header extends React.Component {
                     className="productName rc-large-body ui-cursor-pointer"
                     // to={`/list/keywords/${keywords}`}
                     to={{
-                      pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
                       search: `?q=${keywords}`
                     }}
                   >
@@ -1076,7 +1077,8 @@ class Header extends React.Component {
                 <Link
                   className="productName rc-large-body ui-cursor-pointer"
                   to={{
-                    pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                    pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
                     search: `?q=${keywords}`
                   }}
                 >

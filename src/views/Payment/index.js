@@ -35,7 +35,7 @@ import {
   getFormatDate,
   setSeoConfig
 } from '@/utils/utils';
-import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList,userBindConsent } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
 import LazyLoad from 'react-lazyload';
@@ -64,6 +64,11 @@ import './modules/adyenCopy.css';
 import './index.css';
 import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d'
+import { de } from 'date-fns/locale';
+
+import { v4 as uuidv4 } from 'uuid';
+
+const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -168,84 +173,88 @@ class Payment extends React.Component {
   }
 
   async componentDidMount() {
-    const { checkoutStore, paymentStore, clinicStore, history } = this.props;
-    const { tid } = this.state;
-    setSeoConfig().then((res) => {
-      this.setState({ seoConfig: res });
-    });
-    if (this.isLogin) {
-      // 登录情况下，无需显示email panel
-      paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-      if (tid) {
-        paymentStore.setStsToCompleted({
-          key: 'deliveryAddr',
-          isFirstLoad: true
-        });
-        paymentStore.setStsToCompleted({
-          key: 'billingAddr',
-          isFirstLoad: true
-        });
-        this.queryOrderDetails();
-      }
-
-      if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    } else {
-      if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
-        this.setState({
-          subForm: {
-            buyWay: 'frequency',
-            frequencyName: '',
-            frequencyId: ''
-          }
-        });
-      }
-    }
-    this.setState(
-      {
-        needPrescriber: checkoutStore.autoAuditFlag
-          ? (this.isLogin ? this.loginCartData : this.cartData).filter(
-              (el) => el.prescriberFlag
-            ).length > 0
-          : checkoutStore.AuditData.length > 0
-      },
-      () => {
-        const nextConfirmPanel = searchNextConfirmPanel({
-          list: toJS(paymentStore.panelStatus),
-          curKey: 'clinic'
-        });
-
-        // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
-        if (!this.checkoutWithClinic || clinicStore.clinicName) {
-          paymentStore.setStsToCompleted({ key: 'clinic' });
-          paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
-        } else {
-          // 把clinic置为edit状态
-          paymentStore.setStsToEdit({ key: 'clinic' });
-          paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+    try {
+      const { checkoutStore, paymentStore, clinicStore, history } = this.props;
+      const { tid } = this.state;
+      setSeoConfig().then((res) => {
+        this.setState({ seoConfig: res });
+      });debugger
+      if (this.isLogin) {
+        // 登录情况下，无需显示email panel
+        paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
+        if (tid) {
+          paymentStore.setStsToCompleted({
+            key: 'deliveryAddr',
+            isFirstLoad: true
+          });
+          paymentStore.setStsToCompleted({
+            key: 'billingAddr',
+            isFirstLoad: true
+          });
+          this.queryOrderDetails();
+        }
+  
+        if (this.loginCartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
+        }
+      } else {
+        if (this.cartData.filter((el) => el.goodsInfoFlag).length) {
+          this.setState({
+            subForm: {
+              buyWay: 'frequency',
+              frequencyName: '',
+              frequencyId: ''
+            }
+          });
         }
       }
-    );
-    if (!sessionItemRoyal.get('recommend_product')) {
-      if (this.isLogin && !this.loginCartData.length && !tid) {
-        history.push('/cart');
-        return false;
+      this.setState(
+        {
+          needPrescriber: checkoutStore.autoAuditFlag
+            ? (this.isLogin ? this.loginCartData : this.cartData).filter(
+                (el) => el.prescriberFlag
+              ).length > 0
+            : checkoutStore.AuditData.length > 0
+        },
+        () => {
+          const nextConfirmPanel = searchNextConfirmPanel({
+            list: toJS(paymentStore.panelStatus),
+            curKey: 'clinic'
+          });
+  
+          // 不需要clinic/clinic已经填写时，需把下一个panel置为edit状态
+          if (!this.checkoutWithClinic || clinicStore.clinicName) {
+            paymentStore.setStsToCompleted({ key: 'clinic' });
+            paymentStore.setStsToEdit({ key: nextConfirmPanel.key });
+          } else {
+            // 把clinic置为edit状态
+            paymentStore.setStsToEdit({ key: 'clinic' });
+            paymentStore.setStsToPrepare({ key: nextConfirmPanel.key });
+          }
+        }
+      );
+      if (!sessionItemRoyal.get('recommend_product')) {
+        if (this.isLogin && !this.loginCartData.length && !tid) {
+          history.push('/cart');
+          return false;
+        }
+        if (
+          !this.isLogin &&
+          (!this.cartData.length ||
+            !this.cartData.filter((ele) => ele.selected).length)
+        ) {
+          history.push('/cart');
+          return false;
+        }
       }
-      if (
-        !this.isLogin &&
-        (!this.cartData.length ||
-          !this.cartData.filter((ele) => ele.selected).length)
-      ) {
-        history.push('/cart');
-        return false;
-      }
+    } catch (err) {
+      console.log(111,err)
     }
 
     this.getConsentList();
@@ -744,7 +753,7 @@ class Payment extends React.Component {
 
       const successUrlFun = (type) => {
         const defaultUrl = '',
-              Adyen3DSUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/api/Adyen3DSResult',
+              Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
               payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
         return {
           "adyenCard": Adyen3DSUrl,
@@ -756,6 +765,7 @@ class Payment extends React.Component {
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl: successUrlFun(type),
+        guid:guid,
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone
@@ -937,8 +947,9 @@ class Payment extends React.Component {
             (res.context && res.context.subscribeId) ||
             '';
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
-              sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
-              sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
+              // debugger
+              // sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
+              // sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
               const adyenAction = JSON.parse(res.context[0].action)
               this.setState({adyenAction})
             }else{
@@ -1378,7 +1389,6 @@ class Payment extends React.Component {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
 
-      await validData(ADDRESS_RULE, param.deliveryAddress);
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,

@@ -108,6 +108,7 @@ class GoogleTagManager extends React.Component {
       }
     };
     let userInfo = this.props.loginStore.userInfo;
+    console.log({userInfo})
 
     if (userInfo) {
       event.user = {
@@ -115,7 +116,8 @@ class GoogleTagManager extends React.Component {
         email: sha256(userInfo.email),
         id: userInfo.customerId,
         locale: userInfo.city,
-        frequency: 'returning client'
+        frequency: 'returning client',
+        accountType: 'internal'
       };
     } else {
       event.user = {
@@ -126,8 +128,7 @@ class GoogleTagManager extends React.Component {
         frequency: 'prospect'
       };
     }
-    (event.user.country = process.env.REACT_APP_GA_COUNTRY),
-      (event.user.accountType = 'test');
+    (event.user.country = process.env.REACT_APP_GA_COUNTRY)
 
     let additionalEvents = Object.assign(
       {},

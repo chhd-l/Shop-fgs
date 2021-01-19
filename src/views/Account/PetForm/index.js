@@ -1555,6 +1555,7 @@ class PetForm extends React.Component {
                       ? this.state.recommendData
                       : []
                   }
+                  customCls="ui-petform"
                 />
               ) : null}
             </div>
