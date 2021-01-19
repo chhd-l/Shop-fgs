@@ -357,7 +357,7 @@ class UnLoginCart extends React.Component {
         productList: this.state.productList
       });
     } else {
-      const { quantityMinLimit, quantityMaxLimit } = this.state;
+      const { quantityMinLimit } = this.state;
       let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
@@ -383,8 +383,8 @@ class UnLoginCart extends React.Component {
           });
         }, 2000);
       }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit;
+      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+        tmp = process.env.REACT_APP_LIMITED_NUM;
       }
       item.quantity = tmp;
       this.setState(
