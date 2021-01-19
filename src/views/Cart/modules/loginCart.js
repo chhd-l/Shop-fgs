@@ -156,7 +156,7 @@ class LoginCart extends React.Component {
   async updateCartCache(fn) {
     this.setState({ checkoutLoading: true });
     await this.checkoutStore.updateLoginCart();
-    fn && fn()
+    fn && fn();
     this.setData();
     this.setState({ checkoutLoading: false });
   }
@@ -487,10 +487,7 @@ class LoginCart extends React.Component {
               </LazyLoad>
             </div>
             <div className="product-info__desc w-100 relative">
-              <div
-                className="line-item-header rc-margin-top--xs rc-padding-right--sm"
-                style={{ width: '80%' }}
-              >
+              <div className="line-item-header rc-margin-top--xs rc-padding-right--sm">
                 <Link
                   className="ui-cursor-pointer"
                   to={`/${pitem.goodsName
@@ -1369,7 +1366,7 @@ class LoginCart extends React.Component {
     )[0];
     // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode()
+    this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: selectedGoodsInfo.goodsInfoId,
@@ -1397,7 +1394,7 @@ class LoginCart extends React.Component {
     });
     // await this.handleRemovePromotionCode();
     // this.clearPromotionCode();
-    this.props.checkoutStore.removePromotionCode()
+    this.props.checkoutStore.removePromotionCode();
     await switchSize({
       purchaseId: pitem.purchaseId,
       goodsInfoId: pitem.goodsInfoId,
