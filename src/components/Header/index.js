@@ -980,11 +980,11 @@ class Header extends React.Component {
                                 </Link>
                               </div>
                               <div className="link-style">
-                                <span className="iconfont">&#xe69a;</span>{' '}
                                 <Link
                                   to="/account/pets"
                                   className="click-hover"
                                 >
+                                  <span className="iconfont">&#xe69a;</span>{' '}
                                   <FormattedMessage id="account.pets" />
                                 </Link>
                               </div>
