@@ -35,7 +35,7 @@ import {
   getFormatDate,
   setSeoConfig
 } from '@/utils/utils';
-import { ADDRESS_RULE, EMAIL_REGEXP } from '@/utils/constant';
+import { EMAIL_REGEXP } from '@/utils/constant';
 import { findUserConsentList, getStoreOpenConsentList,userBindConsent } from '@/api/consent';
 import { batchAddPets } from '@/api/pet';
 import LazyLoad from 'react-lazyload';
@@ -1389,7 +1389,6 @@ class Payment extends React.Component {
         throw new Error(this.props.intl.messages.selectNoneClincTip);
       }
 
-      await validData(ADDRESS_RULE, param.deliveryAddress);
       this.setState({
         deliveryAddress: param.deliveryAddress,
         billingAddress: param.billingAddress,
