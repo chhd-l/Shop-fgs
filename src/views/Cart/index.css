@@ -206,8 +206,8 @@ div.product-info .strike-through {
 .remove-product-btn {
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0
+  top: -.5rem;
+  right: -.6rem;
 }
 
 .product-to-remove {

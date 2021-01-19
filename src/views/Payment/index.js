@@ -66,9 +66,6 @@ import { Helmet } from 'react-helmet';
 import Adyen3DForm from '@/components/Adyen/3d'
 import { de } from 'date-fns/locale';
 
-import { v4 as uuidv4 } from 'uuid';
-
-const guid = uuidv4();
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -765,7 +762,6 @@ class Payment extends React.Component {
       //合并支付必要的参数
       let finalParam = Object.assign(parameters, {
         successUrl: successUrlFun(type),
-        guid:guid,
         deliveryAddressId: this.state.deliveryAddress.addressId,
         billAddressId: this.state.billingAddress.addressId,
         phone

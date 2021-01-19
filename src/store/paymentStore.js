@@ -260,9 +260,5 @@ class PaymentStore {
   setBrowserInfo(data) {
     this.browserInfo = data
   }
-  @action.bound
-  set3DSMd(data) {
-    this.md = data
-  }
 }
 export default PaymentStore;

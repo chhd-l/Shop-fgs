@@ -257,27 +257,18 @@ class Pet extends React.Component {
                                     <FormattedMessage id="breed" />
                                   </span>
                                 </div>
-                                <div
-                                  className="value"
-                                  style={{ width: 'auto' }}
-                                >
+                                <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>{el.petsBreed}</span>
                                 </div>
                               </div>
                               <div className="operation">
-                                <a
+                                <Link
                                   className="edit rc-styled-link"
-                                  href="#/"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.props.history.push(
-                                      '/account/pets/petForm/' + el.petsId
-                                    );
-                                  }}
+                                  to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
-                                </a>
+                                </Link>
                               </div>
                             </div>
                           ))
@@ -318,47 +309,36 @@ class Pet extends React.Component {
                                     <FormattedMessage id="breed" />
                                   </span>
                                 </div>
-                                <div
-                                  className="value"
-                                  style={{ width: 'auto' }}
-                                >
+                                <div className="value">
                                   <span>{el.birthOfPets}</span>
                                   <span>
-                                    <FormattedMessage id={el.petsBreed} />
+                                    {el.petsBreed && (
+                                      <FormattedMessage id={el.petsBreed} />
+                                    )}
                                   </span>
                                 </div>
                               </div>
                               <div className="operation">
-                                <a
+                                <Link
                                   className="edit rc-styled-link"
-                                  href="#/"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.props.history.push(
-                                      '/account/pets/petForm/' + el.petsId
-                                    );
-                                  }}
+                                  to={'/account/pets/petForm/' + el.petsId}
                                 >
                                   <FormattedMessage id="edit" />
-                                </a>
+                                </Link>
                               </div>
                             </div>
                           ))}
-                      <div
-                        className="petItem addNew"
-                        onClick={() => {
-                          this.props.history.push('/account/pets/petForm');
-                        }}
+                      <Link
+                        className="petItem addNew text-center ui-cursor-pointer"
+                        to="/account/pets/petForm"
                         style={{
-                          textAlign: 'center',
-                          display: 'block',
-                          cursor: 'pointer'
+                          display: 'block'
                         }}
                       >
-                        <span style={{ fontSize: '25px' }}></span>{' '}
+                        <span style={{ fontSize: '25px' }} />{' '}
                         <FormattedMessage id="pet.addNewPet" />
                         {/* Add a new PET */}
-                      </div>
+                      </Link>
                     </div>
                   )}
                 </div>

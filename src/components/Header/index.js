@@ -885,12 +885,6 @@ class Header extends React.Component {
                                 btnStyle={{ width: '11rem', margin: '2rem 0' }}
                                 history={history}
                               />
-                              {/* <button onClick={() => {
-                                  // window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=https%3A%2F%2Fshopuat.466920.com%3Forigin%3Dregister'
-                                  window.location.href = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri=http%3A%2F%2Flocalhost%3A3000%3Forigin%3Dregister'
-                                }}>registred</button> */}
-                              {/* <button className="rc-btn rc-btn--one" style={{ width: "11rem", margin: "2rem 0" }}
-                                  onClick={() => this.clickLogin()}> <FormattedMessage id='login'/></button> */}
                               <div>
                                 <FormattedMessage id="account.notRegistred" />
                               </div>
@@ -922,35 +916,6 @@ class Header extends React.Component {
                                 <FormattedMessage id="signUp" />
                               </span>
                             </div>
-
-                            {/* <div className="link-group">
-                                <div className="link-style" >
-                                  <Link to="/account" >
-                                    <FormattedMessage id="account.myAccount" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/information" >
-                                    <FormattedMessage id="account.basicInfomation" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/pets" >
-                                    <FormattedMessage id="account.pets" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/orders" >
-                                  <FormattedMessage id="account.orders" />
-                                  </Link>
-                                </div>
-                                <div className="link-style" >
-                                  <Link to="/account/orders" >
-                                    <FormattedMessage id="shippingAddress" />
-                                  </Link>
-                                </div>
-
-                              </div> */}
                           </div>
                         </div>
                       ) : (
