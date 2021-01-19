@@ -175,7 +175,7 @@ class Payment extends React.Component {
       const { tid } = this.state;
       setSeoConfig().then((res) => {
         this.setState({ seoConfig: res });
-      });debugger
+      });
       if (this.isLogin) {
         // 登录情况下，无需显示email panel
         paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
