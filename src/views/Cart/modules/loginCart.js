@@ -49,7 +49,7 @@ class LoginCart extends React.Component {
       productList: [],
       currentProductIdx: -1,
       quantityMinLimit: 1,
-      quantityMaxLimit: 30,
+      quantityMaxLimit: 10,
       deleteLoading: false,
       checkoutLoading: false,
       petModalVisible: false,
@@ -345,7 +345,7 @@ class LoginCart extends React.Component {
         productList: this.state.productList
       });
     } else {
-      const { quantityMinLimit, quantityMaxLimit } = this.state;
+      const { quantityMinLimit } = this.state;
       let tmp = parseFloat(val);
       if (isNaN(tmp)) {
         tmp = 1;
@@ -355,8 +355,8 @@ class LoginCart extends React.Component {
         tmp = quantityMinLimit;
         this.showErrMsg(<FormattedMessage id="cart.errorInfo" />);
       }
-      if (tmp > quantityMaxLimit) {
-        tmp = quantityMaxLimit;
+      if (tmp > process.env.REACT_APP_LIMITED_NUM) {
+        tmp = process.env.REACT_APP_LIMITED_NUM;
       }
       item.buyCount = tmp;
       clearTimeout(this.amountTimer);
