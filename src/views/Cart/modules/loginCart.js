@@ -74,6 +74,7 @@ class LoginCart extends React.Component {
     this.handleChooseSize = this.handleChooseSize.bind(this);
     this.addQuantity = this.addQuantity.bind(this);
     this.subQuantity = this.subQuantity.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
   async componentDidMount() {
     await getFrequencyDict().then((res) => {
@@ -441,7 +442,7 @@ class LoginCart extends React.Component {
     let { currentProductIdx, productList } = this.state;
     item.confirmTooltipVisible = false;
     this.setState({
-      productList: productList,
+      productList,
       deleteLoading: true
     });
     await this.deleteItemFromBackendCart({
@@ -516,7 +517,7 @@ class LoginCart extends React.Component {
                   containerStyle={{ transform: 'translate(-89%, 105%)' }}
                   arrowStyle={{ left: '89%' }}
                   display={pitem.confirmTooltipVisible}
-                  confirm={(e) => this.deleteProduct(pitem)}
+                  confirm={this.deleteProduct.bind(this, pitem)}
                   updateChildDisplay={(status) =>
                     this.updateConfirmTooltipVisible(pitem, status)
                   }

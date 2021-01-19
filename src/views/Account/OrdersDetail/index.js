@@ -552,13 +552,13 @@ class AccountOrders extends React.Component {
 
     sessionItemRoyal.set('rc-tidList', JSON.stringify(details.tidList));
     this.props.checkoutStore.setCartPrice({
-      totalPrice: tradePrice.totalPrice,
-      tradePrice: tradePrice.originPrice,
-      discountPrice: tradePrice.discountsPrice,
-      deliveryPrice: tradePrice.deliveryPrice,
-      promotionDesc: tradePrice.promotionDesc,
-      promotionDiscount: tradePrice.deliveryPrice,
-      subscriptionPrice: tradePrice.subscriptionPrice
+      totalPrice: order.tradePrice.goodsPrice,
+      tradePrice: order.tradePrice.totalPrice,
+      discountPrice: order.tradePrice.discountsPrice,
+      deliveryPrice: order.tradePrice.deliveryPrice,
+      promotionDesc: order.tradePrice.promotionDesc,
+      promotionDiscount: order.tradePrice.deliveryPrice,
+      subscriptionPrice: order.tradePrice.subscriptionPrice
     });
 
     this.props.history.push('/checkout');
