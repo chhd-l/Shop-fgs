@@ -474,7 +474,7 @@ class ShippingAddressFrom extends React.Component {
                   )}
                 </div>
 
-                <div className="form-group col-6 d-flex flex-column">
+                <div className="form-group col-lg-6 d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="reference"

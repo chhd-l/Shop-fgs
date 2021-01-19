@@ -41,7 +41,6 @@ service.interceptors.request.use((config) => {
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    console.log({response})
     if (response.data instanceof Blob) {
       return response;
     }

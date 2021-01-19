@@ -46,7 +46,6 @@ class Adyen3DForm extends React.Component {
   }
   render() {
     if(Object.keys(this.state.action).length>0){
-        this.props.paymentStore.set3DSMd(this.state.action.data.MD)
         this.initForm(this.state.action);
     }
     return (

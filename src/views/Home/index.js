@@ -6,7 +6,6 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarousel from '@/components/HeroCarousel3';
 import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
@@ -642,7 +641,7 @@ class Home extends React.Component {
                       curListNum >= 6 ? 'DeCenter' : ''
                     } col-lg-3 align-self-center`}
                   >
-                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center text-lg-left rc-padding-top--none">
+                    <h2 className="rc-beta rc-margin--none rc-padding--xs rc-padding--lg--mobile text-center rc-padding-top--none">
                       <FormattedMessage id="home.productsCategory" />
                     </h2>
                   </div>
