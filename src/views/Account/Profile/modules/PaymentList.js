@@ -30,7 +30,7 @@ function CardItem(props) {
       <div className={`pt-4 pt-md-2 pb-2 w-100`}>
         <div className="row">
           <div className={`col-4 d-flex flex-column justify-content-center`}>
-            <LazyLoad height={200}>
+            <LazyLoad height={100}>
               <img
                 className="PayCardImgFitScreen"
                 style={{ height: '5rem', maxWidth: '100%' }}
