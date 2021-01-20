@@ -386,7 +386,7 @@ class Header extends React.Component {
       result: null
     });
   }
-  handleSearch = (e) => {
+  handleSearch = () => {
     if (this.state.loading) return;
     this.props.history.push({
       pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
@@ -772,7 +772,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
-                              onClick={() => this.handleSearch(this.inputRef)}
+                              onClick={this.handleSearch}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>
