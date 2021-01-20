@@ -641,7 +641,7 @@ class Header extends React.Component {
       category: 'menu',
       action: 'menu',
       label: item.navigationLink,
-      value: item.navigationName
+      value: 1
     });
   }
   renderDropDownText = (item) => {
