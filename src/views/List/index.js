@@ -499,6 +499,9 @@ class List extends React.Component {
 
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
+    if(keywordsSearch){ //表示从搜索来的
+      dataLayer[0].page.type = 'Search Results'
+    }
     this.setState(
       {
         GAListParam:

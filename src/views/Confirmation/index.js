@@ -327,7 +327,7 @@ class Confirmation extends React.Component {
           <meta name="description" content={this.state.seoConfig.metaDescription} />
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
-        <Header history={this.props.history} match={this.props.match} />
+        <Header history={this.props.history} match={this.props.match}  showNav={false}/>
         <main className="rc-content--fixed-header rc-bg-colour--brand4 pl-2 pr-2 pl-md-0 pr-md-0">
           {/* <BannerTip /> */}
           <div className="rc-max-width--xl pb-4">

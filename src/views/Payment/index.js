@@ -2329,6 +2329,8 @@ class Payment extends React.Component {
           <meta name="keywords" content={this.state.seoConfig.metaKeywords} />
         </Helmet>
         <Header
+          showNav={false}
+          showLoginBtn={false}
           history={this.props.history}
           showMiniIcons={false}
           showUserIcon={true}
