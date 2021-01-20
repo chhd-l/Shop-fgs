@@ -391,7 +391,7 @@ class Header extends React.Component {
     this.props.history.push({
       pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
       // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-      search: `?q=${keywords}`,
+      search: `?q=${this.state.keywords}`,
       state: {
         GAListParam: 'Search Results',
         noresult: !this.state.isSearchSuccess
