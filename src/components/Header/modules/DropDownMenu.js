@@ -12,7 +12,9 @@ export default class DropDownMenu extends React.Component {
   static defaultProps = {
     headerNavigationList: [],
     activeTopParentId: -1,
-    handleClickNavItem: () => {}
+    handleClickNavItem: () => {},
+    showNav: true,
+    showLoginBtn: true
   };
   constructor(props) {
     super(props);
@@ -41,7 +43,8 @@ export default class DropDownMenu extends React.Component {
     });
   };
   hanldeListItemMouseOver(item) {
-    this.props.updateActiveTopParentId(item.id);
+    // 若存在子项，才展开
+    this.props.updateActiveTopParentId(item.expanded ? item.id : -1);
   }
   hanldeListItemMouseOut = () => {
     this.props.updateActiveTopParentId(-1);
@@ -233,20 +236,68 @@ export default class DropDownMenu extends React.Component {
     );
   };
   render() {
+    const { headerNavigationList, activeTopParentId } = this.props;
     return (
-      <div className="rc-md-up">
-        {this.props.headerNavigationList
-          .filter(
-            (ele) =>
-              (ele.expanded && ele.children && ele.children.length) ||
-              (ele.navigationLink && ele.navigationLink.includes('/help'))
-          )
-          .map((item, i) =>
-            item.navigationLink && item.navigationLink.includes('/help')
-              ? this.renderHelpMenu(item, i)
-              : this.renderNormalMenu(item, i)
-          )}
-      </div>
+      <>
+        <nav
+          className={`rc-header__nav rc-header__nav--secondary rc-md-up ${
+            this.props.showNav ? '' : 'rc-hidden'
+          }`}
+        >
+          <ul
+            className={`rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap ${
+              this.props.showLoginBtn ? '' : 'rc-hidden'
+            }`}
+          >
+            {headerNavigationList.map((item, i) => (
+              <li
+                className={`rc-list__item ${item.expanded ? 'dropdown' : ''} ${
+                  activeTopParentId === item.id ? 'active' : ''
+                }`}
+                key={i}
+                onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
+                onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
+              >
+                <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
+                  <li className="rc-list__item">
+                    <span className="rc-list__header">
+                      <NavItem item={item} className="rc-list__header">
+                        {item.expanded ? (
+                          <span className="rc-header-with-icon header-icon">
+                            {item.navigationName}
+                            <span
+                              className={`rc-icon rc-iconography ${
+                                item.id === activeTopParentId
+                                  ? 'rc-up rc-brand1'
+                                  : 'rc-down'
+                              }`}
+                            />
+                          </span>
+                        ) : (
+                          item.navigationName
+                        )}
+                      </NavItem>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="rc-md-up">
+          {headerNavigationList
+            .filter(
+              (ele) =>
+                (ele.expanded && ele.children && ele.children.length) ||
+                (ele.navigationLink && ele.navigationLink.includes('/help'))
+            )
+            .map((item, i) =>
+              item.navigationLink && item.navigationLink.includes('/help')
+                ? this.renderHelpMenu(item, i)
+                : this.renderNormalMenu(item, i)
+            )}
+        </div>
+      </>
     );
   }
 }

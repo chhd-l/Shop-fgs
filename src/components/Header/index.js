@@ -23,12 +23,10 @@ import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
 import MegaMenuMobile from './modules/MegaMenuMobile';
-import NavItem from './modules/NavItem';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import { loadJS, fetchHeaderNavigations } from '@/utils/utils';
+import { fetchHeaderNavigations } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
 import './index.css';
 
@@ -81,8 +79,6 @@ class Header extends React.Component {
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this);
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this);
 
-    this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.hanldeListItemMouseOut = this.hanldeListItemMouseOut.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
 
     this.preTop = 0;
@@ -181,7 +177,10 @@ class Header extends React.Component {
             }[this.props.match && this.props.match.path] || ''
     });
 
-    this.initNavigations();
+    // process.env.REACT_APP_LANG === 'fr'
+    (false
+      ? this.initNavigationsForHub
+      : this.initNavigations)();
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
@@ -200,6 +199,29 @@ class Header extends React.Component {
         };
       })()
     );
+  }
+  isHideNavBar() {
+    //只需要在hideNavRouter数组中去配置不要显示nav的路由
+    let str =
+      this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
+      -1
+        ? 'none'
+        : 'flex';
+    return {
+      display: str
+    };
+  }
+  isHideLoginInfo() {
+    //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
+    let str =
+      this.state.hideLoginInfoRouter.indexOf(
+        this.props.history.location.pathname
+      ) != -1
+        ? 'none'
+        : 'flex';
+    return {
+      display: str
+    };
   }
   initNavigations = async () => {
     let res = await fetchHeaderNavigations();
@@ -249,6 +271,14 @@ class Header extends React.Component {
         headerNavigationList: treeData
       });
     }
+  };
+  initNavigationsForHub = () => {
+    // await axios.get(`/${countryCode}/api/navigation/getmodel`)
+    let res = JSON.parse(
+      '{"contactPhone":"08453005011","menuGroups":[{"link":{"url":"/uk/dogs","text":"Dogs"},"menuItems":[{"icon":"Cart","link":{"url":"/uk/dogs","text":"Dogs"}},{"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"},"imageDescription":"Dog products","primaryLink":{"url":"/uk/dogs","text":"Dogs"},"primaryContent":"Precise nutrition for dogs of all ages, sizes and breeds.","secondaryLink":{"url":"/uk/dogs","text":"Dogs"},"secondaryContent":"Help to maintain the health of dogs with diagnosed health problems."},{"title":"Need help finding the right product?","subtitle":"Try our product finder","link":{"url":"/uk/dogs","text":"Dogs"},"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}},{"title":"Need help finding the right product?","content":"Try our product finder","image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}}]}]}'
+    );
+    // if (res && res.menuGroups &&)
+    // todo
   };
 
   /**
@@ -489,7 +519,6 @@ class Header extends React.Component {
         GAListParam: 'Search Results'
       }
     });
-    // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
   }
   clickLogin() {
     this.props.history.push('/login');
@@ -621,22 +650,6 @@ class Header extends React.Component {
       value: 1
     });
   }
-  renderDropDownText = (item) => {
-    return item.expanded ? (
-      <span className="rc-header-with-icon header-icon">
-        {item.navigationName}
-        <span
-          className={`rc-icon rc-iconography ${
-            item.id === this.state.activeTopParentId
-              ? 'rc-up rc-brand1'
-              : 'rc-down'
-          }`}
-        />
-      </span>
-    ) : (
-      item.navigationName
-    );
-  };
   toggleShowBodyMask({ visible = false }) {
     if (visible) {
       let cls = document.querySelector('body').className.split(' ') || [];
@@ -648,18 +661,6 @@ class Header extends React.Component {
       cls.splice(idx, 1);
       document.querySelector('body').className = cls.join(' ');
     }
-  }
-  hanldeListItemMouseOver(item) {
-    if (!item.expanded) {
-      return false;
-    }
-    this.updateActiveTopParentId(item.id);
-  }
-  hanldeListItemMouseOut(item) {
-    if (!item.expanded) {
-      return false;
-    }
-    this.updateActiveTopParentId(-1);
   }
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
@@ -679,7 +680,6 @@ class Header extends React.Component {
       headerNavigationList,
       showSearchInput,
       keywords,
-      activeTopParentId,
       showCenter
     } = this.state;
     return (
@@ -965,34 +965,6 @@ class Header extends React.Component {
             </ul>
           </nav>
 
-          <nav
-            className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
-          >
-            <ul
-              className={["rc-list", "rc-list--blank", "rc-list--inline", "rc-list--align", "rc-header__center", "flex-nowrap",this.props.showLoginBtn?"":"rc-hidden"].join(" ")}
-            >
-              {headerNavigationList.map((item, i) => (
-                <li
-                  className={`rc-list__item ${
-                    item.expanded ? 'dropdown' : ''
-                  } ${activeTopParentId === item.id ? 'active' : ''}`}
-                  key={i}
-                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                >
-                  <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                    <li className="rc-list__item">
-                      <span className="rc-list__header">
-                        <NavItem item={item} className="rc-list__header">
-                          {this.renderDropDownText(item)}
-                        </NavItem>
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </nav>
           <DropDownMenu
             activeTopParentId={this.state.activeTopParentId}
             updateActiveTopParentId={this.updateActiveTopParentId}
@@ -1000,6 +972,8 @@ class Header extends React.Component {
             configStore={configStore}
             // handleClickNavItem={this.handleClickNavItem}
             toggleShowBodyMask={this.toggleShowBodyMask}
+            showNav={this.props.showNav}
+            showLoginBtn={this.props.showLoginBtn}
           />
           <div className="search">
             <div className="rc-sm-down">
