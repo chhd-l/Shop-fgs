@@ -523,6 +523,24 @@ const App = () => (
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
+                    const needRedirect1 =
+                      location.pathname.split('_FR.html').length > 1;
+                    const needRedirect2 =
+                      location.pathname.split('.html').length > 1;
+                    if (needRedirect1 || needRedirect2) {
+                      return (
+                        <Redirect
+                          to={
+                            needRedirect1
+                              ? location.pathname.split('_FR.html')[0]
+                              : location.pathname.split('.html')[0]
+                          }
+                        />
+                      );
+                    } else {
+                      return <Details key={props.match.params.id} {...props} />;
+                    }
+                  } else {
                     const needRedirect =
                       location.pathname.split('.html').length > 1;
                     if (needRedirect) {
@@ -530,17 +548,15 @@ const App = () => (
                         <Redirect to={location.pathname.split('.html')[0]} />
                       );
                     } else {
-                      return <Details key={props.match.params.id} {...props} />;
+                      return (
+                        <List
+                          key={
+                            props.match.params.category + props.location.search
+                          }
+                          {...props}
+                        />
+                      );
                     }
-                  } else {
-                    return (
-                      <List
-                        key={
-                          props.match.params.category + props.location.search
-                        }
-                        {...props}
-                      />
-                    );
                   }
                 }}
               />
