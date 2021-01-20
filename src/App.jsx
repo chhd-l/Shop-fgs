@@ -523,7 +523,15 @@ const App = () => (
 
                   // 只有一级路由(/)且存在-的，匹配(details - /mini-dental-care-1221)，否则不匹配(list - /cats /dog-size/x-small)
                   if (/^(?!.*(\/).*\1).+[-].+$/.test(location.pathname)) {
-                    return <Details key={props.match.params.id} {...props} />;
+                    const needRedirect =
+                      location.pathname.split('.html').length > 1;
+                    if (needRedirect) {
+                      return (
+                        <Redirect to={location.pathname.split('.html')[0]} />
+                      );
+                    } else {
+                      return <Details key={props.match.params.id} {...props} />;
+                    }
                   } else {
                     return (
                       <List
