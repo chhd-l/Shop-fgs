@@ -969,7 +969,7 @@ class Header extends React.Component {
             className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
           >
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center,flex-nowrap"
+              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
             >
               {headerNavigationList.map((item, i) => (
                 <li
