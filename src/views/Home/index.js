@@ -6,7 +6,7 @@ import BannerTip from '@/components/BannerTip';
 import GoogleTagManager from '@/components/GoogleTagManager';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import HeroCarouselMobile from '@/components/HeroCarouselMobile2';
+import HeroCarousel from '@/components/HeroCarousel';
 import FooterImage from './modules/FooterImage';
 import { Ads } from './ad';
 import { Advantage } from './advantage';
@@ -625,7 +625,7 @@ class Home extends React.Component {
           <BannerTip />
           <div className="rc-full-width">
             <div className="experience-component experience-layouts-herocarousel">
-              <HeroCarouselMobile history={history} />
+              <HeroCarousel history={history} />
             </div>
           </div>
           <section>
