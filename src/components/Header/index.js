@@ -711,7 +711,7 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
+              className={["rc-list", "rc-list--blank","rc-list--align", "rc-header__right",this.props.showLoginBtn?"rc-list--inline":"rc-hidden"].join(' ')}
               role="menubar"
             >
               <li className="rc-list__item d-flex align-items-center">
@@ -969,7 +969,7 @@ class Header extends React.Component {
             className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
           >
             <ul
-              className={["rc-list", "rc-list--blank", "rc-list--inline", "rc-list--align", "rc-header__center", "flex-nowrap",this.props.showLoginBtn?"":"rc-hidden"].join(" ")}
+              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center,flex-nowrap"
             >
               {headerNavigationList.map((item, i) => (
                 <li
