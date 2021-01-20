@@ -750,7 +750,7 @@ class Payment extends React.Component {
 
       const successUrlFun = (type) => {
         const defaultUrl = '',
-              Adyen3DSUrl = process.env.REACT_APP_Adyen3DSUrl,
+              Adyen3DSUrl = process.env.REACT_APP_SUCCESSFUL_URL,
               payResultUrl = process.env.REACT_APP_SUCCESSFUL_URL + '/PayResult'
         return {
           "adyenCard": Adyen3DSUrl,
