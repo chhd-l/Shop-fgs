@@ -388,15 +388,15 @@ class Header extends React.Component {
   }
   handleSearch = (e) => {
     if (this.state.loading) return;
-    if (process.env.REACT_APP_LANG == 'fr') {
-      this.props.history.push({
-        pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-        state: {
-          GAListParam: 'Search Results',
-          noresult: !this.state.isSearchSuccess
-        }
-      });
-    }
+    this.props.history.push({
+      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+      search: `?q=${keywords}`,
+      state: {
+        GAListParam: 'Search Results',
+        noresult: !this.state.isSearchSuccess
+      }
+    });
   };
   handleSearchInputChange(e) {
     this.setState(
