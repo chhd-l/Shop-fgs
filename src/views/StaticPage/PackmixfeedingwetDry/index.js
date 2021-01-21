@@ -20,6 +20,13 @@ import './index.css';
 
 const localItemRoyal = window.__.localItemRoyal;
 
+function formatMoney(price){
+  if(price.indexOf(".")>-1){
+   return price.replace(".",",")
+  }
+  return price
+}
+
 class Packfeed extends React.Component {
   componentWillUnmount() {
     localItemRoyal.set('isRefresh', true);
@@ -167,7 +174,7 @@ class Packfeed extends React.Component {
                                           className="value text-black"
                                           content={item.price}
                                         >
-                                          {item.price} €
+                                          {formatMoney(item.price)} €
                                         </span>
                                       </span>
                                     </span>
