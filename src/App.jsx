@@ -208,7 +208,7 @@ const App = () => (
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
               <Route exact path="/kitten-nutrition" component={KittenNutrition} />
-              <Route exact path="/Adyen3DSFail:id" component={Adyen3DSFail} />
+              <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
                 exact
