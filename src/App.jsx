@@ -109,6 +109,7 @@ import ConoceMasDeEvet from '@/views/StaticPage/ConoceMasDeEvet';
 import Consent1TR from '@/views/StaticPage/tr/Consent/Consent1';
 import Consent2TR from '@/views/StaticPage/tr/Consent/Consent2';
 import register from '@/views/Register';
+import KittenNutrition from '@/views/StaticPage/kitten-nutrition';
 import smartFeederSubscription from '@/views/SmartFeederSubscription';
 const localItemRoyal = window.__.localItemRoyal;
 const sessionItemRoyal = window.__.sessionItemRoyal;
@@ -206,6 +207,7 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
+              <Route exact path="/kitten-nutrition" component={KittenNutrition} />
               <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
