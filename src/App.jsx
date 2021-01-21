@@ -47,7 +47,6 @@ import Cart from '@/views/Cart';
 import Payment from '@/views/Payment';
 import Confirmation from '@/views/Confirmation';
 import Adyen3DSFail from '@/views/Payment/modules/Adyen3DSFail';
-import Adyen3DSResult from '@/views/Payment/modules/Adyen3DSResult';
 import PayResult from '@/views/Payment/modules/PayResult';
 import Prescription from '@/views/Prescription';
 import PrescriptionNavigate from '@/views/PrescriptionNavigate';
@@ -207,7 +206,6 @@ const App = () => (
               />
               <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/PayResult" component={PayResult} />
-              <Route exact path="/api/Adyen3DSResult:id" component={Adyen3DSResult} />
               <Route exact path="/Adyen3DSFail" component={Adyen3DSFail} />
               <Route exact path="/prescription" component={Prescription} />
               <Route
