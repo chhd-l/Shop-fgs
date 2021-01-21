@@ -179,7 +179,6 @@ class Payment extends React.Component {
       if (this.isLogin) {
         // 登录情况下，无需显示email panel
         paymentStore.setStsToCompleted({ key: 'email', isFirstLoad: true });
-        console.log('################tid###############',tid)
         if (tid) {
           paymentStore.setStsToCompleted({
             key: 'deliveryAddr',
@@ -545,7 +544,6 @@ class Payment extends React.Component {
     }
   };
   queryOrderDetails() {
-    console.log("$$$$tidList$$$$$$$",this.state.tidList[0])
     getOrderDetails(this.state.tidList[0]).then(async (res) => {
       let resContext = res.context;
       let cityRes = await queryCityNameById({
