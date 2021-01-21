@@ -143,7 +143,7 @@ class PromotionRefuge extends React.Component {
                                                         <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                                                             <img className="value-proposition__img lazyloaded" style={{ width: '90px' }} src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw4bbb7d34/Breed-Cats-&-Dogs/4C.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
                                                             <div className="pl-3 d-flex align-items-center value-proposition__text">
-                                                                <p className="rc-margin-bottom--none rc-intro">Livraison gratuite et rapide</p>
+                                                                <p className="rc-margin-bottom--none rc-intro">Paiement sécurisé</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -151,7 +151,7 @@ class PromotionRefuge extends React.Component {
                                                         <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                                                             <img className="value-proposition__img lazyloaded" style={{ width: '90px' }} src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw94e7b91f/Breed-Cats-&-Dogs/4D.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
                                                             <div className="pl-3 d-flex align-items-center value-proposition__text">
-                                                                <p className="rc-margin-bottom--none rc-intro">Livraison gratuite et rapide</p>
+                                                                <p className="rc-margin-bottom--none rc-intro">Qualité certifiée</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -159,7 +159,7 @@ class PromotionRefuge extends React.Component {
                                                         <div className="d-flex justify-content-start justify-content-xxl-center align-items-center w-100 value-proposition__content">
                                                             <img className="value-proposition__img lazyloaded" style={{ width: '90px' }} src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BCMK_STG/on/demandware.static/-/Sites-FR-Library/fr_FR/dw077bfc85/Breed-Cats-&-Dogs/4E.png?sw=90&sh=90&sm=cut&sfrm=png"></img>
                                                             <div className="pl-3 d-flex align-items-center value-proposition__text">
-                                                                <p className="rc-margin-bottom--none rc-intro">Livraison gratuite et rapide</p>
+                                                                <p className="rc-margin-bottom--none rc-intro">La nutrition santé livrée à votre domicile</p>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -6,7 +6,7 @@ const list1 = [
       linkUrl: '/babycat-milk-2553',
       title: 'Babycat milk',
       price: '',
-      marketPrice: '21.00',
+      marketPrice: "21.00",
       subTitle: 'De la naissance au sevrage - Lait 1er âge pour Chatons'
     },
     {
@@ -15,8 +15,8 @@ const list1 = [
       imgUrl2: `${process.env.REACT_APP_EXTERNAL_ASSETS_PREFIX}/img/kitten-nutrition/babycat-ru-fhn17-packshot-w300.jpg 2x`,
       linkUrl: '/mother-babycat-2544',
       title: 'Mother & Babycat',
-      price: '44.99',
-      marketPrice: '25.99',
+      price: "44.99",
+      marketPrice: "25.99",
       subTitle:"Chattes en gestation/lactation et chaton de 1 à 4 mois"
     },
     {
