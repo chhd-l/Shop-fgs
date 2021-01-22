@@ -679,13 +679,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
-            //3DS 参数 start
-            // browserInfo: {
-            //   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66",
-            //   acceptHeader: "application/json, text/plain, */*"
-            // },
             browserInfo:this.props.paymentStore.browserInfo,
-            //3DS 参数 end
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -947,9 +941,11 @@ class Payment extends React.Component {
               // sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
               // sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
               const adyenAction = JSON.parse(res.context[0].action)
+              console.log("*******3DS adyenAction********",adyenAction)
               this.setState({adyenAction})
             }else{
               //正常卡
+              console.log("*******正常卡gotoConfirmationPage********",true)
               gotoConfirmationPage = true;
             }
           break;
