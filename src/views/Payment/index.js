@@ -892,7 +892,9 @@ class Payment extends React.Component {
         });
       }
 
-      payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
+      let isRepay = this.state.tid ? true : false
+
+      payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
 
       /* 4)调用支付 */
       const res = await action(parameters);
@@ -939,7 +941,14 @@ class Payment extends React.Component {
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
               const adyenAction = JSON.parse(res.context[0].action)
               console.log("*******3DS adyenAction********",adyenAction)
+              if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
               this.setState({adyenAction})
+
             }else{
               //正常卡
               console.log("*******正常卡gotoConfirmationPage********",true)
