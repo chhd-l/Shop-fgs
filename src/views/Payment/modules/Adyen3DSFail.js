@@ -20,7 +20,7 @@ class Adyen3DSFail extends Component {
   async componentDidMount() {
     try {
     const { search } = this.props.history.location;
-    const tid = getParaByName(search, 'tid');
+    const tid = getParaByName(search, 'tid') || null;
     const subscribeId = getParaByName(search, 'subscribeId');
     const tidList = getParaByName(search, 'tidList').split("|");
 
