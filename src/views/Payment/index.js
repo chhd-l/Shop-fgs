@@ -931,7 +931,7 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'adyenCard':
-          subOrderNumberList = tidList.length
+          subOrderNumberList = tidList.length && tidList[0]
             ? tidList
             : res.context && res.context[0] && res.context[0].tidList;
           subNumber =
@@ -940,7 +940,6 @@ class Payment extends React.Component {
             '';
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
               const adyenAction = JSON.parse(res.context[0].action)
-              console.log("*******3DS adyenAction********",adyenAction)
               if (subOrderNumberList.length) {
                 sessionItemRoyal.set(
                   'subOrderNumberList',
@@ -948,10 +947,8 @@ class Payment extends React.Component {
                 );
               }
               this.setState({adyenAction})
-
             }else{
               //正常卡
-              console.log("*******正常卡gotoConfirmationPage********",true)
               gotoConfirmationPage = true;
             }
           break;
