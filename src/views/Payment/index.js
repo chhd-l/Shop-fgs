@@ -938,7 +938,6 @@ class Payment extends React.Component {
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-            console.log({adyenAction})
             if(res.context && res.context[0] && res.context[0].action){//3ds卡
               const adyenAction = JSON.parse(res.context[0].action)
               if (subOrderNumberList.length) {
@@ -947,11 +946,14 @@ class Payment extends React.Component {
                   JSON.stringify(subOrderNumberList)
                 );
               }
+              console.log({adyenAction})
+              alert('3DS')
               setTimeOut(()=>{
                 this.setState({adyenAction})
               },20000)
             }else{
               //正常卡
+              alert('gotoConfirmationPage')
               gotoConfirmationPage = true;
             }
           break;
