@@ -6,6 +6,7 @@ import { getList } from '@/api/list';
 import Loading from '@/components/Loading';
 import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
+import axios from 'axios';
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -52,57 +53,62 @@ export default class Search extends React.Component {
       companyType: ''
     };
     try {
-      let res = await getList(params);
+      if (process.env.REACT_APP_HUB === '1') {
+        let res = await axios.get(`/royalcanin/predictive?keyword=${keywords}`);
+        this.setState({ result: res.data });
+      } else {
+        let res = await getList(params);
 
-      this.setState({ loading: false });
-      if (res && res.context) {
-        const esGoods = res.context.esGoods;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
-          if (res.context.goodsList) {
-            goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele);
-              const tmpItem = find(
-                res.context.goodsList,
-                (g) => g.goodsId === ele.id
-              );
-              if (tmpItem) {
-                ret = Object.assign(ret, {
-                  goodsCateName: tmpItem.goodsCateName,
-                  goodsSubtitle: tmpItem.goodsSubtitle,
-                  goodsImg: tmpItem.goodsImg,
-                  goodsNo: tmpItem.goodsNo
-                });
-              }
-              return ret;
+        this.setState({ loading: false });
+        if (res && res.context) {
+          const esGoods = res.context.esGoods;
+          if (esGoods && esGoods.content.length) {
+            let goodsContent = esGoods.content;
+            if (res.context.goodsList) {
+              goodsContent = goodsContent.map((ele) => {
+                let ret = Object.assign({}, ele);
+                const tmpItem = find(
+                  res.context.goodsList,
+                  (g) => g.goodsId === ele.id
+                );
+                if (tmpItem) {
+                  ret = Object.assign(ret, {
+                    goodsCateName: tmpItem.goodsCateName,
+                    goodsSubtitle: tmpItem.goodsSubtitle,
+                    goodsImg: tmpItem.goodsImg,
+                    goodsNo: tmpItem.goodsNo
+                  });
+                }
+                return ret;
+              });
+            }
+            this.setState({ isSearchSuccess: true });
+            if (dataLayer[0] && dataLayer[0].search) {
+              dataLayer[0].search.query = keywords;
+              dataLayer[0].search.results = esGoods.totalElements;
+              dataLayer[0].search.type = 'with results';
+            }
+
+            this.setState({
+              result: Object.assign(
+                {},
+                {
+                  productList: goodsContent,
+                  totalElements: esGoods.totalElements
+                }
+              )
+            });
+          } else {
+            if (dataLayer[0] && dataLayer[0].search) {
+              dataLayer[0].search.query = keywords;
+              dataLayer[0].search.results = esGoods.totalElements;
+              dataLayer[0].search.type = 'without results';
+            }
+            this.setState({ isSearchSuccess: false });
+            this.setState({
+              result: Object.assign({}, { productList: [], totalElements: 0 })
             });
           }
-          this.setState({ isSearchSuccess: true });
-          if (dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoods.totalElements;
-            dataLayer[0].search.type = 'with results';
-          }
-
-          this.setState({
-            result: Object.assign(
-              {},
-              {
-                productList: goodsContent,
-                totalElements: esGoods.totalElements
-              }
-            )
-          });
-        } else {
-          if (dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoods.totalElements;
-            dataLayer[0].search.type = 'without results';
-          }
-          this.setState({ isSearchSuccess: false });
-          this.setState({
-            result: Object.assign({}, { productList: [], totalElements: 0 })
-          });
         }
       }
     } catch (err) {
@@ -110,6 +116,10 @@ export default class Search extends React.Component {
       this.setState({
         loading: false,
         result: Object.assign({}, { productList: [], totalElements: 0 })
+      });
+    } finally {
+      this.setState({
+        loading: false
       });
     }
   }
@@ -147,105 +157,132 @@ export default class Search extends React.Component {
   };
   renderResultJsx() {
     const { result, keywords } = this.state;
-    return result ? (
-      <div className="suggestions" id="mainSuggestions">
-        <div className="container">
-          <div className="row d-flex flex-column-reverse flex-sm-row">
-            <div className="col-12 rc-column">
-              <div className="rc-padding-top--lg--mobile rc-large-intro">
-                <FormattedMessage id="goods" />
-              </div>
-              <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {result.productList.length ? (
-                  result.productList.map((item, idx) => (
-                    <div className="col-12 item" key={item.id + idx}>
-                      <div className="row">
-                        <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                          <Link
-                            className="ui-cursor-pointer"
-                            style={{ width: '100%' }}
-                            to={{
-                              pathname: `/${item.lowGoodsName
-                                .split(' ')
-                                .join('-')
-                                .replace('/', '')}-${item.goodsNo}`,
-                              state: {
-                                GAListParam: 'Search Results'
-                              }
-                            }}
-                          >
-                            <LazyLoad>
-                              <img
-                                className="swatch__img"
+    let ret = null;
+    if (result) {
+      if (process.env.REACT_APP_HUB === '1') {
+        ret = (
+          <ul>
+            {(result.Items || []).map((item, i) => (
+              <li key={i}>
+                <a href={item.Url}>{item.Title}</a>
+              </li>
+            ))}
+            {result.FeaturedItems && result.FeaturedItems[0] ? (
+              <li>
+                <a
+                  href={result.FeaturedItems[0].Url}
+                  style={{ textDecoration: 'underline' }}
+                >
+                  {result.FeaturedItems[0].Title}
+                </a>
+              </li>
+            ) : null}
+          </ul>
+        );
+      } else {
+        ret = (
+          <div className="suggestions" id="mainSuggestions">
+            <div className="container">
+              <div className="row d-flex flex-column-reverse flex-sm-row">
+                <div className="col-12 rc-column">
+                  <div className="rc-padding-top--lg--mobile rc-large-intro">
+                    <FormattedMessage id="goods" />
+                  </div>
+                  <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
+                    {result.productList.length ? (
+                      result.productList.map((item, idx) => (
+                        <div className="col-12 item" key={item.id + idx}>
+                          <div className="row">
+                            <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
+                              <Link
+                                className="ui-cursor-pointer"
+                                style={{ width: '100%' }}
+                                to={{
+                                  pathname: `/${item.lowGoodsName
+                                    .split(' ')
+                                    .join('-')
+                                    .replace('/', '')}-${item.goodsNo}`,
+                                  state: {
+                                    GAListParam: 'Search Results'
+                                  }
+                                }}
+                              >
+                                <LazyLoad>
+                                  <img
+                                    className="swatch__img"
+                                    alt={item.goodsName}
+                                    title={item.goodsName}
+                                    style={{ width: '100%' }}
+                                    src={
+                                      item.goodsImg ||
+                                      item.goodsInfos.sort(
+                                        (a, b) => a.marketPrice - b.marketPrice
+                                      )[0].goodsInfoImg ||
+                                      IMG_DEFAULT
+                                    }
+                                  />
+                                </LazyLoad>
+                              </Link>
+                            </div>
+                            <div className="col-8 col-md-9 col-lg-10">
+                              <Link
+                                to={{
+                                  pathname: `/${item.lowGoodsName
+                                    .split(' ')
+                                    .join('-')
+                                    .replace('/', '')}-${item.goodsNo}`,
+                                  state: {
+                                    GAListParam: 'Search Results'
+                                  }
+                                }}
+                                className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
                                 alt={item.goodsName}
                                 title={item.goodsName}
-                                style={{ width: '100%' }}
-                                src={
-                                  item.goodsImg ||
-                                  item.goodsInfos.sort(
-                                    (a, b) => a.marketPrice - b.marketPrice
-                                  )[0].goodsInfoImg ||
-                                  IMG_DEFAULT
-                                }
-                              />
-                            </LazyLoad>
-                          </Link>
+                              >
+                                {item.goodsName}
+                              </Link>
+                              <div className="rc-meta searchProductKeyword" />
+                            </div>
+                          </div>
                         </div>
-                        <div className="col-8 col-md-9 col-lg-10">
-                          <Link
-                            to={{
-                              pathname: `/${item.lowGoodsName
-                                .split(' ')
-                                .join('-')
-                                .replace('/', '')}-${item.goodsNo}`,
-                              state: {
-                                GAListParam: 'Search Results'
-                              }
-                            }}
-                            className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                            alt={item.goodsName}
-                            title={item.goodsName}
-                          >
-                            {item.goodsName}
-                          </Link>
-                          <div className="rc-meta searchProductKeyword" />
-                        </div>
-                      </div>
+                      ))
+                    ) : (
+                      <p className="d-flex ml-2 mr-2">
+                        <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                        <FormattedMessage id="list.errMsg4" />
+                      </p>
+                    )}
+                  </div>
+                  {result.totalElements ? (
+                    <div className="rc-margin-top--xs">
+                      <Link
+                        className="productName rc-large-body ui-cursor-pointer"
+                        // to={`/list/keywords/${keywords}`}
+                        to={{
+                          // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                          pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+                          search: `?q=${keywords}`
+                        }}
+                      >
+                        <b>
+                          <FormattedMessage id="viewAllResults" /> (
+                          {result.totalElements})
+                        </b>
+                      </Link>
                     </div>
-                  ))
-                ) : (
-                  <p className="d-flex ml-2 mr-2">
-                    <i className="rc-icon rc-incompatible--xs rc-iconography" />
-                    <FormattedMessage id="list.errMsg4" />
-                  </p>
-                )}
-              </div>
-              {result.totalElements ? (
-                <div className="rc-margin-top--xs">
-                  <Link
-                    className="productName rc-large-body ui-cursor-pointer"
-                    // to={`/list/keywords/${keywords}`}
-                    to={{
-                      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
-                      search: `?q=${keywords}`
-                    }}
-                  >
-                    <b>
-                      <FormattedMessage id="viewAllResults" /> (
-                      {result.totalElements})
-                    </b>
-                  </Link>
+                  ) : null}
                 </div>
-              ) : null}
+              </div>
+              <span className="d-sm-none_ more-below">
+                <i className="fa fa-long-arrow-down" aria-hidden="true" />
+              </span>
             </div>
           </div>
-          <span className="d-sm-none_ more-below">
-            <i className="fa fa-long-arrow-down" aria-hidden="true" />
-          </span>
-        </div>
-      </div>
-    ) : null;
+        );
+      }
+    }
+
+    return ret;
   }
   render() {
     const { showSearchInput, result, keywords, loading } = this.state;

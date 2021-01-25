@@ -124,9 +124,31 @@
     right: 2%;
   }
 }
+.suggestions-wrapper {
+  ul {
+    padding: 1rem 2.5rem;
+    li {
+      margin-bottom: 0.5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      a {
+        color: #676767;
+        text-decoration: none;
+        font-weight: 100;
+        &:hover {
+          color: #ec001a;
+        }
+      }
+    }
+  }
+}
 
 .ui-custom-hub {
   .rc-header__nav--secondary {
     box-shadow: none;
+  }
+  .suggestions-wrapper {
+    position: static;
   }
 }
