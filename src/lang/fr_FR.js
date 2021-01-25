@@ -1108,6 +1108,8 @@ const fr_FR = {
   isPurebred: 'Chien de race',
   catNutrition: 'Nutrition chats',
   'order.total': 'Total',
-  'order.iVAIncluido': 'TVA Inclus'
+  'order.iVAIncluido': 'TVA Inclus',
+  searchForAProductOrArtical: 'Rechercher un produit ou un artical',
+  startTypingToSearch: 'Commencez à taper votre recherche'
 }
 export default fr_FR;

@@ -885,5 +885,7 @@ const en_US = {
   'order.total': 'Total',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
+  searchForAProductOrArtical: 'Search for a product or artical',
+  startTypingToSearch: 'Start typing to search'
 }
 export default en_US;
