@@ -938,23 +938,32 @@ class Payment extends React.Component {
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-            if(res.context && res.context[0] && res.context[0].action){//3ds卡
-              const adyenAction = JSON.parse(res.context[0].action)
+    
+            let contextType = Object.prototype.toString.call(res.context).slice(8, -1)
+            let adyenAction = ''
+            if(contextType==='Array'&&res.context[0].action){ //正常时候,res.context后台返回数组
+               adyenAction = JSON.parse(res.context[0].action)
+               if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
+              this.setState({adyenAction})
+            }else{
+              //正常卡
+              gotoConfirmationPage = true;
+            }
+            if(contextType==='Object' && res.context.action){//会员repay时，res.context后台返回对象
+              adyenAction = JSON.parse(res.context.action)
               if (subOrderNumberList.length) {
                 sessionItemRoyal.set(
                   'subOrderNumberList',
                   JSON.stringify(subOrderNumberList)
                 );
               }
-              // console.log({adyenAction})
-              // alert('3DS')
-              // window.setTimeout(()=>{
-              //   this.setState({adyenAction})
-              // },2000)
               this.setState({adyenAction})
-              
             }else{
-              // alert('gotoConfirmationPage')
               //正常卡
               gotoConfirmationPage = true;
             }
@@ -1015,7 +1024,10 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        this.props.history.push('/confirmation');
+        setTimeout(()=>{
+          this.props.history.push('/confirmation');
+        },20000)
+        
       }
     } catch (err) {
       console.log(err);
