@@ -2443,6 +2443,10 @@ class Details extends React.Component {
                                 />
                               </span>
                             </button>
+                            &nbsp;&nbsp;
+                            <FormattedMessage id="or"/>
+                            &nbsp;&nbsp;
+                            <div data-ccid="wtb-target" data-ean="3182550793636"></div>
                             {/* {this.isLogin ? (
                                 <button
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
@@ -2633,6 +2637,8 @@ class Details extends React.Component {
                     )}
                   </span>
                 </button>
+                <div data-ccid="wtb-target" data-ean="3182550784436"></div>
+                <div data-ccid="wtb-target" data-ean="3182550784467"></div>
                 {/* {this.isLogin ? (
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${

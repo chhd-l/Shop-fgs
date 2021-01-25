@@ -95,13 +95,15 @@ export default class DropDownMenu extends React.Component {
       <div
         className={`${
           process.env.REACT_APP_LANG == 'de' ? 'drop' : ''
-        } dropdown-nav d-flex ${activeTopParentId === item.id ? 'show' : ''}`}
+        } dropdown-nav bg-transparent d-flex ${
+          activeTopParentId === item.id ? 'show' : ''
+        }`}
         aria-hidden={activeTopParentId === item.id}
         onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="flex-grow-1 rc-padding-y--xs rc-padding-left--sm--desktop">
+        <div className="flex-grow-1 rc-padding-y--xs rc-padding-left--sm--desktop bg-white">
           <ul
             className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
             role="menu"
@@ -176,7 +178,7 @@ export default class DropDownMenu extends React.Component {
           </ul>
         </div>
         {descObj ? (
-          <div className={`content-asset`}>
+          <div className={`content-asset bg-white`}>
             <div className="dropdown-nav__banner rc-bg-colour--brand4 flex-column flex-sm-row">
               <div className="align-self-center rc-padding-left--md rc-padding-right--xs rc-padding-y--lg--mobile">
                 <div className="rc-large-intro rc-margin-bottom--sm inherit-fontsize">
@@ -221,7 +223,7 @@ export default class DropDownMenu extends React.Component {
     const { configStore, activeTopParentId } = this.props;
     return (
       <div
-        className={`dropdown-nav d-flex full-width-asset justify-content-center ${
+        className={`dropdown-nav bg-transparent d-flex full-width-asset justify-content-center ${
           activeTopParentId === item.id ? 'show' : ''
         }`}
         aria-hidden={activeTopParentId === item.id}
@@ -229,7 +231,7 @@ export default class DropDownMenu extends React.Component {
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="content-asset">
+        <div className="content-asset bg-white border-top">
           <Help configStore={configStore} />
         </div>
       </div>
@@ -260,18 +262,27 @@ export default class DropDownMenu extends React.Component {
               >
                 <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
                   <li className="rc-list__item">
-                    <span className="rc-list__header">
-                      <NavItem item={item} className="rc-list__header">
+                    <span className="rc-list__header pt-0 pb-0">
+                      <NavItem
+                        item={item}
+                        className={`rc-list__header border-bottom ${
+                          item.id === activeTopParentId
+                            ? 'border-red'
+                            : 'border-transparent'
+                        }`}
+                      >
                         {item.expanded ? (
-                          <span className="rc-header-with-icon header-icon">
+                          <span className={`rc-header-with-icon header-icon`}>
                             {item.navigationName}
-                            <span
-                              className={`rc-icon rc-iconography ${
-                                item.id === activeTopParentId
-                                  ? 'rc-up rc-brand1'
-                                  : 'rc-down'
-                              }`}
-                            />
+                            {item.id === activeTopParentId ? (
+                              <span className="iconfont icon-dropdown-arrow ml-1 active">
+                                &#xe6f9;
+                              </span>
+                            ) : (
+                              <span className="iconfont icon-dropdown-arrow ml-1">
+                                &#xe6fa;
+                              </span>
+                            )}
                           </span>
                         ) : (
                           item.navigationName
