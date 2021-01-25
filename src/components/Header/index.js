@@ -22,13 +22,14 @@ import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
+import DropDownMenuForHub from './modules/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
 import { fetchHeaderNavigations } from '@/utils/utils';
 import LazyLoad from 'react-lazyload';
-import './index.css';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -46,8 +47,8 @@ class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
     showUserIcon: false,
-    showNav:true,
-    showLoginBtn:true
+    showNav: true,
+    showLoginBtn: true
   };
   constructor(props) {
     super(props);
@@ -61,7 +62,7 @@ class Header extends React.Component {
       isScrollToTop: true,
       headerNavigationList: [],
       activeTopParentId: -1,
-      isSearchSuccess: false, //是否搜索成功
+      isSearchSuccess: false //是否搜索成功
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -178,9 +179,7 @@ class Header extends React.Component {
     });
 
     // process.env.REACT_APP_LANG === 'fr'
-    (false
-      ? this.initNavigationsForHub
-      : this.initNavigations)();
+    (false ? this.initNavigationsForHub : this.initNavigations)();
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
@@ -965,16 +964,28 @@ class Header extends React.Component {
             </ul>
           </nav>
 
-          <DropDownMenu
-            activeTopParentId={this.state.activeTopParentId}
-            updateActiveTopParentId={this.updateActiveTopParentId}
-            headerNavigationList={headerNavigationList}
-            configStore={configStore}
-            // handleClickNavItem={this.handleClickNavItem}
-            toggleShowBodyMask={this.toggleShowBodyMask}
-            showNav={this.props.showNav}
-            showLoginBtn={this.props.showLoginBtn}
-          />
+          {process.env.REACT_APP_HUB === '1' ? (
+            <DropDownMenuForHub
+              activeTopParentId={this.state.activeTopParentId}
+              updateActiveTopParentId={this.updateActiveTopParentId}
+              headerNavigationList={headerNavigationList}
+              configStore={configStore}
+              toggleShowBodyMask={this.toggleShowBodyMask}
+              showNav={this.props.showNav}
+              showLoginBtn={this.props.showLoginBtn}
+            />
+          ) : (
+            <DropDownMenu
+              activeTopParentId={this.state.activeTopParentId}
+              updateActiveTopParentId={this.updateActiveTopParentId}
+              headerNavigationList={headerNavigationList}
+              configStore={configStore}
+              toggleShowBodyMask={this.toggleShowBodyMask}
+              showNav={this.props.showNav}
+              showLoginBtn={this.props.showLoginBtn}
+            />
+          )}
+
           <div className="search">
             <div className="rc-sm-down">
               <form
