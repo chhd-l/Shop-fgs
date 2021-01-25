@@ -946,14 +946,16 @@ class Payment extends React.Component {
                   JSON.stringify(subOrderNumberList)
                 );
               }
-              console.log({adyenAction})
-              alert('3DS')
-              setTimeOut(()=>{
-                this.setState({adyenAction})
-              },20000)
+              // console.log({adyenAction})
+              // alert('3DS')
+              // window.setTimeout(()=>{
+              //   this.setState({adyenAction})
+              // },2000)
+              this.setState({adyenAction})
+              
             }else{
+              // alert('gotoConfirmationPage')
               //正常卡
-              alert('gotoConfirmationPage')
               gotoConfirmationPage = true;
             }
           break;
