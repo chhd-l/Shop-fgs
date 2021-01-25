@@ -9,7 +9,7 @@ const sessionItemRoyal = window.__.sessionItemRoyal;
 
 @inject('paymentStore')
 @observer
-class Adyen3DSResult extends Component {
+class Adyen3DSFail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -38,4 +38,4 @@ class Adyen3DSResult extends Component {
   }
 }
 
-export default injectIntl(Adyen3DSResult);
+export default injectIntl(Adyen3DSFail);

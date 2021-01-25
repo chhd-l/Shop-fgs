@@ -710,7 +710,13 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
+              className={[
+                'rc-list',
+                'rc-list--blank',
+                'rc-list--align',
+                'rc-header__right',
+                this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'
+              ].join(' ')}
               role="menubar"
             >
               <li className="rc-list__item d-flex align-items-center">

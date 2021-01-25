@@ -679,13 +679,7 @@ class Payment extends React.Component {
         adyenCard: () => {
           const { adyenPayParam } = this.state;
           parameters = Object.assign(commonParameter, {
-            //3DS 参数 start
-            // browserInfo: {
-            //   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66",
-            //   acceptHeader: "application/json, text/plain, */*"
-            // },
             browserInfo:this.props.paymentStore.browserInfo,
-            //3DS 参数 end
             encryptedSecurityCode: adyenPayParam.encryptedSecurityCode,
             shopperLocale: 'en_US',
             currency: 'EUR',
@@ -898,7 +892,9 @@ class Payment extends React.Component {
         });
       }
 
-      payFun(this.state.tid != null, this.isLogin, this.state.subForm.buyWay);
+      let isRepay = this.state.tid ? true : false
+
+      payFun(isRepay, this.isLogin, this.state.subForm.buyWay);
 
       /* 4)调用支付 */
       const res = await action(parameters);
@@ -935,18 +931,37 @@ class Payment extends React.Component {
           gotoConfirmationPage = true;
           break;
         case 'adyenCard':
-          subOrderNumberList = tidList.length
+          subOrderNumberList = tidList.length && tidList[0]
             ? tidList
             : res.context && res.context[0] && res.context[0].tidList;
           subNumber =
             (res.context && res.context[0] && res.context[0].subscribeId) ||
             (res.context && res.context.subscribeId) ||
             '';
-            if(res.context && res.context[0] && res.context[0].action){//3ds卡
-              // debugger
-              // sessionItemRoyal.set('paRes', JSON.parse(res.context[0].action).data.PaReq);
-              // sessionItemRoyal.set('md', JSON.parse(res.context[0].action).data.MD);
-              const adyenAction = JSON.parse(res.context[0].action)
+    
+            let contextType = Object.prototype.toString.call(res.context).slice(8, -1)
+            let adyenAction = ''
+            if(contextType==='Array'&&res.context[0].action){ //正常时候,res.context后台返回数组
+               adyenAction = JSON.parse(res.context[0].action)
+               if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
+              this.setState({adyenAction})
+            }else{
+              //正常卡
+              gotoConfirmationPage = true;
+            }
+            if(contextType==='Object' && res.context.action){//会员repay时，res.context后台返回对象
+              adyenAction = JSON.parse(res.context.action)
+              if (subOrderNumberList.length) {
+                sessionItemRoyal.set(
+                  'subOrderNumberList',
+                  JSON.stringify(subOrderNumberList)
+                );
+              }
               this.setState({adyenAction})
             }else{
               //正常卡
@@ -1009,7 +1024,10 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        this.props.history.push('/confirmation');
+        setTimeout(()=>{
+          this.props.history.push('/confirmation');
+        },20000)
+        
       }
     } catch (err) {
       console.log(err);

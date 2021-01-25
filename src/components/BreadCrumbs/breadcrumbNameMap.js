@@ -135,7 +135,8 @@ const breadcrumbNameMap = {
     },
     { name: 'productFinder.resultPage' }
   ],
-  '/cat-nutrition': [{ name: 'catNutrition' }]
+  '/cat-nutrition': [{ name: 'catNutrition' }],
+  '/kitten-nutrition': [{name: 'Nutrition chatons'}]
 };
 
 export default breadcrumbNameMap;
