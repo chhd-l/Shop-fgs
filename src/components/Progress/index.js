@@ -21,7 +21,11 @@ function Progress(props) {
           <FormattedMessage id="checkout" />
         </h4>
         <p>
-          <FormattedMessage id="checkoutTip" />
+          <FormattedMessage id="checkoutTip" values={{
+            val1:(
+              <br/>
+            )
+          }} />
         </p>
       </div>
       <div
