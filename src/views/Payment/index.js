@@ -1024,10 +1024,7 @@ class Payment extends React.Component {
 
       sessionItemRoyal.remove('payosdata');
       if (gotoConfirmationPage) {
-        setTimeout(()=>{
-          this.props.history.push('/confirmation');
-        },20000)
-        
+        this.props.history.push('/confirmation');
       }
     } catch (err) {
       console.log(err);
