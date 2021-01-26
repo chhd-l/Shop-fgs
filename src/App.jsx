@@ -63,6 +63,7 @@ import AccountOrdersAfterSaleDetail from '@/views/Account/OrdersAfterSaleDetail'
 import AccountSubscription from '@/views/Account/Subscription';
 import AccountSubscriptionDetail from '@/views/Account/SubscriptionDetail';
 import AccountPetForm from '@/views/Account/PetForm/index.js';
+import OktaRedirectPage from '@/views/OktaRedirectPage/index.js';
 // import AccountPetForm from '@/views/Account/PetForm/index.js';
 import AccountPetList from '@/views/Account/PetList';
 import ProductReview from '@/views/Account/ProductReview';
@@ -182,6 +183,7 @@ const App = () => (
           <Security oktaAuth={config}>
             <Switch>
               <Route exact path={'/'} component={Home} />
+              <Route exact path={'/okta-redirect-page'} component={OktaRedirectPage} />
               <Route exact path={'/home/'} component={Home} />
               <Route
                 exact
