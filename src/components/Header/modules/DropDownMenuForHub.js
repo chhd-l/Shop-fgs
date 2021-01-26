@@ -95,7 +95,7 @@ export default class DropDownMenu extends React.Component {
       <div
         className={`${
           process.env.REACT_APP_LANG == 'de' ? 'drop' : ''
-        } dropdown-nav bg-transparent d-flex ${
+        } dropdown-nav bg-transparent d-flex justify-content-center ${
           activeTopParentId === item.id ? 'show' : ''
         }`}
         aria-hidden={activeTopParentId === item.id}
@@ -103,7 +103,7 @@ export default class DropDownMenu extends React.Component {
         onMouseOut={this.hanldeListItemMouseOut}
         key={i}
       >
-        <div className="flex-grow-1 rc-padding-y--xs rc-padding-left--sm--desktop bg-white">
+        <div className="flex-grow-1111 rc-padding-y--xs rc-padding-left--sm--desktop bg-white">
           <ul
             className="d-flex justify-content-center rc-padding--none rc-margin--none fullHeight"
             role="menu"
@@ -216,6 +216,65 @@ export default class DropDownMenu extends React.Component {
             </div>
           </div>
         ) : null}
+        {/* <div
+          className="d-flex bg-white pt-4 pb-4 border-top"
+          style={{ width: '80%' }}
+        >
+          <div className="border-right d-flex align-items-center pr-4 pl-4">
+            <div className="mr-4 text-center">
+              <img
+                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
+                style={{ width: '4rem', margin: '0 auto' }}
+              />
+              <p className="red text-nowrap">Dog products</p>
+            </div>
+            <div class="">
+              <p class="medium mb-0">Retail products</p>
+              <p class="mb-3">
+                Precise nutrition for cats of all ages, sizes and breeds.
+              </p>
+              <p class="medium mb-0">Retail products</p>
+              <p class="mb-3">
+                Precise nutrition for cats of all ages, sizes and breeds.
+              </p>
+              <p class="medium mb-0">Discover our product ranges</p>
+            </div>
+          </div>
+          <div className="d-flex align-items-center pr-4 pl-4">
+            <div className="mr-4 text-center">
+              <img
+                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
+                style={{ width: '4rem', margin: '0 auto' }}
+              />
+              <p className="red text-nowrap">Dog products</p>
+            </div>
+            <div class="">
+              <p class="medium mb-0">Retail products</p>
+              <p class="mb-3">
+                Precise nutrition for cats of all ages, sizes and breeds.
+              </p>
+              <p class="medium mb-0">Retail products</p>
+              <p class="mb-3">
+                Precise nutrition for cats of all ages, sizes and breeds.
+              </p>
+              <p class="medium mb-0">Discover our product ranges</p>
+            </div>
+          </div>
+          <div className="pl-4 pr-4">
+            <div className="border d-flex align-items-center p-4">
+              <div>
+                <p className="red">Need help finding the right product?</p>
+                <p>Try our product finder</p>
+                <button className="rc-btn rc-btn--two">Finde a product</button>
+              </div>
+              <img
+                src="https://www.royalcanin.com/fr/-/media/german_shepherd_adult.png?sw=60&hash=A6C7D257823CAD6AF7B7453B1D32B2CAAB376F9A%20320w"
+                style={{ width: '2rem' }}
+              />
+            </div>
+          </div>
+        </div>
+       */}
       </div>
     );
   };
@@ -265,7 +324,7 @@ export default class DropDownMenu extends React.Component {
                     <span className="rc-list__header pt-0 pb-0">
                       <NavItem
                         item={item}
-                        className={`rc-list__header border-bottom ${
+                        className={`rc-list__header border-bottom border-width-2 ${
                           item.id === activeTopParentId
                             ? 'border-red'
                             : 'border-transparent'
@@ -275,7 +334,7 @@ export default class DropDownMenu extends React.Component {
                           <span className={`rc-header-with-icon header-icon`}>
                             {item.navigationName}
                             {item.id === activeTopParentId ? (
-                              <span className="iconfont icon-dropdown-arrow ml-1 active">
+                              <span className="iconfont icon-dropdown-arrow ml-1">
                                 &#xe6f9;
                               </span>
                             ) : (

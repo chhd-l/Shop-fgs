@@ -7178,6 +7178,10 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
   border-color: transparent!important
 }
 
+.border-width-2 {
+  border-width: 2px!important;
+}
+
 .rounded,.rounded-sm {
   border-radius: .1875rem!important
 }
