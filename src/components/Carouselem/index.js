@@ -2,6 +2,13 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import './index.less';
 
+function formatMoney(price){
+  if(price.indexOf(".")>-1){
+   return price.replace(".",",")
+  }
+  return price
+}
+
 const Carouselem = withRouter((props) => {
   const { list, sourceParam } = props;
   return (
@@ -57,7 +64,7 @@ const Carouselem = withRouter((props) => {
                                   content={item.marketPrice}
                                 >
                                   {item.marketPrice > 0
-                                    ? item.marketPrice + ' €'
+                                    ? formatMoney(item.marketPrice) + ' €'
                                     : ''}
                                 </span>
                               </span>
@@ -66,7 +73,7 @@ const Carouselem = withRouter((props) => {
                             <span>
                               <span className="sales">
                                 <span className="value" content={item.price}>
-                                  {item.price > 0 ? item.price + ' €' : ''}
+                                  {item.price > 0 ? formatMoney(item.price) + ' €' : ''}
                                 </span>
                               </span>
                             </span>

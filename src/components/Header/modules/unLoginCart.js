@@ -34,7 +34,7 @@ class UnloginCart extends React.Component {
     if (window.location.pathname !== '/checkout') {
       await this.props.checkoutStore.removePromotionCode();
     }
-    await getFrequencyDict().then((res) => {
+    getFrequencyDict().then((res) => {
       this.setState({
         frequencyList: res
       });
@@ -51,15 +51,6 @@ class UnloginCart extends React.Component {
   }
   get tradePrice() {
     return this.props.checkoutStore.tradePrice;
-  }
-  get computedList() {
-    return this.state.frequencyList.map((ele) => {
-      delete ele.value;
-      return {
-        value: ele.valueEn,
-        ...ele
-      };
-    });
   }
   GAAccessToGuestCheck() {
     dataLayer.push({
@@ -169,33 +160,6 @@ class UnloginCart extends React.Component {
     } finally {
       this.setState({ checkoutLoading: false });
     }
-  }
-  openPetModal() {
-    this.setState({
-      petModalVisible: true
-    });
-  }
-  closePetModal() {
-    if (this.state.isAdd === 2) {
-      this.setState({
-        isAdd: 0
-      });
-    }
-    this.setState({
-      petModalVisible: false
-    });
-  }
-  openNew() {
-    this.setState({
-      isAdd: 1
-    });
-    this.openPetModal();
-  }
-  closeNew() {
-    this.setState({
-      isAdd: 2
-    });
-    this.openPetModal();
   }
   render() {
     const { headerCartStore } = this.props;
@@ -414,12 +378,13 @@ class UnloginCart extends React.Component {
                                         }}
                                       >
                                         {formatMoney(
-                                          item.sizeList.filter(
+                                          (item.sizeList.filter(
                                             (s) => s.selected
                                           )[0] &&
                                             item.sizeList.filter(
                                               (s) => s.selected
-                                            )[0].currentAmount || 0
+                                            )[0].currentAmount) ||
+                                            0
                                         )}
                                       </b>
                                     </div>

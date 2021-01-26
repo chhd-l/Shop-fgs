@@ -7170,6 +7170,10 @@ a.bg-dark:focus,a.bg-dark:hover,button.bg-dark:focus,button.bg-dark:hover {
   border-color: #333!important;
 }
 
+.border-red {
+  border-color: #e2001a!important;
+}
+
 .border-transparent {
   border-color: transparent!important
 }
@@ -16015,9 +16019,9 @@ ul li:not(.rc-list__item) {
   max-width: 160px
 }
 
-header .rc-list--inline .rc-list__item.dropdown {
+/* header .rc-list--inline .rc-list__item.dropdown {
   margin-right: 1.3rem
-}
+} */
 
 [data-js-dropdown].active a {
   color: #e2001a
@@ -16185,7 +16189,7 @@ body.open-dropdown:after {
   width: 100%;
   top: 0;
   left: 0;
-  opacity: .95;
+  opacity: .4;
   background: #333;
   -webkit-transition: 1s;
   transition: 1s

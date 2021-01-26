@@ -1,6 +1,5 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import find from 'lodash/find';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Logo from '@/components/Logo';
@@ -10,27 +9,24 @@ import {
   generateOptions,
   getDictionary
 } from '@/utils/utils';
-import { IMG_DEFAULT } from '@/utils/constant';
 import {
   getPrescriptionById,
   getPrescriberByEncryptCode,
   getPrescriberByPrescriberIdAndStoreId
 } from '@/api/clinic';
-import { getList } from '@/api/list';
 import { setBuryPoint } from '@/api';
 import LoginButton from '@/components/LoginButton';
 import UnloginCart from './modules/unLoginCart';
 import LoginCart from './modules/loginCart';
 import DropDownMenu from './modules/DropDownMenu';
+import DropDownMenuForHub from './modules/DropDownMenuForHub';
 import MegaMenuMobile from './modules/MegaMenuMobile';
-import NavItem from './modules/NavItem';
+import Search from './modules/Search';
 import LogoutButton from '@/components/LogoutButton';
 import { inject, observer } from 'mobx-react';
 import { withOktaAuth } from '@okta/okta-react';
-import GoogleTagManager from '@/components/GoogleTagManager';
-import { loadJS, fetchHeaderNavigations } from '@/utils/utils';
-import LazyLoad from 'react-lazyload';
-import './index.css';
+import { fetchHeaderNavigations } from '@/utils/utils';
+import './index.less';
 
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
@@ -47,7 +43,9 @@ const localItemRoyal = window.__.localItemRoyal;
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
-    showUserIcon: false
+    showUserIcon: false,
+    showNav: true,
+    showLoginBtn: true
   };
   constructor(props) {
     super(props);
@@ -55,34 +53,19 @@ class Header extends React.Component {
       showCart: false,
       showCenter: false,
       showSearchInput: false,
-      keywords: '',
-      loading: false,
-      result: null,
       isScrollToTop: true,
       headerNavigationList: [],
-      activeTopParentId: -1,
-      isSearchSuccess: false, //是否搜索成功
-      hideNavRouter: ['/confirmation', '/checkout'],
-      hideLoginInfoRouter: ['/checkout']
+      activeTopParentId: -1
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
-    this.hanldeSearchClick = this.hanldeSearchClick.bind(this);
-    this.hanldeSearchCloseClick = this.hanldeSearchCloseClick.bind(this);
-    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
 
-    this.gotoDetails = this.gotoDetails.bind(this);
     // this.clickLogin = this.clickLogin.bind(this)
     this.clickLogoff = this.clickLogoff.bind(this);
-
-    this.inputRef = React.createRef();
-    this.inputRefMobile = React.createRef();
 
     this.handleCenterMouseOver = this.handleCenterMouseOver.bind(this);
     this.handleCenterMouseOut = this.handleCenterMouseOut.bind(this);
 
-    this.hanldeListItemMouseOver = this.hanldeListItemMouseOver.bind(this);
-    this.hanldeListItemMouseOut = this.hanldeListItemMouseOut.bind(this);
     this.handleClickNavItem = this.handleClickNavItem.bind(this);
 
     this.preTop = 0;
@@ -92,29 +75,6 @@ class Header extends React.Component {
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  isHideNavBar() {
-    //只需要在hideNavRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
-      -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
-  }
-  isHideLoginInfo() {
-    //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideLoginInfoRouter.indexOf(
-        this.props.history.location.pathname
-      ) != -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
@@ -204,7 +164,8 @@ class Header extends React.Component {
             }[this.props.match && this.props.match.path] || ''
     });
 
-    this.initNavigations();
+    // process.env.REACT_APP_LANG === 'fr'
+    (false ? this.initNavigationsForHub : this.initNavigations)();
   }
   componentWillUnmount() {
     window.removeEventListener('click', this.hideMenu);
@@ -272,6 +233,14 @@ class Header extends React.Component {
         headerNavigationList: treeData
       });
     }
+  };
+  initNavigationsForHub = () => {
+    // await axios.get(`/${countryCode}/api/navigation/getmodel`)
+    let res = JSON.parse(
+      '{"contactPhone":"08453005011","menuGroups":[{"link":{"url":"/uk/dogs","text":"Dogs"},"menuItems":[{"icon":"Cart","link":{"url":"/uk/dogs","text":"Dogs"}},{"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"},"imageDescription":"Dog products","primaryLink":{"url":"/uk/dogs","text":"Dogs"},"primaryContent":"Precise nutrition for dogs of all ages, sizes and breeds.","secondaryLink":{"url":"/uk/dogs","text":"Dogs"},"secondaryContent":"Help to maintain the health of dogs with diagnosed health problems."},{"title":"Need help finding the right product?","subtitle":"Try our product finder","link":{"url":"/uk/dogs","text":"Dogs"},"image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}},{"title":"Need help finding the right product?","content":"Try our product finder","image":{"url":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero","srcset":"https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=320&auto=compress&fm=jpg 320w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=360&auto=compress&fm=jpg 360w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=640&auto=compress&fm=jpg 640w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=720&auto=compress&fm=jpg 720w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=960&auto=compress&fm=jpg 960w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1280&auto=compress&fm=jpg 1280w,https://cdn.royalcanin-weshare-online.io/4mnFr2YBG95Xk-RB6d20/v1/yorkshire-terrier-sacred-birman-b-w-brand-emblematic-tailored-nutrition-hero?w=1440&auto=compress&fm=jpg 1440w","altText":"Sacred Birman kitten and Yorkshire Terrier adult standing in black and white on a white background"}}]}]}'
+    );
+    // if (res && res.menuGroups &&)
+    // todo
   };
 
   /**
@@ -366,51 +335,6 @@ class Header extends React.Component {
       showCenter: false
     });
   }
-  hanldeSearchClick() {
-    this.setState(
-      {
-        showSearchInput: true
-      },
-      () => {
-        setTimeout(() => {
-          this.inputRef.current.focus();
-          this.inputRefMobile.current.focus();
-        });
-      }
-    );
-  }
-  hanldeSearchCloseClick() {
-    this.setState({
-      showSearchInput: false,
-      keywords: '',
-      result: null
-    });
-  }
-  handleSearch = () => {
-    if (this.state.loading) return;
-    this.props.history.push({
-      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
-      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-      search: `?q=${keywords}`,
-      state: {
-        GAListParam: 'Search Results',
-        noresult: !this.state.isSearchSuccess
-      }
-    });
-  };
-  handleSearchInputChange(e) {
-    this.setState(
-      {
-        keywords: e.target.value
-      },
-      () => {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-          this.getSearchData();
-        }, 500);
-      }
-    );
-  }
   signUp() {
     // let prefix = 'https://prd-weu1-rc-df-ciam-app-webapp-uat.cloud-effem.com/?redirect_uri='
     // let callbackUrl = 'http://localhost:3000?origin=register'
@@ -426,94 +350,6 @@ class Header extends React.Component {
     history.push('/login');
     localItemRoyal.set('loginType', 'register');
   }
-  async getSearchData() {
-    const { keywords } = this.state;
-    this.setState({ loading: true });
-
-    let params = {
-      // cateId: process.env.REACT_APP_CATEID,
-      keywords,
-      propDetails: [],
-      pageNum: 0,
-      brandIds: [],
-      pageSize: 20,
-      esGoodsInfoDTOList: [],
-      companyType: ''
-    };
-    try {
-      let res = await getList(params);
-
-      this.setState({ loading: false });
-      if (res && res.context) {
-        const esGoods = res.context.esGoods;
-        if (esGoods && esGoods.content.length) {
-          let goodsContent = esGoods.content;
-          if (res.context.goodsList) {
-            goodsContent = goodsContent.map((ele) => {
-              let ret = Object.assign({}, ele);
-              const tmpItem = find(
-                res.context.goodsList,
-                (g) => g.goodsId === ele.id
-              );
-              if (tmpItem) {
-                ret = Object.assign(ret, {
-                  goodsCateName: tmpItem.goodsCateName,
-                  goodsSubtitle: tmpItem.goodsSubtitle,
-                  goodsImg: tmpItem.goodsImg,
-                  goodsNo: tmpItem.goodsNo
-                });
-              }
-              return ret;
-            });
-          }
-          this.setState({ isSearchSuccess: true });
-          if (dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoods.totalElements;
-            dataLayer[0].search.type = 'with results';
-          }
-
-          this.setState({
-            result: Object.assign(
-              {},
-              {
-                productList: goodsContent,
-                totalElements: esGoods.totalElements
-              }
-            )
-          });
-        } else {
-          if (dataLayer[0] && dataLayer[0].search) {
-            dataLayer[0].search.query = keywords;
-            dataLayer[0].search.results = esGoods.totalElements;
-            dataLayer[0].search.type = 'without results';
-          }
-          this.setState({ isSearchSuccess: false });
-          this.setState({
-            result: Object.assign({}, { productList: [], totalElements: 0 })
-          });
-        }
-      }
-    } catch (err) {
-      console.log(222, err);
-      this.setState({
-        loading: false,
-        result: Object.assign({}, { productList: [], totalElements: 0 })
-      });
-    }
-  }
-  gotoDetails(item) {
-    console.log(item);
-    this.props.history.push({
-      pathname: `/${item.lowGoodsName.split(' ').join('-').replace('/', '')}-${
-        item.goodsNo
-      }`,
-      state: {
-        GAListParam: 'Search Results'
-      }
-    });
-    // this.props.history.push('/details/' + item.goodsInfos[0].goodsInfoId);
-  }
   clickLogin() {
     this.props.history.push('/login');
     localItemRoyal.set('loginType', 'login');
@@ -527,92 +363,6 @@ class Header extends React.Component {
     checkoutStore.removeLoginCartData();
     loginStore.changeIsLogin(false);
     history.push('/home');
-  }
-  renderResultJsx() {
-    const { result, keywords } = this.state;
-    return result ? (
-      <div className="suggestions" id="mainSuggestions">
-        <div className="container">
-          <div className="row d-flex flex-column-reverse flex-sm-row">
-            <div className="col-12 rc-column">
-              <div className="rc-padding-top--lg--mobile rc-large-intro">
-                <FormattedMessage id="goods" />
-              </div>
-              <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                {result.productList.length ? (
-                  result.productList.map((item, idx) => (
-                    <div className="col-12 item" key={item.id + idx}>
-                      <div className="row">
-                        <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                          <span
-                            className="ui-cursor-pointer"
-                            style={{ width: '100%' }}
-                            onClick={this.gotoDetails.bind(this, item)}
-                          >
-                            <LazyLoad>
-                              <img
-                                className="swatch__img"
-                                alt={item.goodsName}
-                                title={item.goodsName}
-                                style={{ width: '100%' }}
-                                src={
-                                  item.goodsImg ||
-                                  item.goodsInfos.sort(
-                                    (a, b) => a.marketPrice - b.marketPrice
-                                  )[0].goodsInfoImg ||
-                                  IMG_DEFAULT
-                                }
-                              />
-                            </LazyLoad>
-                          </span>
-                        </div>
-                        <div className="col-8 col-md-9 col-lg-10">
-                          <span
-                            onClick={this.gotoDetails.bind(this, item)}
-                            className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                            alt={item.goodsName}
-                            title={item.goodsName}
-                          >
-                            {item.goodsName}
-                          </span>
-                          <div className="rc-meta searchProductKeyword" />
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="d-flex ml-2 mr-2">
-                    <i className="rc-icon rc-incompatible--xs rc-iconography" />
-                    <FormattedMessage id="list.errMsg4" />
-                  </p>
-                )}
-              </div>
-              {result.totalElements ? (
-                <div className="rc-margin-top--xs">
-                  <Link
-                    className="productName rc-large-body ui-cursor-pointer"
-                    // to={`/list/keywords/${keywords}`}
-                    to={{
-                      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
-                      search: `?q=${keywords}`
-                    }}
-                  >
-                    <b>
-                      <FormattedMessage id="viewAllResults" /> (
-                      {result.totalElements})
-                    </b>
-                  </Link>
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <span className="d-sm-none_ more-below">
-            <i className="fa fa-long-arrow-down" aria-hidden="true" />
-          </span>
-        </div>
-      </div>
-    ) : null;
   }
   renderClinic() {
     const { clinicId, clinicName } = this.props.clinicStore;
@@ -641,25 +391,9 @@ class Header extends React.Component {
       category: 'menu',
       action: 'menu',
       label: item.navigationLink,
-      value: item.navigationName
+      value: 1
     });
   }
-  renderDropDownText = (item) => {
-    return item.expanded ? (
-      <span className="rc-header-with-icon header-icon">
-        {item.navigationName}
-        <span
-          className={`rc-icon rc-iconography ${
-            item.id === this.state.activeTopParentId
-              ? 'rc-up rc-brand1'
-              : 'rc-down'
-          }`}
-        />
-      </span>
-    ) : (
-      item.navigationName
-    );
-  };
   toggleShowBodyMask({ visible = false }) {
     if (visible) {
       let cls = document.querySelector('body').className.split(' ') || [];
@@ -671,18 +405,6 @@ class Header extends React.Component {
       cls.splice(idx, 1);
       document.querySelector('body').className = cls.join(' ');
     }
-  }
-  hanldeListItemMouseOver(item) {
-    if (!item.expanded) {
-      return false;
-    }
-    this.updateActiveTopParentId(item.id);
-  }
-  hanldeListItemMouseOut(item) {
-    if (!item.expanded) {
-      return false;
-    }
-    this.updateActiveTopParentId(-1);
   }
   updateActiveTopParentId = (id) => {
     this.setState({ activeTopParentId: id }, () => {
@@ -698,13 +420,7 @@ class Header extends React.Component {
       configStore,
       history
     } = this.props;
-    const {
-      headerNavigationList,
-      showSearchInput,
-      keywords,
-      activeTopParentId,
-      showCenter
-    } = this.state;
+    const { headerNavigationList, showSearchInput, showCenter } = this.state;
     return (
       <>
         <div id="page-top" name="page-top" />
@@ -734,80 +450,15 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
+              className={`rc-list rc-list--blank rc-list--align rc-header__right ${
+                this.props.showLoginBtn ? 'rc-list--inline' : 'rc-hidden'
+              }`}
               role="menubar"
-              style={this.isHideLoginInfo()}
             >
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
                   <>
-                    <div className="inlineblock">
-                      <button
-                        id="mainSearch"
-                        className={`rc-btn less-width-xs rc-btn--icon rc-icon rc-search--xs rc-iconography ${
-                          showSearchInput ? 'rc-hidden' : ''
-                        }`}
-                        aria-label="Search"
-                        onClick={this.hanldeSearchClick}
-                      >
-                        <span className="rc-screen-reader-text">
-                          <FormattedMessage id="search" />
-                        </span>
-                      </button>
-                      <div className="rc-sm-up">
-                        <form
-                          className={`inlineblock headerSearch headerSearchDesktop relative ${
-                            showSearchInput ? '' : 'rc-hidden'
-                          }`}
-                          role="search"
-                          name="simpleSearch"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                        >
-                          <span
-                            className="rc-input rc-input--full-width"
-                            input-setup="true"
-                          >
-                            <button
-                              className="rc-input__submit rc-input__submit--search"
-                              type="submit"
-                              onClick={this.handleSearch}
-                            >
-                              <span className="rc-screen-reader-text" />
-                            </button>
-                            <FormattedMessage id="header.startTypingToSearch">
-                              {(txt) => (
-                                <input
-                                  id="startTypingToSearch"
-                                  ref={this.inputRef}
-                                  className="search-field"
-                                  type="search"
-                                  autoComplete="off"
-                                  placeholder={txt}
-                                  value={keywords}
-                                  onChange={this.handleSearchInputChange}
-                                />
-                              )}
-                            </FormattedMessage>
-                            <label
-                              className="rc-input__label"
-                              htmlFor="id-submit-2"
-                            >
-                              <span className="rc-input__label-text" />
-                            </label>
-                          </span>
-                          <span
-                            className="rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle"
-                            aria-label="Close"
-                            onClick={this.hanldeSearchCloseClick}
-                          />
-                          <div className="suggestions-wrapper">
-                            {this.renderResultJsx()}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                    <Search history={history} />
                     {this.isLogin ? (
                       <LoginCart
                         showSearchInput={showSearchInput}
@@ -989,107 +640,27 @@ class Header extends React.Component {
             </ul>
           </nav>
 
-          <nav
-            className="rc-header__nav rc-header__nav--secondary rc-md-up "
-            style={this.isHideNavBar()}
-          >
-            <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
-              style={this.isHideNavBar()}
-            >
-              {headerNavigationList.map((item, i) => (
-                <li
-                  className={`rc-list__item ${
-                    item.expanded ? 'dropdown' : ''
-                  } ${activeTopParentId === item.id ? 'active' : ''}`}
-                  key={i}
-                  onMouseOver={this.hanldeListItemMouseOver.bind(this, item)}
-                  onMouseOut={this.hanldeListItemMouseOut.bind(this, item)}
-                >
-                  <ul className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center">
-                    <li className="rc-list__item">
-                      <span className="rc-list__header">
-                        <NavItem item={item} className="rc-list__header">
-                          {this.renderDropDownText(item)}
-                        </NavItem>
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <DropDownMenu
-            activeTopParentId={this.state.activeTopParentId}
-            updateActiveTopParentId={this.updateActiveTopParentId}
-            headerNavigationList={headerNavigationList}
-            configStore={configStore}
-            // handleClickNavItem={this.handleClickNavItem}
-            toggleShowBodyMask={this.toggleShowBodyMask}
-          />
-          <div className="search">
-            <div className="rc-sm-down">
-              <form
-                className={`rc-header__search-bar headerSearch ${
-                  showSearchInput ? '' : 'rc-hidden'
-                }`}
-                role="search"
-                name="simpleSearch"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <Link
-                  className="productName rc-large-body ui-cursor-pointer"
-                  to={{
-                    // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                    pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
-                    search: `?q=${keywords}`
-                  }}
-                >
-                  <button
-                    className="rc-btn rc-btn--icon rc-icon search--xs iconography stick-left rc-vertical-align"
-                    type="submit"
-                    aria-label="Search"
-                  >
-                    <span className="screen-reader-text">
-                      <FormattedMessage id="search" />
-                    </span>
-                  </button>
-                </Link>
-
-                <FormattedMessage id="header.startTypingToSearch">
-                  {(txt) => (
-                    <input
-                      ref={this.inputRefMobile}
-                      type="search"
-                      className="form-control search-field rc-header__input"
-                      placeholder={txt}
-                      autoComplete="off"
-                      aria-label="Start typing to search"
-                      value={this.state.keywords}
-                      onChange={this.handleSearchInputChange}
-                      style={{ padding: '1rem 4rem' }}
-                    />
-                  )}
-                </FormattedMessage>
-                <div className="suggestions-wrapper">
-                  {this.renderResultJsx()}
-                </div>
-                <button
-                  className="rc-btn rc-btn--icon rc-icon rc-close--xs rc-iconography rc-interactive rc-stick-right rc-vertical-align searchBtnToggle"
-                  type="button"
-                  aria-label="Close"
-                  onClick={this.hanldeSearchCloseClick}
-                >
-                  <span className="screen-reader-text">
-                    <FormattedMessage id="close" />
-                  </span>
-                </button>
-              </form>
-            </div>
-          </div>
-          {this.state.loading ? <Loading /> : null}
+          {process.env.REACT_APP_HUB === '1' ? (
+            <DropDownMenuForHub
+              activeTopParentId={this.state.activeTopParentId}
+              updateActiveTopParentId={this.updateActiveTopParentId}
+              headerNavigationList={headerNavigationList}
+              configStore={configStore}
+              toggleShowBodyMask={this.toggleShowBodyMask}
+              showNav={this.props.showNav}
+              showLoginBtn={this.props.showLoginBtn}
+            />
+          ) : (
+            <DropDownMenu
+              activeTopParentId={this.state.activeTopParentId}
+              updateActiveTopParentId={this.updateActiveTopParentId}
+              headerNavigationList={headerNavigationList}
+              configStore={configStore}
+              toggleShowBodyMask={this.toggleShowBodyMask}
+              showNav={this.props.showNav}
+              showLoginBtn={this.props.showLoginBtn}
+            />
+          )}
         </header>
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
