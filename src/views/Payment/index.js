@@ -950,11 +950,7 @@ class Payment extends React.Component {
                 );
               }
               this.setState({adyenAction})
-            }else{
-              //正常卡
-              gotoConfirmationPage = true;
-            }
-            if(contextType==='Object' && res.context.action){//会员repay时，res.context后台返回对象
+            }else if(contextType==='Object' && res.context.action){//会员repay时，res.context后台返回对象
               adyenAction = JSON.parse(res.context.action)
               if (subOrderNumberList.length) {
                 sessionItemRoyal.set(
