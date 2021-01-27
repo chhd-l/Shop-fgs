@@ -30,7 +30,7 @@ export const UnLoginUserBox = (props) => {
         <div className={`user-unLogin-popover`}>
             <div className="already">{alreadyRegistered}?</div>
             <LoginButton
-                btnStyle={{ width: '11rem', margin: '.5rem 0' }}
+                btnStyle={{ width: '14rem', margin: '.5rem 0',padding: '5px 0' }}
                 history={history}
             />
             <div className="newUser">{newUser}?<span onClick={() => { self.toUrl(registerRouter) }}>{registerNow}</span></div>
@@ -80,7 +80,6 @@ export const LoginUserBox = (props) => {
                 <div className="Media-figure">{userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)}</div>
                 <div className="Media-body">
                     <div className="fullName">{userInfo && userInfo.firstName}</div>
-                    {/* <div className="logout" onClick={self.handleLogout}>{logOut}</div> */}
                     <LogoutButton />
                 </div>
             </div>

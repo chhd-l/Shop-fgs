@@ -74,7 +74,7 @@ const UserJSX = (props) => {
                                 <div className="container cart">
                                     <div className="login-style">
                                         <LoginButton
-                                            btnStyle={{ width: '11rem', margin: '2rem 0' }}
+                                            btnStyle={{ width: '11rem', margin: '.5rem 0' }}
                                             history={history}
                                         />
                                         <div>
@@ -180,7 +180,7 @@ const UserJSX = (props) => {
     )
     return (
         {
-            "1": (
+            "1": ( //hub专用
                 <li
                     onMouseOver={self.handleMouseOver}
                     onMouseOut={self.handleMouseOut}
@@ -199,7 +199,8 @@ const UserJSX = (props) => {
                     {
                         isLogin &&
                         <a className="brefName">
-                            {firstNameLetter} {showCart ? <LoginUserBox self={self} {...props}/> : null}
+                            // {firstNameLetter} {showCart ? <LoginUserBox self={self} {...props}/> : null}
+                            <LoginUserBox self={self} {...props}/>
                         </a>
                     }
 
