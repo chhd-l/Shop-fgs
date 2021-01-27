@@ -37,7 +37,10 @@ function CardItemCover({
           &#xe68c;
         </span>
       )}
-      {children}
+      <span>
+        {children}
+      </span>
+      
     </div>
   );
 }
@@ -361,17 +364,17 @@ class AdyenCreditCardList extends React.Component {
             <div className={`col-12 mb-1`}>
               <div className="row align-items-center">
                 <div className="col-12">
-                  {data.adyenPaymentMethod
+                  <span>{data.adyenPaymentMethod
                     ? data.adyenPaymentMethod.holderName
-                    : ''}
+                    : ''}</span>
                 </div>
               </div>
               {!showLastFour && (
                 <div className="row align-items-center">
                   <div className="col-12">
-                    {data.adyenPaymentMethod
+                    <span>{data.adyenPaymentMethod
                       ? data.adyenPaymentMethod.brand
-                      : ''}
+                      : ''}</span>
                   </div>
                 </div>
               )}
@@ -643,21 +646,25 @@ class AdyenCreditCardList extends React.Component {
           ) : !formVisible &&
             (cardList.length || memberUnsavedCardList.length) ? (
             <>
-              {this.renderList()}
-              {footerJSX}
+              <span>
+                {this.renderList()}
+                {footerJSX}
+              </span>
             </>
           ) : (
             <>
-              {this.renderEditForm()} {footerJSX}
+              <span>
+                {this.renderEditForm()} {footerJSX}
+              </span>
             </>
           )
         ) : (
           <>
             {!formVisible && this.renderList()}
             <div className={`${formVisible ? '' : 'hidden'}`}>
-              {this.renderEditForm()}
+              <span>{this.renderEditForm()}</span>
             </div>
-            {footerJSX}
+            <span>{footerJSX}</span>
           </>
         )}
       </>
