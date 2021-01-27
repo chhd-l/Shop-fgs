@@ -8,6 +8,7 @@ import LazyLoad from 'react-lazyload';
 import { IMG_DEFAULT } from '@/utils/constant';
 import axios from 'axios';
 
+const isHub = process.env.REACT_APP_HUB === '1';
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -52,76 +53,70 @@ export default class Search extends React.Component {
       esGoodsInfoDTOList: [],
       companyType: ''
     };
-    try {
-      if (process.env.REACT_APP_HUB === '1') {
-        let res = await axios.get(`/royalcanin/predictive?keyword=${keywords}`);
-        this.setState({ result: res.data });
-      } else {
-        let res = await getList(params);
-
-        this.setState({ loading: false });
-        if (res && res.context) {
-          const esGoods = res.context.esGoods;
-          if (esGoods && esGoods.content.length) {
-            let goodsContent = esGoods.content;
-            if (res.context.goodsList) {
-              goodsContent = goodsContent.map((ele) => {
-                let ret = Object.assign({}, ele);
-                const tmpItem = find(
-                  res.context.goodsList,
-                  (g) => g.goodsId === ele.id
-                );
-                if (tmpItem) {
-                  ret = Object.assign(ret, {
-                    goodsCateName: tmpItem.goodsCateName,
-                    goodsSubtitle: tmpItem.goodsSubtitle,
-                    goodsImg: tmpItem.goodsImg,
-                    goodsNo: tmpItem.goodsNo
-                  });
-                }
-                return ret;
+    Promise.all([
+      getList(params),
+      isHub && axios.get(`/royalcanin/predictive?keyword=${keywords}`)
+    ])
+      .then((res) => {
+        let goodsContent = [];
+        const esGoods = res[0] && res[0].context && res[0].context.esGoods;
+        if (esGoods && esGoods.content.length) {
+          goodsContent = (esGoods.content || []).map((ele) => {
+            let ret = Object.assign({}, ele);
+            const tmpItem = find(
+              res[0].context.goodsList || [],
+              (g) => g.goodsId === ele.id
+            );
+            if (tmpItem) {
+              ret = Object.assign(ret, {
+                goodsCateName: tmpItem.goodsCateName,
+                goodsSubtitle: tmpItem.goodsSubtitle,
+                goodsImg: tmpItem.goodsImg,
+                goodsNo: tmpItem.goodsNo
               });
             }
-            this.setState({ isSearchSuccess: true });
-            if (dataLayer[0] && dataLayer[0].search) {
-              dataLayer[0].search.query = keywords;
-              dataLayer[0].search.results = esGoods.totalElements;
-              dataLayer[0].search.type = 'with results';
-            }
-
-            this.setState({
-              result: Object.assign(
-                {},
-                {
-                  productList: goodsContent,
-                  totalElements: esGoods.totalElements
-                }
-              )
-            });
-          } else {
-            if (dataLayer[0] && dataLayer[0].search) {
-              dataLayer[0].search.query = keywords;
-              dataLayer[0].search.results = esGoods.totalElements;
-              dataLayer[0].search.type = 'without results';
-            }
-            this.setState({ isSearchSuccess: false });
-            this.setState({
-              result: Object.assign({}, { productList: [], totalElements: 0 })
-            });
+            return ret;
+          });
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = esGoods.totalElements;
+            dataLayer[0].search.type = 'with results';
           }
+
+          this.setState({
+            isSearchSuccess: true,
+            result: Object.assign(
+              {},
+              {
+                productList: goodsContent,
+                totalElements: esGoods.totalElements
+              },
+              { attach: res[1] && res[1].data }
+            )
+          });
+        } else {
+          if (dataLayer[0] && dataLayer[0].search) {
+            dataLayer[0].search.query = keywords;
+            dataLayer[0].search.results = 0;
+            dataLayer[0].search.type = 'without results';
+          }
+          this.setState({
+            isSearchSuccess: false,
+            result: Object.assign({}, { productList: [], totalElements: 0 })
+          });
         }
-      }
-    } catch (err) {
-      console.log(222, err);
-      this.setState({
-        loading: false,
-        result: Object.assign({}, { productList: [], totalElements: 0 })
+      })
+      .catch((err) => {
+        if (dataLayer[0] && dataLayer[0].search) {
+          dataLayer[0].search.query = keywords;
+          dataLayer[0].search.results = 0;
+          dataLayer[0].search.type = 'without results';
+        }
+        this.setState({
+          loading: false,
+          result: Object.assign({}, { productList: [], totalElements: 0 })
+        });
       });
-    } finally {
-      this.setState({
-        loading: false
-      });
-    }
   }
   hanldeSearchCloseClick() {
     this.setState({
@@ -159,127 +154,132 @@ export default class Search extends React.Component {
     const { result, keywords } = this.state;
     let ret = null;
     if (result) {
-      if (process.env.REACT_APP_HUB === '1') {
-        ret = (
-          <ul>
-            {(result.Items || []).map((item, i) => (
-              <li key={i}>
-                <a href={item.Url}>{item.Title}</a>
-              </li>
-            ))}
-            {result.FeaturedItems && result.FeaturedItems[0] ? (
-              <li>
-                <a
-                  href={result.FeaturedItems[0].Url}
-                  style={{ textDecoration: 'underline' }}
-                >
-                  {result.FeaturedItems[0].Title}
-                </a>
-              </li>
-            ) : null}
-          </ul>
-        );
-      } else {
-        ret = (
-          <div className="suggestions" id="mainSuggestions">
-            <div className="container">
-              <div className="row d-flex flex-column-reverse flex-sm-row">
-                <div className="col-12 rc-column">
-                  <div className="rc-padding-top--lg--mobile rc-large-intro">
-                    <FormattedMessage id="goods" />
-                  </div>
-                  <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
-                    {result.productList.length ? (
-                      result.productList.map((item, idx) => (
-                        <div className="col-12 item" key={item.id + idx}>
-                          <div className="row">
-                            <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
-                              <Link
-                                className="ui-cursor-pointer"
-                                style={{ width: '100%' }}
-                                to={{
-                                  pathname: `/${item.lowGoodsName
-                                    .split(' ')
-                                    .join('-')
-                                    .replace('/', '')}-${item.goodsNo}`,
-                                  state: {
-                                    GAListParam: 'Search Results'
+      ret = (
+        <div className="suggestions" id="mainSuggestions">
+          <div className="container">
+            <div className="row d-flex flex-sm-row">
+              <div className={`${isHub ? 'col-7' : 'col-12'} rc-column`}>
+                <div className="rc-padding-top--lg--mobile rc-large-intro">
+                  <FormattedMessage id="goods" />
+                </div>
+                <div className="suggestions-items row justify-content-end items rc-padding-left--xs">
+                  {result.productList.length ? (
+                    result.productList.map((item, idx) => (
+                      <div className="col-12 item" key={item.id + idx}>
+                        <div className="row">
+                          <div className="item__image hidden-xs-down_ swatch-circle col-4 col-md-3 col-lg-2">
+                            <Link
+                              className="ui-cursor-pointer"
+                              style={{ width: '100%' }}
+                              to={{
+                                pathname: `/${item.lowGoodsName
+                                  .split(' ')
+                                  .join('-')
+                                  .replace('/', '')}-${item.goodsNo}`,
+                                state: {
+                                  GAListParam: 'Search Results'
+                                }
+                              }}
+                            >
+                              <LazyLoad>
+                                <img
+                                  className="swatch__img"
+                                  alt={item.goodsName}
+                                  title={item.goodsName}
+                                  style={{ width: '100%' }}
+                                  src={
+                                    item.goodsImg ||
+                                    item.goodsInfos.sort(
+                                      (a, b) => a.marketPrice - b.marketPrice
+                                    )[0].goodsInfoImg ||
+                                    IMG_DEFAULT
                                   }
-                                }}
-                              >
-                                <LazyLoad>
-                                  <img
-                                    className="swatch__img"
-                                    alt={item.goodsName}
-                                    title={item.goodsName}
-                                    style={{ width: '100%' }}
-                                    src={
-                                      item.goodsImg ||
-                                      item.goodsInfos.sort(
-                                        (a, b) => a.marketPrice - b.marketPrice
-                                      )[0].goodsInfoImg ||
-                                      IMG_DEFAULT
-                                    }
-                                  />
-                                </LazyLoad>
-                              </Link>
-                            </div>
-                            <div className="col-8 col-md-9 col-lg-10">
-                              <Link
-                                to={{
-                                  pathname: `/${item.lowGoodsName
-                                    .split(' ')
-                                    .join('-')
-                                    .replace('/', '')}-${item.goodsNo}`,
-                                  state: {
-                                    GAListParam: 'Search Results'
-                                  }
-                                }}
-                                className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
-                                alt={item.goodsName}
-                                title={item.goodsName}
-                              >
-                                {item.goodsName}
-                              </Link>
-                              <div className="rc-meta searchProductKeyword" />
-                            </div>
+                                />
+                              </LazyLoad>
+                            </Link>
+                          </div>
+                          <div className="col-8 col-md-9 col-lg-10">
+                            <Link
+                              to={{
+                                pathname: `/${item.lowGoodsName
+                                  .split(' ')
+                                  .join('-')
+                                  .replace('/', '')}-${item.goodsNo}`,
+                                state: {
+                                  GAListParam: 'Search Results'
+                                }
+                              }}
+                              className="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                              alt={item.goodsName}
+                              title={item.goodsName}
+                            >
+                              {item.goodsName}
+                            </Link>
+                            <div className="rc-meta searchProductKeyword" />
                           </div>
                         </div>
-                      ))
-                    ) : (
-                      <p className="d-flex ml-2 mr-2">
-                        <i className="rc-icon rc-incompatible--xs rc-iconography" />
-                        <FormattedMessage id="list.errMsg4" />
-                      </p>
-                    )}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="d-flex ml-2 mr-2">
+                      <i className="rc-icon rc-incompatible--xs rc-iconography" />
+                      <FormattedMessage id="list.errMsg4" />
+                    </p>
+                  )}
+                </div>
+                {result.totalElements ? (
+                  <div className="rc-margin-top--xs">
+                    <Link
+                      className="productName rc-large-body ui-cursor-pointer"
+                      // to={`/list/keywords/${keywords}`}
+                      to={{
+                        // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
+                        pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+                        search: `?q=${keywords}`
+                      }}
+                    >
+                      <b>
+                        <FormattedMessage id="viewAllResults" /> (
+                        {result.totalElements})
+                      </b>
+                    </Link>
                   </div>
-                  {result.totalElements ? (
-                    <div className="rc-margin-top--xs">
-                      <Link
-                        className="productName rc-large-body ui-cursor-pointer"
-                        // to={`/list/keywords/${keywords}`}
-                        to={{
-                          // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show`,
-                          pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
-                          search: `?q=${keywords}`
-                        }}
-                      >
-                        <b>
-                          <FormattedMessage id="viewAllResults" /> (
-                          {result.totalElements})
-                        </b>
-                      </Link>
-                    </div>
+                ) : null}
+              </div>
+              {isHub && (
+                <div class="col-5 rc-column rc-bg-colour--brand4">
+                  {result && result.attach ? (
+                    <>
+                      {(result.attach.Items || []).map((item, i) => (
+                        <a
+                          class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                          alt={item.Title}
+                          title={item.Title}
+                          href={item.Url}
+                          key={i}
+                        >
+                          {item.Title}
+                        </a>
+                      ))}
+                      {(result.attach.FeaturedItems || []).map((item, i) => (
+                        <a
+                          class="productName ui-cursor-pointer ui-text-overflow-line2 text-break"
+                          alt={item.Title}
+                          title={item.Title}
+                          href={item.Url}
+                          key={i}
+                        >
+                          {item.Title}
+                        </a>
+                      ))}
+                    </>
                   ) : null}
                 </div>
-              </div>
-              <span className="d-sm-none_ more-below">
-                <i className="fa fa-long-arrow-down" aria-hidden="true" />
-              </span>
+              )}
             </div>
           </div>
-        );
-      }
+        </div>
+      );
     }
 
     return ret;
@@ -301,7 +301,9 @@ export default class Search extends React.Component {
                     type="search"
                     autoComplete="off"
                     placeholder={txt}
-                    onFocus={this.hanldeSearchClick}
+                    // onFocus={this.hanldeSearchClick}
+                    onChange={this.handleSearchInputChange}
+                    value={keywords}
                   />
                 )}
               </FormattedMessage>
