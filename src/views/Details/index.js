@@ -593,11 +593,11 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -610,7 +610,7 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -626,7 +626,7 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition') {
+                      } else if (key === 'Composition' || key === 'Ингредиенты') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -768,11 +768,11 @@ class Details extends React.Component {
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   console.log(tmpGoodsDetail[key], 'ghaha');
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -797,7 +797,7 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -1740,7 +1740,7 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' ? (
+                                  {process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
