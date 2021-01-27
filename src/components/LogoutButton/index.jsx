@@ -25,9 +25,9 @@ const LogoutButton = () => {
   const { authState, oktaAuth } = useOktaAuth();
 
   const logout = async () => {
-    try {   
+    try {
       const idToken = authState.idToken;
-      if(idToken) {
+      if (idToken) {
         const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
         // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
         window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
@@ -36,7 +36,7 @@ const LogoutButton = () => {
         loginStore.changeLoginModal(false);
         window.location.reload();
       }
-          
+
       setTimeout(() => {
         loginStore.changeLoginModal(false);
       }, 1000);
@@ -60,16 +60,35 @@ const LogoutButton = () => {
       // logout(process.env.REACT_APP_HOMEPAGE);
     }
   };
+  const defaultLogoutBtnJSX = () => {
+    return (
+      <div className="logoff-style">
+        <span
+          className="rc-styled-link--external"
+          id="J-btn-logoff"
+          onClick={clickLogoff}
+        >
+          <FormattedMessage id="logOff" />
+        </span>
+      </div>
+    )
+  }
+  const hubLogoutBtnJSX = () => {
+    return (
+      <div className="logoff-style" style={{background:"#fff"}}>
+        <span
+          id="J-btn-logoff"
+          onClick={clickLogoff}
+          style={{marginLeft:'-50px'}}
+        >
+          <FormattedMessage id="logOff" />
+        </span>
+      </div>
+    )
+  }
+
   return (
-    <div className="logoff-style">
-      <span
-        className="rc-styled-link--external"
-        id="J-btn-logoff"
-        onClick={clickLogoff}
-      >
-        <FormattedMessage id="logOff" />
-      </span>
-    </div>
+    process.env.REACT_APP_HUB ? hubLogoutBtnJSX():defaultLogoutBtnJSX()
   );
 };
 export default LogoutButton;

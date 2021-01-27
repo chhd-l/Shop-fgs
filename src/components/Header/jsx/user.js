@@ -199,8 +199,7 @@ const UserJSX = (props) => {
                     {
                         isLogin &&
                         <a className="brefName">
-                            // {firstNameLetter} {showCart ? <LoginUserBox self={self} {...props}/> : null}
-                            <LoginUserBox self={self} {...props}/>
+                            {firstNameLetter} {showCart ? <LoginUserBox self={self} {...props}/> : null}
                         </a>
                     }
 

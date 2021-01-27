@@ -500,7 +500,6 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
-
           {process.env.REACT_APP_HUB === '1' ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
