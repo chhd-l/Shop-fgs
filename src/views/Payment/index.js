@@ -2031,17 +2031,18 @@ class Payment extends React.Component {
           {form.firstName + ' ' + form.lastName}
         </span>
         <br />
-        {form.phoneNumber}
+        <span>{form.phoneNumber}</span>
         <br />
-        {form.address1}
+        <span>{form.address1}</span>
         <br />
-        {form.address2}
+        <span>{form.address2}</span>
         {form.address2 ? <br /> : null}
-        {form.postCode}, {form.cityName},{' '}
+        <span>{form.postCode}, {form.cityName},{' '}
         {matchNamefromDict(
           this.state.countryList,
           form.country || form.countryId
         )}
+        </span>
       </>
     ) : null;
   };
@@ -2099,15 +2100,15 @@ class Payment extends React.Component {
                 <FormattedMessage id="bankCard" />
               </span>
               <br />
-              {holderNameDeco}
+              <span>{holderNameDeco}</span>
               <br />
-              {brandDeco}
+              <span>{brandDeco}</span>
               <br />
-              {lastFourDeco ? `************${lastFourDeco}` : null}
+              <span>{lastFourDeco ? `************${lastFourDeco}` : null}</span>
               {expiryYear && expiryMonth ? (
                 <>
                   <br />
-                  {getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}
+                  <span>{getFormatDate(`${expiryYear}-${expiryMonth}`).substr(3)}</span>
                 </>
               ) : null}
             </div>
@@ -2529,7 +2530,7 @@ class Payment extends React.Component {
                   }`}
                   id="J_checkout_panel_paymentMethod"
                 >
-                  {paymentMethodTitle}
+                  <span>{paymentMethodTitle}</span>
                   {this.renderPayTab({
                     visible: paymentMethodPanelStatus.isEdit
                   })}

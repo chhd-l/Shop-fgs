@@ -108,7 +108,9 @@ class VisitorAddress extends React.Component {
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}
-        <FormattedMessage id="payment.deliveryTitle" />
+        <span>
+          <FormattedMessage id="payment.deliveryTitle" />
+        </span>
       </>
     ) : (
       <>
@@ -117,7 +119,9 @@ class VisitorAddress extends React.Component {
             redColor ? 'rc-brand1' : 'rc-iconography'
           }`}
         />{' '}
-        <FormattedMessage id="payment.billTitle" />
+        <span>
+          <FormattedMessage id="payment.billTitle" />
+        </span>
       </>
     );
   };
@@ -202,14 +206,16 @@ class VisitorAddress extends React.Component {
                   {form.firstName + ' ' + form.lastName}
                 </span>
                 <br />
-                {form.phoneNumber}
+                <span>{form.phoneNumber}</span>
                 <br />
-                {form.address1}
+                <span>{form.address1}</span>
                 <br />
-                {form.address2}
-                {form.address2 ? <br /> : null}
-                {form.postCode}, {form.cityName},{' '}
-                {matchNamefromDict(this.state.countryList, form.country)}
+                <span>{form.address2}</span>
+                <span>{form.address2 ? <br /> : null}</span>
+                <span>
+                  {form.postCode}, {form.cityName},{' '}
+                  {matchNamefromDict(this.state.countryList, form.country)}
+                </span>
               </div>
             ) : null}
           </>
