@@ -1110,6 +1110,12 @@ const fr_FR = {
   'order.total': 'Total',
   'order.iVAIncluido': 'TVA Inclus',
   searchForAProductOrArtical: 'Rechercher un produit ou un artical',
-  startTypingToSearch: 'Commencez à taper votre recherche'
+  startTypingToSearch: 'Commencez à taper votre recherche',
+  "detail.question":'Vous avez encore des questions à propos de ce produit ?',
+  "detail.answer":'Nos conseillers sont de vrais experts et passionnés. Ils se tiennent à votre disposition pour répondre à toute demande.',
+  "detail.telephone":'Par téléphone',
+  "detail.email":'Par email',
+  "detail.packagingDesc": 'Nos emballages/produits peuvent faire l’objet d’une consigne de tri',
+  "learnMore":'En savoir plus',
 }
 export default fr_FR;

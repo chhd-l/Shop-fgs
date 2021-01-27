@@ -886,6 +886,12 @@ const en_US = {
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
   searchForAProductOrArtical: 'Search for a product or artical',
-  startTypingToSearch: 'Start typing to search'
+  startTypingToSearch: 'Start typing to search',
+  "detail.question":'Still have questions about this product?',
+  "detail.answer":'Our advisers are real experts and passionate. They are at your disposal to answer any request.',
+  "detail.telephone":'By telephone',
+  "detail.email":'By email',
+  "detail.packagingDesc": 'Our packaging / products may be subject to a sorting instruction',
+  "learnMore":'learn more',
 }
 export default en_US;
