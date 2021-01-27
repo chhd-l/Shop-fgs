@@ -170,7 +170,7 @@ class Details extends React.Component {
       toolTipVisible: false,
       relatedProduct: [],
       form: {
-        buyWay: process.env.REACT_APP_PDP_BUYWAY || 1, //0 - once/ 1 - frequency
+        buyWay: process.env.REACT_APP_PDP_BUYWAY === undefined?1: parseInt(process.env.REACT_APP_PDP_BUYWAY), //0 - once/ 1 - frequency
         frequencyVal: '',
         frequencyName: '',
         frequencyId: -1
@@ -201,7 +201,7 @@ class Details extends React.Component {
   }
   async componentDidMount() {
     this.getUrlParam();
-
+    console.log(this.state.form.buyWay, 'buyWay')
     const { pathname, state } = this.props.location;
     if (state) {
       if (!!state.GAListParam) {
@@ -1610,7 +1610,6 @@ class Details extends React.Component {
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     console.log(selectedSpecItem, 'selectedSpecItem');
-
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -2426,6 +2425,9 @@ class Details extends React.Component {
                                   </button>
                                 ))}
                               &nbsp;&nbsp; */}
+                            {
+                              process.env.REACT_APP_LANG == 'de'?<div className="mb-2 mr-2" style={{fontSize:"14px"}}>Preise inkl. MwSt</div>:null
+                            }
                             <button
                               style={{ padding: '2px 30px' }}
                               className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${

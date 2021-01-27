@@ -47,7 +47,9 @@ const localItemRoyal = window.__.localItemRoyal;
 class Header extends React.Component {
   static defaultProps = {
     showMiniIcons: false,
-    showUserIcon: false
+    showUserIcon: false,
+    showNav:true,
+    showLoginBtn:true
   };
   constructor(props) {
     super(props);
@@ -62,8 +64,6 @@ class Header extends React.Component {
       headerNavigationList: [],
       activeTopParentId: -1,
       isSearchSuccess: false, //是否搜索成功
-      hideNavRouter: ['/confirmation', '/checkout'],
-      hideLoginInfoRouter: ['/checkout']
     };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -92,29 +92,6 @@ class Header extends React.Component {
   }
   get userInfo() {
     return this.props.loginStore.userInfo;
-  }
-  isHideNavBar() {
-    //只需要在hideNavRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideNavRouter.indexOf(this.props.history.location.pathname) !=
-      -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
-  }
-  isHideLoginInfo() {
-    //只需要在hideLoginInfoRouter数组中去配置不要显示nav的路由
-    let str =
-      this.state.hideLoginInfoRouter.indexOf(
-        this.props.history.location.pathname
-      ) != -1
-        ? 'none'
-        : 'flex';
-    return {
-      display: str
-    };
   }
   async componentDidMount() {
     //进入这个页面 清除搜索埋点
@@ -386,17 +363,17 @@ class Header extends React.Component {
       result: null
     });
   }
-  handleSearch = (e) => {
+  handleSearch = () => {
     if (this.state.loading) return;
-    if (process.env.REACT_APP_LANG == 'fr') {
-      this.props.history.push({
-        pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
-        state: {
-          GAListParam: 'Search Results',
-          noresult: !this.state.isSearchSuccess
-        }
-      });
-    }
+    this.props.history.push({
+      pathname: `/on/demandware.store/Sites-${process.env.REACT_APP_LANG.toUpperCase()}-Site/${process.env.REACT_APP_LANG.toLowerCase()}_${process.env.REACT_APP_LANG.toUpperCase()}/Search-Show`,
+      // pathname: `/on/demandware.store/Sites-FR-Site/fr_FR/Search-Show?q=${e.current.value}`,
+      search: `?q=${this.state.keywords}`,
+      state: {
+        GAListParam: 'Search Results',
+        noresult: !this.state.isSearchSuccess
+      }
+    });
   };
   handleSearchInputChange(e) {
     this.setState(
@@ -641,7 +618,7 @@ class Header extends React.Component {
       category: 'menu',
       action: 'menu',
       label: item.navigationLink,
-      value: item.navigationName
+      value: 1
     });
   }
   renderDropDownText = (item) => {
@@ -734,9 +711,8 @@ class Header extends React.Component {
               <Logo />
             </Link>
             <ul
-              className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__right"
+              className={["rc-list", "rc-list--blank","rc-list--align", "rc-header__right",this.props.showLoginBtn?"rc-list--inline":"rc-hidden"].join(' ')}
               role="menubar"
-              style={this.isHideLoginInfo()}
             >
               <li className="rc-list__item d-flex align-items-center">
                 {showMiniIcons ? (
@@ -772,7 +748,7 @@ class Header extends React.Component {
                             <button
                               className="rc-input__submit rc-input__submit--search"
                               type="submit"
-                              onClick={() => this.handleSearch(this.inputRef)}
+                              onClick={this.handleSearch}
                             >
                               <span className="rc-screen-reader-text" />
                             </button>
@@ -990,12 +966,10 @@ class Header extends React.Component {
           </nav>
 
           <nav
-            className="rc-header__nav rc-header__nav--secondary rc-md-up "
-            style={this.isHideNavBar()}
+            className={["rc-header__nav","rc-header__nav--secondary", "rc-md-up",this.props.showNav?"":"rc-hidden"].join(' ')}
           >
             <ul
               className="rc-list rc-list--blank rc-list--inline rc-list--align rc-header__center flex-nowrap"
-              style={this.isHideNavBar()}
             >
               {headerNavigationList.map((item, i) => (
                 <li

@@ -93,11 +93,24 @@ class PaymentStore {
       case 'email':
         dataLayer[0].checkout.step = 2
         dataLayer[0].checkout.option = 'guest checkout'
+        let option = 'guest checkout'
+        //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
+        if (this.isLogin) {
+          isNewAccount().then((res) => {
+            if (res.code == 'K-000000' && res.context == 0) {
+              dataLayer[0].checkout.option = 'new account'
+              option = 'new account'
+            } else {
+              dataLayer[0].checkout.option = 'account already created'
+              option = 'account already created'
+            }
+          })
+        }
         if (isFirstLoad) {
           const result = find(dataLayer, (ele) => ele.event === process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView')
           result.checkout = {
             step: 2,
-            option: ''
+            option
           }
           result.page = {
             type: 'Checkout',
@@ -107,7 +120,7 @@ class PaymentStore {
           dataLayer.push({
             checkout: {
               step: 2,
-              option: ''
+              option
             },
             event: process.env.REACT_APP_GTM_SITE_ID + 'virtualPageView',
             page: {
@@ -116,16 +129,7 @@ class PaymentStore {
             }
           })
         }
-        //特殊要求：会员需要查询是不是new account, SFCC只有在这一步骤的时候区分了是不是新账户
-        if (this.isLogin) {
-          isNewAccount().then((res) => {
-            if (res.code == 'K-000000' && res.context == 0) {
-              dataLayer[0].checkout.option = 'new account'
-            } else {
-              dataLayer[0].checkout.option = 'account already created'
-            }
-          })
-        }
+        
         break;
       //填完地址
       case 'deliveryAddr':

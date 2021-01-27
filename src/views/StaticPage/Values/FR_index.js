@@ -122,11 +122,8 @@ class Help extends React.Component {
                           </div>
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-                             <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw62f4b1b6/Values/POMERANIAN_ADULT___BRAND_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"
-                                         alt="Les animaux de compagnie en premier"
-                                         title="Les animaux de compagnie en premier"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw62f4b1b6/Values/POMERANIAN_ADULT___BRAND_EMBLEMATIC_Med._Res.___Basic.jpg?sw=622&amp;sfrm=jpg"/>
+                              <img className="w-100 lazyloaded"  alt="Les animaux de compagnie en premier"
+                                         title="Les animaux de compagnie en premier" src={image1}/>
                             </picture>
                           </div>
                         </div>
@@ -145,11 +142,11 @@ class Help extends React.Component {
                         <div className="row align-items-md-center">
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
-                              <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5420afb8/Values/BRITISH_SHORT_HAIR_ADULT_-_BREED_EMBLEMATIC_High_Res.___Print.jpg?sw=622&amp;sfrm=jpg"
-                                         alt="Une passion pour les animaux de compagnie"
-                                         title="Une passion pour les animaux de compagnie"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw5420afb8/Values/BRITISH_SHORT_HAIR_ADULT_-_BREED_EMBLEMATIC_High_Res.___Print.jpg?sw=622&amp;sfrm=jpg"/>
+                              <img className="w-100 lazyloaded" 
+                                alt="Une passion pour les animaux de compagnie"
+                                title="Une passion pour les animaux de compagnie"
+                                src={image2}/>
+                              />
                             </picture>
                           </div>
                           <div className=" col-12 col-lg-6">
@@ -192,10 +189,10 @@ class Help extends React.Component {
                           <div className=" col-12 col-lg-6 rc-padding-x--sm--desktop">
                             <picture data-rc-feature-objectfillpolyfill-setup="true">
                               <img className="w-100 lazyloaded"
-                                         data-src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1b6e9848/Values/LABRADOR_PUPPY_-_BIRTH___GROWTH_EMBLEMATIC_Med._Res.___Basic-(1).jpg?sw=622&amp;sfrm=jpg"
-                                         alt="L'obsession pour la santé animale"
-                                         title="L'obsession pour la santé animale"
-                                         src="https://shop.royalcanin.fr/dw/image/v2/BCMK_PRD/on/demandware.static/-/Sites-FR-Library/fr_FR/dw1b6e9848/Values/LABRADOR_PUPPY_-_BIRTH___GROWTH_EMBLEMATIC_Med._Res.___Basic-(1).jpg?sw=622&amp;sfrm=jpg"/>
+                                alt="L'obsession pour la santé animale"
+                                title="L'obsession pour la santé animale"
+                                src={image3}/>
+                              />
                             </picture>
                           </div>
                         </div>

@@ -259,14 +259,6 @@ class RouteFilter extends Component {
       window.location.href = window.location.href.split('/#/').join('/');
       return null
     }
-    if (window.location.href.indexOf('_FR.html') !== -1) {
-      window.location.href = window.location.href.split('_FR.html')[0];
-      return null
-    }
-    if (window.location.href.indexOf('.html') !== -1) {
-      window.location.href = window.location.href.split('.html')[0];
-      return null
-    }    
     if (pathname !== '/login') {
       loadJS({
         url: process.env.REACT_APP_ONTRUST_SRC,
