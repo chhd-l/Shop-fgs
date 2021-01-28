@@ -234,7 +234,9 @@ function ListItem(props) {
                   className="d-flex justify-content-center rc-padding-top--md"
                   style={{ fontSize: 'large' }}
                 >
-                  <FormattedMessage id="plp.retail.cat.product.finder.detail"/>
+                  <FormattedMessage id="plp.retail.cat.product.finder.detail"values={{
+                    val:<br/>
+                  }}/>
                 </div>
                 <button
                   className="rc-btn rc-btn--two "
@@ -668,7 +670,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
             <p>
               <FormattedMessage id="plp.retail.cat.detail" />
             </p>
-            <Link to="/product-finder" className="rc-btn rc-btn--two">
+            <Link to="/cats/vet_products" className="rc-btn rc-btn--two">
               <FormattedMessage id="plp.retail.cat.button" />
             </Link>
           </div>
@@ -695,7 +697,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
                 <p>
                   <FormattedMessage id="plp.vet.cat.detail" />
                 </p>
-                <Link to="/product-finder" className="rc-btn rc-btn--two">
+                <Link to="/retail_products" className="rc-btn rc-btn--two">
                   <FormattedMessage id="plp.vet.cat.button" />
                 </Link>
               </div>
