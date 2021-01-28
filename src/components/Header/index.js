@@ -492,7 +492,7 @@ class Header extends React.Component {
                     )}
                   </>
                 ) : null}
-                <UserJSX 
+                <UserJSX
                 showCart={showCart}
                 showCenter={showCenter}
                 {...this.props}
@@ -500,6 +500,7 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
+
           {process.env.REACT_APP_HUB === '1' ? (
             <DropDownMenuForHub
               activeTopParentId={this.state.activeTopParentId}
@@ -521,6 +522,7 @@ class Header extends React.Component {
               showLoginBtn={this.props.showLoginBtn}
             />
           )}
+
         </header>
         {process.env.REACT_APP_CHECKOUT_WITH_CLINIC === 'true' &&
           this.renderClinic()}
