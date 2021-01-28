@@ -36,10 +36,11 @@ import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
 import pfRecoImgRetail from '@/assets/images/product-finder-recomend-retail-cat.PNG';
-import pfRecoImgVet from'@/assets/images/product-finder-recomend-vet-cat.PNG'
-import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retail-cat-find.png'
+import pfRecoImgVet from '@/assets/images/product-finder-recomend-vet-cat.PNG';
+import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retail-cat-find.png';
 
-let isMobile = getDeviceType() === 'H5';
+const isHub = process.env.REACT_APP_HUB == '1';
+const isMobile = getDeviceType() === 'H5';
 const sessionItemRoyal = window.__.sessionItemRoyal;
 const localItemRoyal = window.__.localItemRoyal;
 const pageLink = window.location.href;
@@ -62,10 +63,9 @@ function getMuntiImg(item) {
   }
 }
 
-
 function ListItemH5ForFr(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  console.log('★★★★★★★★★取的数据 item: ',item);
+  console.log('★★★★★★★★★取的数据 item: ', item);
   return (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
@@ -145,7 +145,68 @@ function ListItemH5ForFr(props) {
 }
 function ListItem(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  return (
+  return item && item.productFinder ? (
+    <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
+      <article
+        className="rc-card--product overflow-hidden"
+        style={{ minHeight: '120px' }}
+      >
+        <div className="fullHeight">
+          <span className="ui-cursor-pointer">
+            <article className="rc-card--a rc-text--center text-center">
+              <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
+                <div className="height-product-tile-plpOnly">
+                  <h3
+                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
+                    title="Mini Adult en Sauce"
+                  >
+                    <FormattedMessage id="plp.retail.cat.product.finder.title" />
+                  </h3>
+                </div>
+                <div
+                  className="d-flex justify-content-center rc-padding-top--md"
+                  style={{ fontSize: 'large' }}
+                >
+                  <FormattedMessage id="plp.retail.cat.product.finder.detail" />
+                </div>
+                <button
+                  className="rc-btn rc-btn--two "
+                  style={{ marginTop: '19px' }}
+                >
+                  <FormattedMessage id="plp.retail.cat.product.finder.button" />
+                </button>
+              </div>
+              <picture className="rc-card__image">
+                <div className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen">
+                  <div
+                    className="lazyload-wrapper"
+                    style={{
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  >
+                    <img
+                      src={pfRecoImgRetailFinder}
+                      alt="Mini Adult en Sauce"
+                      title="Mini Adult en Sauce"
+                      className="ImgFitScreen pt-3"
+                      style={{
+                        maxWidth: '50%',
+                        maxHeight: '100%',
+                        width: '150px',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                    />
+                  </div>
+                </div>
+              </picture>
+            </article>
+          </span>
+        </div>
+      </article>
+    </div>
+  ) : (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
         className="rc-card rc-card--product overflow-hidden"
@@ -212,8 +273,8 @@ function ListItem(props) {
   );
 }
 function ListItemRetail(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam,pageSize } = props;
-  console.log('★★★★★★★★★取的数据 props: ',pageSize);
+  const { item, GAListParam, breadListByDeco, sourceParam, pageSize } = props;
+  console.log('★★★★★★★★★取的数据 props: ', pageSize);
   return (
     <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
       <article
@@ -227,11 +288,11 @@ function ListItemRetail(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName?item.lowGoodsName
-                .split(' ')
-                .join('-')
-                .replace('/', ''):''
-              }- ${item.goodsNo}` + sourceParam
+                ? `/${
+                    item.lowGoodsName
+                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                      : ''
+                  }- ${item.goodsNo}` + sourceParam
                 : '',
               state: {
                 GAListParam,
@@ -251,12 +312,13 @@ function ListItemRetail(props) {
                     <LazyLoad style={{ width: '100%', height: '100%' }}>
                       <img
                         src={
-                          item.goodsImg ||
-                          item.goodsInfos?item.goodsImg ||
-                            item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT:''
+                          item.goodsImg || item.goodsInfos
+                            ? item.goodsImg ||
+                              item.goodsInfos.sort(
+                                (a, b) => a.marketPrice - b.marketPrice
+                              )[0].goodsInfoImg ||
+                              IMG_DEFAULT
+                            : ''
                         }
                         // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
                         alt={item.goodsName}
@@ -356,7 +418,7 @@ function ListItemBody({ item }) {
         className="text-center NameFitScreen"
         style={{
           color: '#4a4a4a',
-          opacity: item.goodsInfos?item.goodsInfos.length:'' > 1 ? 1 : 0
+          opacity: item.goodsInfos ? item.goodsInfos.length : '' > 1 ? 1 : 0
         }}
       >
         <FormattedMessage id="startFrom" />
@@ -480,75 +542,91 @@ function ListItemBody({ item }) {
   );
 }
 
-function ProductFinderAd() {
+function ProductFinderAd({ isRetailProducts, isVetProducts }) {
   return (
     {
       fr: (
-
         <div className="ml-4 mr-4 pl-4 pr-4">
+          {isRetailProducts || isVetProducts ? null : (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  {/* <img src={pfRecoImg} /> */}
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p className="rc-gamma rc-padding--none">
+                  <FormattedMessage id="productFinder.recoTitle" />
+                </p>
+                <p>
+                  <FormattedMessage id="productFinder.recoDesc" />
+                </p>
+                <Link to="/product-finder" className="rc-btn rc-btn--two">
+                  <FormattedMessage id="productFinder.index" />
+                </Link>
+              </div>
+            </div>
+          )}
 
-          <div className="row align-items-center" style={{display:`${location.pathname=='/cats/retail_products'||location.pathname=='/cats/vet_products'?'none':''}`}}>
-            <div className="col-12 col-md-6" >
-              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
-                <img src={pfRecoImg} />
-              </LazyLoad>
+          {isRetailProducts ? (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  {/* <img src={pfRecoImgRetail} /> */}
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  <FormattedMessage id="plp.retail.cat.title" />
+                </p>
+                <p>
+                  <FormattedMessage id="plp.retail.cat.detail" />
+                </p>
+                <Link to="/product-finder" className="rc-btn rc-btn--two">
+                  <FormattedMessage id="plp.retail.cat.button" />
+                </Link>
+              </div>
             </div>
-            <div className="col-12 col-md-6">
-              <p className="rc-gamma rc-padding--none">
-                <FormattedMessage id="productFinder.recoTitle"/>
-              </p>
-              <p>
-                <FormattedMessage id="productFinder.recoDesc" />
-              </p>
-              <Link to="/product-finder" className="rc-btn rc-btn--two">
-                <FormattedMessage id="productFinder.index" />
-              </Link>
-            </div>
-          </div>
+          ) : null}
 
-          <div className="row align-items-center" style={{display:`${location.pathname=='/cats/retail_products'&&process.env.REACT_APP_HUB == '1'?'':'none'}`}}>
-            <div className="col-12 col-md-6" >
-              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
-                <img src={pfRecoImgRetail} />
-              </LazyLoad>
+          {isVetProducts ? (
+            <div className="row align-items-center">
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  {/* <img src={pfRecoImgVet} /> */}
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  <FormattedMessage id="plp.vet.cat.title" />
+                </p>
+                <p>
+                  <FormattedMessage id="plp.vet.cat.detail" />
+                </p>
+                <Link to="/product-finder" className="rc-btn rc-btn--two">
+                  <FormattedMessage id="plp.vet.cat.button" />
+                </Link>
+              </div>
             </div>
-            <div className="col-12 col-md-6">
-              <p className="rc-gamma rc-padding--none" style={{fontSize:'2em',fontWight:'border'}}>
-                <FormattedMessage id="plp.retail.cat.title"/>
-              </p>
-              <p>
-                <FormattedMessage id="plp.retail.cat.detail" />
-              </p>
-              <Link to="/product-finder" className="rc-btn rc-btn--two">
-                <FormattedMessage id="plp.retail.cat.button" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="row align-items-center" style={{display:`${location.pathname=='/cats/vet_products'&&process.env.REACT_APP_HUB == '1'?'':'none'}`}}>
-            <div className="col-12 col-md-6" >
-              <LazyLoad style={{ width: '100%', height: '100%' }} height={200}>
-                <img src={pfRecoImgVet} />
-              </LazyLoad>
-            </div>
-            <div className="col-12 col-md-6">
-              <p className="rc-gamma rc-padding--none" style={{fontSize:'2em',fontWight:'border'}}>
-                <FormattedMessage id="plp.vet.cat.title"/>
-              </p>
-              <p>
-                <FormattedMessage id="plp.vet.cat.detail" />
-              </p>
-              <Link to="/product-finder" className="rc-btn rc-btn--two">
-                <FormattedMessage id="plp.vet.cat.button" />
-              </Link>
-            </div>
-          </div>
+          ) : null}
 
           <div className="rc-hidden">RC-HIden</div>
         </div>
-
-
-
       )
     }[process.env.REACT_APP_LANG] || null
   );
@@ -560,6 +638,9 @@ function ProductFinderAd() {
 class List extends React.Component {
   constructor(props) {
     super(props);
+    const isRetailProducts =
+      isHub && location.pathname.includes('retail_products');
+    const isVetProducts = isHub && location.pathname.includes('vet_products');
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -604,9 +685,11 @@ class List extends React.Component {
         title: '',
         metaKeywords: '',
         metaDescription: ''
-      }
+      },
+      isRetailProducts,
+      isVetProducts
     };
-    process.env.REACT_APP_HUB == '1'&&location.pathname=='/cats/retail_products'?this.pageSize=8:this.pageSize=12;
+    this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
     this.toggleFilterModal = this.toggleFilterModal.bind(this);
   }
@@ -621,8 +704,9 @@ class List extends React.Component {
 
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
-    if(keywordsSearch){ //表示从搜索来的
-      dataLayer[0].page.type = 'Search Results'
+    if (keywordsSearch) {
+      //表示从搜索来的
+      dataLayer[0].page.type = 'Search Results';
     }
     this.setState(
       {
@@ -724,13 +808,15 @@ class List extends React.Component {
       return {
         name: item.goodsName,
         id: item.goodsNo,
-        brand: item.goodsBrand?item.goodsBrand.brandName:'',
+        brand: item.goodsBrand ? item.goodsBrand.brandName : '',
         price: item.minMarketPrice,
         club: 'no',
         category: item.goodsCateName,
         list: this.state.GAListParam,
         position: index,
-        sku: item.goodsInfos?item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo:'',
+        sku: item.goodsInfos
+          ? item.goodsInfos.length && item.goodsInfos[0].goodsInfoNo
+          : '',
         flag: ''
       };
     });
@@ -1326,7 +1412,9 @@ class List extends React.Component {
             });
           }
 
-          if (process.env.REACT_APP_HUB == '1'&&history.location.pathname=='/cats/retail_products'){goodsContent.splice(4,0,'')}
+          if (this.state.isRetailProducts) {
+            goodsContent.splice(4, 0, { productFinder: true });
+          }
           this.setState(
             {
               productList: goodsContent,
@@ -1502,11 +1590,8 @@ class List extends React.Component {
       };
     }
 
-    const a=[9,9,9,9,9,9,9];
-    a.splice(3,0,3);
-
-
-
+    const a = [9, 9, 9, 9, 9, 9, 9];
+    a.splice(3, 0, 3);
 
     const _loadingJXS = Array(6)
       .fill(null)
@@ -1831,137 +1916,10 @@ class List extends React.Component {
                     ) : (
                       <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
-
-                          {console.log(productList,'★★★★🌙')}
+                          {console.log(productList, '★★★★🌙')}
                           {loading
                             ? _loadingJXS
-                            :productList.map((item, i) =>
-                                process.env.REACT_APP_HUB == '1'&&location.pathname=='/cats/retail_products'
-                                 ?i===4 ?(
-                                   <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
-                                    <article className="rc-card--product overflow-hidden" style={{minHeight: '120px'}}>
-                                      <div className="fullHeight"><a className="ui-cursor-pointer" href="/mini-adult-en-sauce-1096">
-                                        <article className="rc-card--a rc-text--center text-center">
-                                          <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
-                                            <div className="height-product-tile-plpOnly"><h3
-                                              className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break text-center"
-                                              title="Mini Adult en Sauce"><FormattedMessage id="plp.retail.cat.product.finder.title"/></h3></div>
-                                              <div className="d-flex justify-content-center rc-padding-top--md" style={{fontSize:'large'}}>
-                                                <FormattedMessage id="plp.retail.cat.product.finder.detail"/>
-                                              </div>
-                                            <button className="rc-btn rc-btn--two " style={{marginTop:'19px'}}><FormattedMessage id="plp.retail.cat.product.finder.button"/></button>
-                                            </div>
-                                          <picture className="rc-card__image">
-                                            <div
-                                              className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                                            >
-                                              <div className="lazyload-wrapper" style={{width: '100%', height: '100%'}}><img
-                                                src={pfRecoImgRetailFinder}
-                                                alt="Mini Adult en Sauce" title="Mini Adult en Sauce" className="ImgFitScreen pt-3"
-                                                style={{maxWidth: '50%', maxHeight: '100%', width: '150px', height: 'auto', margin: 'auto'}}/></div>
-                                            </div>
-                                          </picture>
-                                        </article>
-                                      </a></div>
-                                    </article>
-                                  </div>
-                                    // 第四个的原本的内容
-                                    //  &&(<ListItemRetail
-                                    //   pageSize={this.pageSize}
-                                    //   sourceParam={this.state.sourceParam}
-                                    //   key='4'
-                                    //   leftPromotionJSX={
-                                    //     item.taggingForText ? (
-                                    //       <div
-                                    //         className="product-item-flag-text"
-                                    //         style={{
-                                    //           backgroundColor:
-                                    //           item.taggingForText
-                                    //             .taggingFillColor,
-                                    //           color:
-                                    //           item.taggingForText
-                                    //             .taggingFontColor
-                                    //         }}
-                                    //       >
-                                    //         {item.taggingForText.taggingName}
-                                    //       </div>
-                                    //     ) : null
-                                    //   }
-                                    //   rightPromotionJSX={
-                                    //     item.taggingForImage ? (
-                                    //       <div className="product-item-flag-image position-absolute">
-                                    //         <img
-                                    //           src={
-                                    //             item.taggingForImage.taggingImgUrl
-                                    //           }
-                                    //         />
-                                    //       </div>
-                                    //     ) : null
-                                    //   }
-                                    //   onClick={this.hanldeItemClick.bind(
-                                    //     this,
-                                    //     item,
-                                    //     i
-                                    //   )}
-                                    //   item={item}
-                                    //   GAListParam={GAListParam}
-                                    //   breadListByDeco={breadListByDeco}
-                                    // >
-                                    //   {process.env.REACT_APP_LANG === 'fr' &&
-                                    //   isMobile ? (
-                                    //     <ListItemBodyH5ForFr item={item} />
-                                    //   ) : (
-                                    //     <ListItemBody item={item} />
-                                    //   )}
-                                    // </ListItemRetail>)
-                                  ):(<ListItemRetail
-                                    pageSize={this.pageSize}
-                                    sourceParam={this.state.sourceParam}
-                                    key={item.id}
-                                    leftPromotionJSX={
-                                      item.taggingForText ? (
-                                        <div
-                                          className="product-item-flag-text"
-                                          style={{
-                                            backgroundColor:
-                                            item.taggingForText
-                                              .taggingFillColor,
-                                            color:
-                                            item.taggingForText
-                                              .taggingFontColor
-                                          }}
-                                        >
-                                          {item.taggingForText.taggingName}
-                                        </div>
-                                      ) : null
-                                    }
-                                    rightPromotionJSX={
-                                      item.taggingForImage ? (
-                                        <div className="product-item-flag-image position-absolute">
-                                          <img
-                                            src={
-                                              item.taggingForImage.taggingImgUrl
-                                            }
-                                          />
-                                        </div>
-                                      ) : null
-                                    }
-                                    onClick={this.hanldeItemClick.bind(
-                                      this,
-                                      item,
-                                      i
-                                    )}
-                                    item={item}
-                                    GAListParam={GAListParam}
-                                    breadListByDeco={breadListByDeco}
-                                  >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} />
-                                    )}
-                                  </ListItemRetail>):
+                            : productList.map((item, i) =>
                                 process.env.REACT_APP_LANG === 'fr' &&
                                 isMobile ? (
                                   <ListItemH5ForFr
@@ -2008,12 +1966,7 @@ class List extends React.Component {
                                     GAListParam={GAListParam}
                                     breadListByDeco={breadListByDeco}
                                   >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} />
-                                    )}
+                                    <ListItemBodyH5ForFr item={item} />
                                   </ListItemH5ForFr>
                                 ) : (
                                   <ListItem
@@ -2056,12 +2009,7 @@ class List extends React.Component {
                                     GAListParam={GAListParam}
                                     breadListByDeco={breadListByDeco}
                                   >
-                                    {process.env.REACT_APP_LANG === 'fr' &&
-                                    isMobile ? (
-                                      <ListItemBodyH5ForFr item={item} />
-                                    ) : (
-                                      <ListItemBody item={item} />
-                                    )}
+                                    <ListItemBody item={item} />
                                   </ListItem>
                                 )
                               )}
@@ -2084,7 +2032,7 @@ class List extends React.Component {
                 </div>
               </div>
             </section>
-            <ProductFinderAd />
+            <ProductFinderAd {...this.state} />
           </div>
         </main>
         {process.env.REACT_APP_LANG == 'de' ? (
