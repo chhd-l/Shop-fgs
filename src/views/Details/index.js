@@ -24,7 +24,8 @@ import {
   getDeviceType,
   getFrequencyDict,
   queryStoreCateList,
-  getParaByName
+  getParaByName,
+  loadJS
 } from '@/utils/utils';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cloneDeep from 'lodash/cloneDeep';
@@ -133,7 +134,9 @@ class Details extends React.Component {
         goodsSpecDetails: [],
         goodsSpecs: [],
         taggingForText: null,
-        taggingForImage: null
+        taggingForImage: null,
+        fromPrice: 0,
+        toPrice: 0
       },
       activeTabIdx: 0,
       goodsDetailTab: {
@@ -314,8 +317,32 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
+  }
+  setGoogleProductStructuredDataMarkup () {
+    const { instockStatus, details, spuImages, goodsDetailTab, goodsNo } = this.state
+    loadJS({
+      code: JSON.stringify({
+        '@context': 'http://schema.org/',
+        '@type': 'Product',
+        name: details.goodsName,
+        description: goodsDetailTab.tabContent[0],
+        mpn: goodsNo,
+        sku: goodsNo,
+        image: spuImages.map(s => s.artworkUrl),
+        offers: {
+          url: {},
+          '@type': 'AggregateOffer',
+          priceCurrency: process.env.REACT_APP_CURRENCY,
+          availability: instockStatus ? 'http://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          lowPrice: details.fromPrice,
+          highPrice: details.toPrice || details.fromPrice
+        }
+      }),
+      type: 'application/ld+json'
+    });
   }
   matchGoods() {
     let {
@@ -401,6 +428,7 @@ class Details extends React.Component {
       },
       () => {
         this.updateInstockStatus();
+        setTimeout(() => this.setGoogleProductStructuredDataMarkup())
       }
     );
   }
@@ -427,6 +455,7 @@ class Details extends React.Component {
           let pageLink = window.location.href.split('-');
           pageLink.splice(pageLink.length - 1, 1);
           pageLink = pageLink.concat(res.context.goods.goodsNo).join('-');
+          
           this.setState(
             {
               productRate: res.context.goods.avgEvaluate,
@@ -446,7 +475,9 @@ class Details extends React.Component {
                     e.taggingType === 'Image' &&
                     e.showPage &&
                     e.showPage.includes('PDP')
-                )[0]
+                )[0],
+                fromPrice: res.context.fromPrice,
+                toPrice: res.context.toPrice
               }),
               spuImages: res.context.images,
               breadCrumbs: [{ name: res.context.goods.goodsName }],
@@ -583,7 +614,6 @@ class Details extends React.Component {
           console.log(sizeList, 'sizeList');
 
           // const selectedSize = find(sizeList, s => s.selected)
-
           const { goodsDetailTab, tabs } = this.state;
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;

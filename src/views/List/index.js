@@ -30,7 +30,8 @@ import {
   getParaByName,
   getDictionary,
   setSeoConfig,
-  getDeviceType
+  getDeviceType,
+  loadJS
 } from '@/utils/utils';
 import './index.less';
 
@@ -496,11 +497,11 @@ class List extends React.Component {
         sourceParam: search
       });
     }
-
     const { category, keywords } = this.props.match.params;
     const keywordsSearch = decodeURI(getParaByName(search, 'q'));
-    if(keywordsSearch){ //表示从搜索来的
-      dataLayer[0].page.type = 'Search Results'
+    if (keywordsSearch) {
+      //表示从搜索来的
+      dataLayer[0].page.type = 'Search Results';
     }
     this.setState(
       {
@@ -1021,7 +1022,8 @@ class List extends React.Component {
       filterList,
       searchForm,
       defaultFilterSearchForm,
-      actionFromFilter
+      actionFromFilter,
+      sourceParam
     } = this.state;
 
     this.setState({ loading: true });
@@ -1203,6 +1205,23 @@ class List extends React.Component {
               return ret;
             });
           }
+          const urlPrefix = `${window.location.origin}${process.env.REACT_APP_HOMEPAGE}`;
+          loadJS({
+            code: JSON.stringify({
+              '@context': 'http://schema.org/',
+              '@type': 'ItemList',
+              itemListElement: goodsContent.map((g, i) => ({
+                '@type': 'ListItem',
+                position: (esGoods.number + 1) * (i + 1),
+                url:
+                  `${urlPrefix}/${g.lowGoodsName
+                    .split(' ')
+                    .join('-')
+                    .replace('/', '')}-${g.goodsNo}` + sourceParam
+              }))
+            }),
+            type: 'application/ld+json'
+          });
           this.setState(
             {
               productList: goodsContent,
