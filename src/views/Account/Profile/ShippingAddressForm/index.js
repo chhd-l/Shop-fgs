@@ -474,7 +474,7 @@ class ShippingAddressFrom extends React.Component {
                   )}
                 </div>
 
-                <div className="form-group col-lg-6 d-flex flex-column">
+           {/*     <div className="form-group col-lg-6 d-flex flex-column">
                   <label
                     className="form-control-label rc-full-width"
                     htmlFor="reference"
@@ -500,7 +500,7 @@ class ShippingAddressFrom extends React.Component {
                   {errMsgObj.address2 && (
                     <div className="text-danger-2">{errMsgObj.address2}</div>
                   )}
-                </div>
+                </div>*/}
 
                 <div className="col-lg-6 col-sm-12">
                   <div className="form-group col-lg-12 pull-left no-padding required">

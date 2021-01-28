@@ -724,11 +724,12 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -741,7 +742,7 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -757,7 +758,7 @@ class Details extends React.Component {
                         tempContent = `<ul class="ui-star-list rc_proudct_html_tab2 list-paddingleft-2">
                           ${tempContent}
                         </ul>`;
-                      } else if (key === 'Composition') {
+                      } else if (key === 'Composition' || key === 'Ингредиенты') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -896,11 +897,12 @@ class Details extends React.Component {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
-                  if (process.env.REACT_APP_LANG === 'fr') {
+                  console.log(tmpGoodsDetail[key], 'ghaha');
+                  if (process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr') {
                     let tempObj = {};
                     let tempContent = '';
                     try {
-                      if (key === 'Description') {
+                      if (key === 'Description' || key === 'Описание' || key === 'İçindekiler') {
                         tmpGoodsDetail[key].map((el) => {
                           if (
                             Object.keys(JSON.parse(el))[0] ===
@@ -925,7 +927,7 @@ class Details extends React.Component {
                               }</p>`;
                           }
                         });
-                      } else if (key === 'Bénéfices') {
+                      } else if (key === 'Bénéfices' || key === 'Полезные свойства' || key === 'Yararları') {
                         tmpGoodsDetail[key].map((el) => {
                           tempContent =
                             tempContent +
@@ -1871,7 +1873,7 @@ class Details extends React.Component {
                             <div className="d-flex justify-content-center ui-margin-top-1-md-down">
                               {
                                 <div className="details-img-container">
-                                  {process.env.REACT_APP_LANG === 'fr' ? (
+                                  {process.env.REACT_APP_LANG === 'fr' || process.env.REACT_APP_LANG === 'ru' || process.env.REACT_APP_LANG === 'tr' ? (
                                     <ImageMagnifier_fr
                                       sizeList={details.sizeList}
                                       video={details.goodsVideo}
@@ -2579,6 +2581,28 @@ class Details extends React.Component {
                               <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
                             </div>
                                   {/* {this.isLogin ? (
+                            {
+                              process.env.REACT_APP_LANG == 'de'?<div className="mb-2 mr-2" style={{fontSize:"14px"}}>Preise inkl. MwSt</div>:null
+                            }
+                            <button
+                              style={{ padding: '2px 30px' }}
+                              className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${
+                                addToCartLoading ? 'ui-btn-loading' : ''
+                              } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
+                              onClick={this.hanldeAddToCart}
+                            >
+                              <span className="fa rc-icon rc-cart--xs rc-brand3" />
+                              <span className="default-txt">
+                                <FormattedMessage
+                                  id={`${
+                                    form.buyWay === 1
+                                      ? 'subscribe'
+                                      : 'details.addToCart'
+                                  }`}
+                                />
+                              </span>
+                            </button>
+                            {/* {this.isLogin ? (
                                 <button
                                   className={`rc-btn rc-btn--one js-sticky-cta ${
                                     addToCartLoading ? 'ui-btn-loading' : ''
