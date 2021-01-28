@@ -885,5 +885,18 @@ const en_US = {
   'order.total': 'Total',
   'order.iVAIncluido': '',
   'validPromotionCode': 'Unable to add the discount voucher to your cart',
+
+  //PLP-Retail-Cat
+  'plp.retail.cat.title':'Are you looking for veterinary products?',
+  'plp.retail.cat.detail':'Dietary foods that help maintain the health of cats diagnosed with problems',
+  'plp.retail.cat.button':'Discover range',
+  'plp.retail.cat.product.finder.title':'Need help finding the right product?',
+  'plp.retail.cat.product.finder.detail':'Try our product finder',
+  'plp.retail.cat.product.finder.button':'Find a product',
+  //PLP-Vet-Cat
+  'plp.vet.cat.title':'Are you looking for food available in specialised outlets?',
+  'plp.vet.cat.detail':'Our complete range of dry foods and bites in sauce or jelly provides the most accurate nutrition for cats of all ages,sizes and breeds',
+  'plp.vet.cat.button':'Discover range',
+
 }
 export default en_US;
