@@ -105,6 +105,9 @@ export default class Search extends React.Component {
             result: Object.assign({}, { productList: [], totalElements: 0 })
           });
         }
+        this.setState({
+          loading: false
+        });
       })
       .catch((err) => {
         if (dataLayer[0] && dataLayer[0].search) {
