@@ -1815,19 +1815,20 @@ class Details extends React.Component {
                         </h1>
                         <div
                           className="desAndStars"
-                          // style={{
-                          //   display:
-                          //     process.env.REACT_APP_LANG == 'fr'
-                          //       ? 'none'
-                          //       : 'block'
-                          // }}
                         >
                           <div className="des">
                             <h3 className="text-break mb-1 mt-2">
                               {details.goodsSubtitle}
                             </h3>
                           </div>
-                          <div className="stars">
+                          <div className="stars"
+                            style={{
+                              display:
+                                process.env.REACT_APP_LANG == 'fr'
+                                  ? 'none'
+                                  : 'block'
+                            }}
+                          >
                             <div className="rc-card__price flex-inline">
                               <div
                                 className="display-inline"
@@ -2580,9 +2581,9 @@ class Details extends React.Component {
                             &nbsp;&nbsp;
                             <FormattedMessage id="or" />
                             &nbsp;&nbsp;
-                            <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                            {!this.state.loading ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
                               <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                            </div>
+                            </div> : null}
                                   {/* {this.isLogin ? (
                             {
                               process.env.REACT_APP_LANG == 'de'?<div className="mb-2 mr-2" style={{fontSize:"14px"}}>Preise inkl. MwSt</div>:null
@@ -2659,9 +2660,9 @@ class Details extends React.Component {
                             </> :
                             <>
                               <div dangerouslySetInnerHTML={{ __html: this.state.descContent }}></div>
-                              <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                              {!this.state.loading && !isMobile ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
                                 <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                              </div>
+                              </div> : null}
                             </>
                           }
                       </div>
@@ -2825,7 +2826,7 @@ class Details extends React.Component {
                 style={{ transform: 'translateY(-80px)' }}
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  <button
+                  {process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag ? <button
                     className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? 'ui-btn-loading' : ''
                       } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={this.hanldeAddToCart}
@@ -2838,10 +2839,10 @@ class Details extends React.Component {
                           <FormattedMessage id="details.addToCart" />
                         )}
                     </span>
-                  </button>
-                  <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                  </button> : null}
+                  {!this.state.loading ? <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
                     <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
-                  </div>
+                  </div> : null}
                   {/* {this.isLogin ? (
                   <button
                     className={`rc-btn rc-btn--one js-sticky-cta ${
@@ -2987,13 +2988,13 @@ class Details extends React.Component {
           </LazyLoad>
             <p><FormattedMessage id="detail.packagingDesc" /></p>
             <div>
-              <Link
-                to="/subscription-landing"
+              <a
+                href="https://www.consignesdetri.fr/"
                 className="rc-btn rc-btn--sm rc-btn--two rc-margin-left--xs"
                 style={{ minWidth: '110px' }}
               >
                 <FormattedMessage id="learnMore" />
-              </Link>
+              </a>
             </div>
           </div>
         <Footer />
