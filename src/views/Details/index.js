@@ -41,6 +41,8 @@ import PaymentSecureHome from '@/assets/images/home/Payment-secure@2x.png';
 import premiumHome from '@/assets/images/home/premium@2x.png';
 import reimbursedHome from '@/assets/images/home/reimbursed@2x.png';
 import shippmentHome from '@/assets/images/home/shippment@2x.png';
+import loop from '@/assets/images/loop.png';
+import vert from '@/assets/images/vert.png';
 
 import './index.css';
 import './index.less';
@@ -328,7 +330,8 @@ class Details extends React.Component {
       spuImages: [],
       requestJson: {}, //地址请求参数JSON eg:{utm_campaign: "shelter108782",utm_medium: "leaflet",utm_source: "vanityURL"}
       pageLink: '',
-      barcode: ''
+      barcode: '',
+      descContent: '',
     };
     this.hanldeAmountChange = this.hanldeAmountChange.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -716,12 +719,12 @@ class Details extends React.Component {
           });
           const goodSize = specList.map(item => item.chidren.find(good => good.selected))?.[0]?.detailName;
           const barcode = goodsInfos.find(item => item.packSize === goodSize)?.goodsInfoBarcode;
-          console.log(barcode,'barcode')
           const { goodsDetailTab, tabs } = this.state;
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
             if (tmpGoodsDetail) {
               tmpGoodsDetail = JSON.parse(tmpGoodsDetail);
+              console.log(tmpGoodsDetail,'tmpGoodsDetail')
               for (let key in tmpGoodsDetail) {
                 if (tmpGoodsDetail[key]) {
                   if (process.env.REACT_APP_LANG === 'fr') {
@@ -730,15 +733,16 @@ class Details extends React.Component {
                     try {
                       if (key === 'Description') {
                         tmpGoodsDetail[key].map((el) => {
+                          let descContent = `<p style="white-space: pre-line">${Object.values(JSON.parse(el))[0]}</p>`;
                           if (
                             Object.keys(JSON.parse(el))[0] ===
-                            'EretailShort Description'
+                            'EretailShort Description' && details.saleableFlag && !details.displayFlag
                           ) {
-                            tempContent =
-                              tempContent +
-                              `<p style="white-space: pre-line">${
-                                Object.values(JSON.parse(el))[0]
-                              }</p>`;
+                            tempContent = tempContent + descContent;
+                          }else {
+                            this.setState({
+                              descContent,
+                            })
                           }
                         });
                       } else if (key === 'Bénéfices') {
@@ -762,10 +766,9 @@ class Details extends React.Component {
                           tempContent =
                             tempContent +
                             `<p>
-                            
                             <div class="content">${
                               Object.values(JSON.parse(el))[0]
-                            }</div> 
+                            }</div>
                           </p>`;
                         });
                       } else {
@@ -1735,7 +1738,7 @@ class Details extends React.Component {
       eEvents,
       spuImages,
       pageLink,
-      goodsType, //goodsType:3表示vet
+      goodsType,
       barcode,
     } = this.state;
 
@@ -1810,12 +1813,12 @@ class Details extends React.Component {
                         </h1>
                         <div
                           className="desAndStars"
-                          style={{
-                            display:
-                              process.env.REACT_APP_LANG == 'fr'
-                                ? 'none'
-                                : 'block'
-                          }}
+                          // style={{
+                          //   display:
+                          //     process.env.REACT_APP_LANG == 'fr'
+                          //       ? 'none'
+                          //       : 'block'
+                          // }}
                         >
                           <div className="des">
                             <h3 className="text-break mb-1 mt-2">
@@ -1962,7 +1965,7 @@ class Details extends React.Component {
                             </div>
                           )}
                         </div>
-                          {process.env.REACT_APP_HUB === '1' && goodsType === 3 ?
+                          {process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag ?
                             <>
                               <div className="align-left flex rc-margin-bottom--xs">
                                 <div className="stock__wrapper">
@@ -2629,7 +2632,14 @@ class Details extends React.Component {
                                   checkOutErrMsg={checkOutErrMsg}
                                 />
                               </div>
-                            </> : null}
+                            </> :
+                            <>
+                              <div dangerouslySetInnerHTML={{ __html: this.state.descContent }}></div>
+                              <div className="other-buy-btn rc-btn rc-btn--sm rc-btn--two" data-ccid="wtb-target" data-ean={barcode} >
+                                <span className="rc-icon rc-location--xs rc-iconography rc-brand1"></span>
+                              </div>
+                            </>
+                          }
                       </div>
                     </div>
                   </div>
@@ -2745,7 +2755,7 @@ class Details extends React.Component {
             ) : null}
 
             <div className="split-line rc-bg-colour--brand4" ></div>
-            <AdvantageTips/>           
+            {process.env.REACT_APP_HUB === '1' && goodsType !== 3 ? <AdvantageTips /> : null}
             {/* 电话邮箱联系板块 */}
               <div className="split-line rc-bg-colour--brand4" ></div>
               <div className="good-contact d-flex justify-content-center">
@@ -2938,6 +2948,19 @@ class Details extends React.Component {
           {/* 最下方跳转更多板块 */}
           <div className="split-line rc-bg-colour--brand4" ></div>
           <div className="more-link">
+          <LazyLoad height={200}>
+            <img
+              src={loop}
+              srcSet={loop}
+            />
+          </LazyLoad>
+          <LazyLoad height={200}>
+            <img
+              src={vert}
+              srcSet={vert}
+              className="vert"
+            />
+          </LazyLoad>
             <p><FormattedMessage id="detail.packagingDesc" /></p>
             <div>
               <Link
