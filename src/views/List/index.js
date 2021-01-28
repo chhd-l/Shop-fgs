@@ -35,8 +35,8 @@ import {
 import './index.less';
 
 import pfRecoImg from '@/assets/images/product-finder-recomend.jpg';
-import pfRecoImgRetail from '@/assets/images/product-finder-recomend-retail-cat.png';
-import pfRecoImgVet from'@/assets/images/product-finder-recomend-vet-cat.png'
+import pfRecoImgRetail from '@/assets/images/product-finder-recomend-retail-cat.PNG';
+import pfRecoImgVet from'@/assets/images/product-finder-recomend-vet-cat.PNG'
 import pfRecoImgRetailFinder from '@/assets/images/product-finder-recomend-retail-cat-find.png'
 
 let isMobile = getDeviceType() === 'H5';
