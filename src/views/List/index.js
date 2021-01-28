@@ -215,66 +215,75 @@ function ListItemRetail(props) {
   const { item, GAListParam, breadListByDeco, sourceParam,pageSize } = props;
   console.log('★★★★★★★★★取的数据 props: ',pageSize);
   return (
-    <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
+    <div className="rc-column rc-column-pad fr-mobile-product">
       <article
-        className="rc-card rc-card--product overflow-hidden"
+        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
         style={{ minHeight: '120px' }}
       >
         {props.leftPromotionJSX}
         {props.rightPromotionJSX}
-        <div className="fullHeight">
+        <div className="h-100">
           <Link
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName?item.lowGoodsName
+                ? `/${item.lowGoodsName
                 .split(' ')
                 .join('-')
-                .replace('/', ''):''
-              }- ${item.goodsNo}` + sourceParam
+                .replace('/', '')}-${item.goodsNo}` + sourceParam
                 : '',
-              state: {
-                GAListParam,
-                historyBreads: breadListByDeco
-              }
+              state: { GAListParam, historyBreads: breadListByDeco }
             }}
             onClick={props.onClick}
           >
-            <article className="rc-card--a rc-text--center text-center">
+            <article
+              className="rc-card--a rc-text--center text-center"
+              style={{ flexWrap: 'wrap' }}
+            >
               {item ? (
-                <picture className="rc-card__image">
-                  <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem' }}
-                  >
-                    {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
-                      <img
-                        src={
-                          item.goodsImg ||
-                          item.goodsInfos?item.goodsImg ||
-                            item.goodsInfos.sort(
-                            (a, b) => a.marketPrice - b.marketPrice
-                          )[0].goodsInfoImg ||
-                          IMG_DEFAULT:''
-                        }
-                        // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
-                        alt={item.goodsName}
-                        title={item.goodsName}
-                        className="ImgFitScreen pt-3"
-                        style={{
-                          maxWidth: '50%',
-                          maxHeight: '100%',
-                          width: '150px',
-                          height: 'auto',
-                          margin: 'auto'
-                        }}
-                      />
-                    </LazyLoad>
-                  </div>
+                <picture
+                  className="col-4 col-sm-3 col-md-12 rc-margin-bottom--xs--desktope"
+                  style={{
+                    marginLeft: '-10px',
+                    paddingLeft: '5px',
+                    paddingRight: '15px',
+                    fontSize: '0'
+                  }}
+                >
+                  {/*循环遍历的图片*/}
+                  <LazyLoad style={{ width: '100%', height: '100%' }}>
+                    <img
+                      src={
+                        item.goodsImg ||
+                        item.goodsInfos.sort(
+                          (a, b) => a.marketPrice - b.marketPrice
+                        )[0].goodsInfoImg ||
+                        IMG_DEFAULT
+                      }
+                      alt={item.goodsName}
+                      title={item.goodsName}
+                      className="ImgFitScreen"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        width: 'auto',
+                        height: 'auto',
+                        margin: 'auto'
+                      }}
+                    />
+                  </LazyLoad>
                 </picture>
               ) : null}
               {props.children}
+
+              {item ? (
+                <div
+                  className="rc-card__meta text-center col-12"
+                  style={{ margin: '0' }}
+                >
+                  {item.goodsSubtitle}
+                </div>
+              ) : null}
             </article>
           </Link>
         </div>
@@ -1838,8 +1847,8 @@ class List extends React.Component {
                             :productList.map((item, i) =>
                                 process.env.REACT_APP_HUB == '1'&&location.pathname=='/cats/retail_products'
                                  ?i===4 ?(
-                                   <div className="col-6 col-md-4 mb-3 pl-2 pr-2 BoxFitMonileScreen">
-                                    <article className="rc-card--product overflow-hidden" style={{minHeight: '120px'}}>
+                                   <div className="rc-column rc-column-pad fr-mobile-product">
+                                    <article className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden" style={{minHeight: '120px'}}>
                                       <div className="fullHeight"><a className="ui-cursor-pointer" href="/mini-adult-en-sauce-1096">
                                         <article className="rc-card--a rc-text--center text-center">
                                           <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
