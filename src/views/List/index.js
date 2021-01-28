@@ -240,11 +240,11 @@ function ListItemBodyH5ForFr({ item }) {
 }
 function ListItemBody({ item, headingTag }) {
   let goodHeading =  
-  `<${headingTag} 
+  `<${headingTag ? headingTag : 'h3'} 
       class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
       title="${item.goodsName}">
       ${item.goodsName}
-  </${headingTag}>`
+  </${headingTag ? headingTag : 'h3'}>`
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">

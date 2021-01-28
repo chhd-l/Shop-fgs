@@ -1648,11 +1648,11 @@ class Details extends React.Component {
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
     console.log(selectedSpecItem, 'selectedSpecItem');
     let goodHeading = 
-      `<${this.state.seoConfig.headingTag} 
+      `<${this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag: 'h1' } 
         class="rc-gamma ui-text-overflow-line2 text-break"
         title="${details.goodsName}">
         ${details.goodsName}
-      </${this.state.seoConfig.headingTagD}>`;
+      </${this.state.seoConfig.headingTag ? this.state.seoConfig.headingTag: 'h1'}>`;
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
