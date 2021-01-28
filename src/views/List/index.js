@@ -238,16 +238,17 @@ function ListItemBodyH5ForFr({ item }) {
     </div>
   );
 }
-function ListItemBody({ item }) {
+function ListItemBody({ item, headingTag }) {
+  let goodHeading =  
+  `<${headingTag} 
+      class="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
+      title="${item.goodsName}">
+      ${item.goodsName}
+  </${headingTag}>`
   const defaultJSX = (
     <>
       <div className="height-product-tile-plpOnly">
-        <h3
-          className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
-          title={item.goodsName}
-        >
-          {item.goodsName}
-        </h3>
+        <div dangerouslySetInnerHTML={{ __html: goodHeading }}></div>
         {/*商品描述*/}
         <h6
           className="rc-card__meta text-center col-12 mt-2 mb-1 ui-text-overflow-line1"
@@ -353,12 +354,7 @@ function ListItemBody({ item }) {
       {process.env.REACT_APP_LANG === 'fr' ? (
         <>
           <div className="height-product-tile-plpOnly">
-            <h3
-              className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop ui-text-overflow-line2 product-title text-break text-center"
-              title={item.goodsName}
-            >
-              {item.goodsName}
-            </h3>
+            <div  dangerouslySetInnerHTML={{ __html: goodHeading }}></div>
           </div>
           <br />
           {/*商品价格*/}
@@ -481,7 +477,8 @@ class List extends React.Component {
       seoConfig: {
         title: '',
         metaKeywords: '',
-        metaDescription: ''
+        metaDescription: '',
+        headingTag: 'h3'
       }
     };
     this.pageSize = 12;
@@ -1341,7 +1338,6 @@ class List extends React.Component {
       eEvents,
       GAListParam
     } = this.state;
-
     let event;
     if (pathname) {
       let reDog = /^\/dog/; // 匹配dog开头
@@ -1753,7 +1749,7 @@ class List extends React.Component {
                                     isMobile ? (
                                       <ListItemBodyH5ForFr item={item} />
                                     ) : (
-                                      <ListItemBody item={item} />
+                                      <ListItemBody item={item} headingTag={ this.state.seoConfig.headingTag }/>
                                     )}
                                   </ListItemH5ForFr>
                                 ) : (
@@ -1801,7 +1797,7 @@ class List extends React.Component {
                                     isMobile ? (
                                       <ListItemBodyH5ForFr item={item} />
                                     ) : (
-                                      <ListItemBody item={item} />
+                                      <ListItemBody item={item} headingTag={ this.state.seoConfig.headingTag }/>
                                     )}
                                   </ListItem>
                                 )
