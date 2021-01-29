@@ -67,6 +67,8 @@ const LogoutButton = () => {
           className="rc-styled-link--external"
           id="J-btn-logoff"
           onClick={clickLogoff}
+          style={props.btnStyle || {}}
+          ref={props.buttonRef}
         >
           <FormattedMessage id="logOff" />
         </span>
@@ -79,7 +81,9 @@ const LogoutButton = () => {
         <span
           id="J-btn-logoff"
           onClick={clickLogoff}
-          style={{marginLeft:'-50px'}}
+          style={Object.assign(props.btnStyle || {}, {marginLeft:'-50px'})}
+          // style={{marginLeft:'-50px'}}
+          ref={props.buttonRef}
         >
           <FormattedMessage id="logOff" />
         </span>
