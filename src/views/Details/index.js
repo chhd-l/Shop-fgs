@@ -718,7 +718,9 @@ class Details extends React.Component {
             return g;
           });
           const goodSize = specList.map(item => item.chidren.find(good => good.selected))?.[0]?.detailName;
-          const barcode = goodsInfos.find(item => item.packSize === goodSize)?.goodsInfoBarcode;
+          const goodsInfoBarcode = goodsInfos.find(item => item.packSize === goodSize)?.goodsInfoBarcode;
+          const barcode = goodsInfoBarcode ? goodsInfoBarcode: '12' ; //暂时临时填充一个code,因为没有值，按钮将不会显示，后期也许产品会干掉没有code的时候不展示吧==
+
           const { goodsDetailTab, tabs } = this.state;
           try {
             let tmpGoodsDetail = res.context.goods.goodsDetail;
