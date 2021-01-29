@@ -20,7 +20,7 @@ const localItemRoyal = window.__.localItemRoyal;
 const loginStore = stores.loginStore;
 const checkoutStore = stores.checkoutStore;
 
-const LogoutButton = () => {
+const LogoutButton = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const { authState, oktaAuth } = useOktaAuth();
 
@@ -28,9 +28,14 @@ const LogoutButton = () => {
     try {
       const idToken = authState.idToken;
       if (idToken) {
-        const redirectUri = window.location.origin + process.env.REACT_APP_HOMEPAGE;
+        const redirectUri =
+          window.location.origin + process.env.REACT_APP_HOMEPAGE;
         // await oktaAuth.signOut({ postLogoutRedirectUri: redirectUri});
-        window.location.href = `${process.env.REACT_APP_ISSUER}/v1/logout?id_token_hint=${idToken ? idToken.value : ''}&post_logout_redirect_uri=${redirectUri}`;
+        window.location.href = `${
+          process.env.REACT_APP_ISSUER
+        }/v1/logout?id_token_hint=${
+          idToken ? idToken.value : ''
+        }&post_logout_redirect_uri=${redirectUri}`;
         await oktaAuth.signOut(process.env.REACT_APP_HOMEPAGE);
       } else {
         loginStore.changeLoginModal(false);
@@ -67,32 +72,32 @@ const LogoutButton = () => {
           className="rc-styled-link--external"
           id="J-btn-logoff"
           onClick={clickLogoff}
-          style={props.btnStyle || {}}
-          ref={props.buttonRef}
+          style={(props && props.btnStyle) || {}}
+          ref={props && props.buttonRef}
         >
           <FormattedMessage id="logOff" />
         </span>
       </div>
-    )
-  }
+    );
+  };
   const hubLogoutBtnJSX = () => {
     return (
-      <div className="logoff-style" style={{background:"#fff"}}>
+      <div className="logoff-style" style={{ background: '#fff' }}>
         <span
           id="J-btn-logoff"
           onClick={clickLogoff}
-          style={Object.assign(props.btnStyle || {}, {marginLeft:'-50px'})}
+          style={Object.assign((props && props.btnStyle) || {}, {
+            marginLeft: '-50px'
+          })}
           // style={{marginLeft:'-50px'}}
-          ref={props.buttonRef}
+          ref={props && props.buttonRef}
         >
           <FormattedMessage id="logOff" />
         </span>
       </div>
-    )
-  }
+    );
+  };
 
-  return (
-    process.env.REACT_APP_HUB ? hubLogoutBtnJSX():defaultLogoutBtnJSX()
-  );
+  return process.env.REACT_APP_HUB ? hubLogoutBtnJSX() : defaultLogoutBtnJSX();
 };
 export default LogoutButton;
