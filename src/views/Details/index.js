@@ -1748,6 +1748,7 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
+    const vet = process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag; //vet产品并且是hub的情况下
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -1970,7 +1971,7 @@ class Details extends React.Component {
                             </div>
                           )}
                         </div>
-                          {process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag ?
+                          {vet?
                             <>
                               <div className="align-left flex rc-margin-bottom--xs">
                                 <div className="stock__wrapper">
@@ -2828,7 +2829,7 @@ class Details extends React.Component {
                 style={{ transform: 'translateY(-80px)' }}
               >
                 <div className="rc-max-width--xl rc-padding-x--md d-sm-flex text-center align-items-center fullHeight justify-content-center">
-                  {process.env.REACT_APP_HUB === '1' && !details.saleableFlag && details.displayFlag ? <button
+                  {vet ? <button
                     className={`rc-btn rc-btn--one js-sticky-cta rc-margin-right--xs--mobile ${addToCartLoading ? 'ui-btn-loading' : ''
                       } ${btnStatus ? '' : 'rc-btn-solid-disabled'}`}
                     onClick={this.hanldeAddToCart}
