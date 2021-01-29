@@ -585,7 +585,9 @@ class Details extends React.Component {
                 sItem.chidren[defaultSelcetdSku].selected = true;
               }
             } else {
-              if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+              if (process.env.REACT_APP_LANG === 'de' && sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
+                sItem.chidren[0].selected = true;
+              } else if (sItem.chidren.length > 1 && !sItem.chidren[1].isEmpty) {
                 sItem.chidren[1].selected = true;
               } else {
                 for (let i = 0; i < sItem.chidren.length; i++) {
