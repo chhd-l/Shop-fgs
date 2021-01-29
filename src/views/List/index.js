@@ -983,7 +983,7 @@ class List extends React.Component {
             }
           } catch (err) {}
         } else {
-          this.prop.history.push('/404');
+          this.props.history.push('/404');
         }
         // 生成面包屑
         const targetId =
@@ -1158,7 +1158,7 @@ class List extends React.Component {
 
     // 处理每个filter的router(处理url prefn/state)
     Array.from(tmpList, (pEle) => {
-      Array.from(pEle.attributesValueList, (cEle) => {
+      Array.from((pEle.attributesValueList || []), (cEle) => {
         let hasRouter = true;
         let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);

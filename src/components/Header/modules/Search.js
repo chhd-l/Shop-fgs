@@ -161,7 +161,7 @@ export default class Search extends React.Component {
         <div className="suggestions" id="mainSuggestions">
           <div className="container">
             <div className="row d-flex flex-sm-row">
-              <div className={`${isHub ? 'col-7' : 'col-12'} rc-column`}>
+              <div className={`${isHub ? 'col-md-7' : ''} col-12 rc-column`}>
                 <div className="rc-padding-top--lg--mobile rc-large-intro">
                   <FormattedMessage id="goods" />
                 </div>
@@ -250,7 +250,7 @@ export default class Search extends React.Component {
                 ) : null}
               </div>
               {isHub && (
-                <div class="col-5 rc-column rc-bg-colour--brand4">
+                <div class="col-12 col-md-5 rc-column rc-bg-colour--brand4">
                   {result && result.attach ? (
                     <>
                       {(result.attach.Items || []).map((item, i) => (
@@ -296,6 +296,14 @@ export default class Search extends React.Component {
           <>
             <div className="search-contaner">
               <span className="iconfont icon-search">&#xe6a5;</span>
+              {keywords ? (
+                <span
+                  className="iconfont icon-close"
+                  onClick={this.hanldeSearchCloseClick}
+                >
+                  &#xe6fb;
+                </span>
+              ) : null}
               <FormattedMessage id="searchForAProductOrArtical">
                 {(txt) => (
                   <input
@@ -311,7 +319,14 @@ export default class Search extends React.Component {
                 )}
               </FormattedMessage>
             </div>
-            <div
+            {result ? (
+              <div style={{ position: 'relative' }}>
+                <div className="suggestions-wrapper">
+                  {this.renderResultJsx()}
+                </div>
+              </div>
+            ) : null}
+            {/* <div
               class={`rc-shade searchbar ${showSearchInput ? '' : 'rc-hidden'}`}
             />
             <div
@@ -348,6 +363,7 @@ export default class Search extends React.Component {
                 {this.renderResultJsx()}
               </div>
             </div>
+           */}
           </>
         ) : (
           <>
