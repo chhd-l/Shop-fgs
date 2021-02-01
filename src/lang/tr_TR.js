@@ -720,6 +720,9 @@ const tr_TR = {
   checkboxIsRequiredForSubscription: 'bu onay kutusu abonelik için gereklidir',
   'confirmation.account':'Go to my account',
   'confirmation.oneShoot':'Go to my account',
+  //salesCategory
+  "salesCategory.cat": "Kedi için",
+  "salesCategory.dog": "Köpek için",
 }
 
 export default tr_TR;

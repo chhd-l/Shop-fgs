@@ -1129,6 +1129,26 @@ const fr_FR = {
   'plp.vet.cat.title':'Vous recherchez de la nourriture disponible dans des points de vente spécialisés?',
   'plp.vet.cat.detail':'Notre gamme complète d\'aliments secs et de bouchées en sauce ou en gelée fournit la nutrition la plus précise pour les chats de tous âges, tailles et races',
   'plp.vet.cat.button':'Découvrez la gamme',
+  //salesCategory
+  "salesCategory.cat": "Pour chat",
+  "salesCategory.dog": "Pour chien",
+  //header.User
+  "header.User.alreadyRegistered": "Déjà enregistré?",
+  "header.User.newUser": "Nouvel utilisateur?",
+  "header.User.registerNow": "S'inscrire maintenant",
+  "header.User.offersAndreimbursements": "Des offres & Reimbursements",
+  "header.User.royalCaninPartner": "Royal Canin partner",
+  "header.User.breederPortal": "Breeder portal",
+  "header.User.vetPortal": "Vet portal",
+
+  "header.User.logOut": "Se déconnecter ",
+  "header.User.home": "Accueil ",
+  "header.User.myPersonalInformation": "Mes informations personnelles",
+  "header.User.pets": 'Animaux domestiques ',
+  "header.User.myOrders": "Mes commandes",
+  "header.User.mySubscriptions": "Mes abonnements",
+  "header.User.faq": "FAQ",
+  "header.User.monRoyalCanin": "Mon Royal Canin"
 }
 export default fr_FR;
 

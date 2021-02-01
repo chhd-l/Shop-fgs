@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import { queryStoreCateList } from '@/utils/utils';
+import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
 import "./css/HubSalesCategory.less"
 import catsImg from "./images/cats.png";
@@ -64,7 +65,7 @@ export default class HubSalesCategory extends Component {
               <div className="rc-layout-container rc-two-column">
                 <div className="rc-column">
                   <div className="header-title">
-                    <h1 className="rc-espilon">Pour chat</h1>
+                    <h1 className="rc-espilon"><FormattedMessage id="salesCategory.cat"/></h1>
                     <img src={catsImg}></img>
                   </div>
                   <div className="rc-layout-container rc-two-column">
@@ -107,7 +108,7 @@ export default class HubSalesCategory extends Component {
                 </div>
                 <div className="rc-column">
                   <div className="header-title">
-                    <h1 className="rc-espilon">Pour chien</h1>
+                    <h1 className="rc-espilon"><FormattedMessage id="salesCategory.dog"/></h1>
                     <img src={dogsImg}></img>
                   </div>
                   <div className="rc-layout-container rc-two-column">

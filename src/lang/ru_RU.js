@@ -723,6 +723,9 @@ const ru_RU = {
     checkboxIsRequiredForSubscription: 'этот флажок необходим для подписки',
     'confirmation.account':'Go to my account',
     'confirmation.oneShoot':'Go to my account',
+    //salesCategory
+    "salesCategory.cat": "Для кошки",
+    "salesCategory.dog": "Для собаки",
   }
 
   export default ru_RU;
