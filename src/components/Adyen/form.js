@@ -11,6 +11,8 @@ import { addOrUpdatePaymentMethod } from '@/api/payment';
 import translations from './translations';
 import LazyLoad from 'react-lazyload';
 
+let adyenFormData = {};
+
 @inject('loginStore', 'paymentStore')
 @observer
 class AdyenCreditCardForm extends React.Component {
@@ -85,13 +87,18 @@ class AdyenCreditCardForm extends React.Component {
               showPayButton: false,
               brands: ADYEN_CREDIT_CARD_BRANDS,
               onBrand: (state) => {
-                _this.setState({
-                  adyenFormData: Object.assign(_this.state.adyenFormData, {
-                    adyenBrands: state.brand,
-                    brand: state.brand,
-                    brandImageUrl: state.brandImageUrl
-                  })
+                adyenFormData = Object.assign(adyenFormData, {
+                  adyenBrands: state.brand,
+                  brand: state.brand,
+                  brandImageUrl: state.brandImageUrl
                 });
+                // _this.setState({
+                //   adyenFormData: Object.assign(_this.state.adyenFormData, {
+                //     adyenBrands: state.brand,
+                //     brand: state.brand,
+                //     brandImageUrl: state.brandImageUrl
+                //   })
+                // });
               },
               onChange: (state) => {
                 try {
@@ -115,27 +122,41 @@ class AdyenCreditCardForm extends React.Component {
                   if (tmpValidSts) {
                     console.log(
                       'set adyen form info',
-                      Object.assign(
-                        _this.state.adyenFormData,
-                        getAdyenParam(card.data),
-                        {
-                          storePaymentMethod:
-                            card.data && card.data.storePaymentMethod
-                        }
-                      )
+                      Object.assign(adyenFormData, getAdyenParam(card.data), {
+                        storePaymentMethod:
+                          card.data && card.data.storePaymentMethod
+                      })
                     );
                     console.log(11111155555, _this.setState);
                     console.log(111111666, _this);
-                    updateState(
-                      Object.assign(
-                        _this.state.adyenFormData,
-                        getAdyenParam(card.data),
-                        {
-                          storePaymentMethod:
-                            card.data && card.data.storePaymentMethod
-                        }
-                      )
+                    let tempParam = getAdyenParam(card.data);
+                    adyenFormData = Object.assign(
+                      adyenFormData,
+                      getAdyenParam(card.data),
+                      {
+                        storePaymentMethod:
+                          card.data && card.data.storePaymentMethod
+                      }
                     );
+                    // _this.setState({
+                    //     adyenFormData: 111
+                    //   },
+                    //   () => {
+                    //     console.log(
+                    //       'set adyen form info2'
+                    //     );
+                    //   }
+                    // );
+                    // updateState(
+                    //   Object.assign(
+                    //     _this.state.adyenFormData,
+                    //     getAdyenParam(card.data),
+                    //     {
+                    //       storePaymentMethod:
+                    //         card.data && card.data.storePaymentMethod
+                    //     }
+                    //   )
+                    // );
                   }
                 } catch (err) {
                   console.log('set adyen form err', err);
@@ -151,7 +172,7 @@ class AdyenCreditCardForm extends React.Component {
   handleSave = async () => {
     try {
       // 如果勾选了保存信息按钮，则保存到后台，否则不需要保存信息到后台
-      const { adyenFormData } = this.state;
+      // const { adyenFormData } = this.state;
       let tmpSelectedId = '';
       let decoAdyenFormData = Object.assign({}, adyenFormData);
       let currentCardEncryptedSecurityCode =
