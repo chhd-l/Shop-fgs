@@ -103,6 +103,7 @@ class VisitorAddress extends React.Component {
   titleJSX = ({ redColor = false } = {}) => {
     return this.props.type === 'delivery' ? (
       <>
+      <span>
         <i
           className={`rc-icon rc-indoors--xs rc-margin-right--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
@@ -111,9 +112,11 @@ class VisitorAddress extends React.Component {
         <span>
           <FormattedMessage id="payment.deliveryTitle" />
         </span>
+        </span>
       </>
     ) : (
       <>
+      <span>
         <i
           className={`rc-icon rc-news--xs ${
             redColor ? 'rc-brand1' : 'rc-iconography'
@@ -121,6 +124,7 @@ class VisitorAddress extends React.Component {
         />{' '}
         <span>
           <FormattedMessage id="payment.billTitle" />
+        </span>
         </span>
       </>
     );

@@ -248,7 +248,7 @@ class ClinicForm extends React.Component {
       </div>
     );
 
-    return <>{this.prescriberMap ? defaultJSX : searchJSX}</>;
+    return <><span>{this.prescriberMap ? defaultJSX : searchJSX}</span></>;
   }
 }
 

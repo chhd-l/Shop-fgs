@@ -422,6 +422,7 @@ class AdyenCreditCardList extends React.Component {
       this.renderMemberCardPanel()
     ) : (
       <>
+      <div>
         {visitorAdyenFormData && (
           <CardItemCover
             selectedSts={visitorAdyenFormData.id === selectedId}
@@ -434,6 +435,7 @@ class AdyenCreditCardList extends React.Component {
             {this.renderCardEditBtnJSX()}
           </CardItemCover>
         )}
+        </div>
       </>
     );
   };

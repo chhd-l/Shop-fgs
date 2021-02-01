@@ -305,11 +305,13 @@ class PayProductInfo extends React.Component {
                     <br />
                     {el.goodsInfoFlag ? (
                       <>
+                      <span>
                         <FormattedMessage id="subscription.frequency" /> :{' '}
                         {matchNamefromDict(
                           this.state.frequencyList,
                           el.periodTypeId
                         )}{' '}
+                      </span>
                       </>
                     ) : null}
                   </div>

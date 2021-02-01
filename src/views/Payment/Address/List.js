@@ -460,14 +460,18 @@ class AddressList extends React.Component {
         <span>
           {foledMore ? (
             <>
-              <FormattedMessage id="moreAddress" />
-              &nbsp;
-              <b className="addr-switch switch-on" />
+              <span>
+                <FormattedMessage id="moreAddress" />
+                &nbsp;
+                <b className="addr-switch switch-on" />
+              </span>
             </>
           ) : (
             <>
-              <FormattedMessage id="unfoldAddress" />
-              <b className="addr-switch switch-off" />
+              <span>
+                <FormattedMessage id="unfoldAddress" />
+                <b className="addr-switch switch-off" />
+              </span>
             </>
           )}
         </span>
@@ -620,7 +624,7 @@ class AddressList extends React.Component {
             this.props.visible ? '' : 'hidden'
           } payment-addressList`}
         >
-          {_title}
+          <span>{_title}</span>
           <div
             className={`js-errorAlertProfile-personalInfo rc-margin-bottom--xs ${
               saveErrorMsg ? '' : 'hidden'
@@ -677,7 +681,7 @@ class AddressList extends React.Component {
                   )
                 ) : null}
                 {/* add or edit address form */}
-                {this.panelStatus.isEdit ? <>{_form}</> : null}
+                {this.panelStatus.isEdit ? <><span>{_form}</span></> : null}
               </>
             )}
           </div>
