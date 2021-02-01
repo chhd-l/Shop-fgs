@@ -871,88 +871,155 @@ class List extends React.Component {
     }
 
     // 处理每个filter的router(处理url prefn/state)
+    // Array.from(tmpList, (pEle) => {
+    //   Array.from(pEle.attributesValueList, (cEle) => {
+    //     let hasRouter = true;
+    //     let filters = cloneDeep((state && state.filters) || []);
+    //     let prefnParamList = cloneDeep(prefnParamListFromSearch);
+
+    //     // 该子节点是否存在于prefn中
+    //     const targetPIdxForPrefn = prefnParamList.findIndex(
+    //       (p) => p.prefn === pEle.attributeName
+    //     );
+    //     const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
+    //     // 该子节点是否存在于state.filters中
+    //     const targetPIdxForState = filters.findIndex(
+    //       (p) => p.attributeId === pEle.attributeId
+    //     );
+    //     const targetPItemForState = filters[targetPIdxForState];
+    //     if (cEle.selected) {
+    //       // 该子节点被选中，
+    //       // 1.1 若存在于链接中，则从链接中移除
+    //       // 1.2 若存在于state中，则从state中移除
+    //       // 2 若移除后，子节点为空了，则移除该父节点
+    //       let idx;
+    //       if (targetPItemForPrefn) {
+    //         idx = targetPItemForPrefn.prefvs.findIndex(
+    //           (p) => p === cEle.attributeDetailNameEn
+    //         );
+    //         targetPItemForPrefn.prefvs.splice(idx, 1);
+    //         if (!targetPItemForPrefn.prefvs.length) {
+    //           prefnParamList.splice(targetPIdxForPrefn, 1);
+    //         }
+    //       } else if (targetPItemForState) {
+    //         idx = targetPItemForState.attributeValueIdList.findIndex(
+    //           (p) => p === cEle.id
+    //         );
+    //         targetPItemForState.attributeValueIdList.splice(idx, 1);
+    //         targetPItemForState.attributeValues.splice(idx, 1);
+    //         if (!targetPItemForState.attributeValueIdList.length) {
+    //           filters.splice(targetPIdxForState, 1);
+    //         }
+    //       }
+    //     } else {
+    //       // 该子节点未被选中，在链接中新增prefn/新增state
+    //       // 1 该父节点存在于链接中，
+    //       // 1-1 该子节点为多选，找出并拼接上该子节点
+    //       // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
+    //       // 2 该父节点不存在于链接中，直接新增
+
+    //       if (targetPItemForPrefn) {
+    //         if (pEle.choiceStatus === 'Single choice') {
+    //           targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
+    //         } else {
+    //           targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
+    //         }
+    //       } else if (targetPItemForState) {
+    //         if (pEle.choiceStatus === 'Single choice') {
+    //           targetPItemForState.attributeValueIdList = [cEle.id];
+    //           targetPItemForState.attributeValues = [
+    //             cEle.attributeDetailNameEn
+    //           ];
+    //         } else {
+    //           targetPItemForState.attributeValueIdList.push(cEle.id);
+    //           targetPItemForState.attributeValues.push(
+    //             cEle.attributeDetailNameEn
+    //           );
+    //         }
+    //       } else {
+    //         // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
+    //         if (prefnParamList.length < 1) {
+    //           prefnParamList.push({
+    //             prefn: pEle.attributeName,
+    //             prefvs: [cEle.attributeDetailNameEn]
+    //           });
+    //         } else {
+    //           // hasRouter = false;
+    //           filters.push({
+    //             attributeId: pEle.attributeId,
+    //             attributeName: pEle.attributeName,
+    //             attributeValueIdList: [cEle.id],
+    //             attributeValues: [cEle.attributeDetailNameEn],
+    //             filterType: pEle.filterType
+    //           });
+    //         }
+    //       }
+    //     }
+    //     const decoParam = prefnParamList.reduce(
+    //       (pre, cur) => {
+    //         return {
+    //           ret:
+    //             pre.ret +
+    //             `&prefn${pre.i}=${cur.prefn}&prefv${pre.i}=${cur.prefvs.join(
+    //               '|'
+    //             )}`,
+    //           i: ++pre.i
+    //         };
+    //       },
+    //       { i: 1, ret: '' }
+    //     );
+    //     cEle.router = hasRouter
+    //       ? {
+    //           pathname,
+    //           search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
+    //           state: {
+    //             filters
+    //           }
+    //         }
+    //       : null;
+    //     return cEle;
+    //   });
+    //   return pEle;
+    // });
+
+    // 处理每个filter的router
     Array.from(tmpList, (pEle) => {
       Array.from(pEle.attributesValueList, (cEle) => {
-        let hasRouter = true;
-        let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
-
-        // 该子节点是否存在于prefn中
-        const targetPIdxForPrefn = prefnParamList.findIndex(
+        const targetPIdx = prefnParamList.findIndex(
           (p) => p.prefn === pEle.attributeName
         );
-        const targetPItemForPrefn = prefnParamList[targetPIdxForPrefn];
-        // 该子节点是否存在于state.filters中
-        const targetPIdxForState = filters.findIndex(
-          (p) => p.attributeId === pEle.attributeId
-        );
-        const targetPItemForState = filters[targetPIdxForState];
+        const targetPItem = prefnParamList[targetPIdx];
         if (cEle.selected) {
-          // 该子节点被选中，
-          // 1.1 若存在于链接中，则从链接中移除
-          // 1.2 若存在于state中，则从state中移除
-          // 2 若移除后，子节点为空了，则移除该父节点
-          let idx;
-          if (targetPItemForPrefn) {
-            idx = targetPItemForPrefn.prefvs.findIndex(
+          // 该子节点被选中，从链接中移除
+          // 1 若移除后，子节点为空了，则移除该父节点
+          if (targetPItem) {
+            const idx = targetPItem.prefvs.findIndex(
               (p) => p === cEle.attributeDetailNameEn
             );
-            targetPItemForPrefn.prefvs.splice(idx, 1);
-            if (!targetPItemForPrefn.prefvs.length) {
-              prefnParamList.splice(targetPIdxForPrefn, 1);
-            }
-          } else if (targetPItemForState) {
-            idx = targetPItemForState.attributeValueIdList.findIndex(
-              (p) => p === cEle.id
-            );
-            targetPItemForState.attributeValueIdList.splice(idx, 1);
-            targetPItemForState.attributeValues.splice(idx, 1);
-            if (!targetPItemForState.attributeValueIdList.length) {
-              filters.splice(targetPIdxForState, 1);
+            targetPItem.prefvs.splice(idx, 1);
+            if (!targetPItem.prefvs.length) {
+              prefnParamList.splice(targetPIdx, 1);
             }
           }
         } else {
-          // 该子节点未被选中，在链接中新增prefn/新增state
+          // 该子节点未被选中，在链接中新增prefn/prefv
           // 1 该父节点存在于链接中，
           // 1-1 该子节点为多选，找出并拼接上该子节点
           // 2-1 该子节点为单选，原子节点值全部替换为当前子节点
           // 2 该父节点不存在于链接中，直接新增
 
-          if (targetPItemForPrefn) {
+          if (targetPItem) {
             if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForPrefn.prefvs = [cEle.attributeDetailNameEn];
+              targetPItem.prefvs = [cEle.attributeDetailNameEn];
             } else {
-              targetPItemForPrefn.prefvs.push(cEle.attributeDetailNameEn);
-            }
-          } else if (targetPItemForState) {
-            if (pEle.choiceStatus === 'Single choice') {
-              targetPItemForState.attributeValueIdList = [cEle.id];
-              targetPItemForState.attributeValues = [
-                cEle.attributeDetailNameEn
-              ];
-            } else {
-              targetPItemForState.attributeValueIdList.push(cEle.id);
-              targetPItemForState.attributeValues.push(
-                cEle.attributeDetailNameEn
-              );
+              targetPItem.prefvs.push(cEle.attributeDetailNameEn);
             }
           } else {
-            // 少于1级，就把参数拼接到url prefn上，否则就把参数拼接到state上
-            if (prefnParamList.length < 1) {
-              prefnParamList.push({
-                prefn: pEle.attributeName,
-                prefvs: [cEle.attributeDetailNameEn]
-              });
-            } else {
-              // hasRouter = false;
-              filters.push({
-                attributeId: pEle.attributeId,
-                attributeName: pEle.attributeName,
-                attributeValueIdList: [cEle.id],
-                attributeValues: [cEle.attributeDetailNameEn],
-                filterType: pEle.filterType
-              });
-            }
+            prefnParamList.push({
+              prefn: pEle.attributeName,
+              prefvs: [cEle.attributeDetailNameEn]
+            });
           }
         }
         const decoParam = prefnParamList.reduce(
@@ -968,15 +1035,10 @@ class List extends React.Component {
           },
           { i: 1, ret: '' }
         );
-        cEle.router = hasRouter
-          ? {
-              pathname,
-              search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : '',
-              state: {
-                filters
-              }
-            }
-          : null;
+        cEle.router = {
+          pathname,
+          search: decoParam.ret ? `?${decoParam.ret.substr(1)}` : ''
+        };
         return cEle;
       });
       return pEle;

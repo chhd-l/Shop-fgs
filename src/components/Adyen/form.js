@@ -35,7 +35,7 @@ class AdyenCreditCardForm extends React.Component {
     super(props);
     this.state = {
       adyenFormData: {},
-      isValid: false,
+      isValid: false
     };
   }
   componentDidMount() {
@@ -50,8 +50,8 @@ class AdyenCreditCardForm extends React.Component {
   get isLogin() {
     return this.props.loginStore.isLogin;
   }
-  getBrowserInfo(state){
-    this.props.paymentStore.setBrowserInfo(state.data.browserInfo)
+  getBrowserInfo(state) {
+    this.props.paymentStore.setBrowserInfo(state.data.browserInfo);
   }
   initForm() {
     const _this = this;
@@ -69,7 +69,6 @@ class AdyenCreditCardForm extends React.Component {
             locale: process.env.REACT_APP_Adyen_locale,
             translations
           });
-          
 
           // (2). Create and mount the Component
           const card = checkout
@@ -91,36 +90,58 @@ class AdyenCreditCardForm extends React.Component {
                 });
               },
               onChange: (state) => {
-                _this.getBrowserInfo(state)
-                console.log('adyen form state:', state);
-                console.log('adyen form card:', card);
-                const {
-                  enableStoreDetails,
-                  mustSaveForFutherPayments
-                } = _this.props;
-                let tmpValidSts;
-                if (enableStoreDetails && mustSaveForFutherPayments) {
-                  tmpValidSts = card.data.storePaymentMethod && state.isValid;
-                } else {
-                  tmpValidSts = state.isValid;
-                }
-                _this.setState({ isValid: tmpValidSts }, () => {
-                  console.log('adyen form state.isValid:', state.isValid);
-                });
-                _this.props.updateClickPayBtnValidStatus(tmpValidSts);
-                if (tmpValidSts) {
-                  _this.setState(
-                    {
-                      adyenFormData: Object.assign(
+                try {
+                  _this.getBrowserInfo(state);
+                  console.log('adyen form state:', state);
+                  console.log('adyen form card:', card);
+                  const {
+                    enableStoreDetails,
+                    mustSaveForFutherPayments
+                  } = _this.props;
+                  let tmpValidSts;
+                  if (enableStoreDetails && mustSaveForFutherPayments) {
+                    tmpValidSts = card.data.storePaymentMethod && state.isValid;
+                  } else {
+                    tmpValidSts = state.isValid;
+                  }
+                  _this.setState({ isValid: tmpValidSts }, () => {
+                    console.log('adyen form state.isValid:', state.isValid);
+                  });
+                  _this.props.updateClickPayBtnValidStatus(tmpValidSts);
+                  if (tmpValidSts) {
+                    console.log(
+                      'set adyen form info',
+                      Object.assign(
                         _this.state.adyenFormData,
                         getAdyenParam(card.data),
-                        { storePaymentMethod: card.data.storePaymentMethod }
+                        {
+                          storePaymentMethod:
+                            card.data && card.data.storePaymentMethod
+                        }
                       )
-                    },
-                    () => {
-                      // _this.props.updateAdyenPayParam(_this.state.adyenFormData);
-                    }
-                  );
+                    );
+                    _this.setState(
+                      {
+                        adyenFormData: Object.assign(
+                          _this.state.adyenFormData,
+                          getAdyenParam(card.data),
+                          {
+                            storePaymentMethod:
+                              card.data && card.data.storePaymentMethod
+                          }
+                        )
+                      },
+                      () => {
+                        console.log(
+                          'set adyen form info2',
+                          _this.state.adyenFormData
+                        );
+                        // _this.props.updateAdyenPayParam(_this.state.adyenFormData);
+                      }
+                    );
+                  }
+                } catch (err) {
+                  console.log('set adyen form err', err);
                 }
               }
             })
@@ -167,11 +188,14 @@ class AdyenCreditCardForm extends React.Component {
           id: tmpSelectedId
         });
         this.props.updateAdyenPayParam(decoAdyenFormData);
-        this.props.updateSelectedId(tmpSelectedId);
+        // setTimeout(() => this.props.updateAdyenPayParam(decoAdyenFormData), 500);
+        setTimeout(() => this.props.updateSelectedId(tmpSelectedId), 200);
+        // this.props.updateSelectedId(tmpSelectedId);
       }
 
       this.isLogin && this.props.updateFormVisible(false);
     } catch (err) {
+      debugger;
       this.props.showErrorMsg(err.message);
       this.setState({ saveLoading: false });
       throw new Error(err.message);
