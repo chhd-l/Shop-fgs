@@ -740,7 +740,9 @@ const tr_TR = {
   "header.User.myOrders": "Evcil Hayvanlar",
   "header.User.mySubscriptions": "Aboneliklerim",
   "header.User.faq": "FAQ",
-  "header.User.monRoyalCanin": "Mon Royal Canin"
+  "header.User.monRoyalCanin": "Mon Royal Canin",
+  
+  "searchForAProductOrArtical": 'Search for a product or artical',
 }
 
 export default tr_TR;

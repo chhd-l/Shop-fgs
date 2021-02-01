@@ -729,7 +729,7 @@ const ru_RU = {
     //header.User  unLogin
     "header.User.alreadyRegistered": "Уже зарегистрирован ?",
     "header.User.newUser": "Новый пользователь?",
-    "header.User.registerNow": "Зарегистрируйтесь сейчас ",
+    "header.User.registerNow": "регистр",
     "header.User.offersAndreimbursements": "Предложения и компенсации ",
     "header.User.royalCaninPartner": "Royal Canin partner?",
     "header.User.breederPortal": "Breeder portal",
@@ -743,7 +743,9 @@ const ru_RU = {
     "header.User.myOrders": "Мои заказы",
     "header.User.mySubscriptions": "Мои подписки",
     "header.User.faq": "FAQ",
-    "header.User.monRoyalCanin": "Mon Royal Canin"
+    "header.User.monRoyalCanin": "Mon Royal Canin",
+    
+    "searchForAProductOrArtical": 'Search for a product or artical',
   }
 
   export default ru_RU;
