@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { queryStoreCateList } from '@/utils/utils';
 import { FormattedMessage } from 'react-intl';
 import Skeleton from 'react-skeleton-loader';
+import { Link } from 'react-router-dom';
 import "./css/HubSalesCategory.less"
 import catsImg from "./images/cats.png";
 import dogsImg from "./images/dogs.png";
@@ -82,9 +83,9 @@ export default class HubSalesCategory extends Component {
                       this.state.cateGoryList_cat.map((item, index) => {
                         return (
                           <div className="rc-column category-goods" key={index}>
-                            <a
+                            <Link
                               className="rc-moblie-flex"
-                              href={`${item.cateRouter}`}
+                              to={`${item.cateRouter}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />
@@ -99,7 +100,7 @@ export default class HubSalesCategory extends Component {
                               <div className="d-flex justify-content-center">
                                 <h3 className="rc-margin--none">{item.cateName}</h3>
                               </div>
-                            </a>
+                            </Link>
                           </div>
                         );
                       })
@@ -125,9 +126,9 @@ export default class HubSalesCategory extends Component {
                       this.state.cateGoryList_dog.map((item, index) => {
                         return (
                           <div className="rc-column category-goods" key={index}>
-                            <a
+                            <Link
                               className="rc-moblie-flex"
-                              href={`${item.cateRouter}`}
+                              to={`${item.cateRouter}`}
                             >
                               <picture>
                                 <source srcSet={item.imgSrc} />
@@ -142,7 +143,7 @@ export default class HubSalesCategory extends Component {
                               <div className="d-flex justify-content-center">
                                 <h3 className="rc-margin--none">{item.cateName}</h3>
                               </div>
-                            </a>
+                            </Link>
                           </div>
                         );
                       })
