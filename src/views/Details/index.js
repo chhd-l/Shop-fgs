@@ -1641,7 +1641,7 @@ class Details extends React.Component {
 
     const btnStatus = this.btnStatus;
     let selectedSpecItem = details.sizeList.filter((el) => el.selected)[0];
-    console.log(selectedSpecItem, 'selectedSpecItem');
+    const De = process.env.REACT_APP_LANG === 'de';
     return (
       <div id="Details">
         {Object.keys(event).length > 0 ? (
@@ -2052,7 +2052,7 @@ class Details extends React.Component {
                                 </div>
                               </div>
                               <div className="price font-weight-normal text-right">
-                                <div>{formatMoney(currentUnitPrice)}</div>
+                                <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
                                 {process.env.REACT_APP_LANG === 'de' &&
                                 selectedSpecItem ? (
                                   <div
@@ -2143,7 +2143,7 @@ class Details extends React.Component {
                               </span>
                             </div>
                             <div className="price font-weight-normal text-right">
-                              <div>{formatMoney(currentUnitPrice)}</div>
+                              <div className={De ? "current-unit-price" : ""}>{formatMoney(currentUnitPrice)}</div>
                               {process.env.REACT_APP_LANG === 'de' &&
                               selectedSpecItem ? (
                                 <div
@@ -2244,7 +2244,7 @@ class Details extends React.Component {
                                   </div>
                                 </div>
                                 <div className="price font-weight-normal text-right">
-                                  <div>
+                                  <div className={De ? "current-unit-price" : ""}>
                                     {formatMoney(currentSubscriptionPrice || 0)}
                                   </div>
                                   {process.env.REACT_APP_LANG === 'de' &&
@@ -2412,7 +2412,7 @@ class Details extends React.Component {
                                 />
                               </div>
                               <div className="price font-weight-normal text-right">
-                                <div>
+                                <div className={De ? "current-unit-price" : ""}>
                                   {formatMoney(currentSubscriptionPrice || 0)}
                                 </div>
                                 {process.env.REACT_APP_LANG === 'de' &&
@@ -2458,7 +2458,7 @@ class Details extends React.Component {
                                 ))}
                               &nbsp;&nbsp; */}
                             {
-                              process.env.REACT_APP_LANG == 'de'?<div className="mb-2 mr-2" style={{fontSize:"14px"}}>Preise inkl. MwSt</div>:null
+                              De ? <div className="mb-2 mr-2" style={{ fontSize: "14px" }}><span className="vat-text">Preise inkl. MwSt</span></div> : null
                             }
                             <button
                               style={{ padding: '2px 30px' }}
