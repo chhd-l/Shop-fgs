@@ -723,6 +723,24 @@ const tr_TR = {
   //salesCategory
   "salesCategory.cat": "Kedi için",
   "salesCategory.dog": "Köpek için",
+  //header.User  unLogin
+  "header.User.alreadyRegistered": "Zaten kayıtlı?",
+  "header.User.newUser": "Yeni kullanıcı?",
+  "header.User.registerNow": "Şimdi üye Ol",
+  "header.User.offersAndreimbursements": "Teklifler ve Masraf Karşılama",
+  "header.User.royalCaninPartner": "Royal Canin partner?",
+  "header.User.breederPortal": "Breeder portal",
+  "header.User.or": "or",
+  "header.User.vetPortal": "Vet portal",
+  //header.User  login
+  "header.User.logOut": "oturumu Kapat",
+  "header.User.home": "Ev",
+  "header.User.myPersonalInformation": "kişisel bilgilerim",
+  "header.User.pets": 'Animaux domestiques',
+  "header.User.myOrders": "Evcil Hayvanlar",
+  "header.User.mySubscriptions": "Aboneliklerim",
+  "header.User.faq": "FAQ",
+  "header.User.monRoyalCanin": "Mon Royal Canin"
 }
 
 export default tr_TR;

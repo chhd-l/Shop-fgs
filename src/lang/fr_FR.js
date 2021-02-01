@@ -1132,15 +1132,16 @@ const fr_FR = {
   //salesCategory
   "salesCategory.cat": "Pour chat",
   "salesCategory.dog": "Pour chien",
-  //header.User
+  //header.User  unLogin
   "header.User.alreadyRegistered": "Déjà enregistré?",
   "header.User.newUser": "Nouvel utilisateur?",
   "header.User.registerNow": "S'inscrire maintenant",
   "header.User.offersAndreimbursements": "Des offres & Reimbursements",
-  "header.User.royalCaninPartner": "Royal Canin partner",
+  "header.User.royalCaninPartner": "Royal Canin partner?",
   "header.User.breederPortal": "Breeder portal",
+  "header.User.or": "or",
   "header.User.vetPortal": "Vet portal",
-
+  //header.User  login
   "header.User.logOut": "Se déconnecter ",
   "header.User.home": "Accueil ",
   "header.User.myPersonalInformation": "Mes informations personnelles",

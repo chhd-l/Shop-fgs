@@ -10,23 +10,12 @@ const userInfo = localItemRoyal.get('rc-userinfo') || null
 
 export const UnLoginUserBox = (props) => {
     const { self,history } = props
-    const { intl_user } = self.props
     const {
         registerRouter,
         reimbursementsRouter,
         breederPortalRouter,
         vetPortalRouter,
     } = self.props
-    const {
-        alreadyRegistered,
-        newUser,
-        registerNow,
-        offers,
-        reimbursements,
-        royalCaninPartner,
-        breederPortal,
-        vetPortal
-    } = intl_user.unLoginUser
     return (
         <div className={`user-unLogin-popover`}>
             <div className="already"><FormattedMessage id="header.User.alreadyRegistered"/></div>
@@ -38,8 +27,11 @@ export const UnLoginUserBox = (props) => {
             <div className="Offers" onClick={() => { self.toUrl(reimbursementsRouter) }}>
                 <a className="rc-icon rc-icon-user"></a> <span><FormattedMessage id="header.User.offersAndreimbursements"/></span>
             </div>
-            <div className="brandName">{royalCaninPartner}?</div>
-            <div className="breeder"><em onClick={() => { self.toUrl(breederPortalRouter) }}>{breederPortal}</em><span>or</span><em onClick={() => { self.toUrl(vetPortalRouter) }}>{vetPortal}</em></div>
+            <div className="brandName"><FormattedMessage id="header.User.royalCaninPartner"/></div>
+            <div className="breeder">
+                <em onClick={() => { self.toUrl(breederPortalRouter) }}><FormattedMessage id="header.User.breederPortal"/></em>
+                <span><FormattedMessage id="header.User.or"/></span>
+                <em onClick={() => { self.toUrl(vetPortalRouter) }}><FormattedMessage id="header.User.vetPortal"/></em></div>
         </div>
     );
 }
@@ -47,9 +39,7 @@ export const UnLoginUserBox = (props) => {
 
 export const LoginUserBox = (props) => {
     const { self } = props
-    const { intl_user } = self.props
     const {
-        logoutRouter,
         homeRouter,
         personInformationRouter,
         petsRouter,
@@ -58,45 +48,35 @@ export const LoginUserBox = (props) => {
         faqRouter,
         monRoyalCaninRouter,
     } = self.props
-    const {
-        logOut,
-        home,
-        myPersonalInformation,
-        pets,
-        myOrders,
-        mySubscriptions,
-        faq,
-        monRoyalCanin,
-    } = intl_user.loginUser
     return (
         <div className={`user-login-popover`}>
-             <div className="Media">
-                <div className="Media-figure">{userInfo&&userInfo.firstName&&userInfo.firstName.slice(0,1)}</div>
+            <div className="Media">
+                <div className="Media-figure">{userInfo && userInfo.firstName && userInfo.firstName.slice(0, 1)}</div>
                 <div className="Media-body">
-                    <div className="fullName">{userInfo&&userInfo.firstName}</div>
-                    <div className="logout" onClick={()=>{self.toUrl(logoutRouter)}}>{logOut}</div>
+                    <div className="fullName">{userInfo && userInfo.firstName}</div>
+                    <LogoutButton />
                 </div>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(homeRouter)}}>
-                <a className="iconfont iconhome"></a><span>{home}</span>
+                <a className="iconfont iconhome"></a><span><FormattedMessage id="header.User.home"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(personInformationRouter)}}>
-                <a className="iconfont iconuser"></a><span>{myPersonalInformation}</span>
+                <a className="iconfont iconuser"></a><span><FormattedMessage id="header.User.myPersonalInformation"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(petsRouter)}}>
-                <a className="iconfont iconshape"></a><span>{pets}</span>
+                <a className="iconfont iconshape"></a><span><FormattedMessage id="header.User.pets"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(subscriptionsRouter)}}>
-                <a className="iconfont iconbuyCart"></a><span>{myOrders}</span>
+                <a className="iconfont iconbuyCart"></a><span><FormattedMessage id="header.User.myOrders"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(offersRouter)}}>
-                <a className="iconfont icondayinji"></a><span>{mySubscriptions}</span>
+                <a className="iconfont icondayinji"></a><span><FormattedMessage id="header.User.mySubscriptions"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(faqRouter)}}>
-                <a className="iconfont iconmessage"></a><span>{faq}</span>
+                <a className="iconfont iconmessage"></a><span><FormattedMessage id="header.User.faq"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(monRoyalCaninRouter)}} style={{borderTop: '1px solid #DEDEDE',paddingTop:'5px'}}>
-                <a className="iconfont iconzhuanfa"></a><span>{monRoyalCanin}</span>
+                <a className="iconfont iconzhuanfa"></a><span><FormattedMessage id="header.User.monRoyalCanin"/></span>
             </div>
         </div>
     );

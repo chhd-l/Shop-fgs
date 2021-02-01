@@ -726,6 +726,24 @@ const ru_RU = {
     //salesCategory
     "salesCategory.cat": "Для кошки",
     "salesCategory.dog": "Для собаки",
+    //header.User  unLogin
+    "header.User.alreadyRegistered": "Уже зарегистрирован ?",
+    "header.User.newUser": "Новый пользователь?",
+    "header.User.registerNow": "Зарегистрируйтесь сейчас ",
+    "header.User.offersAndreimbursements": "Предложения и компенсации ",
+    "header.User.royalCaninPartner": "Royal Canin partner?",
+    "header.User.breederPortal": "Breeder portal",
+    "header.User.or": "or",
+    "header.User.vetPortal": "Vet portal",
+    //header.User  login
+    "header.User.logOut": "Выход",
+    "header.User.home": "Главная",
+    "header.User.myPersonalInformation": "Моя личная информация",
+    "header.User.pets": 'Домашние питомцы',
+    "header.User.myOrders": "Мои заказы",
+    "header.User.mySubscriptions": "Мои подписки",
+    "header.User.faq": "FAQ",
+    "header.User.monRoyalCanin": "Mon Royal Canin"
   }
 
   export default ru_RU;
