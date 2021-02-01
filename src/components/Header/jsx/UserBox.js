@@ -58,22 +58,22 @@ export const LoginUserBox = (props) => {
                 </div>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(homeRouter)}}>
-                <a className="iconfont iconhome"></a><span><FormattedMessage id="header.User.home"/></span>
+                <span className="iconfont">&#xe697;</span>{' '}<span><FormattedMessage id="header.User.home"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(personInformationRouter)}}>
-                <a className="iconfont iconuser"></a><span><FormattedMessage id="header.User.myPersonalInformation"/></span>
+                 <span className="iconfont">&#xe69c;</span>{' '}<span><FormattedMessage id="header.User.myPersonalInformation"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(petsRouter)}}>
-                <a className="iconfont iconshape"></a><span><FormattedMessage id="header.User.pets"/></span>
+                <span className="iconfont">&#xe69a;</span>{' '}<span><FormattedMessage id="header.User.pets"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(subscriptionsRouter)}}>
-                <a className="iconfont iconbuyCart"></a><span><FormattedMessage id="header.User.myOrders"/></span>
+                <span className="iconfont">&#xe699;</span>{' '}<span><FormattedMessage id="header.User.myOrders"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(offersRouter)}}>
-                <a className="iconfont icondayinji"></a><span><FormattedMessage id="header.User.mySubscriptions"/></span>
+                <span className="iconfont">&#xe6a2;</span>{' '}<span><FormattedMessage id="header.User.mySubscriptions"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(faqRouter)}}>
-                <a className="iconfont iconmessage"></a><span><FormattedMessage id="header.User.faq"/></span>
+                <span className="iconfont">&#xe696;</span>{' '}<span><FormattedMessage id="header.User.faq"/></span>
             </div>
             <div className="basicItem" onClick={()=>{self.toUrl(monRoyalCaninRouter)}} style={{borderTop: '1px solid #DEDEDE',paddingTop:'5px'}}>
                 <a className="iconfont iconzhuanfa"></a><span><FormattedMessage id="header.User.monRoyalCanin"/></span>
