@@ -69,7 +69,7 @@ const staticPage = () => {
     <>
       <section className="banner">
         <div className="rc-layout-container rc-four-column" style={{alignItems: 'center'}}>
-          <div className="rc-column rc-triple-width" style={{position:'relative'}}>
+          <div className="rc-column banner-img rc-triple-width" style={{position:'relative'}}>
             <img src={bannerDog} className="rc-md-up" style={{ width: '100%' }} />
             <img src={bannerDogH5} className="rc-md-down" style={{ width: '100%' }} />
             <img className="rc-md-up banner_food" style={{maxHeight: '84%'}} src={bannerFood} />

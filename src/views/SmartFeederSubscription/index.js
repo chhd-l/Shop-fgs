@@ -43,6 +43,7 @@ const Step1Pc = (props) => {
         {(props.productList || []).map((item) => (
           <div
             className="rc-grid"
+            style={{cursor:'pointer'}}
             onClick={() => {
               props.clickItem(item);
             }}
@@ -446,7 +447,7 @@ class SmartFeederSubscription extends Component {
       quantity: 1,
       loading: false,
       headerHide: false,
-      stepName: 'step3',
+      stepName: 'step1',
       addToCartLoading: false,
       isDisabled: true,
       checkOutErrMsg: '',
