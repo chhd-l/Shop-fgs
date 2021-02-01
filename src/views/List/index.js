@@ -65,23 +65,21 @@ function getMuntiImg(item) {
 
 function ListItemH5ForFr(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
-  console.log('★★★★★★★★★取的数据 item: ', item);
-  return (
-    item && item.productFinder ? (
-        <div className="rc-column rc-column-pad fr-mobile-product" style={{height:'300px'}}>
-          <article
-            className="rc-card--product overflow-hidden"
-            style={{ minHeight: '120px' }}
-          >
-            <div className="fullHeight">
+  return item && item.productFinder ? (
+    <div
+      className="rc-column rc-column-pad fr-mobile-product"
+      style={{ height: '300px' }}
+    >
+      <article
+        className="rc-card--product overflow-hidden"
+        style={{ minHeight: '120px' }}
+      >
+        <div className="fullHeight">
           <span className="ui-cursor-pointer">
             <article className="rc-card--a  margin-top--5">
               <div className="rc-card__body rc-padding-top--md pb-0 justify-content-start">
                 <div className="height-product-tile-plpOnly margin-top-mobile-20">
-                  <h3
-                    className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break "
-
-                  >
+                  <h3 className="rc-card__title rc-gamma rc-margin--none--mobile rc-margin-bottom--none--desktop product-title text-break ">
                     <FormattedMessage id="plp.retail.cat.product.finder.title" />
                   </h3>
                 </div>
@@ -89,50 +87,51 @@ function ListItemH5ForFr(props) {
                   className="d-flex rc-padding-top--md margin-top-mobile-20"
                   style={{ fontSize: 'large' }}
                 >
-                  <FormattedMessage id="plp.retail.cat.product.finder.detail"
-                  values={{
-                    val:<br/>
-                  }}/>
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
                 </div>
 
-                 <button
+                <button
                   className="rc-btn rc-btn--two margin-top-mobile-20"
                   style={{ marginTop: '19px' }}
                 >
                   <FormattedMessage id="plp.retail.cat.product.finder.button" />
                 </button>
-            <picture className="rc-card__image">
-                <div className="rc-padding-bottom--xs justify-content-center ">
-                  <div
-                    className="lazyload-wrapper"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      transform:'translate(31%,-65%)',
-                    }}
-                  >
-                    <img
-                      src={pfRecoImgRetailFinder}
-                      className="ImgFitScreen pt-3"
+                <picture className="rc-card__image">
+                  <div className="rc-padding-bottom--xs justify-content-center ">
+                    <div
+                      className="lazyload-wrapper"
                       style={{
-                        maxWidth: '50%',
-                        maxHeight: '100%',
-                        width: '150px',
-                        height: 'auto',
-                        margin: 'auto'
+                        width: '100%',
+                        height: '100%',
+                        transform: 'translate(31%,-65%)'
                       }}
-                    />
+                    >
+                      <img
+                        src={pfRecoImgRetailFinder}
+                        className="ImgFitScreen pt-3"
+                        style={{
+                          maxWidth: '50%',
+                          maxHeight: '100%',
+                          width: '150px',
+                          height: 'auto',
+                          margin: 'auto'
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              </picture>
+                </picture>
               </div>
             </article>
           </span>
-            </div>
-          </article>
         </div>
-      ):
-
+      </article>
+    </div>
+  ) : (
     <div className="rc-column rc-column-pad fr-mobile-product">
       <article
         className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
@@ -145,10 +144,11 @@ function ListItemH5ForFr(props) {
             className="ui-cursor-pointer"
             to={{
               pathname: item
-                ? `/${item.lowGoodsName?item.lowGoodsName
-                    .split(' ')
-                    .join('-')
-                    .replace('/', ''):''}-${item.goodsNo}` + sourceParam
+                ? `/${
+                    item.lowGoodsName
+                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
+                      : ''
+                  }-${item.goodsNo}` + sourceParam
                 : '',
               state: { GAListParam, historyBreads: breadListByDeco }
             }}
@@ -172,12 +172,13 @@ function ListItemH5ForFr(props) {
                   <LazyLoad style={{ width: '100%', height: '100%' }}>
                     <img
                       src={
-                        item.goodsImg ||
-                        item.goodsInfos?item.goodsImg ||
-                          item.goodsInfos.sort(
-                          (a, b) => a.marketPrice - b.marketPrice
-                        )[0].goodsInfoImg ||
-                        IMG_DEFAULT:''
+                        item.goodsImg || item.goodsInfos
+                          ? item.goodsImg ||
+                            item.goodsInfos.sort(
+                              (a, b) => a.marketPrice - b.marketPrice
+                            )[0].goodsInfoImg ||
+                            IMG_DEFAULT
+                          : ''
                       }
                       alt={item.goodsName}
                       title={item.goodsName}
@@ -210,6 +211,7 @@ function ListItemH5ForFr(props) {
     </div>
   );
 }
+
 function ListItem(props) {
   const { item, GAListParam, breadListByDeco, sourceParam } = props;
   return item && item.productFinder ? (
@@ -234,9 +236,12 @@ function ListItem(props) {
                   className="d-flex justify-content-center rc-padding-top--md"
                   style={{ fontSize: 'large' }}
                 >
-                  <FormattedMessage id="plp.retail.cat.product.finder.detail"values={{
-                    val:<br/>
-                  }}/>
+                  <FormattedMessage
+                    id="plp.retail.cat.product.finder.detail"
+                    values={{
+                      val: <br />
+                    }}
+                  />
                 </div>
                 <button
                   className="rc-btn rc-btn--two "
@@ -341,100 +346,14 @@ function ListItem(props) {
     </div>
   );
 }
-function ListItemRetail(props) {
-  const { item, GAListParam, breadListByDeco, sourceParam, pageSize } = props;
-  console.log('★★★★★★★★★取的数据 props: ', pageSize);
-  return (
-    <div className="rc-column rc-column-pad fr-mobile-product">
-      <article
-        className="rc-card rc-card--b rc-padding--sm--mobile rc-padding--xs--desktop rc-padding-x--xs h-100 priceRangeFormat product-tiles-container fr-mobile overflow-hidden"
-        style={{ minHeight: '120px' }}
-      >
-        {props.leftPromotionJSX}
-        {props.rightPromotionJSX}
-        <div className="h-100">
-          <Link
-            className="ui-cursor-pointer"
-            to={{
-              pathname: item
-                ? `/${
-                    item.lowGoodsName
-                      ? item.lowGoodsName.split(' ').join('-').replace('/', '')
-                      : ''
-                  }- ${item.goodsNo}` + sourceParam
-                : '',
-              state: { GAListParam, historyBreads: breadListByDeco }
-            }}
-            onClick={props.onClick}
-          >
-            <article
-              className="rc-card--a rc-text--center text-center"
-              style={{ flexWrap: 'wrap' }}
-            >
-              {item ? (
 
-                <picture className="rc-card__image">
-                  <div
-                    className="rc-padding-bottom--xs d-flex justify-content-center align-items-center ImgBoxFitScreen"
-                    style={{ height: '15.7rem' }}
-                  >
-                    {/*循环遍历的图片*/}
-                    <LazyLoad style={{ width: '100%', height: '100%' }}>
-                      <img
-                        src={
-                          item.goodsImg || item.goodsInfos
-                            ? item.goodsImg ||
-                              item.goodsInfos.sort(
-                                (a, b) => a.marketPrice - b.marketPrice
-                              )[0].goodsInfoImg ||
-                              IMG_DEFAULT
-                            : ''
-                        }
-                        // srcSet={item ? getMuntiImg(item) : IMG_DEFAULT}
-                        alt={item.goodsName}
-                        title={item.goodsName}
-                        className="ImgFitScreen pt-3"
-                        style={{
-                          maxWidth: '50%',
-                          maxHeight: '100%',
-                          width: '150px',
-                          height: 'auto',
-                          margin: 'auto'
-                        }}
-                      />
-                    </LazyLoad>
-                  </div>
-                </picture>
-              ) : null}
-              {props.children}
-
-              {item ? (
-                <div
-                  className="rc-card__meta text-center col-12"
-                  style={{ margin: '0' }}
-                >
-                  {item.goodsSubtitle}
-                </div>
-              ) : null}
-            </article>
-          </Link>
-        </div>
-      </article>
-    </div>
-  );
-}
 function ListItemBodyH5ForFr({ item }) {
   return (
-    // <div
-    //   className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
-    //   style={{ paddingRight: '3rem' }}
-    // >
     <div
       className="fr-mobile-product-list text-left text-md-center col-8 col-sm-9 col-md-12 d-flex flex-column rc-padding-left--none--mobile align-self-center align-self-md-start"
       style={{ paddingRight: '0' }}
     >
       <div className="product-name" title={item.goodsName}>
-        {' '}
         {item.goodsName}
       </div>
       <div className="product-price">
@@ -456,6 +375,7 @@ function ListItemBodyH5ForFr({ item }) {
     </div>
   );
 }
+
 function ListItemBody({ item }) {
   const defaultJSX = (
     <>
@@ -621,7 +541,12 @@ function ListItemBody({ item }) {
   );
 }
 
-function ProductFinderAd({ isRetailProducts, isVetProducts }) {
+function ProductFinderAd({
+  isRetailProducts,
+  isVetProducts,
+  retailProductLink,
+  vetProductLink
+}) {
   return (
     {
       fr: (
@@ -633,7 +558,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                   <img src={pfRecoImg} />
+                  <img src={pfRecoImg} />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -652,29 +577,29 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
 
           {isRetailProducts ? (
             <div className="row align-items-center">
-          <div className="col-12 col-md-6">
-            <LazyLoad
-              style={{ width: '100%', height: '100%' }}
-              height={200}
-            >
-              <img src={pfRecoImgRetail} />
-            </LazyLoad>
-          </div>
-          <div className="col-12 col-md-6">
-            <p
-              className="rc-gamma rc-padding--none"
-              style={{ fontSize: '2em', fontWight: 'border' }}
-            >
-              <FormattedMessage id="plp.retail.cat.title" />
-            </p>
-            <p>
-              <FormattedMessage id="plp.retail.cat.detail" />
-            </p>
-            <Link to="/cats/vet_products" className="rc-btn rc-btn--two">
-              <FormattedMessage id="plp.retail.cat.button" />
-            </Link>
-          </div>
-        </div>
+              <div className="col-12 col-md-6">
+                <LazyLoad
+                  style={{ width: '100%', height: '100%' }}
+                  height={200}
+                >
+                  <img src={pfRecoImgRetail} />
+                </LazyLoad>
+              </div>
+              <div className="col-12 col-md-6">
+                <p
+                  className="rc-gamma rc-padding--none"
+                  style={{ fontSize: '2em', fontWight: 'border' }}
+                >
+                  <FormattedMessage id="plp.retail.cat.title" />
+                </p>
+                <p>
+                  <FormattedMessage id="plp.retail.cat.detail" />
+                </p>
+                <Link to={`${vetProductLink}`} className="rc-btn rc-btn--two">
+                  <FormattedMessage id="plp.retail.cat.button" />
+                </Link>
+              </div>
+            </div>
           ) : null}
 
           {isVetProducts ? (
@@ -684,7 +609,7 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
                   style={{ width: '100%', height: '100%' }}
                   height={200}
                 >
-                   <img src={pfRecoImgVet} />
+                  <img src={pfRecoImgVet} />
                 </LazyLoad>
               </div>
               <div className="col-12 col-md-6">
@@ -697,14 +622,15 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
                 <p>
                   <FormattedMessage id="plp.vet.cat.detail" />
                 </p>
-                <Link to="/retail_products" className="rc-btn rc-btn--two">
+                <Link
+                  to={`${retailProductLink}`}
+                  className="rc-btn rc-btn--two"
+                >
                   <FormattedMessage id="plp.vet.cat.button" />
                 </Link>
               </div>
             </div>
           ) : null}
-
-          <div className="rc-hidden">RC-HIden</div>
         </div>
       )
     }[process.env.REACT_APP_LANG] || null
@@ -717,9 +643,12 @@ function ProductFinderAd({ isRetailProducts, isVetProducts }) {
 class List extends React.Component {
   constructor(props) {
     super(props);
+    const isDog = location.pathname.includes('dog');
     const isRetailProducts =
       isHub && location.pathname.includes('retail_products');
     const isVetProducts = isHub && location.pathname.includes('vet_products');
+    const retailProductLink = `/${isDog ? 'dogs' : 'cats'}/retail_products`;
+    const vetProductLink = `/${isDog ? 'dogs' : 'cats'}/vet_products`;
     this.state = {
       sourceParam: '',
       GAListParam: '', //GA list参数
@@ -765,8 +694,11 @@ class List extends React.Component {
         metaKeywords: '',
         metaDescription: ''
       },
+      isDogPage: isDog,
       isRetailProducts,
-      isVetProducts
+      isVetProducts,
+      retailProductLink,
+      vetProductLink
     };
     this.pageSize = isRetailProducts ? 8 : 12;
     this.hanldeItemClick = this.hanldeItemClick.bind(this);
@@ -917,6 +849,7 @@ class List extends React.Component {
     this.setState({ filterModalVisible: status });
   }
   async initData() {
+    const { isDogPage } = this.state;
     const { pathname, search, state } = this.props.history.location;
     Promise.all([
       queryStoreCateList(),
@@ -1023,8 +956,6 @@ class List extends React.Component {
             let attributeValues = [];
             let attributeValueIdList = [];
             Array.from(fvEles, (fvItem) => {
-              const { pathname } = this.props.history.location;
-              const isDog = pathname.includes('dog');
               const tFvItemList = tItem.attributesValueList.filter(
                 (t) => t.attributeDetailNameEn === fvItem
               );
@@ -1037,7 +968,7 @@ class List extends React.Component {
                       t.attributeDetailNameEn === fvItem &&
                       t.attributeDetailName
                         .toLocaleLowerCase()
-                        .includes(`${isDog ? 'dog' : 'cat'}`)
+                        .includes(`${isDogPage ? 'dog' : 'cat'}`)
                   )[0] || tFvItemForFirst;
               }
 
@@ -1158,7 +1089,7 @@ class List extends React.Component {
 
     // 处理每个filter的router(处理url prefn/state)
     Array.from(tmpList, (pEle) => {
-      Array.from((pEle.attributesValueList || []), (cEle) => {
+      Array.from(pEle.attributesValueList || [], (cEle) => {
         let hasRouter = true;
         let filters = cloneDeep((state && state.filters) || []);
         let prefnParamList = cloneDeep(prefnParamListFromSearch);
@@ -1558,7 +1489,9 @@ class List extends React.Component {
           this.setState({
             isTop: true
           });
-          if(document.querySelector('.rc-header')){document.querySelector('.rc-header').style.display = 'none'};
+          if (document.querySelector('.rc-header')) {
+            document.querySelector('.rc-header').style.display = 'none';
+          }
         } else {
           document.querySelector('.rc-header').style.display = 'block';
           this.setState({
@@ -1995,10 +1928,10 @@ class List extends React.Component {
                     ) : (
                       <div className="rc-column rc-triple-width rc-padding--none--mobile product-tiles-container pt-0">
                         <article className="rc-layout-container rc-three-column rc-layout-grid rc-match-heights product-tiles">
-                          {console.log(productList, '★★★★🌙')}
                           {loading
                             ? _loadingJXS
-                            : productList.map((item, i) =>                                process.env.REACT_APP_LANG === 'fr' &&
+                            : productList.map((item, i) =>
+                                process.env.REACT_APP_LANG === 'fr' &&
                                 isMobile ? (
                                   <ListItemH5ForFr
                                     sourceParam={this.state.sourceParam}
